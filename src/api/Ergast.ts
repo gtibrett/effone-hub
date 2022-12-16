@@ -378,3 +378,5 @@ export interface operations {
     };
   };
 }
+
+export type APIResponse = components['schemas'];

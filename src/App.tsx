@@ -1,5 +1,6 @@
 import {AppBar, Card, CardContent, CardHeader, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Toolbar, Typography} from '@mui/material';
 import {useState} from 'react';
+import Constructors from './standings/Constructors';
 import Drivers from './standings/Drivers';
 
 function App() {
@@ -33,24 +34,24 @@ function App() {
 			</header>
 			<main>
 				<Grid container spacing={2}>
-					<Grid item xs={4}>
+					<Grid item xs={6}>
 						<Card variant="outlined">
 							<CardHeader title="Next Race"/>
 							<CardContent></CardContent>
 						</Card>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={3}>
 						<Card variant="outlined">
-							<CardHeader title="Next Race"/>
-							<CardContent></CardContent>
+							<CardHeader title="Constructor's Standings"/>
+							<CardContent>
+								<Constructors season={season}/>
+							</CardContent>
 						</Card>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={3}>
 						<Card variant="outlined">
 							<CardHeader title="Driver's Standings"/>
-							<CardContent>
-								<Drivers season={season}/>
-							</CardContent>
+							<Drivers season={season}/>
 						</Card>
 					</Grid>
 				</Grid>
