@@ -1,17 +1,32 @@
-import {AppBar, Card, CardContent, CardHeader, Grid, Toolbar} from '@mui/material';
-import {mapDriversStandings} from './API';
-import DataTable from './components/DataTable';
+import {AppBar, Card, CardContent, CardHeader, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Toolbar, Typography} from '@mui/material';
+import {useState} from 'react';
 import Drivers from './standings/Drivers';
 
 function App() {
-	
+	const [season, setSeason] = useState<string>('current');
 	
 	return (
 		<>
 			<header>
 				<nav>
-					<AppBar>
-						<Toolbar/>
+					<AppBar color="primary">
+						<Toolbar>
+							<Typography>
+								<InputLabel>Age
+									<Select
+										variant="outlined"
+										value={season}
+										label="Age"
+										onChange={(event: SelectChangeEvent) => {
+											setSeason(event.target.value as string);
+										}}
+									>
+										<MenuItem value="current">Current</MenuItem>
+										<MenuItem value="2021">2021</MenuItem>
+									</Select>
+								</InputLabel>
+							</Typography>
+						</Toolbar>
 					</AppBar>
 				</nav>
 				<Toolbar/>
@@ -34,7 +49,7 @@ function App() {
 						<Card variant="outlined">
 							<CardHeader title="Driver's Standings"/>
 							<CardContent>
-								<Drivers/>
+								<Drivers season={season}/>
 							</CardContent>
 						</Card>
 					</Grid>
