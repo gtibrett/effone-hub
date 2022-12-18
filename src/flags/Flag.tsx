@@ -23,6 +23,7 @@ export default function Flag({nationality}: { nationality: string | undefined })
 	
 	return (
 		<Avatar
+			component="span"
 			variant="square"
 			alt={nationality}
 			sx={{

@@ -1,20 +1,23 @@
 import {mapDriversStandings} from '../API';
-import DataTable from '../components/DataTable';
+import {useAppState} from '../app/AppStateProvider';
 import ByLine from '../drivers/ByLine';
-
-type DriversProps = {
-	season?: string;
-}
+import DataTable from '../ui-components/DataTable';
 
 const sx = {
 	border: 0,
+	overflow: 'auto',
+	maxHeight: 398,
+	'& > .MuiDataGrid-main': {
+		overflow: 'unset'
+	},
 	'& > div > .MuiDataGrid-footerContainer': {
 		display: 'none'
 	}
 };
 
-export default function Drivers({season = 'current'}: DriversProps) {
-	const dataUrl = `http://ergast.com/api/f1/${season}/driverStandings.json`;
+export default function Drivers() {
+	const [{season}] = useAppState();
+	const dataUrl    = `http://ergast.com/api/f1/${season}/driverStandings.json`;
 	
 	return (
 		<DataTable
