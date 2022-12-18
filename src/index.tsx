@@ -4,7 +4,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
-import App from './App';
+import App from './app';
 import reportWebVitals from './reportWebVitals';
 
 const root = createRoot(
