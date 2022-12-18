@@ -15,7 +15,7 @@ export default function ByLine({driver}: ByLineProps) {
 		<>
 			<DriverAvatar driver={driver}/>
 			<Typography sx={{pl: 2}}>{name}</Typography>
-			<Typography sx={{pl: 2}}><Flag nationality={nationality}/></Typography>
+			<Typography sx={{pl: 1}}><Flag nationality={nationality}/></Typography>
 		</>
 	);
 }
