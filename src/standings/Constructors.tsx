@@ -1,4 +1,4 @@
-import {mapConstructorsStandings} from '../API';
+import {getAPIUrl, mapConstructorsStandings} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
 import DataTable from '../ui-components/DataTable';
 
@@ -11,7 +11,7 @@ const sx = {
 
 export default function Constructors() {
 	const [{season}] = useAppState();
-	const dataUrl    = `http://ergast.com/api/f1/${season}/constructorStandings.json`;
+	const dataUrl    = getAPIUrl(`/${season}/constructorStandings.json`);
 	
 	return (
 		<DataTable

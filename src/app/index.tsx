@@ -1,45 +1,46 @@
-import {Card, CardHeader, Grid, ThemeProvider} from '@mui/material';
-import Schedule from '../schedule/Schedule';
-import Constructors from '../standings/Constructors';
-import Drivers from '../standings/Drivers';
+import {Box, ThemeProvider} from '@mui/material';
+import React from 'react';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import DriverProvider from '../drivers/DriverProvider';
+import {Driver, Home, Race} from '../pages';
 import Header from '../ui-components/Header';
-import {useTheme} from '../ui-components/Theme';
+import {useEffTheme} from '../ui-components/Theme';
 import AppStateProvider from './AppStateProvider';
+import ErrorBoundary from './ErrorBoundary';
 
 function Index() {
-	const theme = useTheme();
-	
+	const theme = useEffTheme();
 	
 	return (
 		<AppStateProvider>
 			<ThemeProvider theme={theme}>
-				<Header/>
-				
-				<main>
-					<Grid container spacing={2}>
-						<Grid item xs={6}>
-							<Card variant="outlined">
-								<CardHeader title="Schedule"/>
-								<Schedule/>
-							</Card>
-						</Grid>
-						<Grid item xs={3}>
-							<Card variant="outlined">
-								<CardHeader title="Constructor's Standings"/>
-								<Constructors/>
-							</Card>
-						</Grid>
-						<Grid item xs={3}>
-							<Card variant="outlined">
-								<CardHeader title="Driver's Standings"/>
-								<Drivers/>
-							</Card>
-						</Grid>
-					</Grid>
-				</main>
-				<footer>
-				
-				</footer>
+				<BrowserRouter>
+					<DriverProvider>
+						<Header/>
+						
+						<Box component="main" p={2}>
+							<ErrorBoundary>
+								<Routes>
+									<Route
+										element={<Home/>}
+										path="/"
+									/>
+									<Route
+										element={<Driver/>}
+										path="/driver/:id"
+									/>
+									<Route
+										element={<Race/>}
+										path="/race/:season?/:round?"
+									/>
+								</Routes>
+							</ErrorBoundary>
+						</Box>
+						<footer>
+						
+						</footer>
+					</DriverProvider>
+				</BrowserRouter>
 			</ThemeProvider>
 		</AppStateProvider>
 	);

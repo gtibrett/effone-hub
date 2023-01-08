@@ -1,5 +1,6 @@
 import {alpha, AppBar, FormControl, Grid, MenuItem, Select, Toolbar, Typography, useTheme} from '@mui/material';
 import {useAppState} from '../app/AppStateProvider';
+import Link from './Link';
 
 export default function Header() {
 	const theme                = useTheme();
@@ -37,7 +38,7 @@ export default function Header() {
 					<Toolbar>
 						<Grid container spacing={2} alignItems="center">
 							<Grid item>
-								<Typography variant="h3" component="h1" sx={{fontFamily: 'Racing Sans One'}}>effOne</Typography>
+								<Link to="/" color="inherit" sx={{textDecoration: 'none'}}><Typography variant="h3" component="h1" sx={{fontFamily: 'Racing Sans One'}}>effOne</Typography></Link>
 							</Grid>
 							<Grid item xs/>
 							<Grid item>

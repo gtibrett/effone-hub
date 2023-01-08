@@ -1,4 +1,4 @@
-import {mapDriversStandings} from '../API';
+import {getAPIUrl, mapDriversStandings} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
 import ByLine from '../drivers/ByLine';
 import DataTable from '../ui-components/DataTable';
@@ -17,7 +17,7 @@ const sx = {
 
 export default function Drivers() {
 	const [{season}] = useAppState();
-	const dataUrl    = `http://ergast.com/api/f1/${season}/driverStandings.json`;
+	const dataUrl    = getAPIUrl(`/${season}/driverStandings.json`);
 	
 	return (
 		<DataTable
@@ -42,7 +42,7 @@ export default function Drivers() {
 						field: 'code',
 						headerName: 'Driver',
 						flex: 1,
-						renderCell: ({row}) => <ByLine driver={row.Driver}/>
+						renderCell: ({row}) => <ByLine id={row.Driver.driverId} avatarProps={{size: 24}} flagProps={{size: 16}}/>
 					},
 					{
 						field: 'points',

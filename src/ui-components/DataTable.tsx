@@ -27,7 +27,7 @@ const DataTable = ({dataUrl, mapper = defaultMapper, cacheFor, ...props}: DataTa
 			      });
 		}
 		
-	}, [dataUrl, setRows]);
+	}, [dataUrl, setRows, cacheFor, mapper]);
 	
 	return <DataGrid {...props} rows={rows}/>;
 };
