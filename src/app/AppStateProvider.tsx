@@ -1,3 +1,4 @@
+import {Backdrop} from '@mui/material';
 import {createContext, Dispatch, FC, PropsWithChildren, SetStateAction, useContext, useEffect, useState} from 'react';
 
 type AppStateType = {
@@ -25,8 +26,14 @@ const AppStateProvider: FC<PropsWithChildren> = ({children}) => {
 	const [state, setState] = useState<AppStateType>(initializeState());
 	
 	useEffect(() => {
-		localStorage.setItem('app-state', JSON.stringify(state));
+		if (state) {
+			localStorage.setItem('app-state', JSON.stringify(state));
+		}
 	}, [state]);
+	
+	if (!state) {
+		return <Backdrop open/>;
+	}
 	
 	return <Context.Provider value={[state, setState]}>{children}</Context.Provider>;
 };
@@ -35,5 +42,5 @@ export default AppStateProvider;
 
 /* Hooks */
 export const useAppState = (): [AppStateType, SetAppStateType] => {
-	return useContext(Context);
+	return useContext(Context)
 };

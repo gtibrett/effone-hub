@@ -1,28 +1,36 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 
-type Cache = {
+// TODO: implement Cache type with generics for AxiosResponse
+type Cache<T> = {
 	timestamp: number;
-	response: AxiosResponse;
+	response: AxiosResponse<T>;
 }
 
-function get<T = any, R = AxiosResponse<T>, D = any>(url: string, config?: AxiosRequestConfig<D>, cacheFor?: number): Promise<R> {
+type Caches = {
+	[url: string]: {
+		[key: string]: Cache<any>
+	}
+}
+
+function get<T = any, D = any>(url: string, config?: AxiosRequestConfig<D>, cacheFor: number = 24 * 60 * 60): Promise<AxiosResponse<T>> {
 	if (cacheFor) {
-		const cache: any = JSON.parse((localStorage.getItem('Caxios') || 'null')) || {};
-		const configKey  = JSON.stringify(config);
-		if (cache !== null) {
-			if (cache?.[url]?.[configKey]?.timestamp + cacheFor > Date.now()) {
+		const now            = Math.floor(Date.now() / 1000);
+		const caches: Caches = JSON.parse((localStorage.getItem('Caxios') || 'null')) || {};
+		const configKey      = btoa(JSON.stringify(config || {}));
+		if (caches !== null) {
+			if (Number(caches?.[url]?.[configKey]?.timestamp + cacheFor) > now) {
 				return new Promise((resolve) => {
-					resolve(cache?.[url]?.[configKey]?.response);
+					resolve(caches?.[url]?.[configKey]?.response);
 				});
 			}
 		}
 		
-		return axios.get<T, R, D>(url, config)
+		return axios.get<T, AxiosResponse<T>, D>(url, config)
 		            .then((response) => {
 			            localStorage.setItem('Caxios', JSON.stringify({
-				            ...cache,
+				            ...caches,
 				            [url]: {
-					            ...cache[url] || {},
+					            ...caches[url] || {},
 					            [configKey]: {
 						            timestamp: Date.now(),
 						            response
@@ -34,9 +42,11 @@ function get<T = any, R = AxiosResponse<T>, D = any>(url: string, config?: Axios
 		            });
 	}
 	
-	return axios.get<T, R, D>(url, config);
+	return axios.get<T, AxiosResponse<T>, D>(url, config);
 }
 
-export default {
+const Caxios = {
 	get
 };
+
+export default Caxios;
