@@ -1,9 +1,0 @@
-{
-	"name":         "f1-stats-api",
-	"version":      "0.1.0",
-	"private":      true,
-	"scripts":      {
-		"api:start": "cd api; docker-compose up --build -d --remove-orphans",
-		"api:stop":  "cd api; docker-compose down"
-	}
-}
