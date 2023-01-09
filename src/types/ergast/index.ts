@@ -149,7 +149,29 @@ export type Standing = {
 	Constructors?: Constructor[];
 }
 
+export type Season = {
+	season: string;
+	url: string;
+}
+
 export type Responses = {
+	SeasonsResponse: {
+		MRData?: {
+			xmlns?: string;
+			series?: string;
+			url?: string;
+			/** @example 30 */
+			limit?: string;
+			/** @example 0 */
+			offset?: string;
+			/** @example 20 */
+			total?: string;
+			SeasonTable?: {
+				Seasons?: Season[];
+			};
+		};
+	};
+	
 	ConstructorsByYearResponse: {
 		MRData?: {
 			xmlns?: string;

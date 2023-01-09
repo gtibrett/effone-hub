@@ -3,11 +3,13 @@ import {createContext, Dispatch, FC, PropsWithChildren, SetStateAction, useConte
 import {wikiSummary} from 'wikipedia';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, getCanonicalId} from '../api/Ergast';
-import {getDriverBio} from '../api/wikipedia';
+import {getWikiSummary} from '../api/wikipedia';
 import {Driver as DriverT, Responses} from '../types/ergast';
 
 export type DriverId = DriverT['driverId'];
-export type DriverWithBio = DriverT & { bio: wikiSummary };
+export type DriverWithBio = DriverT & {
+	bio: wikiSummary | undefined
+};
 
 type Drivers = {
 	[id: string]: DriverWithBio
@@ -55,14 +57,19 @@ export const useDriver = (id: DriverId) => {
 			      .then(async (driver) => {
 				      if (driver) {
 					      const canonicalId = getCanonicalId(driver);
-					      setDrivers({
-						      ...drivers,
+					      const bio         = await getWikiSummary(canonicalId).catch(error => {
+						      console.log('Could not load driver bio', error);
+						      return undefined;
+					      });
+					
+					      setDrivers((cur) => ({
+						      ...cur,
 						      [id]: {
 							      ...driver,
 							      canonicalId,
-							      bio: await getDriverBio(canonicalId)
+							      bio
 						      }
-					      });
+					      }));
 				      }
 			      });
 		}

@@ -5,29 +5,15 @@ import {green, purple, red} from '@mui/material/colors';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';
 import ByLine from '../drivers/ByLine';
+import ConstructorByLine from '../constructors/ByLine';
 import {Race, Result} from '../types/ergast';
+import PositionChange from './PositionChange';
 
 const sx = {
 	border: 0,
 	'& > div > .MuiDataGrid-footerContainer': {
 		display: 'none'
 	}
-};
-
-const PositionChange = ({grid, position}: Result) => {
-	if (!grid || !position) {
-		return null;
-	}
-	
-	const change = Number(grid) - Number(position);
-	
-	if (!change) {
-		return null;
-	}
-	
-	const icon = change > 0 ? <FontAwesomeIcon icon={faArrowUp} color={green[500]}/> : <FontAwesomeIcon icon={faArrowDown} color={red[500]}/>;
-	
-	return <Typography variant="caption">{icon} {change}</Typography>;
 };
 
 export default function Results({results}: { results: Race['Results'] }) {
@@ -84,7 +70,7 @@ export default function Results({results}: { results: Race['Results'] }) {
 						field: 'Constructor',
 						headerName: 'Constructor',
 						flex: 1,
-						valueGetter: ({row}) => row.Constructor?.name
+						renderCell: ({row}) => row.Constructor ? <ConstructorByLine id={row.Constructor.constructorId}/> : ''
 					},
 					{
 						field: 'points',

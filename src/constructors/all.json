@@ -1,0 +1,1479 @@
+[
+	{
+		"constructorId": "adams",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Adams_(constructor)",
+		"name":          "Adams",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "afm",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Alex_von_Falkenhausen_Motorenbau",
+		"name":          "AFM",
+		"nationality":   "German",
+		"color":         "#BFBFBF"
+	},
+	{
+		"constructorId": "ags",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Automobiles_Gonfaronnaises_Sportives",
+		"name":          "AGS",
+		"nationality":   "French",
+		"color":         "#3855AF"
+	},
+	{
+		"constructorId": "alfa",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Alfa_Romeo_in_Formula_One",
+		"name":          "Alfa Romeo",
+		"nationality":   "Swiss",
+		"color":         "#831E2F"
+	},
+	{
+		"constructorId": "alphatauri",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Scuderia_AlphaTauri",
+		"name":          "AlphaTauri",
+		"nationality":   "Italian",
+		"color":         "#020B1A"
+	},
+	{
+		"constructorId": "alpine",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Alpine_F1_Team",
+		"name":          "Alpine F1 Team",
+		"nationality":   "French",
+		"color":         "#041225"
+	},
+	{
+		"constructorId": "alta",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Alta_auto_racing_team",
+		"name":          "Alta",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "amon",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Amon_(Formula_One_team)",
+		"name":          "Amon",
+		"nationality":   "New Zealander",
+		"color":         "#4040F5"
+	},
+	{
+		"constructorId": "moda",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Andrea_Moda_Formula",
+		"name":          "Andrea Moda",
+		"nationality":   "Italian",
+		"color":         "#000000"
+	},
+	{
+		"constructorId": "apollon",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Apollon_(Formula_One)",
+		"name":          "Apollon",
+		"nationality":   "Swiss",
+		"color":         "#C9973A"
+	},
+	{
+		"constructorId": "arrows",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Arrows_Grand_Prix_International",
+		"name":          "Arrows",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "arzani-volpini",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Arzani-Volpini",
+		"name":          "Arzani-Volpini",
+		"nationality":   "Italian",
+		"color":         "#51985E"
+	},
+	{
+		"constructorId": "butterworth",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Aston_Butterworth",
+		"name":          "Aston Butterworth",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "aston_martin",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Aston_Martin_in_Formula_One",
+		"name":          "Aston Martin",
+		"nationality":   "British",
+		"color":         "#24584F"
+	},
+	{
+		"constructorId": "ats",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/ATS_(wheels)",
+		"name":          "ATS",
+		"nationality":   "Italian",
+		"color":         "#E2B73F"
+	},
+	{
+		"constructorId": "bar",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/British_American_Racing",
+		"name":          "BAR",
+		"nationality":   "British",
+		"color":         "#051361"
+	},
+	{
+		"constructorId": "behra-porsche",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Behra-Porsche",
+		"name":          "Behra-Porsche",
+		"nationality":   "Italian",
+		"color":         ""
+	},
+	{
+		"constructorId": "bellasi",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Bellasi",
+		"name":          "Bellasi",
+		"nationality":   "Swiss",
+		"color":         ""
+	},
+	{
+		"constructorId": "benetton",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Benetton_Formula",
+		"name":          "Benetton",
+		"nationality":   "Italian",
+		"color":         "#2B61F5"
+	},
+	{
+		"constructorId": "bmw",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/BMW",
+		"name":          "BMW",
+		"nationality":   "German",
+		"color":         "#2B65AD"
+	},
+	{
+		"constructorId": "bmw_sauber",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/BMW_Sauber",
+		"name":          "BMW Sauber",
+		"nationality":   "German",
+		"color":         "#2B65AD"
+	},
+	{
+		"constructorId": "boro",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Boro_(Formula_One)",
+		"name":          "Boro",
+		"nationality":   "Dutch",
+		"color":         "#A02C2E"
+	},
+	{
+		"constructorId": "brabham",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Brabham",
+		"name":          "Brabham",
+		"nationality":   "British",
+		"color":         "#1B3149"
+	},
+	{
+		"constructorId": "brabham-alfa_romeo",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Brabham",
+		"name":          "Brabham-Alfa Romeo",
+		"nationality":   "British",
+		"color":         "#1B3149"
+	},
+	{
+		"constructorId": "brabham-brm",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Brabham",
+		"name":          "Brabham-BRM",
+		"nationality":   "British",
+		"color":         "#1B3149"
+	},
+	{
+		"constructorId": "brabham-climax",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Brabham",
+		"name":          "Brabham-Climax",
+		"nationality":   "British",
+		"color":         "#1B3149"
+	},
+	{
+		"constructorId": "brabham-ford",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Brabham",
+		"name":          "Brabham-Ford",
+		"nationality":   "British",
+		"color":         "#1B3149"
+	},
+	{
+		"constructorId": "brabham-repco",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Brabham",
+		"name":          "Brabham-Repco",
+		"nationality":   "British",
+		"color":         "#1B3149"
+	},
+	{
+		"constructorId": "brawn",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Brawn_GP",
+		"name":          "Brawn",
+		"nationality":   "British",
+		"color":         "#D3CA41"
+	},
+	{
+		"constructorId": "brm",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/BRM",
+		"name":          "BRM",
+		"nationality":   "British",
+		"color":         "#131761"
+	},
+	{
+		"constructorId": "brm-ford",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/BRM",
+		"name":          "BRM-Ford",
+		"nationality":   "British",
+		"color":         "#131761"
+	},
+	{
+		"constructorId": "bromme",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Bromme",
+		"name":          "Bromme",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "brp",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/British_Racing_Partnership",
+		"name":          "BRP",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "bugatti",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Bugatti",
+		"name":          "Bugatti",
+		"nationality":   "French",
+		"color":         "#CA3135"
+	},
+	{
+		"constructorId": "caterham",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Caterham_F1",
+		"name":          "Caterham",
+		"nationality":   "Malaysian",
+		"color":         "#9ACE4D"
+	},
+	{
+		"constructorId": "vhristensen",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Christensen_(constructor)",
+		"name":          "Christensen",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "cisitalia",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Cisitalia",
+		"name":          "Cisitalia",
+		"nationality":   "Italian",
+		"color":         "#0E2853"
+	},
+	{
+		"constructorId": "coloni",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Enzo_Coloni_Racing_Car_Systems",
+		"name":          "Coloni",
+		"nationality":   "Italian",
+		"color":         ""
+	},
+	{
+		"constructorId": "connaught",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Connaught_Engineering",
+		"name":          "Connaught",
+		"nationality":   "British",
+		"color":         "#436339"
+	},
+	{
+		"constructorId": "connew",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Connew",
+		"name":          "Connew",
+		"nationality":   "British",
+		"color":         "#000000"
+	},
+	{
+		"constructorId": "cooper",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Cooper_Car_Company",
+		"name":          "Cooper",
+		"nationality":   "British",
+		"color":         "#9B9BF8"
+	},
+	{
+		"constructorId": "cooper-alfa_romeo",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Cooper_Car_Company",
+		"name":          "Cooper-Alfa Romeo",
+		"nationality":   "British",
+		"color":         "#9B9BF8"
+	},
+	{
+		"constructorId": "cooper-ats",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Cooper_Car_Company",
+		"name":          "Cooper-ATS",
+		"nationality":   "British",
+		"color":         "#9B9BF8"
+	},
+	{
+		"constructorId": "cooper-borgward",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Cooper_Car_Company",
+		"name":          "Cooper-Borgward",
+		"nationality":   "British",
+		"color":         "#9B9BF8"
+	},
+	{
+		"constructorId": "cooper-brm",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Cooper_Car_Company",
+		"name":          "Cooper-BRM",
+		"nationality":   "British",
+		"color":         "#9B9BF8"
+	},
+	{
+		"constructorId": "cooper-castellotti",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Cooper_Car_Company",
+		"name":          "Cooper-Castellotti",
+		"nationality":   "British",
+		"color":         "#9B9BF8"
+	},
+	{
+		"constructorId": "cooper-climax",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Cooper_Car_Company",
+		"name":          "Cooper-Climax",
+		"nationality":   "British",
+		"color":         "#9B9BF8"
+	},
+	{
+		"constructorId": "cooper-ferrari",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Cooper_Car_Company",
+		"name":          "Cooper-Ferrari",
+		"nationality":   "British",
+		"color":         "#9B9BF8"
+	},
+	{
+		"constructorId": "cooper-ford",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Cooper_Car_Company",
+		"name":          "Cooper-Ford",
+		"nationality":   "British",
+		"color":         "#9B9BF8"
+	},
+	{
+		"constructorId": "cooper-maserati",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Cooper_Car_Company",
+		"name":          "Cooper-Maserati",
+		"nationality":   "British",
+		"color":         "#9B9BF8"
+	},
+	{
+		"constructorId": "cooper-osca",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Cooper_Car_Company",
+		"name":          "Cooper-OSCA",
+		"nationality":   "British",
+		"color":         "#9B9BF8"
+	},
+	{
+		"constructorId": "dallara",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Dallara",
+		"name":          "Dallara",
+		"nationality":   "Italian",
+		"color":         "#F4C743"
+	},
+	{
+		"constructorId": "tomaso",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/De_Tomaso",
+		"name":          "De Tomaso",
+		"nationality":   "Italian",
+		"color":         "#9BC8E6"
+	},
+	{
+		"constructorId": "de_tomaso-alfa_romeo",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/De_Tomaso",
+		"name":          "De Tomaso-Alfa Romeo",
+		"nationality":   "Italian",
+		"color":         "#9BC8E6"
+	},
+	{
+		"constructorId": "de_tomaso-ferrari",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/De_Tomaso",
+		"name":          "De Tomaso-Ferrari",
+		"nationality":   "Italian",
+		"color":         "#9BC8E6"
+	},
+	{
+		"constructorId": "de_tomaso-osca",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/De_Tomaso",
+		"name":          "De Tomaso-Osca",
+		"nationality":   "Italian",
+		"color":         "#9BC8E6"
+	},
+	{
+		"constructorId": "deidt",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Deidt",
+		"name":          "Deidt",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "del_roy",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Del_Roy",
+		"name":          "Del Roy",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "derrington",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Derrington-Francis",
+		"name":          "Derrington",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "dunn",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Dunn_Engineering",
+		"name":          "Dunn",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "eagle",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Anglo_American_Racers",
+		"name":          "Eagle",
+		"nationality":   "American",
+		"color":         "#B1393B"
+	},
+	{
+		"constructorId": "eagle-climax",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Anglo_American_Racers",
+		"name":          "Eagle-Climax",
+		"nationality":   "American",
+		"color":         "#B1393B"
+	},
+	{
+		"constructorId": "eagle-weslake",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Anglo_American_Racers",
+		"name":          "Eagle-Weslake",
+		"nationality":   "American",
+		"color":         "#B1393B"
+	},
+	{
+		"constructorId": "elder",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Elder_(constructor)",
+		"name":          "Elder",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "hill",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Hill_(constructor)",
+		"name":          "Embassy Hill",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "emeryson",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Emeryson",
+		"name":          "Emeryson",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "emw",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Eisenacher_Motorenwerk",
+		"name":          "EMW",
+		"nationality":   "East German",
+		"color":         "#DE5035"
+	},
+	{
+		"constructorId": "enb",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Ecurie_Nationale_Belge",
+		"name":          "ENB",
+		"nationality":   "Belgian",
+		"color":         ""
+	},
+	{
+		"constructorId": "ensign",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Ensign_%28racing_team%29",
+		"name":          "Ensign",
+		"nationality":   "British",
+		"color":         "#53B6F5"
+	},
+	{
+		"constructorId": "epperly",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Epperly",
+		"name":          "Epperly",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "era",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/English_Racing_Automobiles",
+		"name":          "ERA",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "eurobrun",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Euro_Brun",
+		"name":          "Euro Brun",
+		"nationality":   "Italian",
+		"color":         ""
+	},
+	{
+		"constructorId": "ewing",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Ewing_(constructor)",
+		"name":          "Ewing",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "ferguson",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Ferguson_Research_Ltd.",
+		"name":          "Ferguson",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "ferrari",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Scuderia_Ferrari",
+		"name":          "Ferrari",
+		"nationality":   "Italian",
+		"color":         "#EA3323"
+	},
+	{
+		"constructorId": "fittipaldi",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Fittipaldi_%28constructor%29",
+		"name":          "Fittipaldi",
+		"nationality":   "Brazilian",
+		"color":         ""
+	},
+	{
+		"constructorId": "fondmetal",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Fondmetal",
+		"name":          "Fondmetal",
+		"nationality":   "Italian",
+		"color":         "#932C1C"
+	},
+	{
+		"constructorId": "footwork",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Footwork_Arrows",
+		"name":          "Footwork",
+		"nationality":   "British",
+		"color":         "#E6323C"
+	},
+	{
+		"constructorId": "force_india",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Racing_Point_Force_India",
+		"name":          "Force India",
+		"nationality":   "Indian",
+		"color":         "#616264"
+	},
+	{
+		"constructorId": "forti",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Forti",
+		"name":          "Forti",
+		"nationality":   "Italian",
+		"color":         "#0E0E69"
+	},
+	{
+		"constructorId": "frazer_nash",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Frazer_Nash",
+		"name":          "Frazer Nash",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "fry",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Fry_(racing_team)",
+		"name":          "Fry",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "gilby",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Gilby",
+		"name":          "Gilby",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "gordini",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Gordini",
+		"name":          "Gordini",
+		"nationality":   "French",
+		"color":         "#3C69B8"
+	},
+	{
+		"constructorId": "haas",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Haas_F1_Team",
+		"name":          "Haas F1 Team",
+		"nationality":   "American",
+		"color":         "#C93927"
+	},
+	{
+		"constructorId": "hall",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Hall_(constructor)",
+		"name":          "Hall",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "hesketh",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Hesketh_Racing",
+		"name":          "Hesketh",
+		"nationality":   "British",
+		"color":         "#000000"
+	},
+	{
+		"constructorId": "honda",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Honda_Racing_F1",
+		"name":          "Honda",
+		"nationality":   "Japanese",
+		"color":         "#BC271A"
+	},
+	{
+		"constructorId": "hrt",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Hispania_Racing",
+		"name":          "HRT",
+		"nationality":   "Spanish",
+		"color":         "#A39158"
+	},
+	{
+		"constructorId": "hwm",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Hersham_and_Walton_Motors",
+		"name":          "HWM",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "iso_marlboro",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Iso_Marlboro",
+		"name":          "Iso Marlboro",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "jaguar",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Jaguar_Racing",
+		"name":          "Jaguar",
+		"nationality":   "British",
+		"color":         "#245623"
+	},
+	{
+		"constructorId": "jbw",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/JBW",
+		"name":          "JBW",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "jordan",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Jordan_Grand_Prix",
+		"name":          "Jordan",
+		"nationality":   "Irish",
+		"color":         "#FFFF54"
+	},
+	{
+		"constructorId": "kauhsen",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Kauhsen",
+		"name":          "Kauhsen",
+		"nationality":   "German",
+		"color":         ""
+	},
+	{
+		"constructorId": "klenk",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Klenk",
+		"name":          "Klenk",
+		"nationality":   "German",
+		"color":         ""
+	},
+	{
+		"constructorId": "kojima",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Kojima_Engineering",
+		"name":          "Kojima",
+		"nationality":   "Japanese",
+		"color":         "#DD3223"
+	},
+	{
+		"constructorId": "kurtis_kraft",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Kurtis_Kraft",
+		"name":          "Kurtis Kraft",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "kuzma",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Kuzma_(constructor)",
+		"name":          "Kuzma",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "lambo",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Modena_(racing_team)",
+		"name":          "Lambo",
+		"nationality":   "Italian",
+		"color":         ""
+	},
+	{
+		"constructorId": "lancia",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Lancia_in_Formula_One",
+		"name":          "Lancia",
+		"nationality":   "Italian",
+		"color":         "#272359"
+	},
+	{
+		"constructorId": "langley",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Langley_(constructor)",
+		"name":          "Langley",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "larrousse",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Larrousse",
+		"name":          "Larrousse",
+		"nationality":   "French",
+		"color":         "#EB5970"
+	},
+	{
+		"constructorId": "lds",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/LDS_(automobile)",
+		"name":          "LDS",
+		"nationality":   "South African",
+		"color":         "#3B80BC"
+	},
+	{
+		"constructorId": "lds-alfa_romeo",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/LDS_(automobile)",
+		"name":          "LDS-Alfa Romeo",
+		"nationality":   "South African",
+		"color":         "#3B80BC"
+	},
+	{
+		"constructorId": "lds-climax",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/LDS_(automobile)",
+		"name":          "LDS-Climax",
+		"nationality":   "South African",
+		"color":         "#3B80BC"
+	},
+	{
+		"constructorId": "lec",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/LEC_(Formula_One)",
+		"name":          "LEC",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "lesovsky",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Lesovsky",
+		"name":          "Lesovsky",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "leyton",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Leyton_House",
+		"name":          "Leyton House",
+		"nationality":   "British",
+		"color":         "#77A780"
+	},
+	{
+		"constructorId": "life",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Life_(Racing_Team)",
+		"name":          "Life",
+		"nationality":   "Italian",
+		"color":         "#EA3E51"
+	},
+	{
+		"constructorId": "ligier",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Ligier",
+		"name":          "Ligier",
+		"nationality":   "French",
+		"color":         "#203361"
+	},
+	{
+		"constructorId": "lola",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/MasterCard_Lola",
+		"name":          "Lola",
+		"nationality":   "British",
+		"color":         "#D73837"
+	},
+	{
+		"constructorId": "lotus_racing",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Lotus_Racing",
+		"name":          "Lotus",
+		"nationality":   "Malaysian",
+		"color":         "#163B1F"
+	},
+	{
+		"constructorId": "lotus_f1",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Lotus_F1",
+		"name":          "Lotus F1",
+		"nationality":   "British",
+		"color":         "#163B1F"
+	},
+	{
+		"constructorId": "lotus-borgward",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Team_Lotus",
+		"name":          "Lotus-Borgward",
+		"nationality":   "British",
+		"color":         "#163B1F"
+	},
+	{
+		"constructorId": "lotus-brm",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Team_Lotus",
+		"name":          "Lotus-BRM",
+		"nationality":   "British",
+		"color":         "#163B1F"
+	},
+	{
+		"constructorId": "lotus-climax",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Team_Lotus",
+		"name":          "Lotus-Climax",
+		"nationality":   "British",
+		"color":         "#163B1F"
+	},
+	{
+		"constructorId": "lotus-ford",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Team_Lotus",
+		"name":          "Lotus-Ford",
+		"nationality":   "British",
+		"color":         "#163B1F"
+	},
+	{
+		"constructorId": "lotus-maserati",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Team_Lotus",
+		"name":          "Lotus-Maserati",
+		"nationality":   "British",
+		"color":         "#163B1F"
+	},
+	{
+		"constructorId": "lotus-pw",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Team_Lotus",
+		"name":          "Lotus-Pratt &amp; Whitney",
+		"nationality":   "British",
+		"color":         "#163B1F"
+	},
+	{
+		"constructorId": "lyncar",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Lyncar",
+		"name":          "Lyncar",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "maki",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Maki_(cars)",
+		"name":          "Maki",
+		"nationality":   "Japanese",
+		"color":         "#2C5919"
+	},
+	{
+		"constructorId": "manor",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Manor_Motorsport",
+		"name":          "Manor Marussia",
+		"nationality":   "British",
+		"color":         "#000000"
+	},
+	{
+		"constructorId": "march",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/March_Engineering",
+		"name":          "March",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "march-alfa_romeo",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/March_Engineering",
+		"name":          "March-Alfa Romeo",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "march-ford",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/March_Engineering",
+		"name":          "March-Ford",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "marchese",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Marchese_(constructor)",
+		"name":          "Marchese",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "martini",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Martini_(cars)",
+		"name":          "Martini",
+		"nationality":   "French",
+		"color":         "#2D6585"
+	},
+	{
+		"constructorId": "marussia",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Marussia_F1",
+		"name":          "Marussia",
+		"nationality":   "Russian",
+		"color":         "#1E3F89"
+	},
+	{
+		"constructorId": "maserati",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Maserati",
+		"name":          "Maserati",
+		"nationality":   "Italian",
+		"color":         "#000000"
+	},
+	{
+		"constructorId": "matra",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Matra",
+		"name":          "Matra",
+		"nationality":   "French",
+		"color":         "#0A23A4"
+	},
+	{
+		"constructorId": "matra-ford",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Matra",
+		"name":          "Matra-Ford",
+		"nationality":   "French",
+		"color":         "#0A23A4"
+	},
+	{
+		"constructorId": "mbm",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Monteverdi_Basel_Motors",
+		"name":          "MBM",
+		"nationality":   "Swiss",
+		"color":         "#7D1E16"
+	},
+	{
+		"constructorId": "mcguire",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/McGuire_(Formula_One)",
+		"name":          "McGuire",
+		"nationality":   "Australian",
+		"color":         ""
+	},
+	{
+		"constructorId": "mclaren",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/McLaren",
+		"name":          "McLaren",
+		"nationality":   "British",
+		"color":         "#EF8833"
+	},
+	{
+		"constructorId": "mclaren-alfa_romeo",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/McLaren_(racing)",
+		"name":          "McLaren-Alfa Romeo",
+		"nationality":   "British",
+		"color":         "#EF8833"
+	},
+	{
+		"constructorId": "mclaren-brm",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/McLaren_(racing)",
+		"name":          "McLaren-BRM",
+		"nationality":   "British",
+		"color":         "#EF8833"
+	},
+	{
+		"constructorId": "mclaren-ford",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Team_McLaren",
+		"name":          "McLaren-Ford",
+		"nationality":   "British",
+		"color":         "#EF8833"
+	},
+	{
+		"constructorId": "mclaren-seren",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Team_McLaren",
+		"name":          "McLaren-Serenissima",
+		"nationality":   "British",
+		"color":         "#EF8833"
+	},
+	{
+		"constructorId": "mercedes",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Mercedes-Benz_in_Formula_One",
+		"name":          "Mercedes",
+		"nationality":   "German",
+		"color":         "#5FCFBE"
+	},
+	{
+		"constructorId": "merzario",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Merzario",
+		"name":          "Merzario",
+		"nationality":   "Italian",
+		"color":         ""
+	},
+	{
+		"constructorId": "meskowski",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Meskowski",
+		"name":          "Meskowski",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "mf1",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Midland_F1_Racing",
+		"name":          "MF1",
+		"nationality":   "Russian",
+		"color":         "#EA3323"
+	},
+	{
+		"constructorId": "milano",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Scuderia_Milano",
+		"name":          "Milano",
+		"nationality":   "Italian",
+		"color":         ""
+	},
+	{
+		"constructorId": "minardi",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Minardi",
+		"name":          "Minardi",
+		"nationality":   "Italian",
+		"color":         "#DA3832"
+	},
+	{
+		"constructorId": "moore",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Moore_(constructor)",
+		"name":          "Moore",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "nichels",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Nichels",
+		"name":          "Nichels",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "olson",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Olson_(constructor)",
+		"name":          "Olson",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "onyx",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Onyx_(racing_team)",
+		"name":          "Onyx",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "osca",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Officine_Specializate_Costruzione_Automobili",
+		"name":          "OSCA",
+		"nationality":   "Italian",
+		"color":         "#474B88"
+	},
+	{
+		"constructorId": "osella",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Osella",
+		"name":          "Osella",
+		"nationality":   "Italian",
+		"color":         "#FDF668"
+	},
+	{
+		"constructorId": "pacific",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Pacific_Racing",
+		"name":          "Pacific",
+		"nationality":   "British",
+		"color":         "#5AA4EE"
+	},
+	{
+		"constructorId": "pankratz",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Pankratz",
+		"name":          "Pankratz",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "parnelli",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Parnelli",
+		"name":          "Parnelli",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "pawl",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Pawl_(constructor)",
+		"name":          "Pawl",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "penske",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Penske_Racing",
+		"name":          "Penske",
+		"nationality":   "American",
+		"color":         "#BF2A31"
+	},
+	{
+		"constructorId": "phillips",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Phillips_(constructor)",
+		"name":          "Phillips",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "politoys",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Frank_Williams_Racing_Cars",
+		"name":          "Politoys",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "porsche",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Porsche_in_Formula_One",
+		"name":          "Porsche",
+		"nationality":   "German",
+		"color":         ""
+	},
+	{
+		"constructorId": "prost",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Prost_Grand_Prix",
+		"name":          "Prost",
+		"nationality":   "French",
+		"color":         ""
+	},
+	{
+		"constructorId": "protos",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Protos_(constructor)",
+		"name":          "Protos",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "racing_point",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Racing_Point_F1_Team",
+		"name":          "Racing Point",
+		"nationality":   "British",
+		"color":         "#E26CB6"
+	},
+	{
+		"constructorId": "rae",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Rae_(motorsport)",
+		"name":          "Rae",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "ram",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/RAM_Racing",
+		"name":          "RAM",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "re",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/RE_%28automobile%29",
+		"name":          "RE",
+		"nationality":   "Rhodesian",
+		"color":         ""
+	},
+	{
+		"constructorId": "rebaque",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Rebaque",
+		"name":          "Rebaque",
+		"nationality":   "Mexican",
+		"color":         ""
+	},
+	{
+		"constructorId": "red_bull",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Red_Bull_Racing",
+		"name":          "Red Bull",
+		"nationality":   "Austrian",
+		"color":         "#C92D45"
+	},
+	{
+		"constructorId": "renault",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Renault_in_Formula_One",
+		"name":          "Renault",
+		"nationality":   "French",
+		"color":         "#E9B83F"
+	},
+	{
+		"constructorId": "rial",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Rial_%28racing_team%29",
+		"name":          "Rial",
+		"nationality":   "German",
+		"color":         ""
+	},
+	{
+		"constructorId": "sauber",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Sauber",
+		"name":          "Sauber",
+		"nationality":   "Swiss",
+		"color":         "#CD3F2F"
+	},
+	{
+		"constructorId": "scarab",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Scarab_(constructor)",
+		"name":          "Scarab",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "schroeder",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Schroeder_(constructor)",
+		"name":          "Schroeder",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "scirocco",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Scirocco-Powell",
+		"name":          "Scirocco",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "shadow",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Shadow_Racing_Cars",
+		"name":          "Shadow",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "shadow-ford",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Shadow_Racing_Cars",
+		"name":          "Shadow-Ford",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "shadow-matra",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Shadow_Racing_Cars",
+		"name":          "Shadow-Matra",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "shannon",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Shannon_(Formula_One)",
+		"name":          "Shannon",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "sherman",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Sherman_(constructor)",
+		"name":          "Sherman",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "simca",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Simca",
+		"name":          "Simca",
+		"nationality":   "French",
+		"color":         ""
+	},
+	{
+		"constructorId": "simtek",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Simtek",
+		"name":          "Simtek",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "snowberger",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Snowberger",
+		"name":          "Snowberger",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "spirit",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Spirit_(racing_team)",
+		"name":          "Spirit",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "spyker",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Spyker_F1",
+		"name":          "Spyker",
+		"nationality":   "Dutch",
+		"color":         ""
+	},
+	{
+		"constructorId": "spyker_mf1",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Midland_F1_Racing",
+		"name":          "Spyker MF1",
+		"nationality":   "Dutch",
+		"color":         ""
+	},
+	{
+		"constructorId": "stebro",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Stebro",
+		"name":          "Stebro",
+		"nationality":   "Canadian",
+		"color":         ""
+	},
+	{
+		"constructorId": "stevens",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Stevens_(constructor)",
+		"name":          "Stevens",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "stewart",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Stewart_Grand_Prix",
+		"name":          "Stewart",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "super_aguri",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Super_Aguri_F1",
+		"name":          "Super Aguri",
+		"nationality":   "Japanese",
+		"color":         ""
+	},
+	{
+		"constructorId": "surtees",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Surtees",
+		"name":          "Surtees",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "sutton",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Sutton_(constructor)",
+		"name":          "Sutton",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "lago",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Talbot-Lago",
+		"name":          "Talbot-Lago",
+		"nationality":   "French",
+		"color":         ""
+	},
+	{
+		"constructorId": "team_lotus",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Team_Lotus",
+		"name":          "Team Lotus",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "tec-mec",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Tec-Mec",
+		"name":          "Tec-Mec",
+		"nationality":   "Italian",
+		"color":         ""
+	},
+	{
+		"constructorId": "tecno",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Tecno",
+		"name":          "Tecno",
+		"nationality":   "Italian",
+		"color":         ""
+	},
+	{
+		"constructorId": "theodore",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Theodore_Racing",
+		"name":          "Theodore",
+		"nationality":   "Hong Kong",
+		"color":         ""
+	},
+	{
+		"constructorId": "token",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Token_(Racing_team)",
+		"name":          "Token",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "toleman",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Toleman",
+		"name":          "Toleman",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "toro_rosso",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Scuderia_Toro_Rosso",
+		"name":          "Toro Rosso",
+		"nationality":   "Italian",
+		"color":         "#D9343A"
+	},
+	{
+		"constructorId": "toyota",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Toyota_Racing",
+		"name":          "Toyota",
+		"nationality":   "Japanese",
+		"color":         ""
+	},
+	{
+		"constructorId": "trevis",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Trevis",
+		"name":          "Trevis",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "trojan",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Trojan_(Racing_team)",
+		"name":          "Trojan",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "turner",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Turner_(constructor)",
+		"name":          "Turner",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "tyrrell",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Tyrrell_Racing",
+		"name":          "Tyrrell",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "vanwall",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Vanwall",
+		"name":          "Vanwall",
+		"nationality":   "British",
+		"color":         ""
+	},
+	{
+		"constructorId": "veritas",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Veritas_(constructor)",
+		"name":          "Veritas",
+		"nationality":   "German",
+		"color":         ""
+	},
+	{
+		"constructorId": "virgin",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Virgin_Racing",
+		"name":          "Virgin",
+		"nationality":   "British",
+		"color":         "#CA2D31"
+	},
+	{
+		"constructorId": "watson",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/A.J._Watson",
+		"name":          "Watson",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "wetteroth",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Wetteroth",
+		"name":          "Wetteroth",
+		"nationality":   "American",
+		"color":         ""
+	},
+	{
+		"constructorId": "williams",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Williams_Grand_Prix_Engineering",
+		"name":          "Williams",
+		"nationality":   "British",
+		"color":         "#48A1DB"
+	},
+	{
+		"constructorId": "wolf",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Walter_Wolf_Racing",
+		"name":          "Wolf",
+		"nationality":   "Canadian",
+		"color":         ""
+	},
+	{
+		"constructorId": "zakspeed",
+		"url":           "http:\/\/en.wikipedia.org\/wiki\/Zakspeed",
+		"name":          "Zakspeed",
+		"nationality":   "German",
+		"color":         ""
+	}
+]

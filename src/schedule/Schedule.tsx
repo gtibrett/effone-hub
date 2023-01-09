@@ -3,7 +3,6 @@ import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapSchedule} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
-import ByLine from '../drivers/ByLine';
 import {Race} from '../types/ergast';
 import DataTable from '../ui-components/DataTable';
 import Link from '../ui-components/Link';
@@ -51,7 +50,8 @@ export default function Schedule() {
 							headerName: 'Date',
 							headerAlign: 'center',
 							type: 'date',
-							align: 'center'
+							align: 'center',
+							renderCell: ({value}) => (new Date(value)).toLocaleDateString()
 						},
 						{
 							field: 'raceName',
@@ -62,14 +62,15 @@ export default function Schedule() {
 							)
 						},
 						{
-							field: 'winner',
-							headerName: 'Winner',
-							headerAlign: 'left',
+							field: 'location',
+							headerName: 'Location',
 							type: 'string',
-							align: 'left',
+							flex: .5,
 							renderCell: ({row}: GridCellParams<string, Race>) => {
-								const driver = row.Results?.[0].Driver;
-								return driver ? <ByLine id={driver.driverId}/> : null;
+								const locality = row.Circuit?.Location?.locality;
+								const country  = row.Circuit?.Location?.country;
+								
+								return `${locality}, ${country}`;
 							}
 						}
 					] as GridColDef<Race>[]
