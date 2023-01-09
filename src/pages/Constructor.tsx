@@ -4,34 +4,30 @@ import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import {SyntheticEvent, useRef, useState} from 'react';
 import {useParams} from 'react-router';
+import {ConstructorWithBio, useConstructor} from '../constructors/ConstructorProvider';
 import DriverAvatar from '../drivers/DriverAvatar';
-import {DriverWithBio, useDriver} from '../drivers/DriverProvider';
-import Season from '../drivers/Season';
 import Flag from '../flags/Flag';
 import useComponentDimensions from '../ui-components/useComponentDimensions';
 
-const DriverDetails = ({driver}: { driver: DriverWithBio }) => {
+const ConstructorDetails = ({constructor}: { constructor: ConstructorWithBio }) => {
 	return (
 		<Grid container spacing={4} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
-			<Grid item><Typography variant="h2">{driver.givenName} {driver.familyName}</Typography></Grid>
-			<Grid item><Flag nationality={driver.nationality} size={48}/></Grid>
-			<Grid item xs/>
-			<Grid item>{driver.code}</Grid>
-			<Grid item sx={{fontFamily: 'Racing Sans One', fontSize: '1.1em'}}>{driver.permanentNumber}</Grid>
+			<Grid item><Typography variant="h2">{constructor.name}</Typography></Grid>
+			<Grid item><Flag nationality={constructor.nationality} size={48}/></Grid>
 		</Grid>
 	);
 };
 
 
-export default function Driver() {
+export default function Constructor() {
 	const ref                       = useRef(null);
 	const {width}                   = useComponentDimensions(ref);
 	const {id}                      = useParams();
 	const [activeTab, setActiveTab] = useState('season');
-	const driver                    = useDriver(id);
-	const driverBio                 = driver?.bio;
+	const constructor               = useConstructor(id);
+	const constructorBio            = constructor?.bio;
 	
-	if (!driver || !driverBio) {
+	if (!constructor || !constructorBio) {
 		return null;
 	}
 	
@@ -42,7 +38,9 @@ export default function Driver() {
 	return (
 		<Card elevation={0}>
 			<CardHeader
-				title={<DriverDetails driver={driver}/>}
+				// constructor is a keyword, so using it as a prop is problematic
+				// @ts-ignore
+				title={<ConstructorDetails constructor={constructor}/>}
 			/>
 			
 			<CardContent>
@@ -57,7 +55,7 @@ export default function Driver() {
 									</TabList>
 								</Box>
 								<TabPanel value="season">
-									<Season driverId={id}/>
+								
 								</TabPanel>
 								<TabPanel value="career">
 								</TabPanel>
@@ -71,9 +69,7 @@ export default function Driver() {
 								<DriverAvatar id={id} size={width}/>
 							</CardMedia>
 							<CardContent>
-								<Typography variant="body2">Born: {(new Date(driver.dateOfBirth || '')).toLocaleDateString()}</Typography>
-								<Divider orientation="horizontal" sx={{my: 1}}/>
-								<Typography variant="body1">{driverBio.extract}</Typography>
+								<Typography variant="body1">{constructorBio.extract}</Typography>
 							</CardContent>
 						</Card>
 					</Grid>

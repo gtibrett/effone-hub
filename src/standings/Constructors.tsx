@@ -1,5 +1,7 @@
+import {GridColDef} from '@mui/x-data-grid';
 import {getAPIUrl, mapConstructorsStandings} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
+import ByLine from '../constructors/ByLine';
 import DataTable from '../ui-components/DataTable';
 
 const sx = {
@@ -28,14 +30,14 @@ export default function Constructors() {
 						field: 'code',
 						headerName: 'Constructor',
 						flex: 1,
-						valueGetter: ({row}) => row.Constructor.name
+						renderCell: ({row}) => <ByLine id={row.Constructor.constructorId} variant="link"/>
 					},
 					{
 						field: 'points',
 						headerName: 'Points',
 						type: 'number'
 					}
-				]
+				] as GridColDef[]
 			}
 		/>
 	);

@@ -65,13 +65,12 @@ export default function LapByLap({laps, results}: LapByLapProps) {
 				lineWidth={3}
 				activeLineWidth={6}
 				inactiveLineWidth={3}
-				inactiveOpacity={0.5}
-				pointSize={2}
-				activePointSize={8}
+				inactiveOpacity={0.35}
+				pointSize={0}
+				activePointSize={0}
 				inactivePointSize={0}
 				pointBorderWidth={0}
-				activePointBorderWidth={3}
-				pointBorderColor={{from: 'serie.color'}}
+				activePointBorderWidth={0}
 				// @ts-ignore
 				startLabel={({id}) => <ByLine variant="code" id={id}/>}
 				endLabel={false}
@@ -80,17 +79,15 @@ export default function LapByLap({laps, results}: LapByLapProps) {
 				axisTop={null}
 				axisLeft={null}
 				axisBottom={{
-					tickSize: 5,
+					tickSize: 0,
 					tickPadding: 5,
 					tickRotation: 0,
 					tickValues: getTicks(Number(results?.[0].laps))
 				}}
 				axisRight={{
-					tickSize: 5,
-					tickPadding: 5,
+					tickSize: 0,
+					tickPadding: 10,
 					tickRotation: 0,
-					legendPosition: 'middle',
-					legendOffset: -40
 				}}
 				margin={{top: 0, right: 24, bottom: 24, left: 40}}
 			/>

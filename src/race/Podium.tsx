@@ -1,34 +1,6 @@
-import {Card, CardHeader, Grid, Typography} from '@mui/material';
-import DriverAvatar from '../drivers/DriverAvatar';
-import {DriverId, useDriver} from '../drivers/DriverProvider';
+import {Grid} from '@mui/material';
 import {Race as RaceT} from '../types/ergast';
-import Link from '../ui-components/Link';
-
-type PlaceProps = {
-	driverId: DriverId;
-	place: number;
-}
-
-function Place({driverId, place}: PlaceProps) {
-	const driver = useDriver(driverId);
-	
-	if (!driver) {
-		return null;
-	}
-	
-	const {givenName, familyName, nationality} = driver;
-	const name                                 = `${givenName} ${familyName}`;
-	
-	return (
-		<Card elevation={0}>
-			<CardHeader
-				avatar={<DriverAvatar id={driverId} size={64}/>}
-				title={<Typography noWrap><Link to={`/driver/${driverId}`}>{name}</Link></Typography>}
-				subheader={`P${place}`}
-			/>
-		</Card>
-	);
-}
+import Place from './Place';
 
 export default function Podium({results}: { results: RaceT['Results'] }) {
 	if (!results?.length) {
