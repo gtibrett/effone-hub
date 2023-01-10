@@ -2,19 +2,7 @@ import {Box} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
 import {getColorByConstructorId} from '../constructors';
-import {ConstructorId} from '../constructors/ConstructorProvider';
 import {Race} from '../types/ergast';
-
-const sx = {
-	border: 0,
-	overflow: 'auto',
-	'& > .MuiDataGrid-main': {
-		overflow: 'unset'
-	},
-	'& > div > .MuiDataGrid-footerContainer': {
-		display: 'none'
-	}
-};
 
 type SeasonChartProps = {
 	races: Race[];
@@ -26,7 +14,7 @@ export default function SeasonChart({races}: SeasonChartProps) {
 	}
 	
 	const constructorId = races?.[0].Results?.[0].Constructor?.constructorId;
-	const color = getColorByConstructorId(constructorId);
+	const color         = getColorByConstructorId(constructorId);
 	
 	const qualifying: LineSerie = {
 		id: 'qualifying',
@@ -68,12 +56,12 @@ export default function SeasonChart({races}: SeasonChartProps) {
 					tickSize: 0,
 					tickPadding: 10,
 					tickRotation: 0,
-					tickValues: [1,20]
+					tickValues: [1, 20]
 				}}
 				axisTop={null}
 				axisBottom={null}
 				enableGridX={false}
-				gridYValues={[1,5,10,15,20]}
+				gridYValues={[1, 5, 10, 15, 20]}
 				margin={{top: 5, left: 5, right: 25, bottom: 32}}
 				legends={[
 					{
@@ -88,7 +76,7 @@ export default function SeasonChart({races}: SeasonChartProps) {
 						itemHeight: 20,
 						itemOpacity: 0.75,
 						symbolSize: 10,
-						symbolShape: 'circle',
+						symbolShape: 'circle'
 					}
 				]}
 			/>

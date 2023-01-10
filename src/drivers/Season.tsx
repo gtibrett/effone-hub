@@ -1,6 +1,6 @@
-import {Typography} from '@mui/material';
+import {Skeleton, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
-import {GridCellParams, GridColDef} from '@mui/x-data-grid';
+import {DataGrid, GridCellParams, GridColDef} from '@mui/x-data-grid';
 import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapSchedule} from '../api/Ergast';
@@ -8,7 +8,6 @@ import {useAppState} from '../app/AppStateProvider';
 import {getPositionTextOutcome} from '../helpers';
 import PositionChange from '../race/PositionChange';
 import {Race} from '../types/ergast';
-import DataTable from '../ui-components/DataTable';
 import Link from '../ui-components/Link';
 import {DriverId} from './DriverProvider';
 import SeasonChart from './SeasonChart';
@@ -30,26 +29,29 @@ type SeasonProps = {
 
 export default function Season({driverId}: SeasonProps) {
 	const [{season}]        = useAppState();
-	const dataUrl           = getAPIUrl(`/${season}/drivers/${driverId}/results.json`);
 	const [races, setRaces] = useState<Race[]>([]);
 	
 	useEffect(() => {
+		const dataUrl = getAPIUrl(`/${season}/drivers/${driverId}/results.json`);
+		
 		Caxios.get(dataUrl)
 		      .then(mapSchedule)
 		      .then(races => setRaces(races));
-	}, [setRaces]);
+	}, [season, driverId]);
+	
+	if (!races) {
+		return <Skeleton variant="rectangular" height={400}/>;
+	}
 	
 	return (
 		<>
 			<SeasonChart races={races}/>
-			<DataTable
+			<DataGrid
 				sx={sx}
-				dataUrl={dataUrl}
-				mapper={mapSchedule}
-				// cacheFor={60 * 60 * 8}
+				rows={races}
 				autoHeight
 				density="compact"
-				getRowId={(row) => row.round}
+				getRowId={(row) => row.round || ''}
 				columns={
 					[
 						{
