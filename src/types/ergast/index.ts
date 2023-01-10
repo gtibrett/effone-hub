@@ -154,6 +154,12 @@ export type Season = {
 	url: string;
 }
 
+export type SeasonStanding = {
+	season?: string;
+	round?: string;
+	DriverStandings?: Standing[];
+}
+
 export type Responses = {
 	SeasonsResponse: {
 		MRData?: {
@@ -246,11 +252,7 @@ export type Responses = {
 			total?: string;
 			StandingsTable?: {
 				season?: string;
-				StandingsLists?: ({
-					season?: string;
-					round?: string;
-					DriverStandings?: Standing[];
-				})[];
+				StandingsLists?: SeasonStanding[];
 			};
 		};
 	};

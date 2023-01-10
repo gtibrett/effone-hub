@@ -1,5 +1,5 @@
 import {AxiosResponse} from 'axios';
-import {Constructor, Driver as DriverT, Lap, QualifyingResult, Race, Responses, Standing} from '../types/ergast';
+import {Constructor, Driver as DriverT, Lap, QualifyingResult, Race, Responses, SeasonStanding, Standing} from '../types/ergast';
 
 export const getCanonicalId = (summary: DriverT | Constructor | undefined) => {
 	if (!summary) {
@@ -30,6 +30,24 @@ export const mapDriversStandings = (response: AxiosResponse<Responses['DriverSta
 				...standing.Driver,
 				canonicalId: getCanonicalId(standing.Driver)
 			}
+		}));
+	}
+	
+	return [];
+};
+
+export const mapDriverCareer = (response: AxiosResponse<Responses['DriverStandingsByYearResponse']>): SeasonStanding[] => {
+	if (response.data.MRData?.StandingsTable?.StandingsLists?.[0].DriverStandings) {
+		return response?.data?.MRData?.StandingsTable?.StandingsLists.map((season) => ({
+			...season,
+			DriverStandings: season.DriverStandings?.map(standing => ({
+				...standing,
+				id: standing.Driver?.driverId,
+				Driver: {
+					...standing.Driver,
+					canonicalId: getCanonicalId(standing.Driver)
+				}
+			}))
 		}));
 	}
 	

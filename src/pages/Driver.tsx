@@ -1,9 +1,8 @@
 import {TabContext, TabList, TabPanel} from '@mui/lab';
-import {Card, CardContent, CardHeader, CardMedia, Divider, Grid, Typography} from '@mui/material';
-import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
+import {Box, Card, CardContent, CardHeader, CardMedia, Divider, Grid, Tab, Typography} from '@mui/material';
 import {SyntheticEvent, useRef, useState} from 'react';
 import {useParams} from 'react-router';
+import Career from '../drivers/Career';
 import DriverAvatar from '../drivers/DriverAvatar';
 import {DriverWithBio, useDriver} from '../drivers/DriverProvider';
 import Season from '../drivers/Season';
@@ -60,6 +59,7 @@ export default function Driver() {
 									<Season driverId={id}/>
 								</TabPanel>
 								<TabPanel value="career">
+									<Career driverId={id}/>
 								</TabPanel>
 							</TabContext>
 						</Card>

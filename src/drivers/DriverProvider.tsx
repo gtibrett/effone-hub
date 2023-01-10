@@ -54,26 +54,36 @@ export const useDriver = (id: DriverId) => {
 			Caxios.get<Responses['DriversResponse']>(dataUrl)
 			      .then(response => response.data)
 			      .then(data => data.MRData?.DriverTable?.Drivers?.[0])
-			      .then(async (driver) => {
+			      .then((driver) => {
 				      if (driver) {
 					      const canonicalId = getCanonicalId(driver);
-					      const bio         = await getWikiSummary(canonicalId).catch(error => {
-						      console.log('Could not load driver bio', error);
-						      return undefined;
-					      });
 					
-					      setDrivers((cur) => ({
-						      ...cur,
-						      [id]: {
-							      ...driver,
-							      canonicalId,
-							      bio
-						      }
-					      }));
+					      getWikiSummary(canonicalId)
+						      .then((bio => {
+							      setDrivers((cur) => ({
+								      ...cur,
+								      [id]: {
+									      ...driver,
+									      canonicalId,
+									      bio
+								      }
+							      }));
+						      }))
+						      .catch(error => {
+							      console.log('Could not load driver bio', error);
+							      setDrivers((cur) => ({
+								      ...cur,
+								      [id]: {
+									      ...driver,
+									      canonicalId,
+									      bio: undefined
+								      }
+							      }));
+						      });
 				      }
 			      });
 		}
-	}, [id, drivers]);
+	}, [id, drivers, setDrivers]);
 	
 	return id ? drivers[id] : undefined;
 };
