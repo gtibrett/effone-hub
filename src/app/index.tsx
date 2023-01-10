@@ -19,33 +19,35 @@ function Index() {
 				<BrowserRouter>
 					<ConstructorProvider>
 						<DriverProvider>
-							<Header/>
-							
-							<Box component="main" p={2}>
-								<ErrorBoundary>
-									<Routes>
-										<Route
-											element={<Home/>}
-											path="/"
-										/>
-										<Route
-											element={<Constructor/>}
-											path="/constructor/:id"
-										/>
-										<Route
-											element={<Driver/>}
-											path="/driver/:id"
-										/>
-										<Route
-											element={<Race/>}
-											path="/race/:season?/:round?"
-										/>
-									</Routes>
-								</ErrorBoundary>
+							<Box sx={{position: 'fixed', overflow: 'auto', scrollbarColor: theme.palette.mode, top: 0, left: 0, right: 0, bottom: 0, background: theme.palette.background.default}}>
+								<Header/>
+								
+								<Box component="main" p={2}>
+									<ErrorBoundary>
+										<Routes>
+											<Route
+												element={<Home/>}
+												path="/"
+											/>
+											<Route
+												element={<Constructor/>}
+												path="/constructor/:id"
+											/>
+											<Route
+												element={<Driver/>}
+												path="/driver/:id"
+											/>
+											<Route
+												element={<Race/>}
+												path="/race/:season?/:round?"
+											/>
+										</Routes>
+									</ErrorBoundary>
+								</Box>
+								<footer>
+								
+								</footer>
 							</Box>
-							<footer>
-							
-							</footer>
 						</DriverProvider>
 					</ConstructorProvider>
 				</BrowserRouter>
