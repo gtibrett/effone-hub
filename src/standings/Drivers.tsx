@@ -1,4 +1,4 @@
-import {Divider} from '@mui/material';
+import {Box, Divider, Grid} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
@@ -9,11 +9,8 @@ import Place from '../race/Place';
 import {Responses, Standing} from '../types/ergast';
 
 const sx = {
-	border: 0,
-	overflow: 'auto',
-	maxHeight: 398,
 	'& > .MuiDataGrid-main': {
-		overflow: 'unset'
+		overflowX: 'hidden'
 	},
 	'& > div > .MuiDataGrid-footerContainer': {
 		display: 'none'
@@ -23,10 +20,10 @@ const sx = {
 export default function Drivers() {
 	const [{season}]                = useAppState();
 	const [standings, setStandings] = useState<Standing[]>([]);
-	const dataUrl                   = getAPIUrl(`/${season}/driverStandings.json`);
 	
 	useEffect(() => {
 		if (season) {
+			const dataUrl                   = getAPIUrl(`/${season}/driverStandings.json`);
 			Caxios.get<Responses['DriverStandingsByYearResponse']>(dataUrl)
 			      .then(mapDriversStandings)
 			      .then(data => setStandings(data))
@@ -41,43 +38,46 @@ export default function Drivers() {
 	const [p1, p2, p3, ...rest] = standings;
 	
 	return (
-		<>
-			<Place driverId={p1.Driver?.driverId} points={p1.points}/>
-			<Divider/>
-			<Place driverId={p2.Driver?.driverId} points={p2.points}/>
-			<Divider/>
-			<Place driverId={p3.Driver?.driverId} points={p3.points}/>
-			<Divider/>
-			<DataGrid
-				sx={sx}
-				rows={rest}
-				autoHeight
-				density="compact"
-				columns={
-					[
-						{
-							field: 'position',
-							headerName: '#',
-							headerAlign: 'center',
-							type: 'number',
-							align: 'center',
-							width: 16,
-							renderCell: ({row}) => row.Driver?.permanentNumber
-						},
-						{
-							field: 'code',
-							headerName: 'Driver',
-							flex: 1,
-							renderCell: ({row}) => <ByLine id={row.Driver?.driverId} avatarProps={{size: 24}} flagProps={{size: 16}}/>
-						},
-						{
-							field: 'points',
-							headerName: 'Points',
-							type: 'number'
-						}
-					]
-				}
-			/>
-		</>
+		<Grid container spacing={2} alignItems="stretch">
+			<Grid item xs={5}>
+				<Place driverId={p1.Driver?.driverId} place={1} points={p1.points}/>
+				<Divider/>
+				<Place driverId={p2.Driver?.driverId} place={2} points={p2.points}/>
+				<Divider/>
+				<Place driverId={p3.Driver?.driverId} place={3} points={p3.points}/>
+			</Grid>
+			<Grid item xs={7} >
+				<Box pr={2} height="calc(100% - 8px)">
+				<DataGrid
+					sx={sx}
+					rows={rest}
+					density="compact"
+					columns={
+						[
+							{
+								field: 'position',
+								headerName: 'P',
+								headerAlign: 'center',
+								type: 'number',
+								align: 'center',
+								width: 16
+							},
+							{
+								field: 'code',
+								headerName: 'Driver',
+								flex: 1,
+								renderCell: ({row}) => <ByLine id={row.Driver?.driverId} avatarProps={{size: 24}} flagProps={{size: 16}}/>
+							},
+							{
+								field: 'points',
+								headerName: 'Points',
+								type: 'number'
+							}
+						]
+					}
+				/>
+				</Box>
+			</Grid>
+		</Grid>
 	);
 }
