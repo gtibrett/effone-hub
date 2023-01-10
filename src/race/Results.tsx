@@ -1,12 +1,12 @@
-import {faArrowDown, faArrowUp, faSquare} from '@fortawesome/pro-solid-svg-icons';
+import {faSquare} from '@fortawesome/pro-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Typography} from '@mui/material';
-import {green, purple, red} from '@mui/material/colors';
+import {purple} from '@mui/material/colors';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';
-import ByLine from '../drivers/ByLine';
 import ConstructorByLine from '../constructors/ByLine';
-import {Race, Result} from '../types/ergast';
+import ByLine from '../drivers/ByLine';
+import {Race} from '../types/ergast';
 import PositionChange from './PositionChange';
 
 const sx = {

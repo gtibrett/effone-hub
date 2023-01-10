@@ -25,7 +25,7 @@ export default function Laps({season, round, visible, results}: LapByLapProps) {
 			      .then(mapLaps)
 			      .then(laps => setLaps(laps));
 		}
-	}, [visible]);
+	}, [visible, laps.length, round, season]);
 	
 	const handleTabChange = (event: SyntheticEvent, newValue: string) => {
 		setActiveTab(newValue);

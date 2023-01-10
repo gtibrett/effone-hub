@@ -1,4 +1,3 @@
-import {capitalize} from '@mui/material';
 import {Result} from './types/ergast';
 
 export function getPositionTextOutcome(positionText: Result['positionText'], status: Result['status']) {

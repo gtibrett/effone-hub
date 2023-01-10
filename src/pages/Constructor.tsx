@@ -1,5 +1,5 @@
 import {TabContext, TabList, TabPanel} from '@mui/lab';
-import {Card, CardContent, CardHeader, CardMedia, Divider, Grid, Typography} from '@mui/material';
+import {Card, CardContent, CardHeader, CardMedia, Grid, Typography} from '@mui/material';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import {SyntheticEvent, useRef, useState} from 'react';
