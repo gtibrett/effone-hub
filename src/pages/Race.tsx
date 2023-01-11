@@ -68,14 +68,14 @@ export default function Race() {
 										<Tab label="Laps" value="laps"/>
 									</TabList>
 								</Box>
-								<TabPanel value="qualifying">
-									<Qualifying season={season} round={round}/>
-								</TabPanel>
 								<TabPanel value="race">
 									<Results results={state.race.Results}/>
 								</TabPanel>
+								<TabPanel value="qualifying">
+									<Qualifying season={season} round={round}/>
+								</TabPanel>
 								<TabPanel value="laps">
-									<Laps season={season} round={round} results={state.race.Results} visible={state.activeTab === 'laps'}/>
+									<Laps season={season} round={round} results={state.race.Results}/>
 								</TabPanel>
 							</TabContext>
 						</Card>

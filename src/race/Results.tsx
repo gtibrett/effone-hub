@@ -1,6 +1,6 @@
 import {faSquare} from '@fortawesome/pro-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Typography} from '@mui/material';
+import {Alert, Skeleton, Typography} from '@mui/material';
 import {purple} from '@mui/material/colors';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';
@@ -18,7 +18,11 @@ const sx = {
 
 export default function Results({results}: { results: Race['Results'] }) {
 	if (!results) {
-		return null;
+		return <Skeleton variant="rectangular" height={400}/>;
+	}
+	
+	if (!results.length) {
+		return <Alert variant="outlined" severity="info">Race Data Not Available</Alert>;
 	}
 	
 	const rows = results.map(row => ({

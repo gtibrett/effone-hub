@@ -1,6 +1,10 @@
+import {Alert, Skeleton} from '@mui/material';
+import {DataGrid} from '@mui/x-data-grid';
+import {useEffect, useState} from 'react';
+import Caxios from '../api/Caxios';
 import {getAPIUrl, mapQualifying} from '../api/Ergast';
 import ByLine from '../drivers/ByLine';
-import DataTable from '../ui-components/DataTable';
+import {QualifyingResult} from '../types/ergast';
 
 const sx = {
 	border: 0,
@@ -15,13 +19,28 @@ type QualifyingProps = {
 }
 
 export default function Qualifying({season, round}: QualifyingProps) {
-	const dataUrl = getAPIUrl(`/${season}/${round}/qualifying.json`);
+	const [data, setData] = useState<QualifyingResult[] | undefined>();
+	
+	useEffect(() => {
+		const dataUrl = getAPIUrl(`/${season}/${round}/qualifying.json`);
+		Caxios.get(dataUrl)
+		      .then(mapQualifying)
+		      .then(d => setData(d))
+		      .catch(() => setData([]));
+	}, [season, round]);
+	
+	if (!data) {
+		return <Skeleton variant="rectangular" height={400}/>;
+	}
+	
+	if (!data.length) {
+		return <Alert variant="outlined" severity="info">Qualifying Data Not Available</Alert>;
+	}
 	
 	return (
-		<DataTable
+		<DataGrid
 			sx={sx}
-			dataUrl={dataUrl}
-			mapper={mapQualifying}
+			rows={data}
 			autoHeight
 			density="compact"
 			columns={

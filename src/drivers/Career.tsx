@@ -1,3 +1,4 @@
+import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
@@ -23,20 +24,27 @@ type CareerProps = {
 }
 
 export default function Career({driverId}: CareerProps) {
-	const [seasonStandings, setSeasonStandings] = useState<SeasonStanding[]>([]);
+	const [seasonStandings, setSeasonStandings] = useState<SeasonStanding[] | undefined>();
 	
 	useEffect(() => {
-		if (!seasonStandings.length) {
+		if (!seasonStandings) {
 			const dataUrl = getAPIUrl(`/drivers/${driverId}/driverStandings.json`);
 			Caxios.get(dataUrl)
 			      .then(mapDriverCareer)
 			      .then(data => {
-				      if (data.length) {
-					      setSeasonStandings(data);
-				      }
-			      });
+				      setSeasonStandings(data);
+			      })
+			      .catch(() => setSeasonStandings([]));
 		}
 	}, [seasonStandings, driverId]);
+	
+	if (!seasonStandings) {
+		return <Skeleton variant="rectangular" height={400}/>;
+	}
+	
+	if (!seasonStandings.length) {
+		return <Alert variant="outlined" severity="info">Career Data Not Available</Alert>;
+	}
 	
 	return (
 		<>
