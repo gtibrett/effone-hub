@@ -15,5 +15,8 @@ export function getPositionTextOutcome(positionText: Result['positionText'], sta
 			return 'Failed to qualify';
 		case 'N':
 			return 'Not Classified';
+			
+		default:
+			return status;
 	}
 }

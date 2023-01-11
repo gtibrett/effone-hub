@@ -4,6 +4,7 @@ import {memo, useMemo} from 'react';
 import {getColorByConstructorId} from '../constructors';
 import ByLine from '../drivers/ByLine';
 import {Lap, Race} from '../types/ergast';
+import LapByLapTooltip from './LapByLapTooltip';
 
 type LapByLapProps = {
 	laps: Lap[];
@@ -93,6 +94,7 @@ function LapByLap({laps, results}: LapByLapProps) {
 					tickRotation: 0
 				}}
 				margin={{top: 0, right: 24, bottom: 24, left: 40}}
+				tooltip={LapByLapTooltip}
 			/>
 		);
 	}
