@@ -1,12 +1,13 @@
 import {faSquare} from '@fortawesome/pro-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Alert, Skeleton, Typography} from '@mui/material';
+import {Alert, Grid, Skeleton, Tooltip, Typography} from '@mui/material';
 import {purple} from '@mui/material/colors';
 import {visuallyHidden} from '@mui/utils';
-import {DataGrid} from '@mui/x-data-grid';
+import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import ConstructorByLine from '../constructors/ByLine';
 import ByLine from '../drivers/ByLine';
-import {Race} from '../types/ergast';
+import {getPositionTextOutcome} from '../helpers';
+import {Race, Result} from '../types/ergast';
 import PositionChange from './PositionChange';
 
 const sx = {
@@ -84,14 +85,29 @@ export default function Results({results}: { results: Race['Results'] }) {
 						align: 'center'
 					},
 					{
-						field: 'fastest',
-						renderHeader: () => <Typography sx={visuallyHidden}>Fastest Lap</Typography>,
-						headerAlign: 'center',
-						align: 'center',
-						renderCell: ({row}) => row.FastestLap?.rank === '1' ? <FontAwesomeIcon icon={faSquare} color={purple[400]} title="Fastest Lap"/> : '',
-						valueGetter: ({row}) => row.FastestLap?.rank === '1' ? 'A' : 'Z'
+						field: 'time',
+						headerName: 'Time',
+						sortable: false,
+						headerAlign: 'left',
+						align: 'left',
+						flex: .5,
+						renderCell: ({row}) => {
+							const time = row.Time?.time;
+							return (
+								<Grid container alignItems="center" justifyContent="space-between">
+									<Grid item>{time ? time : getPositionTextOutcome(row.positionText, row.status)}</Grid>
+									{row.FastestLap?.rank === '1' && (
+										<Grid item>
+											<Tooltip title="Fastest Lap">
+												<FontAwesomeIcon icon={faSquare} color={purple[400]}/>
+											</Tooltip>
+										</Grid>
+									)}
+								</Grid>
+							);
+						}
 					}
-				]
+				] as GridColDef<Result>[]
 			}
 		/>
 	);
