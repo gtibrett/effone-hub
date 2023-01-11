@@ -1,5 +1,5 @@
 import {TabContext, TabList, TabPanel} from '@mui/lab';
-import {Skeleton} from '@mui/material';
+import {Alert, Skeleton} from '@mui/material';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import {SyntheticEvent, useEffect, useState} from 'react';
@@ -12,20 +12,28 @@ import LapTimes from './LapTimes';
 type LapByLapProps = {
 	season: string;
 	round: string;
-	visible: boolean;
 	results: Race['Results']
 }
 
-export default function Laps({season, round, visible, results}: LapByLapProps) {
+export default function Laps({season, round, results}: LapByLapProps) {
 	const [activeTab, setActiveTab] = useState('byLap');
-	const [laps, setLaps]           = useState<Lap[]>([]);
+	const [laps, setLaps]           = useState<Lap[] | undefined >();
 	useEffect(() => {
-		if (visible && laps.length === 0) {
+		if (!laps) {
 			Caxios.get(getAPIUrl(`/${season}/${round}/laps.json?limit=2000`))
 			      .then(mapLaps)
-			      .then(laps => setLaps(laps));
+			      .then(laps => setLaps(laps))
+			      .catch(() => setLaps([]));
 		}
-	}, [visible, laps.length, round, season]);
+	}, [laps, round, season]);
+	
+	if (!laps) {
+		return <Skeleton variant="rectangular" height={400}/>;
+	}
+	
+	if (!laps.length) {
+		return <Alert variant="outlined" severity="info">Lap Data Not Available</Alert>;
+	}
 	
 	const handleTabChange = (event: SyntheticEvent, newValue: string) => {
 		setActiveTab(newValue);

@@ -1,4 +1,4 @@
-import {Skeleton, Typography} from '@mui/material';
+import {Alert, Skeleton, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid, GridCellParams, GridColDef} from '@mui/x-data-grid';
 import {useEffect, useState} from 'react';
@@ -29,7 +29,7 @@ type SeasonProps = {
 
 export default function Season({driverId}: SeasonProps) {
 	const [{season}]        = useAppState();
-	const [races, setRaces] = useState<Race[]>([]);
+	const [races, setRaces] = useState<Race[] | undefined>();
 	
 	useEffect(() => {
 		const dataUrl = getAPIUrl(`/${season}/drivers/${driverId}/results.json`);
@@ -41,6 +41,10 @@ export default function Season({driverId}: SeasonProps) {
 	
 	if (!races) {
 		return <Skeleton variant="rectangular" height={400}/>;
+	}
+	
+	if (!races.length) {
+		return <Alert variant="outlined" severity="info">Season Data Not Available</Alert>;
 	}
 	
 	return (
