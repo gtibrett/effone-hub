@@ -1,5 +1,5 @@
 import {createTheme, useMediaQuery, useTheme} from '@mui/material';
-import {blue, blueGrey, deepOrange, red} from '@mui/material/colors';
+import {blueGrey, deepOrange} from '@mui/material/colors';
 import {useMemo} from 'react';
 
 export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
