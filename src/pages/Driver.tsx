@@ -1,5 +1,5 @@
 import {TabContext, TabList, TabPanel} from '@mui/lab';
-import {Box, Card, CardContent, CardHeader, CardMedia, Divider, Grid, Tab, Typography} from '@mui/material';
+import {Box, Card, CardContent, CardHeader, CardMedia, Divider, Grid, Hidden, Tab, Typography} from '@mui/material';
 import {SyntheticEvent, useRef, useState} from 'react';
 import {useParams} from 'react-router';
 import Career from '../drivers/Career';
@@ -11,12 +11,14 @@ import useComponentDimensions from '../ui-components/useComponentDimensions';
 
 const DriverDetails = ({driver}: { driver: DriverWithBio }) => {
 	return (
-		<Grid container spacing={4} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
+		<Grid container spacing={2} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
 			<Grid item><Typography variant="h2">{driver.givenName} {driver.familyName}</Typography></Grid>
-			<Grid item><Flag nationality={driver.nationality} size={48}/></Grid>
-			<Grid item xs/>
-			<Grid item>{driver.code}</Grid>
-			<Grid item sx={{fontFamily: 'Racing Sans One', fontSize: '1.1em'}}>{driver.permanentNumber}</Grid>
+			<Hidden mdDown>
+				<Grid item><Flag nationality={driver.nationality} size={48}/></Grid>
+				<Grid item xs/>
+				<Grid item>{driver.code}</Grid>
+				<Grid item sx={{fontFamily: 'Racing Sans One', fontSize: '1.1em'}}>{driver.permanentNumber}</Grid>
+			</Hidden>
 		</Grid>
 	);
 };
@@ -46,7 +48,7 @@ export default function Driver() {
 			
 			<CardContent>
 				<Grid container spacing={2}>
-					<Grid item xs={9}>
+					<Grid item xs={12} md={8} lg={9} order={{xs: 2, md: 1}}>
 						<Card variant="outlined">
 							<TabContext value={activeTab}>
 								<Box sx={{borderBottom: 1, borderColor: 'divider'}}>
@@ -65,15 +67,27 @@ export default function Driver() {
 						</Card>
 					</Grid>
 					
-					<Grid item xs={3}>
+					<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>
 						<Card variant="outlined">
+							
 							<CardMedia ref={ref}>
-								<DriverAvatar id={id} size={width}/>
+								<Hidden mdDown>
+									<DriverAvatar id={id} size={width}/>
+								</Hidden>
 							</CardMedia>
+							
 							<CardContent>
-								<Typography variant="body2">Born: {(new Date(driver.dateOfBirth || '')).toLocaleDateString()}</Typography>
-								<Divider orientation="horizontal" sx={{my: 1}}/>
-								<Typography variant="body1">{driverBio.extract}</Typography>
+								<Grid container spacing={2}>
+									<Hidden mdUp>
+										<Grid item><DriverAvatar id={id} size={128}/></Grid>
+									</Hidden>
+									
+									<Grid item xs>
+										<Typography variant="body2">Born: {(new Date(driver.dateOfBirth || '')).toLocaleDateString()}</Typography>
+										<Divider orientation="horizontal" sx={{my: 1}}/>
+										<Typography variant="body1">{driverBio.extract}</Typography>
+									</Grid>
+								</Grid>
 							</CardContent>
 						</Card>
 					</Grid>
