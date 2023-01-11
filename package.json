@@ -53,7 +53,9 @@
     "world-atlas": "^2.0.2"
   },
   "scripts": {
+    "clean": "rm -fr build",
     "start": "react-scripts start",
+    "prebuild": "yarn clean",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
