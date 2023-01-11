@@ -1,5 +1,6 @@
 import {TabContext, TabList, TabPanel} from '@mui/lab';
-import {Box, Card, CardContent, CardHeader, CardMedia, Divider, Grid, Hidden, Tab, Typography} from '@mui/material';
+import {visuallyHidden} from '@mui/utils';
+import {Box, Card, CardContent, CardHeader, CardMedia, Divider, Grid, Hidden, Link, Tab, Typography} from '@mui/material';
 import {SyntheticEvent, useRef, useState} from 'react';
 import {useParams} from 'react-router';
 import Career from '../drivers/Career';
@@ -86,6 +87,11 @@ export default function Driver() {
 										<Typography variant="body2">Born: {(new Date(driver.dateOfBirth || '')).toLocaleDateString()}</Typography>
 										<Divider orientation="horizontal" sx={{my: 1}}/>
 										<Typography variant="body1">{driverBio.extract}</Typography>
+										<Divider orientation="horizontal" sx={{my:1}}/>
+										<Link  href={driver.url} target="_blank">
+											<Typography variant="caption">More info on wikipedia</Typography>
+											<Typography sx={visuallyHidden}> (opens in a new window)</Typography>
+										</Link>
 									</Grid>
 								</Grid>
 							</CardContent>
