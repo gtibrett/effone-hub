@@ -1,13 +1,14 @@
-import {AppBar, Grid, Toolbar, Typography} from '@mui/material';
+import {AppBar, Grid, Toolbar, Typography, useTheme} from '@mui/material';
 import SeasonMenu from '../schedule/SeasonMenu';
 import Link from './Link';
 
 export default function Header() {
+	const theme = useTheme();
 	
 	return (
 		<header>
 			<nav>
-				<AppBar color="primary">
+				<AppBar color="primary" sx={{background: theme.palette.primary.dark}}>
 					<Toolbar>
 						<Grid container spacing={2} alignItems="center">
 							<Grid item>

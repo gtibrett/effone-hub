@@ -1,5 +1,5 @@
 import {createTheme, useMediaQuery, useTheme} from '@mui/material';
-import {blueGrey, red} from '@mui/material/colors';
+import {blue, blueGrey, deepOrange, red} from '@mui/material/colors';
 import {useMemo} from 'react';
 
 export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
@@ -9,9 +9,11 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 		palette: {
 			mode: prefersDarkMode ? 'dark' : 'light',
 			primary: {
-				main: red[800]
+				main: blueGrey[800]
 			},
-			secondary: blueGrey,
+			secondary: {
+				main: deepOrange[700]
+			},
 			background: {
 				paper: prefersDarkMode ? blueGrey[900] : '#FFFFFF',
 				default: prefersDarkMode ? blueGrey[700] : blueGrey[100]

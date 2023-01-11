@@ -13,9 +13,10 @@ const useSelectSx = () => {
 		m: 0,
 		minWidth: 120,
 		borderRadius: 1,
-		backgroundColor: alpha(theme.palette.common.white, 0.15),
+		backgroundColor: alpha(theme.palette.common.white, 0.25),
+		border: `1px solid ${alpha(theme.palette.common.white, .5)}`,
 		'&:hover': {
-			backgroundColor: alpha(theme.palette.common.white, 0.25)
+			backgroundColor: alpha(theme.palette.common.white, 0.3)
 		},
 		
 		// arrow icon
