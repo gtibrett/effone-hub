@@ -1,0 +1,108 @@
+import {Alert, Skeleton} from '@mui/material';
+import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {useEffect, useState} from 'react';
+import Caxios from '../api/Caxios';
+import {getAPIUrl, mapConstructorHistory, mapDriverCareer} from '../api/Ergast';
+import ByLine from '../constructors/ByLine';
+import {SeasonStanding} from '../types/ergast';
+//import CareerChart from './CareerChart';
+import {ConstructorId} from './ConstructorProvider';
+import HistoryChart from './HistoryChart';
+
+const sx = {
+	border: 0,
+	overflow: 'auto',
+	'& > .MuiDataGrid-main': {
+		overflow: 'unset'
+	},
+	'& > div > .MuiDataGrid-footerContainer': {
+		display: 'none'
+	}
+};
+
+type HistoryProps = {
+	constructorId: ConstructorId;
+}
+
+export default function History({constructorId}: HistoryProps) {
+	const [standings, setStandings] = useState<SeasonStanding[] | undefined>();
+	
+	useEffect(() => {
+		if (!standings) {
+			const dataUrl = getAPIUrl(`/constructors/${constructorId}/constructorStandings.json`);
+			Caxios.get(dataUrl)
+			      .then(mapConstructorHistory)
+			      .then(data => {
+				      setStandings(data);
+			      })
+			      .catch(() => setStandings([]));
+		}
+	}, [standings, constructorId]);
+	
+	if (!standings) {
+		return <Skeleton variant="rectangular" height={400}/>;
+	}
+	
+	if (!standings.length) {
+		return <Alert variant="outlined" severity="info">Career Data Not Available</Alert>;
+	}
+	
+	return (
+		<>
+			<HistoryChart seasons={standings}/>
+			<DataGrid
+				sx={sx}
+				rows={standings}
+				autoHeight
+				density="compact"
+				getRowId={(r) => r.season || ''}
+				columns={
+					[
+						{
+							field: 'season',
+							headerName: 'Season',
+							headerAlign: 'center',
+							type: 'number',
+							align: 'center',
+							flex: 1
+						},
+						{
+							field: 'position',
+							headerName: 'Position',
+							type: 'number',
+							headerAlign: 'center',
+							align: 'center',
+							valueGetter: ({row}) => {
+								return Number(row.ConstructorStandings?.[0].position);
+							},
+							flex: 1
+						},
+						{
+							field: 'points',
+							headerName: 'Points',
+							type: 'number',
+							headerAlign: 'center',
+							align: 'center',
+							valueGetter: ({row}) => {
+								return Number(row.ConstructorStandings?.[0].points);
+							},
+							flex: 1
+						},
+						{
+							field: 'wins',
+							headerName: 'Wins',
+							type: 'number',
+							headerAlign: 'center',
+							align: 'center',
+							valueGetter: ({row}) => {
+								return Number(row.ConstructorStandings?.[0].wins);
+							},
+							flex: 1
+						}
+					
+					] as GridColDef<SeasonStanding>[]
+				}
+			/>
+		</>
+	);
+}

@@ -55,19 +55,19 @@ export const useConstructor = (id: ConstructorId) => {
 	useEffect(() => {
 		if (id && !constructors[id]) {
 			const dataUrl = getAPIUrl(`/constructors/${id}.json`);
-			Caxios.get<Responses['ConstructorsByYearResponse']>(dataUrl)
+			Caxios.get<Responses['ConstructorsByYearResponse']>(dataUrl, undefined, 0)
 			      .then(response => response.data)
 			      .then(data => data.MRData?.ConstructorTable?.Constructors?.[0])
 			      .then(async (constructor) => {
 				      if (constructor) {
 					      const canonicalId        = getCanonicalId(constructor);
-					      const [summary, infobox] = await getWiki(canonicalId).catch(error => {
+					      const [summary, images, infobox] = await getWiki(canonicalId).catch(error => {
 						      console.log('Could not load driver bio', error);
 						      return [undefined, undefined, undefined];
 					      });
 					
 					      // TODO: pull infobox data?
-					      console.log(infobox);
+					      console.log(images, infobox);
 					
 					      setConstructors((cur) => ({
 						      ...cur,

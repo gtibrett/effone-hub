@@ -158,6 +158,7 @@ export type SeasonStanding = {
 	season?: string;
 	round?: string;
 	DriverStandings?: Standing[];
+	ConstructorStandings?: Standing[];
 }
 
 export type Responses = {

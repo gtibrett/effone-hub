@@ -4,7 +4,10 @@ import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import {SyntheticEvent, useRef, useState} from 'react';
 import {useParams} from 'react-router';
+import {getColorByConstructorId} from '../constructors';
 import {ConstructorWithBio, useConstructor} from '../constructors/ConstructorProvider';
+import History from '../constructors/History';
+import Season from '../constructors/Season';
 import DriverAvatar from '../drivers/DriverAvatar';
 import Flag from '../flags/Flag';
 import useComponentDimensions from '../ui-components/useComponentDimensions';
@@ -21,7 +24,6 @@ const ConstructorDetails = ({constructor}: { constructor: ConstructorWithBio }) 
 
 export default function Constructor() {
 	const ref                       = useRef(null);
-	const {width}                   = useComponentDimensions(ref);
 	const {id}                      = useParams();
 	const [activeTab, setActiveTab] = useState('season');
 	const constructor               = useConstructor(id);
@@ -45,28 +47,29 @@ export default function Constructor() {
 			
 			<CardContent>
 				<Grid container spacing={2}>
-					<Grid item xs={9}>
+					<Grid item xs={12} md={8} lg={9} order={{xs: 2, md: 1}}>
 						<Card variant="outlined">
 							<TabContext value={activeTab}>
 								<Box sx={{borderBottom: 1, borderColor: 'divider'}}>
 									<TabList onChange={handleTabChange} aria-label="lab API tabs example">
 										<Tab label="Season" value="season"/>
-										<Tab label="Career" value="career"/>
+										<Tab label="History" value="history"/>
 									</TabList>
 								</Box>
 								<TabPanel value="season">
-								
+									<Season constructorId={constructor.constructorId}/>
 								</TabPanel>
-								<TabPanel value="career">
+								<TabPanel value="history">
+									<History constructorId={constructor.constructorId}/>
 								</TabPanel>
 							</TabContext>
 						</Card>
 					</Grid>
 					
-					<Grid item xs={3}>
+					<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>
 						<Card variant="outlined">
 							<CardMedia ref={ref}>
-								<DriverAvatar id={id} size={width}/>
+								<Box sx={{height: {xs:24, md: 48}, background: getColorByConstructorId(constructor.constructorId)}}/>
 							</CardMedia>
 							<CardContent>
 								<Typography variant="body1">{constructorBio.extract}</Typography>

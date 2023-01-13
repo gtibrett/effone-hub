@@ -54,6 +54,24 @@ export const mapDriverCareer = (response: AxiosResponse<Responses['DriverStandin
 	return [];
 };
 
+export const mapConstructorHistory = (response: AxiosResponse<Responses['ConstructorStandingsByYearResponse']>): SeasonStanding[] => {
+	if (response.data.MRData?.StandingsTable?.StandingsLists?.[0].ConstructorStandings) {
+		return response?.data?.MRData?.StandingsTable?.StandingsLists.map((season) => ({
+			...season,
+			ConstructorStandings: season.ConstructorStandings?.map(standing => ({
+				...standing,
+				id: standing.Constructor?.constructorId,
+				Constructors: [{
+					...standing.Constructor,
+					canonicalId: getCanonicalId(standing.Constructor)
+				}]
+			}))
+		}));
+	}
+	
+	return [];
+};
+
 export const mapRace = (response: AxiosResponse<Responses['ResultsByYearResponse']>): Race | undefined => {
 	if (response.data.MRData?.RaceTable?.Races?.[0].Results) {
 		return {
