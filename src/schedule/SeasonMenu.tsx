@@ -57,6 +57,10 @@ export default function SeasonMenu() {
 		}
 	}, [seasons, setSeasons]);
 	
+	if (!seasons.length) {
+		return null;
+	}
+	
 	return (
 		<FormControl fullWidth sx={sx} size="small">
 			<Select

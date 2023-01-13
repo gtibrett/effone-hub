@@ -2,9 +2,9 @@ import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {alpha, Box, List, ListItem, ListItemAvatar, ListItemText} from '@mui/material';
 import {BumpSerie} from '@nivo/bump/dist/types/bump/types';
-import ByLine from '../drivers/ByLine';
-import DriverAvatar from '../drivers/DriverAvatar';
-import {useInvertedTheme} from '../ui-components/Theme';
+import ByLine from '../../drivers/ByLine';
+import DriverAvatar from '../../drivers/DriverAvatar';
+import {useInvertedTheme} from '../../ui-components/Theme';
 
 export default function LapByLapTooltip({serie}: { serie: BumpSerie<any, any> }) {
 	const {color, id: driverId} = serie;

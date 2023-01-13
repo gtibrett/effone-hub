@@ -42,7 +42,7 @@ export default function SeasonChart({races}: SeasonChartProps) {
 	
 	
 	return (
-		<Box sx={{height: 132, width: '100%'}} aria-hidden={true}>
+		<Box sx={{height: 132, width: '100%'}} aria-hidden>
 			<ResponsiveLine
 				data={[qualifying, results]}
 				colors={({color}) => color || 'transparent'}

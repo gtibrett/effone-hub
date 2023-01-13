@@ -1,50 +1,26 @@
 import {Box, Skeleton} from '@mui/material';
 import {ResponsiveBump} from '@nivo/bump';
-import {memo, useMemo} from 'react';
-import {getColorByConstructorId} from '../constructors';
-import ByLine from '../drivers/ByLine';
-import {Lap, Race} from '../types/ergast';
+import {memo} from 'react';
+import ByLine from '../../drivers/ByLine';
+import {Lap, Race} from '../../types/ergast';
 import LapByLapTooltip from './LapByLapTooltip';
+import useLapByLapChartData from './useLapByLapChartData';
 
-type LapByLapProps = {
+export type LapByLapProps = {
 	laps: Lap[];
 	results: Race['Results']
 }
 
-type LapChartSeries = {
-	id: string;
-	color?: string;
-	data: { x: number, y: number | null }[]
+type LapChartDatum = {
+	x: number,
+	y: number | null
 }
 
-const useLapByLapChartData = (laps: Lap[], results: LapByLapProps['results']): LapChartSeries[] => useMemo(() => {
-	const drivers: LapChartSeries[] = [];
-	laps.forEach(lap => {
-		lap.Timings.forEach(timing => {
-			let index = drivers.findIndex(driver => driver.id === timing.driverId);
-			if (index === -1) {
-				const driverResult = results?.find(result => result?.Driver?.driverId === timing.driverId);
-				drivers.push({
-					id: timing.driverId,
-					color: getColorByConstructorId(driverResult?.Constructor?.constructorId),
-					data: []
-				});
-				index = drivers.length - 1;
-			}
-			
-			drivers[index].data.push({x: Number(lap.number), y: Number(timing.position)});
-		});
-		
-		drivers.forEach((driver, index) => {
-			if (driver.data.length < Number(lap.number) - 1) {
-				const driverResult = results?.find(result => result?.Driver?.driverId === driver.id);
-				drivers[index].data.push({x: Number(lap.number), y: Number(driverResult?.position) || null});
-			}
-		});
-	});
-	
-	return drivers;
-}, [laps, results]);
+export type LapChartSeries = {
+	id: string;
+	color?: string;
+	data: LapChartDatum[]
+}
 
 const getTicks = (laps: number) => {
 	const ticks = [1];
@@ -100,7 +76,7 @@ function LapByLap({laps, results}: LapByLapProps) {
 	}
 	
 	return (
-		<Box sx={{height: '60vh', width: '100%'}}>
+		<Box sx={{height: '60vh', width: '100%'}} aria-hidden>
 			{content}
 		</Box>
 	);
