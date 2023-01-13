@@ -1,23 +1,18 @@
-# Getting Started with Create React App
+# effOne Hub
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React & Material-UI app consuming the Ergast API Formula One dataset. 
 
-## Available Scripts
 
-In the project directory, you can run:
+## Development
 
-### `yarn start`
+This is a typical CRA using yarn.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+yarn install
+yarn start
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `yarn run build`
 

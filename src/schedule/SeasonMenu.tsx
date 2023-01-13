@@ -13,9 +13,10 @@ const useSelectSx = () => {
 		m: 0,
 		minWidth: 120,
 		borderRadius: 1,
-		backgroundColor: alpha(theme.palette.common.white, 0.15),
+		backgroundColor: alpha(theme.palette.common.white, 0.25),
+		border: `1px solid ${alpha(theme.palette.common.white, .5)}`,
 		'&:hover': {
-			backgroundColor: alpha(theme.palette.common.white, 0.25)
+			backgroundColor: alpha(theme.palette.common.white, 0.3)
 		},
 		
 		// arrow icon
@@ -30,7 +31,7 @@ const useSelectSx = () => {
 };
 
 export default function SeasonMenu() {
-	const navigate = useNavigate();
+	const navigate              = useNavigate();
 	const sx                    = useSelectSx();
 	const [{season}, setState]  = useAppState();
 	const [seasons, setSeasons] = useState<number[]>([]);
@@ -45,7 +46,7 @@ export default function SeasonMenu() {
 	
 	useEffect(() => {
 		if (!seasons.length) {
-			axios.get<Responses['SeasonsResponse']>(getAPIUrl('/seasons.json?limit=100'))
+			axios.get<Responses['SeasonsResponse']>(getAPIUrl('/seasons.json'), {params: {limit: 100}})
 			     .then(response => response.data.MRData?.SeasonTable?.Seasons || [{season: (new Date()).getFullYear()}])
 			     .then((seasons) => {
 				     seasons.sort();
@@ -61,7 +62,6 @@ export default function SeasonMenu() {
 			<Select
 				inputProps={{'aria-label': 'Season'}}
 				sx={{color: 'inherit', p: 0, border: 0}}
-				labelId="season-label"
 				id="season-select"
 				value={season}
 				label="Season"

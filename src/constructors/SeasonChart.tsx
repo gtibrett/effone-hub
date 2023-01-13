@@ -1,7 +1,7 @@
 import {Box} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {getColorByConstructorId} from '../constructors';
+import {getColorByConstructorId} from './index';
 import {Race} from '../types/ergast';
 
 type SeasonChartProps = {
@@ -9,34 +9,37 @@ type SeasonChartProps = {
 }
 
 export default function SeasonChart({races}: SeasonChartProps) {
-	if (!races?.[0]?.Results?.[0]) {
+	if (!races?.[0]?.Results?.[0]?.Driver || !races?.[0]?.Results?.[1]?.Driver) {
 		return null;
 	}
 	
 	const constructorId = races?.[0].Results?.[0].Constructor?.constructorId;
 	const color         = getColorByConstructorId(constructorId);
 	
-	const qualifying: LineSerie = {
-		id: 'qualifying',
-		color: blueGrey[400],
-		data: []
-	};
-	
-	const results: LineSerie = {
-		id: 'results',
+	const driver1                = races[0].Results[0].Driver;
+	const driver2                = races[0].Results[1].Driver;
+	const driver1Data: LineSerie = {
+		id: driver1.code || '',
 		color: color,
 		data: []
 	};
 	
-	races.forEach(r => {
-		const result = r.Results?.[0];
-		qualifying.data.push({
-			x: Number(r.round),
-			y: Number(result?.grid)
+	const driver2Data: LineSerie = {
+		id: driver2.code || '',
+		color: blueGrey[400],
+		data: []
+	};
+	
+	races.forEach(race => {
+		const r1 = race.Results?.find(r => r.Driver?.driverId === driver1.driverId);
+		const r2 = race.Results?.find(r => r.Driver?.driverId === driver2.driverId);
+		driver1Data.data.push({
+			x: Number(race.round),
+			y: Number(r1?.position)
 		});
-		results.data.push({
-			x: Number(r.round),
-			y: Number(result?.position)
+		driver2Data.data.push({
+			x: Number(race.round),
+			y: Number(r2?.position)
 		});
 	});
 	
@@ -44,7 +47,7 @@ export default function SeasonChart({races}: SeasonChartProps) {
 	return (
 		<Box sx={{height: 132, width: '100%'}} aria-hidden={true}>
 			<ResponsiveLine
-				data={[qualifying, results]}
+				data={[driver1Data, driver2Data]}
 				colors={({color}) => color || 'transparent'}
 				yScale={{
 					type: 'linear',

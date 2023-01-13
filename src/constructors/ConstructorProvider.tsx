@@ -60,14 +60,14 @@ export const useConstructor = (id: ConstructorId) => {
 			      .then(data => data.MRData?.ConstructorTable?.Constructors?.[0])
 			      .then(async (constructor) => {
 				      if (constructor) {
-					      const canonicalId                = getCanonicalId(constructor);
-					      const [summary, images, infobox] = await getWiki(canonicalId).catch(error => {
+					      const canonicalId                    = getCanonicalId(constructor);
+					      const [summary/*, images, infobox*/] = await getWiki(canonicalId).catch(error => {
 						      console.log('Could not load driver bio', error);
 						      return [undefined, undefined, undefined];
 					      });
 					
 					      // TODO: pull infobox data?
-					      console.log(infobox);
+					      //console.log(images, infobox);
 					
 					      setConstructors((cur) => ({
 						      ...cur,
@@ -81,7 +81,7 @@ export const useConstructor = (id: ConstructorId) => {
 				      }
 			      });
 		}
-	}, [id, constructors]);
+	}, [id, constructors, setConstructors]);
 	
 	return id ? constructors[id] : undefined;
 };

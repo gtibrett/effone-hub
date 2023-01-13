@@ -12,7 +12,7 @@ type ByLineProps = {
 }
 
 
-export default function ByLine({id, variant = 'full', avatarProps = {}, flagProps={}}: ByLineProps) {
+export default function ByLine({id, variant = 'full', avatarProps = {}, flagProps={ size: 16}}: ByLineProps) {
 	const driver = useDriver(id);
 	
 	if (!driver) {
