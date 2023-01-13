@@ -7,12 +7,12 @@ import {getTicks} from './helpers';
 import LapTooltip from './LapTooltip';
 import useLapTimeChartData from './useLapTimeChartData';
 
-type LapByLapProps = {
+export type LapTimesProps = {
 	laps: Lap[];
 	results: Race['Results']
 }
 
-function LapTimes({laps, results}: LapByLapProps) {
+function LapTimes({laps, results}: LapTimesProps) {
 	const theme    = useTheme();
 	const lapCount = Number(results?.[0].laps);
 	const data     = useLapTimeChartData(laps, results);
