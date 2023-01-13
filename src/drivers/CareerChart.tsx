@@ -25,6 +25,7 @@ export default function CareerChart({seasons}: CareerChartProps) {
 	
 	const constructorId = seasons[seasons.length - 1].DriverStandings?.[0].Constructors?.[0]?.constructorId;
 	const color         = getColorByConstructorId(constructorId);
+	const max           = Math.max(...seasons.map(s => Number(s.DriverStandings?.[0].position)));
 	
 	const points: LineSerie = {
 		id: 'points',
@@ -83,7 +84,7 @@ export default function CareerChart({seasons}: CareerChartProps) {
 	
 	results.data = results.data.map(d => ({
 		...d,
-		y: maxPoints - ((Number(d.y) - 1) / 20 * maxPoints)
+		y: maxPoints - ((Number(d.y) - 1) / Math.max(20, max) * maxPoints)
 	}));
 	
 	wins.data = wins.data.map(d => ({
