@@ -1,4 +1,4 @@
-import {faSquare} from '@fortawesome/pro-solid-svg-icons';
+import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Alert, Grid, Skeleton, Tooltip, Typography} from '@mui/material';
 import {purple} from '@mui/material/colors';

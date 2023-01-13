@@ -1,4 +1,4 @@
-import {faColumns3} from '@fortawesome/pro-thin-svg-icons';
+import {faColumns} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Box, Fab, useTheme} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
@@ -43,7 +43,7 @@ const Breakpoints: FC = () => {
 				</svg>
 			</Box>
 			<Fab size="small" color="secondary" onClick={() => setShow(cur => !cur)} sx={{position: 'absolute', bottom: 24, right: 24}}>
-				<FontAwesomeIcon icon={faColumns3}/>
+				<FontAwesomeIcon icon={faColumns}/>
 			</Fab>
 		</>
 	);
