@@ -1,7 +1,7 @@
 import {Box} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {getColorByConstructorId} from '../constructors';
+import {getColorByConstructorId} from './index';
 import {Race} from '../types/ergast';
 
 type SeasonChartProps = {
@@ -45,7 +45,7 @@ export default function SeasonChart({races}: SeasonChartProps) {
 	
 	
 	return (
-		<Box sx={{height: 132, width: '100%'}}>
+		<Box sx={{height: 132, width: '100%'}} aria-hidden={true}>
 			<ResponsiveLine
 				data={[driver1Data, driver2Data]}
 				colors={({color}) => color || 'transparent'}
