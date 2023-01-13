@@ -8,9 +8,7 @@ import {getColorByConstructorId} from '../constructors';
 import {ConstructorWithBio, useConstructor} from '../constructors/ConstructorProvider';
 import History from '../constructors/History';
 import Season from '../constructors/Season';
-import DriverAvatar from '../drivers/DriverAvatar';
 import Flag from '../flags/Flag';
-import useComponentDimensions from '../ui-components/useComponentDimensions';
 
 const ConstructorDetails = ({constructor}: { constructor: ConstructorWithBio }) => {
 	return (
@@ -69,7 +67,7 @@ export default function Constructor() {
 					<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>
 						<Card variant="outlined">
 							<CardMedia ref={ref}>
-								<Box sx={{height: {xs:24, md: 48}, background: getColorByConstructorId(constructor.constructorId)}}/>
+								<Box sx={{height: {xs: 24, md: 48}, background: getColorByConstructorId(constructor.constructorId)}}/>
 							</CardMedia>
 							<CardContent>
 								<Typography variant="body1">{constructorBio.extract}</Typography>
