@@ -11,7 +11,7 @@ export type LapChartDatum = {
 	color: string;
 };
 
-type LapChartSeries = {
+export type LapChartSeries = {
 	id: string;
 	color?: string;
 	data: LapChartDatum[]

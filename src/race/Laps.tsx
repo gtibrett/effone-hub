@@ -9,6 +9,7 @@ import {Lap, Race} from '../types/ergast';
 import LapByLap from './lapByLap/LapByLap';
 import LapByLapTable from './lapByLap/LapByLapTable';
 import LapTimes from './lapTimes/LapTimes';
+import LapTimesTable from './lapTimes/LapTimesTable';
 
 type LapByLapProps = {
 	season: string;
@@ -57,6 +58,7 @@ export default function Laps({season, round, results}: LapByLapProps) {
 					</TabPanel>
 					<TabPanel value="times">
 						<LapTimes laps={laps} results={results}/>
+						<LapTimesTable laps={laps} results={results}/>
 					</TabPanel>
 				</TabContext>
 			</>
