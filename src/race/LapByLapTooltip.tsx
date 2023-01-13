@@ -1,4 +1,4 @@
-import {faSquare} from '@fortawesome/pro-solid-svg-icons';
+import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {alpha, Box, List, ListItem, ListItemAvatar, ListItemText} from '@mui/material';
 import {BumpSerie} from '@nivo/bump/dist/types/bump/types';

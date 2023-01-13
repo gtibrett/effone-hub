@@ -1,4 +1,4 @@
-import {faFlagCheckered} from '@fortawesome/pro-duotone-svg-icons';
+import {faFlagCheckered} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {AppBar, Grid, Toolbar, Typography, useTheme} from '@mui/material';
 import SeasonMenu from '../schedule/SeasonMenu';
