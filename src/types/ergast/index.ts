@@ -146,12 +146,20 @@ export type Standing = {
 	points?: string;
 	wins?: string;
 	Driver?: Driver;
+	Constructor?: Constructor;
 	Constructors?: Constructor[];
 }
 
 export type Season = {
 	season: string;
 	url: string;
+}
+
+export type SeasonStanding = {
+	season?: string;
+	round?: string;
+	DriverStandings?: Standing[];
+	ConstructorStandings?: Standing[];
 }
 
 export type Responses = {
@@ -246,11 +254,7 @@ export type Responses = {
 			total?: string;
 			StandingsTable?: {
 				season?: string;
-				StandingsLists?: ({
-					season?: string;
-					round?: string;
-					DriverStandings?: Standing[];
-				})[];
+				StandingsLists?: SeasonStanding[];
 			};
 		};
 	};

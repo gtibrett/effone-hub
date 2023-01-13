@@ -14,7 +14,7 @@ const initializeState = (): AppStateType => {
 	}
 	
 	return {
-		season: (new Date()).getFullYear()
+		season: (new Date()).getFullYear()-1
 	};
 };
 

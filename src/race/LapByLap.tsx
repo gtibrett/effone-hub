@@ -1,8 +1,10 @@
 import {Box, Skeleton} from '@mui/material';
 import {ResponsiveBump} from '@nivo/bump';
+import {memo, useMemo} from 'react';
 import {getColorByConstructorId} from '../constructors';
 import ByLine from '../drivers/ByLine';
 import {Lap, Race} from '../types/ergast';
+import LapByLapTooltip from './LapByLapTooltip';
 
 type LapByLapProps = {
 	laps: Lap[];
@@ -15,7 +17,7 @@ type LapChartSeries = {
 	data: { x: number, y: number | null }[]
 }
 
-const mapLapsToChartData = (laps: Lap[], results: LapByLapProps['results']): LapChartSeries[] => {
+const useLapByLapChartData = (laps: Lap[], results: LapByLapProps['results']): LapChartSeries[] => useMemo(() => {
 	const drivers: LapChartSeries[] = [];
 	laps.forEach(lap => {
 		lap.Timings.forEach(timing => {
@@ -42,7 +44,7 @@ const mapLapsToChartData = (laps: Lap[], results: LapByLapProps['results']): Lap
 	});
 	
 	return drivers;
-};
+}, [laps, results]);
 
 const getTicks = (laps: number) => {
 	const ticks = [1];
@@ -55,12 +57,14 @@ const getTicks = (laps: number) => {
 	return [...ticks, laps];
 };
 
-export default function LapByLap({laps, results}: LapByLapProps) {
+function LapByLap({laps, results}: LapByLapProps) {
+	const data = useLapByLapChartData(laps, results);
+	
 	let content = <Skeleton variant="rectangular" sx={{width: '100%'}} height="100%"/>;
 	if (laps.length) {
 		content = (
 			<ResponsiveBump
-				data={mapLapsToChartData(laps, results)}
+				data={data}
 				colors={({color}) => color || 'transparent'}
 				lineWidth={3}
 				activeLineWidth={6}
@@ -87,9 +91,10 @@ export default function LapByLap({laps, results}: LapByLapProps) {
 				axisRight={{
 					tickSize: 0,
 					tickPadding: 10,
-					tickRotation: 0,
+					tickRotation: 0
 				}}
 				margin={{top: 0, right: 24, bottom: 24, left: 40}}
+				tooltip={LapByLapTooltip}
 			/>
 		);
 	}
@@ -100,3 +105,5 @@ export default function LapByLap({laps, results}: LapByLapProps) {
 		</Box>
 	);
 }
+
+export default memo(LapByLap);

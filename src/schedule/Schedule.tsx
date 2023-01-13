@@ -1,17 +1,15 @@
-import {GridCellParams, GridColDef} from '@mui/x-data-grid';
+import {DataGrid, GridCellParams, GridColDef} from '@mui/x-data-grid';
 import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapSchedule} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
 import {Race} from '../types/ergast';
-import DataTable from '../ui-components/DataTable';
 import Link from '../ui-components/Link';
 import RaceMap from './RaceMap';
 
 const sx = {
 	border: 0,
 	overflow: 'auto',
-	maxHeight: 398,
 	'& > .MuiDataGrid-main': {
 		overflow: 'unset'
 	},
@@ -22,27 +20,24 @@ const sx = {
 
 export default function Schedule() {
 	const [{season}]        = useAppState();
-	const dataUrl           = getAPIUrl(`/${season}.json`);
 	const [races, setRaces] = useState<Race[]>([]);
 	
 	useEffect(() => {
+		const dataUrl = getAPIUrl(`/${season}.json`);
 		Caxios.get(dataUrl)
 		      .then(mapSchedule)
 		      .then(races => setRaces(races));
-	}, [setRaces]);
-	
+	}, [season]);
 	
 	return (
 		<>
 			<RaceMap season={season} races={races}/>
-			<DataTable
+			<DataGrid
 				sx={sx}
-				dataUrl={dataUrl}
-				mapper={mapSchedule}
-				// cacheFor={60 * 60 * 8}
+				rows={races}
 				autoHeight
 				density="compact"
-				getRowId={(row) => row.round}
+				getRowId={(row) => row.round || ''}
 				columns={
 					[
 						{

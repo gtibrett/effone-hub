@@ -12,7 +12,7 @@ type Caches = {
 	}
 }
 
-function get<T = any, D = any>(url: string, config?: AxiosRequestConfig<D>, cacheFor: number = 24 * 60 * 60): Promise<AxiosResponse<T>> {
+function get<T = any, D = any>(url: string, config: AxiosRequestConfig<D> = {params: {limit: 500}}, cacheFor: number = 24 * 60 * 60): Promise<AxiosResponse<T>> {
 	if (cacheFor) {
 		const now            = Math.floor(Date.now() / 1000);
 		const caches: Caches = JSON.parse((localStorage.getItem('Caxios') || 'null')) || {};

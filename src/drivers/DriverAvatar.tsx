@@ -27,7 +27,7 @@ const useSize = (size: DriverAvatarProps['size']): SxProps => {
 				}
 		}
 		
-		return {width: '100%', height: '100%', objectPosition: 'top'};
+		return {width: '100%', height: '100%'};
 	}, [size, theme]);
 	
 };
@@ -43,7 +43,7 @@ export default function DriverAvatar({id, size = 'small'}: DriverAvatarProps) {
 	const {familyName, givenName} = driver;
 	
 	if (driver.bio?.thumbnail?.source) {
-		return <Avatar variant="square" alt="" src={driver.bio?.thumbnail?.source} sx={sx}/>;
+		return <Avatar variant="square" alt="" src={driver.bio?.thumbnail?.source} sx={{...sx, objectPosition: 'top'}}/>;
 	}
 	
 	return <Avatar variant="square" sx={sx}>{givenName?.[0]}{familyName?.[0]}</Avatar>;

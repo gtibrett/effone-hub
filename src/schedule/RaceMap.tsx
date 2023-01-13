@@ -73,7 +73,7 @@ export default function RaceMap({season, races, height = 300, width = 'auto', ce
 	}));
 	
 	return (
-		<Box sx={{height, width}}>
+		<Box sx={{height, width}} aria-hidden={true}>
 			<ResponsiveGeoMap
 				features={[land, ...points]}
 				margin={{top: 0, right: 0, bottom: 0, left: 0}}
@@ -82,14 +82,14 @@ export default function RaceMap({season, races, height = 300, width = 'auto', ce
 				projectionRotation={[Number(centerOn?.long) * -1, 0, 0]}
 				projectionScale={zoom ? 100 : 100}
 				borderWidth={0.5}
-				borderColor={theme.palette.secondary.main}
+				borderColor={theme.palette.primary.main}
 				tooltip={Tooltip}
 				fillColor={(feature) => {
 					if (feature?.geometry?.type === 'Point') {
-						return theme.palette.primary.dark;
+						return theme.palette.secondary.main;
 					}
 					else {
-						return alpha(theme.palette.secondary.light, .25);
+						return alpha(theme.palette.primary.light, .25);
 					}
 					
 				}}

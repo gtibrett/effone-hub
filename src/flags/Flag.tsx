@@ -11,7 +11,7 @@ export const useCountryFlag = (nationality: string | undefined) => {
 		return null;
 	}
 	
-	const code = nationalities.getAlpha2Code(nationality, 'en');
+	const code = nationalities.getAlpha2Code(nationality === 'Monegasque' ? 'Monacan' : nationality, 'en');
 	
 	return flag(code);
 };

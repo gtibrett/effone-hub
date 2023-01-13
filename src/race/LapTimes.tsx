@@ -1,6 +1,7 @@
 import {Box, Skeleton, useTheme} from '@mui/material';
 import {green, purple, yellow} from '@mui/material/colors';
 import {ResponsiveHeatMap} from '@nivo/heatmap';
+import {memo, useMemo} from 'react';
 import {getColorByConstructorId} from '../constructors';
 import ByLine from '../drivers/ByLine';
 import {Lap, Race, Timing} from '../types/ergast';
@@ -30,36 +31,38 @@ const getDateFromTimeString = (time: string) => {
 	return Date.UTC(2022, 0, 1, 0, Number(mins), Number(seconds), Number(milliseconds));
 };
 
-const mapLapsToChartData = (laps: Lap[], results: LapByLapProps['results']) => {
-	const fastestLapTime         = getDateFromTimeString(results?.find(r => Number(r.FastestLap?.rank) === 1)?.FastestLap?.Time?.time || '');
-	const data: LapChartSeries[] = [];
-	
-	if (laps.length) {
-		laps.forEach(lap => {
-			lap.Timings.forEach(timing => {
-				if (!timing.time) {
-					return;
-				}
-				let index = data.findIndex(driver => driver.id === timing.driverId);
-				if (index === -1) {
-					const driverResult = results?.find(result => result?.Driver?.driverId === timing.driverId);
-					data.push({
-						id: timing.driverId,
-						color: getColorByConstructorId(driverResult?.Constructor?.constructorId),
-						data: []
-					});
-					index = data.length - 1;
-				}
-				
-				const lapTime      = getDateFromTimeString(timing.time);
-				const personalBest = Math.min(...data[index].data.map(l => l.y));
-				
-				data[index].data.push({x: Number(lap.number), y: lapTime, timing, color: getColor(lapTime, personalBest, fastestLapTime)});
+const useLapChartData = (laps: Lap[], results: LapByLapProps['results']) => {
+	return useMemo(()=> {
+		const fastestLapTime         = getDateFromTimeString(results?.find(r => Number(r.FastestLap?.rank) === 1)?.FastestLap?.Time?.time || '');
+		const data: LapChartSeries[] = [];
+		
+		if (laps.length) {
+			laps.forEach(lap => {
+				lap.Timings.forEach(timing => {
+					if (!timing.time) {
+						return;
+					}
+					let index = data.findIndex(driver => driver.id === timing.driverId);
+					if (index === -1) {
+						const driverResult = results?.find(result => result?.Driver?.driverId === timing.driverId);
+						data.push({
+							id: timing.driverId,
+							color: getColorByConstructorId(driverResult?.Constructor?.constructorId),
+							data: []
+						});
+						index = data.length - 1;
+					}
+					
+					const lapTime      = getDateFromTimeString(timing.time);
+					const personalBest = Math.min(...data[index].data.map(l => l.y));
+					
+					data[index].data.push({x: Number(lap.number), y: lapTime, timing, color: getColor(lapTime, personalBest, fastestLapTime)});
+				});
 			});
-		});
-	}
-	
-	return data;
+		}
+		
+		return data;
+	}, [laps, results]);
 };
 
 const getTicks = (laps: number) => {
@@ -84,13 +87,12 @@ const getColor = (lapTime: number, personalBest: number, fastestLapTime: number)
 	return yellow[500];
 };
 
-export default function LapTimes({laps, results}: LapByLapProps) {
-	const theme          = useTheme();
-	const lapCount       = Number(results?.[0].laps);
-	const fastestLapTime = getDateFromTimeString(results?.find(r => Number(r.FastestLap?.rank) === 1)?.FastestLap?.Time?.time || '');
-	const data           = mapLapsToChartData(laps, results);
+function LapTimes({laps, results}: LapByLapProps) {
+	const theme    = useTheme();
+	const lapCount = Number(results?.[0].laps);
+	const data     = useLapChartData(laps, results);
 	
-	let content = <Skeleton variant="rectangular" sx={{width: '100%'}} height="100%"/>;
+	let content = <Skeleton variant="rectangular" width="100%" height="100%"/>;
 	if (laps.length) {
 		content = (
 			<ResponsiveHeatMap
@@ -133,3 +135,5 @@ export default function LapTimes({laps, results}: LapByLapProps) {
 		</Box>
 	);
 }
+
+export default memo(LapTimes);

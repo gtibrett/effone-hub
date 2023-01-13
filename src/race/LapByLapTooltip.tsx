@@ -1,15 +1,13 @@
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {alpha, Box, Grid, List, ListItem, ListItemAvatar, ListItemText} from '@mui/material';
-import {TooltipProps} from '@nivo/heatmap';
+import {alpha, Box, List, ListItem, ListItemAvatar, ListItemText} from '@mui/material';
+import {BumpSerie} from '@nivo/bump/dist/types/bump/types';
 import ByLine from '../drivers/ByLine';
 import DriverAvatar from '../drivers/DriverAvatar';
 import {useInvertedTheme} from '../ui-components/Theme';
-import {LapChartDatum} from './LapTimes';
 
-export default function LapTooltip({cell}: TooltipProps<LapChartDatum>) {
-	const {color, data}    = cell;
-	const {driverId, time} = data.timing;
+export default function LapByLapTooltip({serie}: { serie: BumpSerie<any, any> }) {
+	const {color, id: driverId} = serie;
 	
 	const theme = useInvertedTheme();
 	
@@ -26,15 +24,9 @@ export default function LapTooltip({cell}: TooltipProps<LapChartDatum>) {
 	
 	return <Box sx={sx}>
 		<List dense>
-			<ListItem>
+			<ListItem secondaryAction={<FontAwesomeIcon icon={faSquare} color={color}/>}>
 				<ListItemAvatar><DriverAvatar id={driverId} size={42}/></ListItemAvatar>
-				<ListItemText primary={<ByLine id={driverId} variant="name"/>} secondary={
-					<Grid container spacing={2} alignItems="center">
-						<Grid item><FontAwesomeIcon icon={faSquare} color={color}/></Grid>
-						<Grid item xs>Lap {data.x}</Grid>
-						<Grid item>{time}</Grid>
-					</Grid>
-				}/>
+				<ListItemText primary={<ByLine id={driverId} variant="name"/>}/>
 			</ListItem>
 		</List>
 	</Box>;

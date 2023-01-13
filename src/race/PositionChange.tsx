@@ -1,4 +1,4 @@
-import {faArrowDown, faArrowUp} from '@fortawesome/pro-solid-svg-icons';
+import {faArrowDown, faArrowUp} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Typography} from '@mui/material';
 import {green, red} from '@mui/material/colors';

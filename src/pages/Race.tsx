@@ -1,5 +1,5 @@
 import {TabContext, TabList, TabPanel} from '@mui/lab';
-import {Backdrop, Card, CardContent, CardHeader, CardMedia, Grid, Typography} from '@mui/material';
+import {Backdrop, Card, CardContent, CardHeader, CardMedia, Grid, Hidden, Typography} from '@mui/material';
 
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
@@ -53,12 +53,16 @@ export default function Race() {
 			<CardHeader title={state.race.raceName} subheader={<>
 				<Typography>Round {state.race.round}, {(new Date(state.race.date || '')).toLocaleDateString()}</Typography>
 			</>}
-			            action={<Podium results={state.race.Results}/>}
+			            action={<Hidden mdDown><Podium results={state.race.Results}/></Hidden>}
 			/>
 			
 			<CardContent>
 				<Grid container spacing={2}>
-					<Grid item xs={9}>
+					<Hidden mdUp>
+						<Grid xs={12} order={2}><Podium results={state.race.Results}/></Grid>
+					</Hidden>
+					
+					<Grid item xs={12} md={8} lg={9} order={{xs: 3, md: 1}}>
 						<Card variant="outlined">
 							<TabContext value={state.activeTab}>
 								<Box sx={{borderBottom: 1, borderColor: 'divider'}}>
@@ -68,20 +72,20 @@ export default function Race() {
 										<Tab label="Laps" value="laps"/>
 									</TabList>
 								</Box>
-								<TabPanel value="qualifying">
-									<Qualifying season={season} round={round}/>
-								</TabPanel>
 								<TabPanel value="race">
 									<Results results={state.race.Results}/>
 								</TabPanel>
+								<TabPanel value="qualifying">
+									<Qualifying season={season} round={round}/>
+								</TabPanel>
 								<TabPanel value="laps">
-									<Laps season={season} round={round} results={state.race.Results} visible={state.activeTab === 'laps'}/>
+									<Laps season={season} round={round} results={state.race.Results}/>
 								</TabPanel>
 							</TabContext>
 						</Card>
 					</Grid>
 					
-					<Grid item xs={3}>
+					<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 3}}>
 						<Card variant="outlined">
 							<CardMedia><RaceMap season={season} races={[state.race]} height={300} centerOn={state.race.Circuit?.Location} zoom/></CardMedia>
 							<CardHeader title={state.race.Circuit?.circuitName} subheader={<Typography>{state.race.Circuit?.Location?.locality}, {state.race.Circuit?.Location?.country}</Typography>}/>
