@@ -62,7 +62,6 @@ export default function SeasonMenu() {
 			<Select
 				inputProps={{'aria-label': 'Season'}}
 				sx={{color: 'inherit', p: 0, border: 0}}
-				labelId="season-label"
 				id="season-select"
 				value={season}
 				label="Season"

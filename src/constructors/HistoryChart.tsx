@@ -1,7 +1,7 @@
 import {Box} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {getColorByConstructorId} from '../constructors';
+import {getColorByConstructorId} from './index';
 import {SeasonStanding} from '../types/ergast';
 import HistoryTooltip from './HistoryTooltip';
 
@@ -93,7 +93,7 @@ export default function HistoryChart({seasons}: HistoryChartProps) {
 	
 	
 	return (
-		<Box sx={{height: 132, width: '100%'}}>
+		<Box sx={{height: 132, width: '100%'}} aria-hidden={true}>
 			<ResponsiveLine
 				data={[points, results, wins]}
 				colors={({color}) => color || 'transparent'}

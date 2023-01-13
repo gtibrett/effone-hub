@@ -73,7 +73,7 @@ export default function RaceMap({season, races, height = 300, width = 'auto', ce
 	}));
 	
 	return (
-		<Box sx={{height, width}}>
+		<Box sx={{height, width}} aria-hidden={true}>
 			<ResponsiveGeoMap
 				features={[land, ...points]}
 				margin={{top: 0, right: 0, bottom: 0, left: 0}}

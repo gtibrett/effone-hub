@@ -1,7 +1,8 @@
 import {TabContext, TabList, TabPanel} from '@mui/lab';
-import {Card, CardContent, CardHeader, CardMedia, Grid, Typography} from '@mui/material';
+import {Card, CardContent, CardHeader, CardMedia, Divider, Grid, Link, Typography} from '@mui/material';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
+import {visuallyHidden} from '@mui/utils';
 import {SyntheticEvent, useRef, useState} from 'react';
 import {useParams} from 'react-router';
 import {getColorByConstructorId} from '../constructors';
@@ -71,6 +72,11 @@ export default function Constructor() {
 							</CardMedia>
 							<CardContent>
 								<Typography variant="body1">{constructorBio.extract}</Typography>
+								<Divider orientation="horizontal" sx={{my:1}}/>
+								<Link  href={constructor.url} target="_blank">
+									<Typography variant="caption">More info on wikipedia</Typography>
+									<Typography sx={visuallyHidden}> (opens in a new window)</Typography>
+								</Link>
 							</CardContent>
 						</Card>
 					</Grid>
