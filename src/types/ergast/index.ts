@@ -146,6 +146,7 @@ export type Standing = {
 	points?: string;
 	wins?: string;
 	Driver?: Driver;
+	Constructor?: Constructor;
 	Constructors?: Constructor[];
 }
 
