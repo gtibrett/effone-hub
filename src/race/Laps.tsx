@@ -20,7 +20,7 @@ export default function Laps({season, round, results}: LapByLapProps) {
 	const [laps, setLaps]           = useState<Lap[] | undefined >();
 	useEffect(() => {
 		if (!laps) {
-			Caxios.get(getAPIUrl(`/${season}/${round}/laps.json?limit=2000`))
+			Caxios.get(getAPIUrl(`/${season}/${round}/laps.json`), {params:{limit: 2000}})
 			      .then(mapLaps)
 			      .then(laps => setLaps(laps))
 			      .catch(() => setLaps([]));

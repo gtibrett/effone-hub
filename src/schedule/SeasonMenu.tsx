@@ -31,7 +31,7 @@ const useSelectSx = () => {
 };
 
 export default function SeasonMenu() {
-	const navigate = useNavigate();
+	const navigate              = useNavigate();
 	const sx                    = useSelectSx();
 	const [{season}, setState]  = useAppState();
 	const [seasons, setSeasons] = useState<number[]>([]);
@@ -46,7 +46,7 @@ export default function SeasonMenu() {
 	
 	useEffect(() => {
 		if (!seasons.length) {
-			axios.get<Responses['SeasonsResponse']>(getAPIUrl('/seasons.json?limit=100'))
+			axios.get<Responses['SeasonsResponse']>(getAPIUrl('/seasons.json'), {params: {limit: 100}})
 			     .then(response => response.data.MRData?.SeasonTable?.Seasons || [{season: (new Date()).getFullYear()}])
 			     .then((seasons) => {
 				     seasons.sort();
