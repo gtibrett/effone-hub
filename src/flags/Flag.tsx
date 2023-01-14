@@ -2,7 +2,6 @@ import {Avatar, SxProps, useTheme} from '@mui/material';
 // @ts-ignore
 import flag from 'emoji-flag';
 import nationalities from 'i18n-nationality';
-import {useMemo} from 'react';
 
 nationalities.registerLocale(require('i18n-nationality/langs/en.json'));
 
@@ -24,26 +23,23 @@ export type FlagProps = {
 const useSize = (size: FlagProps['size']): SxProps => {
 	const theme = useTheme();
 	
-	return useMemo(() => {
-		switch (size) {
-			case 'small':
-				return {width: theme.spacing(4), height: theme.spacing(4), fontSize: theme.spacing(4)};
-			
-			case 'medium':
-				return {width: theme.spacing(8), height: theme.spacing(8), fontSize: theme.spacing(4)};
-			
-			case 'large':
-				return {width: theme.spacing(16), height: theme.spacing(16), fontSize: theme.spacing(4)};
-			
-			default:
-				if (typeof size === 'number') {
-					return {width: size, height: size, fontSize: size};
-				}
-		}
+	switch (size) {
+		case 'small':
+			return {width: theme.spacing(4), height: theme.spacing(4), fontSize: theme.spacing(4)};
 		
-		return {width: '100%', height: '100%'};
-	}, [size, theme]);
+		case 'medium':
+			return {width: theme.spacing(8), height: theme.spacing(8), fontSize: theme.spacing(4)};
+		
+		case 'large':
+			return {width: theme.spacing(16), height: theme.spacing(16), fontSize: theme.spacing(4)};
+		
+		default:
+			if (typeof size === 'number') {
+				return {width: size, height: size, fontSize: size};
+			}
+	}
 	
+	return {width: '100%', height: '100%'};
 };
 
 export default function Flag({nationality, size = 'small'}: FlagProps) {

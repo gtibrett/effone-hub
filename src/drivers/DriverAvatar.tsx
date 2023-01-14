@@ -1,5 +1,4 @@
 import {Avatar, SxProps, useTheme} from '@mui/material';
-import {useMemo} from 'react';
 import {DriverId, useDriver} from './DriverProvider';
 
 export type DriverAvatarProps = {
@@ -10,26 +9,23 @@ export type DriverAvatarProps = {
 const useSize = (size: DriverAvatarProps['size']): SxProps => {
 	const theme = useTheme();
 	
-	return useMemo(() => {
-		switch (size) {
-			case 'small':
-				return {width: theme.spacing(4), height: theme.spacing(4)};
-			
-			case 'medium':
-				return {width: theme.spacing(8), height: theme.spacing(8)};
-			
-			case 'large':
-				return {width: theme.spacing(16), height: theme.spacing(16)};
-			
-			default:
-				if (typeof size === 'number') {
-					return {width: size, height: size};
-				}
-		}
+	switch (size) {
+		case 'small':
+			return {width: theme.spacing(4), height: theme.spacing(4)};
 		
-		return {width: '100%', height: '100%'};
-	}, [size, theme]);
+		case 'medium':
+			return {width: theme.spacing(8), height: theme.spacing(8)};
+		
+		case 'large':
+			return {width: theme.spacing(16), height: theme.spacing(16)};
+		
+		default:
+			if (typeof size === 'number') {
+				return {width: size, height: size};
+			}
+	}
 	
+	return {width: '100%', height: '100%'};
 };
 
 export default function DriverAvatar({id, size = 'small'}: DriverAvatarProps) {
