@@ -46,7 +46,6 @@ export default function LapByLapTable({laps, results}: LapByLapProps) {
 				headerAlign: 'center',
 				width: 32,
 				valueGetter: ({row, field}) => {
-					console.log(row, field);
 					return row.laps[field];
 				}
 			}

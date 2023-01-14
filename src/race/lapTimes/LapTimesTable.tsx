@@ -46,7 +46,6 @@ export default function LapTimesTable({laps, results}: LapTimesProps) {
 				headerAlign: 'center',
 				width: 100,
 				valueGetter: ({row, field}) => {
-					console.log(row, field);
 					return row.laps[field];
 				}
 			}

@@ -1,6 +1,5 @@
 import {Box, Skeleton} from '@mui/material';
 import {ResponsiveBump} from '@nivo/bump';
-import {memo} from 'react';
 import ByLine from '../../drivers/ByLine';
 import {Lap, Race} from '../../types/ergast';
 import LapByLapTooltip from './LapByLapTooltip';
@@ -82,4 +81,4 @@ function LapByLap({laps, results}: LapByLapProps) {
 	);
 }
 
-export default memo(LapByLap);
+export default LapByLap;

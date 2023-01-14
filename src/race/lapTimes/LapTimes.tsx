@@ -1,6 +1,5 @@
 import {Box, Skeleton, useTheme} from '@mui/material';
 import {ResponsiveHeatMap} from '@nivo/heatmap';
-import {memo} from 'react';
 import ByLine from '../../drivers/ByLine';
 import {Lap, Race} from '../../types/ergast';
 import {getTicks} from './helpers';
@@ -25,8 +24,7 @@ function LapTimes({laps, results}: LapTimesProps) {
 				data={data}
 				forceSquare={true}
 				colors={({data: {color}}) => color}
-				emptyColor={theme.palette.divider}
-				valueFormat={() => ''}
+				enableLabels={false}
 				borderWidth={2}
 				borderColor={theme.palette.background.paper}
 				margin={{top: 0, right: 0, bottom: 60, left: 40}}
@@ -61,4 +59,4 @@ function LapTimes({laps, results}: LapTimesProps) {
 	);
 }
 
-export default memo(LapTimes);
+export default LapTimes;
