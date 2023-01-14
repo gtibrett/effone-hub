@@ -6,8 +6,10 @@ import {SyntheticEvent, useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapLaps} from '../api/Ergast';
 import {Lap, Race} from '../types/ergast';
-import LapByLap from './LapByLap';
-import LapTimes from './LapTimes';
+import LapByLap from './lapByLap/LapByLap';
+import LapByLapTable from './lapByLap/LapByLapTable';
+import LapTimes from './lapTimes/LapTimes';
+import LapTimesTable from './lapTimes/LapTimesTable';
 
 type LapByLapProps = {
 	season: string;
@@ -17,10 +19,10 @@ type LapByLapProps = {
 
 export default function Laps({season, round, results}: LapByLapProps) {
 	const [activeTab, setActiveTab] = useState('byLap');
-	const [laps, setLaps]           = useState<Lap[] | undefined >();
+	const [laps, setLaps]           = useState<Lap[] | undefined>();
 	useEffect(() => {
 		if (!laps) {
-			Caxios.get(getAPIUrl(`/${season}/${round}/laps.json`), {params:{limit: 2000}})
+			Caxios.get(getAPIUrl(`/${season}/${round}/laps.json`), {params: {limit: 2000}})
 			      .then(mapLaps)
 			      .then(laps => setLaps(laps))
 			      .catch(() => setLaps([]));
@@ -52,9 +54,11 @@ export default function Laps({season, round, results}: LapByLapProps) {
 					</Box>
 					<TabPanel value="byLap">
 						<LapByLap laps={laps} results={results}/>
+						<LapByLapTable laps={laps} results={results}/>
 					</TabPanel>
 					<TabPanel value="times">
 						<LapTimes laps={laps} results={results}/>
+						<LapTimesTable laps={laps} results={results}/>
 					</TabPanel>
 				</TabContext>
 			</>
