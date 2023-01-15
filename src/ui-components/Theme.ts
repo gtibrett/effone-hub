@@ -1,4 +1,5 @@
 /*@formatter:off*/
+import type {} from '@mui/x-data-grid/themeAugmentation';
 /*@formatter:off*/
 import {createTheme, useMediaQuery, useTheme} from '@mui/material';
 import {blueGrey, deepOrange} from '@mui/material/colors';
