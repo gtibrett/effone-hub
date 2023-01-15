@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapSchedule} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
+import ByLine from '../drivers/ByLine';
 import {Race} from '../types/ergast';
 import Link from '../ui-components/Link';
 import RaceMap from './RaceMap';
@@ -12,7 +13,7 @@ export default function Schedule() {
 	const [races, setRaces] = useState<Race[]>([]);
 	
 	useEffect(() => {
-		const dataUrl = getAPIUrl(`/${season}.json`);
+		const dataUrl = getAPIUrl(`/${season}/results/1.json`);
 		Caxios.get(dataUrl)
 		      .then(mapSchedule)
 		      .then(races => setRaces(races));
@@ -34,7 +35,8 @@ export default function Schedule() {
 							headerAlign: 'center',
 							type: 'date',
 							align: 'center',
-							renderCell: ({value}) => (new Date(value)).toLocaleDateString()
+							renderCell: ({value}) => (new Date(value)).toLocaleDateString(),
+							minWidth: 100
 						},
 						{
 							field: 'raceName',
@@ -42,7 +44,21 @@ export default function Schedule() {
 							flex: 1,
 							renderCell: ({row, value}) => (
 								<Link to={`/race/${season}/${row.round}#${row.raceName}`}>{value}</Link>
-							)
+							),
+							minWidth: 200
+						},
+						{
+							field: 'winner',
+							headerName: 'Winner',
+							flex: 1,
+							renderCell: ({row, value}) => {
+								if (!row.Results?.length) {
+									return '--';
+								}
+								
+								return <ByLine id={row.Results.find(r=>Number(r.position) === 1)?.Driver?.driverId}/>
+							},
+							minWidth: 200
 						},
 						{
 							field: 'location',
@@ -54,7 +70,8 @@ export default function Schedule() {
 								const country  = row.Circuit?.Location?.country;
 								
 								return `${locality}, ${country}`;
-							}
+							},
+							minWidth: 175
 						}
 					] as GridColDef<Race>[]
 				}
