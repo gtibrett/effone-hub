@@ -59,7 +59,7 @@ export default function Race() {
 			<CardContent>
 				<Grid container spacing={2}>
 					<Hidden mdUp>
-						<Grid xs={12} order={2}><Podium results={state.race.Results}/></Grid>
+						<Grid item xs={12} order={2}><Podium results={state.race.Results}/></Grid>
 					</Hidden>
 					
 					<Grid item xs={12} md={8} lg={9} order={{xs: 3, md: 1}}>
