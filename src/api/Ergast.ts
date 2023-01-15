@@ -1,5 +1,5 @@
 import {AxiosResponse} from 'axios';
-import {Constructor, Driver as DriverT, Lap, QualifyingResult, Race, Responses, SeasonStanding, Standing} from '../types/ergast';
+import {Circuit, Constructor, Driver as DriverT, Lap, QualifyingResult, Race, Responses, SeasonStanding, Standing} from '../types/ergast';
 
 export const getCanonicalId = (summary: DriverT | Constructor | undefined) => {
 	if (!summary) {
@@ -16,6 +16,14 @@ export function getAPIUrl(path: string) {
 export const mapSchedule = (response: AxiosResponse<Responses['ResultsByYearResponse']>): Race[] => {
 	if (response.data.MRData?.RaceTable?.Races) {
 		return response?.data?.MRData?.RaceTable?.Races;
+	}
+	
+	return [];
+};
+
+export const mapCircuits = (response: AxiosResponse<Responses['CircuitsResponse']>): Circuit[] => {
+	if (response.data.MRData?.CircuitTable?.Circuits) {
+		return response?.data?.MRData?.CircuitTable?.Circuits;
 	}
 	
 	return [];
@@ -88,6 +96,14 @@ export const mapRace = (response: AxiosResponse<Responses['ResultsByYearResponse
 	}
 	
 	return undefined;
+};
+
+export const mapRaces = (response: AxiosResponse<Responses['ResultsByYearResponse']>): Race[] => {
+	if (response.data.MRData?.RaceTable?.Races) {
+		return response.data.MRData?.RaceTable?.Races;
+	}
+	
+	return [];
 };
 
 export const mapQualifying = (response: AxiosResponse<Responses['ResultsByYearResponse']>): QualifyingResult[] => {
