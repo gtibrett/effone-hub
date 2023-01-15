@@ -3,6 +3,7 @@ import {DataGrid} from '@mui/x-data-grid';
 import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapQualifying} from '../api/Ergast';
+import ConstructorByLine from '../constructors/ByLine';
 import ByLine from '../drivers/ByLine';
 import {QualifyingResult} from '../types/ergast';
 
@@ -47,33 +48,45 @@ export default function Qualifying({season, round}: QualifyingProps) {
 				[
 					{
 						field: 'position',
-						headerName: 'P'
+						headerName: 'P',
+						width: 60,
+						headerAlign: 'center',
+						align: 'center',
+						type: 'number'
 					},
 					{
 						field: 'Driver',
 						headerName: 'Driver',
 						flex: 1,
-						renderCell: ({row}) => row.Driver ? <ByLine id={row.Driver.driverId}/> : ''
+						renderCell: ({row}) => row.Driver ? <ByLine id={row.Driver.driverId}/> : '',
+						minWidth: 200
 					},
 					{
 						field: 'Constructor',
 						headerName: 'Constructor',
 						flex: 1,
-						valueGetter: ({row}) => row.Constructor?.name
+						renderCell: ({row}) => row.Constructor ? <ConstructorByLine id={row.Constructor.constructorId}/> : '',
+						minWidth: 150
 					},
 					{
 						field: 'Q1',
 						headerName: 'Q1',
+						headerAlign: 'center',
+						align: 'center',
 						type: 'string'
 					},
 					{
 						field: 'Q2',
 						headerName: 'Q2',
+						headerAlign: 'center',
+						align: 'center',
 						type: 'string'
 					},
 					{
 						field: 'Q3',
 						headerName: 'Q3',
+						headerAlign: 'center',
+						align: 'center',
 						type: 'string'
 					}
 				]

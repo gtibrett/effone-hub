@@ -75,7 +75,8 @@ export default function Drivers() {
 									field: 'code',
 									headerName: 'Driver',
 									flex: 1,
-									renderCell: ({row}) => <ByLine id={row.Driver?.driverId} avatarProps={{size: 24}} flagProps={{size: 16}}/>
+									renderCell: ({row}) => <ByLine id={row.Driver?.driverId} avatarProps={{size: 24}} flagProps={{size: 16}}/>,
+									minWidth: 200
 								},
 								{
 									field: 'points',
