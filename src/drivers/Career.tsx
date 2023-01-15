@@ -8,17 +8,6 @@ import {SeasonStanding} from '../types/ergast';
 import CareerChart from './CareerChart';
 import {DriverId} from './DriverProvider';
 
-const sx = {
-	border: 0,
-	overflow: 'auto',
-	'& > .MuiDataGrid-main': {
-		overflow: 'unset'
-	},
-	'& > div > .MuiDataGrid-footerContainer': {
-		display: 'none'
-	}
-};
-
 type CareerProps = {
 	driverId: DriverId;
 }
@@ -50,7 +39,6 @@ export default function Career({driverId}: CareerProps) {
 		<>
 			<CareerChart seasons={seasonStandings}/>
 			<DataGrid
-				sx={sx}
 				rows={seasonStandings}
 				autoHeight
 				density="compact"
@@ -63,7 +51,8 @@ export default function Career({driverId}: CareerProps) {
 							headerAlign: 'center',
 							type: 'number',
 							align: 'center',
-							flex: 1
+							flex: 1,
+							minWidth: 100
 						},
 						{
 							field: 'position',
@@ -74,7 +63,8 @@ export default function Career({driverId}: CareerProps) {
 							valueGetter: ({row}) => {
 								return Number(row.DriverStandings?.[0].position);
 							},
-							flex: 1
+							flex: 1,
+							minWidth: 100
 						},
 						{
 							field: 'points',
@@ -85,7 +75,8 @@ export default function Career({driverId}: CareerProps) {
 							valueGetter: ({row}) => {
 								return Number(row.DriverStandings?.[0].points);
 							},
-							flex: 1
+							flex: 1,
+							minWidth: 100
 						},
 						{
 							field: 'wins',
@@ -96,7 +87,8 @@ export default function Career({driverId}: CareerProps) {
 							valueGetter: ({row}) => {
 								return Number(row.DriverStandings?.[0].wins);
 							},
-							flex: 1
+							flex: 1,
+							minWidth: 100
 						},
 						{
 							field: 'team',
@@ -105,7 +97,8 @@ export default function Career({driverId}: CareerProps) {
 							renderCell: ({row}) => {
 								return <ByLine id={row.DriverStandings?.[0].Constructors?.[0].constructorId} variant="link"/>;
 							},
-							flex: 1
+							flex: 1,
+							minWidth: 150
 						}
 					
 					] as GridColDef<SeasonStanding>[]

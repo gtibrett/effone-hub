@@ -7,17 +7,6 @@ import {Race} from '../types/ergast';
 import Link from '../ui-components/Link';
 import RaceMap from './RaceMap';
 
-const sx = {
-	border: 0,
-	overflow: 'auto',
-	'& > .MuiDataGrid-main': {
-		overflow: 'unset'
-	},
-	'& > div > .MuiDataGrid-footerContainer': {
-		display: 'none'
-	}
-};
-
 export default function Schedule() {
 	const [{season}]        = useAppState();
 	const [races, setRaces] = useState<Race[]>([]);
@@ -33,7 +22,6 @@ export default function Schedule() {
 		<>
 			<RaceMap season={season} races={races}/>
 			<DataGrid
-				sx={sx}
 				rows={races}
 				autoHeight
 				density="compact"

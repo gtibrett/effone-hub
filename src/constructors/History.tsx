@@ -8,17 +8,6 @@ import {SeasonStanding} from '../types/ergast';
 import {ConstructorId} from './ConstructorProvider';
 import HistoryChart from './HistoryChart';
 
-const sx = {
-	border: 0,
-	overflow: 'auto',
-	'& > .MuiDataGrid-main': {
-		overflow: 'unset'
-	},
-	'& > div > .MuiDataGrid-footerContainer': {
-		display: 'none'
-	}
-};
-
 type HistoryProps = {
 	constructorId: ConstructorId;
 }
@@ -50,7 +39,6 @@ export default function History({constructorId}: HistoryProps) {
 		<>
 			<HistoryChart seasons={standings}/>
 			<DataGrid
-				sx={sx}
 				rows={standings}
 				autoHeight
 				density="compact"

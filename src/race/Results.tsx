@@ -69,13 +69,15 @@ export default function Results({results}: { results: Race['Results'] }) {
 						field: 'Driver',
 						headerName: 'Driver',
 						flex: 1,
-						renderCell: ({row}) => row.Driver ? <ByLine id={row.Driver.driverId}/> : ''
+						renderCell: ({row}) => row.Driver ? <ByLine id={row.Driver.driverId}/> : '',
+						minWidth: 200
 					},
 					{
 						field: 'Constructor',
 						headerName: 'Constructor',
 						flex: 1,
-						renderCell: ({row}) => row.Constructor ? <ConstructorByLine id={row.Constructor.constructorId}/> : ''
+						renderCell: ({row}) => row.Constructor ? <ConstructorByLine id={row.Constructor.constructorId}/> : '',
+						minWidth: 150
 					},
 					{
 						field: 'points',
@@ -94,8 +96,7 @@ export default function Results({results}: { results: Race['Results'] }) {
 						renderCell: ({row}) => {
 							const time = row.Time?.time;
 							return (
-								<Grid container alignItems="center" justifyContent="space-between">
-									<Grid item>{time ? time : getPositionTextOutcome(row.positionText, row.status)}</Grid>
+								<Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
 									{row.FastestLap?.rank === '1' && (
 										<Grid item>
 											<Tooltip title="Fastest Lap">
@@ -103,9 +104,11 @@ export default function Results({results}: { results: Race['Results'] }) {
 											</Tooltip>
 										</Grid>
 									)}
+									<Grid item>{time ? time : getPositionTextOutcome(row.positionText, row.status)}</Grid>
 								</Grid>
 							);
-						}
+						},
+						minWidth: 110
 					}
 				] as GridColDef<Result>[]
 			}
