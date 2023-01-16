@@ -27,6 +27,8 @@ REACT_APP_API_URL=http://localhost:8000/api/f1
 Connect to the DB for the API and run the following SQL
 ```
 CREATE INDEX races_year_round_idx ON races (year, round);
+CREATE INDEX races_circuit_idx ON races (circuitId);
+CREATE INDEX results_driver_idx ON results (driverId);
 ```
 
 ## Development

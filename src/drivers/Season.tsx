@@ -12,17 +12,6 @@ import Link from '../ui-components/Link';
 import {DriverId} from './DriverProvider';
 import SeasonChart from './SeasonChart';
 
-const sx = {
-	border: 0,
-	overflow: 'auto',
-	'& > .MuiDataGrid-main': {
-		overflow: 'unset'
-	},
-	'& > div > .MuiDataGrid-footerContainer': {
-		display: 'none'
-	}
-};
-
 type SeasonProps = {
 	driverId: DriverId;
 }
@@ -51,7 +40,6 @@ export default function Season({driverId}: SeasonProps) {
 		<>
 			<SeasonChart races={races}/>
 			<DataGrid
-				sx={sx}
 				rows={races}
 				autoHeight
 				density="compact"
@@ -64,7 +52,8 @@ export default function Season({driverId}: SeasonProps) {
 							headerAlign: 'center',
 							type: 'date',
 							align: 'center',
-							renderCell: ({value}) => (new Date(value)).toLocaleDateString()
+							renderCell: ({value}) => (new Date(value)).toLocaleDateString(),
+							minWidth: 100
 						},
 						{
 							field: 'raceName',
@@ -72,7 +61,8 @@ export default function Season({driverId}: SeasonProps) {
 							flex: 1,
 							renderCell: ({row, value}) => (
 								<Link to={`/race/${season}/${row.round}#${row.raceName}`}>{value}</Link>
-							)
+							),
+							minWidth: 200
 						},
 						{
 							field: 'qualifying',

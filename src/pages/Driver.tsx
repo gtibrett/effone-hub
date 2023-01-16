@@ -1,8 +1,9 @@
 import {TabContext, TabList, TabPanel} from '@mui/lab';
-import {visuallyHidden} from '@mui/utils';
 import {Box, Card, CardContent, CardHeader, CardMedia, Divider, Grid, Hidden, Link, Tab, Typography} from '@mui/material';
+import {visuallyHidden} from '@mui/utils';
 import {SyntheticEvent, useRef, useState} from 'react';
 import {useParams} from 'react-router';
+import Circuits from '../drivers/byCircuit/Circuits';
 import Career from '../drivers/Career';
 import DriverAvatar from '../drivers/DriverAvatar';
 import {DriverWithBio, useDriver} from '../drivers/DriverProvider';
@@ -56,6 +57,7 @@ export default function Driver() {
 									<TabList onChange={handleTabChange} aria-label="lab API tabs example">
 										<Tab label="Season" value="season"/>
 										<Tab label="Career" value="career"/>
+										<Tab label="Circuits" value="circuits"/>
 									</TabList>
 								</Box>
 								<TabPanel value="season">
@@ -63,6 +65,9 @@ export default function Driver() {
 								</TabPanel>
 								<TabPanel value="career">
 									<Career driverId={id}/>
+								</TabPanel>
+								<TabPanel value="circuits">
+									<Circuits driverId={id}/>
 								</TabPanel>
 							</TabContext>
 						</Card>
@@ -87,8 +92,8 @@ export default function Driver() {
 										<Typography variant="body2">Born: {(new Date(driver.dateOfBirth || '')).toLocaleDateString()}</Typography>
 										<Divider orientation="horizontal" sx={{my: 1}}/>
 										<Typography variant="body1">{driverBio.extract}</Typography>
-										<Divider orientation="horizontal" sx={{my:1}}/>
-										<Link  href={driver.url} target="_blank">
+										<Divider orientation="horizontal" sx={{my: 1}}/>
+										<Link href={driver.url} target="_blank">
 											<Typography variant="caption">More info on wikipedia</Typography>
 											<Typography sx={visuallyHidden}> (opens in a new window)</Typography>
 										</Link>

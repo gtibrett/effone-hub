@@ -10,17 +10,6 @@ import Link from '../ui-components/Link';
 import {ConstructorId} from './ConstructorProvider';
 import SeasonChart from './SeasonChart';
 
-const sx = {
-	border: 0,
-	overflow: 'auto',
-	'& > .MuiDataGrid-main': {
-		overflow: 'unset'
-	},
-	'& > div > .MuiDataGrid-footerContainer': {
-		display: 'none'
-	}
-};
-
 type SeasonProps = {
 	constructorId: ConstructorId;
 }
@@ -49,7 +38,6 @@ export default function Season({constructorId}: SeasonProps) {
 		<>
 			<SeasonChart races={races}/>
 			<DataGrid
-				sx={sx}
 				rows={races}
 				rowHeight={72}
 				autoHeight

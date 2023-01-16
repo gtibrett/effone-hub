@@ -1,3 +1,6 @@
+/*@formatter:off*/
+import type {} from '@mui/x-data-grid/themeAugmentation';
+/*@formatter:off*/
 import {createTheme, useMediaQuery, useTheme} from '@mui/material';
 import {blueGrey, deepOrange} from '@mui/material/colors';
 import {useMemo} from 'react';
@@ -17,6 +20,22 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 			background: {
 				paper: prefersDarkMode ? blueGrey[900] : '#FFFFFF',
 				default: prefersDarkMode ? blueGrey[700] : blueGrey[100]
+			}
+		},
+		components: {
+			MuiDataGrid: {
+				styleOverrides: {
+					'root': {
+						border: 0,
+						overflow: 'auto',
+						'& > .MuiDataGrid-main': {
+							overflow: 'unset'
+						},
+						'& > div > .MuiDataGrid-footerContainer': {
+							display: 'none'
+						}
+					}
+				}
 			}
 		}
 	}), [prefersDarkMode]);
