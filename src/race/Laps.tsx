@@ -8,7 +8,6 @@ import {getAPIUrl, mapLaps} from '../api/Ergast';
 import {Lap, Race} from '../types/ergast';
 import LapByLap from './lapByLap/LapByLap';
 import LapByLapTable from './lapByLap/LapByLapTable';
-import LapTimes from './lapTimes/LapTimes';
 import LapTimesTable from './lapTimes/LapTimesTable';
 
 type LapByLapProps = {
@@ -57,7 +56,8 @@ export default function Laps({season, round, results}: LapByLapProps) {
 						<LapByLapTable laps={laps} results={results}/>
 					</TabPanel>
 					<TabPanel value="times">
-						<LapTimes laps={laps} results={results}/>
+						{/* FIXME: This doesn't work in a production build*/}
+						{/*<LapTimes laps={laps} results={results}/>*/}
 						<LapTimesTable laps={laps} results={results}/>
 					</TabPanel>
 				</TabContext>
