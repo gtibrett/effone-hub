@@ -13,16 +13,28 @@ export default function Schedule() {
 	const [races, setRaces] = useState<Race[]>([]);
 	
 	useEffect(() => {
-		const dataUrl = getAPIUrl(`/${season}/results/1.json`);
-		Caxios.get(dataUrl)
-		      .then(mapSchedule)
-		      .then(races => setRaces(races));
+		Promise.all([
+			       Caxios.get(getAPIUrl(`/${season}/results/1.json`))
+			             .then(mapSchedule),
+			
+			       Caxios.get(getAPIUrl(`/${season}.json`))
+			             .then(mapSchedule)
+		       ])
+		       .then(([results, schedule]) => {
+			       setRaces(schedule.map(race => (
+				       {
+					       ...race,
+					       Results: results.find(r => r.round === race.round)?.Results || race.Results
+				       }
+			       )));
+		       });
 	}, [season]);
 	
 	return (
 		<>
 			<RaceMap season={season} races={races}/>
 			<DataGrid
+				sx={{mt: 2}}
 				rows={races}
 				autoHeight
 				density="compact"
@@ -51,12 +63,12 @@ export default function Schedule() {
 							field: 'winner',
 							headerName: 'Winner',
 							flex: 1,
-							renderCell: ({row, value}) => {
+							renderCell: ({row}) => {
 								if (!row.Results?.length) {
 									return '--';
 								}
 								
-								return <ByLine id={row.Results.find(r=>Number(r.position) === 1)?.Driver?.driverId}/>
+								return <ByLine id={row.Results.find(r => Number(r.position) === 1)?.Driver?.driverId}/>;
 							},
 							minWidth: 200
 						},
