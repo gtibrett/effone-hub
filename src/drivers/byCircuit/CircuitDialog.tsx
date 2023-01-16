@@ -16,26 +16,28 @@ export default function CircuitDialog({driver, circuit, onClose}: CircuitProps) 
 		return null;
 	}
 	
-	return <Dialog open={true} onClose={onClose} maxWidth="lg" fullWidth>
-		<DialogTitle>
-			{circuit.circuitName}
-			<Typography paragraph variant="subtitle1">{driver.givenName} {driver.familyName}</Typography>
-		</DialogTitle>
-		<DialogContent dividers sx={{height: '90vh'}}>
-			<Grid container spacing={2}>
-				<Grid item xs={9}>
-					<CircuitChart races={circuit.races}/>
+	return (
+		<Dialog open={true} onClose={onClose} maxWidth="lg" fullWidth>
+			<DialogTitle>
+				{circuit.circuitName}
+				<Typography paragraph variant="subtitle1">{driver.givenName} {driver.familyName}</Typography>
+			</DialogTitle>
+			<DialogContent dividers sx={{height: '90vh'}}>
+				<Grid container spacing={2}>
+					<Grid item xs={9}>
+						<CircuitChart races={circuit.races}/>
+					</Grid>
+					<Grid item xs={3}>
+						<Box sx={{border: `1px solid ${theme.palette.divider}`, borderRadius: theme.shape.borderRadius / 2, overflow: 'hidden'}}>
+							<CircuitMap circuits={[circuit]} height={200} centerOn={circuit.Location} zoom/>
+						</Box>
+					</Grid>
+					<Grid item xs={12}>
+						<CircuitTable races={circuit.races}/>
+					</Grid>
 				</Grid>
-				<Grid item xs={3}>
-					<Box sx={{border: `1px solid ${theme.palette.divider}`, borderRadius: theme.shape.borderRadius / 2, overflow: 'hidden'}}>
-						<CircuitMap circuits={[circuit]} height={200} centerOn={circuit.Location} zoom/>
-					</Box>
-				</Grid>
-				<Grid item xs={12}>
-					<CircuitTable races={circuit.races}/>
-				</Grid>
-			</Grid>
-		</DialogContent>
-	</Dialog>;
+			</DialogContent>
+		</Dialog>
+	);
 	
 }
