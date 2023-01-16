@@ -7,25 +7,16 @@ import {useAppState} from '../app/AppStateProvider';
 import ByLine from '../constructors/ByLine';
 import {Responses, Standing} from '../types/ergast';
 
-const sx = {
-	border: 0,
-	'& > div > .MuiDataGrid-footerContainer': {
-		display: 'none'
-	}
-};
-
 export default function Constructors() {
 	const [{season}]      = useAppState();
 	const [data, setData] = useState<Standing[] | undefined>();
 	
 	useEffect(() => {
-		if (!data) {
-			const dataUrl = getAPIUrl(`/${season}/constructorStandings.json`);
-			Caxios.get<Responses['ConstructorStandingsByYearResponse']>(dataUrl)
-			      .then(mapConstructorsStandings)
-			      .then((results) => setData(results));
-		}
-	});
+		const dataUrl = getAPIUrl(`/${season}/constructorStandings.json`);
+		Caxios.get<Responses['ConstructorStandingsByYearResponse']>(dataUrl)
+		      .then(mapConstructorsStandings)
+		      .then((results) => setData(results));
+	}, [season]);
 	
 	if (!data) {
 		return <Skeleton variant="rectangular" height={400}/>;
@@ -37,7 +28,6 @@ export default function Constructors() {
 	
 	return (
 		<DataGrid
-			sx={sx}
 			rows={data}
 			autoHeight
 			density="compact"
