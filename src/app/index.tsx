@@ -4,6 +4,7 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import ConstructorProvider from '../constructors/ConstructorProvider';
 import DriverProvider from '../drivers/DriverProvider';
 import {Driver, Home, Race} from '../pages';
+import About from '../pages/About';
 import Constructor from '../pages/Constructor';
 import Header from '../ui-components/Header';
 import {useEffTheme} from '../ui-components/Theme';
@@ -30,6 +31,10 @@ function Index() {
 												<Route
 													element={<Home/>}
 													path="/"
+												/>
+												<Route
+													element={<About/>}
+													path="/about"
 												/>
 												<Route
 													element={<Constructor/>}

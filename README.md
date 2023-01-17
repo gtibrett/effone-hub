@@ -14,6 +14,16 @@ Data supplemented by [wikipedia](https://wikipedia.com)
 * [Postman Docs](https://documenter.getpostman.com/view/11586746/SztEa7bL#intro)
 * [GitHub Project](https://github.com/jcnewell/ergast-f1-api)
 
+## Configurable Environment Variables
+
+Both API base URL and Google Analytics Tracking ID can be specified via env vars.  The latter is optional, and omitting it will disable GA integration.
+
+### Sample .env file
+```
+REACT_APP_API_URL=https://ergast.com/api/f1
+REACT_APP_GA_TRACKING_ID=X-XXXXXXXXXX
+```
+
 ### Local API
 
 Follow instructions for the GitHub repo above to run the API locally. Couple tweaks to point this project there.
