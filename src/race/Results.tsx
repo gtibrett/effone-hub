@@ -10,13 +10,6 @@ import {getPositionTextOutcome} from '../helpers';
 import {Race, Result} from '../types/ergast';
 import PositionChange from './PositionChange';
 
-const sx = {
-	border: 0,
-	'& > div > .MuiDataGrid-footerContainer': {
-		display: 'none'
-	}
-};
-
 export default function Results({results}: { results: Race['Results'] }) {
 	if (!results) {
 		return <Skeleton variant="rectangular" height={400}/>;
@@ -33,7 +26,6 @@ export default function Results({results}: { results: Race['Results'] }) {
 	
 	return (
 		<DataGrid
-			sx={sx}
 			rows={rows}
 			autoHeight
 			density="compact"
