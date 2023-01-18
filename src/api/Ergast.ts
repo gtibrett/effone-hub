@@ -1,5 +1,5 @@
 import {AxiosResponse} from 'axios';
-import {Circuit, Constructor, Driver as DriverT, Lap, QualifyingResult, Race, Responses, SeasonStanding, Standing} from '../types/ergast';
+import {Circuit, Constructor, Driver as DriverT, Lap, PitStop, QualifyingResult, Race, Responses, SeasonStanding, Standing} from '../types/ergast';
 
 export const getCanonicalId = (summary: DriverT | Constructor | undefined) => {
 	if (!summary) {
@@ -93,6 +93,14 @@ export const mapRace = (response: AxiosResponse<Responses['ResultsByYearResponse
 				}
 			}))
 		};
+	}
+	
+	return undefined;
+};
+
+export const mapPitStops = (response: AxiosResponse<Responses['ResultsByYearResponse']>): PitStop[] | undefined => {
+	if (response.data.MRData?.RaceTable?.Races?.[0].PitStops) {
+		return response.data.MRData?.RaceTable?.Races?.[0].PitStops;
 	}
 	
 	return undefined;

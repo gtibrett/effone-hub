@@ -2,11 +2,19 @@ import {green, purple, yellow} from '@mui/material/colors';
 import {Lap} from '../../types/ergast';
 
 export const getDateFromTimeString = (time: string | undefined) => {
+	let mins: string = '0', secondsWithMilli: string, seconds: string, milliseconds: string;
 	if (!time) {
 		throw new Error('Time is undefined');
 	}
-	const [mins, secondsWithMilli] = time.split(':');
-	const [seconds, milliseconds]  = secondsWithMilli.split('.');
+	if (time.indexOf(':') !== -1) {
+		[mins, secondsWithMilli] = time.split(':');
+	}
+	else {
+		secondsWithMilli = time;
+	}
+	
+	[seconds, milliseconds] = secondsWithMilli.split('.');
+	
 	return Date.UTC(2022, 0, 1, 0, Number(mins), Number(seconds), Number(milliseconds));
 };
 
@@ -16,7 +24,9 @@ export const getTimeStringFromDate = (time: Date) => {
 	const seconds = String(time.getUTCSeconds()).padStart(2, '0');
 	const millis  = String(time.getUTCMilliseconds()).padStart(2, '0');
 	
-	return `${hours}:${minutes}:${seconds}.${millis}`;
+	return (hours ? `${hours}:` : '') +
+	       (time.getUTCMinutes() ? `${minutes}:` : '') +
+	       `${seconds}.${millis}`;
 };
 
 export const getFastestLapTimeFromLaps = (laps: Lap[]) => {

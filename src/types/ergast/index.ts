@@ -1,5 +1,13 @@
 import {CanonicalId} from '../../api/wikipedia';
 
+export type PitStop = {
+	driverId: string;
+	duration: string;
+	lap: string;
+	stop: string;
+	time: string;
+}
+
 export type Circuit = {
 	/** @example yas_marina */
 	circuitId?: string;
@@ -71,6 +79,7 @@ export type Race = {
 	time?: string;
 	Results?: Result[];
 	QualifyingResults?: QualifyingResult[];
+	PitStops?: PitStop[];
 	Laps?: Lap[];
 };
 
