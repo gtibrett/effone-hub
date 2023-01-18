@@ -7,13 +7,6 @@ import ConstructorByLine from '../constructors/ByLine';
 import ByLine from '../drivers/ByLine';
 import {QualifyingResult} from '../types/ergast';
 
-const sx = {
-	border: 0,
-	'& > div > .MuiDataGrid-footerContainer': {
-		display: 'none'
-	}
-};
-
 type QualifyingProps = {
 	season: string;
 	round: string;
@@ -40,7 +33,6 @@ export default function Qualifying({season, round}: QualifyingProps) {
 	
 	return (
 		<DataGrid
-			sx={sx}
 			rows={data}
 			autoHeight
 			density="compact"
