@@ -8,6 +8,7 @@ import {useParams} from 'react-router';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapRace} from '../api/Ergast';
 import Laps from '../race/Laps';
+import PitStops from '../race/pitStops/PitStops';
 import Podium from '../race/Podium';
 import Qualifying from '../race/Qualifying';
 import Results from '../race/Results';
@@ -32,7 +33,7 @@ export default function Race() {
 	
 	useEffect(() => {
 		if (season && round) {
-			Caxios.get<Responses['ResultsByYearResponse']>(getAPIUrl(`/${season}/${round}/results.json?limit=2000`))
+			Caxios.get<Responses['ResultsByYearResponse']>(getAPIUrl(`/${season}/${round}/results.json`), {params: {limit: 2000}})
 			      .then(mapRace)
 			      .then(data => {
 				      setState(cur => ({...cur, race: data}));
@@ -70,6 +71,7 @@ export default function Race() {
 										<Tab label="Race" value="race"/>
 										<Tab label="Qualifying" value="qualifying"/>
 										<Tab label="Laps" value="laps"/>
+										<Tab label="Pit Stops" value="pit-stops"/>
 									</TabList>
 								</Box>
 								<TabPanel value="race">
@@ -80,6 +82,9 @@ export default function Race() {
 								</TabPanel>
 								<TabPanel value="laps">
 									<Laps season={season} round={round} results={state.race.Results}/>
+								</TabPanel>
+								<TabPanel value="pit-stops">
+									{state.race.Results && <PitStops season={season} round={round} results={state.race.Results} />}
 								</TabPanel>
 							</TabContext>
 						</Card>
