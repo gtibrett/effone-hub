@@ -1,6 +1,4 @@
-/*@formatter:off*/
 import type {} from '@mui/x-data-grid/themeAugmentation';
-/*@formatter:off*/
 import {createTheme, useMediaQuery, useTheme} from '@mui/material';
 import {blueGrey, deepOrange} from '@mui/material/colors';
 import {useMemo} from 'react';
@@ -23,9 +21,16 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 			}
 		},
 		components: {
+			MuiCard: {
+				styleOverrides: {
+					root: {
+						overflow: 'visible'
+					}
+				}
+			},
 			MuiDataGrid: {
 				styleOverrides: {
-					'root': {
+					root: {
 						border: 0,
 						overflow: 'auto',
 						'& > .MuiDataGrid-main': {
