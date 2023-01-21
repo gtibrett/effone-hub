@@ -6,6 +6,7 @@ import Tab from '@mui/material/Tab';
 import {SyntheticEvent, useEffect, useState} from 'react';
 import {useParams} from 'react-router';
 import Caxios from '../api/Caxios';
+import {getCircuitDescription} from '../api/effone';
 import {getAPIUrl, mapRace} from '../api/Ergast';
 import Laps from '../race/Laps';
 import PitStops from '../race/pitStops/PitStops';
@@ -14,6 +15,7 @@ import Qualifying from '../race/Qualifying';
 import Results from '../race/Results';
 import RaceMap from '../schedule/RaceMap';
 import {Race as RaceT, Responses} from '../types/ergast';
+import OpenAILink from '../ui-components/citations/OpenAILink';
 
 type RaceState = {
 	race?: RaceT;
@@ -48,6 +50,8 @@ export default function Race() {
 	if (!state.race) {
 		return <Backdrop open/>;
 	}
+	
+	const circuitDescription = getCircuitDescription(state.race.Circuit?.circuitId) || '';
 	
 	return (
 		<Card elevation={0}>
@@ -84,7 +88,7 @@ export default function Race() {
 									<Laps season={season} round={round} results={state.race.Results}/>
 								</TabPanel>
 								<TabPanel value="pit-stops">
-									{state.race.Results && <PitStops season={season} round={round} results={state.race.Results} />}
+									{state.race.Results && <PitStops season={season} round={round} results={state.race.Results}/>}
 								</TabPanel>
 							</TabContext>
 						</Card>
@@ -94,6 +98,12 @@ export default function Race() {
 						<Card variant="outlined">
 							<CardMedia><RaceMap season={season} races={[state.race]} height={300} centerOn={state.race.Circuit?.Location} zoom/></CardMedia>
 							<CardHeader title={state.race.Circuit?.circuitName} subheader={<Typography>{state.race.Circuit?.Location?.locality}, {state.race.Circuit?.Location?.country}</Typography>}/>
+							{circuitDescription && (
+								<CardContent>
+									<Typography variant="body2">{circuitDescription}</Typography>
+									<Box textAlign="right" display="block"><OpenAILink/></Box>
+								</CardContent>
+							)}
 						</Card>
 					</Grid>
 				</Grid>
