@@ -10,10 +10,10 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 		palette: {
 			mode: prefersDarkMode ? 'dark' : 'light',
 			primary: {
-				main: blueGrey[800]
+				main: blueGrey[prefersDarkMode? 400 : 800]
 			},
 			secondary: {
-				main: deepOrange[700]
+				main: deepOrange[prefersDarkMode? 300 : 700]
 			},
 			background: {
 				paper: prefersDarkMode ? blueGrey[900] : '#FFFFFF',

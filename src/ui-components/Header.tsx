@@ -23,9 +23,11 @@ export default function Header() {
 		}
 	};
 	
+	const background = theme.palette.mode === 'dark' ? theme.palette.background.paper : theme.palette.primary.dark;
+	
 	return (
 		<header>
-			<AppBar component="nav" color="primary" sx={{background: theme.palette.primary.dark}}>
+			<AppBar component="nav" color="primary" sx={{background}}>
 				<Toolbar>
 					<Grid container spacing={2} alignItems="center">
 						<Hidden mdUp>
