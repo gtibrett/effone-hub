@@ -1,6 +1,5 @@
 import {TabContext, TabList, TabPanel} from '@mui/lab';
 import {Box, Card, CardContent, CardHeader, CardMedia, Divider, Grid, Hidden, Tab, Typography} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
 import {SyntheticEvent, useRef, useState} from 'react';
 import {useParams} from 'react-router';
 import Circuits from '../drivers/byCircuit/Circuits';
@@ -9,7 +8,7 @@ import DriverAvatar from '../drivers/DriverAvatar';
 import {DriverWithBio, useDriver} from '../drivers/DriverProvider';
 import Season from '../drivers/Season';
 import Flag from '../flags/Flag';
-import Link from '../ui-components/Link';
+import WikipediaLink from '../ui-components/citations/WikipediaLink';
 import useComponentDimensions from '../ui-components/useComponentDimensions';
 
 const DriverDetails = ({driver}: { driver: DriverWithBio }) => {
@@ -94,10 +93,7 @@ export default function Driver() {
 										<Divider orientation="horizontal" sx={{my: 1}}/>
 										<Typography variant="body1">{driverBio.extract}</Typography>
 										<Divider orientation="horizontal" sx={{my: 1}}/>
-										<Link href={driver.url} target="_blank" to="">
-											<Typography variant="caption">More info on wikipedia</Typography>
-											<Typography sx={visuallyHidden}> (opens in a new window)</Typography>
-										</Link>
+										<WikipediaLink href={driver.url}/>
 									</Grid>
 								</Grid>
 							</CardContent>
