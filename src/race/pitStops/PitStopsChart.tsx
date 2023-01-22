@@ -54,8 +54,6 @@ export default function PitStopsChart({maxStops, pitStops, results}: PitStopsCha
 		return stop;
 	});
 	
-	console.log(keys, data);
-	
 	return (
 		<Box height={150} aria-hidden marginBottom={2}>
 			<ResponsiveBar

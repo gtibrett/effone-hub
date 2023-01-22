@@ -7,7 +7,6 @@ import {getTimeStringFromDate} from '../lapTimes/helpers';
 import {PitStopSerie} from './PitStopsChart';
 
 export default function PitStopTooltip(props: BarTooltipProps<PitStopSerie>) {
-	console.log(props);
 	const {indexValue, value, id} = props;
 	const driverId                = String(indexValue);
 	const theme                   = useInvertedTheme();
