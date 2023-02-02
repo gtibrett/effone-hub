@@ -1,6 +1,5 @@
-import {TabContext, TabList, TabPanel} from '@mui/lab';
-import {Backdrop, Box, Card, CardContent, CardHeader, Grid, Paper, Tab, Typography} from '@mui/material';
-import {SyntheticEvent, useEffect, useState} from 'react';
+import {Backdrop, Box, Card, CardContent, CardHeader, CardMedia, Grid, Typography, useTheme} from '@mui/material';
+import {useEffect, useState} from 'react';
 import {useParams} from 'react-router';
 import Caxios from '../api/Caxios';
 import {getCircuitDescription} from '../api/effone';
@@ -13,88 +12,74 @@ import {Circuit as CircuitT, Responses} from '../types/ergast';
 import OpenAILink from '../ui-components/citations/OpenAILink';
 import Link from '../ui-components/Link';
 import Navigation from '../ui-components/Navigation';
-
-type CircuitState = {
-	circuit?: CircuitT;
-	activeTab: string;
-}
+import Tabs from '../ui-components/Tabs';
 
 export default function Circuit() {
-	const [{season}]        = useAppState();
-	const {circuitId}       = useParams();
-	const [state, setState] = useState<CircuitState>({
-		circuit: undefined,
-		activeTab: 'season'
-	});
-	
-	const handleTabChange = (event: SyntheticEvent, newValue: string) => {
-		setState(cur => ({...cur, activeTab: newValue}));
-	};
+	const theme                 = useTheme();
+	const [{season}]            = useAppState();
+	const {circuitId}           = useParams();
+	const [circuit, setCircuit] = useState<CircuitT | undefined>(undefined);
 	
 	useEffect(() => {
 		if (circuitId) {
 			Caxios.get<Responses['CircuitsResponse']>(getAPIUrl(`/circuits/${circuitId}.json`), {params: {limit: 100}})
 			      .then(mapCircuits)
 			      .then(data => {
-				      setState(cur => ({...cur, circuit: data?.[0]}));
+				      setCircuit(data?.[0]);
 			      });
 		}
-	}, [circuitId, setState]);
+	}, [circuitId]);
 	
 	if (!circuitId) {
 		throw new Error('Page Not found');
 	}
 	
-	if (!state.circuit) {
+	if (!circuit) {
 		return <Backdrop open/>;
 	}
 	
-	const circuitDescription = getCircuitDescription(state.circuit.circuitId) || '';
+	const circuitDescription = getCircuitDescription(circuit.circuitId) || '';
 	
 	return (
 		<Grid container spacing={2}>
 			<Grid item xs={12}>
 				<Navigation>
 					<Link to="/">{season} Season</Link>
-					<Typography>{state.circuit.circuitName}</Typography>
+					<Typography>{circuit.circuitName}</Typography>
 				</Navigation>
 			</Grid>
 			
 			<Grid item xs={12}>
 				<Card elevation={0}>
-					<CardHeader title={state.circuit.circuitName} subheader={<Typography>{state.circuit.Location?.locality}, {state.circuit.Location?.country}</Typography>}/>
+					<CardHeader title={circuit.circuitName} subheader={<Typography>{circuit.Location?.locality}, {circuit.Location?.country}</Typography>}/>
 					
 					<CardContent>
 						<Grid container spacing={2}>
-							<Grid item xs={12} md={4} lg={3}>
-								<Paper variant="outlined"><CircuitMap circuits={[state.circuit]} height={200} centerOn={state.circuit.Location} zoom/></Paper>
-							</Grid>
-							<Grid item xs={12} md={4} lg={9}>
-								{circuitDescription && (
-									<CardContent>
-										<Typography variant="body2">{circuitDescription}</Typography>
-										<Box textAlign="right" display="block"><OpenAILink/></Box>
-									</CardContent>
-								)}
+							<Grid item xs={12} md={8} sx={{order: {xs: 2, md: 1}}}>
+								<Tabs active="season" tabs={[
+									{
+										id: 'season', label: 'Season',
+										content: <Season circuitId={circuitId}/>
+									},
+									{
+										id: 'history', label: 'History',
+										content: <History circuitId={circuitId}/>
+									}
+								]}/>
 							</Grid>
 							
-							<Grid item xs={12}>
-								<Paper variant="outlined">
-									<TabContext value={state.activeTab}>
-										<Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-											<TabList onChange={handleTabChange} aria-label="lab API tabs example">
-												<Tab label={season} value="season"/>
-												<Tab label="History" value="history"/>
-											</TabList>
-										</Box>
-										<TabPanel value="season">
-											<Season circuitId={circuitId}/>
-										</TabPanel>
-										<TabPanel value="history">
-											<History circuitId={circuitId}/>
-										</TabPanel>
-									</TabContext>
-								</Paper>
+							<Grid item xs={12} md={4} sx={{order: {xs: 1, md: 2}, borderBottom: `1px solid ${theme.palette.divider}`}}>
+								<Card variant="outlined">
+									<CardMedia sx={{borderBottom: `1px solid ${theme.palette.divider}`}}>
+										<CircuitMap circuits={[circuit]} height={200} centerOn={circuit.Location} zoom/>
+									</CardMedia>
+									{circuitDescription && (
+										<CardContent>
+											<Typography variant="body2">{circuitDescription}</Typography>
+											<Box textAlign="right" display="block"><OpenAILink/></Box>
+										</CardContent>
+									)}
+								</Card>
 							</Grid>
 						</Grid>
 					</CardContent>
