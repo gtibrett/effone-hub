@@ -1,6 +1,4 @@
-import {TabContext, TabList, TabPanel} from '@mui/lab';
-import {Box, Card, CardContent, CardHeader, CardMedia, Divider, Grid, Hidden, Tab, Typography} from '@mui/material';
-import {SyntheticEvent, useRef, useState} from 'react';
+import {Card, CardContent, CardHeader, CardMedia, Divider, Grid, Hidden, Typography} from '@mui/material';
 import {useParams} from 'react-router';
 import {useAppState} from '../app/AppStateProvider';
 import Circuits from '../drivers/byCircuit/Circuits';
@@ -12,7 +10,8 @@ import Flag from '../flags/Flag';
 import WikipediaLink from '../ui-components/citations/WikipediaLink';
 import Link from '../ui-components/Link';
 import Navigation from '../ui-components/Navigation';
-import useComponentDimensions from '../ui-components/useComponentDimensions';
+import Tabs from '../ui-components/Tabs';
+import useComponentDimensionsWithRef from '../ui-components/useComponentDimensions';
 
 const DriverDetails = ({driver}: { driver: DriverWithBio }) => {
 	return (
@@ -30,21 +29,15 @@ const DriverDetails = ({driver}: { driver: DriverWithBio }) => {
 
 
 export default function Driver() {
-	const [{season}] = useAppState();
-	const ref                       = useRef(null);
-	const {width}                   = useComponentDimensions(ref);
-	const {id}                      = useParams();
-	const [activeTab, setActiveTab] = useState('season');
-	const driver                    = useDriver(id);
-	const driverBio                 = driver?.bio;
+	const [{season}]                 = useAppState();
+	const {ref, dimensions: {width}} = useComponentDimensionsWithRef();
+	const {id}                       = useParams();
+	const driver                     = useDriver(id);
+	const driverBio                  = driver?.bio;
 	
 	if (!driver || !driverBio) {
 		return null;
 	}
-	
-	const handleTabChange = (event: SyntheticEvent, newValue: string) => {
-		setActiveTab(newValue);
-	};
 	
 	return (
 		<Grid container spacing={2}>
@@ -64,26 +57,11 @@ export default function Driver() {
 					<CardContent>
 						<Grid container spacing={2}>
 							<Grid item xs={12} md={8} lg={9} order={{xs: 2, md: 1}}>
-								<Card variant="outlined">
-									<TabContext value={activeTab}>
-										<Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-											<TabList onChange={handleTabChange} aria-label="lab API tabs example">
-												<Tab label="Season" value="season"/>
-												<Tab label="Career" value="career"/>
-												<Tab label="Circuits" value="circuits"/>
-											</TabList>
-										</Box>
-										<TabPanel value="season">
-											<Season driverId={id}/>
-										</TabPanel>
-										<TabPanel value="career">
-											<Career driverId={id}/>
-										</TabPanel>
-										<TabPanel value="circuits">
-											<Circuits driverId={id}/>
-										</TabPanel>
-									</TabContext>
-								</Card>
+								<Tabs active="season" tabs={[
+									{id: 'season', label: 'Season', content: <Season driverId={id}/>},
+									{id: 'career', label: 'Career', content: <Career driverId={id}/>},
+									{id: 'circuits', label: 'Circuits', content: <Circuits driverId={id}/>}
+								]}/>
 							</Grid>
 							
 							<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>

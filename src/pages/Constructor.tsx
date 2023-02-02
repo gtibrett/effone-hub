@@ -1,8 +1,6 @@
-import {TabContext, TabList, TabPanel} from '@mui/lab';
 import {Card, CardContent, CardHeader, CardMedia, Divider, Grid, Typography} from '@mui/material';
 import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import {SyntheticEvent, useRef, useState} from 'react';
+import {useRef} from 'react';
 import {useParams} from 'react-router';
 import {useAppState} from '../app/AppStateProvider';
 import {getColorByConstructorId} from '../constructors';
@@ -13,6 +11,7 @@ import Flag from '../flags/Flag';
 import WikipediaLink from '../ui-components/citations/WikipediaLink';
 import Link from '../ui-components/Link';
 import Navigation from '../ui-components/Navigation';
+import Tabs from '../ui-components/Tabs';
 
 const ConstructorDetails = ({constructor}: { constructor: ConstructorWithBio }) => {
 	return (
@@ -25,20 +24,15 @@ const ConstructorDetails = ({constructor}: { constructor: ConstructorWithBio }) 
 
 
 export default function Constructor() {
-	const [{season}]                = useAppState();
-	const ref                       = useRef(null);
-	const {id}                      = useParams();
-	const [activeTab, setActiveTab] = useState('season');
-	const constructor               = useConstructor(id);
-	const constructorBio            = constructor?.bio;
+	const [{season}]     = useAppState();
+	const ref            = useRef(null);
+	const {id}           = useParams();
+	const constructor    = useConstructor(id);
+	const constructorBio = constructor?.bio;
 	
 	if (!constructor || !constructorBio) {
 		return null;
 	}
-	
-	const handleTabChange = (event: SyntheticEvent, newValue: string) => {
-		setActiveTab(newValue);
-	};
 	
 	return (
 		<Grid container spacing={2}>
@@ -61,20 +55,16 @@ export default function Constructor() {
 						<Grid container spacing={2}>
 							<Grid item xs={12} md={8} lg={9} order={{xs: 2, md: 1}}>
 								<Card variant="outlined">
-									<TabContext value={activeTab}>
-										<Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-											<TabList onChange={handleTabChange} aria-label="lab API tabs example">
-												<Tab label="Season" value="season"/>
-												<Tab label="History" value="history"/>
-											</TabList>
-										</Box>
-										<TabPanel value="season">
-											<Season constructorId={constructor.constructorId}/>
-										</TabPanel>
-										<TabPanel value="history">
-											<History constructorId={constructor.constructorId}/>
-										</TabPanel>
-									</TabContext>
+									<Tabs active="season" tabs={[
+										{
+											id: 'season', label: 'Season',
+											content: <Season constructorId={constructor.constructorId}/>
+										},
+										{
+											id: 'history', label: 'History',
+											content: <History constructorId={constructor.constructorId}/>
+										}
+									]}/>
 								</Card>
 							</Grid>
 							
