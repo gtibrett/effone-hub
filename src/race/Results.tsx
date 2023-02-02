@@ -89,6 +89,7 @@ export default function Results({results}: { results: Race['Results'] }) {
 							const time = row.Time?.time;
 							return (
 								<Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
+									<Grid item>{time ? time : getPositionTextOutcome(row.positionText, row.status)}</Grid>
 									{row.FastestLap?.rank === '1' && (
 										<Grid item>
 											<Tooltip title="Fastest Lap">
@@ -96,7 +97,6 @@ export default function Results({results}: { results: Race['Results'] }) {
 											</Tooltip>
 										</Grid>
 									)}
-									<Grid item>{time ? time : getPositionTextOutcome(row.positionText, row.status)}</Grid>
 								</Grid>
 							);
 						},
