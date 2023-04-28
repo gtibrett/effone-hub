@@ -1,5 +1,5 @@
 import {Grid} from '@mui/material';
-import {Race as RaceT} from '../types/ergast';
+import {Race as RaceT} from '@gtibrett/effone-hub-api';
 import Place from './Place';
 
 export default function Podium({results}: { results: RaceT['Results'] }) {

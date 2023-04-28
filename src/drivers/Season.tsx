@@ -4,14 +4,14 @@ import {DataGrid, GridCellParams, GridColDef} from '@mui/x-data-grid';
 import {useAppState} from '../app/AppStateProvider';
 import {getPositionTextOutcome} from '../helpers';
 import PositionChange from '../race/PositionChange';
-import {Race} from '../types/ergast';
+import {Race} from '@gtibrett/effone-hub-api';
 import Link from '../ui-components/Link';
 import {DriverId} from './DriverProvider';
 import {useRacesBySeason} from './hooks';
 import SeasonChart from './SeasonChart';
 
 type SeasonProps = {
-	driverId: DriverId;
+	driverId?: DriverId;
 }
 
 export default function Season({driverId}: SeasonProps) {
@@ -78,8 +78,12 @@ export default function Season({driverId}: SeasonProps) {
 							field: 'change',
 							renderHeader: () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
 							renderCell: ({row}) => {
-								const {grid, position} = row.Results?.[0] || {};
-								return <PositionChange grid={grid} position={position}/>;
+								const result = row.Results?.[0];
+								if (result) {
+									const {grid, position} = result;
+									return <PositionChange grid={grid} position={position}/>;
+								}
+								return'';
 							},
 							valueGetter: ({row}) => {
 								const {grid, position} = row.Results?.[0] || {};
@@ -111,8 +115,12 @@ export default function Season({driverId}: SeasonProps) {
 							align: 'left',
 							flex: .5,
 							valueGetter: ({row}: GridCellParams<string, Race>) => {
-								const time = row.Results?.[0].Time?.time;
-								return time ? time : getPositionTextOutcome(row.Results?.[0].positionText, row.Results?.[0].status);
+								const result = row.Results?.[0];
+								if (result) {
+									const time = result.Time?.time;
+									return time ? time : getPositionTextOutcome(result.positionText, result.status);
+								}
+								return '';
 							}
 						}
 					] as GridColDef<Race>[]

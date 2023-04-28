@@ -5,7 +5,7 @@ import Caxios from '../api/Caxios';
 import {getAPIUrl, mapConstructorsStandings} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
 import ByLine from '../constructors/ByLine';
-import {Responses, Standing} from '../types/ergast';
+import {Responses, Standing} from '@gtibrett/effone-hub-api';
 
 export default function Constructors() {
 	const [{season}]      = useAppState();
@@ -13,7 +13,7 @@ export default function Constructors() {
 	
 	useEffect(() => {
 		const dataUrl = getAPIUrl(`/${season}/constructorStandings.json`);
-		Caxios.get<Responses['ConstructorStandingsByYearResponse']>(dataUrl)
+		Caxios.get<Responses.ConstructorStandingsResponse>(dataUrl)
 		      .then(mapConstructorsStandings)
 		      .then((results) => setData(results));
 	}, [season]);
@@ -29,6 +29,7 @@ export default function Constructors() {
 	return (
 		<DataGrid
 			rows={data}
+			getRowId={r => r.Constructor?.constructorId || ''}
 			autoHeight
 			density="compact"
 			pageSize={10}

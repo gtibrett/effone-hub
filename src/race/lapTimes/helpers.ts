@@ -1,5 +1,5 @@
 import {green, purple, yellow} from '@mui/material/colors';
-import {Lap} from '../../types/ergast';
+import {Lap} from '@gtibrett/effone-hub-api';
 
 export const getDateFromTimeString = (time: string | undefined) => {
 	let mins: string = '0', secondsWithMilli: string, seconds: string, milliseconds: string;

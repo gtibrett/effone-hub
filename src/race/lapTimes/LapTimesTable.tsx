@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useMemo} from 'react';
 import ByLine from '../../drivers/ByLine';
-import {Lap, Timing} from '../../types/ergast';
+import {Lap, Timing} from '@gtibrett/effone-hub-api';
 import {LapByLapProps} from '../lapByLap/LapByLap';
 import {getColorWithAlt, getDateFromTimeString, getFastestLapTimeFromLaps} from './helpers';
 import {LapTimesProps} from './LapTimes';

@@ -1,7 +1,7 @@
 import {Paper} from '@mui/material';
 import {ResponsiveRadar} from '@nivo/radar';
 import {getColorByConstructorId} from '../../constructors';
-import {Circuit} from '../../types/ergast';
+import {Circuit} from '@gtibrett/effone-hub-api';
 import {useNivoTheme} from '../../ui-components/nivo';
 import useComponentDimensionsWithRef from '../../ui-components/useComponentDimensions';
 import {DriverId} from '../DriverProvider';
@@ -15,7 +15,7 @@ type Stats = {
 	dnfs: number;
 }
 
-const usePerformanceData = (driverId: DriverId, circuitId: Circuit['circuitId']): Stats | undefined => {
+const usePerformanceData = (driverId?: DriverId, circuitId?: Circuit['circuitId']): Stats | undefined => {
 	const careerResults = useCareerResults(driverId);
 	
 	if (!driverId || !careerResults) {

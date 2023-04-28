@@ -5,7 +5,7 @@ import DriverAvatar, {DriverAvatarProps} from './DriverAvatar';
 import {DriverId, useDriver} from './DriverProvider';
 
 type ByLineProps = {
-	id: DriverId;
+	id?: DriverId;
 	variant?: 'code' | 'name' | 'full';
 	avatarProps?: Omit<DriverAvatarProps, 'id'>
 	flagProps?: Omit<FlagProps, 'nationality'>

@@ -1,14 +1,14 @@
 import {Alert, Grid, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {ForDrivers, SeasonStanding} from '@gtibrett/effone-hub-api';
 import ByLine from '../constructors/ByLine';
-import {SeasonStanding} from '../types/ergast';
 import CareerPerformance from './analysis/CareerPerformance';
 import CareerChart from './CareerChart';
 import {DriverId} from './DriverProvider';
 import {useCareerStandings} from './hooks';
 
 type CareerProps = {
-	driverId: DriverId;
+	driverId?: DriverId;
 }
 
 export default function Career({driverId}: CareerProps) {
@@ -90,7 +90,7 @@ export default function Career({driverId}: CareerProps) {
 								minWidth: 150
 							}
 						
-						] as GridColDef<SeasonStanding>[]
+						] as GridColDef<SeasonStanding<ForDrivers>>[]
 					}
 				/>
 			</Grid>

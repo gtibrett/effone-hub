@@ -12,7 +12,7 @@ import Podium from '../race/Podium';
 import Qualifying from '../race/Qualifying';
 import Results from '../race/Results';
 import RaceMap from '../schedule/RaceMap';
-import {Race as RaceT, Responses} from '../types/ergast';
+import {Race as RaceT, Responses} from '@gtibrett/effone-hub-api';
 import OpenAILink from '../ui-components/citations/OpenAILink';
 import Link from '../ui-components/Link';
 import Navigation from '../ui-components/Navigation';
@@ -25,7 +25,7 @@ export default function Race() {
 	
 	useEffect(() => {
 		if (season && round) {
-			Caxios.get<Responses['ResultsByYearResponse']>(getAPIUrl(`/${season}/${round}/results.json`), {params: {limit: 2000}})
+			Caxios.get<Responses.ResultsResponse>(getAPIUrl(`/${season}/${round}/results.json`), {params: {limit: 2000}})
 			      .then(mapRace)
 			      .then(data => {
 				      setRace(data);

@@ -1,8 +1,8 @@
 import {alpha, Box, useTheme} from '@mui/material';
 import {ResponsiveGeoMap} from '@nivo/geo';
+import {Circuit, Location} from '@gtibrett/effone-hub-api';
 import {useMemo} from 'react';
 import {feature} from 'topojson-client';
-import {Circuit, Location} from '../types/ergast';
 import {useNivoTheme} from '../ui-components/nivo';
 
 const useLand = () => {
@@ -21,7 +21,7 @@ const useLand = () => {
 type CircuitMapProps = {
 	height?: number | 'auto';
 	width?: number | 'auto';
-	centerOn?: Location;
+	centerOn?: Pick<Location, 'long' | 'lat'>;
 	zoom?: boolean;
 	circuits?: Circuit[];
 }

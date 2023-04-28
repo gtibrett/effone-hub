@@ -4,7 +4,7 @@ import {wikiSummary} from 'wikipedia';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, getCanonicalId} from '../api/Ergast';
 import {getWikiSummary} from '../api/wikipedia';
-import {Driver as DriverT, Responses} from '../types/ergast';
+import {Driver as DriverT, Responses} from '@gtibrett/effone-hub-api';
 
 export type DriverId = DriverT['driverId'];
 export type DriverWithBio = DriverT & {
@@ -45,18 +45,18 @@ const DriverProvider: FC<PropsWithChildren> = ({children}) => {
 
 export default DriverProvider;
 
-export const useDriver = (id: DriverId) => {
+export const useDriver = (id?: DriverId) => {
 	const [drivers, setDrivers] = useContext(Context);
 	
 	useEffect(() => {
 		if (id && !drivers[id]) {
 			const dataUrl = getAPIUrl(`/drivers/${id}.json`);
-			Caxios.get<Responses['DriversResponse']>(dataUrl)
+			Caxios.get<Responses.DriversResponse>(dataUrl)
 			      .then(response => response.data)
 			      .then(data => data.MRData?.DriverTable?.Drivers?.[0])
 			      .then((driver) => {
 				      if (driver) {
-					      const canonicalId = getCanonicalId(driver);
+					      const canonicalId = getCanonicalId(driver.url);
 					
 					      getWikiSummary(canonicalId)
 						      .then((bio => {

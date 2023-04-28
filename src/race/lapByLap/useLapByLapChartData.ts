@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 import {getColorByConstructorId} from '../../constructors';
-import {Lap} from '../../types/ergast';
+import {Lap} from '@gtibrett/effone-hub-api';
 import {LapByLapProps, LapChartSeries} from './LapByLap';
 
 const useLapByLapChartData = (laps: Lap[], results: LapByLapProps['results']) => useMemo<LapChartSeries[]>(() => {
