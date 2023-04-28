@@ -4,14 +4,14 @@ import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapRaces} from '../api/Ergast';
 import ByLine from '../drivers/ByLine';
-import {Circuit, Race, Responses} from '../types/ergast';
+import {Circuit, Race, Responses} from '@gtibrett/effone-hub-api';
 import Link from '../ui-components/Link';
 
 export default function History({circuitId}: { circuitId: Circuit['circuitId'] }) {
 	const [races, setRaces] = useState<Race[] | undefined>();
 	
 	useEffect(() => {
-		Caxios.get<Responses['ResultsByYearResponse']>(getAPIUrl(`/circuits/${circuitId}/results/1.json`), {params: {limit: 2000}})
+		Caxios.get<Responses.ResultsResponse>(getAPIUrl(`/circuits/${circuitId}/results/1.json`), {params: {limit: 2000}})
 		      .then(mapRaces)
 		      .then(data => {
 			      setRaces(data);
@@ -36,6 +36,7 @@ export default function History({circuitId}: { circuitId: Circuit['circuitId'] }
 			rows={rows}
 			autoHeight
 			density="compact"
+			getRowId={r => r.season}
 			columns={
 				[
 					{

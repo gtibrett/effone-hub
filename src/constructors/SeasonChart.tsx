@@ -1,6 +1,6 @@
 import {Box} from '@mui/material';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {Race} from '../types/ergast';
+import {Race} from '@gtibrett/effone-hub-api';
 import {useGetChartColorsByConstructor, useNivoTheme} from '../ui-components/nivo';
 
 type SeasonChartProps = {

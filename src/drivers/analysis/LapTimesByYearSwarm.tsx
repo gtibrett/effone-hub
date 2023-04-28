@@ -1,19 +1,19 @@
 import {Alert, Box, Skeleton} from '@mui/material';
 import {ResponsiveSwarmPlot} from '@nivo/swarmplot';
+import {Circuit, Race} from '@gtibrett/effone-hub-api';
 import {useEffect, useState} from 'react';
 import {RaceData} from '../../api/analysis/types';
 import Caxios from '../../api/Caxios';
 import {getAPIUrl, mapLaps} from '../../api/Ergast';
 import {getColorByConstructorId} from '../../constructors';
 import {getDateFromTimeString} from '../../race/lapTimes/helpers';
-import {Circuit, Race} from '../../types/ergast';
 import {useNivoTheme} from '../../ui-components/nivo';
 import {DriverId} from '../DriverProvider';
 import {lapTimeVsAverageLapTime, SwarmData} from './mappers';
 
 type LapTimesChartProps = {
 	circuitId: Circuit['circuitId'];
-	driverId: DriverId;
+	driverId?: DriverId;
 }
 
 function getStandardDeviation(data: number[]) {
@@ -49,7 +49,11 @@ export default function LapTimesByYearSwarm({circuitId, driverId}: LapTimesChart
 				                                .then(mapLaps)
 				                                .then(laps => {
 					                                const raceId = Number(`${race.season}.${race.round}`);
-					                                const result = race.Results?.[0] || {};
+					                                const result = race.Results?.[0];
+					
+					                                if (!result) {
+						                                return undefined;
+					                                }
 					
 					                                const mappedLaps = laps.map(l => ({
 						                                raceId,
@@ -79,8 +83,9 @@ export default function LapTimesByYearSwarm({circuitId, driverId}: LapTimesChart
 					                                };
 				                                });
 			             }))
-			             .then(d => {
-				             setData(d);
+			             .then((data) => {
+				             const onlyDefined: RaceData[] = data.filter((d) => typeof d !== 'undefined') as RaceData[];
+				             setData(onlyDefined);
 			             });
 		      });
 	}, [circuitId, driverId]);

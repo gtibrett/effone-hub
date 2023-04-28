@@ -14,7 +14,7 @@ type Stats = {
 	appearances: number;
 }
 
-const usePerformanceData = (driverId: DriverId): Stats | undefined => {
+const usePerformanceData = (driverId?: DriverId): Stats | undefined => {
 	const careerResults = useCareerResults(driverId);
 	
 	if (!driverId || !careerResults) {
@@ -31,7 +31,7 @@ const usePerformanceData = (driverId: DriverId): Stats | undefined => {
 };
 
 type CareerPerformanceProps = {
-	driverId: DriverId;
+	driverId?: DriverId;
 }
 
 export default function CareerPerformance({driverId}: CareerPerformanceProps) {

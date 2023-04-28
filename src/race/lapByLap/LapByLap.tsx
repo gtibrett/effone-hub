@@ -1,7 +1,7 @@
 import {Box, Skeleton} from '@mui/material';
 import {ResponsiveBump} from '@nivo/bump';
 import ByLine from '../../drivers/ByLine';
-import {Lap, Race} from '../../types/ergast';
+import {Lap, Race} from '@gtibrett/effone-hub-api';
 import {NivoTooltip, useNivoTheme} from '../../ui-components/nivo';
 import LapByLapTooltip from './LapByLapTooltip';
 import useLapByLapChartData from './useLapByLapChartData';
