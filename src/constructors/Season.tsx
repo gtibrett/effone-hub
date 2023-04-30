@@ -1,11 +1,11 @@
+import {Race} from '@gtibrett/effone-hub-api';
 import {Alert, Grid, Skeleton, Typography} from '@mui/material';
-import {DataGrid, GridCellParams, GridColDef} from '@mui/x-data-grid';
+import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapSchedule} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
 import ByLine from '../drivers/ByLine';
-import {Race} from '@gtibrett/effone-hub-api';
 import Link from '../ui-components/Link';
 import {ConstructorId} from './ConstructorProvider';
 import SeasonChart from './SeasonChart';
@@ -51,7 +51,8 @@ export default function Season({constructorId}: SeasonProps) {
 							headerAlign: 'center',
 							type: 'date',
 							align: 'center',
-							renderCell: ({value}) => (new Date(value)).toLocaleDateString()
+							valueGetter: ({value}) => (new Date(value)),
+							renderCell: ({value}) => value.toLocaleDateString()
 						},
 						{
 							field: 'raceName',
@@ -65,7 +66,7 @@ export default function Season({constructorId}: SeasonProps) {
 							field: 'driver',
 							headerName: 'Drivers',
 							flex: 1,
-							renderCell: ({row}: GridCellParams<string, Race>) => {
+							renderCell: ({row}) => {
 								return <Grid container spacing={0}>
 									{row.Results?.map(result => <Grid item xs={12} key={result.Driver?.driverId}><ByLine id={result.Driver?.driverId} variant="name"/></Grid>)}
 								</Grid>;
@@ -76,7 +77,7 @@ export default function Season({constructorId}: SeasonProps) {
 							headerName: 'Finish',
 							headerAlign: 'center',
 							align: 'center',
-							renderCell: ({row}: GridCellParams<string, Race>) => {
+							renderCell: ({row}) => {
 								return <Grid container spacing={0} justifyContent="center">
 									{row.Results?.map(result => <Grid item xs={12} key={result.Driver?.driverId}><Typography align="center">{result.position}</Typography></Grid>)}
 								</Grid>;
@@ -87,7 +88,7 @@ export default function Season({constructorId}: SeasonProps) {
 							headerName: 'Points',
 							headerAlign: 'center',
 							align: 'center',
-							renderCell: ({row}: GridCellParams<string, Race>) => {
+							renderCell: ({row}) => {
 								return <Grid container spacing={0} justifyContent="center">
 									{row.Results?.map(result => <Grid item xs={12} key={result.Driver?.driverId}><Typography align="center">{result.points}</Typography></Grid>)}
 								</Grid>;
