@@ -1,10 +1,10 @@
+import {Race} from '@gtibrett/effone-hub-api';
 import {Alert, Skeleton, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
-import {DataGrid, GridCellParams, GridColDef} from '@mui/x-data-grid';
+import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useAppState} from '../app/AppStateProvider';
 import {getPositionTextOutcome} from '../helpers';
 import PositionChange from '../race/PositionChange';
-import {Race} from '@gtibrett/effone-hub-api';
 import Link from '../ui-components/Link';
 import {DriverId} from './DriverProvider';
 import {useRacesBySeason} from './hooks';
@@ -42,7 +42,8 @@ export default function Season({driverId}: SeasonProps) {
 							headerAlign: 'center',
 							type: 'date',
 							align: 'center',
-							renderCell: ({value}) => (new Date(value)).toLocaleDateString(),
+							valueGetter: ({value}) => (new Date(value)),
+							renderCell: ({value}) => value.toLocaleDateString(),
 							minWidth: 100
 						},
 						{
@@ -60,7 +61,7 @@ export default function Season({driverId}: SeasonProps) {
 							type: 'number',
 							headerAlign: 'center',
 							align: 'center',
-							valueGetter: ({row}: GridCellParams<string, Race>) => {
+							valueGetter: ({row}) => {
 								return Number(row.Results?.[0].grid);
 							}
 						},
@@ -70,7 +71,7 @@ export default function Season({driverId}: SeasonProps) {
 							type: 'number',
 							headerAlign: 'center',
 							align: 'center',
-							valueGetter: ({row}: GridCellParams<string, Race>) => {
+							valueGetter: ({row}) => {
 								return Number(row.Results?.[0].position);
 							}
 						},
@@ -83,7 +84,7 @@ export default function Season({driverId}: SeasonProps) {
 									const {grid, position} = result;
 									return <PositionChange grid={grid} position={position}/>;
 								}
-								return'';
+								return '';
 							},
 							valueGetter: ({row}) => {
 								const {grid, position} = row.Results?.[0] || {};
@@ -103,7 +104,7 @@ export default function Season({driverId}: SeasonProps) {
 							type: 'number',
 							headerAlign: 'center',
 							align: 'center',
-							valueGetter: ({row}: GridCellParams<string, Race>) => {
+							valueGetter: ({row}) => {
 								return Number(row.Results?.[0].points);
 							}
 						},
@@ -114,7 +115,7 @@ export default function Season({driverId}: SeasonProps) {
 							headerAlign: 'left',
 							align: 'left',
 							flex: .5,
-							valueGetter: ({row}: GridCellParams<string, Race>) => {
+							valueGetter: ({row}) => {
 								const result = row.Results?.[0];
 								if (result) {
 									const time = result.Time?.time;

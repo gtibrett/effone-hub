@@ -48,7 +48,8 @@ export default function Schedule() {
 							headerAlign: 'center',
 							type: 'date',
 							align: 'center',
-							renderCell: ({value}) => (new Date(value)).toLocaleDateString(),
+							valueGetter: ({value}) => (new Date(value)),
+							renderCell: ({value}) => value.toLocaleDateString(),
 							minWidth: 100
 						},
 						{
