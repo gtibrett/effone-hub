@@ -1,6 +1,6 @@
 import type {} from '@mui/x-data-grid/themeAugmentation';
 import {alpha, createTheme, useMediaQuery, useTheme} from '@mui/material';
-import {blueGrey, deepOrange} from '@mui/material/colors';
+import {blueGrey, red} from '@mui/material/colors';
 import {useMemo} from 'react';
 
 export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
@@ -13,11 +13,11 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 				main: blueGrey[prefersDarkMode ? 400 : 800]
 			},
 			secondary: {
-				main: deepOrange[prefersDarkMode ? 300 : 700]
+				main: red[prefersDarkMode ? 200 : 900]
 			},
 			background: {
 				paper: prefersDarkMode ? blueGrey[900] : '#FFFFFF',
-				default: prefersDarkMode ? blueGrey[700] : blueGrey[100]
+				default: prefersDarkMode ? blueGrey[800] : blueGrey[200]
 			}
 		},
 		components: {
