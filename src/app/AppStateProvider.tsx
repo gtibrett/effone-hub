@@ -1,5 +1,8 @@
+import {Responses} from '@gtibrett/effone-hub-api';
 import {Backdrop} from '@mui/material';
+import axios from 'axios';
 import {createContext, Dispatch, FC, PropsWithChildren, SetStateAction, useContext, useEffect, useState} from 'react';
+import {getAPIUrl} from '../api/Ergast';
 
 type AppStateType = {
 	season: number;
@@ -7,23 +10,32 @@ type AppStateType = {
 
 type SetAppStateType = (newState: AppStateType) => void;
 
-const initializeState = (): AppStateType => {
-	const storedAppState = localStorage.getItem('app-state');
-	if (storedAppState !== null) {
-		return JSON.parse(storedAppState);
-	}
-	
-	return {
-		season: (new Date()).getFullYear()-1
-	};
+const BLANK_STATE = {season: (new Date()).getFullYear() - 1};
+
+const initializeState = (): Promise<AppStateType> => {
+	return new Promise(async (resolve, reject) => {
+		const storedAppState = localStorage.getItem('app-state');
+		if (storedAppState !== null) {
+			resolve(JSON.parse(storedAppState));
+		}
+		
+		axios.get<Responses.SeasonResponse>(getAPIUrl('/seasons.json'), {params: {limit: 100}})
+		     .then(response => response.data.MRData?.SeasonTable?.Seasons || [])
+		     .then((seasons) => {
+			     resolve({
+				     season: Math.max(...seasons.map(s => Number(s.season)))
+			     });
+		     })
+		     .catch(err => reject(err));
+	});
 };
 
 const Context = createContext<[AppStateType, Dispatch<SetStateAction<AppStateType>>]>([
-	initializeState(), () => null
+	BLANK_STATE, () => null
 ]);
 
 const AppStateProvider: FC<PropsWithChildren> = ({children}) => {
-	const [state, setState] = useState<AppStateType>(initializeState());
+	const [state, setState] = useState<AppStateType>(BLANK_STATE);
 	
 	useEffect(() => {
 		if (state) {
@@ -31,7 +43,11 @@ const AppStateProvider: FC<PropsWithChildren> = ({children}) => {
 		}
 	}, [state]);
 	
-	if (!state) {
+	useEffect(() => {
+		initializeState().then(s => setState(s));
+	}, []);
+	
+	if (!state || !state.season) {
 		return <Backdrop open/>;
 	}
 	
@@ -42,5 +58,5 @@ export default AppStateProvider;
 
 /* Hooks */
 export const useAppState = (): [AppStateType, SetAppStateType] => {
-	return useContext(Context)
+	return useContext(Context);
 };
