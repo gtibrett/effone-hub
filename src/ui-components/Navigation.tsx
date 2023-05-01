@@ -14,9 +14,10 @@ export default function Navigation({children}: PropsWithChildren) {
 			navigate(pathname.replace(`/${season}`, `/${value}`));
 		}
 		
-		setState({
+		setState(cur => ({
+			...cur,
 			season: value
-		});
+		}));
 	};
 	
 	return (
