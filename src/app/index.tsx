@@ -18,17 +18,17 @@ function Index() {
 	const theme = useEffTheme();
 	
 	const sx: SxProps = {
-		py: 2,
-		position: 'relative',
+		py:         2,
+		position:   'relative',
 		'&:before': {
-			position: 'absolute',
-			top: 0, left: 0,
-			zIndex: -1,
-			width: '100%',
-			height: '100%',
-			content: '" "',
+			position:        'absolute',
+			top:             0, left: 0,
+			zIndex:          -1,
+			width:           '100%',
+			height:          '100%',
+			content:         '" "',
 			backgroundImage: `url(${require('../ui-components/carbon-fiber-texture.png')})`,
-			opacity: theme.palette.mode === 'dark' ? .35 : 1
+			opacity:         theme.palette.mode === 'dark' ? .35 : 1
 		}
 	};
 	
