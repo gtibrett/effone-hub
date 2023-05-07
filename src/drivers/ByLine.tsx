@@ -1,5 +1,5 @@
 import {Grid, Hidden, Skeleton, Typography} from '@mui/material';
-import Flag from '../flags/Flag';
+import Flag, {FlagProps} from '../flags/Flag';
 import Link from '../ui-components/Link';
 import DriverAvatar, {DriverAvatarProps} from './DriverAvatar';
 import {DriverId, useDriver} from './DriverProvider';
