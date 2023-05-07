@@ -40,6 +40,11 @@ export default function Schedule() {
 				autoHeight
 				density="compact"
 				getRowId={(row) => row.round || ''}
+				initialState={{
+					sorting: {
+						sortModel: [{field: 'date', sort: 'asc'}]
+					}
+				}}
 				columns={
 					[
 						{
@@ -49,8 +54,9 @@ export default function Schedule() {
 							type: 'date',
 							align: 'center',
 							valueGetter: ({value}) => (new Date(value)),
-							renderCell: ({value}) => value.toLocaleDateString(),
-							minWidth: 100
+							renderCell:  ({value}) => value.toLocaleDateString(),
+							minWidth:    100,
+							sortable:    false
 						},
 						{
 							field: 'raceName',
@@ -59,7 +65,8 @@ export default function Schedule() {
 							renderCell: ({row, value}) => (
 								<Link to={`/race/${season}/${row.round}#${row.raceName}`}>{value}</Link>
 							),
-							minWidth: 200
+							minWidth:   200,
+							sortable:   false
 						},
 						{
 							field: 'winner',
@@ -72,7 +79,8 @@ export default function Schedule() {
 								
 								return <ByLine id={row.Results.find(r => Number(r.position) === 1)?.Driver?.driverId}/>;
 							},
-							minWidth: 200
+							minWidth:   200,
+							sortable:   false
 						}
 					] as GridColDef<Race>[]
 				}

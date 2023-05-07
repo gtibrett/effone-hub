@@ -62,6 +62,11 @@ export default function Drivers() {
 						rows={rest}
 						density="compact"
 						getRowId={r => r.Driver?.driverId || ''}
+						initialState={{
+							sorting: {
+								sortModel: [{field: 'position', sort: 'asc'}]
+							}
+						}}
 						columns={
 							[
 								{

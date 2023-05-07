@@ -32,6 +32,11 @@ export default function Career({driverId}: CareerProps) {
 					autoHeight
 					density="compact"
 					getRowId={(r) => r.season || ''}
+					initialState={{
+						sorting: {
+							sortModel: [{field: 'season', sort: 'desc'}]
+						}
+					}}
 					columns={
 						[
 							{

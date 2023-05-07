@@ -43,6 +43,11 @@ export default function History({constructorId}: HistoryProps) {
 				autoHeight
 				density="compact"
 				getRowId={(r) => r.season || ''}
+				initialState={{
+					sorting: {
+						sortModel: [{field: 'season', sort: 'desc'}]
+					}
+				}}
 				columns={
 					[
 						{
