@@ -1,3 +1,4 @@
+import {Race} from '@gtibrett/effone-hub-api';
 import {Box} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useEffect, useState} from 'react';
@@ -5,35 +6,40 @@ import Caxios from '../api/Caxios';
 import {getAPIUrl, mapSchedule} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
 import ByLine from '../drivers/ByLine';
-import {Race} from '@gtibrett/effone-hub-api';
+import RaceMap from '../maps/RaceMap';
+import useMapSeasonRacesToMapPoints from '../maps/useMapSeasonRacesToMapPoints';
 import Link from '../ui-components/Link';
-import RaceMap from './RaceMap';
 
 export default function Schedule() {
-	const [{season}]        = useAppState();
-	const [races, setRaces] = useState<Race[]>([]);
+	const [{season}]               = useAppState();
+	const mapSeasonRacesToFeatures = useMapSeasonRacesToMapPoints();
+	const [races, setRaces]        = useState<Race[]>([]);
 	
 	useEffect(() => {
 		Promise.all([
 			       Caxios.get(getAPIUrl(`/${season}/results/1.json`))
 			             .then(mapSchedule),
-			
+			       
 			       Caxios.get(getAPIUrl(`/${season}.json`))
 			             .then(mapSchedule)
 		       ])
 		       .then(([results, schedule]) => {
-			       setRaces(schedule.map(race => (
+			       const racesWithResults = schedule.map(race => (
 				       {
 					       ...race,
 					       Results: results.find(r => r.round === race.round)?.Results || race.Results
 				       }
-			       )));
+			       ));
+			       
+			       setRaces(racesWithResults);
 		       });
 	}, [season]);
 	
+	const {points, onClick} = mapSeasonRacesToFeatures(season, races);
+	
 	return (
 		<>
-			<Box sx={{px: 2}}><RaceMap season={season} races={races}/></Box>
+			<Box sx={{px: 2}}><RaceMap points={points} onClick={onClick}/></Box>
 			<DataGrid
 				sx={{mt: 2}}
 				rows={races}
@@ -48,20 +54,20 @@ export default function Schedule() {
 				columns={
 					[
 						{
-							field: 'date',
-							headerName: 'Date',
+							field:       'date',
+							headerName:  'Date',
 							headerAlign: 'center',
-							type: 'date',
-							align: 'center',
+							type:        'date',
+							align:       'center',
 							valueGetter: ({value}) => (new Date(value)),
 							renderCell:  ({value}) => value.toLocaleDateString(),
 							minWidth:    100,
 							sortable:    false
 						},
 						{
-							field: 'raceName',
+							field:      'raceName',
 							headerName: 'Race',
-							flex: 1,
+							flex:       1,
 							renderCell: ({row, value}) => (
 								<Link to={`/race/${season}/${row.round}#${row.raceName}`}>{value}</Link>
 							),
@@ -69,9 +75,9 @@ export default function Schedule() {
 							sortable:   false
 						},
 						{
-							field: 'winner',
+							field:      'winner',
 							headerName: 'Winner',
-							flex: 1,
+							flex:       1,
 							renderCell: ({row}) => {
 								if (!row.Results?.length) {
 									return '--';

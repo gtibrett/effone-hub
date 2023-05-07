@@ -1,28 +1,39 @@
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {Circuit, Race, Responses, Result} from '@gtibrett/effone-hub-api';
 import {Alert, Grid, Skeleton, Tooltip, Typography} from '@mui/material';
 import {purple} from '@mui/material/colors';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
-import {getAPIUrl, mapRace} from '../api/Ergast';
+import {getAPIUrl, mapRace, mapSchedule} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
 import ConstructorByLine from '../constructors/ByLine';
 import ByLine from '../drivers/ByLine';
 import {getPositionTextOutcome} from '../helpers';
 import PositionChange from '../race/PositionChange';
-import {Circuit, Responses, Result} from '@gtibrett/effone-hub-api';
+import NextRaceCountdown from '../schedule/NextRaceCountdown';
 
 export default function Season({circuitId}: { circuitId: Circuit['circuitId'] }) {
 	const [{season}]            = useAppState();
 	const [results, setResults] = useState<Result[] | undefined>();
+	const [race, setRace]       = useState<Race | undefined>();
 	
 	useEffect(() => {
 		Caxios.get<Responses.ResultsResponse>(getAPIUrl(`/${season}/circuits/${circuitId}/results.json`), {params: {limit: 2000}})
 		      .then(mapRace)
 		      .then(data => {
 			      setResults(data?.Results);
+		      })
+		      .catch(() => setResults([]));
+	}, [season, circuitId]);
+	
+	useEffect(() => {
+		Caxios.get<Responses.RacesResponse>(getAPIUrl(`/${season}/circuits/${circuitId}/races.json`), {params: {limit: 2000}})
+		      .then(mapSchedule)
+		      .then(data => {
+			      setRace(data[0]);
 		      });
 	}, [season, circuitId]);
 	
@@ -31,6 +42,13 @@ export default function Season({circuitId}: { circuitId: Circuit['circuitId'] })
 	}
 	
 	if (!results.length) {
+		if (race) {
+			return <>
+				<Typography variant="h5">Countdown</Typography>
+				<NextRaceCountdown race={race}/>
+			</>;
+		}
+		
 		return <Alert variant="outlined" severity="info">Race Data Not Available</Alert>;
 	}
 	
@@ -53,20 +71,20 @@ export default function Season({circuitId}: { circuitId: Circuit['circuitId'] })
 			columns={
 				[
 					{
-						field: 'position',
-						headerName: 'P',
-						width: 60,
+						field:       'position',
+						headerName:  'P',
+						width:       60,
 						headerAlign: 'center',
-						align: 'center',
-						type: 'number'
+						align:       'center',
+						type:        'number'
 					},
 					{
-						field: 'change',
+						field:        'change',
 						renderHeader: () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
-						renderCell: ({row}) => (
+						renderCell:   ({row}) => (
 							<PositionChange {...row}/>
 						),
-						valueGetter: ({row}) => {
+						valueGetter:  ({row}) => {
 							const {grid, position} = row;
 							if (!grid || !position) {
 								return 0;
@@ -74,39 +92,39 @@ export default function Season({circuitId}: { circuitId: Circuit['circuitId'] })
 							
 							return Number(grid) - Number(position);
 						},
-						width: 60,
-						headerAlign: 'center',
-						align: 'center'
+						width:        60,
+						headerAlign:  'center',
+						align:        'center'
 					},
 					{
-						field: 'Driver',
+						field:      'Driver',
 						headerName: 'Driver',
-						flex: 1,
+						flex:       1,
 						renderCell: ({row}) => row.Driver ? <ByLine id={row.Driver.driverId}/> : '',
-						minWidth: 200
+						minWidth:   200
 					},
 					{
-						field: 'Constructor',
+						field:      'Constructor',
 						headerName: 'Constructor',
-						flex: 1,
+						flex:       1,
 						renderCell: ({row}) => row.Constructor ? <ConstructorByLine id={row.Constructor.constructorId}/> : '',
-						minWidth: 150
+						minWidth:   150
 					},
 					{
-						field: 'points',
-						headerName: 'Points',
-						type: 'number',
+						field:       'points',
+						headerName:  'Points',
+						type:        'number',
 						headerAlign: 'center',
-						align: 'center'
+						align:       'center'
 					},
 					{
-						field: 'time',
-						headerName: 'Time',
-						sortable: false,
+						field:       'time',
+						headerName:  'Time',
+						sortable:    false,
 						headerAlign: 'left',
-						align: 'left',
-						flex: .5,
-						renderCell: ({row}) => {
+						align:       'left',
+						flex:        .5,
+						renderCell:  ({row}) => {
 							const time = row.Time?.time;
 							return (
 								<Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
@@ -121,7 +139,7 @@ export default function Season({circuitId}: { circuitId: Circuit['circuitId'] })
 								</Grid>
 							);
 						},
-						minWidth: 110
+						minWidth:    110
 					}
 				] as GridColDef<Result>[]
 			}

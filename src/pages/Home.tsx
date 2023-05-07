@@ -1,5 +1,6 @@
 import {Card, CardHeader, Grid, Typography} from '@mui/material';
 import {useAppState} from '../app/AppStateProvider';
+import RaceWeekend from '../race/RaceWeekend';
 import Schedule from '../schedule/Schedule';
 import Constructors from '../standings/Constructors';
 import Drivers from '../standings/Drivers';
@@ -17,6 +18,9 @@ export default function Home() {
 				<Navigation>
 					<Typography>{season} Season</Typography>
 				</Navigation>
+			</Grid>
+			<Grid item xs={12}>
+				<RaceWeekend />
 			</Grid>
 			<Grid item xs={12} md={6}>
 				<Card variant="outlined">
