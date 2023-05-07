@@ -1,8 +1,8 @@
+import {Constructor} from '@gtibrett/effone-hub-api';
 import {alpha, Box, useTheme} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
 import {FC} from 'react';
-import {getColorByConstructorId} from '../constructors';
-import {Constructor} from '@gtibrett/effone-hub-api';
+import useGetColorByConstructorId from '../constructors/useGetColorByConstructorId';
 import {useInvertedTheme, usePrefersDarkMode} from './Theme';
 
 export const useNivoTheme = () => {
@@ -11,98 +11,98 @@ export const useNivoTheme = () => {
 	const captionFontSize = 11;
 	
 	return {
-		'background': 'transparent',
-		'textColor': theme.palette.text.primary,
-		'fontSize': captionFontSize,
-		'axis': {
+		'background':  'transparent',
+		'textColor':   theme.palette.text.primary,
+		'fontSize':    captionFontSize,
+		'axis':        {
 			'domain': {
 				'line': {
-					'stroke': theme.palette.divider,
+					'stroke':      theme.palette.divider,
 					'strokeWidth': 1
 				}
 			},
 			'legend': {
 				'text': {
 					'fontSize': captionFontSize,
-					'fill': theme.palette.text.secondary
+					'fill':     theme.palette.text.secondary
 				}
 			},
-			'ticks': {
+			'ticks':  {
 				'line': {
-					'stroke': theme.palette.divider,
+					'stroke':      theme.palette.divider,
 					'strokeWidth': 1
 				},
 				'text': {
 					'fontSize': captionFontSize,
-					'fill': theme.palette.text.secondary
+					'fill':     theme.palette.text.secondary
 				}
 			}
 		},
-		'grid': {
+		'grid':        {
 			'line': {
-				'stroke': theme.palette.divider,
+				'stroke':      theme.palette.divider,
 				'strokeWidth': 1
 			}
 		},
-		'legends': {
+		'legends':     {
 			'title': {
 				'text': {
 					'fontSize': captionFontSize,
-					'fill': theme.palette.text.secondary
+					'fill':     theme.palette.text.secondary
 				}
 			},
-			'text': {
+			'text':  {
 				'fontSize': captionFontSize,
-				'fill': theme.palette.text.secondary
+				'fill':     theme.palette.text.secondary
 			},
 			'ticks': {
 				'line': {},
 				'text': {
 					'fontSize': captionFontSize,
-					'fill': theme.palette.text.secondary
+					'fill':     theme.palette.text.secondary
 				}
 			}
 		},
 		'annotations': {
-			'text': {
-				'fontSize': captionFontSize,
-				'fill': theme.palette.text.secondary,
-				'outlineWidth': 2,
-				'outlineColor': theme.palette.background.paper,
+			'text':    {
+				'fontSize':       captionFontSize,
+				'fill':           theme.palette.text.secondary,
+				'outlineWidth':   2,
+				'outlineColor':   theme.palette.background.paper,
 				'outlineOpacity': 1
 			},
-			'link': {
-				'stroke': theme.palette.text.primary,
-				'strokeWidth': 1,
-				'outlineWidth': 2,
-				'outlineColor': theme.palette.background.paper,
+			'link':    {
+				'stroke':         theme.palette.text.primary,
+				'strokeWidth':    1,
+				'outlineWidth':   2,
+				'outlineColor':   theme.palette.background.paper,
 				'outlineOpacity': 1
 			},
 			'outline': {
-				'stroke': theme.palette.text.primary,
-				'strokeWidth': 2,
-				'outlineWidth': 2,
-				'outlineColor': theme.palette.background.paper,
+				'stroke':         theme.palette.text.primary,
+				'strokeWidth':    2,
+				'outlineWidth':   2,
+				'outlineColor':   theme.palette.background.paper,
 				'outlineOpacity': 1
 			},
-			'symbol': {
-				'fill': theme.palette.text.primary,
-				'outlineWidth': 2,
-				'outlineColor': theme.palette.background.paper,
+			'symbol':  {
+				'fill':           theme.palette.text.primary,
+				'outlineWidth':   2,
+				'outlineColor':   theme.palette.background.paper,
 				'outlineOpacity': 1
 			}
 		},
 		
 		'tooltip': {
-			'container': {
+			'container':      {
 				'background': invertedTheme.palette.background.paper,
-				'color': invertedTheme.palette.getContrastText(invertedTheme.palette.background.paper),
-				'fontSize': captionFontSize
+				'color':      invertedTheme.palette.getContrastText(invertedTheme.palette.background.paper),
+				'fontSize':   captionFontSize
 			},
-			'basic': {},
-			'chip': {},
-			'table': {},
-			'tableCell': {},
+			'basic':          {},
+			'chip':           {},
+			'table':          {},
+			'tableCell':      {},
 			'tableCellValue': {}
 		}
 	};
@@ -113,10 +113,10 @@ export const NivoTooltip = (Component: FC<any>): FC<any> => {
 		// eslint-disable-next-line react-hooks/rules-of-hooks
 		const theme = useInvertedTheme();
 		const sx    = {
-			px: 1,
+			px:           1,
 			borderRadius: 1,
-			background: alpha(theme.palette.background.paper, .9),
-			color: theme.palette.getContrastText(theme.palette.background.paper),
+			background:   alpha(theme.palette.background.paper, .9),
+			color:        theme.palette.getContrastText(theme.palette.background.paper),
 			
 			'& .MuiTypography-root': {
 				color: theme.palette.getContrastText(theme.palette.background.paper)
@@ -128,7 +128,8 @@ export const NivoTooltip = (Component: FC<any>): FC<any> => {
 };
 
 export function useGetChartColorsByConstructor() {
-	const darkMode = usePrefersDarkMode();
+	const darkMode                = usePrefersDarkMode();
+	const getColorByConstructorId = useGetColorByConstructorId();
 	
 	return (constructorId: Constructor['constructorId'] | undefined) => {
 		const color = getColorByConstructorId(constructorId);

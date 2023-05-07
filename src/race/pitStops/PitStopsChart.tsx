@@ -1,9 +1,8 @@
+import {Result} from '@gtibrett/effone-hub-api';
 import {Box, Skeleton, useMediaQuery, useTheme} from '@mui/material';
 import {BarSvgProps, ResponsiveBar} from '@nivo/bar';
-import {Result} from '@gtibrett/effone-hub-api';
-import {getColorByConstructorId} from '../../constructors';
 import ByLine from '../../drivers/ByLine';
-import {DriverId} from '../../drivers/DriverProvider';
+import useGetColorByDriverId from '../../drivers/useGetColorByDriverId';
 import {NivoTooltip, useNivoTheme} from '../../ui-components/nivo';
 import {getDateFromTimeString} from '../lapTimes/helpers';
 import {PitStopTableRow} from './PitStops';
@@ -20,20 +19,11 @@ export type PitStopSerie = {
 	[stop: string]: number | string;
 }
 
-const getColorByDriverId = (driverId: DriverId, results: Result[]) => {
-	const result = results.find(r => r.Driver?.driverId === driverId);
-	if (driverId && result) {
-		return getColorByConstructorId(result.Constructor?.constructorId);
-	}
-	
-	return '#000';
-};
-
-
 export default function PitStopsChart({maxStops, pitStops, results}: PitStopsChartProps) {
-	const nivoTheme = useNivoTheme();
-	const theme     = useTheme();
-	const isSmall   = useMediaQuery(theme.breakpoints.down('sm'));
+	const nivoTheme          = useNivoTheme();
+	const theme              = useTheme();
+	const isSmall            = useMediaQuery(theme.breakpoints.down('sm'));
+	const getColorByDriverId = useGetColorByDriverId();
 	
 	if (!pitStops) {
 		return <Skeleton variant="rectangular" height={isSmall ? 400 : 150}/>;
@@ -48,7 +38,7 @@ export default function PitStopsChart({maxStops, pitStops, results}: PitStopsCha
 	const data: PitStopSerie[] = pitStops.map(p => {
 		const stop: PitStopSerie = {
 			driverId: p.driverId || '',
-			color: getColorByDriverId(String(p.driverId || ''), results)
+			color:    getColorByDriverId(String(p.driverId || ''), results)
 		};
 		
 		p.stops.forEach(s => {
@@ -67,22 +57,21 @@ export default function PitStopsChart({maxStops, pitStops, results}: PitStopsCha
 		layoutProps.margin     = {left: 40};
 		layoutProps.axisBottom = null;
 		layoutProps.axisLeft   = {
-			tickSize: 0,
-			tickPadding: 5,
+			tickSize:     0,
+			tickPadding:  5,
 			tickRotation: 0,
-			format: (v => {
+			format:       (v => {
 				return <ByLine variant="code" id={v}/>;
 			})
 		};
-	}
-	else {
+	} else {
 		layoutProps.layout     = 'vertical';
 		layoutProps.margin     = {bottom: 40};
 		layoutProps.axisBottom = {
-			tickSize: 0,
-			tickPadding: 5,
+			tickSize:     0,
+			tickPadding:  5,
 			tickRotation: 0,
-			format: (v => {
+			format:       (v => {
 				return <ByLine variant="code" id={v}/>;
 			})
 		};

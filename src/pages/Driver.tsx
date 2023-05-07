@@ -12,6 +12,7 @@ import Link from '../ui-components/Link';
 import Navigation from '../ui-components/Navigation';
 import Tabs from '../ui-components/Tabs';
 import useComponentDimensionsWithRef from '../ui-components/useComponentDimensions';
+import usePageTitle from '../ui-components/usePageTitle';
 
 const DriverDetails = ({driver}: { driver: DriverWithBio }) => {
 	return (
@@ -34,6 +35,8 @@ export default function Driver() {
 	const {id}                       = useParams();
 	const driver                     = useDriver(id);
 	const driverBio                  = driver?.bio;
+	
+	usePageTitle(`Driver: ${driver?.givenName} ${driver?.familyName}`);
 	
 	if (!driver || !driverBio) {
 		return null;
