@@ -37,6 +37,11 @@ export default function History({circuitId}: { circuitId: Circuit['circuitId'] }
 			autoHeight
 			density="compact"
 			getRowId={r => r.season}
+			initialState={{
+				sorting: {
+					sortModel: [{field: 'season', sort: 'desc'}]
+				}
+			}}
 			columns={
 				[
 					{
@@ -62,7 +67,7 @@ export default function History({circuitId}: { circuitId: Circuit['circuitId'] }
 						headerName: 'Race',
 						flex: 1,
 						renderCell: ({row, value}) => (
-							<Link to={`/race/${row.season}/${row.round}#${row.raceName}`}>{value}</Link>
+							<Link to={`/race/${row.season}/${row.round}#${row.raceName}`}>{row.season} {value}</Link>
 						),
 						minWidth: 200
 					},

@@ -46,6 +46,11 @@ export default function Circuits({driverId}: TracksProps) {
 					autoHeight
 					density="compact"
 					getRowId={(row) => row.circuitId || ''}
+					initialState={{
+						sorting: {
+							sortModel: [{field: 'circuitName', sort: 'asc'}]
+						}
+					}}
 					columns={
 						[
 							{

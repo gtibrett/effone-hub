@@ -33,6 +33,11 @@ export default function Constructors() {
 			autoHeight
 			density="compact"
 			pageSize={10}
+			initialState={{
+				sorting: {
+					sortModel: [{field: 'points', sort: 'desc'}]
+				}
+			}}
 			columns={
 				[
 					{

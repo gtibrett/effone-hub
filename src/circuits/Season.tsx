@@ -45,6 +45,11 @@ export default function Season({circuitId}: { circuitId: Circuit['circuitId'] })
 			autoHeight
 			density="compact"
 			getRowId={r => r.Driver.driverId}
+			initialState={{
+				sorting: {
+					sortModel: [{field: 'position', sort: 'asc'}]
+				}
+			}}
 			columns={
 				[
 					{
