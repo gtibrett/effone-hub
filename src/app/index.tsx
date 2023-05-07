@@ -9,6 +9,7 @@ import Circuit from '../pages/Circuit';
 import Constructor from '../pages/Constructor';
 import Header from '../ui-components/Header';
 import {useEffTheme} from '../ui-components/Theme';
+import UkraineButton from '../ui-components/UkraineButton';
 import AppStateProvider from './AppStateProvider';
 import ErrorBoundary from './ErrorBoundary';
 import GoogleAnalyticsProvider from './GoogleAnalyticsProvider';
@@ -84,6 +85,9 @@ function Index() {
 											</Routes>
 										</ErrorBoundary>
 									</Container>
+									
+									<UkraineButton/>
+								
 								</Box>
 							</DriverProvider>
 						</ConstructorProvider>
