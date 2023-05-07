@@ -55,6 +55,24 @@ export const useDriver = (id?: DriverId) => {
 			      .then(response => response.data)
 			      .then(data => data.MRData?.DriverTable?.Drivers?.[0])
 			      .then((driver) => {
+					  // Update profile
+				      if (driver) {
+					      const canonicalId = getCanonicalId(driver.url);
+					      
+					      setDrivers((cur) => ({
+						      ...cur,
+						      [id]: {
+							      ...driver,
+							      url: decodeURI(driver.url || ''),
+							      canonicalId,
+							      bio: undefined
+						      }
+					      }));
+				      }
+					  
+					  return driver
+			      })
+			      .then((driver) => {
 				      if (driver) {
 					      const canonicalId = getCanonicalId(driver.url);
 					
@@ -64,8 +82,6 @@ export const useDriver = (id?: DriverId) => {
 								      ...cur,
 								      [id]: {
 									      ...driver,
-									      url: decodeURI(driver.url || ''),
-									      canonicalId,
 									      bio
 								      }
 							      }));
@@ -76,7 +92,6 @@ export const useDriver = (id?: DriverId) => {
 								      ...cur,
 								      [id]: {
 									      ...driver,
-									      canonicalId,
 									      bio: undefined
 								      }
 							      }));

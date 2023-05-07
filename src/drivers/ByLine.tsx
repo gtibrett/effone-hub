@@ -1,5 +1,5 @@
-import {Grid, Hidden, Typography} from '@mui/material';
-import Flag, {FlagProps} from '../flags/Flag';
+import {Grid, Hidden, Skeleton, Typography} from '@mui/material';
+import Flag from '../flags/Flag';
 import Link from '../ui-components/Link';
 import DriverAvatar, {DriverAvatarProps} from './DriverAvatar';
 import {DriverId, useDriver} from './DriverProvider';
@@ -11,12 +11,29 @@ type ByLineProps = {
 	flagProps?: Omit<FlagProps, 'nationality'>
 }
 
+const DriverSkeleton = ({id, variant = 'full', avatarProps = {}}: ByLineProps) => {
+	switch (variant) {
+		case 'code':
+			return <Skeleton variant="text" width="3em"/>;
+		case 'name':
+			return <Skeleton variant="text"/>;
+		
+		case 'full':
+			return (
+				<Grid container spacing={1} alignItems="center" sx={{flexWrap: 'nowrap'}}>
+					<Hidden smDown><Grid item><DriverAvatar id={id} {...avatarProps}/></Grid></Hidden>
+					<Grid item><Typography><Skeleton/></Typography></Grid>
+				</Grid>
+			);
+	}
+};
 
-export default function ByLine({id, variant = 'full', avatarProps = {}, flagProps={ size: 16}}: ByLineProps) {
+
+export default function ByLine({id, variant = 'full', avatarProps = {}, flagProps = {size: 16}}: ByLineProps) {
 	const driver = useDriver(id);
 	
 	if (!driver) {
-		return null;
+		return <DriverSkeleton id={id} variant={variant} avatarProps={avatarProps} flagProps={flagProps}/>;
 	}
 	
 	const {driverId, givenName, familyName, nationality, code} = driver;
