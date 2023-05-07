@@ -5,8 +5,11 @@ import Constructors from '../standings/Constructors';
 import Drivers from '../standings/Drivers';
 import DriversChart from '../standings/DriversChart';
 import Navigation from '../ui-components/Navigation';
+import usePageTitle from '../ui-components/usePageTitle';
 
 export default function Home() {
+	usePageTitle('Home');
+	
 	const [{season}] = useAppState();
 	return (
 		<Grid container spacing={2}>

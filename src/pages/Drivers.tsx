@@ -12,6 +12,7 @@ import ByLine from '../drivers/ByLine';
 import SeasonMenu from '../schedule/SeasonMenu';
 import Link from '../ui-components/Link';
 import Navigation from '../ui-components/Navigation';
+import usePageTitle from '../ui-components/usePageTitle';
 
 type DriversTableProps = {
 	drivers: Driver[];
@@ -46,6 +47,8 @@ function DriversTable({drivers}: DriversTableProps) {
 }
 
 export default function Drivers() {
+	usePageTitle('Drivers');
+	
 	const theme                           = useTheme();
 	const [{season: currentSeason}]       = useAppState();
 	const [drivers, setDrivers]           = useState<Driver[] | undefined>();
@@ -78,7 +81,7 @@ export default function Drivers() {
 	};
 	
 	useEffect(() => {
-		if (Number(filters.season) > 0 || filters.search.length) {
+		if (Number(filters.season) || filters.search.length) {
 			let url = getAPIUrl(`/drivers.json`);
 			if (Number(filters.season) > 0) {
 				url = getAPIUrl(`/${filters.season}/drivers.json`);
@@ -111,7 +114,7 @@ export default function Drivers() {
 	let content = <Skeleton variant="rectangular" height={400}/>;
 	if (drivers) {
 		content = <>
-			<Paper elevation={0} sx={{p: 2, boxShadow: `inset 8px 0 0 ${alpha(theme.palette.secondary.main, .5)}`, border: `1px solid ${theme.palette.secondary.main}`}}>
+			<Paper elevation={0} sx={{p: 2, boxShadow: `inset 8px 0 0 ${alpha(theme.palette.primary.main, .5)}`, border: `1px solid ${theme.palette.primary.main}`}}>
 				<form onSubmit={handleSearch}>
 					<Grid container spacing={1}>
 						<Grid item xs>

@@ -17,6 +17,7 @@ import OpenAILink from '../ui-components/citations/OpenAILink';
 import Link from '../ui-components/Link';
 import Navigation from '../ui-components/Navigation';
 import Tabs from '../ui-components/Tabs';
+import usePageTitle from '../ui-components/usePageTitle';
 
 export default function Race() {
 	const theme           = useTheme();

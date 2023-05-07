@@ -1,11 +1,11 @@
+import {Circuit, Race} from '@gtibrett/effone-hub-api';
 import {Alert, Box, Skeleton} from '@mui/material';
 import {ResponsiveSwarmPlot} from '@nivo/swarmplot';
-import {Circuit, Race} from '@gtibrett/effone-hub-api';
 import {useEffect, useState} from 'react';
 import {RaceData} from '../../api/analysis/types';
 import Caxios from '../../api/Caxios';
 import {getAPIUrl, mapLaps} from '../../api/Ergast';
-import {getColorByConstructorId} from '../../constructors';
+import useGetColorByConstructorId from '../../constructors/useGetColorByConstructorId';
 import {getDateFromTimeString} from '../../race/lapTimes/helpers';
 import {useNivoTheme} from '../../ui-components/nivo';
 import {DriverId} from '../DriverProvider';
@@ -28,8 +28,9 @@ function getStandardDeviation(data: number[]) {
 }
 
 export default function LapTimesByYearSwarm({circuitId, driverId}: LapTimesChartProps) {
-	const nivoTheme       = useNivoTheme();
-	const [data, setData] = useState<RaceData[] | undefined>();
+	const nivoTheme               = useNivoTheme();
+	const getColorByConstructorId = useGetColorByConstructorId();
+	const [data, setData]         = useState<RaceData[] | undefined>();
 	
 	// useEffect(() => {
 	// 	const dataUrl = `http://localhost:3001/raceData/driver/${driverId}/circuit/${circuitId}`;
@@ -50,36 +51,36 @@ export default function LapTimesByYearSwarm({circuitId, driverId}: LapTimesChart
 				                                .then(laps => {
 					                                const raceId = Number(`${race.season}.${race.round}`);
 					                                const result = race.Results?.[0];
-					
+					                                
 					                                if (!result) {
 						                                return undefined;
 					                                }
-					
+					                                
 					                                const mappedLaps = laps.map(l => ({
 						                                raceId,
-						                                lap: Number(l.number),
-						                                driverId: driverId,
-						                                lapTime: getDateFromTimeString(l.Timings?.[0].time),
+						                                lap:       Number(l.number),
+						                                driverId:  driverId,
+						                                lapTime:   getDateFromTimeString(l.Timings?.[0].time),
 						                                timeInPit: 0
 					                                }));
-					
+					                                
 					                                return {
 						                                raceId,
-						                                year: Number(race.season),
-						                                round: Number(race.round),
-						                                circuitId: circuitId,
-						                                driverRef: driverId,
+						                                year:           Number(race.season),
+						                                round:          Number(race.round),
+						                                circuitId:      circuitId,
+						                                driverRef:      driverId,
 						                                constructorRef: result.Constructor?.constructorId,
-						                                grid: Number(result.grid),
-						                                finish: Number(result.positionText),
-						                                points: Number(result.points),
-						                                totalTime: Number(result.Time?.millis),
+						                                grid:           Number(result.grid),
+						                                finish:         Number(result.positionText),
+						                                points:         Number(result.points),
+						                                totalTime:      Number(result.Time?.millis),
 						                                averageLapTime: mappedLaps.reduce((a, v) => v.lapTime + a, 0) / (mappedLaps.length + Number.EPSILON),
-						                                stdDevLapTime: getStandardDeviation(mappedLaps.map(l => Number(l.lapTime))),
-						                                lapsFinished: Number(result.laps),
+						                                stdDevLapTime:  getStandardDeviation(mappedLaps.map(l => Number(l.lapTime))),
+						                                lapsFinished:   Number(result.laps),
 						                                fastestLapTime: getDateFromTimeString(result.FastestLap?.Time?.time),
 						                                fastestLapRank: Number(result.FastestLap?.rank),
-						                                laps: mappedLaps
+						                                laps:           mappedLaps
 					                                };
 				                                });
 			             }))
@@ -130,7 +131,7 @@ export default function LapTimesByYearSwarm({circuitId, driverId}: LapTimesChart
 				forceStrength={1}
 				simulationIterations={50}
 				borderColor={{
-					from: 'color',
+					from:      'color',
 					modifiers: [
 						[
 							'darker',
@@ -146,15 +147,15 @@ export default function LapTimesByYearSwarm({circuitId, driverId}: LapTimesChart
 				axisTop={null}
 				axisRight={null}
 				axisBottom={{
-					tickSize: 10,
-					tickPadding: 5,
+					tickSize:     10,
+					tickPadding:  5,
 					tickRotation: 0
 				}}
 				axisLeft={{
-					tickSize: 0,
-					tickPadding: 0,
+					tickSize:     0,
+					tickPadding:  0,
 					tickRotation: 0,
-					tickValues: 0
+					tickValues:   0
 				}}
 			/>
 		</Box>
