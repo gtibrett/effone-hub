@@ -3,7 +3,7 @@ import React from 'react';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import ConstructorProvider from '../constructors/ConstructorProvider';
 import DriverProvider from '../drivers/DriverProvider';
-import {Driver, Drivers, Home, Race} from '../pages';
+import {Circuits, Constructors, Driver, Drivers, Home, Race} from '../pages';
 import About from '../pages/About';
 import Circuit from '../pages/Circuit';
 import Constructor from '../pages/Constructor';
@@ -58,8 +58,16 @@ function Index() {
 													path="/circuit/:circuitId"
 												/>
 												<Route
+													element={<Circuits/>}
+													path="/circuits"
+												/>
+												<Route
 													element={<Constructor/>}
 													path="/constructor/:id"
+												/>
+												<Route
+													element={<Constructors/>}
+													path="/constructors"
 												/>
 												<Route
 													element={<Driver/>}

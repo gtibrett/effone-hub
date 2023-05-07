@@ -1,15 +1,40 @@
-import {AppBar, Box, darken, Grid, Hidden, SxProps, Toolbar, Typography, useTheme} from '@mui/material';
+import {faBars} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {AppBar, Box, darken, Grid, Hidden, IconButton, Menu, MenuItem, SxProps, Toolbar, Typography, useTheme} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
-import {useLocation} from 'react-router';
+import {MouseEvent, useState} from 'react';
+import {useLocation, useNavigate} from 'react-router';
 import {LinkProps} from 'react-router-dom';
 import Logo from './header/Logo';
 import Link from './Link';
 
 const background = require('./header/header.jpg');
 
-export default function Header() {
-	const theme      = useTheme();
-	const {pathname} = useLocation();
+const navLinks: Pick<LinkProps, 'to' | 'children'>[] = [
+	{
+		to:       '/circuits',
+		children: 'Circuits'
+	},
+	{
+		to:       '/constructors',
+		children: 'Constructors'
+	},
+	{
+		to:       '/drivers',
+		children: 'Drivers'
+	},
+	{
+		to:       '/about',
+		children: 'About'
+	}
+];
+
+const NavMenu = () => {
+	const {pathname}              = useLocation();
+	const navigate                = useNavigate();
+	const theme                   = useTheme();
+	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+	const open                    = Boolean(anchorEl);
 	
 	const navLinkSx: SxProps = {
 		textDecoration:               'none',
@@ -22,32 +47,71 @@ export default function Header() {
 		}
 	};
 	
-	const navLinks: Pick<LinkProps, 'to' | 'children'>[] = [
-		{
-			to:       '/drivers',
-			children: 'Drivers'
-		},
-		{
-			to:       '/about',
-			children: 'About'
-		}
-	];
+	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+		setAnchorEl(event.currentTarget);
+	};
 	
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
+	
+	const handleLink = (url: string) => () => {
+		navigate(url);
+		handleClose();
+	};
+	
+	return <>
+		<Hidden smDown>
+			{navLinks.map((l, i) => <Grid item key={i}><Link color="inherit" sx={navLinkSx} className={pathname === l.to ? 'active' : ''} {...l}/></Grid>)}
+		</Hidden>
+		<Hidden smUp>
+			<Grid item>
+				<div>
+					<IconButton
+						id="hamburger-button"
+						aria-controls={open ? 'hamburger-menu' : undefined}
+						aria-haspopup="true"
+						aria-expanded={open ? 'true' : undefined}
+						onClick={handleClick}
+					><FontAwesomeIcon icon={faBars}/></IconButton>
+					<Menu
+						hideBackdrop
+						id="hamburger-menu"
+						anchorEl={anchorEl}
+						open={open}
+						onClose={handleClose}
+						MenuListProps={{
+							'aria-labelledby': 'hamburger-button'
+						}}
+					>
+						{navLinks.map((l) => <MenuItem key={String(l.to)} onClick={handleLink(String(l.to))}>{l.children}</MenuItem>)}
+					</Menu>
+				</div>
+			</Grid>
+		</Hidden>
+	</>;
+};
+
+export default function Header() {
 	return (
 		<header>
-			<AppBar component="nav" color="primary" sx={{
-				background: darken(blueGrey[900], .25),
-				
-				'&:before': {
-					position:        'absolute',
-					width:           '100%',
-					height:          '100%',
-					content:         '" "',
-					backgroundImage: `url(${background})`,
-					backgroundSize:  'cover',
-					opacity:         .25
-				}
-			}}>
+			<AppBar
+				component="nav"
+				color="primary"
+				aria-label="main navigation"
+				sx={{
+					background: darken(blueGrey[900], .25),
+					
+					'&:before': {
+						position:        'absolute',
+						width:           '100%',
+						height:          '100%',
+						content:         '" "',
+						backgroundImage: `url(${background})`,
+						backgroundSize:  'cover',
+						opacity:         .25
+					}
+				}}>
 				<Toolbar>
 					<Grid container spacing={2} alignItems="center">
 						<Hidden mdUp>
@@ -66,7 +130,7 @@ export default function Header() {
 							</Grid>
 						</Hidden>
 						<Grid item xs/>
-						{navLinks.map((l, i) => <Grid item key={i}><Link color="inherit" sx={navLinkSx} className={pathname === l.to ? 'active' : ''} {...l}/></Grid>)}
+						<NavMenu/>
 					</Grid>
 				</Toolbar>
 				<Box sx={{
