@@ -24,7 +24,7 @@ export default function Navigation({children}: PropsWithChildren) {
 		<Paper sx={{p: 2}} elevation={0}>
 			<Grid container spacing={1} alignItems="center">
 				<Grid item xs>
-					<Breadcrumbs separator="|">
+					<Breadcrumbs separator="|" aria-label="breadcrumbs">
 						{children}
 					</Breadcrumbs>
 				</Grid>

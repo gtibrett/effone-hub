@@ -1,6 +1,8 @@
 export {default as About} from './About';
 export {default as Circuit} from './Circuit';
+export {default as Circuits} from './Circuits';
 export {default as Constructor} from './Constructor';
+export {default as Constructors} from './Constructors';
 export {default as Driver} from './Driver';
 export {default as Drivers} from './Drivers';
 export {default as Home} from './Home';
