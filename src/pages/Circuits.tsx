@@ -116,8 +116,6 @@ export default function Drivers() {
 		}
 	}, [filters.season, filters.search]);
 	
-	console.log(filters, localFilters);
-	
 	let content = <Skeleton variant="rectangular" height={400}/>;
 	if (circuits) {
 		content = <>
