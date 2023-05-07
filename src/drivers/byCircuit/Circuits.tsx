@@ -1,9 +1,10 @@
+import {Circuit, Driver, Race} from '@gtibrett/effone-hub-api';
 import {Alert, Grid, Link, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useState} from 'react';
-import CircuitMap from '../../circuits/CircuitMap';
+import RaceMap from '../../maps/RaceMap';
+import useMapCircuitsToMapPoints from '../../maps/useMapCircuitsToMapPoints';
 import {getTimeStringFromDate} from '../../race/lapTimes/helpers';
-import {Circuit, Driver, Race} from '@gtibrett/effone-hub-api';
 import {DriverId, useDriver} from '../DriverProvider';
 import {useResultsByCircuit} from '../hooks';
 import CircuitDialog from './CircuitDialog';
@@ -19,9 +20,10 @@ export type CircuitWithRaces = Circuit & {
 }
 
 export default function Circuits({driverId}: TracksProps) {
-	const driver              = useDriver(driverId);
-	const circuits            = useResultsByCircuit(driverId);
-	const [active, setActive] = useState<CircuitWithRaces | undefined>();
+	const driver                 = useDriver(driverId);
+	const circuits               = useResultsByCircuit(driverId);
+	const mapCircuitsToMapPoints = useMapCircuitsToMapPoints();
+	const [active, setActive]    = useState<CircuitWithRaces | undefined>();
 	
 	if (!circuits) {
 		return <Skeleton variant="rectangular" height={400}/>;
@@ -31,9 +33,11 @@ export default function Circuits({driverId}: TracksProps) {
 		return <Alert variant="outlined" severity="info">Circuit Data Not Available</Alert>;
 	}
 	
+	const {points, onClick} = mapCircuitsToMapPoints(circuits);
+	
 	return (
 		<Grid container spacing={2}>
-			<Grid item xs={12}><CircuitMap circuits={circuits}/></Grid>
+			<Grid item xs={12}><RaceMap points={points} onClick={onClick}/></Grid>
 			<Grid item xs={12}>
 				<CircuitDialog driver={driver as Driver} circuit={active} onClose={() => setActive(undefined)}/>
 				<DataGrid
@@ -45,46 +49,46 @@ export default function Circuits({driverId}: TracksProps) {
 					columns={
 						[
 							{
-								field: 'circuitName',
+								field:      'circuitName',
 								headerName: 'Race',
-								flex: 1,
-								minWidth: 250,
+								flex:       1,
+								minWidth:   250,
 								renderCell: ({row}) => <Link color="secondary" onClick={() => setActive(row)}>{row.circuitName}</Link>
 							},
 							{
-								field: 'races',
-								headerName: 'Races',
-								type: 'number',
+								field:       'races',
+								headerName:  'Races',
+								type:        'number',
 								headerAlign: 'center',
-								align: 'center',
-								flex: 1,
+								align:       'center',
+								flex:        1,
 								valueGetter: ({row}) => row.races.length
 							},
 							{
-								field: 'wins',
-								headerName: 'Wins',
-								type: 'number',
+								field:       'wins',
+								headerName:  'Wins',
+								type:        'number',
 								headerAlign: 'center',
-								align: 'center',
-								flex: 1,
+								align:       'center',
+								flex:        1,
 								valueGetter: ({row}) => row.races.filter(r => Number(r.Results?.[0].position) === 1).length
 							},
 							{
-								field: 'averagePosition',
-								headerName: 'Avg. Finish',
-								type: 'number',
+								field:       'averagePosition',
+								headerName:  'Avg. Finish',
+								type:        'number',
 								headerAlign: 'center',
-								align: 'center',
-								flex: 1
+								align:       'center',
+								flex:        1
 							},
 							{
-								field: 'averageTime',
-								headerName: 'Avg. Time',
-								type: 'number',
+								field:       'averageTime',
+								headerName:  'Avg. Time',
+								type:        'number',
 								headerAlign: 'center',
-								align: 'center',
-								flex: 1,
-								renderCell: ({value}) => {
+								align:       'center',
+								flex:        1,
+								renderCell:  ({value}) => {
 									if (!value) {
 										return '--';
 									}
