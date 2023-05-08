@@ -1,13 +1,13 @@
+import {Race} from '@gtibrett/effone-hub-api';
 import {Box, Grid, Hidden} from '@mui/material';
 import {useAppState} from '../app/AppStateProvider';
 import CircuitMap from '../maps/CircuitMap';
 import RaceMap from '../maps/RaceMap';
 import useMapSeasonRacesToMapPoints from '../maps/useMapSeasonRacesToMapPoints';
-import {RaceWithTimes} from '../race/types';
 import NextRaceCountdown from './NextRaceCountdown';
 
 type NextRaceFeatureProps = {
-	race: RaceWithTimes;
+	race: Race;
 	mapSize?: number;
 	circuitSize?: number;
 }

@@ -1,15 +1,17 @@
+import {Race} from '@gtibrett/effone-hub-api';
 import {Card, CardContent, Table, TableBody, TableCell, TableRow} from '@mui/material';
 import {useEffect, useState} from 'react';
-import {DateAndTime, RaceWithTimes} from '../race/types';
 import CountdownClock from './CountdownClock';
 
 type NextRaceCountdownProps = {
-	race: RaceWithTimes;
+	race: Race;
 	mapSize?: number;
 	circuitSize?: number;
 }
 
-type CountdownRowProps = DateAndTime & {
+type CountdownRowProps = {
+	date?: string;
+	time?: string;
 	label: string
 }
 

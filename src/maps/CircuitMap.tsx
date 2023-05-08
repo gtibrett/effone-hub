@@ -4,7 +4,7 @@ import {Circuit} from '@gtibrett/effone-hub-api';
 import {Box, Grid, SxProps, ToggleButton, ToggleButtonGroup, useTheme} from '@mui/material';
 import {blue, red, yellow} from '@mui/material/colors';
 import {SVGProps, SyntheticEvent, useState} from 'react';
-import {usePrefersDarkMode} from '../ui-components/Theme';
+import {useDarkMode} from '../ui-components/Theme';
 import {AlbertPark, Americas, Bahrain, Baku, Catalunya, Estoril, Hungaroring, Imola, Interlagos, Jeddah, Losail, MarinaBay, Miami, Monaco, Monza, RedBullRing, Ricard, Rodriguez, Shanghai, Silverstone, Sochi, Spa, Suzuka, Villeneuve, YasMarina, Zandvoort} from './circuits';
 
 type CircuitMapProps = SVGProps<any> & {
@@ -75,7 +75,7 @@ const getMapSVG = (circuit: Circuit, svgProps: SVGProps<any>) => {
 };
 
 const useSectorColors = () => {
-	const darkMode = usePrefersDarkMode();
+	const darkMode = useDarkMode();
 	const shade    = darkMode ? 800 : 500;
 	return {
 		sector1: red[shade],
@@ -104,17 +104,17 @@ const useSx = (variant: CircuitMapProps['variant'], sector: string | undefined):
 		
 		'& svg > .st1': {
 			stroke:      sector1,
-			strokeWidth: (sector === '1' ? 13 : 8) / (variant === 'simple' ? 1.75 : 1)
+			strokeWidth: (sector === '1' ? 15 : 7) / (variant === 'simple' ? 1.75 : 1)
 		},
 		
 		'& svg > .st2': {
 			stroke:      sector2,
-			strokeWidth: (sector === '1' ? 13 : 8) / (variant === 'simple' ? 1.75 : 1)
+			strokeWidth: (sector === '2' ? 15 : 7) / (variant === 'simple' ? 1.75 : 1)
 		},
 		
 		'& svg > .st3': {
 			stroke:      sector3,
-			strokeWidth: (sector === '1' ? 13 : 8) / (variant === 'simple' ? 1.75 : 1)
+			strokeWidth: (sector === '3' ? 15 : 7) / (variant === 'simple' ? 1.75 : 1)
 		}
 	};
 };
