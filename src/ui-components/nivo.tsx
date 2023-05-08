@@ -3,7 +3,7 @@ import {alpha, Box, useTheme} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
 import {FC} from 'react';
 import useGetColorByConstructorId from '../constructors/useGetColorByConstructorId';
-import {useInvertedTheme, usePrefersDarkMode} from './Theme';
+import {useInvertedTheme, useDarkMode} from './Theme';
 
 export const useNivoTheme = () => {
 	const theme           = useTheme();
@@ -128,7 +128,7 @@ export const NivoTooltip = (Component: FC<any>): FC<any> => {
 };
 
 export function useGetChartColorsByConstructor() {
-	const darkMode                = usePrefersDarkMode();
+	const darkMode                = useDarkMode();
 	const getColorByConstructorId = useGetColorByConstructorId();
 	
 	return (constructorId: Constructor['constructorId'] | undefined) => {

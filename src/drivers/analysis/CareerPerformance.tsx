@@ -2,7 +2,7 @@ import {Paper} from '@mui/material';
 import {blueGrey, deepPurple, green, red} from '@mui/material/colors';
 import {ResponsivePie} from '@nivo/pie';
 import {useNivoTheme} from '../../ui-components/nivo';
-import {usePrefersDarkMode} from '../../ui-components/Theme';
+import {useDarkMode} from '../../ui-components/Theme';
 import {DriverId} from '../DriverProvider';
 import {useCareerResults} from '../hooks';
 
@@ -37,7 +37,7 @@ type CareerPerformanceProps = {
 export default function CareerPerformance({driverId}: CareerPerformanceProps) {
 	const nivoTheme       = useNivoTheme();
 	const data            = usePerformanceData(driverId);
-	const prefersDarkMode = usePrefersDarkMode();
+	const prefersDarkMode = useDarkMode();
 	
 	if (!data) {
 		return null;
