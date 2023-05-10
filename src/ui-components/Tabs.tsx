@@ -15,7 +15,7 @@ type TabsProps = {
 }
 
 export default function Tabs({tabs, active = '', color = 'secondary'}: TabsProps) {
-	const [activeTab, setActiveTab] = useState<string>(active);
+	const [activeTab, setActiveTab] = useState<string>(active || tabs[0].id);
 	
 	const handleTabChange = (event: SyntheticEvent, newValue: string) => {
 		setActiveTab(newValue);
