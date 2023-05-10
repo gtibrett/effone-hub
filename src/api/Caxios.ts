@@ -1,6 +1,5 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 
-// TODO: implement Cache type with generics for AxiosResponse
 type Cache<T> = {
 	timestamp: number;
 	cacheUntil: number;
