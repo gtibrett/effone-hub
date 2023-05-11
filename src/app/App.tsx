@@ -8,6 +8,7 @@ import About from '../pages/About';
 import Circuit from '../pages/Circuit';
 import Constructor from '../pages/Constructor';
 import Header from '../ui-components/Header';
+import SkipNav from '../ui-components/SkipNav';
 import {useEffTheme} from '../ui-components/Theme';
 import UkraineButton from '../ui-components/UkraineButton';
 import AppStateProvider from './AppStateProvider';
@@ -40,6 +41,8 @@ function Index() {
 					<GoogleAnalyticsProvider>
 						<ConstructorProvider>
 							<DriverProvider>
+								<SkipNav/>
+								
 								<Box sx={{position: 'fixed', overflow: 'auto', scrollbarColor: theme.palette.mode, top: 0, left: 0, right: 0, bottom: 0, background: theme.palette.background.default}}>
 									<Header/>
 									
