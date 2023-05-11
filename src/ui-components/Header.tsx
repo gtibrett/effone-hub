@@ -73,7 +73,7 @@ const NavMenu = () => {
 						aria-haspopup="true"
 						aria-expanded={open ? 'true' : undefined}
 						onClick={handleClick}
-					><FontAwesomeIcon icon={faBars}/></IconButton>
+					><FontAwesomeIcon icon={faBars} title="toggle navigation menu"/></IconButton>
 					<Menu
 						hideBackdrop
 						id="hamburger-menu"
@@ -94,7 +94,7 @@ const NavMenu = () => {
 
 export default function Header() {
 	return (
-		<header>
+		<header role="banner">
 			<AppBar
 				component="nav"
 				color="primary"
