@@ -7,9 +7,9 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 	const prefersDarkMode = (useMediaQuery('(prefers-color-scheme: dark)') && overrideMode !== 'light') || overrideMode === 'dark';
 	
 	return useMemo(() => createTheme({
-		palette: {
-			mode: prefersDarkMode ? 'dark' : 'light',
-			primary: {
+		palette:    {
+			mode:       prefersDarkMode ? 'dark' : 'light',
+			primary:    {
 				main: blueGrey[prefersDarkMode ? 400 : 800]
 			},
 			secondary:  {
@@ -20,11 +20,35 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 				default: prefersDarkMode ? blueGrey[800] : blueGrey[200]
 			}
 		},
+		typography: {
+			h1: {
+				fontSize: 48
+			},
+			h2: {
+				fontSize: 24
+			},
+			h3: {
+				fontSize: 20
+			},
+			h4: {
+				fontSize: 14
+			}
+		},
 		components: {
 			MuiCard:         {
+				defaultProps:   {
+					elevation: 0
+				},
 				styleOverrides: {
 					root: {
 						overflow: 'visible'
+					}
+				}
+			},
+			MuiCardHeader:   {
+				defaultProps: {
+					titleTypographyProps: {
+						variant: 'h3'
 					}
 				}
 			},
@@ -61,6 +85,16 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 				styleOverrides: {
 					root: {
 						minWidth: 36
+					}
+				}
+			},
+			MuiTab:          {
+				styleOverrides: {
+					root: {
+						'&.Mui-selected': {
+							color: prefersDarkMode ? '#FFF' : '#000',
+							fontWeight: 'bold'
+						}
 					}
 				}
 			},

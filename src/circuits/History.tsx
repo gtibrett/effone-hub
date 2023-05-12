@@ -67,7 +67,7 @@ export default function History({circuitId}: { circuitId: Circuit['circuitId'] }
 						headerName: 'Race',
 						flex: 1,
 						renderCell: ({row, value}) => (
-							<Link to={`/race/${row.season}/${row.round}#${row.raceName}`}>{row.season} {value}</Link>
+							<Link to={`/season/${row.season}/${row.round}#${row.raceName}`}>{row.season} {value}</Link>
 						),
 						minWidth: 200
 					},

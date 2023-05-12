@@ -1,96 +1,10 @@
-import {faBars} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {AppBar, Box, darken, Grid, Hidden, IconButton, Menu, MenuItem, SxProps, Toolbar, Typography, useTheme} from '@mui/material';
+import {AppBar, Box, darken, Grid, Toolbar, Typography} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
-import {MouseEvent, useState} from 'react';
-import {useLocation, useNavigate} from 'react-router';
-import {LinkProps} from 'react-router-dom';
 import Logo from './header/Logo';
 import Link from './Link';
+import NavMenu from './header/NavMenu';
 
 const background = require('./header/header.jpg');
-
-const navLinks: Pick<LinkProps, 'to' | 'children'>[] = [
-	{
-		to:       '/circuits',
-		children: 'Circuits'
-	},
-	{
-		to:       '/constructors',
-		children: 'Constructors'
-	},
-	{
-		to:       '/drivers',
-		children: 'Drivers'
-	},
-	{
-		to:       '/about',
-		children: 'About'
-	}
-];
-
-const NavMenu = () => {
-	const {pathname}              = useLocation();
-	const navigate                = useNavigate();
-	const theme                   = useTheme();
-	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-	const open                    = Boolean(anchorEl);
-	
-	const navLinkSx: SxProps = {
-		textDecoration:               'none',
-		py:                           .5,
-		px:                           .5,
-		mx:                           2,
-		borderBottom:                 '8px solid transparent',
-		'&:hover, &:focus, &:active': {
-			borderBottomColor: theme.palette.common.white
-		}
-	};
-	
-	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-		setAnchorEl(event.currentTarget);
-	};
-	
-	const handleClose = () => {
-		setAnchorEl(null);
-	};
-	
-	const handleLink = (url: string) => () => {
-		navigate(url);
-		handleClose();
-	};
-	
-	return <>
-		<Hidden smDown>
-			{navLinks.map((l, i) => <Grid item key={i}><Link color="inherit" sx={navLinkSx} className={pathname === l.to ? 'active' : ''} {...l}/></Grid>)}
-		</Hidden>
-		<Hidden smUp>
-			<Grid item>
-				<div>
-					<IconButton
-						id="hamburger-button"
-						aria-controls={open ? 'hamburger-menu' : undefined}
-						aria-haspopup="true"
-						aria-expanded={open ? 'true' : undefined}
-						onClick={handleClick}
-					><FontAwesomeIcon icon={faBars} title="toggle navigation menu"/></IconButton>
-					<Menu
-						hideBackdrop
-						id="hamburger-menu"
-						anchorEl={anchorEl}
-						open={open}
-						onClose={handleClose}
-						MenuListProps={{
-							'aria-labelledby': 'hamburger-button'
-						}}
-					>
-						{navLinks.map((l) => <MenuItem key={String(l.to)} onClick={handleLink(String(l.to))}>{l.children}</MenuItem>)}
-					</Menu>
-				</div>
-			</Grid>
-		</Hidden>
-	</>;
-};
 
 export default function Header() {
 	return (
@@ -113,22 +27,13 @@ export default function Header() {
 					}
 				}}>
 				<Toolbar>
-					<Grid container spacing={2} alignItems="center">
-						<Hidden mdUp>
-							<Grid item>
-								<Link to="/" color="inherit" sx={{textDecoration: 'none'}}>
-									<Logo/>
-								</Link>
-							</Grid>
-						</Hidden>
-						<Hidden mdDown>
-							<Grid item>
-								<Link to="/" color="inherit" sx={{textDecoration: 'none'}}>
-									<Typography variant="h3" component="h1" sx={{fontFamily: 'Racing Sans One'}}>
-										<Logo sx={{marginRight: 1}}/> effOne Hub</Typography>
-								</Link>
-							</Grid>
-						</Hidden>
+					<Grid container spacing={1} alignItems="center">
+						<Grid item>
+							<Link to="/" color="inherit" sx={{textDecoration: 'none'}}>
+								<Typography variant="h3" component="h1" sx={{fontFamily: 'Racing Sans One', fontSize: 48}}>
+									<Logo sx={{marginRight: 1}}/> effOne Hub</Typography>
+							</Link>
+						</Grid>
 						<Grid item xs/>
 						<NavMenu/>
 					</Grid>

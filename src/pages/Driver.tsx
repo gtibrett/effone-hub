@@ -1,4 +1,4 @@
-import {Card, CardContent, CardHeader, CardMedia, Divider, Grid, Hidden, Typography} from '@mui/material';
+import {Card, CardContent, CardMedia, Divider, Grid, Hidden, Typography} from '@mui/material';
 import {useParams} from 'react-router';
 import {useAppState} from '../app/AppStateProvider';
 import Circuits from '../drivers/byCircuit/Circuits';
@@ -7,12 +7,7 @@ import DriverAvatar from '../drivers/DriverAvatar';
 import {DriverWithBio, useDriver} from '../drivers/DriverProvider';
 import Season from '../drivers/Season';
 import Flag from '../flags/Flag';
-import WikipediaLink from '../ui-components/citations/WikipediaLink';
-import Link from '../ui-components/Link';
-import Navigation from '../ui-components/Navigation';
-import Tabs from '../ui-components/Tabs';
-import useComponentDimensionsWithRef from '../ui-components/useComponentDimensions';
-import usePageTitle from '../ui-components/usePageTitle';
+import {Page, Tabs, useComponentDimensionsWithRef, usePageTitle, WikipediaLink} from '../ui-components';
 
 const DriverDetails = ({driver}: { driver: DriverWithBio }) => {
 	return (
@@ -30,10 +25,10 @@ const DriverDetails = ({driver}: { driver: DriverWithBio }) => {
 
 
 export default function Driver() {
-	const [{season}]                 = useAppState();
+	const [{currentSeason}]                 = useAppState();
 	const {ref, dimensions: {width}} = useComponentDimensionsWithRef();
-	const {id}                       = useParams();
-	const driver                     = useDriver(id);
+	const {driverId}                 = useParams();
+	const driver                     = useDriver(driverId);
 	const driverBio                  = driver?.bio;
 	
 	usePageTitle(`Driver: ${driver?.givenName} ${driver?.familyName}`);
@@ -43,60 +38,44 @@ export default function Driver() {
 	}
 	
 	return (
-		<Grid container spacing={2}>
-			<Grid item xs={12}>
-				<Navigation>
-					<Link to="/">{season} Season</Link>
-					<Typography>{driver.givenName} {driver.familyName}</Typography>
-				</Navigation>
-			</Grid>
-			
-			<Grid item xs={12}>
-				<Card elevation={0}>
-					<CardHeader
-						title={<DriverDetails driver={driver}/>}
-					/>
-					
-					<CardContent>
-						<Grid container spacing={2}>
-							<Grid item xs={12} md={8} lg={9} order={{xs: 2, md: 1}}>
-								<Tabs active="season" tabs={[
-									{id: 'season', label: 'Season', content: <Season driverId={id}/>},
-									{id: 'career', label: 'Career', content: <Career driverId={id}/>},
-									{id: 'circuits', label: 'Circuits', content: <Circuits driverId={id}/>}
-								]}/>
+		<Page title={<DriverDetails driver={driver}/>}>
+			<Grid container spacing={2}>
+				<Grid item xs={12} md={8} lg={9} order={{xs: 2, md: 1}}>
+					<Card>
+						<Tabs active="career" tabs={[
+							{id: 'career', label: 'Career', content: <Career driverId={driverId}/>},
+							{id: 'circuits', label: 'Circuits', content: <Circuits driverId={driverId}/>},
+							{id: 'season', label: `${currentSeason} Season`, content: <Season driverId={driverId}/>}
+						]}/>
+					</Card>
+				</Grid>
+				
+				<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>
+					<Card variant="outlined">
+						<CardMedia ref={ref}>
+							<Hidden mdDown>
+								<DriverAvatar id={driverId} size={width}/>
+							</Hidden>
+						</CardMedia>
+						
+						<CardContent>
+							<Grid container spacing={2}>
+								<Hidden mdUp>
+									<Grid item><DriverAvatar id={driverId} size={128}/></Grid>
+								</Hidden>
+								
+								<Grid item xs>
+									<Typography variant="body2">Born: {(new Date(driver.dateOfBirth || '')).toLocaleDateString()}</Typography>
+									<Divider orientation="horizontal" sx={{my: 1}}/>
+									<Typography variant="body1">{driverBio.extract}</Typography>
+									<Divider orientation="horizontal" sx={{my: 1}}/>
+									<WikipediaLink href={driver.url}/>
+								</Grid>
 							</Grid>
-							
-							<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>
-								<Card variant="outlined">
-									
-									<CardMedia ref={ref}>
-										<Hidden mdDown>
-											<DriverAvatar id={id} size={width}/>
-										</Hidden>
-									</CardMedia>
-									
-									<CardContent>
-										<Grid container spacing={2}>
-											<Hidden mdUp>
-												<Grid item><DriverAvatar id={id} size={128}/></Grid>
-											</Hidden>
-											
-											<Grid item xs>
-												<Typography variant="body2">Born: {(new Date(driver.dateOfBirth || '')).toLocaleDateString()}</Typography>
-												<Divider orientation="horizontal" sx={{my: 1}}/>
-												<Typography variant="body1">{driverBio.extract}</Typography>
-												<Divider orientation="horizontal" sx={{my: 1}}/>
-												<WikipediaLink href={driver.url}/>
-											</Grid>
-										</Grid>
-									</CardContent>
-								</Card>
-							</Grid>
-						</Grid>
-					</CardContent>
-				</Card>
+						</CardContent>
+					</Card>
+				</Grid>
 			</Grid>
-		</Grid>
+		</Page>
 	);
 }

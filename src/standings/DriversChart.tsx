@@ -4,7 +4,6 @@ import {ResponsiveBump} from '@nivo/bump';
 import {useEffect, useMemo, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapSchedule} from '../api/Ergast';
-import {useAppState} from '../app/AppStateProvider';
 import useGetColorByConstructorId from '../constructors/useGetColorByConstructorId';
 import ByLine from '../drivers/ByLine';
 import LapByLapTooltip from '../race/lapByLap/LapByLapTooltip';
@@ -89,10 +88,9 @@ const useChartData = (races: Race[] | undefined) => {
 	}, [races, getColorByConstructorId]);
 };
 
-export default function DriversChart() {
+export default function DriversChart({season}: { season: number }) {
 	const nivoTheme         = useNivoTheme();
 	const height            = 250;
-	const [{season}]        = useAppState();
 	const [races, setRaces] = useState<Race[]>([]);
 	const data              = useChartData(races);
 	

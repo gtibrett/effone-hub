@@ -7,34 +7,29 @@ import {getAPIUrl} from '../api/Ergast';
 
 type AppStateType = {
 	season: number;
+	currentSeason: number;
 	ready: boolean;
 };
 
 type SetAppStateType = Dispatch<SetStateAction<AppStateType>>;
 
-const BLANK_STATE = {
-	season: 0,
-	ready:  false
+const BLANK_STATE: AppStateType = {
+	season:        0,
+	currentSeason: 0,
+	ready:         false
 };
 
 const initializeState = (): Promise<AppStateType> => {
 	purgeCaches();
 	
 	return new Promise(async (resolve, reject) => {
-		const storedAppState = localStorage.getItem('app-state');
-		if (storedAppState !== null) {
-			resolve({
-				...JSON.parse(storedAppState),
-				ready: true
-			});
-		}
-		
 		axios.get<Responses.SeasonResponse>(getAPIUrl('/seasons.json'), {params: {limit: 100}})
 		     .then(response => response.data.MRData?.SeasonTable?.Seasons || [])
 		     .then((seasons) => {
 			     resolve({
-				     season: Math.max(...seasons.map(s => Number(s.season))),
-				     ready:  true
+				     season:        Math.max(...seasons.map(s => Number(s.season))),
+				     currentSeason: Math.max(...seasons.map(s => Number(s.season))),
+				     ready:         true
 			     });
 		     })
 		     .catch(err => reject(err));
@@ -51,14 +46,6 @@ const AppStateProvider: FC<PropsWithChildren> = ({children}) => {
 	useEffect(() => {
 		initializeState().then(s => setState(s));
 	}, []);
-	
-	useEffect(() => {
-		if (state) {
-			// Don't store ready state
-			const {ready, ...appState} = state;
-			localStorage.setItem('app-state', JSON.stringify(appState));
-		}
-	}, [state]);
 	
 	if (!state || !state.ready || !state.season) {
 		return <Backdrop open/>;

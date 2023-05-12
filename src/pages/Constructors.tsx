@@ -1,8 +1,5 @@
-import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Constructor, Responses} from '@gtibrett/effone-hub-api';
-import {alpha, Button, Card, CardContent, CardHeader, Grid, Paper, Skeleton, TextField, TextFieldProps, Tooltip, Typography, useTheme} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
+import {Card, CardContent, Skeleton, TextField, TextFieldProps, useTheme} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {SyntheticEvent, useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
@@ -10,9 +7,7 @@ import {getAPIUrl, mapConstructors} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
 import ByLine from '../constructors/ByLine';
 import SeasonMenu from '../schedule/SeasonMenu';
-import Link from '../ui-components/Link';
-import Navigation from '../ui-components/Navigation';
-import usePageTitle from '../ui-components/usePageTitle';
+import {Page, TableFilter, usePageTitle} from '../ui-components';
 
 type ConstructorsTableProps = {
 	constructors: Constructor[];
@@ -110,48 +105,23 @@ export default function Drivers() {
 		}
 	}, [filters.season, filters.search]);
 	
-	let content = <Skeleton variant="rectangular" height={400}/>;
-	if (constructors) {
-		content = <>
-			<Paper elevation={0} sx={{p: 2, boxShadow: `inset 8px 0 0 ${alpha(theme.palette.primary.main, .5)}`, border: `1px solid ${theme.palette.primary.main}`}}>
-				<form onSubmit={handleSearch}>
-					<Grid container spacing={1}>
-						<Grid item xs>
-							<TextField fullWidth size="small" InputLabelProps={{shrink: true}} id="constructors-search-filter" label="Constructor" variant="outlined" value={localFilters.search} onChange={setSearch}/>
-						</Grid>
-						<Grid item xs>
-							<SeasonMenu required={false} variant="normal" id="constructors-season-filter" season={localFilters.season} setSeason={setSeason}/>
-						</Grid>
-						<Grid item>
-							<Tooltip title="Search" arrow placement="bottom">
-								<Button color="secondary" type="submit" variant="contained" onClick={handleSearch}><FontAwesomeIcon icon={faMagnifyingGlass} style={{fontSize: 26}}/><Typography sx={visuallyHidden}>Search</Typography></Button>
-							</Tooltip>
-						</Grid>
-					</Grid>
-				</form>
-			</Paper>
-			<ConstructorsTable constructors={constructors}/>
-		</>;
-	}
-	
 	return (
-		<Grid container spacing={2}>
-			<Grid item xs={12}>
-				<Navigation>
-					<Link to="/">{currentSeason} Season</Link>
-					<Typography>All Constructors</Typography>
-				</Navigation>
-			</Grid>
-			
-			<Grid item xs={12}>
-				<Card elevation={0}>
-					<CardHeader title="All Constructors"/>
-					
-					<CardContent>
-						{content}
-					</CardContent>
-				</Card>
-			</Grid>
-		</Grid>
+		<Page title="Constructors">
+			{
+				!constructors
+				? <Skeleton variant="rectangular" height={400}/>
+				: (
+					<Card>
+						<TableFilter handleSearch={handleSearch}>
+							<TextField fullWidth size="small" InputLabelProps={{shrink: true}} id="constructors-search-filter" label="Constructor" variant="outlined" value={localFilters.search} onChange={setSearch}/>
+							<SeasonMenu required={false} variant="normal" id="constructors-season-filter" season={localFilters.season} setSeason={setSeason}/>
+						</TableFilter>
+						<CardContent>
+							<ConstructorsTable constructors={constructors}/>
+						</CardContent>
+					</Card>
+				)
+			}
+		</Page>
 	);
 }

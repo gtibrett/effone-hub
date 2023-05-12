@@ -1,14 +1,12 @@
+import {Responses, Standing} from '@gtibrett/effone-hub-api';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapConstructorsStandings} from '../api/Ergast';
-import {useAppState} from '../app/AppStateProvider';
 import ByLine from '../constructors/ByLine';
-import {Responses, Standing} from '@gtibrett/effone-hub-api';
 
-export default function Constructors() {
-	const [{season}]      = useAppState();
+export default function Constructors({season}: { season: number }) {
 	const [data, setData] = useState<Standing[] | undefined>();
 	
 	useEffect(() => {
@@ -41,15 +39,15 @@ export default function Constructors() {
 			columns={
 				[
 					{
-						field: 'code',
+						field:      'code',
 						headerName: 'Constructor',
-						flex: 1,
+						flex:       1,
 						renderCell: ({row}) => <ByLine id={row.Constructor?.constructorId} variant="link"/>
 					},
 					{
-						field: 'points',
+						field:      'points',
 						headerName: 'Points',
-						type: 'number'
+						type:       'number'
 					}
 				] as GridColDef<Standing>[]
 			}

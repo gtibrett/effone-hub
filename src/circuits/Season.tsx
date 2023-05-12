@@ -16,26 +16,26 @@ import PositionChange from '../race/PositionChange';
 import NextRaceCountdown from '../schedule/NextRaceCountdown';
 
 export default function Season({circuitId}: { circuitId: Circuit['circuitId'] }) {
-	const [{season}]            = useAppState();
+	const [{currentSeason}]     = useAppState();
 	const [results, setResults] = useState<Result[] | undefined>();
 	const [race, setRace]       = useState<Race | undefined>();
 	
 	useEffect(() => {
-		Caxios.get<Responses.ResultsResponse>(getAPIUrl(`/${season}/circuits/${circuitId}/results.json`), {params: {limit: 2000}})
+		Caxios.get<Responses.ResultsResponse>(getAPIUrl(`/${currentSeason}/circuits/${circuitId}/results.json`), {params: {limit: 2000}})
 		      .then(mapRace)
 		      .then(data => {
 			      setResults(data?.Results);
 		      })
 		      .catch(() => setResults([]));
-	}, [season, circuitId]);
+	}, [currentSeason, circuitId]);
 	
 	useEffect(() => {
-		Caxios.get<Responses.RacesResponse>(getAPIUrl(`/${season}/circuits/${circuitId}/races.json`), {params: {limit: 2000}})
+		Caxios.get<Responses.RacesResponse>(getAPIUrl(`/${currentSeason}/circuits/${circuitId}/races.json`), {params: {limit: 2000}})
 		      .then(mapSchedule)
 		      .then(data => {
 			      setRace(data[0]);
 		      });
-	}, [season, circuitId]);
+	}, [currentSeason, circuitId]);
 	
 	if (!results) {
 		return <Skeleton variant="rectangular" height={400}/>;

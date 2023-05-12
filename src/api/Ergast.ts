@@ -30,6 +30,10 @@ export const mapDriversStandings = (response: AxiosResponse<Responses.DriversSta
 	return response.data.MRData.StandingsTable.StandingsLists[0].DriverStandings || [];
 };
 
+export const mapPastSeasons = (response: AxiosResponse<Responses.DriversStandingsResponse>): SeasonStanding<ForDrivers>[] => {
+	return response.data.MRData.StandingsTable.StandingsLists || [];
+};
+
 export const mapDrivers = (response: AxiosResponse<Responses.DriversResponse>): Driver[] => {
 	return response.data.MRData.DriverTable.Drivers || [];
 };
