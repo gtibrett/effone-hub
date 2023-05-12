@@ -1,7 +1,7 @@
+import {ForDrivers, SeasonStanding} from '@gtibrett/effone-hub-api';
 import {Paper} from '@mui/material';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {ForDrivers, SeasonStanding} from '@gtibrett/effone-hub-api';
-import {NivoTooltip, useGetChartColorsByConstructor, useNivoTheme} from '../ui-components/nivo';
+import {NivoTooltip, useGetChartColorsByConstructor, useNivoTheme} from '../ui-components';
 import CareerTooltip from './CareerTooltip';
 
 type CareerChartProps = {
@@ -30,17 +30,17 @@ export default function CareerChart({seasons}: CareerChartProps) {
 	const max           = Math.max(...seasons.map(s => Number(s.DriverStandings?.[0].position)));
 	
 	const points: LineSerie = {
-		id: 'Points',
+		id:   'Points',
 		data: []
 	};
 	
 	const wins: LineSerie = {
-		id: 'Wins',
+		id:   'Wins',
 		data: []
 	};
 	
 	const results: LineSerie = {
-		id: 'Results',
+		id:   'Results',
 		data: []
 	};
 	
@@ -50,9 +50,9 @@ export default function CareerChart({seasons}: CareerChartProps) {
 		const standing = s.DriverStandings?.[0];
 		if (standing) {
 			const data = {
-				points: Number(standing.points),
+				points:   Number(standing.points),
 				position: Number(standing.position),
-				wins: Number(standing.wins)
+				wins:     Number(standing.wins)
 			};
 			
 			if (data.points > maxPoints) {
@@ -100,8 +100,8 @@ export default function CareerChart({seasons}: CareerChartProps) {
 				colors={colors}
 				yScale={{
 					type: 'linear',
-					min: 0,
-					max: maxPoints
+					min:  0,
+					max:  maxPoints
 				}}
 				axisLeft={null}
 				axisRight={null}
@@ -115,18 +115,18 @@ export default function CareerChart({seasons}: CareerChartProps) {
 				tooltip={NivoTooltip(CareerTooltip)}
 				legends={[
 					{
-						anchor: 'bottom-left',
-						direction: 'row',
-						justify: false,
-						translateX: 0,
-						translateY: 24,
-						itemsSpacing: 0,
+						anchor:        'bottom-left',
+						direction:     'row',
+						justify:       false,
+						translateX:    0,
+						translateY:    24,
+						itemsSpacing:  0,
 						itemDirection: 'left-to-right',
-						itemWidth: 80,
-						itemHeight: 20,
-						itemOpacity: 0.75,
-						symbolSize: 10,
-						symbolShape: 'circle'
+						itemWidth:     80,
+						itemHeight:    20,
+						itemOpacity:   0.75,
+						symbolSize:    10,
+						symbolShape:   'circle'
 					}
 				]}
 			/>

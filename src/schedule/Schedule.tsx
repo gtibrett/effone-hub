@@ -8,7 +8,7 @@ import {useAppState} from '../app/AppStateProvider';
 import ByLine from '../drivers/ByLine';
 import RaceMap from '../maps/RaceMap';
 import useMapSeasonRacesToMapPoints from '../maps/useMapSeasonRacesToMapPoints';
-import Link from '../ui-components/Link';
+import {Link} from '../ui-components';
 
 export default function Schedule() {
 	const [{season}]               = useAppState();

@@ -1,6 +1,5 @@
 import {Card, CardContent, CardHeader, Typography} from '@mui/material';
-import Link from '../ui-components/Link';
-import OpensInNewWindow from '../ui-components/OpensInNewWindow';
+import {Link, OpensInNewWindow} from '../ui-components';
 
 const Mission = () => (
 	<Card>

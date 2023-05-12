@@ -1,7 +1,7 @@
+import {ForConstructors, SeasonStanding} from '@gtibrett/effone-hub-api';
 import {Box} from '@mui/material';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {ForConstructors, SeasonStanding} from '@gtibrett/effone-hub-api';
-import {NivoTooltip, useGetChartColorsByConstructor, useNivoTheme} from '../ui-components/nivo';
+import {NivoTooltip, useGetChartColorsByConstructor, useNivoTheme} from '../ui-components';
 import HistoryTooltip from './HistoryTooltip';
 
 type HistoryChartProps = {
@@ -30,17 +30,17 @@ export default function HistoryChart({seasons}: HistoryChartProps) {
 	const colors = getChartColorsByConstructor(constructorId);
 	
 	const points: LineSerie = {
-		id: 'points',
+		id:   'points',
 		data: []
 	};
 	
 	const wins: LineSerie = {
-		id: 'wins',
+		id:   'wins',
 		data: []
 	};
 	
 	const results: LineSerie = {
-		id: 'results',
+		id:   'results',
 		data: []
 	};
 	
@@ -50,9 +50,9 @@ export default function HistoryChart({seasons}: HistoryChartProps) {
 		const standing = s.ConstructorStandings?.[0];
 		if (standing) {
 			const data = {
-				points: Number(standing.points),
+				points:   Number(standing.points),
 				position: Number(standing.position),
-				wins: Number(standing.wins)
+				wins:     Number(standing.wins)
 			};
 			
 			if (data.points > maxPoints) {
@@ -100,8 +100,8 @@ export default function HistoryChart({seasons}: HistoryChartProps) {
 				colors={colors}
 				yScale={{
 					type: 'linear',
-					min: 0,
-					max: maxPoints
+					min:  0,
+					max:  maxPoints
 				}}
 				axisLeft={null}
 				axisRight={null}
@@ -114,18 +114,18 @@ export default function HistoryChart({seasons}: HistoryChartProps) {
 				crosshairType="x"
 				legends={[
 					{
-						anchor: 'bottom',
-						direction: 'row',
-						justify: false,
-						translateX: 0,
-						translateY: 24,
-						itemsSpacing: 0,
+						anchor:        'bottom',
+						direction:     'row',
+						justify:       false,
+						translateX:    0,
+						translateY:    24,
+						itemsSpacing:  0,
 						itemDirection: 'left-to-right',
-						itemWidth: 80,
-						itemHeight: 20,
-						itemOpacity: 0.75,
-						symbolSize: 10,
-						symbolShape: 'circle'
+						itemWidth:     80,
+						itemHeight:    20,
+						itemOpacity:   0.75,
+						symbolSize:    10,
+						symbolShape:   'circle'
 					}
 				]}
 				tooltip={NivoTooltip(HistoryTooltip)}

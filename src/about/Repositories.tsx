@@ -1,8 +1,7 @@
 import {faGithub} from '@fortawesome/free-brands-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Card, CardContent, CardHeader, List, ListItem, ListItemIcon, ListItemText} from '@mui/material';
-import Link from '../ui-components/Link';
-import OpensInNewWindow from '../ui-components/OpensInNewWindow';
+import {Link, OpensInNewWindow} from '../ui-components';
 
 const Repositories = () => (
 	<Card sx={{height: '100%'}}>

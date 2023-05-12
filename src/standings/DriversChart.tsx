@@ -8,7 +8,7 @@ import {useAppState} from '../app/AppStateProvider';
 import useGetColorByConstructorId from '../constructors/useGetColorByConstructorId';
 import ByLine from '../drivers/ByLine';
 import LapByLapTooltip from '../race/lapByLap/LapByLapTooltip';
-import {NivoTooltip, useNivoTheme} from '../ui-components/nivo';
+import {NivoTooltip, useNivoTheme} from '../ui-components';
 
 type ChartSerie = {
 	id: string;
