@@ -15,16 +15,16 @@ type SeasonProps = {
 }
 
 export default function Season({constructorId}: SeasonProps) {
-	const [{season}]        = useAppState();
+	const [{currentSeason}] = useAppState();
 	const [races, setRaces] = useState<Race[] | undefined>();
 	
 	useEffect(() => {
-		const dataUrl = getAPIUrl(`/${season}/constructors/${constructorId}/results.json`);
+		const dataUrl = getAPIUrl(`/${currentSeason}/constructors/${constructorId}/results.json`);
 		
 		Caxios.get(dataUrl)
 		      .then(mapSchedule)
 		      .then(races => setRaces(races));
-	}, [season, constructorId]);
+	}, [currentSeason, constructorId]);
 	
 	if (!races) {
 		return <Skeleton variant="rectangular" height={400}/>;
@@ -51,26 +51,26 @@ export default function Season({constructorId}: SeasonProps) {
 				columns={
 					[
 						{
-							field: 'date',
-							headerName: 'Date',
+							field:       'date',
+							headerName:  'Date',
 							headerAlign: 'center',
-							type: 'date',
-							align: 'center',
+							type:        'date',
+							align:       'center',
 							valueGetter: ({value}) => (new Date(value)),
-							renderCell: ({value}) => value.toLocaleDateString()
+							renderCell:  ({value}) => value.toLocaleDateString()
 						},
 						{
-							field: 'raceName',
+							field:      'raceName',
 							headerName: 'Race',
-							flex: 1,
+							flex:       1,
 							renderCell: ({row, value}) => (
-								<Link to={`/race/${season}/${row.round}#${row.raceName}`}>{value}</Link>
+								<Link to={`/${currentSeason}/${row.round}#${row.raceName}`}>{value}</Link>
 							)
 						},
 						{
-							field: 'driver',
+							field:      'driver',
 							headerName: 'Drivers',
-							flex: 1,
+							flex:       1,
 							renderCell: ({row}) => {
 								return <Grid container spacing={0}>
 									{row.Results?.map(result => <Grid item xs={12} key={result.Driver?.driverId}><ByLine id={result.Driver?.driverId} variant="name"/></Grid>)}
@@ -78,22 +78,22 @@ export default function Season({constructorId}: SeasonProps) {
 							}
 						},
 						{
-							field: 'finish',
-							headerName: 'Finish',
+							field:       'finish',
+							headerName:  'Finish',
 							headerAlign: 'center',
-							align: 'center',
-							renderCell: ({row}) => {
+							align:       'center',
+							renderCell:  ({row}) => {
 								return <Grid container spacing={0} justifyContent="center">
 									{row.Results?.map(result => <Grid item xs={12} key={result.Driver?.driverId}><Typography align="center">{result.position}</Typography></Grid>)}
 								</Grid>;
 							}
 						},
 						{
-							field: 'points',
-							headerName: 'Points',
+							field:       'points',
+							headerName:  'Points',
 							headerAlign: 'center',
-							align: 'center',
-							renderCell: ({row}) => {
+							align:       'center',
+							renderCell:  ({row}) => {
 								return <Grid container spacing={0} justifyContent="center">
 									{row.Results?.map(result => <Grid item xs={12} key={result.Driver?.driverId}><Typography align="center">{result.points}</Typography></Grid>)}
 								</Grid>;

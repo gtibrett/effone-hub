@@ -15,8 +15,8 @@ type SeasonProps = {
 }
 
 export default function Season({driverId}: SeasonProps) {
-	const [{season}] = useAppState();
-	const races      = useRacesBySeason(season, driverId);
+	const [{currentSeason}] = useAppState();
+	const races             = useRacesBySeason(currentSeason, driverId);
 	
 	if (!races) {
 		return <Skeleton variant="rectangular" height={400}/>;
@@ -42,48 +42,48 @@ export default function Season({driverId}: SeasonProps) {
 				columns={
 					[
 						{
-							field: 'date',
-							headerName: 'Date',
+							field:       'date',
+							headerName:  'Date',
 							headerAlign: 'center',
-							type: 'date',
-							align: 'center',
+							type:        'date',
+							align:       'center',
 							valueGetter: ({value}) => (new Date(value)),
-							renderCell: ({value}) => value.toLocaleDateString(),
-							minWidth: 100
+							renderCell:  ({value}) => value.toLocaleDateString(),
+							minWidth:    100
 						},
 						{
-							field: 'raceName',
+							field:      'raceName',
 							headerName: 'Race',
-							flex: 1,
+							flex:       1,
 							renderCell: ({row, value}) => (
-								<Link to={`/race/${season}/${row.round}#${row.raceName}`}>{value}</Link>
+								<Link to={`/${currentSeason}/${row.round}#${row.raceName}`}>{value}</Link>
 							),
-							minWidth: 200
+							minWidth:   200
 						},
 						{
-							field: 'qualifying',
-							headerName: 'Start',
-							type: 'number',
+							field:       'qualifying',
+							headerName:  'Start',
+							type:        'number',
 							headerAlign: 'center',
-							align: 'center',
+							align:       'center',
 							valueGetter: ({row}) => {
 								return Number(row.Results?.[0].grid);
 							}
 						},
 						{
-							field: 'result',
-							headerName: 'Finish',
-							type: 'number',
+							field:       'result',
+							headerName:  'Finish',
+							type:        'number',
 							headerAlign: 'center',
-							align: 'center',
+							align:       'center',
 							valueGetter: ({row}) => {
 								return Number(row.Results?.[0].position);
 							}
 						},
 						{
-							field: 'change',
+							field:        'change',
 							renderHeader: () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
-							renderCell: ({row}) => {
+							renderCell:   ({row}) => {
 								const result = row.Results?.[0];
 								if (result) {
 									const {grid, position} = result;
@@ -91,7 +91,7 @@ export default function Season({driverId}: SeasonProps) {
 								}
 								return '';
 							},
-							valueGetter: ({row}) => {
+							valueGetter:  ({row}) => {
 								const {grid, position} = row.Results?.[0] || {};
 								if (!grid || !position) {
 									return 0;
@@ -99,27 +99,27 @@ export default function Season({driverId}: SeasonProps) {
 								
 								return Number(grid) - Number(position);
 							},
-							width: 60,
-							headerAlign: 'center',
-							align: 'center'
+							width:        60,
+							headerAlign:  'center',
+							align:        'center'
 						},
 						{
-							field: 'points',
-							headerName: 'Points',
-							type: 'number',
+							field:       'points',
+							headerName:  'Points',
+							type:        'number',
 							headerAlign: 'center',
-							align: 'center',
+							align:       'center',
 							valueGetter: ({row}) => {
 								return Number(row.Results?.[0].points);
 							}
 						},
 						{
-							field: 'time',
-							headerName: 'Time',
-							sortable: false,
+							field:       'time',
+							headerName:  'Time',
+							sortable:    false,
 							headerAlign: 'left',
-							align: 'left',
-							flex: .5,
+							align:       'left',
+							flex:        .5,
 							valueGetter: ({row}) => {
 								const result = row.Results?.[0];
 								if (result) {

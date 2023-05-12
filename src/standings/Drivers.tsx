@@ -17,8 +17,7 @@ const sx = {
 	}
 };
 
-export default function Drivers() {
-	const [{season}]                = useAppState();
+export default function Drivers({season}: {season: number}) {
 	const [standings, setStandings] = useState<Standing[]>([]);
 	
 	useEffect(() => {

@@ -13,9 +13,9 @@ type NextRaceFeatureProps = {
 }
 
 export default function NextRaceFeature({race, mapSize = 100, circuitSize = 150}: NextRaceFeatureProps) {
-	const [{season}]               = useAppState();
+	const [{currentSeason}]        = useAppState();
 	const mapSeasonRacesToFeatures = useMapSeasonRacesToMapPoints();
-	const {points, onClick}        = mapSeasonRacesToFeatures(season, [race]);
+	const {points, onClick}        = mapSeasonRacesToFeatures(currentSeason, [race]);
 	
 	return (
 		<Grid container spacing={2} alignItems="center" justifyContent="space-evenly">

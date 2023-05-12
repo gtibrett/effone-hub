@@ -2,8 +2,7 @@ import {Circuit} from '@gtibrett/effone-hub-api';
 import {Paper} from '@mui/material';
 import {ResponsiveRadar} from '@nivo/radar';
 import useGetColorByConstructorId from '../../constructors/useGetColorByConstructorId';
-import {useNivoTheme} from '../../ui-components/nivo';
-import useComponentDimensionsWithRef from '../../ui-components/useComponentDimensions';
+import {useComponentDimensionsWithRef, useNivoTheme} from '../../ui-components';
 import {DriverId} from '../DriverProvider';
 import {useCareerResults} from '../hooks';
 

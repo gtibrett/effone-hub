@@ -29,7 +29,7 @@ export default class ErrorBoundary extends Component<any, ErrorBoundaryState> {
 		if (this.state.hasError) {
 			// You can render any custom fallback UI
 			return (
-				<Card elevation={0}>
+				<Card>
 					<CardContent>
 						<Grid container justifyContent="space-evenly" alignItems="center" sx={{my:4}}>
 							<Grid item sx={{textAlign: 'center', '--fa-animation-duration': '30s', fontSize: {xs: '25vh', md: '35vh'}}}>

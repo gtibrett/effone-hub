@@ -10,8 +10,8 @@ import RaceMap from '../maps/RaceMap';
 import useMapSeasonRacesToMapPoints from '../maps/useMapSeasonRacesToMapPoints';
 import {Link} from '../ui-components';
 
-export default function Schedule() {
-	const [{season}]               = useAppState();
+export default function Schedule({season}: { season: number }) {
+	const [{currentSeason}]        = useAppState();
 	const mapSeasonRacesToFeatures = useMapSeasonRacesToMapPoints();
 	const [races, setRaces]        = useState<Race[]>([]);
 	
@@ -69,7 +69,9 @@ export default function Schedule() {
 							headerName: 'Race',
 							flex:       1,
 							renderCell: ({row, value}) => (
-								<Link to={`/race/${season}/${row.round}#${row.raceName}`}>{value}</Link>
+								season === currentSeason
+								? <Link to={`/${season}/${row.round}#${row.raceName}`}>{value}</Link>
+								: <Link to={`/season/${season}/${row.round}#${row.raceName}`}>{value}</Link>
 							),
 							minWidth:   200,
 							sortable:   false

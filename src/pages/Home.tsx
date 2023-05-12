@@ -1,50 +1,56 @@
-import {Card, CardHeader, Grid, Typography} from '@mui/material';
+import {Card, CardHeader, Grid} from '@mui/material';
+import {useParams} from 'react-router';
 import {useAppState} from '../app/AppStateProvider';
 import RaceWeekend from '../race/RaceWeekend';
 import Schedule from '../schedule/Schedule';
 import Constructors from '../standings/Constructors';
 import Drivers from '../standings/Drivers';
 import DriversChart from '../standings/DriversChart';
-import Navigation from '../ui-components/Navigation';
-import usePageTitle from '../ui-components/usePageTitle';
+import {Page, usePageTitle} from '../ui-components';
 
 export default function Home() {
 	usePageTitle('Home');
 	
-	const [{season}] = useAppState();
+	const {seasonId} = useParams();
+	const [appState] = useAppState();
+	
+	let season: number = 0;
+	if (seasonId === 'current' || !seasonId) {
+		season = appState.currentSeason;
+	} else {
+		season = Number(seasonId);
+	}
+	
 	return (
-		<Grid container spacing={2}>
-			<Grid item xs={12}>
-				<Navigation>
-					<Typography>{season} Season</Typography>
-				</Navigation>
-			</Grid>
-			<Grid item xs={12}>
-				<RaceWeekend />
-			</Grid>
-			<Grid item xs={12} md={6}>
-				<Card variant="outlined">
-					<CardHeader title="Schedule"/>
-					<Schedule/>
-				</Card>
-			</Grid>
-			<Grid item xs={12} md={6}>
+		<>
+			<Page title={`${season} Season`}>
 				<Grid container spacing={2}>
-					<Grid item xs={12}>
+					{seasonId === 'current' && <RaceWeekend/>}
+					<Grid item xs={12} md={6}>
 						<Card variant="outlined">
-							<CardHeader title="Driver's Standings"/>
-							<DriversChart/>
-							<Drivers/>
+							<CardHeader title="Schedule"/>
+							<Schedule season={season}/>
 						</Card>
 					</Grid>
-					<Grid item xs={12}>
-						<Card variant="outlined">
-							<CardHeader title="Constructor's Standings"/>
-							<Constructors/>
-						</Card>
+					<Grid item xs={12} md={6}>
+						<Grid container spacing={2}>
+							<Grid item xs={12}>
+								<Card variant="outlined">
+									<CardHeader title="Driver's Standings"/>
+									<DriversChart season={season}/>
+									<Drivers season={season}/>
+								</Card>
+							</Grid>
+							<Grid item xs={12}>
+								<Card variant="outlined">
+									<CardHeader title="Constructor's Standings"/>
+									<Constructors season={season}/>
+								</Card>
+							</Grid>
+						</Grid>
 					</Grid>
 				</Grid>
-			</Grid>
-		</Grid>
+			</Page>
+		</>
 	);
 }
