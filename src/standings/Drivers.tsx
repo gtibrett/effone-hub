@@ -4,12 +4,11 @@ import {DataGrid} from '@mui/x-data-grid';
 import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapDriversStandings} from '../api/Ergast';
-import {useAppState} from '../app/AppStateProvider';
 import ByLine from '../drivers/ByLine';
 import Place from '../race/Place';
 
 const sx = {
-	'& > .MuiDataGrid-main': {
+	'& > .MuiDataGrid-main':                  {
 		overflowX: 'hidden'
 	},
 	'& > div > .MuiDataGrid-footerContainer': {
@@ -17,7 +16,7 @@ const sx = {
 	}
 };
 
-export default function Drivers({season}: {season: number}) {
+export default function Drivers({season}: { season: number }) {
 	const [standings, setStandings] = useState<Standing[]>([]);
 	
 	useEffect(() => {
@@ -51,7 +50,7 @@ export default function Drivers({season}: {season: number}) {
 						xs: 300,
 						lg: 'calc(100% - 8px)'
 					},
-					pr: {
+					pr:     {
 						xs: 0,
 						lg: 4
 					}
@@ -69,24 +68,24 @@ export default function Drivers({season}: {season: number}) {
 						columns={
 							[
 								{
-									field: 'position',
-									headerName: 'P',
+									field:       'position',
+									headerName:  'P',
 									headerAlign: 'center',
-									type: 'number',
-									align: 'center',
-									width: 16
+									type:        'number',
+									align:       'center',
+									width:       16
 								},
 								{
-									field: 'code',
+									field:      'code',
 									headerName: 'Driver',
-									flex: 1,
+									flex:       1,
 									renderCell: ({row}) => <ByLine id={row.Driver?.driverId} avatarProps={{size: 24}} flagProps={{size: 16}}/>,
-									minWidth: 200
+									minWidth:   200
 								},
 								{
-									field: 'points',
+									field:      'points',
 									headerName: 'Points',
-									type: 'number'
+									type:       'number'
 								}
 							]
 						}
