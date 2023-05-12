@@ -67,10 +67,6 @@ export default function Seasons() {
 	useEffect(() => {
 		Caxios.get<Responses.DriversStandingsResponse>(getAPIUrl(`/driverStandings/1.json`), {params: {limit: 2000}})
 		      .then(mapPastSeasons)
-		      .then(r => {
-			      console.log(r);
-			      return r;
-		      })
 		      .then(results => setSeasons(results))
 		      .catch((err) => {
 			      console.log(err);
