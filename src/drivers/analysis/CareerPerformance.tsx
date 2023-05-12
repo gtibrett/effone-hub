@@ -1,8 +1,7 @@
 import {Paper} from '@mui/material';
 import {blueGrey, deepPurple, green, red} from '@mui/material/colors';
 import {ResponsivePie} from '@nivo/pie';
-import {useNivoTheme} from '../../ui-components/nivo';
-import {useDarkMode} from '../../ui-components/Theme';
+import {useDarkMode, useNivoTheme} from '../../ui-components';
 import {DriverId} from '../DriverProvider';
 import {useCareerResults} from '../hooks';
 
@@ -22,10 +21,10 @@ const usePerformanceData = (driverId?: DriverId): Stats | undefined => {
 	}
 	
 	return {
-		wins: careerResults.filter(r => Number(r.Results?.[0].position) === 1).length,
-		podiums: careerResults.filter(r => Number(r.Results?.[0].position) <= 3).length,
-		inPoints: careerResults.filter(r => Number(r.Results?.[0].position) <= 10).length,
-		dnfs: careerResults.filter(r => r.Results?.[0].positionText !== r.Results?.[0].position).length,
+		wins:        careerResults.filter(r => Number(r.Results?.[0].position) === 1).length,
+		podiums:     careerResults.filter(r => Number(r.Results?.[0].position) <= 3).length,
+		inPoints:    careerResults.filter(r => Number(r.Results?.[0].position) <= 10).length,
+		dnfs:        careerResults.filter(r => r.Results?.[0].positionText !== r.Results?.[0].position).length,
 		appearances: careerResults.length
 	};
 };
@@ -45,27 +44,27 @@ export default function CareerPerformance({driverId}: CareerPerformanceProps) {
 	
 	const chartData = [
 		{
-			'id': 'wins',
+			'id':    'wins',
 			'label': `Wins: ${data.wins}`,
 			'value': data.wins
 		},
 		{
-			'id': 'podiums',
+			'id':    'podiums',
 			'label': `Podiums: ${data.podiums}`,
 			'value': data.podiums - data.wins
 		},
 		{
-			'id': 'inPoints',
+			'id':    'inPoints',
 			'label': `In Points: ${data.inPoints}`,
 			'value': data.inPoints - data.podiums
 		},
 		{
-			'id': 'appearances',
+			'id':    'appearances',
 			'label': `Appearances: ${data.appearances}`,
 			'value': data.appearances - data.inPoints - data.dnfs
 		},
 		{
-			'id': 'dnfs',
+			'id':    'dnfs',
 			'label': `DNFs: ${data.dnfs}`,
 			'value': data.dnfs
 		}
@@ -91,17 +90,17 @@ export default function CareerPerformance({driverId}: CareerPerformanceProps) {
 				margin={{top: 0, right: 110, bottom: 0, left: 0}}
 				legends={[
 					{
-						anchor: 'right',
-						direction: 'column',
-						justify: false,
-						translateX: 40,
-						translateY: 0,
-						itemsSpacing: 0,
-						itemWidth: 50,
-						itemHeight: 18,
+						anchor:        'right',
+						direction:     'column',
+						justify:       false,
+						translateX:    40,
+						translateY:    0,
+						itemsSpacing:  0,
+						itemWidth:     50,
+						itemHeight:    18,
 						itemDirection: 'left-to-right',
-						symbolSize: 10,
-						symbolShape: 'circle'
+						symbolSize:    10,
+						symbolShape:   'circle'
 					}
 				]}
 			/>
