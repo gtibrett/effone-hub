@@ -1,5 +1,5 @@
 import {alpha, Box, Typography} from '@mui/material';
-import {useInvertedTheme} from '../ui-components/Theme';
+import {useInvertedTheme} from '../ui-components';
 
 type MapTooltipProps = {
 	feature: any;

@@ -6,7 +6,7 @@ import Caxios from '../api/Caxios';
 import {getAPIUrl, mapSchedule} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
 import ByLine from '../drivers/ByLine';
-import Link from '../ui-components/Link';
+import {Link} from '../ui-components';
 import {ConstructorId} from './ConstructorProvider';
 import SeasonChart from './SeasonChart';
 

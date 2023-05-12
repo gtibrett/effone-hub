@@ -5,7 +5,7 @@ import Caxios from '../api/Caxios';
 import {getAPIUrl, mapRaces} from '../api/Ergast';
 import ByLine from '../drivers/ByLine';
 import {Circuit, Race, Responses} from '@gtibrett/effone-hub-api';
-import Link from '../ui-components/Link';
+import {Link} from '../ui-components';
 
 export default function History({circuitId}: { circuitId: Circuit['circuitId'] }) {
 	const [races, setRaces] = useState<Race[] | undefined>();

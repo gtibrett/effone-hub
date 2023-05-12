@@ -1,9 +1,9 @@
+import {Lap, Race} from '@gtibrett/effone-hub-api';
 import {Alert, Skeleton} from '@mui/material';
 import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapLaps} from '../api/Ergast';
-import {Lap, Race} from '@gtibrett/effone-hub-api';
-import Tabs from '../ui-components/Tabs';
+import {Tabs} from '../ui-components';
 import LapByLap from './lapByLap/LapByLap';
 import LapByLapTable from './lapByLap/LapByLapTable';
 import LapTimesTable from './lapTimes/LapTimesTable';
@@ -39,21 +39,21 @@ export default function Laps({season, round, results}: LapByLapProps) {
 		content = (
 			<Tabs active="byLap" tabs={[
 				{
-					id: 'byLap',
-					label: 'Lap by Lap',
+					id:      'byLap',
+					label:   'Lap by Lap',
 					content: <>
-						<LapByLap laps={laps} results={results}/>
-						<LapByLapTable laps={laps} results={results}/>
-					</>
+						         <LapByLap laps={laps} results={results}/>
+						         <LapByLapTable laps={laps} results={results}/>
+					         </>
 				},
 				{
-					id: 'times',
-					label: 'Lap Times',
+					id:      'times',
+					label:   'Lap Times',
 					content: <>
-						{/* FIXME: This doesn't work in a production build*/}
-						{/*<LapTimes laps={laps} results={results}/>*/}
-						<LapTimesTable laps={laps} results={results}/>
-					</>
+						         {/* FIXME: This doesn't work in a production build*/}
+						         {/*<LapTimes laps={laps} results={results}/>*/}
+						         <LapTimesTable laps={laps} results={results}/>
+					         </>
 				}
 			]}/>
 		);

@@ -1,4 +1,4 @@
-import Link from '../ui-components/Link';
+import {Link} from '../ui-components';
 import {ConstructorId, useConstructor} from './ConstructorProvider';
 
 type ByLineProps = {

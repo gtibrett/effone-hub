@@ -5,7 +5,7 @@ import Caxios from '../api/Caxios';
 import {getAPIUrl, mapSchedule} from '../api/Ergast';
 import CircuitMap from '../maps/CircuitMap';
 import NextRaceCountdown from '../schedule/NextRaceCountdown';
-import {useEffTheme} from '../ui-components/Theme';
+import {useEffTheme} from '../ui-components';
 
 export default function RaceWeekend() {
 	const darkTheme               = useEffTheme('dark');

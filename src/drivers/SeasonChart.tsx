@@ -1,7 +1,7 @@
+import {Race} from '@gtibrett/effone-hub-api';
 import {Box} from '@mui/material';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {Race} from '@gtibrett/effone-hub-api';
-import {useGetChartColorsByConstructor, useNivoTheme} from '../ui-components/nivo';
+import {useGetChartColorsByConstructor, useNivoTheme} from '../ui-components';
 
 type SeasonChartProps = {
 	races: Race[];
@@ -18,12 +18,12 @@ export default function SeasonChart({races}: SeasonChartProps) {
 	const colors = getChartColorsByConstructor(races?.[0].Results?.[0].Constructor?.constructorId);
 	
 	const qualifying: LineSerie = {
-		id: 'qualifying',
+		id:   'qualifying',
 		data: []
 	};
 	
 	const results: LineSerie = {
-		id: 'results',
+		id:   'results',
 		data: []
 	};
 	
@@ -47,15 +47,15 @@ export default function SeasonChart({races}: SeasonChartProps) {
 				colors={colors}
 				yScale={{
 					type: 'linear',
-					min: 20,
-					max: 1
+					min:  20,
+					max:  1
 				}}
 				axisLeft={null}
 				axisRight={{
-					tickSize: 0,
-					tickPadding: 10,
+					tickSize:     0,
+					tickPadding:  10,
 					tickRotation: 0,
-					tickValues: [1, 20]
+					tickValues:   [1, 20]
 				}}
 				axisTop={null}
 				axisBottom={null}
@@ -64,18 +64,18 @@ export default function SeasonChart({races}: SeasonChartProps) {
 				margin={{top: 5, left: 5, right: 25, bottom: 32}}
 				legends={[
 					{
-						anchor: 'bottom-left',
-						direction: 'row',
-						justify: false,
-						translateX: 0,
-						translateY: 24,
-						itemsSpacing: 0,
+						anchor:        'bottom-left',
+						direction:     'row',
+						justify:       false,
+						translateX:    0,
+						translateY:    24,
+						itemsSpacing:  0,
 						itemDirection: 'left-to-right',
-						itemWidth: 80,
-						itemHeight: 20,
-						itemOpacity: 0.75,
-						symbolSize: 10,
-						symbolShape: 'circle'
+						itemWidth:     80,
+						itemHeight:    20,
+						itemOpacity:   0.75,
+						symbolSize:    10,
+						symbolShape:   'circle'
 					}
 				]}
 			/>
