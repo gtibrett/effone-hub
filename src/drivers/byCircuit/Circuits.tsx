@@ -58,7 +58,7 @@ export default function Circuits({driverId}: TracksProps) {
 								headerName: 'Race',
 								flex:       1,
 								minWidth:   250,
-								renderCell: ({row}) => <Link color="secondary" onClick={() => setActive(row)}>{row.circuitName}</Link>
+								renderCell: ({row}) => <Link href="#" color="secondary" onClick={() => setActive(row)}>{row.circuitName}</Link>
 							},
 							{
 								field:       'races',
