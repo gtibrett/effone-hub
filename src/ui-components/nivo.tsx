@@ -131,8 +131,8 @@ export function useGetChartColorsByConstructor() {
 	const darkMode                = useDarkMode();
 	const getColorByConstructorId = useGetColorByConstructorId();
 	
-	return (constructorId: Constructor['constructorId'] | undefined) => {
-		const color = getColorByConstructorId(constructorId);
+	return (constructorId: Constructor['constructorId'] | undefined, force: boolean = false) => {
+		const color = getColorByConstructorId(constructorId, force);
 		
 		return darkMode
 			// @ts-ignore
