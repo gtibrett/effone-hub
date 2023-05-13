@@ -1,13 +1,13 @@
-import {AxiosResponse} from 'axios';
 import {Circuit, Constructor, Driver, ForConstructors, ForDrivers, Lap, PitStop, QualifyingResult, Race, Responses, SeasonStanding, Standing} from '@gtibrett/effone-hub-api';
+import {AxiosResponse} from 'axios';
 
 export const getCanonicalId = (url: string | undefined) => {
-	if (!url) {
+	if (typeof url === 'undefined') {
 		return undefined;
 	}
-	const urlParts    = (url || '').split('/');
+	const urlParts    = url.split('/');
 	const canonicalId = urlParts.pop();
-	return canonicalId ? decodeURI(canonicalId) : 'undefined';
+	return canonicalId ? decodeURI(canonicalId) : undefined;
 };
 
 export function getAPIUrl(path: string) {
@@ -27,7 +27,7 @@ export const mapConstructors = (response: AxiosResponse<Responses.ConstructorsRe
 };
 
 export const mapDriversStandings = (response: AxiosResponse<Responses.DriversStandingsResponse>): Standing[] => {
-	return response.data.MRData.StandingsTable.StandingsLists[0].DriverStandings || [];
+	return response.data.MRData.StandingsTable.StandingsLists?.[0].DriverStandings || [];
 };
 
 export const mapPastSeasons = (response: AxiosResponse<Responses.DriversStandingsResponse>): SeasonStanding<ForDrivers>[] => {
@@ -46,7 +46,7 @@ export const mapConstructorHistory = (response: AxiosResponse<Responses.Construc
 	if (response.data.MRData.StandingsTable.StandingsLists?.[0]?.ConstructorStandings) {
 		return response.data.MRData.StandingsTable.StandingsLists.map((season) => ({
 			...season,
-			ConstructorStandings: (season.ConstructorStandings || []).map((standing) => ({
+			ConstructorStandings: season.ConstructorStandings.map((standing) => ({
 				...standing,
 				Constructor: {
 					...standing.Constructor,
@@ -63,7 +63,7 @@ export const mapRace = (response: AxiosResponse<Responses.ResultsResponse>): Rac
 	if (response.data.MRData.RaceTable.Races?.[0].Results) {
 		return {
 			...response.data.MRData.RaceTable.Races?.[0],
-			Results: response.data.MRData.RaceTable.Races?.[0].Results || []
+			Results: response.data.MRData.RaceTable.Races?.[0].Results
 		};
 	}
 	
@@ -75,7 +75,7 @@ export const mapPitStops = (response: AxiosResponse<Responses.ResultsResponse>):
 		return response.data.MRData.RaceTable.Races?.[0].PitStops;
 	}
 	
-	return undefined;
+	return [];
 };
 
 export const mapRaces = (response: AxiosResponse<Responses.ResultsResponse>): Race[] => {

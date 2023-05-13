@@ -92,7 +92,7 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 				styleOverrides: {
 					root: {
 						'&.Mui-selected': {
-							color: prefersDarkMode ? '#FFF' : '#000',
+							color:      prefersDarkMode ? '#fff' : '#000',
 							fontWeight: 'bold'
 						}
 					}
@@ -120,7 +120,7 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 };
 
 export const useInvertedTheme = () => {
-	const theme = useEffTheme();
+	const theme = useTheme();
 	return useEffTheme(theme.palette.mode === 'light' ? 'dark' : 'light');
 };
 

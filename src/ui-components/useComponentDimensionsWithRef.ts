@@ -7,7 +7,7 @@ type ComponentDimensions = {
 
 const useComponentDimensionsWithRef = (): { ref: any, dimensions: ComponentDimensions, node: HTMLElement | HTMLDivElement | null } => {
 	const [node, setNode]             = useState<HTMLElement | HTMLDivElement | null>(null);
-	const [dimensions, setDimensions] = useState<DOMRect>(new DOMRect());
+	const [dimensions, setDimensions] = useState<ComponentDimensions>({} as ComponentDimensions);
 	
 	const ref = useCallback((node: HTMLElement | HTMLDivElement | null) => {
 		setNode(node);
@@ -23,9 +23,8 @@ const useComponentDimensionsWithRef = (): { ref: any, dimensions: ComponentDimen
 			return () => {
 				window.removeEventListener('resize', handleResize);
 			};
-		}
-		else {
-			setDimensions(new DOMRect());
+		} else {
+			setDimensions({} as ComponentDimensions);
 		}
 	}, [node]);
 	
