@@ -53,7 +53,8 @@ export default function History({circuitId}: { circuitId: Circuit['circuitId'] }
 						headerAlign: 'center',
 						type: 'date',
 						align: 'center',
-						renderCell: ({value}) => (new Date(value)).toLocaleDateString(),
+						valueGetter: ({value}) => (new Date(value)),
+						renderCell: ({value}) => value.toLocaleDateString(),
 						minWidth: 100
 					},
 					{
