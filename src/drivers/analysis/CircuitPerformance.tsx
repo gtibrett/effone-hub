@@ -1,7 +1,7 @@
+import {Circuit} from '@gtibrett/effone-hub-api';
 import {Paper} from '@mui/material';
 import {ResponsiveRadar} from '@nivo/radar';
-import {getColorByConstructorId} from '../../constructors';
-import {Circuit} from '@gtibrett/effone-hub-api';
+import useGetColorByConstructorId from '../../constructors/useGetColorByConstructorId';
 import {useNivoTheme} from '../../ui-components/nivo';
 import useComponentDimensionsWithRef from '../../ui-components/useComponentDimensions';
 import {DriverId} from '../DriverProvider';
@@ -25,10 +25,10 @@ const usePerformanceData = (driverId?: DriverId, circuitId?: Circuit['circuitId'
 	const circuitResults = careerResults.filter(r => r.Circuit?.circuitId === circuitId);
 	
 	return {
-		wins: circuitResults.filter(r => Number(r.Results?.[0].position) === 1).length,
-		podiums: circuitResults.filter(r => Number(r.Results?.[0].position) <= 3).length,
-		inPoints: circuitResults.filter(r => Number(r.Results?.[0].position) <= 10).length,
-		dnfs: circuitResults.filter(r => r.Results?.[0].positionText !== r.Results?.[0].position).length,
+		wins:        circuitResults.filter(r => Number(r.Results?.[0].position) === 1).length,
+		podiums:     circuitResults.filter(r => Number(r.Results?.[0].position) <= 3).length,
+		inPoints:    circuitResults.filter(r => Number(r.Results?.[0].position) <= 10).length,
+		dnfs:        circuitResults.filter(r => r.Results?.[0].positionText !== r.Results?.[0].position).length,
 		appearances: circuitResults.length
 	};
 };
@@ -43,6 +43,7 @@ export default function CircuitPerformance({driverId, circuitId}: CircuitPerform
 	const {ref, dimensions: {width}} = useComponentDimensionsWithRef();
 	const careerResults              = useCareerResults(driverId);
 	const data                       = usePerformanceData(driverId, circuitId);
+	const getColorByConstructorId    = useGetColorByConstructorId();
 	
 	if (!data || !careerResults?.length) {
 		return null;
@@ -50,20 +51,20 @@ export default function CircuitPerformance({driverId, circuitId}: CircuitPerform
 	
 	const chartData = [
 		{
-			'stat': 'Wins',
+			'stat':  'Wins',
 			'value': data.wins
 		},
 		{
-			'stat': 'Podiums',
+			'stat':  'Podiums',
 			'value': data.podiums
 		},
 		{
-			'stat': 'In Points',
+			'stat':  'In Points',
 			'value': data.inPoints
 		},
 		{
 			'stat': 'DNFs',
-			value: data.dnfs
+			value:  data.dnfs
 		}
 	];
 	

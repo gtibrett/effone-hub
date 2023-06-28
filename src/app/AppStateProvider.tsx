@@ -1,37 +1,66 @@
+import {Responses} from '@gtibrett/effone-hub-api';
 import {Backdrop} from '@mui/material';
+import axios from 'axios';
 import {createContext, Dispatch, FC, PropsWithChildren, SetStateAction, useContext, useEffect, useState} from 'react';
+import {purgeCaches} from '../api/Caxios';
+import {getAPIUrl} from '../api/Ergast';
 
 type AppStateType = {
 	season: number;
+	ready: boolean;
 };
 
-type SetAppStateType = (newState: AppStateType) => void;
+type SetAppStateType = Dispatch<SetStateAction<AppStateType>>;
 
-const initializeState = (): AppStateType => {
-	const storedAppState = localStorage.getItem('app-state');
-	if (storedAppState !== null) {
-		return JSON.parse(storedAppState);
-	}
+const BLANK_STATE = {
+	season: 0,
+	ready:  false
+};
+
+const initializeState = (): Promise<AppStateType> => {
+	purgeCaches();
 	
-	return {
-		season: (new Date()).getFullYear()-1
-	};
+	return new Promise(async (resolve, reject) => {
+		const storedAppState = localStorage.getItem('app-state');
+		if (storedAppState !== null) {
+			resolve({
+				...JSON.parse(storedAppState),
+				ready: true
+			});
+		}
+		
+		axios.get<Responses.SeasonResponse>(getAPIUrl('/seasons.json'), {params: {limit: 100}})
+		     .then(response => response.data.MRData?.SeasonTable?.Seasons || [])
+		     .then((seasons) => {
+			     resolve({
+				     season: Math.max(...seasons.map(s => Number(s.season))),
+				     ready:  true
+			     });
+		     })
+		     .catch(err => reject(err));
+	});
 };
 
-const Context = createContext<[AppStateType, Dispatch<SetStateAction<AppStateType>>]>([
-	initializeState(), () => null
+const Context = createContext<[AppStateType, SetAppStateType]>([
+	BLANK_STATE, () => null
 ]);
 
 const AppStateProvider: FC<PropsWithChildren> = ({children}) => {
-	const [state, setState] = useState<AppStateType>(initializeState());
+	const [state, setState] = useState<AppStateType>(BLANK_STATE);
+	
+	useEffect(() => {
+		initializeState().then(s => setState(s));
+	}, []);
 	
 	useEffect(() => {
 		if (state) {
-			localStorage.setItem('app-state', JSON.stringify(state));
+			// Don't store ready state
+			const {ready, ...appState} = state;
+			localStorage.setItem('app-state', JSON.stringify(appState));
 		}
 	}, [state]);
 	
-	if (!state) {
+	if (!state || !state.ready || !state.season) {
 		return <Backdrop open/>;
 	}
 	
@@ -42,5 +71,5 @@ export default AppStateProvider;
 
 /* Hooks */
 export const useAppState = (): [AppStateType, SetAppStateType] => {
-	return useContext(Context)
+	return useContext(Context);
 };

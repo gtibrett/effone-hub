@@ -1,3 +1,4 @@
+import {Circuit as CircuitT, Responses} from '@gtibrett/effone-hub-api';
 import {Backdrop, Box, Card, CardContent, CardHeader, CardMedia, Grid, Typography, useTheme} from '@mui/material';
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router';
@@ -5,20 +6,25 @@ import Caxios from '../api/Caxios';
 import {getCircuitDescription} from '../api/effone';
 import {getAPIUrl, mapCircuits} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
-import CircuitMap from '../circuits/CircuitMap';
 import History from '../circuits/History';
 import Season from '../circuits/Season';
-import {Circuit as CircuitT, Responses} from '@gtibrett/effone-hub-api';
+import CircuitMap from '../maps/CircuitMap';
+import RaceMap from '../maps/RaceMap';
+import useMapCircuitsToMapPoints from '../maps/useMapCircuitsToMapPoints';
 import OpenAILink from '../ui-components/citations/OpenAILink';
 import Link from '../ui-components/Link';
 import Navigation from '../ui-components/Navigation';
 import Tabs from '../ui-components/Tabs';
+import usePageTitle from '../ui-components/usePageTitle';
 
 export default function Circuit() {
-	const theme                 = useTheme();
-	const [{season}]            = useAppState();
-	const {circuitId}           = useParams();
-	const [circuit, setCircuit] = useState<CircuitT | undefined>(undefined);
+	const theme                  = useTheme();
+	const [{season}]             = useAppState();
+	const {circuitId}            = useParams();
+	const mapCircuitsToMapPoints = useMapCircuitsToMapPoints();
+	const [circuit, setCircuit]  = useState<CircuitT | undefined>(undefined);
+	
+	usePageTitle(`Circuit: ${circuit?.circuitName}`);
 	
 	useEffect(() => {
 		if (circuitId) {
@@ -39,6 +45,7 @@ export default function Circuit() {
 	}
 	
 	const circuitDescription = getCircuitDescription(circuit.circuitId) || '';
+	const {points, onClick}  = mapCircuitsToMapPoints([circuit]);
 	
 	return (
 		<Grid container spacing={2}>
@@ -56,22 +63,26 @@ export default function Circuit() {
 					<CardContent>
 						<Grid container spacing={2}>
 							<Grid item xs={12} md={8} sx={{order: {xs: 2, md: 1}}}>
-								<Tabs active="season" tabs={[
+								<Tabs active="history" tabs={[
 									{
-										id: 'season', label: 'Season',
-										content: <Season circuitId={circuitId}/>
+										id:      'history', label: 'History',
+										content: <History circuitId={circuitId}/>
 									},
 									{
-										id: 'history', label: 'History',
-										content: <History circuitId={circuitId}/>
+										id:      'map', label: 'Circuit Map',
+										content: <CircuitMap circuit={circuit} height="50vh"/>
+									},
+									{
+										id:      'season', label: 'Season',
+										content: <Season circuitId={circuitId}/>
 									}
 								]}/>
 							</Grid>
 							
-							<Grid item xs={12} md={4} sx={{order: {xs: 1, md: 2}, borderBottom: `1px solid ${theme.palette.divider}`}}>
+							<Grid item xs={12} md={4} sx={{order: {xs: 1, md: 2}}}>
 								<Card variant="outlined">
 									<CardMedia sx={{borderBottom: `1px solid ${theme.palette.divider}`}}>
-										<CircuitMap circuits={[circuit]} height={200} centerOn={circuit.Location} zoom/>
+										<RaceMap points={points} onClick={onClick} height={300} centerOn={circuit.Location} zoom/>
 									</CardMedia>
 									{circuitDescription && (
 										<CardContent>

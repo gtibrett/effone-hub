@@ -1,8 +1,8 @@
+import {Race} from '@gtibrett/effone-hub-api';
 import {Box} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {getColorByConstructorId} from '../../constructors';
-import {Race} from '@gtibrett/effone-hub-api';
+import useGetColorByConstructorId from '../../constructors/useGetColorByConstructorId';
 import {useNivoTheme} from '../../ui-components/nivo';
 
 type CircuitChartProps = {
@@ -10,7 +10,8 @@ type CircuitChartProps = {
 }
 
 export default function CircuitChart({races}: CircuitChartProps) {
-	const nivoTheme = useNivoTheme();
+	const nivoTheme               = useNivoTheme();
+	const getColorByConstructorId = useGetColorByConstructorId();
 	
 	if (!races?.[0]?.Results?.[0]) {
 		return null;
@@ -20,15 +21,15 @@ export default function CircuitChart({races}: CircuitChartProps) {
 	const color         = getColorByConstructorId(constructorId);
 	
 	const qualifying: LineSerie = {
-		id: 'Qualifying',
+		id:    'Qualifying',
 		color: blueGrey[400],
-		data: []
+		data:  []
 	};
 	
 	const results: LineSerie = {
-		id: 'Results',
+		id:    'Results',
 		color: color,
-		data: []
+		data:  []
 	};
 	
 	let max = 20;
@@ -56,15 +57,15 @@ export default function CircuitChart({races}: CircuitChartProps) {
 				colors={({color}) => color || 'transparent'}
 				yScale={{
 					type: 'linear',
-					min: max,
-					max: 1
+					min:  max,
+					max:  1
 				}}
 				axisLeft={null}
 				axisRight={{
-					tickSize: 0,
-					tickPadding: 10,
+					tickSize:     0,
+					tickPadding:  10,
 					tickRotation: 0,
-					tickValues: [1, max]
+					tickValues:   [1, max]
 				}}
 				axisTop={null}
 				axisBottom={null}
@@ -73,18 +74,18 @@ export default function CircuitChart({races}: CircuitChartProps) {
 				margin={{top: 5, left: 5, right: 25, bottom: 36}}
 				legends={[
 					{
-						anchor: 'bottom-left',
-						direction: 'row',
-						justify: false,
-						translateX: 0,
-						translateY: 24,
-						itemsSpacing: 0,
+						anchor:        'bottom-left',
+						direction:     'row',
+						justify:       false,
+						translateX:    0,
+						translateY:    24,
+						itemsSpacing:  0,
 						itemDirection: 'left-to-right',
-						itemWidth: 80,
-						itemHeight: 20,
-						itemOpacity: 0.75,
-						symbolSize: 10,
-						symbolShape: 'circle'
+						itemWidth:     80,
+						itemHeight:    20,
+						itemOpacity:   0.75,
+						symbolSize:    10,
+						symbolShape:   'circle'
 					}
 				]}
 			/>

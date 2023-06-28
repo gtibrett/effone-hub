@@ -20,7 +20,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@gtibrett/effone-hub-api": "^1.1.0",
+    "@gtibrett/effone-hub-api": "^1.2.0",
     "@mui/lab": "^5.0.0-alpha.114",
     "@mui/material": "^5.11.0",
     "@mui/system": "^5.11.2",
@@ -41,12 +41,12 @@
     "@types/react-dom": "^18.0.9",
     "@types/topojson-client": "^3.1.1",
     "axios": "^1.2.1",
-    "d3-color":"^3.1.0",
+    "d3-color": "^3.1.0",
     "emoji-flag": "^1.1.0",
     "i18n-nationality": "^1.2.0",
     "markdown-to-jsx": "^7.1.8",
-    "nth-check": "^2.1.1",
     "node-fetch": "^2.6.9",
+    "nth-check": "^2.1.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -58,7 +58,7 @@
     "world-atlas": "^2.0.2"
   },
   "resolutions": {
-    "d3-color":"^3.1.0",
+    "d3-color": "^3.1.0",
     "node-fetch": "^2.6.9",
     "nth-check": "^2.1.1"
   },
