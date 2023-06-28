@@ -1,4 +1,4 @@
-import {Circuit} from '../types/ergast';
+import {Circuit} from '@gtibrett/effone-hub-api';
 
 const data = require(`./circuits.json`);
 

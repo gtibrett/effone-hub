@@ -2,7 +2,7 @@ import {Avatar, SxProps, useTheme} from '@mui/material';
 import {DriverId, useDriver} from './DriverProvider';
 
 export type DriverAvatarProps = {
-	id: DriverId;
+	id?: DriverId;
 	size?: 'small' | 'medium' | 'large' | 'auto' | number
 }
 

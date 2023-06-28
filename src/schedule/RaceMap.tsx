@@ -1,9 +1,9 @@
 import {alpha, Box, Typography, useTheme} from '@mui/material';
 import {GeoMapTooltip, ResponsiveGeoMap} from '@nivo/geo';
+import {Location, Race} from '@gtibrett/effone-hub-api';
 import {useMemo} from 'react';
 import {useNavigate} from 'react-router';
 import {feature} from 'topojson-client';
-import {Location, Race} from '../types/ergast';
 import {NivoTooltip, useNivoTheme} from '../ui-components/nivo';
 import {useInvertedTheme} from '../ui-components/Theme';
 
@@ -50,7 +50,7 @@ type RaceMapProps = {
 	races: Race[];
 	height?: number | 'auto';
 	width?: number | 'auto';
-	centerOn?: Location;
+	centerOn?: Pick<Location, 'long' | 'lat'>;
 	zoom?: boolean;
 }
 

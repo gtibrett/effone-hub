@@ -1,11 +1,11 @@
 import {Paper} from '@mui/material';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {SeasonStanding} from '../types/ergast';
+import {ForDrivers, SeasonStanding} from '@gtibrett/effone-hub-api';
 import {NivoTooltip, useGetChartColorsByConstructor, useNivoTheme} from '../ui-components/nivo';
 import CareerTooltip from './CareerTooltip';
 
 type CareerChartProps = {
-	seasons: SeasonStanding[];
+	seasons: SeasonStanding<ForDrivers>[];
 }
 
 const getTicks = (points: number) => {

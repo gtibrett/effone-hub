@@ -4,7 +4,7 @@ import {wikiSummary} from 'wikipedia';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, getCanonicalId} from '../api/Ergast';
 import {CanonicalId, getWiki} from '../api/wikipedia';
-import {Constructor, Responses} from '../types/ergast';
+import {Constructor, Responses} from '@gtibrett/effone-hub-api';
 
 const LOCAL_STORAGE_KEY = 'constructors';
 
@@ -49,18 +49,18 @@ const ConstructorProvider: FC<PropsWithChildren> = ({children}) => {
 
 export default ConstructorProvider;
 
-export const useConstructor = (id: ConstructorId) => {
+export const useConstructor = (id?: ConstructorId) => {
 	const [constructors, setConstructors] = useContext(Context);
 	
 	useEffect(() => {
 		if (id && !constructors[id]) {
 			const dataUrl = getAPIUrl(`/constructors/${id}.json`);
-			Caxios.get<Responses['ConstructorsByYearResponse']>(dataUrl)
+			Caxios.get<Responses.ConstructorsResponse>(dataUrl)
 			      .then(response => response.data)
 			      .then(data => data.MRData?.ConstructorTable?.Constructors?.[0])
 			      .then(async (constructor) => {
 				      if (constructor) {
-					      const canonicalId                    = getCanonicalId(constructor);
+					      const canonicalId                    = getCanonicalId(constructor.url);
 					      const [summary/*, images, infobox*/] = await getWiki(canonicalId).catch(error => {
 						      console.log('Could not load driver bio', error);
 						      return [undefined, undefined, undefined];

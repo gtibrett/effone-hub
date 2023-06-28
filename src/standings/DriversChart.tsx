@@ -1,5 +1,6 @@
 import {Box, Skeleton} from '@mui/material';
 import {ResponsiveBump} from '@nivo/bump';
+import {Race, Result} from '@gtibrett/effone-hub-api';
 import {useEffect, useMemo, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapSchedule} from '../api/Ergast';
@@ -7,7 +8,6 @@ import {useAppState} from '../app/AppStateProvider';
 import {getColorByConstructorId} from '../constructors';
 import ByLine from '../drivers/ByLine';
 import LapByLapTooltip from '../race/lapByLap/LapByLapTooltip';
-import {Race, Result} from '../types/ergast';
 import {NivoTooltip, useNivoTheme} from '../ui-components/nivo';
 
 type ChartSerie = {

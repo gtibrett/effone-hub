@@ -2,9 +2,9 @@ import {faArrowDown, faArrowUp} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Typography} from '@mui/material';
 import {green, red} from '@mui/material/colors';
-import {Result} from '../types/ergast';
+import {Result} from '@gtibrett/effone-hub-api';
 
-export default function PositionChange({grid, position}: Result) {
+export default function PositionChange({grid, position}: Pick<Result, 'grid' | 'position'>) {
 	if (!grid || !position) {
 		return null;
 	}

@@ -2,7 +2,7 @@ import Link from '../ui-components/Link';
 import {ConstructorId, useConstructor} from './ConstructorProvider';
 
 type ByLineProps = {
-	id: ConstructorId;
+	id?: ConstructorId;
 	variant?: 'name' | 'link';
 }
 

@@ -1,9 +1,9 @@
 import {Box, Skeleton, useMediaQuery, useTheme} from '@mui/material';
 import {BarSvgProps, ResponsiveBar} from '@nivo/bar';
+import {Result} from '@gtibrett/effone-hub-api';
 import {getColorByConstructorId} from '../../constructors';
 import ByLine from '../../drivers/ByLine';
 import {DriverId} from '../../drivers/DriverProvider';
-import {Result} from '../../types/ergast';
 import {NivoTooltip, useNivoTheme} from '../../ui-components/nivo';
 import {getDateFromTimeString} from '../lapTimes/helpers';
 import {PitStopTableRow} from './PitStops';
@@ -52,8 +52,10 @@ export default function PitStopsChart({maxStops, pitStops, results}: PitStopsCha
 		};
 		
 		p.stops.forEach(s => {
-			stop[String(s.stop)]              = s.duration.length ? getDateFromTimeString(s.duration) - baseTime : 0;
-			stop[`${String(s.stop)}-display`] = s.duration;
+			if (s.duration) {
+				stop[String(s.stop)]              = s.duration.length ? getDateFromTimeString(s.duration) - baseTime : 0;
+				stop[`${String(s.stop)}-display`] = s.duration;
+			}
 		});
 		
 		return stop;

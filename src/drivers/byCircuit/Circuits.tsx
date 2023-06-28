@@ -3,13 +3,13 @@ import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useState} from 'react';
 import CircuitMap from '../../circuits/CircuitMap';
 import {getTimeStringFromDate} from '../../race/lapTimes/helpers';
-import {Circuit, Driver, Race} from '../../types/ergast';
+import {Circuit, Driver, Race} from '@gtibrett/effone-hub-api';
 import {DriverId, useDriver} from '../DriverProvider';
 import {useResultsByCircuit} from '../hooks';
 import CircuitDialog from './CircuitDialog';
 
 type TracksProps = {
-	driverId: DriverId;
+	driverId?: DriverId;
 };
 
 export type CircuitWithRaces = Circuit & {

@@ -2,7 +2,7 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Box, Dialog, DialogContent, DialogTitle, Grid, IconButton, Tooltip, Typography, useTheme} from '@mui/material';
 import CircuitMap from '../../circuits/CircuitMap';
-import {Driver} from '../../types/ergast';
+import {Driver} from '@gtibrett/effone-hub-api';
 import Tabs from '../../ui-components/Tabs';
 import CircuitPerformance from '../analysis/CircuitPerformance';
 import LapTimesByYearSwarm from '../analysis/LapTimesByYearSwarm';

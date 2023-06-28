@@ -8,7 +8,7 @@ import {useAppState} from '../app/AppStateProvider';
 import CircuitMap from '../circuits/CircuitMap';
 import History from '../circuits/History';
 import Season from '../circuits/Season';
-import {Circuit as CircuitT, Responses} from '../types/ergast';
+import {Circuit as CircuitT, Responses} from '@gtibrett/effone-hub-api';
 import OpenAILink from '../ui-components/citations/OpenAILink';
 import Link from '../ui-components/Link';
 import Navigation from '../ui-components/Navigation';
@@ -22,7 +22,7 @@ export default function Circuit() {
 	
 	useEffect(() => {
 		if (circuitId) {
-			Caxios.get<Responses['CircuitsResponse']>(getAPIUrl(`/circuits/${circuitId}.json`), {params: {limit: 100}})
+			Caxios.get<Responses.CircuitResponse>(getAPIUrl(`/circuits/${circuitId}.json`), {params: {limit: 100}})
 			      .then(mapCircuits)
 			      .then(data => {
 				      setCircuit(data?.[0]);

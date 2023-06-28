@@ -1,11 +1,11 @@
 import {Box} from '@mui/material';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {SeasonStanding} from '../types/ergast';
+import {ForConstructors, SeasonStanding} from '@gtibrett/effone-hub-api';
 import {NivoTooltip, useGetChartColorsByConstructor, useNivoTheme} from '../ui-components/nivo';
 import HistoryTooltip from './HistoryTooltip';
 
 type HistoryChartProps = {
-	seasons: SeasonStanding[];
+	seasons: SeasonStanding<ForConstructors>[];
 }
 
 const getTicks = (points: number) => {

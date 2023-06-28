@@ -2,7 +2,7 @@ import {Alert, Skeleton} from '@mui/material';
 import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapLaps} from '../api/Ergast';
-import {Lap, Race} from '../types/ergast';
+import {Lap, Race} from '@gtibrett/effone-hub-api';
 import Tabs from '../ui-components/Tabs';
 import LapByLap from './lapByLap/LapByLap';
 import LapByLapTable from './lapByLap/LapByLapTable';

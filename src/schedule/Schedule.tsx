@@ -5,7 +5,7 @@ import Caxios from '../api/Caxios';
 import {getAPIUrl, mapSchedule} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
 import ByLine from '../drivers/ByLine';
-import {Race} from '../types/ergast';
+import {Race} from '@gtibrett/effone-hub-api';
 import Link from '../ui-components/Link';
 import RaceMap from './RaceMap';
 

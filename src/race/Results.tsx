@@ -7,7 +7,7 @@ import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import ConstructorByLine from '../constructors/ByLine';
 import ByLine from '../drivers/ByLine';
 import {getPositionTextOutcome} from '../helpers';
-import {Race, Result} from '../types/ergast';
+import {Race, Result} from '@gtibrett/effone-hub-api';
 import PositionChange from './PositionChange';
 
 export default function Results({results}: { results: Race['Results'] }) {
@@ -29,6 +29,7 @@ export default function Results({results}: { results: Race['Results'] }) {
 			rows={rows}
 			autoHeight
 			density="compact"
+			getRowId={r => r.Driver.driverId}
 			columns={
 				[
 					{

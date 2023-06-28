@@ -2,7 +2,7 @@ import {Box} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
 import {getColorByConstructorId} from '../../constructors';
-import {Race} from '../../types/ergast';
+import {Race} from '@gtibrett/effone-hub-api';
 import {useNivoTheme} from '../../ui-components/nivo';
 
 type CircuitChartProps = {

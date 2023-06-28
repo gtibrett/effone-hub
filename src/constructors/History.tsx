@@ -1,19 +1,19 @@
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {ForConstructors, SeasonStanding} from '@gtibrett/effone-hub-api';
 import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapConstructorHistory} from '../api/Ergast';
-import {SeasonStanding} from '../types/ergast';
 //import CareerChart from './CareerChart';
 import {ConstructorId} from './ConstructorProvider';
 import HistoryChart from './HistoryChart';
 
 type HistoryProps = {
-	constructorId: ConstructorId;
+	constructorId?: ConstructorId;
 }
 
 export default function History({constructorId}: HistoryProps) {
-	const [standings, setStandings] = useState<SeasonStanding[] | undefined>();
+	const [standings, setStandings] = useState<SeasonStanding<ForConstructors>[] | undefined>();
 	
 	useEffect(() => {
 		if (!standings) {
@@ -87,7 +87,7 @@ export default function History({constructorId}: HistoryProps) {
 							flex: 1
 						}
 					
-					] as GridColDef<SeasonStanding>[]
+					] as GridColDef<SeasonStanding<ForConstructors>>[]
 				}
 			/>
 		</>
