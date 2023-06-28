@@ -1,6 +1,6 @@
 import type {} from '@mui/x-data-grid/themeAugmentation';
 import {alpha, createTheme, useMediaQuery, useTheme} from '@mui/material';
-import {blueGrey, deepOrange} from '@mui/material/colors';
+import {blueGrey, red} from '@mui/material/colors';
 import {useMemo} from 'react';
 
 export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
@@ -12,28 +12,28 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 			primary: {
 				main: blueGrey[prefersDarkMode ? 400 : 800]
 			},
-			secondary: {
-				main: deepOrange[prefersDarkMode ? 300 : 700]
+			secondary:  {
+				main: red[prefersDarkMode ? 200 : 900]
 			},
 			background: {
-				paper: prefersDarkMode ? blueGrey[900] : '#FFFFFF',
-				default: prefersDarkMode ? blueGrey[700] : blueGrey[100]
+				paper:   prefersDarkMode ? blueGrey[900] : '#fff',
+				default: prefersDarkMode ? blueGrey[800] : blueGrey[200]
 			}
 		},
 		components: {
-			MuiCard: {
+			MuiCard:         {
 				styleOverrides: {
 					root: {
 						overflow: 'visible'
 					}
 				}
 			},
-			MuiDataGrid: {
+			MuiDataGrid:     {
 				styleOverrides: {
 					root: {
-						border: 0,
-						overflow: 'auto',
-						'& > .MuiDataGrid-main': {
+						border:                                   0,
+						overflow:                                 'auto',
+						'& > .MuiDataGrid-main':                  {
 							overflow: 'unset'
 						},
 						'& > div > .MuiDataGrid-footerContainer': {
@@ -42,18 +42,42 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 					}
 				}
 			},
-			MuiDialog: {
+			MuiDialog:       {
 				styleOverrides: {
 					paper: {
-						background: prefersDarkMode ? blueGrey[900] : '#FFFFFF'
+						background: prefersDarkMode ? blueGrey[900] : '#fff'
 					}
 				}
 			},
-			MuiBackdrop: {
+			MuiBackdrop:     {
 				styleOverrides: {
 					root: {
-						background: alpha(blueGrey[prefersDarkMode? 700 : 600], .5),
+						background:     alpha(blueGrey[prefersDarkMode ? 700 : 600], .5),
 						backdropFilter: `blur(5px) grayscale(100%)`
+					}
+				}
+			},
+			MuiListItemIcon: {
+				styleOverrides: {
+					root: {
+						minWidth: 36
+					}
+				}
+			},
+			MuiToggleButton: {
+				styleOverrides: {
+					root: {
+						borderColor: blueGrey[prefersDarkMode ? 400 : 200],
+						
+						'&.Mui-selected': {
+							backgroundColor: blueGrey[prefersDarkMode ? 400 : 600],
+							color:           prefersDarkMode ? '#000' : '#fff'
+						},
+						
+						'&:hover, &:focus': {
+							backgroundColor: `${blueGrey[prefersDarkMode ? 300 : 700]} !important`,
+							color:           prefersDarkMode ? '#000' : '#fff'
+						}
 					}
 				}
 			}
@@ -66,4 +90,4 @@ export const useInvertedTheme = () => {
 	return useEffTheme(theme.palette.mode === 'light' ? 'dark' : 'light');
 };
 
-export const usePrefersDarkMode = () => useTheme().palette.mode === 'dark';
+export const useDarkMode = () => useTheme().palette.mode === 'dark';

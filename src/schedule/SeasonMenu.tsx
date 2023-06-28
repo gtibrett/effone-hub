@@ -1,10 +1,8 @@
-import {alpha, FormControl, MenuItem, Select, useTheme} from '@mui/material';
+import {Responses} from '@gtibrett/effone-hub-api';
+import {alpha, FormControl, InputLabel, MenuItem, Select, useTheme} from '@mui/material';
 import axios from 'axios';
 import {useEffect, useState} from 'react';
-import {useLocation, useNavigate} from 'react-router';
 import {getAPIUrl} from '../api/Ergast';
-import {useAppState} from '../app/AppStateProvider';
-import {Responses} from '@gtibrett/effone-hub-api';
 
 const useSelectSx = () => {
 	const theme = useTheme();
@@ -29,22 +27,17 @@ const useSelectSx = () => {
 	};
 };
 
-export default function SeasonMenu() {
-	const {pathname}            = useLocation();
-	const navigate              = useNavigate();
+type SeasonMenuProps = {
+	id: string;
+	variant?: 'normal' | 'simple',
+	season: number;
+	setSeason: (season: number) => void;
+	required?: boolean;
+}
+
+export default function SeasonMenu({variant = 'simple', id, season, setSeason, required = true}: SeasonMenuProps) {
 	const sx                    = useSelectSx();
-	const [{season}, setState]  = useAppState();
 	const [seasons, setSeasons] = useState<number[]>([]);
-	
-	const setSeason = (value: number) => {
-		if (pathname.includes(`/${season}`)) {
-			navigate(pathname.replace(`/${season}`, `/${value}`));
-		}
-		
-		setState({
-			season: value
-		});
-	};
 	
 	useEffect(() => {
 		if (!seasons.length) {
@@ -63,12 +56,49 @@ export default function SeasonMenu() {
 		return null;
 	}
 	
+	switch (variant) {
+		case 'simple':
+			return (
+				<FormControl fullWidth sx={sx} size="small">
+					<Select
+						inputProps={{'aria-label': 'Season'}}
+						sx={{color: 'inherit', p: 0, border: 0}}
+						id={id}
+						value={season}
+						label="Season"
+						onChange={(ev) => setSeason(ev.target.value as number)}
+					>
+						{!required && <MenuItem value={-1}>Any</MenuItem>}
+						{seasons.map(s => <MenuItem key={s} value={s}>{s}</MenuItem>)}
+					</Select>
+				</FormControl>
+			);
+		
+		case 'normal':
+			return (
+				<FormControl fullWidth size="small" variant="outlined">
+					<InputLabel id={`${id}-label`}>Season</InputLabel>
+					<Select
+						label="Season"
+						labelId={`${id}-label`}
+						id={id}
+						value={season}
+						onChange={(ev) => setSeason(ev.target.value as number)}
+					>
+						{!required && <MenuItem value={-1}>Any</MenuItem>}
+						{seasons.map(s => <MenuItem key={s} value={s}>{s}</MenuItem>)}
+					</Select>
+				</FormControl>
+			);
+	}
+	
 	return (
-		<FormControl fullWidth sx={sx} size="small">
+		<FormControl fullWidth sx={variant === 'simple' ? sx : undefined} size="small">
+			
 			<Select
 				inputProps={{'aria-label': 'Season'}}
-				sx={{color: 'inherit', p: 0, border: 0}}
-				id="season-select"
+				sx={variant === 'simple' ? {color: 'inherit', p: 0, border: 0} : undefined}
+				id={id}
 				value={season}
 				label="Season"
 				onChange={(ev) => setSeason(ev.target.value as number)}

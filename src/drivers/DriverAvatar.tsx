@@ -1,3 +1,5 @@
+import {faUser} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Avatar, SxProps, useTheme} from '@mui/material';
 import {DriverId, useDriver} from './DriverProvider';
 
@@ -33,7 +35,7 @@ export default function DriverAvatar({id, size = 'small'}: DriverAvatarProps) {
 	const driver = useDriver(id);
 	
 	if (!driver) {
-		return null;
+		return <Avatar variant="square" sx={sx}><FontAwesomeIcon icon={faUser}/></Avatar>;
 	}
 	
 	const {familyName, givenName} = driver;

@@ -1,11 +1,11 @@
+import {Race, Result} from '@gtibrett/effone-hub-api';
 import {Box, Skeleton} from '@mui/material';
 import {ResponsiveBump} from '@nivo/bump';
-import {Race, Result} from '@gtibrett/effone-hub-api';
 import {useEffect, useMemo, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapSchedule} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
-import {getColorByConstructorId} from '../constructors';
+import useGetColorByConstructorId from '../constructors/useGetColorByConstructorId';
 import ByLine from '../drivers/ByLine';
 import LapByLapTooltip from '../race/lapByLap/LapByLapTooltip';
 import {NivoTooltip, useNivoTheme} from '../ui-components/nivo';
@@ -30,16 +30,15 @@ type RaceTotalRecord = {
 const sortRacesByTotal = (a: RaceTotalRecord, b: RaceTotalRecord) => {
 	if (a.total > b.total) {
 		return -1;
-	}
-	else if (a.total < b.total) {
+	} else if (a.total < b.total) {
 		return 1;
-	}
-	else {
+	} else {
 		return 0;
 	}
 };
 
 const useChartData = (races: Race[] | undefined) => {
+	const getColorByConstructorId = useGetColorByConstructorId();
 	return useMemo(() => {
 		const data: ChartSerie[] = [];
 		if (races) {
@@ -51,7 +50,7 @@ const useChartData = (races: Race[] | undefined) => {
 							const constructorId = result.Constructor?.constructorId;
 							const color         = getColorByConstructorId(constructorId);
 							data.push({
-								id: result.Driver?.driverId,
+								id:   result.Driver?.driverId,
 								color,
 								data: []
 							});
@@ -60,10 +59,10 @@ const useChartData = (races: Race[] | undefined) => {
 						}
 						
 						data[index].data.push({
-							x: Number(race.round),
-							y: 0,
+							x:     Number(race.round),
+							y:     0,
 							total: data[index].data.reduce((total, {data: r}) => Number(r.points) + total, 0) + Number(result.points),
-							data: result
+							data:  result
 						});
 					}
 				});
@@ -87,7 +86,7 @@ const useChartData = (races: Race[] | undefined) => {
 		
 		return data;
 		
-	}, [races]);
+	}, [races, getColorByConstructorId]);
 };
 
 export default function DriversChart() {
@@ -136,8 +135,8 @@ export default function DriversChart() {
 				axisLeft={null}
 				axisBottom={null}
 				axisRight={{
-					tickSize: 0,
-					tickPadding: 10,
+					tickSize:     0,
+					tickPadding:  10,
 					tickRotation: 0
 				}}
 				margin={{top: 0, right: 44, bottom: 24, left: 60}}

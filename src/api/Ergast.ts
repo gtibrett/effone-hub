@@ -1,5 +1,5 @@
 import {AxiosResponse} from 'axios';
-import {Circuit, Driver, ForConstructors, ForDrivers, Lap, PitStop, QualifyingResult, Race, Responses, SeasonStanding, Standing} from '@gtibrett/effone-hub-api';
+import {Circuit, Constructor, Driver, ForConstructors, ForDrivers, Lap, PitStop, QualifyingResult, Race, Responses, SeasonStanding, Standing} from '@gtibrett/effone-hub-api';
 
 export const getCanonicalId = (url: string | undefined) => {
 	if (!url) {
@@ -20,6 +20,10 @@ export const mapSchedule = (response: AxiosResponse<Responses.ResultsResponse>):
 
 export const mapCircuits = (response: AxiosResponse<Responses.CircuitResponse>): Circuit[] => {
 	return response.data.MRData.CircuitTable.Circuits || [];
+};
+
+export const mapConstructors = (response: AxiosResponse<Responses.ConstructorsResponse>): Constructor[] => {
+	return response.data.MRData.ConstructorTable?.Constructors || [];
 };
 
 export const mapDriversStandings = (response: AxiosResponse<Responses.DriversStandingsResponse>): Standing[] => {

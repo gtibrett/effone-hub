@@ -34,6 +34,11 @@ export default function Season({driverId}: SeasonProps) {
 				autoHeight
 				density="compact"
 				getRowId={(row) => row.round || ''}
+				initialState={{
+					sorting: {
+						sortModel: [{field: 'date', sort: 'asc'}]
+					}
+				}}
 				columns={
 					[
 						{

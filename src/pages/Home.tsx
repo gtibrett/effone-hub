@@ -1,12 +1,16 @@
 import {Card, CardHeader, Grid, Typography} from '@mui/material';
 import {useAppState} from '../app/AppStateProvider';
+import RaceWeekend from '../race/RaceWeekend';
 import Schedule from '../schedule/Schedule';
 import Constructors from '../standings/Constructors';
 import Drivers from '../standings/Drivers';
 import DriversChart from '../standings/DriversChart';
 import Navigation from '../ui-components/Navigation';
+import usePageTitle from '../ui-components/usePageTitle';
 
 export default function Home() {
+	usePageTitle('Home');
+	
 	const [{season}] = useAppState();
 	return (
 		<Grid container spacing={2}>
@@ -14,6 +18,9 @@ export default function Home() {
 				<Navigation>
 					<Typography>{season} Season</Typography>
 				</Navigation>
+			</Grid>
+			<Grid item xs={12}>
+				<RaceWeekend />
 			</Grid>
 			<Grid item xs={12} md={6}>
 				<Card variant="outlined">

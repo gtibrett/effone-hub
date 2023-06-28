@@ -71,6 +71,7 @@ yarn run build
 * Race Maps
   * [world-atlas](https://www.npmjs.com/package/world-atlas)
   * [topojson-client](https://www.npmjs.com/package/topojson-client)
+  * [f1laps-track-vectors](https://github.com/f1laps/f1-track-vectors)
 * Data
   * [ergast-f1-api](https://github.com/jcnewell/ergast-f1-api)
   * [wikipedia](https://www.npmjs.com/package/wikipedia)

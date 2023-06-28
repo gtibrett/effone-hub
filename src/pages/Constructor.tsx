@@ -3,15 +3,16 @@ import Box from '@mui/material/Box';
 import {useRef} from 'react';
 import {useParams} from 'react-router';
 import {useAppState} from '../app/AppStateProvider';
-import {getColorByConstructorId} from '../constructors';
 import {ConstructorWithBio, useConstructor} from '../constructors/ConstructorProvider';
 import History from '../constructors/History';
 import Season from '../constructors/Season';
+import useGetColorByConstructorId from '../constructors/useGetColorByConstructorId';
 import Flag from '../flags/Flag';
 import WikipediaLink from '../ui-components/citations/WikipediaLink';
 import Link from '../ui-components/Link';
 import Navigation from '../ui-components/Navigation';
 import Tabs from '../ui-components/Tabs';
+import usePageTitle from '../ui-components/usePageTitle';
 
 const ConstructorDetails = ({constructor}: { constructor: ConstructorWithBio }) => {
 	return (
@@ -24,11 +25,14 @@ const ConstructorDetails = ({constructor}: { constructor: ConstructorWithBio }) 
 
 
 export default function Constructor() {
-	const [{season}]     = useAppState();
-	const ref            = useRef(null);
-	const {id}           = useParams();
-	const constructor    = useConstructor(id);
-	const constructorBio = constructor?.bio;
+	const getColorByConstructorId = useGetColorByConstructorId();
+	const [{season}]              = useAppState();
+	const ref                     = useRef(null);
+	const {id}                    = useParams();
+	const constructor             = useConstructor(id);
+	const constructorBio          = constructor?.bio;
+	
+	usePageTitle(`Constructor: ${constructor?.name}`);
 	
 	if (!constructor || !constructorBio) {
 		return null;
@@ -57,11 +61,11 @@ export default function Constructor() {
 								<Card variant="outlined">
 									<Tabs active="season" tabs={[
 										{
-											id: 'season', label: 'Season',
+											id:      'season', label: 'Season',
 											content: <Season constructorId={constructor.constructorId}/>
 										},
 										{
-											id: 'history', label: 'History',
+											id:      'history', label: 'History',
 											content: <History constructorId={constructor.constructorId}/>
 										}
 									]}/>
@@ -71,7 +75,7 @@ export default function Constructor() {
 							<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>
 								<Card variant="outlined">
 									<CardMedia ref={ref}>
-										<Box sx={{height: {xs: 24, md: 48}, background: getColorByConstructorId(constructor.constructorId)}}/>
+										<Box sx={{height: {xs: 24, md: 48}, background: getColorByConstructorId(constructor.constructorId, true)}}/>
 									</CardMedia>
 									<CardContent>
 										<Typography variant="body1">{constructorBio.extract}</Typography>

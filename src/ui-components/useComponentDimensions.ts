@@ -5,7 +5,7 @@ type ComponentDimensions = {
 	height: number;
 };
 
-const useComponentDimensionsWithRef = (): { ref: any, dimensions: ComponentDimensions } => {
+const useComponentDimensionsWithRef = (): { ref: any, dimensions: ComponentDimensions, node: HTMLElement | HTMLDivElement | null } => {
 	const [node, setNode]             = useState<HTMLElement | HTMLDivElement | null>(null);
 	const [dimensions, setDimensions] = useState<DOMRect>(new DOMRect());
 	
@@ -29,7 +29,7 @@ const useComponentDimensionsWithRef = (): { ref: any, dimensions: ComponentDimen
 		}
 	}, [node]);
 	
-	return {ref, dimensions};
+	return {ref, dimensions, node};
 };
 
 export default useComponentDimensionsWithRef;

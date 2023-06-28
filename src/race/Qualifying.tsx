@@ -37,6 +37,11 @@ export default function Qualifying({season, round}: QualifyingProps) {
 			autoHeight
 			density="compact"
 			getRowId={r => r.Driver.driverId}
+			initialState={{
+				sorting: {
+					sortModel: [{field: 'position', sort: 'asc'}]
+				}
+			}}
 			columns={
 				[
 					{

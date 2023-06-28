@@ -40,7 +40,7 @@ export default function Drivers() {
 	return (
 		<Grid container spacing={2} alignItems="stretch">
 			<Grid item xs={12} lg={5}>
-				<Place driverId={p1.Driver?.driverId} place={1} points={p1.points}/>
+				<Place driverId={p1.Driver?.driverId} place={1} points={p1.points} asterisk={season === 2021}/>
 				<Divider/>
 				<Place driverId={p2.Driver?.driverId} place={2} points={p2.points}/>
 				<Divider/>
@@ -62,6 +62,11 @@ export default function Drivers() {
 						rows={rest}
 						density="compact"
 						getRowId={r => r.Driver?.driverId || ''}
+						initialState={{
+							sorting: {
+								sortModel: [{field: 'position', sort: 'asc'}]
+							}
+						}}
 						columns={
 							[
 								{
