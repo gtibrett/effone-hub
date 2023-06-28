@@ -1,3 +1,4 @@
+import {Responses, Standing} from '@gtibrett/effone-hub-api';
 import {Box, Divider, Grid} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import {useEffect, useState} from 'react';
@@ -6,7 +7,6 @@ import {getAPIUrl, mapDriversStandings} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
 import ByLine from '../drivers/ByLine';
 import Place from '../race/Place';
-import {Responses, Standing} from '../types/ergast';
 
 const sx = {
 	'& > .MuiDataGrid-main': {
@@ -24,7 +24,7 @@ export default function Drivers() {
 	useEffect(() => {
 		if (season) {
 			const dataUrl = getAPIUrl(`/${season}/driverStandings.json`);
-			Caxios.get<Responses['DriverStandingsByYearResponse']>(dataUrl)
+			Caxios.get<Responses.DriversStandingsResponse>(dataUrl)
 			      .then(mapDriversStandings)
 			      .then(data => setStandings(data))
 			      .catch(() => setStandings([]));
@@ -61,6 +61,7 @@ export default function Drivers() {
 						sx={sx}
 						rows={rest}
 						density="compact"
+						getRowId={r => r.Driver?.driverId || ''}
 						columns={
 							[
 								{

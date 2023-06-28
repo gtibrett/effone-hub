@@ -5,7 +5,7 @@ import Caxios from '../api/Caxios';
 import {getAPIUrl, mapQualifying} from '../api/Ergast';
 import ConstructorByLine from '../constructors/ByLine';
 import ByLine from '../drivers/ByLine';
-import {QualifyingResult} from '../types/ergast';
+import {QualifyingResult} from '@gtibrett/effone-hub-api';
 
 type QualifyingProps = {
 	season: string;
@@ -36,6 +36,7 @@ export default function Qualifying({season, round}: QualifyingProps) {
 			rows={data}
 			autoHeight
 			density="compact"
+			getRowId={r => r.Driver.driverId}
 			columns={
 				[
 					{

@@ -4,7 +4,7 @@ import {DriverId, useDriver} from '../drivers/DriverProvider';
 import Link from '../ui-components/Link';
 
 type PlaceProps = {
-	driverId: DriverId;
+	driverId?: DriverId;
 	place?: number | string;
 	points?: number | string;
 }

@@ -3,7 +3,7 @@ import {ResponsiveHeatMap} from '@nivo/heatmap';
 import {HeatMapSerie} from '@nivo/heatmap/dist/types/types';
 import {useMemo} from 'react';
 import ByLine from '../../drivers/ByLine';
-import {Lap, Race} from '../../types/ergast';
+import {Lap, Race} from '@gtibrett/effone-hub-api';
 import {NivoTooltip, useNivoTheme} from '../../ui-components/nivo';
 import {getTicks} from './helpers';
 import LapTooltip from './LapTooltip';

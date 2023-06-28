@@ -2,7 +2,7 @@ import {alpha, Box, useTheme} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
 import {FC} from 'react';
 import {getColorByConstructorId} from '../constructors';
-import {Constructor} from '../types/ergast';
+import {Constructor} from '@gtibrett/effone-hub-api';
 import {useInvertedTheme, usePrefersDarkMode} from './Theme';
 
 export const useNivoTheme = () => {
@@ -130,7 +130,7 @@ export const NivoTooltip = (Component: FC<any>): FC<any> => {
 export function useGetChartColorsByConstructor() {
 	const darkMode = usePrefersDarkMode();
 	
-	return (constructorId: Constructor['constructorId']) => {
+	return (constructorId: Constructor['constructorId'] | undefined) => {
 		const color = getColorByConstructorId(constructorId);
 		
 		return darkMode

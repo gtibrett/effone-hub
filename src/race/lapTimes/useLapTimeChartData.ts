@@ -1,5 +1,5 @@
 import {useMemo} from 'react';
-import {Lap, Timing} from '../../types/ergast';
+import {Lap, Timing} from '@gtibrett/effone-hub-api';
 import {LapByLapProps} from '../lapByLap/LapByLap';
 import {getColorWithAlt, getDateFromTimeString, getFastestLapTimeFromLaps} from './helpers';
 

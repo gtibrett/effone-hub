@@ -1,5 +1,5 @@
 import {rgbToHex} from '@mui/system';
-import {Constructor} from '../types/ergast';
+import {Constructor} from '@gtibrett/effone-hub-api';
 
 type ConstructorWithColor = Constructor & {
 	color?: string;
@@ -14,13 +14,13 @@ export const getColorByConstructorId = (id?: string) => {
 	if (!constructor) {
 		return '#EEEEEE'; // faint line for unknown constructors
 	}
-	
+
 	if (constructor.color) {
 		return constructor.color;
 	}
 	
 	const index = constructorsWithNoColor.findIndex(c => c.constructorId === id) + 1;
-	const color = Math.floor(0 + (index / constructorsWithNoColor.length * 128));
+	const color = Math.floor(index / constructorsWithNoColor.length * 128);
 	
 	return rgbToHex(`rgb(${color},${color},${color})`);
 };

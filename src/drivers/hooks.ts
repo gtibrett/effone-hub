@@ -1,10 +1,10 @@
+import {Circuit, ForDrivers, Race, SeasonStanding} from '@gtibrett/effone-hub-api';
 import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapCircuits, mapDriverCareer, mapRaces, mapSchedule} from '../api/Ergast';
-import {Circuit, Race, SeasonStanding} from '../types/ergast';
 import {DriverId} from './DriverProvider';
 
-export function useRacesBySeason(season: number, driverId: DriverId) {
+export function useRacesBySeason(season: number, driverId?: DriverId) {
 	const [races, setRaces] = useState<Race[] | undefined>();
 	
 	useEffect(() => {
@@ -18,7 +18,7 @@ export function useRacesBySeason(season: number, driverId: DriverId) {
 	return races;
 }
 
-export function useCareerResults(driverId: DriverId) {
+export function useCareerResults(driverId?: DriverId) {
 	const [races, setRaces] = useState<Race[] | undefined>();
 	
 	useEffect(() => {
@@ -32,8 +32,8 @@ export function useCareerResults(driverId: DriverId) {
 	return races;
 }
 
-export function useCareerStandings(driverId: DriverId) {
-	const [seasonStandings, setSeasonStandings] = useState<SeasonStanding[] | undefined>();
+export function useCareerStandings(driverId?: DriverId) {
+	const [seasonStandings, setSeasonStandings] = useState<SeasonStanding<ForDrivers>[] | undefined>();
 	
 	useEffect(() => {
 		const dataUrl = getAPIUrl(`/drivers/${driverId}/driverStandings.json`);
@@ -54,7 +54,7 @@ export type CircuitWithRaces = Circuit & {
 	averageTime?: number;
 }
 
-const getCircuitResults = (driverId: DriverId, circuit: Circuit): Promise<CircuitWithRaces> => {
+const getCircuitResults = (driverId: DriverId = '', circuit: Circuit): Promise<CircuitWithRaces> => {
 	const dataUrl = getAPIUrl(`/drivers/${driverId}/circuits/${circuit.circuitId}/results.json`);
 	
 	return Caxios.get(dataUrl)
@@ -69,7 +69,7 @@ const getCircuitResults = (driverId: DriverId, circuit: Circuit): Promise<Circui
 	             }));
 };
 
-export function useResultsByCircuit(driverId: DriverId) {
+export function useResultsByCircuit(driverId?: DriverId) {
 	const [circuits, setCircuits] = useState<CircuitWithRaces[] | undefined>();
 	
 	useEffect(() => {

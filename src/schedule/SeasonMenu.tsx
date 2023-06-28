@@ -4,7 +4,7 @@ import {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router';
 import {getAPIUrl} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
-import {Responses} from '../types/ergast';
+import {Responses} from '@gtibrett/effone-hub-api';
 
 const useSelectSx = () => {
 	const theme = useTheme();
@@ -48,7 +48,7 @@ export default function SeasonMenu() {
 	
 	useEffect(() => {
 		if (!seasons.length) {
-			axios.get<Responses['SeasonsResponse']>(getAPIUrl('/seasons.json'), {params: {limit: 100}})
+			axios.get<Responses.SeasonResponse>(getAPIUrl('/seasons.json'), {params: {limit: 100}})
 			     .then(response => response.data.MRData?.SeasonTable?.Seasons || [{season: (new Date()).getFullYear()}])
 			     .then((seasons) => {
 				     seasons.sort();

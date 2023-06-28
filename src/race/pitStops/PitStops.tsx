@@ -5,7 +5,7 @@ import Caxios from '../../api/Caxios';
 import {getAPIUrl, mapPitStops} from '../../api/Ergast';
 import ByLine from '../../drivers/ByLine';
 import {DriverId} from '../../drivers/DriverProvider';
-import {PitStop, Race, Responses, Result} from '../../types/ergast';
+import {PitStop, Race, Responses, Result} from '@gtibrett/effone-hub-api';
 import PitStopsChart from './PitStopsChart';
 
 type PitStopsProps = {
@@ -15,7 +15,7 @@ type PitStopsProps = {
 }
 
 export type PitStopTableRow = {
-	driverId: DriverId;
+	driverId?: DriverId;
 	stops: PitStop[];
 }
 
@@ -46,7 +46,7 @@ export default function PitStops({season, round, results}: PitStopsProps) {
 	const {data, maxStops}        = useTableData(pitStops || []);
 	
 	useEffect(() => {
-		Caxios.get<Responses['ResultsByYearResponse']>(getAPIUrl(`/${season}/${round}/pitstops.json`), {params: {limit: 2000}})
+		Caxios.get<Responses.ResultsResponse>(getAPIUrl(`/${season}/${round}/pitstops.json`), {params: {limit: 2000}})
 		      .then(mapPitStops)
 		      .then(data => {
 			      setPitStops(data);

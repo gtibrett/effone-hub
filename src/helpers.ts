@@ -1,4 +1,4 @@
-import {Result} from './types/ergast';
+import {Result} from '@gtibrett/effone-hub-api';
 
 export function getPositionTextOutcome(positionText: Result['positionText'], status: Result['status']) {
 	switch (positionText) {

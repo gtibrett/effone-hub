@@ -12,14 +12,14 @@ import ConstructorByLine from '../constructors/ByLine';
 import ByLine from '../drivers/ByLine';
 import {getPositionTextOutcome} from '../helpers';
 import PositionChange from '../race/PositionChange';
-import {Circuit, Responses, Result} from '../types/ergast';
+import {Circuit, Responses, Result} from '@gtibrett/effone-hub-api';
 
 export default function Season({circuitId}: { circuitId: Circuit['circuitId'] }) {
 	const [{season}]            = useAppState();
 	const [results, setResults] = useState<Result[] | undefined>();
 	
 	useEffect(() => {
-		Caxios.get<Responses['ResultsByYearResponse']>(getAPIUrl(`/${season}/circuits/${circuitId}/results.json`), {params: {limit: 2000}})
+		Caxios.get<Responses.ResultsResponse>(getAPIUrl(`/${season}/circuits/${circuitId}/results.json`), {params: {limit: 2000}})
 		      .then(mapRace)
 		      .then(data => {
 			      setResults(data?.Results);
@@ -44,6 +44,7 @@ export default function Season({circuitId}: { circuitId: Circuit['circuitId'] })
 			rows={rows}
 			autoHeight
 			density="compact"
+			getRowId={r => r.Driver.driverId}
 			columns={
 				[
 					{
