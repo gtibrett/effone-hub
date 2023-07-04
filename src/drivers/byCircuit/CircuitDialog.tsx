@@ -1,10 +1,10 @@
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Driver} from '@gtibrett/effone-hub-api';
+import {Tabs} from '@gtibrett/mui-additions';
 import {Box, Dialog, DialogContent, DialogTitle, Grid, IconButton, Tooltip, Typography, useTheme} from '@mui/material';
 import RaceMap from '../../maps/RaceMap';
 import useMapCircuitsToMapPoints from '../../maps/useMapCircuitsToMapPoints';
-import Tabs from '../../ui-components/Tabs';
 import CircuitPerformance from '../analysis/CircuitPerformance';
 import LapTimesByYearSwarm from '../analysis/LapTimesByYearSwarm';
 import CircuitChart from './CircuitChart';

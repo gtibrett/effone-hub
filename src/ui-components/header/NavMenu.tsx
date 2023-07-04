@@ -1,10 +1,10 @@
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {Link} from '@gtibrett/mui-additions';
 import {Grid, Hidden, IconButton, Menu, MenuItem, SxProps, useTheme} from '@mui/material';
 import {MouseEvent, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router';
 import {useNavLinks} from '../../app/Routes';
-import Link from '../Link';
 
 export default function NavMenu() {
 	const {pathname}              = useLocation();

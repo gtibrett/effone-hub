@@ -1,7 +1,7 @@
+import {Link} from '@gtibrett/mui-additions';
 import {AppBar, Box, darken, Grid, Toolbar, Typography} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
 import Logo from './header/Logo';
-import Link from './Link';
 import NavMenu from './header/NavMenu';
 
 const background = require('./header/header.jpg');

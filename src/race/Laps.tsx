@@ -1,9 +1,9 @@
 import {Lap, Race} from '@gtibrett/effone-hub-api';
+import {Tabs} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
 import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapLaps} from '../api/Ergast';
-import {Tabs} from '../ui-components';
 import LapByLap from './lapByLap/LapByLap';
 import LapByLapTable from './lapByLap/LapByLapTable';
 import LapTimesTable from './lapTimes/LapTimesTable';

@@ -1,4 +1,4 @@
-import {Link} from '../ui-components';
+import {Link} from '@gtibrett/mui-additions';
 import {ConstructorId, useConstructor} from './ConstructorProvider';
 
 type ByLineProps = {

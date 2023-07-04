@@ -1,5 +1,6 @@
 import {Driver, Responses} from '@gtibrett/effone-hub-api';
-import {Card, CardContent, Skeleton, TextField, TextFieldProps, useTheme} from '@mui/material';
+import {usePageTitle} from '@gtibrett/mui-additions';
+import {Card, CardContent, Skeleton, TextField, TextFieldProps} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {SyntheticEvent, useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
@@ -7,7 +8,7 @@ import {getAPIUrl, mapDrivers} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
 import ByLine from '../drivers/ByLine';
 import SeasonMenu from '../schedule/SeasonMenu';
-import {Page, TableFilter, usePageTitle} from '../ui-components';
+import {Page, TableFilter} from '../ui-components';
 
 type DriversTableProps = {
 	drivers: Driver[];
@@ -44,7 +45,6 @@ function DriversTable({drivers}: DriversTableProps) {
 export default function Drivers() {
 	usePageTitle('Drivers');
 	
-	const theme                           = useTheme();
 	const [{season: currentSeason}]       = useAppState();
 	const [drivers, setDrivers]           = useState<Driver[] | undefined>();
 	const [localFilters, setLocalFilters] = useState({

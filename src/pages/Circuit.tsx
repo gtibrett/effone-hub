@@ -1,4 +1,5 @@
 import {Circuit as CircuitT, Responses} from '@gtibrett/effone-hub-api';
+import {Tabs, usePageTitle} from '@gtibrett/mui-additions';
 import {Backdrop, Box, Card, CardContent, CardMedia, Grid, Typography, useTheme} from '@mui/material';
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router';
@@ -11,7 +12,7 @@ import Season from '../circuits/Season';
 import CircuitMap from '../maps/CircuitMap';
 import RaceMap from '../maps/RaceMap';
 import useMapCircuitsToMapPoints from '../maps/useMapCircuitsToMapPoints';
-import {OpenAILink, Page, Tabs, usePageTitle} from '../ui-components';
+import {OpenAILink, Page} from '../ui-components';
 
 export default function Circuit() {
 	const theme                  = useTheme();

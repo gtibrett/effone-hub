@@ -1,9 +1,9 @@
 import {faAsterisk} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {Link} from '@gtibrett/mui-additions';
 import {Card, CardHeader, Divider, Typography} from '@mui/material';
 import DriverAvatar from '../drivers/DriverAvatar';
 import {DriverId, useDriver} from '../drivers/DriverProvider';
-import {Link} from '../ui-components';
 
 type PlaceProps = {
 	driverId?: DriverId;

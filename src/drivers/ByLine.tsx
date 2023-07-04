@@ -1,6 +1,6 @@
 import {Grid, Hidden, Skeleton, Typography} from '@mui/material';
 import Flag, {FlagProps} from '../flags/Flag';
-import {Link} from '../ui-components';
+import {Link} from '@gtibrett/mui-additions';
 import DriverAvatar, {DriverAvatarProps} from './DriverAvatar';
 import {DriverId, useDriver} from './DriverProvider';
 

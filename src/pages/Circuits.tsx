@@ -1,12 +1,13 @@
 import {Circuit, Responses} from '@gtibrett/effone-hub-api';
-import {Card, CardContent, Skeleton, TextField, TextFieldProps, useTheme} from '@mui/material';
+import {Link, usePageTitle} from '@gtibrett/mui-additions';
+import {Card, CardContent, Skeleton, TextField, TextFieldProps} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {SyntheticEvent, useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapCircuits} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
 import SeasonMenu from '../schedule/SeasonMenu';
-import {Link, Page, TableFilter, usePageTitle} from '../ui-components';
+import {Page, TableFilter} from '../ui-components';
 
 type CircuitsTableProps = {
 	circuits: Circuit[];
@@ -45,7 +46,6 @@ const CircuitsTable = ({circuits}: CircuitsTableProps) => (
 export default function Circuits() {
 	usePageTitle('Circuits');
 	
-	const theme                           = useTheme();
 	const [{season: currentSeason}]       = useAppState();
 	const [circuits, setCircuits]         = useState<Circuit[] | undefined>();
 	const [localFilters, setLocalFilters] = useState({
