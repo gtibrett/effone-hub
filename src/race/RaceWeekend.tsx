@@ -1,5 +1,5 @@
 import {Race} from '@gtibrett/effone-hub-api';
-import {alpha, Card, CardContent, Grid, ThemeProvider, Typography} from '@mui/material';
+import {alpha, Card, CardContent, Grid, Hidden, ThemeProvider, Typography} from '@mui/material';
 import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapSchedule} from '../api/Ergast';
@@ -53,7 +53,7 @@ export default function RaceWeekend() {
 				<Card variant="outlined" sx={sx}>
 					<CardContent>
 						<Grid container spacing={1} justifyContent="space-between" alignItems="center">
-							<Grid item>
+							<Grid item xs={12} sm>
 								<ThemeProvider theme={darkTheme}>
 									<Typography component="h2">Race Weekend</Typography>
 									<Typography variant="h3" component="p" sx={{fontFamily: 'Formula1', fontWeight: 'bold'}}>{nextRace.raceName}</Typography>
@@ -64,8 +64,8 @@ export default function RaceWeekend() {
 									</Typography>
 								</ThemeProvider>
 							</Grid>
-							<Grid item xs={3}><CircuitMap variant="simple" circuit={nextRace.Circuit} height={125}/></Grid>
-							<Grid item sx={{width: 250, mt: -2.125, mb: -3.125, mr: -2.125}}><NextRaceCountdown race={nextRace}/></Grid>
+							<Hidden smDown><Grid item sm={3}><CircuitMap variant="simple" circuit={nextRace.Circuit} height={125}/></Grid></Hidden>
+							<Grid item xs={12} sx={{maxWidth: {md: 250}, mt: {xs: 0, md: -2.125}, mb: {xs: 0, md: -3.125}, mr: {xs: 0, md: -2.125}}}><NextRaceCountdown race={nextRace}/></Grid>
 						</Grid>
 					</CardContent>
 				</Card>

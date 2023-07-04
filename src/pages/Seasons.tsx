@@ -76,7 +76,7 @@ export default function Seasons() {
 	}, []);
 	
 	return (
-		<Page title="Circuits">
+		<Page title="Past Seasons">
 			<Card>
 				{
 					!seasons

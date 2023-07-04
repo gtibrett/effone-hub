@@ -1,3 +1,4 @@
+import {usePageTitle} from '@gtibrett/mui-additions';
 import {Card, CardHeader, Grid} from '@mui/material';
 import {useParams} from 'react-router';
 import {useAppState} from '../app/AppStateProvider';
@@ -6,13 +7,13 @@ import Schedule from '../schedule/Schedule';
 import Constructors from '../standings/Constructors';
 import Drivers from '../standings/Drivers';
 import DriversChart from '../standings/DriversChart';
-import {Page, usePageTitle} from '../ui-components';
+import {Page} from '../ui-components';
 
 export default function Home() {
 	usePageTitle('Home');
 	
-	const {seasonId} = useParams();
-	const [appState] = useAppState();
+	const {seasonId = 'current'} = useParams();
+	const [appState]             = useAppState();
 	
 	let season: number = 0;
 	if (seasonId === 'current' || !seasonId) {
