@@ -84,7 +84,7 @@ export const useNavLinks = () => {
 };
 
 const mapNavLinkToRoute = ({element, path}: NavRoute) => (
-	<Route key="path" element={element} path={path}/>
+	<Route key={path} element={element} path={path}/>
 );
 
 export default function Routes() {

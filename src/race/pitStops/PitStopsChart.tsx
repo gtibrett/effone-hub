@@ -1,7 +1,7 @@
 import {Result} from '@gtibrett/effone-hub-api';
 import {Box, Skeleton, useMediaQuery, useTheme} from '@mui/material';
 import {BarSvgProps, ResponsiveBar} from '@nivo/bar';
-import ByLine from '../../drivers/ByLine';
+import useGetCodeByDriverId from '../../drivers/useGetCodeByDriverId';
 import useGetColorByDriverId from '../../drivers/useGetColorByDriverId';
 import {NivoTooltip, useNivoTheme} from '../../ui-components/nivo';
 import {getDateFromTimeString} from '../lapTimes/helpers';
@@ -24,6 +24,7 @@ export default function PitStopsChart({maxStops, pitStops, results}: PitStopsCha
 	const theme              = useTheme();
 	const isSmall            = useMediaQuery(theme.breakpoints.down('sm'));
 	const getColorByDriverId = useGetColorByDriverId();
+	const getCodeByDriverId  = useGetCodeByDriverId();
 	
 	if (!pitStops) {
 		return <Skeleton variant="rectangular" height={isSmall ? 400 : 150}/>;
@@ -61,7 +62,7 @@ export default function PitStopsChart({maxStops, pitStops, results}: PitStopsCha
 			tickPadding:  5,
 			tickRotation: 0,
 			format:       (v => {
-				return <ByLine variant="code" id={v}/>;
+				return getCodeByDriverId(v);
 			})
 		};
 	} else {
@@ -72,7 +73,7 @@ export default function PitStopsChart({maxStops, pitStops, results}: PitStopsCha
 			tickPadding:  5,
 			tickRotation: 0,
 			format:       (v => {
-				return <ByLine variant="code" id={v}/>;
+				return getCodeByDriverId(v);
 			})
 		};
 		layoutProps.axisLeft   = null;

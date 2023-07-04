@@ -1,10 +1,10 @@
+import {Driver as DriverT, Responses} from '@gtibrett/effone-hub-api';
 import {Backdrop} from '@mui/material';
 import {createContext, Dispatch, FC, PropsWithChildren, SetStateAction, useContext, useEffect, useState} from 'react';
 import {wikiSummary} from 'wikipedia';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, getCanonicalId} from '../api/Ergast';
 import {getWikiSummary} from '../api/wikipedia';
-import {Driver as DriverT, Responses} from '@gtibrett/effone-hub-api';
 
 export type DriverId = DriverT['driverId'];
 export type DriverWithBio = DriverT & {
@@ -45,6 +45,11 @@ const DriverProvider: FC<PropsWithChildren> = ({children}) => {
 
 export default DriverProvider;
 
+export const useDrivers = () => {
+	const [drivers] = useContext(Context);
+	return drivers;
+};
+
 export const useDriver = (id?: DriverId) => {
 	const [drivers, setDrivers] = useContext(Context);
 	
@@ -55,7 +60,7 @@ export const useDriver = (id?: DriverId) => {
 			      .then(response => response.data)
 			      .then(data => data.MRData?.DriverTable?.Drivers?.[0])
 			      .then((driver) => {
-					  // Update profile
+				      // Update profile
 				      if (driver) {
 					      const canonicalId = getCanonicalId(driver.url);
 					      
@@ -69,13 +74,13 @@ export const useDriver = (id?: DriverId) => {
 						      }
 					      }));
 				      }
-					  
-					  return driver
+				      
+				      return driver;
 			      })
 			      .then((driver) => {
 				      if (driver) {
 					      const canonicalId = getCanonicalId(driver.url);
-					
+					      
 					      getWikiSummary(canonicalId)
 						      .then((bio => {
 							      setDrivers((cur) => ({
