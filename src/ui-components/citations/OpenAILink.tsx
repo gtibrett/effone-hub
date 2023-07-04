@@ -1,8 +1,8 @@
 import {faRobot} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {Link} from '@gtibrett/mui-additions';
 import {Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
-import Link from '../Link';
 
 export default function OpenAILink() {
 	

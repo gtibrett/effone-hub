@@ -5,7 +5,7 @@ import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useAppState} from '../app/AppStateProvider';
 import {getPositionTextOutcome} from '../helpers';
 import PositionChange from '../race/PositionChange';
-import {Link} from '../ui-components';
+import {Link} from '@gtibrett/mui-additions';
 import {DriverId} from './DriverProvider';
 import {useRacesBySeason} from './hooks';
 import SeasonChart from './SeasonChart';

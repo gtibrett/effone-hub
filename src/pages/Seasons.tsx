@@ -1,11 +1,12 @@
 import {ForDrivers, Responses, SeasonStanding} from '@gtibrett/effone-hub-api';
+import {Link, usePageTitle} from '@gtibrett/mui-additions';
 import {Card, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
 import {getAPIUrl, mapPastSeasons} from '../api/Ergast';
 import ByLine from '../drivers/ByLine';
-import {Link, Page, usePageTitle} from '../ui-components';
+import {Page} from '../ui-components';
 
 type SeasonsTableProps = {
 	seasons: SeasonStanding<ForDrivers>[];

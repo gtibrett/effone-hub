@@ -1,3 +1,4 @@
+import {Tabs, usePageTitle} from '@gtibrett/mui-additions';
 import {Card, CardContent, CardMedia, Divider, Grid, Typography} from '@mui/material';
 import Box from '@mui/material/Box';
 import {useRef} from 'react';
@@ -8,7 +9,7 @@ import History from '../constructors/History';
 import Season from '../constructors/Season';
 import useGetColorByConstructorId from '../constructors/useGetColorByConstructorId';
 import Flag from '../flags/Flag';
-import {Page, Tabs, usePageTitle, WikipediaLink} from '../ui-components';
+import {Page, WikipediaLink} from '../ui-components';
 
 const ConstructorDetails = ({constructor}: { constructor: ConstructorWithBio }) => {
 	return (

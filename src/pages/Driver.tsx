@@ -1,3 +1,4 @@
+import {Tabs, useComponentDimensionsWithRef, usePageTitle} from '@gtibrett/mui-additions';
 import {Card, CardContent, CardMedia, Divider, Grid, Hidden, Typography} from '@mui/material';
 import {useParams} from 'react-router';
 import {useAppState} from '../app/AppStateProvider';
@@ -7,7 +8,7 @@ import DriverAvatar from '../drivers/DriverAvatar';
 import {DriverWithBio, useDriver} from '../drivers/DriverProvider';
 import Season from '../drivers/Season';
 import Flag from '../flags/Flag';
-import {Page, Tabs, useComponentDimensionsWithRef, usePageTitle, WikipediaLink} from '../ui-components';
+import {Page, WikipediaLink} from '../ui-components';
 
 const DriverDetails = ({driver}: { driver: DriverWithBio }) => {
 	return (
@@ -25,7 +26,7 @@ const DriverDetails = ({driver}: { driver: DriverWithBio }) => {
 
 
 export default function Driver() {
-	const [{currentSeason}]                 = useAppState();
+	const [{currentSeason}]          = useAppState();
 	const {ref, dimensions: {width}} = useComponentDimensionsWithRef();
 	const {driverId}                 = useParams();
 	const driver                     = useDriver(driverId);

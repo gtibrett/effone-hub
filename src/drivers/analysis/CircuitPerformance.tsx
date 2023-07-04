@@ -1,8 +1,9 @@
 import {Circuit} from '@gtibrett/effone-hub-api';
+import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {Paper} from '@mui/material';
 import {ResponsiveRadar} from '@nivo/radar';
 import useGetColorByConstructorId from '../../constructors/useGetColorByConstructorId';
-import {useComponentDimensionsWithRef, useNivoTheme} from '../../ui-components';
+import {useNivoTheme} from '../../ui-components';
 import {DriverId} from '../DriverProvider';
 import {useCareerResults} from '../hooks';
 

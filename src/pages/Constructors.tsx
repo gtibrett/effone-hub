@@ -1,5 +1,6 @@
 import {Constructor, Responses} from '@gtibrett/effone-hub-api';
-import {Card, CardContent, Skeleton, TextField, TextFieldProps, useTheme} from '@mui/material';
+import {usePageTitle} from '@gtibrett/mui-additions';
+import {Card, CardContent, Skeleton, TextField, TextFieldProps} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {SyntheticEvent, useEffect, useState} from 'react';
 import Caxios from '../api/Caxios';
@@ -7,7 +8,7 @@ import {getAPIUrl, mapConstructors} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
 import ByLine from '../constructors/ByLine';
 import SeasonMenu from '../schedule/SeasonMenu';
-import {Page, TableFilter, usePageTitle} from '../ui-components';
+import {Page, TableFilter} from '../ui-components';
 
 type ConstructorsTableProps = {
 	constructors: Constructor[];
@@ -43,7 +44,6 @@ function ConstructorsTable({constructors}: ConstructorsTableProps) {
 export default function Drivers() {
 	usePageTitle('Constructors');
 	
-	const theme                           = useTheme();
 	const [{season: currentSeason}]       = useAppState();
 	const [constructors, setConstructors] = useState<Constructor[] | undefined>();
 	const [localFilters, setLocalFilters] = useState({

@@ -1,9 +1,10 @@
+import {usePageTitle} from '@gtibrett/mui-additions';
 import {Grid} from '@mui/material';
 import Data from '../about/Data';
 import Dependencies from '../about/Dependencies';
 import Mission from '../about/Mission';
 import Repositories from '../about/Repositories';
-import {Page, usePageTitle} from '../ui-components';
+import {Page} from '../ui-components';
 
 export default function About() {
 	usePageTitle(`About`);

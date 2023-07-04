@@ -1,4 +1,5 @@
 import {Race as RaceT, Responses, Result} from '@gtibrett/effone-hub-api';
+import {Link, Tabs, usePageTitle} from '@gtibrett/mui-additions';
 import {Backdrop, Box, Card, CardContent, CardHeader, CardMedia, Grid, Hidden, Typography, useTheme} from '@mui/material';
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router';
@@ -12,7 +13,7 @@ import PitStops from '../race/pitStops/PitStops';
 import Podium from '../race/Podium';
 import Qualifying from '../race/Qualifying';
 import Results from '../race/Results';
-import {Link, OpenAILink, Page, Tabs, usePageTitle} from '../ui-components';
+import {OpenAILink, Page} from '../ui-components';
 
 export default function Race() {
 	const theme                  = useTheme();
