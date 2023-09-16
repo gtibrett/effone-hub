@@ -1,100 +1,81 @@
+import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {useEffect, useState} from 'react';
-import Caxios from '../api/Caxios';
-import {getAPIUrl, mapRaces} from '../api/Ergast';
 import ByLine from '../drivers/ByLine';
-import {Circuit, Race, Responses} from '@gtibrett/effone-hub-api';
-import {Link} from '@gtibrett/mui-additions';
+import {CircuitDataProps, CircuitHistoryData} from './useCircuitByRef';
 
-export default function History({circuitId}: { circuitId: Circuit['circuitId'] }) {
-	const [races, setRaces] = useState<Race[] | undefined>();
-	
-	useEffect(() => {
-		Caxios.get<Responses.ResultsResponse>(getAPIUrl(`/circuits/${circuitId}/results/1.json`), {params: {limit: 2000}})
-		      .then(mapRaces)
-		      .then(data => {
-			      setRaces(data);
-		      });
-	}, [circuitId]);
-	
-	if (!races) {
+export default function History({data, loading}: CircuitDataProps) {
+	if (loading) {
 		return <Skeleton variant="rectangular" height={400}/>;
 	}
 	
-	if (!races.length) {
+	if (!data?.circuit.history.length) {
 		return <Alert variant="outlined" severity="info">Race Data Not Available</Alert>;
 	}
 	
-	const rows = races.map(row => ({
-		...row,
-		id: row.season
-	}));
-	
 	return (
 		<DataGrid
-			rows={rows}
+			rows={data.circuit.history}
 			autoHeight
 			density="compact"
-			getRowId={r => r.season}
+			getRowId={r => r.year}
 			initialState={{
 				sorting: {
-					sortModel: [{field: 'season', sort: 'desc'}]
+					sortModel: [{field: 'year', sort: 'desc'}]
 				}
 			}}
 			columns={
 				[
 					{
-						field: 'season',
-						headerName: 'P',
-						width: 60,
+						field:       'year',
+						headerName:  'P',
+						width:       60,
 						headerAlign: 'center',
-						align: 'center',
-						type: 'number'
+						align:       'center'
 					},
 					{
-						field: 'date',
-						headerName: 'Date',
+						field:       'date',
+						headerName:  'Date',
 						headerAlign: 'center',
-						type: 'date',
-						align: 'center',
+						type:        'date',
+						align:       'center',
 						valueGetter: ({value}) => (new Date(value)),
-						renderCell: ({value}) => value.toLocaleDateString(),
-						minWidth: 100
+						renderCell:  ({value}) => value.toLocaleDateString(),
+						minWidth:    100
 					},
 					{
-						field: 'raceName',
+						field:      'name',
 						headerName: 'Race',
-						flex: 1,
+						flex:       1,
 						renderCell: ({row, value}) => (
-							<Link to={`/season/${row.season}/${row.round}#${row.raceName}`}>{row.season} {value}</Link>
+							<Link to={`/season/${row.year}/${row.round}#${row.name}`}>{row.year} {value}</Link>
 						),
-						minWidth: 200
+						minWidth:   200
 					},
 					{
-						field: 'winner',
+						field:      'winner',
 						headerName: 'Winner',
-						flex: 1,
+						flex:       1,
 						renderCell: ({row}) => {
-							if (!row.Results?.length) {
+							if (!row.results.length) {
 								return '--';
 							}
 							
-							return <ByLine id={row.Results.find(r => Number(r.position) === 1)?.Driver?.driverId}/>;
+							return <ByLine id={row.results[0]?.driverId}/>;
 						},
-						minWidth: 200
+						minWidth:   200
 					},
 					{
-						field: 'time',
-						headerName: 'Time',
-						sortable: false,
+						field:       'time',
+						headerName:  'Time',
+						sortable:    false,
 						headerAlign: 'left',
-						align: 'left',
-						flex: .5,
-						renderCell: ({row}) => row.Results?.[0]?.Time?.time || '--',
-						minWidth: 110
+						align:       'left',
+						flex:        .5,
+						renderCell:  ({row}) => row.results[0]?.time || '--',
+						minWidth:    110
 					}
-				] as GridColDef<Race>[]
+				] as GridColDef<CircuitHistoryData>[]
 			}
 		/>
 	);

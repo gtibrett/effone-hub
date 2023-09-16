@@ -1,25 +1,26 @@
 import {Box, Skeleton} from '@mui/material';
 import {ResponsiveBump} from '@nivo/bump';
 import ByLine from '../../drivers/ByLine';
-import {Lap, Race} from '@gtibrett/effone-hub-api';
-import {NivoTooltip, useNivoTheme} from '../../ui-components/nivo';
+import {DriverId} from '../../drivers/DriverProvider';
+import {NivoTooltip, useNivoTheme} from '../../ui-components';
 import LapByLapTooltip from './LapByLapTooltip';
-import useLapByLapChartData from './useLapByLapChartData';
+import useLapByLapChartData, {useLapByLapData} from './useLapByLapChartData';
 
 export type LapByLapProps = {
-	laps: Lap[];
-	results: Race['Results']
+	season: number;
+	round: number;
 }
 
 type LapChartDatum = {
-	x: number,
-	y: number | null
+	x: number;
+	y: number | null;
 }
 
 export type LapChartSeries = {
-	id: string;
+	id: number;
 	color?: string;
-	data: LapChartDatum[]
+	driverId: DriverId;
+	data: LapChartDatum[];
 }
 
 const getTicks = (laps: number) => {
@@ -33,16 +34,18 @@ const getTicks = (laps: number) => {
 	return [...ticks, laps];
 };
 
-function LapByLap({laps, results}: LapByLapProps) {
-	const nivoTheme = useNivoTheme();
-	const data      = useLapByLapChartData(laps, results);
+function LapByLap({season, round}: LapByLapProps) {
+	const nivoTheme            = useNivoTheme();
+	const lapByLapData         = useLapByLapData(season, round);
+	const data                 = useLapByLapChartData(lapByLapData);
+	const {loading, totalLaps} = lapByLapData;
 	
 	let content = <Skeleton variant="rectangular" sx={{width: '100%'}} height="100%"/>;
-	if (laps.length) {
+	if (!loading && lapByLapData.data?.length) {
 		content = (
 			<ResponsiveBump
 				theme={nivoTheme}
-				data={data}
+				data={data.map(s => ({...s, id: String(s.id)}))}
 				colors={({color}) => color || 'transparent'}
 				lineWidth={3}
 				activeLineWidth={6}
@@ -53,25 +56,25 @@ function LapByLap({laps, results}: LapByLapProps) {
 				inactivePointSize={0}
 				pointBorderWidth={0}
 				activePointBorderWidth={0}
+				startLabel={false}
 				// @ts-ignore
-				startLabel={({id}) => <ByLine variant="code" id={id}/>}
-				endLabel={false}
+				endLabel={({id}) => <ByLine variant="code" id={id}/>}
 				enableGridX={false}
 				enableGridY={false}
 				axisTop={null}
-				axisLeft={null}
-				axisBottom={{
-					tickSize: 0,
-					tickPadding: 5,
-					tickRotation: 0,
-					tickValues: getTicks(Number(results?.[0].laps))
-				}}
-				axisRight={{
-					tickSize: 0,
-					tickPadding: 10,
+				axisLeft={{
+					tickSize:     0,
+					tickPadding:  10,
 					tickRotation: 0
 				}}
-				margin={{top: 0, right: 24, bottom: 24, left: 40}}
+				axisBottom={{
+					tickSize:     0,
+					tickPadding:  5,
+					tickRotation: 0,
+					tickValues:   getTicks(totalLaps || 0)
+				}}
+				axisRight={null}
+				margin={{top: 0, right: 40, bottom: 24, left: 24}}
 				tooltip={NivoTooltip(LapByLapTooltip)}
 			/>
 		);

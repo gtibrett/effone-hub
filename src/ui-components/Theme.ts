@@ -59,9 +59,6 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 						overflow:                                 'auto',
 						'& > .MuiDataGrid-main':                  {
 							overflow: 'unset'
-						},
-						'& > div > .MuiDataGrid-footerContainer': {
-							display: 'none'
 						}
 					}
 				}

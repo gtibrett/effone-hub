@@ -1,8 +1,8 @@
 import {Grid} from '@mui/material';
-import {Race as RaceT} from '@gtibrett/effone-hub-api';
+import {Result} from '@gtibrett/effone-hub-graph-api';
 import Place from './Place';
 
-export default function Podium({results}: { results: RaceT['Results'] }) {
+export default function Podium({results}: { results: Result[] }) {
 	if (!results?.length) {
 		return null;
 	}
@@ -11,16 +11,16 @@ export default function Podium({results}: { results: RaceT['Results'] }) {
 	
 	return (
 		<Grid container spacing={2}>
-			{p1.Driver && <Grid item>
-				<Place driverId={p1.Driver.driverId} place={1}/>
+			{p1.driver && <Grid item>
+				<Place driverId={p1.driver.driverId} place={1}/>
 			</Grid>}
 			
-			{p2.Driver && <Grid item>
-				<Place driverId={p2.Driver.driverId} place={2}/>
+			{p2.driver && <Grid item>
+				<Place driverId={p2.driver.driverId} place={2}/>
 			</Grid>}
 			
-			{p3.Driver && <Grid item>
-				<Place driverId={p3.Driver.driverId} place={3}/>
+			{p3.driver && <Grid item>
+				<Place driverId={p3.driver.driverId} place={3}/>
 			</Grid>}
 		</Grid>
 	);

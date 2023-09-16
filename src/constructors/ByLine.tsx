@@ -1,20 +1,20 @@
 import {Link} from '@gtibrett/mui-additions';
-import {ConstructorId, useConstructor} from './ConstructorProvider';
+import {TeamId, useTeam} from './ConstructorProvider';
 
 type ByLineProps = {
-	id?: ConstructorId;
+	id?: TeamId;
 	variant?: 'name' | 'link';
 }
 
 
 export default function ByLine({id, variant = 'link'}: ByLineProps) {
-	const constructor = useConstructor(id);
+	const {team} = useTeam(id);
 	
-	if (!constructor) {
+	if (!team) {
 		return null;
 	}
 	
-	const {constructorId, name} = constructor;
+	const {constructorRef, name} = team;
 	
 	switch (variant) {
 		case 'name':
@@ -22,7 +22,7 @@ export default function ByLine({id, variant = 'link'}: ByLineProps) {
 		
 		case 'link':
 			return (
-				<Link to={`/constructor/${constructorId}`}>{name}</Link>
+				<Link to={`/constructor/${constructorRef}`}>{name}</Link>
 			);
 	}
 	

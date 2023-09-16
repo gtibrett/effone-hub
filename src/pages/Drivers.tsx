@@ -1,13 +1,12 @@
-import {Driver, Responses} from '@gtibrett/effone-hub-api';
+import {gql, useQuery} from '@apollo/client';
 import {usePageTitle} from '@gtibrett/mui-additions';
 import {Card, CardContent, Skeleton, TextField, TextFieldProps} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {SyntheticEvent, useEffect, useState} from 'react';
-import Caxios from '../api/Caxios';
-import {getAPIUrl, mapDrivers} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
 import ByLine from '../drivers/ByLine';
-import SeasonMenu from '../schedule/SeasonMenu';
+import {Driver} from '@gtibrett/effone-hub-graph-api';
+import SeasonMenu from '../SeasonMenu';
 import {Page, TableFilter} from '../ui-components';
 
 type DriversTableProps = {
@@ -29,7 +28,7 @@ function DriversTable({drivers}: DriversTableProps) {
 						headerName:  'Driver',
 						flex:        1,
 						renderCell:  (({row}) => <ByLine id={row.driverId}/>),
-						valueGetter: (({row}) => `${row.familyName}, ${row.givenName}`)
+						valueGetter: (({row}) => `${row.forename}, ${row.surname}`)
 					}
 				] as GridColDef<Driver>[]
 			}
@@ -41,6 +40,21 @@ function DriversTable({drivers}: DriversTableProps) {
 		/>
 	);
 }
+
+const DriversQuery = gql`
+	#graphql
+	query DriversQuery {
+		drivers (orderBy: SURNAME_ASC) {
+			driverId
+			driverRef
+			forename
+			surname
+			seasons {
+				year
+			}
+		}
+	}
+`;
 
 export default function Drivers() {
 	usePageTitle('Drivers');
@@ -75,41 +89,33 @@ export default function Drivers() {
 		setFilters(localFilters);
 	};
 	
+	const {data, loading} = useQuery<{ drivers: Driver[] }>(DriversQuery, {variables: {year: filters.season > 0 ? filters.season : undefined}});
+	
 	useEffect(() => {
-		if (Number(filters.season) || filters.search.length) {
-			let url = getAPIUrl(`/drivers.json`);
-			if (Number(filters.season) > 0) {
-				url = getAPIUrl(`/${filters.season}/drivers.json`);
-			}
-			
-			Caxios.get<Responses.DriversResponse>(url, {params: {limit: 2000}})
-			      .then(mapDrivers)
-			      .then(results => {
-				      if (!filters.search.length) {
-					      return results;
-				      }
-				      return results.filter(d => {
-					      const tokens = filters.search.toLowerCase().split(' ');
-					      for (const token of tokens) {
-						      if (d.givenName.toLowerCase().includes(token) || d.familyName.toLowerCase().includes(token)) {
-							      return true;
-						      }
-					      }
-					      return false;
-				      });
-			      })
-			      .then(results => setDrivers(results))
-			      .catch((err) => {
-				      console.log(err);
-				      setDrivers([]);
-			      });
+		let results = data?.drivers || [];
+		if (filters.season > 0) {
+			results = results.filter(d => d.seasons.find(s => s.year === filters.season));
 		}
-	}, [filters.season, filters.search]);
+		
+		if (filters.search.length) {
+			results = results.filter(d => {
+				const tokens = filters.search.toLowerCase().split(' ');
+				for (const token of tokens) {
+					if (d.forename.toLowerCase().includes(token) || d.surname.toLowerCase().includes(token)) {
+						return true;
+					}
+				}
+				return false;
+			});
+		}
+		
+		setDrivers(results);
+	}, [data, filters.search, filters.season]);
 	
 	return (
 		<Page title="Drivers">
 			{
-				!drivers
+				(loading || !drivers)
 				? <Skeleton variant="rectangular" height={400}/>
 				: (
 					<Card>

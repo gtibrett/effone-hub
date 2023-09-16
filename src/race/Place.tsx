@@ -19,14 +19,14 @@ export default function Place({driverId, place, points, asterisk = false}: Place
 		return null;
 	}
 	
-	const {givenName, familyName} = driver;
-	const name                    = `${givenName} ${familyName}`;
+	const {forename, surname, driverRef} = driver;
+	const name                    = `${forename} ${surname}`;
 	
 	return (
 		<Card>
 			<CardHeader
-				avatar={<DriverAvatar id={driverId} size={64}/>}
-				title={<Typography noWrap><Link to={`/driver/${driverId}`}>{name}</Link> {asterisk && <FontAwesomeIcon icon={faAsterisk} title="We all know what really happened"/>}</Typography>}
+				avatar={<DriverAvatar driverId={driverId} size={64}/>}
+				title={<Typography noWrap><Link to={`/driver/${driverRef}`}>{name}</Link> {asterisk && <FontAwesomeIcon icon={faAsterisk} title="We all know what really happened"/>}</Typography>}
 				subheader={<>
 					{place ? `P${place} ` : ''}
 					{points ? <Typography variant="caption"><Divider orientation="vertical"/> {points} pts</Typography> : ''}

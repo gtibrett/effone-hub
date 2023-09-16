@@ -1,102 +1,121 @@
+import {gql, useQuery} from '@apollo/client';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {useEffect, useMemo, useState} from 'react';
-import Caxios from '../../api/Caxios';
-import {getAPIUrl, mapPitStops} from '../../api/Ergast';
 import ByLine from '../../drivers/ByLine';
-import {DriverId} from '../../drivers/DriverProvider';
-import {PitStop, Race, Responses, Result} from '@gtibrett/effone-hub-api';
+import {Driver, PitStop, Race, TeamColor} from '@gtibrett/effone-hub-graph-api';
 import PitStopsChart from './PitStopsChart';
 
+const pitStopsQuery = gql`
+	#graphql
+	query pitStopsBySeasonRound($season: Int!, $round: Int!) {
+		race: raceByYearAndRound(year: $season, round: $round) {
+			pitStops {
+				lap
+				time
+				duration
+				milliseconds
+				driver {
+					driverId
+					code
+
+					currentTeam {
+						team {
+							colors {
+								primary
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+`;
+
 type PitStopsProps = {
-	season: string;
+	season: Race['year'];
 	round: Race['round'];
-	results: Result[];
 }
 
 export type PitStopTableRow = {
-	driverId?: DriverId;
+	driverId: Driver['driverId'];
+	code: Driver['code'];
+	color: TeamColor['primary'];
 	stops: PitStop[];
 }
 
-const useTableData = (pitStops: PitStop[]) => {
-	return useMemo(() => {
-		const maxStops = Math.max(0, ...pitStops.map(p => Number(p.stop)));
+const mapTableData = (pitStops: PitStop[]) => {
+	const tableData: PitStopTableRow[] = [];
+	
+	pitStops.forEach(p => {
+		let index = tableData.findIndex(driver => driver.driverId === p.driver.driverId);
+		if (index === -1) {
+			tableData.push({
+				driverId: p.driver.driverId,
+				code:     p.driver.code,
+				color:    p.driver.currentTeam.team.colors.primary,
+				stops:    []
+			});
+			index = tableData.length - 1;
+		}
 		
-		const data: PitStopTableRow[] = [];
-		pitStops.forEach(p => {
-			let index = data.findIndex(driver => driver.driverId === p.driverId);
-			if (index === -1) {
-				data.push({
-					driverId: p.driverId,
-					stops: []
-				});
-				index = data.length - 1;
-			}
-			
-			data[index].stops.push(p);
+		tableData[index].stops.push({
+			...p,
+			stop: tableData[index].stops.length + 1
 		});
-		
-		return {data, maxStops};
-	}, [pitStops]);
+	});
+	
+	return {tableData, maxStops: Math.max(0, ...tableData.map(d => d.stops.length))};
 };
 
-export default function PitStops({season, round, results}: PitStopsProps) {
-	const [pitStops, setPitStops] = useState<PitStop[] | undefined>();
-	const {data, maxStops}        = useTableData(pitStops || []);
+export default function PitStops({season, round}: PitStopsProps) {
+	const {loading, data} = useQuery<{ race: Pick<Race, 'pitStops'> }>(pitStopsQuery, {variables: {season, round}});
 	
-	useEffect(() => {
-		Caxios.get<Responses.ResultsResponse>(getAPIUrl(`/${season}/${round}/pitstops.json`), {params: {limit: 2000}})
-		      .then(mapPitStops)
-		      .then(data => {
-			      setPitStops(data);
-		      });
-	}, [season, round]);
-	
-	if (!pitStops) {
+	if (loading) {
 		return <Skeleton variant="rectangular" height={400}/>;
 	}
 	
-	if (!pitStops.length) {
+	if (!data?.race.pitStops.length) {
 		return <Alert variant="outlined" severity="info">Pit Stop Data Not Available</Alert>;
 	}
 	
+	const {tableData, maxStops} = mapTableData(data.race.pitStops);
+	
 	const columns: GridColDef<PitStopTableRow>[] = [
 		{
-			field: 'Driver',
+			field:      'Driver',
 			headerName: 'Driver',
-			flex: 1,
+			flex:       1,
 			renderCell: ({row}) => <ByLine id={row.driverId}/>,
-			minWidth: 200
+			minWidth:   200
 		},
 		{
-			field: 'stop',
-			headerName: 'Stops',
-			flex: .5,
+			field:       'stop',
+			headerName:  'Stops',
+			flex:        .5,
 			headerAlign: 'center',
-			align: 'center',
-			type: 'number',
+			align:       'center',
+			type:        'number',
 			valueGetter: ({row}) => row.stops.length
 		},
 		...(new Array(maxStops)).fill(null).map((v, i) => {
 			return {
-				field: `stop-${i}`,
-				headerName: `Stop ${i+1}`,
-				flex: .5,
+				field:       `stop-${i}`,
+				headerName:  `Stop ${i + 1}`,
+				flex:        .5,
 				headerAlign: 'center',
-				align: 'center',
-				type: 'number',
-				valueGetter: ({row}) => row.stops.find(r=>Number(r.stop) === i+1)?.duration || ''
+				align:       'center',
+				type:        'number',
+				valueGetter: ({row}) => row.stops.find(r => r.stop === i + 1)?.duration || ''
 			} as GridColDef<PitStopTableRow>;
 		})
 	];
 	
 	return (
 		<>
-			<PitStopsChart maxStops={maxStops} pitStops={data} results={results}/>
+			<PitStopsChart maxStops={maxStops} pitStops={tableData}/>
 			<DataGrid
 				pageSize={100}
-				rows={data}
+				rows={tableData}
 				getRowId={row => row.driverId || ''}
 				autoHeight
 				density="compact"

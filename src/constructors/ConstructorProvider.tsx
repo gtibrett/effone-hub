@@ -1,87 +1,48 @@
-import {Backdrop} from '@mui/material';
-import {createContext, Dispatch, FC, PropsWithChildren, SetStateAction, useContext, useEffect, useState} from 'react';
-import {wikiSummary} from 'wikipedia';
-import Caxios from '../api/Caxios';
-import {getAPIUrl, getCanonicalId} from '../api/Ergast';
-import {CanonicalId, getWiki} from '../api/wikipedia';
-import {Constructor, Responses} from '@gtibrett/effone-hub-api';
+import {gql, useQuery} from '@apollo/client';
+import {Team} from '@gtibrett/effone-hub-graph-api';
 
-const LOCAL_STORAGE_KEY = 'constructors';
+export type TeamId = Team['teamId'];
 
-export type ConstructorId = Constructor['constructorId'];
-export type ConstructorWithBio = Constructor & {
-	canonicalId?: CanonicalId,
-	bio: wikiSummary | undefined,
-	// TODO images: imageResult[] | undefined
-};
-
-type Constructors = {
-	[id: string]: ConstructorWithBio
-}
-
-const initializeState = (): Constructors => {
-	return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '{}');
-};
-
-const Context = createContext<[Constructors, Dispatch<SetStateAction<Constructors>>]>([
-	initializeState(), () => null
-]);
-
-const ConstructorProvider: FC<PropsWithChildren> = ({children}) => {
-	const [state, setState] = useState<Constructors>(initializeState());
-	
-	useEffect(() => {
-		if (state) {
-			localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state));
+const byIdQuery = gql`
+	query constructorById($teamId: Int!) {
+		team: team(teamId: $teamId) {
+			teamId
+			constructorRef
+			name
+			nationality
+			bio {
+				description
+				title
+				extract
+			}
 		}
-	}, [state]);
-	
-	if (!state) {
-		return <Backdrop open/>;
 	}
+`;
+
+const byRefQuery = gql`
+	query constructorById($teamRef: String!) {
+		team: teamByConstructorRef(constructorRef: $teamRef) {
+			teamId
+			constructorRef
+			name
+			nationality
+			bio {
+				description
+				title
+				extract
+			}
+		}
+	}
+`;
+
+export const useTeam = (teamId?: TeamId): { team?: Team, loading: boolean } => {
+	const {data, loading} = useQuery<{ team: Team }>(byIdQuery, {variables: {teamId}});
 	
-	return (
-		<Context.Provider value={[state, setState]}>
-			{children}
-		</Context.Provider>
-	);
+	return {team: data?.team, loading};
 };
 
-export default ConstructorProvider;
-
-export const useConstructor = (id?: ConstructorId) => {
-	const [constructors, setConstructors] = useContext(Context);
+export const useTeamByRef = (teamRef?: string): { team?: Team, loading: boolean } => {
+	const {data, loading} = useQuery<{ team: Team }>(byRefQuery, {variables: {teamRef}});
 	
-	useEffect(() => {
-		if (id && !constructors[id]) {
-			const dataUrl = getAPIUrl(`/constructors/${id}.json`);
-			Caxios.get<Responses.ConstructorsResponse>(dataUrl)
-			      .then(response => response.data)
-			      .then(data => data.MRData?.ConstructorTable?.Constructors?.[0])
-			      .then(async (constructor) => {
-				      if (constructor) {
-					      const canonicalId                    = getCanonicalId(constructor.url);
-					      const [summary/*, images, infobox*/] = await getWiki(canonicalId).catch(error => {
-						      console.log('Could not load driver bio', error);
-						      return [undefined, undefined, undefined];
-					      });
-					
-					      // TODO: pull infobox data?
-					      //console.log(images, infobox);
-					
-					      setConstructors((cur) => ({
-						      ...cur,
-						      [id]: {
-							      ...constructor,
-							      canonicalId,
-							      bio: summary
-							      // TODO images: images
-						      }
-					      }));
-				      }
-			      });
-		}
-	}, [id, constructors, setConstructors]);
-	
-	return id ? constructors[id] : undefined;
+	return {team: data?.team, loading};
 };

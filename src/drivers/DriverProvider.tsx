@@ -1,110 +1,62 @@
-import {Driver as DriverT, Responses} from '@gtibrett/effone-hub-api';
-import {Backdrop} from '@mui/material';
-import {createContext, Dispatch, FC, PropsWithChildren, SetStateAction, useContext, useEffect, useState} from 'react';
-import {wikiSummary} from 'wikipedia';
-import Caxios from '../api/Caxios';
-import {getAPIUrl, getCanonicalId} from '../api/Ergast';
-import {getWikiSummary} from '../api/wikipedia';
+import {gql, useQuery} from '@apollo/client';
+import {Driver} from '@gtibrett/effone-hub-graph-api';
 
-export type DriverId = DriverT['driverId'];
-export type DriverWithBio = DriverT & {
-	bio: wikiSummary | undefined
-};
+export type DriverId = Driver['driverId'];
 
-type Drivers = {
-	[id: string]: DriverWithBio
-}
-
-const initializeState = (): Drivers => {
-	return JSON.parse(localStorage.getItem('drivers') || '{}');
-};
-
-const Context = createContext<[Drivers, Dispatch<SetStateAction<Drivers>>]>([
-	initializeState(), () => null
-]);
-
-const DriverProvider: FC<PropsWithChildren> = ({children}) => {
-	const [state, setState] = useState<Drivers>(initializeState());
-	
-	useEffect(() => {
-		if (state) {
-			localStorage.setItem('drivers', JSON.stringify(state));
+const byIdQuery = gql`
+	query driverById($driverId: Int!) {
+		driver: driver(driverId: $driverId) {
+			driverId
+			driverRef
+			dob
+			forename
+			surname
+			code
+			number
+			nationality
+			url
+			bio {
+				description
+				extract
+				thumbnail {
+					source
+				}
+			}
 		}
-	}, [state]);
-	
-	if (!state) {
-		return <Backdrop open/>;
 	}
-	
-	return (
-		<Context.Provider value={[state, setState]}>
-			{children}
-		</Context.Provider>
-	);
-};
+`;
 
-export default DriverProvider;
-
-export const useDrivers = () => {
-	const [drivers] = useContext(Context);
-	return drivers;
-};
-
-export const useDriver = (id?: DriverId) => {
-	const [drivers, setDrivers] = useContext(Context);
-	
-	useEffect(() => {
-		if (id && !drivers[id]) {
-			const dataUrl = getAPIUrl(`/drivers/${id}.json`);
-			Caxios.get<Responses.DriversResponse>(dataUrl)
-			      .then(response => response.data)
-			      .then(data => data.MRData?.DriverTable?.Drivers?.[0])
-			      .then((driver) => {
-				      // Update profile
-				      if (driver) {
-					      const canonicalId = getCanonicalId(driver.url);
-					      
-					      setDrivers((cur) => ({
-						      ...cur,
-						      [id]: {
-							      ...driver,
-							      url: decodeURI(driver.url || ''),
-							      canonicalId,
-							      bio: undefined
-						      }
-					      }));
-				      }
-				      
-				      return driver;
-			      })
-			      .then((driver) => {
-				      if (driver) {
-					      const canonicalId = getCanonicalId(driver.url);
-					      
-					      getWikiSummary(canonicalId)
-						      .then((bio => {
-							      setDrivers((cur) => ({
-								      ...cur,
-								      [id]: {
-									      ...driver,
-									      bio
-								      }
-							      }));
-						      }))
-						      .catch(error => {
-							      console.log('Could not load driver bio', error);
-							      setDrivers((cur) => ({
-								      ...cur,
-								      [id]: {
-									      ...driver,
-									      bio: undefined
-								      }
-							      }));
-						      });
-				      }
-			      });
+const byRefQuery = gql`
+	query driverByRef($driverRef: String!) {
+		driver: driverByDriverRef(driverRef: $driverRef) {
+			driverId
+			driverRef
+			dob
+			forename
+			surname
+			code
+			number
+			nationality
+			url
+			bio {
+				description
+				extract
+				thumbnail {
+					source
+				}
+			}
 		}
-	}, [id, drivers, setDrivers]);
+	}
+`;
+
+export const useDriver = (driverId?: Driver['driverId']) => {
+	const {data} = useQuery<{ driver: Driver }>(byIdQuery, {variables: {driverId}});
 	
-	return id ? drivers[id] : undefined;
+	return data?.driver;
+};
+
+export const useDriverByRef = (driverRef?: Driver['driverRef']) => {
+	const {data} = useQuery<{ driver: Driver }>(byRefQuery, {variables: {driverRef}});
+	
+	return data?.driver;
 };

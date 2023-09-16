@@ -1,78 +1,17 @@
 import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Circuit} from '@gtibrett/effone-hub-api';
 import {Box, Grid, SxProps, ToggleButton, ToggleButtonGroup, useTheme} from '@mui/material';
 import {blue, red, yellow} from '@mui/material/colors';
 import {SVGProps, SyntheticEvent, useState} from 'react';
+import useCircuitByRef from '../circuits/useCircuitByRef';
+import {Circuit} from '@gtibrett/effone-hub-graph-api';
 import {useDarkMode} from '../ui-components';
-import {AlbertPark, Americas, Bahrain, Baku, Catalunya, Estoril, Hungaroring, Imola, Interlagos, Jeddah, Losail, MarinaBay, Miami, Monaco, Monza, RedBullRing, Ricard, Rodriguez, Shanghai, Silverstone, Sochi, Spa, Suzuka, Villeneuve, YasMarina, Zandvoort} from './circuits';
+import getMapSVG from './circuits/getMapSVG';
 
 type CircuitMapProps = SVGProps<any> & {
 	variant?: 'interactive' | 'simple';
-	circuit: Circuit;
+	circuitRef: Circuit['circuitRef'];
 }
-
-const getMapSVG = (circuit: Circuit, svgProps: SVGProps<any>) => {
-	switch (circuit.circuitId) {
-		case 'albert_park':
-			return <AlbertPark {...svgProps}/>;
-		case 'americas':
-			return <Americas {...svgProps}/>;
-		case 'bahrain':
-			return <Bahrain {...svgProps}/>;
-		case 'baku':
-			return <Baku {...svgProps}/>;
-		case 'catalunya':
-			return <Catalunya {...svgProps}/>;
-		case 'estoril':
-			return <Estoril {...svgProps}/>;
-		case 'hungaroring':
-			return <Hungaroring {...svgProps}/>;
-		case 'imola':
-			return <Imola {...svgProps}/>;
-		case 'interlagos':
-			return <Interlagos {...svgProps}/>;
-		case 'jeddah':
-			return <Jeddah {...svgProps}/>;
-		case 'losail':
-			return <Losail {...svgProps}/>;
-		case 'marina_bay':
-			return <MarinaBay {...svgProps}/>;
-		case 'miami':
-			return <Miami {...svgProps}/>;
-		case 'monaco':
-			return <Monaco {...svgProps}/>;
-		case 'monza':
-			return <Monza {...svgProps}/>;
-		case 'red_bull_ring':
-			return <RedBullRing {...svgProps}/>;
-		case 'ricard':
-			return <Ricard {...svgProps}/>;
-		case 'rodriguez':
-			return <Rodriguez {...svgProps}/>;
-		case 'shanghai':
-			return <Shanghai {...svgProps}/>;
-		case 'silverstone':
-			return <Silverstone {...svgProps}/>;
-		case 'sochi':
-			return <Sochi {...svgProps}/>;
-		case 'spa':
-			return <Spa {...svgProps}/>;
-		case 'suzuka':
-			return <Suzuka {...svgProps}/>;
-		// case 'vegas':
-		// 	return <Vegas {...svgProps}/>;
-		case 'villeneuve':
-			return <Villeneuve {...svgProps}/>;
-		case 'yas_marina':
-			return <YasMarina {...svgProps}/>;
-		case 'zandvoort':
-			return <Zandvoort {...svgProps}/>;
-		
-		default:
-			return null;
-	}
-};
 
 const useSectorColors = () => {
 	const darkMode = useDarkMode();
@@ -119,11 +58,19 @@ const useSx = (variant: CircuitMapProps['variant'], sector: string | undefined):
 	};
 };
 
-export default function CircuitMap({variant = 'interactive', circuit, height = 300, width = 'auto', ...svgProps}: CircuitMapProps) {
-	const mapSVG                      = getMapSVG(circuit, {height, width, 'aria-label': `${circuit.circuitName} Map`, ...svgProps});
+export default function CircuitMap({variant = 'interactive', circuitRef, height = 300, width = 'auto', ...svgProps}: CircuitMapProps) {
 	const {sector1, sector2, sector3} = useSectorColors();
 	const [sector, setSector]         = useState<string | undefined>();
 	const sx                          = useSx(variant, sector);
+	const {data, loading}             = useCircuitByRef(circuitRef);
+	
+	if (!data || loading) {
+		return null;
+	}
+	
+	const {circuit} = data;
+	
+	const mapSVG = getMapSVG(circuitRef, {height, width, 'aria-label': `${circuit.name} Map`, ...svgProps});
 	
 	if (!mapSVG) {
 		return null;

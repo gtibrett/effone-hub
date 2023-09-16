@@ -2,7 +2,7 @@ import {Box} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import ByLine from '../../drivers/ByLine';
 import {LapByLapProps, LapChartSeries} from './LapByLap';
-import useLapByLapChartData from './useLapByLapChartData';
+import useLapByLapChartData, {useLapByLapData} from './useLapByLapChartData';
 
 type LapByLapTableRow = {
 	driverId: LapChartSeries['id'];
@@ -11,14 +11,16 @@ type LapByLapTableRow = {
 	};
 }
 
-export default function LapByLapTable({laps, results}: LapByLapProps) {
+export default function LapByLapTable({season, round}: LapByLapProps) {
 	const flatData: LapByLapTableRow[] = [];
-	const data                         = useLapByLapChartData(laps, results);
+	const lapByLapData                 = useLapByLapData(season, round);
+	const {totalLaps}                  = lapByLapData;
+	const data                         = useLapByLapChartData(lapByLapData);
 	
 	data.forEach((serie) => {
 		flatData.push({
 			driverId: serie.id,
-			laps: Object.fromEntries(serie.data.map((d) => (
+			laps:     Object.fromEntries(serie.data.map((d) => (
 				[`lap_${d.x}`, d.y]
 			)))
 		});
@@ -26,25 +28,25 @@ export default function LapByLapTable({laps, results}: LapByLapProps) {
 	
 	const columns: GridColDef<LapByLapTableRow>[] = [
 		{
-			field: 'driverId',
+			field:      'driverId',
 			headerName: 'Driver',
-			flex: 1,
+			flex:       1,
 			renderCell: ({value}) => (
 				<ByLine id={value} variant="full"/>
 			),
-			minWidth: 240
+			minWidth:   240
 		}
 	];
 	
-	for (let i = 1; i <= laps.length; i++) {
+	for (let i = 1; i <= (totalLaps || 0); i++) {
 		columns.push(
 			{
-				field: `lap_${i}`,
-				headerName: String(i),
-				type: 'number',
-				align: 'center',
+				field:       `lap_${i}`,
+				headerName:  String(i),
+				type:        'number',
+				align:       'center',
 				headerAlign: 'center',
-				width: 32,
+				width:       32,
 				valueGetter: ({row, field}) => {
 					return row.laps[field];
 				}
