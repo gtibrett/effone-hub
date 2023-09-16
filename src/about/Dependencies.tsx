@@ -38,9 +38,9 @@ const dependencies: DependencyCategory[] = [
 	{
 		title: 'Data',
 		links: [
-			{title: 'ergast-f1-api', url: 'https://github.com/jcnewell/ergast-f1-api'},
-			{title: 'wikipedia', url: 'https://www.npmjs.com/package/wikipedia'},
-			{title: 'axios', url: 'https://www.npmjs.com/package/axios'}
+			{title: 'effone-hub-graph', url: 'https://github.com/gtibrett/effone-hub-graph'},
+			{title: '@apollo/client', url: 'https://www.npmjs.com/package/@apollo/client'},
+			{title: 'graphql', url: 'https://www.npmjs.com/package/graphql'}
 		]
 	}
 ];
