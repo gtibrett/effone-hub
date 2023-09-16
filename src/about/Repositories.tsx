@@ -19,8 +19,8 @@ const Repositories = () => (
 				<ListItem>
 					<ListItemIcon><FontAwesomeIcon icon={faGithub}/></ListItemIcon>
 					<ListItemText
-						primary={<Link href="https://github.com/gtibrett/effone-hub-api">effone-hub-api <OpensInNewWindow/></Link>}
-						secondary="A nodejs implementation of the Ergast API. Still a work in progress."
+						primary={<Link href="https://github.com/gtibrett/effone-hub-graph">effone-hub-graph <OpensInNewWindow/></Link>}
+						secondary="A GraphQL implementation of the Ergast API. Still a work in progress."
 					/>
 				</ListItem>
 				<ListItem>
