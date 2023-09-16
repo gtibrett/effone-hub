@@ -2,14 +2,14 @@ import {faArrowDown, faArrowUp} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Typography} from '@mui/material';
 import {green, red} from '@mui/material/colors';
-import {Result} from '@gtibrett/effone-hub-api';
+import {Result} from '@gtibrett/effone-hub-graph-api';
 
 export default function PositionChange({grid, position}: Pick<Result, 'grid' | 'position'>) {
 	if (!grid || !position) {
 		return null;
 	}
 	
-	const change = Number(grid) - Number(position);
+	const change = grid - position;
 	
 	if (!change) {
 		return null;

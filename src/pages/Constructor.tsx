@@ -1,72 +1,73 @@
 import {Tabs, usePageTitle} from '@gtibrett/mui-additions';
-import {Card, CardContent, CardMedia, Divider, Grid, Typography} from '@mui/material';
-import Box from '@mui/material/Box';
+import {Box, Card, CardContent, CardMedia, Divider, Grid, Typography, useTheme} from '@mui/material';
 import {useRef} from 'react';
 import {useParams} from 'react-router';
 import {useAppState} from '../app/AppStateProvider';
-import {ConstructorWithBio, useConstructor} from '../constructors/ConstructorProvider';
-import History from '../constructors/History';
-import Season from '../constructors/Season';
-import useGetColorByConstructorId from '../constructors/useGetColorByConstructorId';
-import Flag from '../flags/Flag';
-import {Page, WikipediaLink} from '../ui-components';
+import {History, Season, TeamData, useConstructorData} from '../constructor';
+import Drivers from '../constructor/Drivers';
+import Flag from '../Flag';
+import {Page, useGetAccessibleColor, WikipediaLink} from '../ui-components';
 
-const ConstructorDetails = ({constructor}: { constructor: ConstructorWithBio }) => {
+const TeamDetails = ({team}: { team: TeamData }) => {
 	return (
 		<Grid container spacing={4} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
-			<Grid item><Typography variant="h2">{constructor.name}</Typography></Grid>
-			<Grid item><Flag nationality={constructor.nationality} size={48}/></Grid>
+			<Grid item><Typography variant="h2">{team.name}</Typography></Grid>
+			<Grid item><Flag nationality={team.nationality} size={48}/></Grid>
 		</Grid>
 	);
 };
 
-
 export default function Constructor() {
+	const theme                    = useTheme();
 	const [{currentSeason}]       = useAppState();
-	const getColorByConstructorId = useGetColorByConstructorId();
+	const getColorByConstructorId = useGetAccessibleColor();
 	const ref                     = useRef(null);
-	const {constructorId}         = useParams();
-	const constructor             = useConstructor(constructorId);
-	const constructorBio          = constructor?.bio;
+	const {teamRef}               = useParams();
+	const {data, loading}         = useConstructorData(teamRef, currentSeason);
+	const team                    = data?.team;
 	
-	usePageTitle(`Constructor: ${constructor?.name}`);
+	usePageTitle(`Constructor: ${team?.name}`);
 	
-	if (!constructor || !constructorBio) {
-		return null;
+	if (!team || loading) {
+		return null; //TODO, skeleton
+	}
+	
+	const tabs = [
+		{
+			id:      'history', label: 'History',
+			content: <History data={data} loading={loading}/>
+		},
+		{
+			id:      'drivers', label: 'Drivers',
+			content: <Drivers data={data} loading={loading}/>
+		}
+	];
+	
+	if (team.standings.find(s => s.year === currentSeason)) {
+		tabs.push({
+			id:      'season', label: `${currentSeason} Season`,
+			content: <Season data={data} loading={loading} season={currentSeason}/>
+		});
 	}
 	
 	return (
-		<Page
-			// constructor is a keyword, so using it as a prop is problematic
-			// @ts-ignore
-			title={<ConstructorDetails constructor={constructor}/>}
-		>
-			
+		<Page title={<TeamDetails team={team}/>}>
 			<Grid container spacing={2}>
 				<Grid item xs={12} md={8} lg={9} order={{xs: 2, md: 1}}>
 					<Card variant="outlined">
-						<Tabs active="history" tabs={[
-							{
-								id:      'history', label: 'History',
-								content: <History constructorId={constructor.constructorId}/>
-							},
-							{
-								id:      'season', label: `${currentSeason} Season`,
-								content: <Season constructorId={constructor.constructorId}/>
-							}
-						]}/>
+						<Tabs active="history" tabs={tabs}/>
 					</Card>
 				</Grid>
 				
 				<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>
 					<Card variant="outlined">
 						<CardMedia ref={ref}>
-							<Box sx={{height: {xs: 24, md: 48}, background: getColorByConstructorId(constructor.constructorId, true)}}/>
+							<Box sx={{height: {xs: 24, md: 48}, background: getColorByConstructorId(team.colors.primary || theme.palette.primary.main, true)}}/>
 						</CardMedia>
 						<CardContent>
-							<Typography variant="body1">{constructorBio.extract}</Typography>
+							<Typography variant="body1">{team.bio.extract}</Typography>
 							<Divider orientation="horizontal" sx={{my: 1}}/>
-							<WikipediaLink href={constructor.url}/>
+							<WikipediaLink href={team.url}/>
 						</CardContent>
 					</Card>
 				</Grid>

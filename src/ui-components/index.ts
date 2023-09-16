@@ -5,4 +5,5 @@ export {default as OpensInNewWindow} from './OpensInNewWindow';
 export {default as Page} from './Page';
 export {default as TableFilter} from './TableFilter';
 export {useEffTheme, useDarkMode, useInvertedTheme} from './Theme';
-export {NivoTooltip, useNivoTheme, useGetChartColorsByConstructor} from './nivo';
+export {NivoTooltip, useNivoTheme, useGetAccessibleChartColors} from './nivo';
+export {default as useGetAccessibleColor} from './useGetAccessibleColor';

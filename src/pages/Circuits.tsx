@@ -1,12 +1,11 @@
-import {Circuit, Responses} from '@gtibrett/effone-hub-api';
+import {gql, useQuery} from '@apollo/client';
 import {Link, usePageTitle} from '@gtibrett/mui-additions';
 import {Card, CardContent, Skeleton, TextField, TextFieldProps} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {SyntheticEvent, useEffect, useState} from 'react';
-import Caxios from '../api/Caxios';
-import {getAPIUrl, mapCircuits} from '../api/Ergast';
+import {SyntheticEvent, useState} from 'react';
 import {useAppState} from '../app/AppStateProvider';
-import SeasonMenu from '../schedule/SeasonMenu';
+import {Circuit} from '@gtibrett/effone-hub-graph-api';
+import SeasonMenu from '../SeasonMenu';
 import {Page, TableFilter} from '../ui-components';
 
 type CircuitsTableProps = {
@@ -25,13 +24,13 @@ const CircuitsTable = ({circuits}: CircuitsTableProps) => (
 					field:      'circuitName',
 					headerName: 'Circuit',
 					flex:       1,
-					renderCell: ({row}) => <Link to={`/circuit/${row.circuitId}`}>{row.circuitName}</Link>
+					renderCell: ({row}) => <Link to={`/circuit/${row.circuitRef}`}>{row.name}</Link>
 				},
 				{
 					field:      'country',
 					headerName: 'Location',
 					flex:       .75,
-					renderCell: ({row}) => row.Location && `${row.Location.locality}, ${row.Location.country}`
+					renderCell: ({row}) => `${row.location}, ${row.country}`
 				}
 			] as GridColDef<Circuit>[]
 		}
@@ -43,11 +42,30 @@ const CircuitsTable = ({circuits}: CircuitsTableProps) => (
 	/>
 );
 
+const CircuitQuery = gql`
+	#graphql
+	query q {
+		circuits {
+			circuitId
+			circuitRef
+			name
+			location
+			country
+			lat
+			lng
+
+			races {
+				year
+			}
+		}
+	}
+
+`;
+
 export default function Circuits() {
 	usePageTitle('Circuits');
 	
 	const [{season: currentSeason}]       = useAppState();
-	const [circuits, setCircuits]         = useState<Circuit[] | undefined>();
 	const [localFilters, setLocalFilters] = useState({
 		season: currentSeason,
 		search: ''
@@ -56,6 +74,31 @@ export default function Circuits() {
 		season: currentSeason,
 		search: ''
 	});
+	
+	const {data, loading} = useQuery<{ circuits: Circuit[] }>(CircuitQuery);
+	
+	const circuits = (() => {
+		let results = data?.circuits || [];
+		if (filters.season > 0) {
+			results = results.filter(d => d.races.find(r => r.year === filters.season));
+		}
+		
+		if (filters.search.length) {
+			results = results.filter(c => {
+				const tokens = filters.search.toLowerCase().split(' ');
+				for (const token of tokens) {
+					if (c.name.toLowerCase().includes(token)
+					    || c.country?.toLowerCase().includes(token)
+					    || c.location?.toLowerCase().includes(token)) {
+						return true;
+					}
+				}
+				return false;
+			});
+		}
+		
+		return results;
+	})();
 	
 	const setSeason = (value: number) => {
 		setLocalFilters(cur => ({
@@ -76,43 +119,10 @@ export default function Circuits() {
 		setFilters(localFilters);
 	};
 	
-	useEffect(() => {
-		if (Number(filters.season) || filters.search.length) {
-			let url = getAPIUrl(`/circuits.json`);
-			if (Number(filters.season) > 0) {
-				url = getAPIUrl(`/${filters.season}/circuits.json`);
-			}
-			
-			Caxios.get<Responses.CircuitResponse>(url, {params: {limit: 2000}})
-			      .then(mapCircuits)
-			      .then(results => {
-				      if (!filters.search.length) {
-					      return results;
-				      }
-				      return results.filter(c => {
-					      const tokens = filters.search.toLowerCase().split(' ');
-					      for (const token of tokens) {
-						      if (c.circuitName.toLowerCase().includes(token)
-						          || c.Location.country.toLowerCase().includes(token)
-						          || c.Location.locality.toLowerCase().includes(token)) {
-							      return true;
-						      }
-					      }
-					      return false;
-				      });
-			      })
-			      .then(results => setCircuits(results))
-			      .catch((err) => {
-				      console.log(err);
-				      setCircuits([]);
-			      });
-		}
-	}, [filters.season, filters.search]);
-	
 	return (
 		<Page title="Circuits">
 			{
-				!circuits
+				loading
 				? <Skeleton variant="rectangular" height={400}/>
 				: (
 					<Card>

@@ -1,12 +1,51 @@
+import {SkipNav, UkraineButton} from '@gtibrett/mui-additions';
+import {Box, Container, SxProps, useTheme} from '@mui/material';
 import React, {ReactNode} from 'react';
-import {Route, RouteProps, Routes as ReactRouterRoutes} from 'react-router-dom';
+import {Outlet, Route, RouteProps, Routes as ReactRouterRoutes} from 'react-router-dom';
 import {Circuits, Constructors, Driver, Drivers, Home, Race} from '../pages';
 import About from '../pages/About';
 import Circuit from '../pages/Circuit';
 import Constructor from '../pages/Constructor';
 import Seasons from '../pages/Seasons';
+import {Header} from '../ui-components';
 import {useAppState} from './AppStateProvider';
 import ErrorBoundary from './ErrorBoundary';
+
+export const Layout = () => {
+	const theme = useTheme();
+	
+	const sx: SxProps = {
+		py:         2,
+		position:   'relative',
+		'&:before': {
+			position:        'absolute',
+			top:             0, left: 0,
+			zIndex:          -1,
+			width:           '100%',
+			height:          '100%',
+			content:         '" "',
+			backgroundImage: `url(${require('../ui-components/carbon-fiber-texture.png')})`,
+			opacity:         theme.palette.mode === 'dark' ? .35 : 1
+		}
+	};
+	
+	return (
+		<>
+			<SkipNav selector="main"/>
+			
+			<Box sx={{position: 'fixed', overflow: 'auto', scrollbarColor: theme.palette.mode, top: 0, left: 0, right: 0, bottom: 0, background: theme.palette.background.default}}>
+				<Header/>
+				
+				<Container maxWidth="xl" component="main" sx={sx} tabIndex={0}>
+					<Outlet/>
+				</Container>
+				
+				<UkraineButton/>
+			</Box>
+		</>
+	);
+};
+
 
 type NavRoute = {
 	path: RouteProps['path'];
@@ -50,7 +89,7 @@ export const useNavLinks = () => {
 			rootPath: '/circuit'
 		},
 		{
-			path:    '/circuit/:circuitId',
+			path:    '/circuit/:circuitRef',
 			element: <Circuit/>
 		},
 		{
@@ -60,7 +99,7 @@ export const useNavLinks = () => {
 			rootPath: '/constructor'
 		},
 		{
-			path:    '/constructor/:constructorId',
+			path:    '/constructor/:teamRef',
 			element: <Constructor/>
 		},
 		{
@@ -70,7 +109,7 @@ export const useNavLinks = () => {
 			rootPath: '/driver'
 		},
 		{
-			path:    '/driver/:driverId',
+			path:    '/driver/:driverRef',
 			element: <Driver/>
 		},
 		{
@@ -94,7 +133,9 @@ export default function Routes() {
 	return (
 		<ErrorBoundary>
 			<ReactRouterRoutes>
-				{routes}
+				<Route element={<Layout/>}>
+					{routes}
+				</Route>
 			</ReactRouterRoutes>
 		</ErrorBoundary>
 	);

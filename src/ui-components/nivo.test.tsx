@@ -1,8 +1,8 @@
-import {createTheme, Theme, ThemeProvider} from '@mui/material';
+import {createTheme, Theme, ThemeProvider, useTheme} from '@mui/material';
 import {render, screen} from '@testing-library/react';
 import axe from 'axe-core';
 import {PropsWithChildren} from 'react';
-import {NivoTooltip, useGetChartColorsByConstructor, useNivoTheme} from './nivo';
+import {NivoTooltip, useGetAccessibleChartColors, useNivoTheme} from './nivo';
 import {useEffTheme} from './Theme';
 
 const TestAppContainer = ({mode, children}: PropsWithChildren<{ mode: Theme['palette']['mode'] }>) => {
@@ -36,12 +36,13 @@ describe('nivo.ts', () => {
 	
 	describe('useGetChartColorsByConstructor hook', () => {
 		const TestComponent = () => {
-			const getChartColorsByConstructor = useGetChartColorsByConstructor();
+			const getAccessibleChartColors = useGetAccessibleChartColors();
+			const theme                    = useTheme();
 			
-			const unknown  = getChartColorsByConstructor('unknown', true);
-			const mercedes = getChartColorsByConstructor('mercedes', true);
-			const mclaren  = getChartColorsByConstructor('mclaren', true);
-			const a11y     = getChartColorsByConstructor('mclaren');
+			const unknown  = getAccessibleChartColors(theme.palette.text.primary, true);
+			const mercedes = getAccessibleChartColors('#5fcfbe', true);
+			const mclaren  = getAccessibleChartColors('#ef8833', true);
+			const a11y     = getAccessibleChartColors('#ef8833');
 			
 			return (
 				<>
@@ -60,7 +61,7 @@ describe('nivo.ts', () => {
 				</TestAppContainer>
 			);
 			
-			expect(screen.getByTestId('unknown')).toHaveTextContent('rgba(0, 0, 0, 0.12)');
+			expect(screen.getByTestId('unknown')).toHaveTextContent('rgba(0, 0, 0, 0.87)');
 			expect(screen.getByTestId('mercedes')).toHaveTextContent(/#5fcfbe/i);
 			expect(screen.getByTestId('mclaren')).toHaveTextContent(/#ef8833/i);
 			expect(screen.getByTestId('a11y')).toHaveTextContent('rgb(191, 88, 3)');
@@ -73,10 +74,10 @@ describe('nivo.ts', () => {
 				</TestAppContainer>
 			);
 			
-			expect(screen.getByTestId('unknown')).toHaveTextContent('rgba(255, 255, 255, 0.12)');
+			expect(screen.getByTestId('unknown')).toHaveTextContent('#fff');
 			expect(screen.getByTestId('mercedes')).toHaveTextContent(/#5fcfbe/i);
 			expect(screen.getByTestId('mclaren')).toHaveTextContent(/#ef8833/i);
-			expect(screen.getByTestId('a11y')).toHaveTextContent('rgb(191, 88, 3)');
+			expect(screen.getByTestId('a11y')).toHaveTextContent('#ef8833');
 		});
 	});
 	

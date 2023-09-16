@@ -6,12 +6,12 @@ import ByLine from '../../drivers/ByLine';
 import DriverAvatar from '../../drivers/DriverAvatar';
 
 export default function LapByLapTooltip({serie}: { serie: BumpSerie<any, any> }) {
-	const {color, id: driverId} = serie;
+	const {color, data: {driverId}} = serie;
 	
 	return (
 		<List dense>
 			<ListItem secondaryAction={<FontAwesomeIcon icon={faSquare} color={color}/>}>
-				<ListItemAvatar><DriverAvatar id={driverId} size={42}/></ListItemAvatar>
+				<ListItemAvatar><DriverAvatar driverId={driverId} size={42}/></ListItemAvatar>
 				<ListItemText primary={<ByLine id={driverId} variant="name"/>}/>
 			</ListItem>
 		</List>

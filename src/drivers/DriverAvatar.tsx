@@ -4,7 +4,7 @@ import {Avatar, SxProps, useTheme} from '@mui/material';
 import {DriverId, useDriver} from './DriverProvider';
 
 export type DriverAvatarProps = {
-	id?: DriverId;
+	driverId?: DriverId;
 	size?: 'small' | 'medium' | 'large' | 'auto' | number
 }
 
@@ -30,19 +30,19 @@ const useSize = (size: DriverAvatarProps['size']): SxProps => {
 	return {width: '100%', height: '100%'};
 };
 
-export default function DriverAvatar({id, size = 'small'}: DriverAvatarProps) {
+export default function DriverAvatar({driverId, size = 'small'}: DriverAvatarProps) {
 	const sx     = useSize(size);
-	const driver = useDriver(id);
+	const driver = useDriver(driverId);
 	
 	if (!driver) {
 		return <Avatar variant="square" sx={sx}><FontAwesomeIcon icon={faUser}/></Avatar>;
 	}
 	
-	const {familyName, givenName} = driver;
+	const {forename, surname, bio} = driver;
 	
-	if (driver.bio?.thumbnail?.source) {
-		return <Avatar variant="square" alt="" src={driver.bio?.thumbnail?.source} sx={{...sx, objectPosition: 'top'}}/>;
+	if (bio?.thumbnail?.source) {
+		return <Avatar variant="square" alt="" src={bio?.thumbnail?.source} sx={{...sx, objectPosition: 'top'}}/>;
 	}
 	
-	return <Avatar variant="square" sx={sx}>{givenName?.[0]}{familyName?.[0]}</Avatar>;
+	return <Avatar variant="square" sx={sx}>{forename?.[0]}{surname?.[0]}</Avatar>;
 }

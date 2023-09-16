@@ -1,13 +1,13 @@
-import {Grid, Hidden, Skeleton, Typography} from '@mui/material';
-import Flag, {FlagProps} from '../flags/Flag';
 import {Link} from '@gtibrett/mui-additions';
+import {Grid, Hidden, Skeleton, Typography} from '@mui/material';
+import Flag, {FlagProps} from '../Flag';
 import DriverAvatar, {DriverAvatarProps} from './DriverAvatar';
 import {DriverId, useDriver} from './DriverProvider';
 
 type ByLineProps = {
 	id?: DriverId;
 	variant?: 'code' | 'name' | 'full';
-	avatarProps?: Omit<DriverAvatarProps, 'id'>
+	avatarProps?: Omit<DriverAvatarProps, 'driverId'>
 	flagProps?: Omit<FlagProps, 'nationality'>
 }
 
@@ -21,7 +21,7 @@ const DriverSkeleton = ({id, variant = 'full', avatarProps = {}}: ByLineProps) =
 		case 'full':
 			return (
 				<Grid container spacing={1} alignItems="center" sx={{flexWrap: 'nowrap'}}>
-					<Hidden smDown><Grid item><DriverAvatar id={id} {...avatarProps}/></Grid></Hidden>
+					<Hidden smDown><Grid item><DriverAvatar driverId={id} {...avatarProps}/></Grid></Hidden>
 					<Grid item><Typography><Skeleton/></Typography></Grid>
 				</Grid>
 			);
@@ -36,8 +36,8 @@ export default function ByLine({id, variant = 'full', avatarProps = {}, flagProp
 		return <DriverSkeleton id={id} variant={variant} avatarProps={avatarProps} flagProps={flagProps}/>;
 	}
 	
-	const {driverId, givenName, familyName, nationality, code} = driver;
-	const name                                                 = `${givenName} ${familyName}`;
+	const {driverRef, forename, surname, nationality, code} = driver;
+	const name                                              = `${forename} ${surname}`;
 	
 	switch (variant) {
 		case 'code':
@@ -48,8 +48,8 @@ export default function ByLine({id, variant = 'full', avatarProps = {}, flagProp
 		case 'full':
 			return (
 				<Grid container spacing={1} alignItems="center" sx={{flexWrap: 'nowrap'}}>
-					<Hidden smDown><Grid item><DriverAvatar id={id} {...avatarProps}/></Grid></Hidden>
-					<Grid item><Typography><Link to={`/driver/${driverId}`}>{name}</Link></Typography></Grid>
+					<Hidden smDown><Grid item><DriverAvatar driverId={id} {...avatarProps}/></Grid></Hidden>
+					<Grid item><Typography><Link to={`/driver/${driverRef}`}>{name}</Link></Typography></Grid>
 					<Hidden mdDown><Grid item><Typography><Flag nationality={nationality} {...flagProps}/></Typography></Grid></Hidden>
 				</Grid>
 			);

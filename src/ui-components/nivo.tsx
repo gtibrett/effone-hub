@@ -1,9 +1,8 @@
-import {Constructor} from '@gtibrett/effone-hub-api';
 import {alpha, Box, useTheme} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
 import {FC} from 'react';
-import useGetColorByConstructorId from '../constructors/useGetColorByConstructorId';
-import {useInvertedTheme, useDarkMode} from './Theme';
+import {useDarkMode, useInvertedTheme} from './Theme';
+import useGetAccessibleColor from './useGetAccessibleColor';
 
 export const useNivoTheme = () => {
 	const theme           = useTheme();
@@ -127,17 +126,17 @@ export const NivoTooltip = (Component: FC<any>): FC<any> => {
 	};
 };
 
-export function useGetChartColorsByConstructor() {
-	const darkMode                = useDarkMode();
-	const getColorByConstructorId = useGetColorByConstructorId();
+export function useGetAccessibleChartColors() {
+	const darkMode           = useDarkMode();
+	const getAccessibleColor = useGetAccessibleColor();
 	
-	return (constructorId: Constructor['constructorId'] | undefined, force: boolean = false) => {
-		const color = getColorByConstructorId(constructorId, force);
+	return (color: string, force: boolean = false) => {
+		const a11yColor = getAccessibleColor(color, force);
 		
 		return darkMode
 			// @ts-ignore
-		       ? [color, ...(new Array(4)).fill(100).map((v, i) => blueGrey[2 * v * (i + 1)])]
+		       ? [a11yColor, ...(new Array(4)).fill(100).map((v, i) => blueGrey[2 * v * (i + 1)])]
 			// @ts-ignore
-		       : [color, ...(new Array(4)).fill(100).map((v, i) => blueGrey[900 - (2 * v * (i + 1))])];
+		       : [a11yColor, ...(new Array(4)).fill(100).map((v, i) => blueGrey[900 - (2 * v * (i + 1))])];
 	};
 }
