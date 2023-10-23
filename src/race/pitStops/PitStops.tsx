@@ -1,4 +1,5 @@
 import {gql, useQuery} from '@apollo/client';
+import {Driver, PitStop, Race, TeamColor} from '@gtibrett/effone-hub-graph-api';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import ByLine from '../../drivers/ByLine';
@@ -105,7 +106,15 @@ export default function PitStops({season, round}: PitStopsProps) {
 				headerAlign: 'center',
 				align:       'center',
 				type:        'number',
-				valueGetter: ({row}) => row.stops.find(r => r.stop === i + 1)?.duration || ''
+				valueGetter: ({row}) => {
+					const stopTime = row.stops.find(r => r.stop === i + 1)?.milliseconds;
+					
+					if (stopTime) {
+						return getTimeStringFromDate(new Date(stopTime));
+					}
+					
+					return '--';
+				}
 			} as GridColDef<PitStopTableRow>;
 		})
 	];

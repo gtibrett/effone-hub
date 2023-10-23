@@ -59,7 +59,7 @@ export default function Circuit() {
 				
 				<Grid item xs={12} md={4} sx={{order: {xs: 1, md: 2}}}>
 					<Card variant="outlined">
-						<CardMedia sx={{borderBottom: `1px solid ${theme.palette.divider}`}}>
+						<CardMedia sx={{borderBottom: `1px solid ${theme.palette.divider}`, p: .25}}>
 							<RaceMap points={points} onClick={onClick} height={300} centerOn={circuit} zoom/>
 						</CardMedia>
 						{circuit.circuitDescription.description && (

@@ -9,6 +9,7 @@ const CircuitDataQuery = gql`
 			lng
 			races {
 				year
+				date
 				results (condition: {driverId: $driverId}) {
 					grid
 					positionOrder

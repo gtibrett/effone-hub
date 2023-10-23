@@ -34,11 +34,11 @@ export default function CircuitChart({data, loading}: CircuitChartProps) {
 		max          = Math.max(max, quali, finish);
 		
 		qualifying.data.push({
-			x: r.year,
+			x: new Date(r.date),
 			y: quali
 		});
 		results.data.push({
-			x: r.year,
+			x: new Date(r.date),
 			y: finish
 		});
 	});
@@ -53,6 +53,9 @@ export default function CircuitChart({data, loading}: CircuitChartProps) {
 					type: 'linear',
 					min:  max,
 					max:  1
+				}}
+				xScale={{
+					type: 'time'
 				}}
 				axisLeft={null}
 				axisRight={{

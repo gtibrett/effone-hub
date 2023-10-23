@@ -25,7 +25,12 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 			<DataGrid
 				rows={races}
 				density="compact"
-				getRowId={(row) => row.year || ''}
+				getRowId={(row) => row.date || ''}
+				initialState={{
+					sorting: {
+						sortModel: [{field: 'year', sort: 'desc'}]
+					}
+				}}
 				columns={
 					[
 						{

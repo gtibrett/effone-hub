@@ -36,29 +36,29 @@ const useSx = (variant: CircuitMapProps['variant'], sector: string | undefined):
 			strokeWidth: 8
 		},
 		
-		'& svg > .st0': {
+		'& svg  .st0': {
 			stroke:      theme.palette.text.primary,
 			strokeWidth: 15 / (variant === 'simple' ? 1.75 : 1)
 		},
 		
-		'& svg > .st1': {
+		'& svg  .st1': {
 			stroke:      sector1,
 			strokeWidth: (sector === '1' ? 15 : 7) / (variant === 'simple' ? 1.75 : 1)
 		},
 		
-		'& svg > .st2': {
+		'& svg  .st2': {
 			stroke:      sector2,
 			strokeWidth: (sector === '2' ? 15 : 7) / (variant === 'simple' ? 1.75 : 1)
 		},
 		
-		'& svg > .st3': {
+		'& svg  .st3': {
 			stroke:      sector3,
 			strokeWidth: (sector === '3' ? 15 : 7) / (variant === 'simple' ? 1.75 : 1)
 		}
 	};
 };
 
-export default function CircuitMap({variant = 'interactive', circuitRef, height = 300, width = 'auto', ...svgProps}: CircuitMapProps) {
+export default function CircuitMap({variant = 'interactive', circuitRef, height = 300, width, ...svgProps}: CircuitMapProps) {
 	const {sector1, sector2, sector3} = useSectorColors();
 	const [sector, setSector]         = useState<string | undefined>();
 	const sx                          = useSx(variant, sector);
