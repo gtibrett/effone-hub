@@ -1,23 +1,19 @@
 import {Grid} from '@mui/material';
-import {Result} from '@gtibrett/effone-hub-graph-api';
+import FastestLap from './stats/FastestLap';
+import LapLeader from './stats/LapLeader';
+import MostWins from './stats/MostWins';
+import {CircuitDataProps} from './useCircuitByRef';
 
-export default function Stats({results}: { results: Result[] }) {
-	if (!results?.length) {
+export default function Stats({data, loading}: CircuitDataProps) {
+	if (!data || loading) {
 		return null;
 	}
 	
-	const [p1, p2, p3] = results;
-	
 	return (
-		<Grid container spacing={2}>
-			{p1.driver && <Grid item>
-			</Grid>}
-			
-			{p2.driver && <Grid item>
-			</Grid>}
-			
-			{p3.driver && <Grid item>
-			</Grid>}
+		<Grid container spacing={2} sx={{py: 0}} justifyContent="stretch">
+			<Grid item><LapLeader data={data} loading={loading}/></Grid>
+			<Grid item><MostWins data={data} loading={loading}/></Grid>
+			<Grid item><FastestLap data={data} loading={loading}/></Grid>
 		</Grid>
 	);
 };

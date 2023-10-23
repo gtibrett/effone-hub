@@ -26,6 +26,13 @@ const CircuitQuery = gql`
 					driverId
 					time
 				}
+				lapTimes (condition: {position: 1}) {
+					driverId
+				}
+				fastestLaps: lapTimes(orderBy: MILLISECONDS_ASC, first:1 ) {
+					driverId
+					milliseconds
+				}
 			}
 
 			season: races(condition: {year: $season}) @include(if: $showCurrentSeason) {

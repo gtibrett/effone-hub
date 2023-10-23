@@ -4,6 +4,7 @@ import {useParams} from 'react-router';
 import {useAppState} from '../app/AppStateProvider';
 import History from '../circuits/History';
 import Season from '../circuits/Season';
+import Stats from '../circuits/Stats';
 import useCircuitByRef from '../circuits/useCircuitByRef';
 import CircuitMap from '../maps/CircuitMap';
 import RaceMap from '../maps/RaceMap';
@@ -34,7 +35,7 @@ export default function Circuit() {
 		<Page
 			title={circuit.name}
 			subheader={`${circuit.location}, ${circuit.country}`}
-			action={<></>}
+			action={<Stats data={data} loading={loading}/>}
 		>
 			<Grid container spacing={2}>
 				<Grid item xs={12} md={8} sx={{order: {xs: 2, md: 1}}}>
