@@ -1,5 +1,5 @@
 import {QueryResult} from '@apollo/client/react/types/types';
-import {Box, useTheme} from '@mui/material';
+import {Box, Skeleton, useTheme} from '@mui/material';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
 import {useGetAccessibleChartColors, useNivoTheme} from '../ui-components';
 import {ConstructorPageData} from './types';
@@ -12,7 +12,7 @@ export default function SeasonChart({data, loading}: SeasonChartProps) {
 	const getAccessibleChartColors = useGetAccessibleChartColors();
 	
 	if (loading || !data) {
-		return null; // TODO: skeleton
+		return <Skeleton variant="rectangular" height={132}/>;
 	}
 	
 	const colors               = getAccessibleChartColors(data.team.colors.primary || theme.palette.primary.main);
