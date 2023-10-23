@@ -1,7 +1,7 @@
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Result} from '@gtibrett/effone-hub-graph-api';
-import {Alert, Grid, Skeleton, Tooltip, Typography} from '@mui/material';
+import {Grid, Skeleton, Tooltip, Typography} from '@mui/material';
 import {purple} from '@mui/material/colors';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';

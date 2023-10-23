@@ -18,7 +18,7 @@ export default function History({data, loading}: CircuitDataProps) {
 			rows={data.circuit.history}
 			autoHeight
 			density="compact"
-			getRowId={r => r.year}
+			getRowId={r => r.date}
 			initialState={{
 				sorting: {
 					sortModel: [{field: 'year', sort: 'desc'}]
@@ -28,10 +28,11 @@ export default function History({data, loading}: CircuitDataProps) {
 				[
 					{
 						field:       'year',
-						headerName:  'P',
-						width:       60,
+						headerName:  'Season',
 						headerAlign: 'center',
-						align:       'center'
+						align:       'center',
+						width:       100,
+						renderCell: ({row}) => <Link to={`/season/${row.year}`}>{row.year}</Link>
 					},
 					{
 						field:       'date',
@@ -53,17 +54,24 @@ export default function History({data, loading}: CircuitDataProps) {
 						minWidth:   200
 					},
 					{
-						field:      'winner',
-						headerName: 'Winner',
-						flex:       1,
-						renderCell: ({row}) => {
+						field:       'winner',
+						headerName:  'Winner',
+						flex:        1,
+						valueGetter: ({row}) => {
+							if (!row.results.length) {
+								return '--';
+							}
+							
+							return `${row.results[0]?.driver?.surname}, ${row.results[0]?.driver?.forename}`;
+						},
+						renderCell:  ({row}) => {
 							if (!row.results.length) {
 								return '--';
 							}
 							
 							return <ByLine id={row.results[0]?.driverId}/>;
 						},
-						minWidth:   200
+						minWidth:    200
 					},
 					{
 						field:       'time',

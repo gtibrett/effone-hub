@@ -24,6 +24,10 @@ const CircuitQuery = gql`
 				results (condition: {position: 1}) {
 					teamId
 					driverId
+					driver {
+						forename
+						surname
+					}
 					time
 				}
 				lapTimes (condition: {position: 1}) {
@@ -68,8 +72,9 @@ const CircuitQuery = gql`
 	}
 `;
 
-export type CircuitHistoryData = Pick<Race, 'year' | 'round' | 'date' | 'name'> & {
-	results: Pick<Result, 'teamId' | 'driverId' | 'time'>[]
+export type CircuitHistoryData = Pick<Race, 'year' | 'round' | 'date' | 'name' | 'lapTimes'> & {
+	results: Pick<Result, 'teamId' | 'driverId' | 'driver' | 'time'>[]
+	fastestLaps: Race['lapTimes']
 }
 
 type CircuitPageData = {
@@ -84,4 +89,3 @@ export type CircuitDataProps = Pick<QueryResult<CircuitPageData>, 'data' | 'load
 export default function useCircuitByRef(circuitRef: string | undefined, season?: number) {
 	return useQuery<CircuitPageData>(CircuitQuery, {variables: {circuitRef, showCurrentSeason: Boolean(season), season}});
 }
-

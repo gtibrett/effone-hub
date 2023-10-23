@@ -17,7 +17,7 @@ type CountdownRowProps = {
 
 const CountdownRow = ({date, time, label}: CountdownRowProps) => {
 	const [now, setNow] = useState(new Date());
-	const timeTo        = Math.floor(((new Date(`${date} ${time}`)).getTime() - now.getTime()) / 1000);
+	const timeTo        = Math.floor(((new Date(`${date} ${time} UTC`)).getTime() - now.getTime()) / 1000);
 	
 	useEffect(() => {
 		setInterval(() => {
