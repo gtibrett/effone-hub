@@ -44,11 +44,6 @@ const lapsQuery = gql`
 	}
 `;
 
-export const useTotalLaps = (lapTimes: LapTime[]) => (
-	useMemo<number>(() => Math.max(...lapTimes.map(lt => lt.lap)), [lapTimes])
-);
-
-
 export type LapByLapData = {
 	loading: boolean;
 	totalLaps?: number;

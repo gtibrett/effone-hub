@@ -1,8 +1,8 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {Team} from '@gtibrett/effone-hub-graph-api';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {Team} from '@gtibrett/effone-hub-graph-api';
 import PointsChart from './history/PointsChart';
 import PositionsChart from './history/PositionsChart';
 import WinsChart from './history/WinsChart';
@@ -16,7 +16,7 @@ export default function History({data, loading}: HistoryProps) {
 	}
 	const standings = data?.team.standings.map(s => ({...s, name: data?.team.name})) || [];
 	
-	data?.team.teamHistories.forEach(({antecedentTeam, startYear, endYear}) => {
+	data?.team.teamHistories.forEach(({antecedentTeam}) => {
 		antecedentTeam.standings.forEach(s => standings.push({...s, name: antecedentTeam.name}));
 	});
 	
@@ -47,7 +47,7 @@ export default function History({data, loading}: HistoryProps) {
 							headerAlign: 'center',
 							align:       'center',
 							width:       100,
-							renderCell: ({row}) => <Link to={`/season/${row.year}`}>{row.year}</Link>
+							renderCell:  ({row}) => <Link to={`/season/${row.year}`}>{row.year}</Link>
 						},
 						{
 							field:      'name',

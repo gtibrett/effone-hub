@@ -10,14 +10,11 @@ const useSeason = () => {
 	const {seasonId = 'current'} = useParams();
 	const [appState]             = useAppState();
 	
-	let season: number = 0;
 	if (seasonId === 'current' || !seasonId) {
-		season = appState.currentSeason;
+		return appState.currentSeason;
 	} else {
-		season = Number(seasonId);
+		return Number(seasonId);
 	}
-	
-	return season;
 };
 
 export default function Home() {
