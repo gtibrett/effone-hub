@@ -1,8 +1,9 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {DriverStandingBySeason} from '@gtibrett/effone-hub-graph-api';
+import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import ByLine from '../drivers/ByLine';
-import {DriverStandingBySeason} from '@gtibrett/effone-hub-graph-api';
+import {DriverByLine} from '../driver';
 import {ConstructorPageData, DriverByYear} from './types';
 
 type DriversProps = Pick<QueryResult<ConstructorPageData>, 'data' | 'loading'>;
@@ -60,7 +61,8 @@ export default function Drivers({data, loading}: DriversProps) {
 							headerName:  'Season',
 							headerAlign: 'center',
 							align:       'center',
-							width:       100
+							width:       100,
+							renderCell: ({row}) => <Link to={`/season/${row.year}`}>{row.year}</Link>
 						},
 						{
 							field:      'driver1',
