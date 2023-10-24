@@ -10,6 +10,7 @@ import Seasons from '../pages/Seasons';
 import {Header} from '../ui-components';
 import {useAppState} from './AppStateProvider';
 import ErrorBoundary from './ErrorBoundary';
+import Footer from './Footer';
 
 export const Layout = () => {
 	const theme = useTheme();
@@ -40,6 +41,7 @@ export const Layout = () => {
 					<Outlet/>
 				</Container>
 				
+				<Footer/>
 				<UkraineButton/>
 			</Box>
 		</>

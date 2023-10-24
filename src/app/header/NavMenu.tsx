@@ -4,7 +4,7 @@ import {Link} from '@gtibrett/mui-additions';
 import {Grid, Hidden, IconButton, Menu, MenuItem, SxProps, useTheme} from '@mui/material';
 import {MouseEvent, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router';
-import {useNavLinks} from '../../app/Routes';
+import {useNavLinks} from '../Routes';
 
 export default function NavMenu() {
 	const {pathname}              = useLocation();
@@ -15,6 +15,7 @@ export default function NavMenu() {
 	const navLinks                = useNavLinks().filter((l => !!l.label));
 	
 	const navLinkSx: SxProps = {
+		fontFamily:                             "'Titillium Web', sans-serif",
 		textDecoration:                         'none',
 		py:                                     .5,
 		px:                                     .5,

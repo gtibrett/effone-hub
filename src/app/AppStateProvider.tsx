@@ -1,8 +1,8 @@
+import {Season} from '@gtibrett/effone-hub-graph-api';
 import {Backdrop} from '@mui/material';
 import {createContext, Dispatch, FC, PropsWithChildren, SetStateAction, useContext, useEffect, useState} from 'react';
-import {Season} from '@gtibrett/effone-hub-graph-api';
-import useApolloClient from '../useApolloClient';
 import {SeasonsQuery} from '../SeasonMenu';
+import useApolloClient from '../useApolloClient';
 
 type AppStateType = {
 	season: number;
@@ -23,22 +23,24 @@ const Context = createContext<[AppStateType, SetAppStateType]>([
 ]);
 
 const AppStateProvider: FC<PropsWithChildren> = ({children}) => {
-	const apolloClient      = useApolloClient();
+	const {client, ready}   = useApolloClient();
 	const [state, setState] = useState<AppStateType>(BLANK_STATE);
 	
 	useEffect(() => {
-		apolloClient.query<{ seasons: Season[] }>({query: SeasonsQuery})
-		            .then(({data}) => {
-			            const {seasons} = data;
-			            
-			            return {
-				            season:        Math.max(...seasons.map(s => s.year)),
-				            currentSeason: Math.max(...seasons.map(s => s.year)),
-				            ready:         true
-			            };
-		            })
-		            .then(s => setState(s));
-	}, [apolloClient, setState]);
+		if (ready) {
+			client.query<{ seasons: Season[] }>({query: SeasonsQuery})
+			      .then(({data}) => {
+				      const {seasons} = data;
+				      
+				      return {
+					      season:        Math.max(...seasons.map(s => s.year)),
+					      currentSeason: Math.max(...seasons.map(s => s.year)),
+					      ready:         true
+				      };
+			      })
+			      .then(s => setState(s));
+		}
+	}, [client, ready, setState]);
 	
 	if (!state || !state.ready || !state.season) {
 		return <Backdrop open/>;

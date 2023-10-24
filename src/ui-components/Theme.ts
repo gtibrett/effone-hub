@@ -5,32 +5,37 @@ import {useMemo} from 'react';
 
 export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 	const prefersDarkMode = (useMediaQuery('(prefers-color-scheme: dark)') && overrideMode !== 'light') || overrideMode === 'dark';
+	const spacing         = 8;
+	const primary         = blueGrey;
+	const secondary       = red;
 	
 	return useMemo(() => createTheme({
+		spacing,
 		palette:    {
 			mode:       prefersDarkMode ? 'dark' : 'light',
 			primary:    {
-				main: blueGrey[prefersDarkMode ? 400 : 800]
+				main: primary[prefersDarkMode ? 400 : 800]
 			},
 			secondary:  {
-				main: red[prefersDarkMode ? 200 : 900]
+				main: secondary[prefersDarkMode ? 200 : 900]
 			},
 			background: {
-				paper:   prefersDarkMode ? blueGrey[900] : '#fff',
-				default: prefersDarkMode ? blueGrey[800] : blueGrey[200]
+				paper:   prefersDarkMode ? primary[900] : '#fff',
+				default: prefersDarkMode ? primary[800] : primary[200]
 			}
 		},
 		typography: {
-			h1: {
+			fontFamily: "'Titillium Web', sans-serif",
+			h1:         {
 				fontSize: 48
 			},
-			h2: {
+			h2:         {
 				fontSize: 24
 			},
-			h3: {
+			h3:         {
 				fontSize: 20
 			},
-			h4: {
+			h4:         {
 				fontSize: 14
 			}
 		},
@@ -55,9 +60,9 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 			MuiDataGrid:     {
 				styleOverrides: {
 					root: {
-						border:                                   0,
-						overflow:                                 'auto',
-						'& > .MuiDataGrid-main':                  {
+						border:                  0,
+						overflow:                'auto',
+						'& > .MuiDataGrid-main': {
 							overflow: 'unset'
 						}
 					}
@@ -66,14 +71,14 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 			MuiDialog:       {
 				styleOverrides: {
 					paper: {
-						background: prefersDarkMode ? blueGrey[900] : '#fff'
+						background: prefersDarkMode ? primary[900] : '#fff'
 					}
 				}
 			},
 			MuiBackdrop:     {
 				styleOverrides: {
 					root: {
-						background:     alpha(blueGrey[prefersDarkMode ? 700 : 600], .5),
+						background:     alpha(primary[prefersDarkMode ? 700 : 600], .5),
 						backdropFilter: `blur(5px) grayscale(100%)`
 					}
 				}
@@ -98,22 +103,24 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 			MuiToggleButton: {
 				styleOverrides: {
 					root: {
-						borderColor: blueGrey[prefersDarkMode ? 400 : 200],
+						padding:     `${spacing / 4}px ${spacing}px`,
+						borderColor: secondary[prefersDarkMode ? 400 : 900],
+						color: secondary[prefersDarkMode ? 400 : 900],
 						
 						'&.Mui-selected': {
-							backgroundColor: blueGrey[prefersDarkMode ? 400 : 600],
+							backgroundColor: secondary[prefersDarkMode ? 400 : 900],
 							color:           prefersDarkMode ? '#000' : '#fff'
 						},
 						
 						'&:hover, &:focus': {
-							backgroundColor: `${blueGrey[prefersDarkMode ? 300 : 700]} !important`,
+							backgroundColor: `${primary[prefersDarkMode ? 400 : 900]} !important`,
 							color:           prefersDarkMode ? '#000' : '#fff'
 						}
 					}
 				}
 			}
 		}
-	}), [prefersDarkMode]);
+	}), [primary, secondary, spacing, prefersDarkMode]);
 };
 
 export const useInvertedTheme = () => {

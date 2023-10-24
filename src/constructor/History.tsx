@@ -1,4 +1,5 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {Team} from '@gtibrett/effone-hub-graph-api';
@@ -45,7 +46,8 @@ export default function History({data, loading}: HistoryProps) {
 							headerName:  'Season',
 							headerAlign: 'center',
 							align:       'center',
-							flex:        .5
+							width:       100,
+							renderCell: ({row}) => <Link to={`/season/${row.year}`}>{row.year}</Link>
 						},
 						{
 							field:      'name',
