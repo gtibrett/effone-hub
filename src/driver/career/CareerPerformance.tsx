@@ -31,7 +31,7 @@ const usePerformanceData = (data?: DriverPageData): Stats | undefined => {
 
 type CareerPerformanceProps = Pick<QueryResult<DriverPageData>, 'data' | 'loading'>;
 
-export default function CareerPerformance({data, loading}: CareerPerformanceProps) {
+export default function CareerPerformance({data}: CareerPerformanceProps) {
 	const nivoTheme       = useNivoTheme();
 	const summaryData     = usePerformanceData(data);
 	const prefersDarkMode = useDarkMode();

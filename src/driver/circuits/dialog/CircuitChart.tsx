@@ -7,7 +7,7 @@ import {CircuitDialogData} from './types';
 
 type CircuitChartProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading'>;
 
-export default function CircuitChart({data, loading}: CircuitChartProps) {
+export default function CircuitChart({data}: CircuitChartProps) {
 	const theme     = useTheme();
 	const nivoTheme = useNivoTheme();
 	const color     = data?.driver?.currentTeam?.team?.colors.primary || theme.palette.primary.main;

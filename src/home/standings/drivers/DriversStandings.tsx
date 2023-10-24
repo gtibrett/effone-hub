@@ -1,10 +1,9 @@
-import {Driver} from '@gtibrett/effone-hub-graph-api';
 import {Box, Card, CardHeader, Divider, Grid, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import {DriverByLine} from '../../../driver';
 
 import Place from '../../../race/Place';
-import {ChartSwitcher, ChartSwitcherToggle, RaceStandingsWithEntities, useChartSwitcherMode} from '../charts';
+import {ChartSwitcher, ChartSwitcherToggle, useChartSwitcherMode} from '../charts';
 import {DriverStandingsPointsTooltip, DriverStandingsPositionTooltip} from './DriverStandingsTooltip';
 import useDriverStandingsData from './useDriversStandingsData';
 
@@ -18,10 +17,6 @@ const sx = {
 };
 
 type DriversProps = { season: number };
-
-export type DriverData = RaceStandingsWithEntities & {
-	driver: Pick<Driver, 'driverId' | 'code' | 'forename' | 'surname' | 'currentTeam'>;
-}
 
 export default function DriversStandings({season}: DriversProps) {
 	const {mode, handleMode}         = useChartSwitcherMode();

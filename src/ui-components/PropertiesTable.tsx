@@ -1,10 +1,10 @@
 import {Table, TableBody, TableProps} from '@mui/material';
-import {ReactNode} from 'react';
+import {ReactElement, ReactNode} from 'react';
 import PropertiesTableRow, {PropertiesTableRowProps} from './PropertiesTableRow';
 
 type PropertiesTableProps = TableProps & {
 	data?: Map<string, ReactNode>;
-	children?: React.ReactElement<PropertiesTableRowProps>[] | React.ReactElement<PropertiesTableRowProps>;
+	children?: ReactElement<PropertiesTableRowProps>[] | ReactElement<PropertiesTableRowProps>;
 }
 export default function PropertiesTable({children, data, size = 'small', ...tableProps}: PropertiesTableProps) {
 	return (

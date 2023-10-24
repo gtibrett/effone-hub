@@ -22,7 +22,7 @@ const useTweakColor = () => {
 	};
 };
 
-export default function LapTimesByYearBox({data, loading}: LapTimesChartProps) {
+export default function LapTimesByYearBox({data}: LapTimesChartProps) {
 	const theme      = useTheme();
 	const nivoTheme  = useNivoTheme();
 	const tweakColor = useTweakColor();

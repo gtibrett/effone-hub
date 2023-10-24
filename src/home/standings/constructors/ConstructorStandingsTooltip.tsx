@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {List, ListItem, ListItemText, Typography} from '@mui/material';
 import {ConstructorByLine} from '../../../constructor';
 import {PropertiesTable, PropertiesTableRow} from '../../../ui-components';
-import {PointTooltipProps, PositionsChartTooltipProps} from '../charts/types';
+import {PointTooltipProps, PositionsChartTooltipProps} from '../charts';
 
 export function ConstructorStandingsPositionTooltip({serie}: PositionsChartTooltipProps) {
 	const {data: {entity: {id}}, color} = serie;
