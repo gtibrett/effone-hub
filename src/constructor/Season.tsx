@@ -2,7 +2,7 @@ import {QueryResult} from '@apollo/client/react/types/types';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Grid, Skeleton, Typography} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import ByLine from '../drivers/ByLine';
+import {DriverByLine} from '../driver';
 import {Race} from '@gtibrett/effone-hub-graph-api';
 import SeasonChart from './SeasonChart';
 import {ConstructorPageData} from './types';
@@ -61,7 +61,7 @@ export default function Season({data, loading, season}: SeasonProps) {
 							flex:       1,
 							renderCell: ({row}) => {
 								return <Grid container spacing={0}>
-									{results.filter(r => r.raceId === row.raceId).map(result => <Grid item xs={12} key={result.driverId}><ByLine id={result.driverId} variant="name"/></Grid>)}
+									{results.filter(r => r.raceId === row.raceId).map(result => <Grid item xs={12} key={result.driverId}><DriverByLine id={result.driverId} variant="link"/></Grid>)}
 								</Grid>;
 							}
 						},

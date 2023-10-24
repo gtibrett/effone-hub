@@ -1,7 +1,6 @@
 import {Box, Skeleton} from '@mui/material';
 import {ResponsiveBump} from '@nivo/bump';
-import ByLine from '../../drivers/ByLine';
-import {DriverId} from '../../drivers/DriverProvider';
+import {DriverByLine, DriverId} from '../../driver';
 import {NivoTooltip, useNivoTheme} from '../../ui-components';
 import LapByLapTooltip from './LapByLapTooltip';
 import useLapByLapChartData, {useLapByLapData} from './useLapByLapChartData';
@@ -58,7 +57,7 @@ function LapByLap({season, round}: LapByLapProps) {
 				activePointBorderWidth={0}
 				startLabel={false}
 				// @ts-ignore
-				endLabel={({id}) => <ByLine variant="code" id={id}/>}
+				endLabel={({id}) => <DriverByLine variant="code" id={id}/>}
 				enableGridX={false}
 				enableGridY={false}
 				axisTop={null}

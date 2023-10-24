@@ -2,7 +2,7 @@ import {Box, Skeleton, useTheme} from '@mui/material';
 import {ResponsiveHeatMap} from '@nivo/heatmap';
 import {HeatMapSerie} from '@nivo/heatmap/dist/types/types';
 import {useMemo} from 'react';
-import ByLine from '../../drivers/ByLine';
+import {DriverByLine} from '../../driver';
 import {NivoTooltip, useNivoTheme} from '../../ui-components';
 import {useLapByLapData} from '../lapByLap/useLapByLapChartData';
 import {getTicks} from './helpers';
@@ -50,7 +50,7 @@ const Chart = ({data, lapCount}: ChartProps) => {
 				tickPadding:  5,
 				tickRotation: 0,
 				format:       (v => {
-					return <ByLine variant="code" id={v}/>;
+					return <DriverByLine variant="code" id={v}/>;
 				})
 			}}
 			tooltip={NivoTooltip(LapTooltip)}

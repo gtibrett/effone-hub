@@ -1,7 +1,7 @@
 import {faUser} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Avatar, SxProps, useTheme} from '@mui/material';
-import {DriverId, useDriver} from './DriverProvider';
+import {DriverId, useDriver} from './index';
 
 export type DriverAvatarProps = {
 	driverId?: DriverId;

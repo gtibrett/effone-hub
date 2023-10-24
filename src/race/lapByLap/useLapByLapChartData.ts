@@ -1,8 +1,8 @@
 import {gql, useQuery} from '@apollo/client';
+import {Driver, LapTime, Result} from '@gtibrett/effone-hub-graph-api';
 import {useTheme} from '@mui/material';
 import {useMemo} from 'react';
-import {DriverId} from '../../drivers/DriverProvider';
-import {Driver, LapTime, Result} from '@gtibrett/effone-hub-graph-api';
+import {DriverId} from '../../driver';
 import useGetAccessibleColor from '../../ui-components/useGetAccessibleColor';
 import {LapChartSeries} from './LapByLap';
 

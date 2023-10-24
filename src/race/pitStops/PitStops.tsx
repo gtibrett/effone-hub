@@ -2,8 +2,8 @@ import {gql, useQuery} from '@apollo/client';
 import {Driver, PitStop, Race, TeamColor} from '@gtibrett/effone-hub-graph-api';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import ByLine from '../../drivers/ByLine';
-import {Driver, PitStop, Race, TeamColor} from '@gtibrett/effone-hub-graph-api';
+import {DriverByLine} from '../../driver';
+import {getTimeStringFromDate} from '../../helpers';
 import PitStopsChart from './PitStopsChart';
 
 const pitStopsQuery = gql`
@@ -86,7 +86,7 @@ export default function PitStops({season, round}: PitStopsProps) {
 			field:      'Driver',
 			headerName: 'Driver',
 			flex:       1,
-			renderCell: ({row}) => <ByLine id={row.driverId}/>,
+			renderCell: ({row}) => <DriverByLine id={row.driverId}/>,
 			minWidth:   200
 		},
 		{

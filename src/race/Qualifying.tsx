@@ -2,8 +2,8 @@ import {gql, useQuery} from '@apollo/client';
 import {Qualify, Race} from '@gtibrett/effone-hub-graph-api';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import ConstructorByLine from '../constructors/ByLine';
-import ByLine from '../drivers/ByLine';
+import {ConstructorByLine} from '../constructor';
+import {DriverByLine} from '../driver';
 
 const QualifyingQuery = gql`
 	query qualifyingQuery($season: Int!, $round: Int!) {
@@ -65,7 +65,7 @@ export default function Qualifying({season, round}: QualifyingProps) {
 						field:      'Driver',
 						headerName: 'Driver',
 						flex:       1,
-						renderCell: ({row}) => row.driverId ? <ByLine id={row.driverId}/> : '',
+						renderCell: ({row}) => row.driverId ? <DriverByLine id={row.driverId}/> : '',
 						minWidth:   200
 					},
 					{

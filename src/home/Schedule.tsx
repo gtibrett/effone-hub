@@ -3,7 +3,7 @@ import {Link} from '@gtibrett/mui-additions';
 import {Box, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useAppState} from '../app/AppStateProvider';
-import ByLine from '../drivers/ByLine';
+import {DriverByLine} from '../driver';
 import RaceMap from '../maps/RaceMap';
 import useMapSeasonRacesToMapPoints from '../maps/useMapSeasonRacesToMapPoints';
 import {HomePageData, RaceData} from './types';
@@ -74,7 +74,7 @@ export default function Schedule({data, loading, season}: ScheduleProps) {
 									return '--';
 								}
 								
-								return <ByLine id={row.results[0].driver?.driverId}/>;
+								return <DriverByLine id={row.results[0].driver?.driverId}/>;
 							},
 							minWidth:   200,
 							sortable:   false

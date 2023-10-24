@@ -1,7 +1,7 @@
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import ByLine from '../drivers/ByLine';
+import {DriverByLine} from '../driver';
 import {CircuitDataProps, CircuitHistoryData} from './useCircuitByRef';
 
 export default function History({data, loading}: CircuitDataProps) {
@@ -69,7 +69,7 @@ export default function History({data, loading}: CircuitDataProps) {
 								return '--';
 							}
 							
-							return <ByLine id={row.results[0]?.driverId}/>;
+							return <DriverByLine id={row.results[0]?.driverId}/>;
 						},
 						minWidth:    200
 					},

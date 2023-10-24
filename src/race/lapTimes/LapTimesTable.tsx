@@ -2,7 +2,7 @@ import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useMemo} from 'react';
-import ByLine from '../../drivers/ByLine';
+import {DriverByLine} from '../../driver';
 import {LapTime} from '@gtibrett/effone-hub-graph-api';
 import {getTimeStringFromDate} from '../../helpers';
 import {LapByLapData, useLapByLapData} from '../lapByLap/useLapByLapChartData';
@@ -61,7 +61,7 @@ const useColumns = (laps: number) => {
 				headerName: 'Driver',
 				flex:       1,
 				renderCell: ({value}) => (
-					<ByLine id={value} variant="full"/>
+					<DriverByLine id={value} variant="full"/>
 				),
 				minWidth:   240
 			}

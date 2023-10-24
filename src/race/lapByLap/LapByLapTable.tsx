@@ -1,6 +1,6 @@
 import {Box} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import ByLine from '../../drivers/ByLine';
+import {DriverByLine} from '../../driver';
 import {LapByLapProps, LapChartSeries} from './LapByLap';
 import useLapByLapChartData, {useLapByLapData} from './useLapByLapChartData';
 
@@ -32,7 +32,7 @@ export default function LapByLapTable({season, round}: LapByLapProps) {
 			headerName: 'Driver',
 			flex:       1,
 			renderCell: ({value}) => (
-				<ByLine id={value} variant="full"/>
+				<DriverByLine id={value} variant="full"/>
 			),
 			minWidth:   240
 		}
