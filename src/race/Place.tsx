@@ -8,10 +8,11 @@ type PlaceProps = {
 	driverId?: DriverId;
 	place?: number | string;
 	points?: number | string;
+	wins?: number | string;
 	asterisk?: boolean;
 }
 
-export default function Place({driverId, place, points, asterisk = false}: PlaceProps) {
+export default function Place({driverId, place, points, wins, asterisk = false}: PlaceProps) {
 	const driver = useDriver(driverId);
 	
 	if (!driver) {
@@ -29,6 +30,7 @@ export default function Place({driverId, place, points, asterisk = false}: Place
 				subheader={<>
 					{place ? `P${place} ` : ''}
 					{points ? <Typography variant="caption"><Divider orientation="vertical"/> {points} pts</Typography> : ''}
+					{typeof wins === 'number' ? <Typography variant="caption"><Divider orientation="vertical"/> {wins} wins</Typography> : ''}
 				</>}
 			/>
 		</Card>

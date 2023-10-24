@@ -1,16 +1,30 @@
 import {gql, useQuery} from '@apollo/client';
+import {Season} from '@gtibrett/effone-hub-graph-api';
 import {Link, usePageTitle} from '@gtibrett/mui-additions';
 import {Card, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import ByLine from '../drivers/ByLine';
-import {Season} from '@gtibrett/effone-hub-graph-api';
+import Place from '../race/Place';
 import {Page} from '../ui-components';
 
 type SeasonsTableProps = {
 	seasons: Season[];
 }
 
-const getWinner = (season: Season) => season.racesByYear?.[0]?.driverStandings?.[0] || undefined;
+const getDriverAtPlace = (season: Season, place: number) => season.racesByYear?.[0]?.driverStandings?.[place - 1] || undefined;
+
+const renderPlace = (place: number): GridColDef<Season>['renderCell'] => (
+	({row}) => {
+		const champion = getDriverAtPlace(row, place);
+		if (!champion) {
+			return '--';
+		}
+		
+		const {driverId, points, wins} = champion;
+		return (
+			<Place driverId={driverId} points={points} wins={wins} asterisk={row.year === 2021 && place === 1}/>
+		);
+	}
+)
 
 const SeasonsTable = ({seasons}: SeasonsTableProps) => (
 	<DataGrid
@@ -18,37 +32,33 @@ const SeasonsTable = ({seasons}: SeasonsTableProps) => (
 		autoHeight
 		density="compact"
 		getRowId={r => r.year}
+		rowHeight={120}
 		columns={
 			[
 				{
 					field:      'year',
 					headerName: 'Season',
+					width:      100,
 					flex:       1,
 					renderCell: ({row}) => <Link to={`/season/${row.year}`}>{row.year}</Link>
 				},
 				{
 					field:      'winner',
-					headerName: 'Winner',
+					headerName: 'Champion',
 					flex:       1,
 					renderCell:renderPlace(1)
 				},
 				{
-					field:       'points',
-					headerName:  'Points',
-					flex:        .25,
-					type:        'number',
-					headerAlign: 'right',
-					align:       'right',
-					renderCell:  ({row}) => getWinner(row)?.points || null
+					field:      'runnerup',
+					headerName: 'Runner-Up',
+					flex:       1,
+					renderCell:renderPlace(2)
 				},
 				{
-					field:       'wins',
-					headerName:  'Wins',
-					flex:        .25,
-					type:        'number',
-					headerAlign: 'right',
-					align:       'right',
-					renderCell:  ({row}) => getWinner(row)?.wins || null
+					field:      'third',
+					headerName: 'Third Place',
+					flex:       1,
+					renderCell:renderPlace(3)
 				}
 			] as GridColDef<Season>[]
 		}
@@ -60,14 +70,13 @@ const SeasonsTable = ({seasons}: SeasonsTableProps) => (
 	/>
 );
 
-const SeasonsQuery = gql`
-	#graphql
-	query seasonsQuery {
+const query = gql`
+	query SeasonsQuery {
 		seasons(orderBy: YEAR_DESC) {
 			year
 			racesByYear(orderBy: ROUND_DESC, first: 1) {
 				round
-				driverStandings(orderBy: POSITION_ASC, first: 1) {
+				driverStandings(orderBy: POSITION_ASC, first: 3) {
 					driverId
 					points
 					wins
@@ -79,7 +88,7 @@ const SeasonsQuery = gql`
 
 export default function Seasons() {
 	usePageTitle('Past Seasons');
-	const {loading, data} = useQuery<{ seasons: Season[] }>(SeasonsQuery);
+	const {loading, data} = useQuery<{ seasons: Season[] }>(query);
 	const seasons         = data?.seasons?.filter(s => s.racesByYear[0].driverStandings.length) || [];
 	
 	return (

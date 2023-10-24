@@ -1,4 +1,3 @@
-import {QueryResult} from '@apollo/client/react/types/types';
 import {Link} from '@gtibrett/mui-additions';
 import {Box, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
@@ -6,12 +5,13 @@ import {useAppState} from '../app/AppStateProvider';
 import {DriverByLine} from '../driver';
 import RaceMap from '../maps/RaceMap';
 import useMapSeasonRacesToMapPoints from '../maps/useMapSeasonRacesToMapPoints';
-import {HomePageData, RaceData} from './types';
+import useScheduleData, {RaceData} from './useScheduleData';
 
-type ScheduleProps = Pick<QueryResult<HomePageData>, 'data' | 'loading'> & { season: number }
+type ScheduleProps = { season: number };
 
-export default function Schedule({data, loading, season}: ScheduleProps) {
+export default function Schedule({season}: ScheduleProps) {
 	const [{currentSeason}]        = useAppState();
+	const {data, loading}          = useScheduleData(season);
 	const mapSeasonRacesToFeatures = useMapSeasonRacesToMapPoints();
 	const races                    = data?.races;
 	

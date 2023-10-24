@@ -2,7 +2,7 @@ import {faFlag} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Card, CardContent, Grid, Typography} from '@mui/material';
 import {red} from '@mui/material/colors';
-import React, {Component, ComponentProps, ErrorInfo} from 'react';
+import {Component, ComponentProps, ErrorInfo} from 'react';
 
 type ErrorBoundaryState = {
 	hasError: boolean;

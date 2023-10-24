@@ -1,21 +1,20 @@
-import {QueryResult} from '@apollo/client/react/types/types';
+import {Race} from '@gtibrett/effone-hub-graph-api';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useAppState} from '../../app/AppStateProvider';
-import {Race, Result} from '@gtibrett/effone-hub-graph-api';
 import {getPositionTextOutcome, getTimeStringFromDate} from '../../helpers';
 import PositionChange from '../../race/PositionChange';
-import {DriverPageData} from '../types';
+import {DriverId} from '../index';
 import SeasonChart from './SeasonChart';
+import useSeasonData from './useSeasonData';
 
-const findResult = (results: Result[], race: Race) => results.find(result => result.raceId === race.raceId);
+type SeasonProps = { season: number, driverId: DriverId };
 
-type SeasonProps = Pick<QueryResult<DriverPageData>, 'data' | 'loading'>;
-
-export default function Season({data, loading}: SeasonProps) {
+export default function Season({season, driverId}: SeasonProps) {
 	const [{currentSeason}] = useAppState();
+	const {data, loading}   = useSeasonData(driverId, season);
 	
 	if (loading || !data?.races) {
 		return <Skeleton variant="rectangular" height={400}/>;
@@ -25,16 +24,14 @@ export default function Season({data, loading}: SeasonProps) {
 		return <Alert variant="outlined" severity="info">Season Data Not Available</Alert>;
 	}
 	
-	const {races} = data;
-	
 	return (
 		<>
-			<SeasonChart data={data} loading={loading}/>
+			<SeasonChart driverId={driverId} data={data} loading={loading}/>
 			<DataGrid
-				rows={races}
+				rows={data.races}
 				autoHeight
 				density="compact"
-				getRowId={(row) => row.round || ''}
+				getRowId={(row) => row.raceId || ''}
 				initialState={{
 					sorting: {
 						sortModel: [{field: 'date', sort: 'asc'}]
@@ -67,9 +64,7 @@ export default function Season({data, loading}: SeasonProps) {
 							type:        'number',
 							headerAlign: 'center',
 							align:       'center',
-							valueGetter: ({row}) => {
-								return findResult(data?.driver.results, row)?.grid;
-							}
+							valueGetter: ({row}) => row.results[0]?.grid || '--'
 						},
 						{
 							field:       'result',
@@ -77,28 +72,29 @@ export default function Season({data, loading}: SeasonProps) {
 							type:        'number',
 							headerAlign: 'center',
 							align:       'center',
-							valueGetter: ({row}) => {
-								return findResult(data?.driver.results, row)?.positionOrder;
-							}
+							valueGetter: ({row}) => row.results[0]?.positionOrder || '--'
 						},
 						{
 							field:        'change',
 							renderHeader: () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
 							renderCell:   ({row}) => {
-								const result = findResult(data?.driver.results, row);
+								const result = row.results[0];
 								if (result) {
 									const {grid, positionOrder} = result;
 									return <PositionChange grid={grid} position={positionOrder}/>;
 								}
-								return '';
+								return '--';
 							},
 							valueGetter:  ({row}) => {
-								const {grid, positionOrder} = findResult(data?.driver.results, row) || {};
-								if (!grid || !positionOrder) {
-									return 0;
+								const result = row.results[0];
+								if (result) {
+									const {grid, positionOrder} = result;
+									if (grid && positionOrder) {
+										return grid - positionOrder;
+									}
 								}
 								
-								return grid - positionOrder;
+								return 'unknown';
 							},
 							width:        60,
 							headerAlign:  'center',
@@ -110,9 +106,7 @@ export default function Season({data, loading}: SeasonProps) {
 							type:        'number',
 							headerAlign: 'center',
 							align:       'center',
-							valueGetter: ({row}) => {
-								return findResult(data?.driver.results, row)?.points;
-							}
+							valueGetter: ({row}) => row.results[0]?.points || '--'
 						},
 						{
 							field:       'time',
@@ -122,12 +116,12 @@ export default function Season({data, loading}: SeasonProps) {
 							align:       'left',
 							flex:        .5,
 							valueGetter: ({row}) => {
-								const result = findResult(data?.driver.results, row);
+								const result = row.results[0];
 								if (result) {
 									const time = result.milliseconds;
 									return time ? getTimeStringFromDate(new Date(time)) : getPositionTextOutcome(result.positionText, result.status.status);
 								}
-								return '';
+								return '--';
 							}
 						}
 					] as GridColDef<Race>[]

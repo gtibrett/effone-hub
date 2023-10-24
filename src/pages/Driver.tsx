@@ -1,20 +1,20 @@
+import {Driver as DriverT} from '@gtibrett/effone-hub-graph-api';
 import {Tabs, useComponentDimensionsWithRef, usePageTitle} from '@gtibrett/mui-additions';
-import {Card, CardContent, CardMedia, Divider, Grid, Hidden, Typography} from '@mui/material';
+import {Card, CardContent, CardMedia, Divider, Grid, Hidden, Skeleton, Typography} from '@mui/material';
 import {useParams} from 'react-router';
 import {useAppState} from '../app/AppStateProvider';
-import {Career, Circuits, DriverData, Season, useDriverData} from '../driver';
-import DriverAvatar from '../drivers/DriverAvatar';
+import {Career, Circuits, DriverAvatar, Season, useDriver} from '../driver';
 import Flag from '../Flag';
 import {Page, WikipediaLink} from '../ui-components';
 
-const DriverDetails = ({driver}: { driver: DriverData }) => {
+const DriverDetails = ({driver}: { driver: DriverT }) => {
 	return (
 		<Grid container spacing={2} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
 			<Grid item><Typography variant="h2">{driver.forename} {driver.surname}</Typography></Grid>
 			<Hidden mdDown>
 				<Grid item><Flag nationality={driver.nationality} size={48}/></Grid>
 				<Grid item xs/>
-				<Grid item>{driver.code}</Grid>
+				<Grid item><Typography variant="h2" sx={{fontWeight: 'bold'}}>{driver.code}</Typography></Grid>
 				<Grid item sx={{fontFamily: 'Racing Sans One', fontSize: '1.1em'}}>{driver.number}</Grid>
 			</Hidden>
 		</Grid>
@@ -26,10 +26,13 @@ export default function Driver() {
 	const [{currentSeason}]          = useAppState();
 	const {ref, dimensions: {width}} = useComponentDimensionsWithRef();
 	const {driverRef}                = useParams();
-	const {data, loading}            = useDriverData(driverRef, currentSeason);
-	const driver                     = data?.driver;
+	const driver                     = useDriver(driverRef);
 	
 	usePageTitle(`Driver: ${driver ? `${driver?.forename} ${driver?.surname}` : 'Loading'}`);
+	
+	if (!driverRef) {
+		throw new Error('Page Not found');
+	}
 	
 	if (!driver) {
 		return (

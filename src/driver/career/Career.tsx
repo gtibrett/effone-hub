@@ -1,14 +1,17 @@
-import {QueryResult} from '@apollo/client/react/types/types';
+import {Driver} from '@gtibrett/effone-hub-graph-api';
+import {Link} from '@gtibrett/mui-additions';
 import {Alert, Grid, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import ByLine from '../../constructors/ByLine';
-import {DriverPageData, DriverStandingData} from '../types';
+import {ConstructorByLine} from '../../constructor';
+import {DriverStandingData} from '../types';
 import CareerChart from './CareerChart';
 import CareerPerformance from './CareerPerformance';
+import useCareerData from './useCareerData';
 
-type CareerProps = Pick<QueryResult<DriverPageData>, 'data' | 'loading'>;
+type CareerProps = Pick<Driver, 'driverId'>
 
-export default function Career({data, loading}: CareerProps) {
+export default function Career({driverId}: CareerProps) {
+	const {data, loading} = useCareerData(driverId);
 	const careerStandings = data?.driver.standings;
 	
 	if (loading || !careerStandings) {
@@ -41,8 +44,8 @@ export default function Career({data, loading}: CareerProps) {
 								headerName:  'Season',
 								headerAlign: 'center',
 								align:       'center',
-								flex:        1,
-								minWidth:    100
+								width:       100,
+								renderCell:  ({row}) => <Link to={`/season/${row.year}`}>{row.year}</Link>
 							},
 							{
 								field:       'position',
@@ -76,7 +79,7 @@ export default function Career({data, loading}: CareerProps) {
 								headerName: 'Constructor',
 								filterable: false,
 								renderCell: ({row}) => (
-									<ByLine id={row.driverTeamByDriverIdAndYear.team.teamId} variant="link"/>
+									<ConstructorByLine id={row.driverTeamByDriverIdAndYear.team.teamId} variant="link"/>
 								),
 								flex:       1,
 								minWidth:   150

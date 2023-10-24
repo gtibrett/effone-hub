@@ -1,0 +1,60 @@
+import {gql, useQuery} from '@apollo/client';
+import {Driver} from '@gtibrett/effone-hub-graph-api';
+
+const DriverFields = gql`
+	fragment DriverFields on Driver {
+		driverId
+		driverRef
+		dob
+		forename
+		surname
+		code
+		number
+		nationality
+		url
+		bio {
+			description
+			extract
+			thumbnail {
+				source
+			}
+		}
+
+		currentTeam {
+			team {
+				colors {
+					primary
+				}
+			}
+		}
+
+		teamsByYear (orderBy: YEAR_DESC, first: 1) {
+			year
+		}
+	}
+`;
+
+const query = gql`
+	${DriverFields}
+	query DriverQuery($driverId: Int = -1, $driverRef: String = "", $useDriverRef: Boolean!) {
+		driverById: driver(driverId: $driverId) @skip(if: $useDriverRef) {
+			...DriverFields
+		}
+
+		driverByRef: driverByDriverRef(driverRef: $driverRef) @include(if: $useDriverRef) {
+			...DriverFields
+		}
+	}
+`;
+
+export default function useDriver(driverIdOrRef?: Driver['driverId'] | Driver['driverRef']) {
+	const variables = {
+		driverId:     typeof driverIdOrRef === 'number' ? driverIdOrRef : undefined,
+		driverRef:    typeof driverIdOrRef === 'string' ? driverIdOrRef : undefined,
+		useDriverRef: typeof driverIdOrRef === 'string'
+	};
+	
+	const {data} = useQuery<{ driverById: Driver, driverByRef: Driver }>(query, {variables});
+	
+	return data?.driverById || data?.driverByRef || undefined;
+};

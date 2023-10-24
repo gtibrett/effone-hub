@@ -1,4 +1,5 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {Link} from '@gtibrett/mui-additions';
 import {Alert, Box, Skeleton, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
@@ -38,8 +39,8 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 							headerName:  'Season',
 							headerAlign: 'center',
 							align:       'center',
-							minWidth:    100,
-							flex:        1
+							width:       100,
+							renderCell: ({row}) => <Link to={`/season/${row.year}`}>{row.year}</Link>
 						},
 						{
 							field:       'grid',
