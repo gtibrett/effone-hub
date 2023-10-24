@@ -2,7 +2,7 @@ import {usePageTitle} from '@gtibrett/mui-additions';
 import {Card, CardHeader, Grid} from '@mui/material';
 import {useParams} from 'react-router';
 import {useAppState} from '../app/AppStateProvider';
-import {DriverStandings, DriverStandingsChart, Schedule, TeamStandings, useHomePageData} from '../home';
+import {DriverStandings, Schedule, TeamStandings} from '../home';
 import RaceWeekend from '../raceWeekend/RaceWeekend';
 import {Page} from '../ui-components';
 
@@ -22,35 +22,25 @@ const useSeason = () => {
 
 export default function Home() {
 	usePageTitle('Home');
-
-	const season          = useSeason();
-	const {data, loading} = useHomePageData(season);
-	const nextRace        = data?.season.nextRace?.race;
-
+	const season = useSeason();
+	
 	return (
 		<Page title={`${season} Season`}>
 			<Grid container spacing={2}>
-				{nextRace && <RaceWeekend loading={loading} race={nextRace}/>}
+				<RaceWeekend season={season}/>
 				<Grid item xs={12} md={6}>
 					<Card variant="outlined">
 						<CardHeader title="Schedule"/>
-						<Schedule data={data} loading={loading} season={season}/>
+						<Schedule season={season}/>
 					</Card>
 				</Grid>
 				<Grid item xs={12} md={6}>
 					<Grid container spacing={2}>
 						<Grid item xs={12}>
-							<Card variant="outlined">
-								<CardHeader title="Driver's Standings"/>
-								<DriverStandingsChart data={data} loading={loading} season={season}/>
-								<DriverStandings data={data} loading={loading} season={season}/>
-							</Card>
+							<DriverStandings season={season}/>
 						</Grid>
 						<Grid item xs={12}>
-							<Card variant="outlined">
-								<CardHeader title="Constructor's Standings"/>
-								<TeamStandings data={data} loading={loading}/>
-							</Card>
+							<TeamStandings season={season}/>
 						</Grid>
 					</Grid>
 				</Grid>

@@ -1,5 +1,5 @@
 import {Link} from '@gtibrett/mui-additions';
-import {TeamId, useTeam} from './ConstructorProvider';
+import {TeamId, useTeam} from './useTeam';
 
 type ByLineProps = {
 	id?: TeamId;
@@ -7,7 +7,7 @@ type ByLineProps = {
 }
 
 
-export default function ByLine({id, variant = 'link'}: ByLineProps) {
+export default function ConstructorByLine({id, variant = 'link'}: ByLineProps) {
 	const {team} = useTeam(id);
 	
 	if (!team) {

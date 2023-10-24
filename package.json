@@ -1,6 +1,6 @@
 {
 	"name": "effone-hub",
-	"version": "0.1.0",
+	"version": "2.0.0-alpha",
 	"private": true,
 	"devDependencies": {
 		"@babel/core": "^7.20.7",
@@ -18,9 +18,9 @@
 		"@types/topojson-client": "^3.1.1",
 		"axe-core": "^4.7.0",
 		"css-mediaquery": "^0.1.2",
+		"dotenv-cli": "^7.3.0",
 		"eslint": "^8.46.0",
 		"eslint-config-react-app": "^7.0.1",
-		"dotenv-cli": "^7.3.0",
 		"jest-canvas-mock": "^2.5.0",
 		"jest-localstorage-mock": "^2.4.26",
 		"react-scripts": "^5.0.1"
@@ -70,6 +70,7 @@
 		"nth-check": "^2.1.1"
 	},
 	"scripts": {
+		"initgraphql": "ln -s ./node_modules/@gtibrett/effone-hub-graph-api/schema.graphql .",
 		"clean": "rm -fr build",
 		"start": "react-scripts start",
 		"prebuild": "react-scripts clean",

@@ -1,6 +1,6 @@
 import {SkipNav, UkraineButton} from '@gtibrett/mui-additions';
 import {Box, Container, SxProps, useTheme} from '@mui/material';
-import React, {ReactNode} from 'react';
+import {ReactNode} from 'react';
 import {Outlet, Route, RouteProps, Routes as ReactRouterRoutes} from 'react-router-dom';
 import {Circuits, Constructors, Driver, Drivers, Home, Race} from '../pages';
 import About from '../pages/About';

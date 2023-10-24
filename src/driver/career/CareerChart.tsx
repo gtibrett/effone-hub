@@ -26,7 +26,7 @@ export default function CareerChart({standings}: CareerChartProps) {
 		return null;
 	}
 	
-	const colors = getAccessibleChartColors(standings[standings.length - 1].driverTeamByDriverIdAndYear.team.colors.primary || theme.palette.primary.main);
+	const colors = getAccessibleChartColors(standings.at(-1)?.driverTeamByDriverIdAndYear.team.colors.primary || theme.palette.primary.main);
 	const max    = Math.max(...standings.map(s => s.position || 0));
 	
 	const points: LineSerie = {

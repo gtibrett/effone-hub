@@ -38,7 +38,7 @@ const calculateLuminance = (color: string) => {
 	return (red * .2126) + (green * .7152) + (blue * .0722);
 };
 
-const fixContrast = (foreground: string, background: string, threshold: number = 4.5) => {
+const fixContrast = (foreground: string, background: string, threshold: number = 3) => {
 	const contrastRatio = getContrastRatio(foreground, background);
 	
 	if (contrastRatio >= threshold) {

@@ -1,25 +1,25 @@
 import {QueryResult} from '@apollo/client/react/types/types';
 import {Box, useTheme} from '@mui/material';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {useAppState} from '../../app/AppStateProvider';
 import {useGetAccessibleChartColors, useNivoTheme} from '../../ui-components';
+import {DriverId, useDriver} from '../index';
 import {DriverPageData} from '../types';
 
-type SeasonChartProps = Pick<QueryResult<DriverPageData>, 'data' | 'loading'>;
+type SeasonChartProps = Pick<QueryResult<DriverPageData>, 'data' | 'loading'> & { driverId: DriverId };
 
-export default function SeasonChart({data, loading}: SeasonChartProps) {
-	const [{currentSeason}]        = useAppState();
+export default function SeasonChart({driverId, data, loading}: SeasonChartProps) {
 	const theme                    = useTheme();
 	const nivoTheme                = useNivoTheme();
 	const getAccessibleChartColors = useGetAccessibleChartColors();
-	const seasonResults            = data?.driver.results.filter(r => r.race.year === currentSeason);
+	const driver                   = useDriver(driverId);
+	const seasonResults            = data?.races.filter(r => r.results.length).map(r => ({...r.results[0], race: r}));
 	const firstResult              = seasonResults?.[0];
 	
-	if (!firstResult || loading) {
+	if (!firstResult || !driver || loading) {
 		return null;
 	}
 	
-	const colors = getAccessibleChartColors(data?.driver.currentTeam.team.colors.primary || theme.palette.primary.main);
+	const colors = getAccessibleChartColors(driver.currentTeam?.team?.colors.primary || theme.palette.primary.main);
 	
 	const qualifying: LineSerie = {
 		id:   'qualifying',

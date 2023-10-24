@@ -33,7 +33,6 @@ const lapsQuery = gql`
 					driverId
 					currentTeam {
 						team {
-							teamId
 							colors {
 								primary
 							}

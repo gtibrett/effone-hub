@@ -1,31 +1,29 @@
-import {QueryResult} from '@apollo/client/react/types/types';
+import {Driver} from '@gtibrett/effone-hub-graph-api';
 import {Alert, Grid, Link, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useState} from 'react';
-import {DriverId} from '../../drivers/DriverProvider';
 import {getTimeStringFromDate} from '../../helpers';
 import RaceMap from '../../maps/RaceMap';
 import useMapCircuitsToMapPoints from '../../maps/useMapCircuitsToMapPoints';
-import {DriverPageData} from '../types';
 import CircuitDialog from './dialog/CircuitDialog';
-import useMapDriverDataToCircuitResults, {CircuitWithResults} from './useMapDriverDataToCircuitResults';
+import useCircuitData, {CircuitWithResults} from './useCircuitData';
 
-type CircuitsProps = Pick<QueryResult<DriverPageData>, 'data' | 'loading'> & { driverId: DriverId };
+type CircuitsProps = Pick<Driver, 'driverId'>
 
-export default function Circuits({data, loading, driverId}: CircuitsProps) {
-	const circuitData            = useMapDriverDataToCircuitResults(data);
+export default function Circuits({driverId}: CircuitsProps) {
+	const {data, loading}        = useCircuitData(driverId);
 	const mapCircuitsToMapPoints = useMapCircuitsToMapPoints();
 	const [active, setActive]    = useState<CircuitWithResults['circuitId'] | undefined>();
 	
-	if (!circuitData || loading) {
+	if (!data || loading) {
 		return <Skeleton variant="rectangular" height={400}/>;
 	}
 	
-	if (!circuitData.length) {
+	if (!data.length) {
 		return <Alert variant="outlined" severity="info">Circuit Data Not Available</Alert>;
 	}
 	
-	const {points, onClick} = mapCircuitsToMapPoints(circuitData);
+	const {points, onClick} = mapCircuitsToMapPoints(data);
 	
 	return (
 		<Grid container spacing={2}>
@@ -34,7 +32,7 @@ export default function Circuits({data, loading, driverId}: CircuitsProps) {
 				<CircuitDialog driverId={driverId} circuitId={active} onClose={() => setActive(undefined)}/>
 				<DataGrid
 					sx={{mt: 2}}
-					rows={circuitData}
+					rows={data}
 					autoHeight
 					density="compact"
 					getRowId={(row) => row.circuitId || ''}

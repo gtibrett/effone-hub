@@ -49,7 +49,7 @@ const DriversQuery = gql`
 			driverRef
 			forename
 			surname
-			seasons {
+			teamsByYear {
 				year
 			}
 		}
@@ -94,7 +94,7 @@ export default function Drivers() {
 	useEffect(() => {
 		let results = data?.drivers || [];
 		if (filters.season > 0) {
-			results = results.filter(d => d.seasons.find(s => s.year === filters.season));
+			results = results.filter(d => d.teamsByYear.find(s => s.year === filters.season));
 		}
 		
 		if (filters.search.length) {
@@ -116,7 +116,7 @@ export default function Drivers() {
 		<Page title="Drivers">
 			{
 				(loading || !drivers)
-				? <Skeleton variant="rectangular" height={400}/>
+				? <Skeleton variant="rectangular" height={800}/>
 				: (
 					<Card>
 						<TableFilter handleSearch={handleSearch}>
