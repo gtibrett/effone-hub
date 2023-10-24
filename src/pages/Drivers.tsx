@@ -4,7 +4,7 @@ import {Card, CardContent, Skeleton, TextField, TextFieldProps} from '@mui/mater
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {SyntheticEvent, useEffect, useState} from 'react';
 import {useAppState} from '../app/AppStateProvider';
-import ByLine from '../drivers/ByLine';
+import {DriverByLine} from '../driver';
 import {Driver} from '@gtibrett/effone-hub-graph-api';
 import SeasonMenu from '../SeasonMenu';
 import {Page, TableFilter} from '../ui-components';
@@ -27,7 +27,7 @@ function DriversTable({drivers}: DriversTableProps) {
 						field:       'driver',
 						headerName:  'Driver',
 						flex:        1,
-						renderCell:  (({row}) => <ByLine id={row.driverId}/>),
+						renderCell:  (({row}) => <DriverByLine id={row.driverId}/>),
 						valueGetter: (({row}) => `${row.forename}, ${row.surname}`)
 					}
 				] as GridColDef<Driver>[]

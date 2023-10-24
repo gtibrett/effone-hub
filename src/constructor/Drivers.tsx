@@ -66,7 +66,8 @@ export default function Drivers({data, loading}: DriversProps) {
 							field:      'driver1',
 							headerName: 'Driver',
 							flex:       1,
-							renderCell: ({row}) => row.drivers[0] ? <ByLine id={row.drivers[0].driverId} variant="full"/> : ''
+							minWidth:   175,
+							renderCell: ({row}) => row.drivers[0] ? <DriverByLine id={row.drivers[0].driverId} variant="full"/> : ''
 						},
 						{
 							field:       'wins1',
@@ -96,7 +97,8 @@ export default function Drivers({data, loading}: DriversProps) {
 							field:      'driver2',
 							headerName: 'Driver',
 							flex:       1,
-							renderCell: ({row}) => row.drivers[1] ? <ByLine id={row.drivers[1].driverId} variant="full"/> : ''
+							minWidth:   175,
+							renderCell: ({row}) => row.drivers[1] ? <DriverByLine id={row.drivers[1].driverId} variant="full"/> : ''
 						},
 						{
 							field:       'wins2',

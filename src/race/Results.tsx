@@ -4,8 +4,8 @@ import {Alert, Grid, Skeleton, Tooltip, Typography} from '@mui/material';
 import {purple} from '@mui/material/colors';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import ConstructorByLine from '../constructors/ByLine';
-import ByLine from '../drivers/ByLine';
+import {ConstructorByLine} from '../constructor';
+import {DriverByLine} from '../driver';
 import {Race, Result} from '@gtibrett/effone-hub-graph-api';
 import {getPositionTextOutcome} from '../helpers';
 import PositionChange from './PositionChange';
@@ -67,7 +67,7 @@ export default function Results({results}: { results: Race['results'] }) {
 						field:      'Driver',
 						headerName: 'Driver',
 						flex:       1,
-						renderCell: ({row}) => row.driver ? <ByLine id={row.driver.driverId}/> : '',
+						renderCell: ({row}) => row.driver ? <DriverByLine id={row.driver.driverId}/> : '',
 						minWidth:   200
 					},
 					{

@@ -2,8 +2,7 @@ import {faAsterisk} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link} from '@gtibrett/mui-additions';
 import {Card, CardHeader, Divider, Typography} from '@mui/material';
-import DriverAvatar from '../drivers/DriverAvatar';
-import {DriverId, useDriver} from '../drivers/DriverProvider';
+import {DriverAvatar, DriverId, useDriver} from '../driver';
 
 type PlaceProps = {
 	driverId?: DriverId;
@@ -20,7 +19,7 @@ export default function Place({driverId, place, points, asterisk = false}: Place
 	}
 	
 	const {forename, surname, driverRef} = driver;
-	const name                    = `${forename} ${surname}`;
+	const name                           = `${forename} ${surname}`;
 	
 	return (
 		<Card>

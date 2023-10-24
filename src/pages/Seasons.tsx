@@ -30,10 +30,7 @@ const SeasonsTable = ({seasons}: SeasonsTableProps) => (
 					field:      'winner',
 					headerName: 'Winner',
 					flex:       1,
-					renderCell: ({row}) => {
-						const winner = getWinner(row);
-						return (winner) ? <ByLine id={winner.driverId}/> : null;
-					}
+					renderCell:renderPlace(1)
 				},
 				{
 					field:       'points',

@@ -1,12 +1,11 @@
 import {Link} from '@gtibrett/mui-additions';
 import {Grid, Hidden, Skeleton, Typography} from '@mui/material';
 import Flag, {FlagProps} from '../Flag';
-import DriverAvatar, {DriverAvatarProps} from './DriverAvatar';
-import {DriverId, useDriver} from './DriverProvider';
+import {DriverAvatar, DriverAvatarProps, DriverId, useDriver} from './index';
 
 type ByLineProps = {
 	id?: DriverId;
-	variant?: 'code' | 'name' | 'full';
+	variant?: 'code' | 'name' | 'full' | 'link';
 	avatarProps?: Omit<DriverAvatarProps, 'driverId'>
 	flagProps?: Omit<FlagProps, 'nationality'>
 }
@@ -16,6 +15,7 @@ const DriverSkeleton = ({id, variant = 'full', avatarProps = {}}: ByLineProps) =
 		case 'code':
 			return <Skeleton variant="text" width="3em"/>;
 		case 'name':
+		case 'link':
 			return <Skeleton variant="text"/>;
 		
 		case 'full':
@@ -29,7 +29,7 @@ const DriverSkeleton = ({id, variant = 'full', avatarProps = {}}: ByLineProps) =
 };
 
 
-export default function ByLine({id, variant = 'full', avatarProps = {}, flagProps = {size: 16}}: ByLineProps) {
+export default function DriverByLine({id, variant = 'full', avatarProps = {}, flagProps = {size: 16}}: ByLineProps) {
 	const driver = useDriver(id);
 	
 	if (!driver) {
@@ -44,6 +44,9 @@ export default function ByLine({id, variant = 'full', avatarProps = {}, flagProp
 			return <>{code}</>;
 		case 'name':
 			return <>{name}</>;
+		
+		case 'link':
+			return <Typography><Link to={`/driver/${driverRef}`}>{name}</Link></Typography>;
 		
 		case 'full':
 			return (

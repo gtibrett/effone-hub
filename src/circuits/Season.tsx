@@ -75,7 +75,7 @@ export default function Season({data, loading}: CircuitDataProps) {
 						field:      'Driver',
 						headerName: 'Driver',
 						flex:       1,
-						renderCell: ({row}) => row.driverId ? <ByLine id={row.driverId}/> : '',
+						renderCell: ({row}) => row.driverId ? <DriverByLine id={row.driverId}/> : '',
 						minWidth:   200
 					},
 					{
