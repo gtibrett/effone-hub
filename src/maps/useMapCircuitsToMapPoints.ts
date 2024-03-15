@@ -1,6 +1,6 @@
+import {Circuit} from '@gtibrett/effone-hub-graph-api';
 import {GeoMapEventHandler} from '@nivo/geo';
 import {useNavigate} from 'react-router';
-import {Circuit} from '@gtibrett/effone-hub-graph-api';
 import {Point} from './types';
 
 export default function useMapCircuitsToMapPoints() {

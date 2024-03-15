@@ -1,22 +1,25 @@
 import {Tabs, usePageTitle} from '@gtibrett/mui-additions';
-import {Backdrop, Box, Card, CardContent, CardMedia, Grid, Typography, useTheme} from '@mui/material';
+import {Backdrop, Card, CardContent, CardHeader, Divider, Grid, Hidden, Typography} from '@mui/material';
+import {OpenAILink, Page} from '@ui-components';
 import {useParams} from 'react-router';
 import {useAppState} from '../app/AppStateProvider';
 import History from '../circuits/History';
 import Season from '../circuits/Season';
-import Stats from '../circuits/Stats';
+import FastestLap from '../circuits/stats/FastestLap';
+import LapLeader from '../circuits/stats/LapLeader';
+import MostWins from '../circuits/stats/MostWins';
 import useCircuitByRef from '../circuits/useCircuitByRef';
 import CircuitMap from '../maps/CircuitMap';
 import RaceMap from '../maps/RaceMap';
 import useMapCircuitsToMapPoints from '../maps/useMapCircuitsToMapPoints';
-import {OpenAILink, Page} from '../ui-components';
 
 export default function Circuit() {
-	const theme                  = useTheme();
+	const mapCircuitsToMapPoints = useMapCircuitsToMapPoints();
 	const {circuitRef}           = useParams();
 	const [{currentSeason}]      = useAppState();
-	const mapCircuitsToMapPoints = useMapCircuitsToMapPoints();
 	const {data, loading}        = useCircuitByRef(circuitRef, currentSeason);
+	const {data: lastSeasonData} = useCircuitByRef(circuitRef, currentSeason - 1);
+	const seasonToShow           = data?.circuit.season?.[0].results.length ? currentSeason : currentSeason - 1;
 	
 	usePageTitle(`Circuit: ${data?.circuit.name}`);
 	
@@ -34,11 +37,29 @@ export default function Circuit() {
 	return (
 		<Page
 			title={circuit.name}
-			subheader={`${circuit.location}, ${circuit.country}`}
-			action={<Stats data={data} loading={loading}/>}
+			subheader={(
+				<>
+					<Typography variant="body1">{circuit.location}, {circuit.country}</Typography>
+					{circuit.circuitDescription.description && (
+						<>
+							<Typography variant="body1">{circuit.circuitDescription.description}</Typography>
+							<Divider orientation="horizontal" sx={{my: 1}}/>
+							<OpenAILink/>
+						</>
+					)}
+				</>
+			)}
+			action={(
+				<Hidden mdDown>
+					<Card sx={{height: '100%'}}>
+						<RaceMap points={points} onClick={onClick} height={200} centerOn={circuit} zoom/>
+					</Card>
+				</Hidden>
+			)}
+			actionProps={{xs: 0, md: 4, lg: 3}}
 		>
 			<Grid container spacing={2}>
-				<Grid item xs={12} md={8} sx={{order: {xs: 2, md: 1}}}>
+				<Grid item xs={12} md={8} lg={9} sx={{order: {xs: 2, md: 1}}}>
 					<Card>
 						<Tabs active="history" tabs={[
 							{
@@ -57,17 +78,16 @@ export default function Circuit() {
 					</Card>
 				</Grid>
 				
-				<Grid item xs={12} md={4} sx={{order: {xs: 1, md: 2}}}>
-					<Card variant="outlined">
-						<CardMedia sx={{borderBottom: `1px solid ${theme.palette.divider}`, p: .25}}>
-							<RaceMap points={points} onClick={onClick} height={300} centerOn={circuit} zoom/>
-						</CardMedia>
-						{circuit.circuitDescription.description && (
-							<CardContent>
-								<Typography variant="body2">{circuit.circuitDescription.description}</Typography>
-								<Box textAlign="right" display="block"><OpenAILink/></Box>
-							</CardContent>
-						)}
+				<Grid item xs={12} md={4} lg={3} sx={{order: {xs: 1, md: 2}}}>
+					<Card sx={{height: '100%'}}>
+						<CardHeader title={`${seasonToShow} Season`}/>
+						<CardContent>
+							<Grid container spacing={2}>
+								<LapLeader data={seasonToShow === currentSeason ? data : lastSeasonData} loading={loading}/>
+								<MostWins data={seasonToShow === currentSeason ? data : lastSeasonData} loading={loading}/>
+								<FastestLap data={seasonToShow === currentSeason ? data : lastSeasonData} loading={loading}/>
+							</Grid>
+						</CardContent>
 					</Card>
 				</Grid>
 			</Grid>

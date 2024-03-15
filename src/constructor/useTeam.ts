@@ -9,6 +9,9 @@ const ConstructorFields = gql`
 		constructorRef
 		name
 		nationality
+		colors {
+			primary
+		}
 		bio {
 			description
 			title

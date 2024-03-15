@@ -1,5 +1,5 @@
-import {SVGProps} from 'react';
 import {Circuit} from '@gtibrett/effone-hub-graph-api';
+import {SVGProps} from 'react';
 import {AlbertPark, Americas, Bahrain, Baku, Catalunya, Estoril, Hungaroring, Imola, Interlagos, Jeddah, Losail, MarinaBay, Miami, Monaco, Monza, RedBullRing, Ricard, Rodriguez, Shanghai, Silverstone, Sochi, Spa, Suzuka, Villeneuve, YasMarina, Zandvoort} from './index';
 
 export default function getMapSVG(circuitRef: Circuit['circuitRef'], svgProps: SVGProps<any>) {

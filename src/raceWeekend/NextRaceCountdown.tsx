@@ -1,10 +1,10 @@
 import {Card, CardContent, Table, TableBody, TableCell, TableRow} from '@mui/material';
 import {useEffect, useState} from 'react';
-import {Race} from '@gtibrett/effone-hub-graph-api';
 import CountdownClock from './CountdownClock';
+import {RaceData} from './useNextRaceData';
 
 type NextRaceCountdownProps = {
-	race: Pick<Race, 'fp1Date' | 'fp1Time' | 'fp2Date' | 'fp2Time' | 'fp3Date' | 'fp3Time' | 'qualiDate' | 'qualiTime' | 'date' | 'time'>;
+	race: RaceData;
 	mapSize?: number;
 	circuitSize?: number;
 }
@@ -47,8 +47,13 @@ export default function NextRaceCountdown({race}: NextRaceCountdownProps) {
 		      fp2Date, fp2Time,
 		      fp3Date, fp3Time,
 		      qualiDate, qualiTime,
+		      sprintDate, sprintTime,
 		      date, time
 	      } = race;
+	
+	console.log(sprintDate, sprintTime);
+	
+	const isSprint = (!!sprintDate && !!sprintTime);
 	
 	return (
 		<Card variant="outlined">
@@ -56,9 +61,11 @@ export default function NextRaceCountdown({race}: NextRaceCountdownProps) {
 				<Table size="small">
 					<TableBody sx={{'& tr:last-child .MuiTableCell-root': {borderBottom: 0}}}>
 						<CountdownRow label="FP1" date={fp1Date} time={fp1Time}/>
-						<CountdownRow label="FP2" date={fp2Date} time={fp2Time}/>
+						{!isSprint && <CountdownRow label="FP2" date={fp2Date} time={fp2Time}/>}
 						<CountdownRow label="FP3" date={fp3Date} time={fp3Time}/>
 						<CountdownRow label="Qual" date={qualiDate} time={qualiTime}/>
+						{isSprint && <CountdownRow label="Shootout" date={fp2Date} time={fp2Time}/>}
+						<CountdownRow label="Sprint" date={sprintDate} time={sprintTime}/>
 						<CountdownRow label="Race" date={date} time={time}/>
 					</TableBody>
 				</Table>

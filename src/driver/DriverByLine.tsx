@@ -5,7 +5,7 @@ import {DriverAvatar, DriverAvatarProps, DriverId, useDriver} from './index';
 
 type ByLineProps = {
 	id?: DriverId;
-	variant?: 'code' | 'name' | 'full' | 'link';
+	variant?: 'code' | 'code-link' | 'name' | 'full' | 'link';
 	avatarProps?: Omit<DriverAvatarProps, 'driverId'>
 	flagProps?: Omit<FlagProps, 'nationality'>
 }
@@ -42,11 +42,12 @@ export default function DriverByLine({id, variant = 'full', avatarProps = {}, fl
 	switch (variant) {
 		case 'code':
 			return <>{code}</>;
+		case 'code-link':
+			return <Link sx={{fontWeight: 'bold'}} to={`/driver/${driverRef}`}>{code}</Link>;
 		case 'name':
 			return <>{name}</>;
-		
 		case 'link':
-			return <Typography><Link to={`/driver/${driverRef}`}>{name}</Link></Typography>;
+			return <Link to={`/driver/${driverRef}`}>{name}</Link>;
 		
 		case 'full':
 			return (

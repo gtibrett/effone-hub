@@ -1,6 +1,6 @@
 import {alpha, Box, Card, CardContent, Grid, Hidden, Skeleton, ThemeProvider, Typography} from '@mui/material';
+import {useEffTheme, WikipediaLink} from '@ui-components';
 import CircuitMap from '../maps/CircuitMap';
-import {useEffTheme, WikipediaLink} from '../ui-components';
 import NextRaceCountdown from './NextRaceCountdown';
 import useNextRaceData from './useNextRaceData';
 

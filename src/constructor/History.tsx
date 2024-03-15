@@ -16,8 +16,10 @@ export default function History({data, loading}: HistoryProps) {
 	}
 	const standings = data?.team.standings.map(s => ({...s, name: data?.team.name})) || [];
 	
-	data?.team.teamHistories.forEach(({antecedentTeam}) => {
-		antecedentTeam.standings.forEach(s => standings.push({...s, name: antecedentTeam.name}));
+	data?.team.teamHistories.forEach(({antecedentTeam, startYear, endYear}) => {
+		antecedentTeam.standings
+		              .filter(s => s.year >= startYear && s.year <= endYear)
+		              .forEach(s => standings.push({...s, name: antecedentTeam.name}));
 	});
 	
 	if (!standings.length) {

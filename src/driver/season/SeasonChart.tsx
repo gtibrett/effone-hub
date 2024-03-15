@@ -1,7 +1,7 @@
 import {QueryResult} from '@apollo/client/react/types/types';
 import {Box, useTheme} from '@mui/material';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {useGetAccessibleChartColors, useNivoTheme} from '../../ui-components';
+import {useGetAccessibleChartColors, useNivoTheme} from '@ui-components';
 import {DriverId, useDriver} from '../index';
 import {DriverPageData} from '../types';
 

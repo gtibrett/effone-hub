@@ -1,13 +1,13 @@
 {
 	"compilerOptions": {
-		"target":                           "es5",
+		"target":                           "ESNext",
 		"lib":                              [
 			"dom",
 			"dom.iterable",
 			"esnext"
 		],
-		"allowJs":                          true,
-		"skipLibCheck":                     true,
+		"allowJs":                          false,
+		"skipLibCheck":                     false,
 		"esModuleInterop":                  true,
 		"allowSyntheticDefaultImports":     true,
 		"strict":                           true,
@@ -18,7 +18,13 @@
 		"resolveJsonModule":                true,
 		"isolatedModules":                  true,
 		"noEmit":                           true,
-		"jsx":                              "react-jsx"
+		"jsx":                              "react-jsx",
+		"baseUrl":                          "./src",
+		"paths":                            {
+			"@ui-components": [
+				"ui-components"
+			]
+		}
 	},
 	"include":         [
 		"src"

@@ -56,5 +56,18 @@ export default function useDriver(driverIdOrRef?: Driver['driverId'] | Driver['d
 	
 	const {data} = useQuery<{ driverById: Driver, driverByRef: Driver }>(query, {variables});
 	
-	return data?.driverById || data?.driverByRef || undefined;
+	if (!data?.driverById && !data?.driverByRef) {
+		return undefined;
+	}
+	
+	const driverData = data.driverById || data.driverByRef;
+	
+	if (!driverData.code) {
+		return {
+			...driverData,
+			code: driverData.surname.replace(/[^a-z]/i, '').substring(0, 3).toUpperCase()
+		};
+	}
+	
+	return driverData;
 };

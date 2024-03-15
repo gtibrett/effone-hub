@@ -1,13 +1,14 @@
 import {SkipNav, UkraineButton} from '@gtibrett/mui-additions';
 import {Box, Container, SxProps, useTheme} from '@mui/material';
+import {Header} from '@ui-components';
 import {ReactNode} from 'react';
 import {Outlet, Route, RouteProps, Routes as ReactRouterRoutes} from 'react-router-dom';
-import {Circuits, Constructors, Driver, Drivers, Home, Race} from '../pages';
+import {Circuits, Constructors, Driver, Drivers, Race} from '../pages';
 import About from '../pages/About';
 import Circuit from '../pages/Circuit';
 import Constructor from '../pages/Constructor';
 import Seasons from '../pages/Seasons';
-import {Header} from '../ui-components';
+import Season from '../season/Season';
 import {useAppState} from './AppStateProvider';
 import ErrorBoundary from './ErrorBoundary';
 import Footer from './Footer';
@@ -63,7 +64,7 @@ export const useNavLinks = () => {
 		{
 			path:     '/',
 			label:    currentSeason,
-			element:  <Home/>,
+			element:  <Season/>,
 			rootPath: `/${currentSeason}`
 		},
 		{
@@ -77,8 +78,8 @@ export const useNavLinks = () => {
 			rootPath: '/season'
 		},
 		{
-			path:    '/season/:seasonId',
-			element: <Home/>
+			path:    '/season/:season',
+			element: <Season/>
 		},
 		{
 			path:    '/season/:season/:round',

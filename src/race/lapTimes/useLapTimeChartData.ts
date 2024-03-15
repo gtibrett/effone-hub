@@ -1,5 +1,5 @@
-import {useMemo} from 'react';
 import {LapTime} from '@gtibrett/effone-hub-graph-api';
+import {useMemo} from 'react';
 import {LapByLapData} from '../lapByLap/useLapByLapChartData';
 import {getColorWithAlt} from './helpers';
 

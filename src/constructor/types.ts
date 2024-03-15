@@ -1,5 +1,4 @@
-import {Driver, Race, Result, Team, TeamStanding} from '@gtibrett/effone-hub-graph-api';
-import {TeamHistory} from '@gtibrett/effone-hub-graph-api';
+import {Driver, Race, Result, Team, TeamHistory, TeamStanding} from '@gtibrett/effone-hub-graph-api';
 
 export type DriverByYear = {
 	year: number;

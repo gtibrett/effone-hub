@@ -57,7 +57,7 @@ export default function Season({data, loading}: CircuitDataProps) {
 						field:        'change',
 						renderHeader: () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
 						renderCell:   ({row}) => (
-							<PositionChange grid={Number(row.grid)} position={Number(row.positionOrder)}/>
+							<PositionChange grid={Number(row.grid)} positionOrder={Number(row.positionOrder)}/>
 						),
 						valueGetter:  ({row}) => {
 							const {grid, position} = row;

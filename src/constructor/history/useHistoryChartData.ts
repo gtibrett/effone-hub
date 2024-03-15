@@ -1,8 +1,8 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {Team} from '@gtibrett/effone-hub-graph-api';
 import {useTheme} from '@mui/material';
 import {Serie as LineSerie} from '@nivo/line';
-import {Team} from '@gtibrett/effone-hub-graph-api';
-import {useGetAccessibleColor} from '../../ui-components';
+import {useGetAccessibleColor} from '@ui-components';
 import {ConstructorPageData, TeamStandingData} from '../types';
 
 type StandingsAndTeamInfo = Pick<Team, 'teamId' | 'name' | 'colors'> & {
@@ -28,8 +28,9 @@ export default function useHistoryChartData(data: Pick<QueryResult<ConstructorPa
 	const {name, teamId, colors} = data.team;
 	standingsByTeam.set(teamId, {name, teamId, colors, standings: data.team.standings || []});
 	
-	data?.team.teamHistories.forEach(({antecedentTeam: {teamId, name, colors, standings = []}}) => {
-		standingsByTeam.set(teamId, {name, teamId, colors, standings});
+	data?.team.teamHistories.forEach(({antecedentTeam: {teamId, name, colors, standings = []}, startYear, endYear}) => {
+		const filteredStandings = standings.filter(s => s.year >= startYear && s.year <= endYear);
+		standingsByTeam.set(teamId, {name, teamId, colors, standings: filteredStandings});
 	});
 	
 	const flatStandings = Array.from(standingsByTeam.values()).map(t => t.standings).flat();

@@ -52,7 +52,7 @@ export default function Flag({nationality, size = 'small'}: FlagProps) {
 	return (
 		<Avatar
 			component="span"
-			variant="square"
+			variant="rounded"
 			alt={nationality}
 			sx={{
 				...sizeSx,

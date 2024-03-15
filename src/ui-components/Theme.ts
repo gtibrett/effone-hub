@@ -36,7 +36,7 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 				fontSize: 20
 			},
 			h4:         {
-				fontSize: 14
+				fontSize: 16
 			}
 		},
 		components: {
@@ -78,8 +78,9 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 			MuiBackdrop:     {
 				styleOverrides: {
 					root: {
-						background:     alpha(primary[prefersDarkMode ? 700 : 600], .5),
-						backdropFilter: `blur(5px) grayscale(100%)`
+						background:     alpha(primary[prefersDarkMode ? 100 : 900], prefersDarkMode ? .5 : .75),
+						backdropFilter: `blur(5px) grayscale(100%)`,
+						zIndex:         100000
 					}
 				}
 			},
@@ -105,7 +106,7 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 					root: {
 						padding:     `${spacing / 4}px ${spacing}px`,
 						borderColor: secondary[prefersDarkMode ? 400 : 900],
-						color: secondary[prefersDarkMode ? 400 : 900],
+						color:       secondary[prefersDarkMode ? 400 : 900],
 						
 						'&.Mui-selected': {
 							backgroundColor: secondary[prefersDarkMode ? 400 : 900],

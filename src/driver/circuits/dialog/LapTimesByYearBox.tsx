@@ -1,10 +1,8 @@
 import {QueryResult} from '@apollo/client/react/types/types';
 import {Alert, alpha, Box, darken, lighten, Skeleton, useTheme} from '@mui/material';
-// @ts-ignore
 import {ResponsiveBoxPlot} from '@nivo/boxplot';
+import {useGetAccessibleColor, useNivoTheme} from '@ui-components';
 import {getTimeStringFromDate} from '../../../helpers';
-import {useNivoTheme} from '../../../ui-components';
-import useGetAccessibleColor from '../../../ui-components/useGetAccessibleColor';
 import {mapLapTimeDataToBoxChart} from './mapLapTimeDataToSwarmChart';
 import {CircuitDialogData} from './types';
 

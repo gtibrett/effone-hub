@@ -1,7 +1,5 @@
-import {Tabs} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
 import LapByLap from './lapByLap/LapByLap';
-import LapByLapTable from './lapByLap/LapByLapTable';
 import {useLapByLapData} from './lapByLap/useLapByLapChartData';
 import LapTimesTable from './lapTimes/LapTimesTable';
 
@@ -22,24 +20,9 @@ export default function Laps({season, round}: LapByLapProps) {
 	}
 	
 	return (
-		<Tabs active="byLap" tabs={[
-			{
-				id:      'byLap',
-				label:   'Lap by Lap',
-				content: <>
-					         <LapByLap season={season} round={round}/>
-					         <LapByLapTable season={season} round={round}/>
-				         </>
-			},
-			{
-				id:      'times',
-				label:   'Lap Times',
-				content: <>
-					         {/* FIXME: This doesn't work in a production build*/}
-					         {/*<LapTimes laps={laps} results={results}/>*/}
-					         <LapTimesTable season={season} round={round}/>
-				         </>
-			}
-		]}/>
+		<>
+			<LapByLap season={season} round={round}/>
+			<LapTimesTable season={season} round={round}/>
+		</>
 	);
 }

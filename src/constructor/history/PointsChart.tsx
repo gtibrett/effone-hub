@@ -1,6 +1,6 @@
 import {Box} from '@mui/material';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {NivoTooltip, useNivoTheme} from '../../ui-components';
+import {NivoTooltip, useNivoTheme} from '@ui-components';
 import {HistoryProps} from '../History';
 import HistoryTooltip from './HistoryTooltip';
 import useHistoryChartData, {getChartDataByAttribute, useHistoryChartColors} from './useHistoryChartData';

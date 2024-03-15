@@ -18,8 +18,8 @@ describe('nivo.ts', () => {
 			const nivoTheme = useNivoTheme();
 			return (
 				<>
-					<div data-testid="textColor">{nivoTheme.textColor}</div>
-					<div data-testid="axisText">{nivoTheme.axis.legend.text.fill}</div>
+					<div data-testid="textColor">{nivoTheme.text?.color}</div>
+					<div data-testid="axisText">{nivoTheme.axis?.legend?.text?.fill}</div>
 				</>
 			);
 		};

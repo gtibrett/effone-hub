@@ -1,6 +1,6 @@
-import {Card, CardContent, CardHeader, Typography} from '@mui/material';
-import {OpensInNewWindow} from '../ui-components';
 import {Link} from '@gtibrett/mui-additions';
+import {Card, CardContent, CardHeader, Typography} from '@mui/material';
+import {OpensInNewWindow} from '@ui-components';
 
 const Mission = () => (
 	<Card>

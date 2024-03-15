@@ -1,7 +1,7 @@
 import {Link} from '@gtibrett/mui-additions';
 import {Card, CardContent, CardHeader, List, ListItem, ListItemText, ListSubheader} from '@mui/material';
+import {OpensInNewWindow} from '@ui-components';
 import {Fragment} from 'react';
-import {OpensInNewWindow} from '../ui-components';
 
 type DependencyCategory = {
 	title: string;

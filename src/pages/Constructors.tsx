@@ -5,11 +5,11 @@ import {Team} from '@gtibrett/effone-hub-graph-api';
 import {usePageTitle} from '@gtibrett/mui-additions';
 import {Card, CardContent, Skeleton, TextField, TextFieldProps, useTheme} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {Page, TableFilter} from '@ui-components';
 import {SyntheticEvent, useEffect, useState} from 'react';
 import {useAppState} from '../app/AppStateProvider';
 import {ConstructorByLine} from '../constructor';
 import SeasonMenu from '../SeasonMenu';
-import {Page, TableFilter} from '../ui-components';
 
 type ConstructorsTableProps = {
 	teams: Team[];
