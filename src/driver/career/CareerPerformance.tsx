@@ -1,8 +1,8 @@
 import {QueryResult} from '@apollo/client/react/types/types';
-import {Paper} from '@mui/material';
+import {Paper, Typography} from '@mui/material';
 import {blueGrey, deepPurple, green, red} from '@mui/material/colors';
-import {ResponsivePie} from '@nivo/pie';
-import {useDarkMode, useNivoTheme} from '../../ui-components';
+import {PieTooltipProps, ResponsivePie} from '@nivo/pie';
+import {NivoTooltip, useDarkMode, useNivoTheme} from '@ui-components';
 import {DriverPageData} from '../types';
 
 type Stats = {
@@ -31,6 +31,10 @@ const usePerformanceData = (data?: DriverPageData): Stats | undefined => {
 
 type CareerPerformanceProps = Pick<QueryResult<DriverPageData>, 'data' | 'loading'>;
 
+const CareerPerformanceTooltip = ({datum}: PieTooltipProps<any>) => {
+	return <Typography>{datum.label}</Typography>;
+};
+
 export default function CareerPerformance({data}: CareerPerformanceProps) {
 	const nivoTheme       = useNivoTheme();
 	const summaryData     = usePerformanceData(data);
@@ -44,27 +48,32 @@ export default function CareerPerformance({data}: CareerPerformanceProps) {
 		{
 			'id':    'wins',
 			'label': `Wins: ${summaryData.wins}`,
-			'value': summaryData.wins
+			'value': summaryData.wins,
+			'color': deepPurple[prefersDarkMode ? 200 : 600]
 		},
 		{
 			'id':    'podiums',
 			'label': `Podiums: ${summaryData.podiums}`,
-			'value': summaryData.podiums - summaryData.wins
+			'value': summaryData.podiums - summaryData.wins,
+			'color': green[prefersDarkMode ? 200 : 600]
 		},
 		{
 			'id':    'inPoints',
 			'label': `In Points: ${summaryData.inPoints}`,
-			'value': summaryData.inPoints - summaryData.podiums
+			'value': summaryData.inPoints - summaryData.podiums,
+			'color': blueGrey[prefersDarkMode ? 200 : 600]
 		},
 		{
 			'id':    'appearances',
-			'label': `Appearances: ${summaryData.appearances}`,
-			'value': summaryData.appearances - summaryData.inPoints - summaryData.dnfs
+			'label': `Out of Points: ${summaryData.appearances}`,
+			'value': summaryData.appearances - summaryData.inPoints - summaryData.dnfs,
+			'color': blueGrey[prefersDarkMode ? 100 : 300]
 		},
 		{
 			'id':    'dnfs',
 			'label': `DNFs: ${summaryData.dnfs}`,
-			'value': summaryData.dnfs
+			'value': summaryData.dnfs,
+			'color': red[prefersDarkMode ? 200 : 600]
 		}
 	];
 	
@@ -74,18 +83,13 @@ export default function CareerPerformance({data}: CareerPerformanceProps) {
 				enableArcLinkLabels={false}
 				enableArcLabels={false}
 				theme={nivoTheme}
-				data={chartData}
-				colors={[
-					deepPurple[prefersDarkMode ? 200 : 600],
-					green[prefersDarkMode ? 200 : 600],
-					blueGrey[prefersDarkMode ? 200 : 600],
-					blueGrey[prefersDarkMode ? 100 : 300],
-					red[prefersDarkMode ? 200 : 600]
-				]}
+				data={chartData.filter(s => s.value > 0)}
+				colors={{datum: 'data.color'}}
 				innerRadius={.1}
 				padAngle={3}
 				cornerRadius={3}
 				margin={{top: 0, right: 110, bottom: 0, left: 0}}
+				tooltip={NivoTooltip(CareerPerformanceTooltip)}
 				legends={[
 					{
 						anchor:        'right',

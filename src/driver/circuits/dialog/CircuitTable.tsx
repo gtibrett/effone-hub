@@ -1,9 +1,9 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {Race} from '@gtibrett/effone-hub-graph-api';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Box, Skeleton, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {Race} from '@gtibrett/effone-hub-graph-api';
 import {getPositionTextOutcome, getTimeStringFromDate} from '../../../helpers';
 import PositionChange from '../../../race/PositionChange';
 import {CircuitDialogData} from './types';
@@ -71,7 +71,7 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 								const result = row.results[0];
 								if (result) {
 									const {grid, positionOrder} = result;
-									return <PositionChange grid={grid} position={positionOrder}/>;
+									return <PositionChange grid={grid} positionOrder={positionOrder}/>;
 								}
 								return '';
 							},

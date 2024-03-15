@@ -1,48 +1,27 @@
 import {faUser} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Avatar, SxProps, useTheme} from '@mui/material';
+import {Avatar} from '@mui/material';
+import useAvatarSize, {AvatarSizes} from '../ui-components/useAvatarSize';
 import {DriverId, useDriver} from './index';
 
 export type DriverAvatarProps = {
 	driverId?: DriverId;
-	size?: 'small' | 'medium' | 'large' | 'auto' | number
+	size?: AvatarSizes
 }
 
-const useSize = (size: DriverAvatarProps['size']): SxProps => {
-	const theme = useTheme();
-	
-	switch (size) {
-		case 'small':
-			return {width: theme.spacing(4), height: theme.spacing(4)};
-		
-		case 'medium':
-			return {width: theme.spacing(8), height: theme.spacing(8)};
-		
-		case 'large':
-			return {width: theme.spacing(16), height: theme.spacing(16)};
-		
-		default:
-			if (typeof size === 'number') {
-				return {width: size, height: size};
-			}
-	}
-	
-	return {width: '100%', height: '100%'};
-};
-
 export default function DriverAvatar({driverId, size = 'small'}: DriverAvatarProps) {
-	const sx     = useSize(size);
+	const sx     = useAvatarSize(size);
 	const driver = useDriver(driverId);
 	
 	if (!driver) {
-		return <Avatar variant="square" sx={sx}><FontAwesomeIcon icon={faUser}/></Avatar>;
+		return <Avatar variant="rounded" sx={sx}><FontAwesomeIcon icon={faUser}/></Avatar>;
 	}
 	
 	const {forename, surname, bio} = driver;
 	
 	if (bio?.thumbnail?.source) {
-		return <Avatar variant="square" alt="" src={bio?.thumbnail?.source} sx={{...sx, objectPosition: 'top'}}/>;
+		return <Avatar variant="rounded" alt="" src={bio?.thumbnail?.source} sx={{...sx, objectPosition: 'top'}}/>;
 	}
 	
-	return <Avatar variant="square" sx={sx}>{forename?.[0]}{surname?.[0]}</Avatar>;
+	return <Avatar variant="rounded" sx={sx}>{forename?.[0]}{surname?.[0]}</Avatar>;
 }

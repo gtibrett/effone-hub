@@ -1,7 +1,6 @@
 import {Box, Skeleton, useMediaQuery, useTheme} from '@mui/material';
 import {BarSvgProps, ResponsiveBar} from '@nivo/bar';
-import {NivoTooltip, useNivoTheme} from '../../ui-components';
-import useGetAccessibleColor from '../../ui-components/useGetAccessibleColor';
+import {NivoTooltip, useGetAccessibleColor, useNivoTheme} from '@ui-components';
 import {PitStopTableRow} from './PitStops';
 import PitStopTooltip from './PitStopTooltip';
 

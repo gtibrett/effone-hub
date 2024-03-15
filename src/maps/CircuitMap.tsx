@@ -1,11 +1,11 @@
 import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {Circuit} from '@gtibrett/effone-hub-graph-api';
 import {Box, Grid, SxProps, ToggleButton, ToggleButtonGroup, useTheme} from '@mui/material';
 import {blue, red, yellow} from '@mui/material/colors';
+import {useDarkMode} from '@ui-components';
 import {SVGProps, SyntheticEvent, useState} from 'react';
 import useCircuitByRef from '../circuits/useCircuitByRef';
-import {Circuit} from '@gtibrett/effone-hub-graph-api';
-import {useDarkMode} from '../ui-components';
 import getMapSVG from './circuits/getMapSVG';
 
 type CircuitMapProps = SVGProps<any> & {

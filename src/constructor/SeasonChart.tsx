@@ -1,7 +1,7 @@
 import {QueryResult} from '@apollo/client/react/types/types';
 import {Box, Skeleton, useTheme} from '@mui/material';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {useGetAccessibleChartColors, useNivoTheme} from '../ui-components';
+import {useGetAccessibleChartColors, useNivoTheme} from '@ui-components';
 import {ConstructorPageData} from './types';
 
 type SeasonChartProps = Pick<QueryResult<ConstructorPageData>, 'data' | 'loading'> & { season: number };

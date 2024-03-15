@@ -1,9 +1,9 @@
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {LapTime} from '@gtibrett/effone-hub-graph-api';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useMemo} from 'react';
 import {DriverByLine} from '../../driver';
-import {LapTime} from '@gtibrett/effone-hub-graph-api';
 import {getTimeStringFromDate} from '../../helpers';
 import {LapByLapData, useLapByLapData} from '../lapByLap/useLapByLapChartData';
 import {getColorWithAlt} from './helpers';

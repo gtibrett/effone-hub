@@ -1,9 +1,9 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {Race} from '@gtibrett/effone-hub-graph-api';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Grid, Skeleton, Typography} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {DriverByLine} from '../driver';
-import {Race} from '@gtibrett/effone-hub-graph-api';
 import SeasonChart from './SeasonChart';
 import {ConstructorPageData} from './types';
 

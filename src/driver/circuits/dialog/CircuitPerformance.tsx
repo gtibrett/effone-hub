@@ -1,10 +1,9 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {Result} from '@gtibrett/effone-hub-graph-api';
 import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {Paper, useTheme} from '@mui/material';
 import {ResponsiveRadar} from '@nivo/radar';
-import {Result} from '@gtibrett/effone-hub-graph-api';
-import {useNivoTheme} from '../../../ui-components';
-import useGetAccessibleColor from '../../../ui-components/useGetAccessibleColor';
+import {useGetAccessibleColor, useNivoTheme} from '@ui-components';
 import {CircuitDialogData} from './types';
 
 type Stats = {
@@ -24,7 +23,7 @@ const usePerformanceData = (circuitResults: Result[] = []): Stats | undefined =>
 		wins:        circuitResults.filter(r => r.positionOrder === 1).length,
 		podiums:     circuitResults.filter(r => r.positionOrder <= 3).length,
 		inPoints:    circuitResults.filter(r => r.positionOrder <= 10).length,
-		dnfs:        circuitResults.filter(r => r.positionText !== String(r.positionOrder)).length,
+		dnfs:        circuitResults.filter(r => r.position === null).length,
 		appearances: circuitResults.length
 	};
 };

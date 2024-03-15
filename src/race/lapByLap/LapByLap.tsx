@@ -1,7 +1,7 @@
 import {Box, Skeleton} from '@mui/material';
 import {ResponsiveBump} from '@nivo/bump';
-import {DriverByLine, DriverId} from '../../driver';
-import {NivoTooltip, useNivoTheme} from '../../ui-components';
+import {NivoTooltip, useNivoTheme} from '@ui-components';
+import {DriverId} from '../../driver';
 import LapByLapTooltip from './LapByLapTooltip';
 import useLapByLapChartData, {useLapByLapData} from './useLapByLapChartData';
 
@@ -19,6 +19,8 @@ export type LapChartSeries = {
 	id: number;
 	color?: string;
 	driverId: DriverId;
+	name: string;
+	position: number;
 	data: LapChartDatum[];
 }
 
@@ -38,6 +40,7 @@ function LapByLap({season, round}: LapByLapProps) {
 	const lapByLapData         = useLapByLapData(season, round);
 	const data                 = useLapByLapChartData(lapByLapData);
 	const {loading, totalLaps} = lapByLapData;
+	const height               = data.length * 20;
 	
 	let content = <Skeleton variant="rectangular" sx={{width: '100%'}} height="100%"/>;
 	if (!loading && lapByLapData.data?.length) {
@@ -46,24 +49,24 @@ function LapByLap({season, round}: LapByLapProps) {
 				theme={nivoTheme}
 				data={data.map(s => ({...s, id: String(s.id)}))}
 				colors={({color}) => color || 'transparent'}
-				lineWidth={3}
+				lineWidth={4}
 				activeLineWidth={6}
 				inactiveLineWidth={3}
-				inactiveOpacity={0.35}
+				inactiveOpacity={.25}
 				pointSize={0}
 				activePointSize={0}
 				inactivePointSize={0}
 				pointBorderWidth={0}
 				activePointBorderWidth={0}
 				startLabel={false}
-				// @ts-ignore
-				endLabel={({id}) => <DriverByLine variant="code" id={id}/>}
-				enableGridX={false}
+				endLabel={({name}) => name}
+				endLabelPadding={32}
+				enableGridX={true}
 				enableGridY={false}
 				axisTop={null}
-				axisLeft={{
-					tickSize:     0,
-					tickPadding:  10,
+				axisRight={{
+					tickSize:     2,
+					tickPadding:  8,
 					tickRotation: 0
 				}}
 				axisBottom={{
@@ -72,15 +75,15 @@ function LapByLap({season, round}: LapByLapProps) {
 					tickRotation: 0,
 					tickValues:   getTicks(totalLaps || 0)
 				}}
-				axisRight={null}
-				margin={{top: 0, right: 40, bottom: 24, left: 24}}
+				axisLeft={null}
+				margin={{top: 0, right: 120, bottom: 24, left: 24}}
 				tooltip={NivoTooltip(LapByLapTooltip)}
 			/>
 		);
 	}
 	
 	return (
-		<Box sx={{height: '60vh', width: '100%'}} aria-hidden>
+		<Box sx={{height, width: '100%'}} aria-hidden>
 			{content}
 		</Box>
 	);

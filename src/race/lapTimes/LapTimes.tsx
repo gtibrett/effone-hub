@@ -1,9 +1,9 @@
 import {Box, Skeleton, useTheme} from '@mui/material';
 import {ResponsiveHeatMap} from '@nivo/heatmap';
 import {HeatMapSerie} from '@nivo/heatmap/dist/types/types';
+import {NivoTooltip, useNivoTheme} from '@ui-components';
 import {useMemo} from 'react';
 import {DriverByLine} from '../../driver';
-import {NivoTooltip, useNivoTheme} from '../../ui-components';
 import {useLapByLapData} from '../lapByLap/useLapByLapChartData';
 import {getTicks} from './helpers';
 import LapTooltip from './LapTooltip';

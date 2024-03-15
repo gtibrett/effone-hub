@@ -16,8 +16,17 @@ const lastRaceQuery    = gql`
 		}
 	}`;
 
+type ApolloState = {
+	client: ApolloClient<any>;
+	ready: boolean;
+	error?: any;
+}
+
 function setupApollo() {
-	return new Promise<{ cache: ApolloCache<NormalizedCacheObject>, persistor: CachePersistor<any> }>((resolve, reject) => {
+	return new Promise<{
+		cache: ApolloCache<NormalizedCacheObject>,
+		persistor: CachePersistor<any>
+	}>((resolve, reject) => {
 		client.query({query: lastRaceQuery})
 		      .then(result => result.data.results.length ? result.data.results[0].raceId : 0)
 		      .then(lastRaceId => {
@@ -35,22 +44,28 @@ function setupApollo() {
 				               .then(() => window.localStorage.setItem(LAST_RACE_ID_KEY, lastRaceId))
 				               .then(() => resolve({cache, persistor}));
 			      }
-		      });
+		      })
+		      .catch(error => reject(error));
 	});
 }
 
-export default function useApolloClient() {
+export default function useApolloClient(): ApolloState {
 	const [persisted, setPersisted] = useState<boolean>(false);
+	const [error, setError]         = useState<any>();
 	
 	useEffect(() => {
 		if (!persisted) {
 			setupApollo()
 				.then(() => {
 					setPersisted(true);
+				})
+				.catch(error => {
+					setError(error);
+					setPersisted(false);
 				});
 		}
 		
-	}, [persisted, setPersisted]);
+	}, [persisted]);
 	
-	return {client, ready: persisted};
+	return {client, ready: persisted, error};
 }

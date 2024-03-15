@@ -1,30 +1,70 @@
 import {gql, useQuery} from '@apollo/client';
-import {Season} from '@gtibrett/effone-hub-graph-api';
+import {DriverStanding, Season, Team, TeamStanding} from '@gtibrett/effone-hub-graph-api';
 import {Link, usePageTitle} from '@gtibrett/mui-additions';
 import {Card, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import Place from '../race/Place';
-import {Page} from '../ui-components';
+import {DataWithValue, Page, StatCard} from '@ui-components';
+import {DriverId} from '../driver';
+import {StatCardStat} from '../ui-components/stats/StatCardContent';
 
-type SeasonsTableProps = {
-	seasons: Season[];
+type SeasonData = {
+	year: number;
+	racesByYear: {
+		round: number;
+		teamStandings: Pick<TeamStanding, 'teamId' | 'points' | 'wins'>[];
+		driverStandings: Pick<DriverStanding, 'driverId' | 'points' | 'wins'>[];
+	}[]
+};
+
+type Data = {
+	seasons: SeasonData[]
 }
 
-const getDriverAtPlace = (season: Season, place: number) => season.racesByYear?.[0]?.driverStandings?.[place - 1] || undefined;
+type SeasonsTableProps = {
+	seasons: SeasonData[];
+}
 
-const renderPlace = (place: number): GridColDef<Season>['renderCell'] => (
+type DriverChampionData = DataWithValue & {
+	driverId: DriverId;
+	points: number;
+	wins: number;
+}
+
+type TeamChampionData = DataWithValue & {
+	teamId: Team['teamId'];
+	points: number;
+	wins: number;
+}
+
+function getAtPlace(variant: 'driver' | 'team', season: SeasonData, place: number) {
+	return variant === 'driver'
+	       ? (season.racesByYear?.[0]?.driverStandings?.[place - 1] || undefined) as DriverChampionData
+	       : (season.racesByYear?.[0]?.teamStandings?.[place - 1] || undefined) as TeamChampionData;
+}
+
+const renderPlace = (place: number, variant: 'driver' | 'team' = 'driver'): GridColDef<Season>['renderCell'] => (
 	({row}) => {
-		const champion = getDriverAtPlace(row, place);
+		const champion = variant === 'driver' ? getAtPlace('driver', row, place) : getAtPlace('team', row, place);
+		type ChampionDataType = typeof champion;
+		
 		if (!champion) {
 			return '--';
 		}
 		
-		const {driverId, points, wins} = champion;
+		const key = variant === 'driver' ? (champion as DriverChampionData).driverId : (champion as TeamChampionData).teamId;
+		
 		return (
-			<Place driverId={driverId} points={points} wins={wins} asterisk={row.year === 2021 && place === 1}/>
+			<StatCard<ChampionDataType, ChampionDataType>
+				variant={variant}
+				size="small"
+				label="Points"
+				loading={false}
+				data={new Map([[key, {...champion, value: champion.points}]])}
+				extra={({wins}) => <StatCardStat<ChampionDataType> label="Wins" data={{...champion, value: 1}} format={({wins}) => wins}/>}
+			/>
 		);
 	}
-)
+);
 
 const SeasonsTable = ({seasons}: SeasonsTableProps) => (
 	<DataGrid
@@ -44,23 +84,29 @@ const SeasonsTable = ({seasons}: SeasonsTableProps) => (
 				},
 				{
 					field:      'winner',
-					headerName: 'Champion',
+					headerName: 'Driver Champion',
 					flex:       1,
-					renderCell:renderPlace(1)
+					renderCell: renderPlace(1)
 				},
 				{
 					field:      'runnerup',
 					headerName: 'Runner-Up',
 					flex:       1,
-					renderCell:renderPlace(2)
+					renderCell: renderPlace(2)
 				},
 				{
 					field:      'third',
 					headerName: 'Third Place',
 					flex:       1,
-					renderCell:renderPlace(3)
+					renderCell: renderPlace(3)
+				},
+				{
+					field:      'team',
+					headerName: 'Constructor Champion',
+					flex:       1,
+					renderCell: renderPlace(1, 'team')
 				}
-			] as GridColDef<Season>[]
+			] as GridColDef<SeasonData>[]
 		}
 		initialState={{
 			sorting: {
@@ -76,6 +122,11 @@ const query = gql`
 			year
 			racesByYear(orderBy: ROUND_DESC, first: 1) {
 				round
+				teamStandings(orderBy: POSITION_ASC, first: 1) {
+					teamId
+					points
+					wins
+				}
 				driverStandings(orderBy: POSITION_ASC, first: 3) {
 					driverId
 					points
@@ -88,7 +139,7 @@ const query = gql`
 
 export default function Seasons() {
 	usePageTitle('Past Seasons');
-	const {loading, data} = useQuery<{ seasons: Season[] }>(query);
+	const {loading, data} = useQuery<Data>(query);
 	const seasons         = data?.seasons?.filter(s => s.racesByYear[0].driverStandings.length) || [];
 	
 	return (

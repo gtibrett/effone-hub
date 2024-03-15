@@ -2,7 +2,7 @@ import {QueryResult} from '@apollo/client/react/types/types';
 import {Box, useTheme} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {useNivoTheme} from '../../../ui-components';
+import {useNivoTheme} from '@ui-components';
 import {CircuitDialogData} from './types';
 
 type CircuitChartProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading'>;

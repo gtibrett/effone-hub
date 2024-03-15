@@ -3,6 +3,7 @@ import {Backdrop} from '@mui/material';
 import {createContext, Dispatch, FC, PropsWithChildren, SetStateAction, useContext, useEffect, useState} from 'react';
 import {SeasonsQuery} from '../SeasonMenu';
 import useApolloClient from '../useApolloClient';
+import {ErrorCard} from './ErrorBoundary';
 
 type AppStateType = {
 	season: number;
@@ -23,12 +24,14 @@ const Context = createContext<[AppStateType, SetAppStateType]>([
 ]);
 
 const AppStateProvider: FC<PropsWithChildren> = ({children}) => {
-	const {client, ready}   = useApolloClient();
-	const [state, setState] = useState<AppStateType>(BLANK_STATE);
+	const {client, ready, error} = useApolloClient();
+	const [state, setState]      = useState<AppStateType>(BLANK_STATE);
 	
 	useEffect(() => {
 		if (ready) {
-			client.query<{ seasons: Season[] }>({query: SeasonsQuery})
+			client.query<{
+				      seasons: Season[]
+			      }>({query: SeasonsQuery})
 			      .then(({data}) => {
 				      const {seasons} = data;
 				      
@@ -43,7 +46,7 @@ const AppStateProvider: FC<PropsWithChildren> = ({children}) => {
 	}, [client, ready, setState]);
 	
 	if (!state || !state.ready || !state.season) {
-		return <Backdrop open/>;
+		return <Backdrop open>{error ? <ErrorCard message="Could not connect to the data API"/> : null}</Backdrop>;
 	}
 	
 	return <Context.Provider value={[state, setState]}>{children}</Context.Provider>;

@@ -32,7 +32,7 @@ export default function History({data, loading}: CircuitDataProps) {
 						headerAlign: 'center',
 						align:       'center',
 						width:       100,
-						renderCell: ({row}) => <Link to={`/season/${row.year}`}>{row.year}</Link>
+						renderCell:  ({row}) => <Link to={`/season/${row.year}`}>{row.year}</Link>
 					},
 					{
 						field:       'date',

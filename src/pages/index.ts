@@ -6,4 +6,4 @@ export {default as Constructors} from './Constructors';
 export {default as Driver} from './Driver';
 export {default as Drivers} from './Drivers';
 export {default as Home} from './Home';
-export {default as Race} from './Race';
+export {default as Race} from '../race/Race';

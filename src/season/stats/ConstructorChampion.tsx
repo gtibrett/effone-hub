@@ -1,0 +1,35 @@
+import {gql, useQuery} from '@apollo/client';
+import {Team} from '@gtibrett/effone-hub-graph-api';
+import {StatCard} from '@ui-components';
+import {useAppState} from '../../app/AppStateProvider';
+
+type Data = {
+	finalTeamStandingsByYears: {
+		teamId: Team['teamId']
+	}[]
+}
+
+const query = gql`
+	query seasonConstructorChampionQuery($season: Int!) {
+		finalTeamStandingsByYears (condition: {year: $season}, orderBy: POSITION_ASC, first: 1) {
+			teamId
+		}
+	}
+`;
+
+export default function ConstructorChampion({season}: { season: number }) {
+	const {loading, data: {finalTeamStandingsByYears = []} = {}} = useQuery<Data>(query, {variables: {season}});
+	
+	const [{currentSeason}] = useAppState();
+	const champion          = new Map<number, number>();
+	const label             = season === currentSeason ? 'Constructor Leader' : 'Constructor Champion';
+	
+	if (!finalTeamStandingsByYears.length) {
+		return null;
+	}
+	
+	const {teamId} = finalTeamStandingsByYears[0];
+	champion.set(teamId, 1);
+	
+	return <StatCard label={label} loading={loading} data={champion} format={() => ''} variant="team"/>;
+}

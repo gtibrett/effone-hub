@@ -1,11 +1,12 @@
 import {Paper, useTheme} from '@mui/material';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {NivoTooltip, useGetAccessibleChartColors, useNivoTheme} from '../../ui-components';
+import {NivoTooltip, useGetAccessibleChartColors, useNivoTheme} from '@ui-components';
 import {DriverStandingData} from '../types';
 import CareerTooltip from './CareerTooltip';
 
 type CareerChartProps = {
 	standings: DriverStandingData[];
+	size: number;
 }
 
 const getTicks = (points: number) => {
@@ -17,7 +18,7 @@ const getTicks = (points: number) => {
 	return [...ticks];
 };
 
-export default function CareerChart({standings}: CareerChartProps) {
+export default function CareerChart({standings,size}: CareerChartProps) {
 	const theme                    = useTheme();
 	const nivoTheme                = useNivoTheme();
 	const getAccessibleChartColors = useGetAccessibleChartColors();
@@ -92,7 +93,7 @@ export default function CareerChart({standings}: CareerChartProps) {
 	
 	
 	return (
-		<Paper variant="outlined" sx={{height: 132, p: 1}} aria-hidden>
+		<Paper variant="outlined" sx={{height: size, p: 1}} aria-hidden>
 			<ResponsiveLine
 				theme={nivoTheme}
 				data={[results, wins, points]}

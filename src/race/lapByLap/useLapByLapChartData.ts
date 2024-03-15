@@ -1,9 +1,9 @@
 import {gql, useQuery} from '@apollo/client';
 import {Driver, LapTime, Result} from '@gtibrett/effone-hub-graph-api';
 import {useTheme} from '@mui/material';
+import {useGetAccessibleColor} from '@ui-components';
 import {useMemo} from 'react';
 import {DriverId} from '../../driver';
-import useGetAccessibleColor from '../../ui-components/useGetAccessibleColor';
 import {LapChartSeries} from './LapByLap';
 
 export type LapTimeData = {
@@ -11,7 +11,7 @@ export type LapTimeData = {
 		lapTimes: Pick<LapTime, 'lap' | 'position' | 'driverId' | 'milliseconds'>[];
 		results: {
 			positionOrder: Result['positionOrder'];
-			driver: Pick<Driver, 'driverId' | 'currentTeam'>
+			driver: Pick<Driver, 'driverId' | 'currentTeam' | 'surname'>
 		}[]
 	}
 }
@@ -20,7 +20,7 @@ const lapsQuery = gql`
 	#graphql
 	query lapsSeasonRound($season: Int!, $round: Int!) {
 		race: raceByYearAndRound(year: $season, round: $round) {
-			lapTimes (orderBy: LAP_ASC) {
+			lapTimes: lapTimesWithStarts (orderBy:LAP_ASC)  {
 				lap
 				position
 				time
@@ -31,6 +31,7 @@ const lapsQuery = gql`
 				positionOrder
 				driver {
 					driverId
+					surname
 					currentTeam {
 						team {
 							colors {
@@ -49,6 +50,7 @@ export type LapByLapData = {
 	totalLaps?: number;
 	data?: {
 		driverId: DriverId;
+		name: string;
 		color: string;
 		position: number;
 		laps: LapTimeData['race']['lapTimes'];
@@ -71,6 +73,7 @@ export const useLapByLapData = (season: number, round: number): LapByLapData => 
 		return {
 			data:      results.map(r => ({
 				driverId: r.driver.driverId,
+				name:     r.driver.surname,
 				color:    r.driver.currentTeam.team.colors.primary || theme.palette.primary.main,
 				position: r.positionOrder,
 				laps:     lapTimes.filter(lt => lt.driverId === r.driver.driverId)
@@ -92,12 +95,13 @@ const useLapByLapChartData = (lapByLapData: LapByLapData) => {
 	return useMemo<LapChartSeries[]>(() => {
 		const drivers: LapChartSeries[] = [];
 		
-		data.forEach(driverData => {
+		data.forEach(({driverId, laps, color, ...driverData}) => {
 			drivers.push({
-				id:       driverData.driverId,
-				driverId: driverData.driverId,
-				color:    getAccessibleColor(driverData.color),
-				data:     driverData.laps.map(lt => ({
+				...driverData,
+				driverId,
+				id:    driverId,
+				color: getAccessibleColor(color),
+				data:  laps.map(lt => ({
 					x: lt.lap,
 					y: lt.position || null
 				}))
@@ -105,11 +109,13 @@ const useLapByLapChartData = (lapByLapData: LapByLapData) => {
 		});
 		
 		drivers.forEach(driver => {
-			// Fill in missing laps with final classification
-			const lastPosition = data.find(d => d.driverId === driver.id)?.position || null;
+			// Fill in missing laps with previous classification (final classification breaks if there are disqualifications)
+			const lastPosition = driver.position || driver.data.at(-1)?.y || null;
 			for (let x = driver.data.length; x < totalLaps; x++) {
 				driver.data.push({x, y: lastPosition});
 			}
+			
+			driver.data.push({x: totalLaps + 1, y: driver.position});
 		});
 		
 		return drivers;

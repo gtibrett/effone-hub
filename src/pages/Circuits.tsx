@@ -1,12 +1,12 @@
 import {gql, useQuery} from '@apollo/client';
+import {Circuit} from '@gtibrett/effone-hub-graph-api';
 import {Link, usePageTitle} from '@gtibrett/mui-additions';
 import {Card, CardContent, Skeleton, TextField, TextFieldProps} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {Page, TableFilter} from '@ui-components';
 import {SyntheticEvent, useState} from 'react';
 import {useAppState} from '../app/AppStateProvider';
-import {Circuit} from '@gtibrett/effone-hub-graph-api';
 import SeasonMenu from '../SeasonMenu';
-import {Page, TableFilter} from '../ui-components';
 
 type CircuitsTableProps = {
 	circuits: Circuit[];

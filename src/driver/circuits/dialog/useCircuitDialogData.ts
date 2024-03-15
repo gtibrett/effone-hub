@@ -12,7 +12,9 @@ const CircuitDataQuery = gql`
 				date
 				results (condition: {driverId: $driverId}) {
 					grid
+					position
 					positionOrder
+					positionText
 					milliseconds
 					points
 					status {

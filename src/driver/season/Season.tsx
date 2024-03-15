@@ -81,7 +81,7 @@ export default function Season({season, driverId}: SeasonProps) {
 								const result = row.results[0];
 								if (result) {
 									const {grid, positionOrder} = result;
-									return <PositionChange grid={grid} position={positionOrder}/>;
+									return <PositionChange grid={grid} positionOrder={positionOrder}/>;
 								}
 								return '--';
 							},

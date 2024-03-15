@@ -1,8 +1,8 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {Team} from '@gtibrett/effone-hub-graph-api';
 import {Box, useTheme} from '@mui/material';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {Team} from '@gtibrett/effone-hub-graph-api';
-import {NivoTooltip, useGetAccessibleChartColors, useNivoTheme} from '../ui-components';
+import {NivoTooltip, useGetAccessibleChartColors, useNivoTheme} from '@ui-components';
 import HistoryTooltip from './history/HistoryTooltip';
 import {ConstructorPageData, TeamStandingData} from './types';
 

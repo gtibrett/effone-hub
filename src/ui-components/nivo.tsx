@@ -1,5 +1,7 @@
 import {alpha, Box, ThemeProvider, useTheme} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
+import {BoxPlotDatum} from '@nivo/boxplot/dist/types/types';
+import {Theme} from '@nivo/core';
 import {FC, useCallback} from 'react';
 import {useDarkMode, useInvertedTheme} from './Theme';
 import useGetAccessibleColor from './useGetAccessibleColor';
@@ -12,16 +14,25 @@ Object.entries(blueGrey).forEach(([key, color]) => {
 	}
 });
 
-export const useNivoTheme = () => {
+type NivoTheme = Theme & {
+	translation: BoxPlotDatum;
+}
+
+export const useNivoTheme = (): NivoTheme => {
 	const theme           = useTheme();
 	const invertedTheme   = useInvertedTheme();
 	const captionFontSize = 11;
 	
 	return {
 		'background':  'transparent',
-		'textColor':   theme.palette.text.primary,
-		'fontSize':    captionFontSize,
-		'fontFamily':  "'Titillium Web', sans-serif",
+		text: {
+			color:theme.palette.text.primary,
+			'fontSize':    captionFontSize,
+			'fontFamily':  "'Titillium Web', sans-serif",
+		},
+		translation: {
+		
+		},
 		'axis':        {
 			'domain': {
 				'line': {
@@ -112,7 +123,8 @@ export const useNivoTheme = () => {
 			'table':          {},
 			'tableCell':      {},
 			'tableCellValue': {}
-		}
+		},
+		
 	};
 };
 
@@ -121,6 +133,8 @@ export const NivoTooltip = (Component: FC<any>): FC<any> => {
 	return useCallback((props: any) => {
 		const sx = {
 			minWidth:     200,
+			mb: 2,
+			mr: 20,
 			py:           1,
 			px:           2,
 			borderRadius: 1,
@@ -132,7 +146,9 @@ export const NivoTooltip = (Component: FC<any>): FC<any> => {
 			}
 		};
 		
-		return <Box sx={sx}><ThemeProvider theme={theme}>{Component(props)}</ThemeProvider></Box>;
+		const content = Component(props);
+		
+		return content && <Box sx={sx}><ThemeProvider theme={theme}>{content}</ThemeProvider></Box>;
 	}, [Component, theme]);
 };
 

@@ -3,7 +3,7 @@ import {faFlagCheckered, faRobot} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link} from '@gtibrett/mui-additions';
 import {Card, CardContent, CardHeader, List, ListItem, ListItemIcon, ListItemText} from '@mui/material';
-import {OpensInNewWindow} from '../ui-components';
+import {OpensInNewWindow} from '@ui-components';
 
 const Data = () => (
 	<Card sx={{height: '100%'}}>
