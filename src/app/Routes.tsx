@@ -26,7 +26,7 @@ export const Layout = () => {
 			width:           '100%',
 			height:          '100%',
 			content:         '" "',
-			backgroundImage: `url(${require('../ui-components/carbon-fiber-texture.png')})`,
+			backgroundImage: `url(${process.env.PUBLIC_URL}/carbon-fiber-texture.png)`,
 			opacity:         theme.palette.mode === 'dark' ? .35 : 1
 		}
 	};

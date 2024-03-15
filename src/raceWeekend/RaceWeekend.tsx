@@ -22,7 +22,7 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 	
 	const sx = {
 		background:      lightTheme.palette.secondary.main,
-		backgroundImage: `url(${require('../ui-components/carbon-fiber-texture.png')})`,
+		backgroundImage: `url(${process.env.PUBLIC_URL}/carbon-fiber-texture.png)`,
 		
 		'& > .MuiCardContent-root': {
 			background: alpha(lightTheme.palette.secondary.main, .5)
