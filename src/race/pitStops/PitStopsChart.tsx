@@ -1,29 +1,25 @@
-import {Result} from '@gtibrett/effone-hub-api';
 import {Box, Skeleton, useMediaQuery, useTheme} from '@mui/material';
 import {BarSvgProps, ResponsiveBar} from '@nivo/bar';
-import ByLine from '../../drivers/ByLine';
-import useGetColorByDriverId from '../../drivers/useGetColorByDriverId';
-import {NivoTooltip, useNivoTheme} from '../../ui-components/nivo';
-import {getDateFromTimeString} from '../lapTimes/helpers';
+import {NivoTooltip, useGetAccessibleColor, useNivoTheme} from '@ui-components';
 import {PitStopTableRow} from './PitStops';
 import PitStopTooltip from './PitStopTooltip';
 
 type PitStopsChartProps = {
 	pitStops: PitStopTableRow[] | undefined;
 	maxStops: number;
-	results: Result[];
 }
 
 export type PitStopSerie = {
-	driverId: string;
+	driverId: number;
+	code: string;
 	[stop: string]: number | string;
 }
 
-export default function PitStopsChart({maxStops, pitStops, results}: PitStopsChartProps) {
+export default function PitStopsChart({maxStops, pitStops}: PitStopsChartProps) {
 	const nivoTheme          = useNivoTheme();
 	const theme              = useTheme();
 	const isSmall            = useMediaQuery(theme.breakpoints.down('sm'));
-	const getColorByDriverId = useGetColorByDriverId();
+	const getAccessibleColor = useGetAccessibleColor();
 	
 	if (!pitStops) {
 		return <Skeleton variant="rectangular" height={isSmall ? 400 : 150}/>;
@@ -33,18 +29,18 @@ export default function PitStopsChart({maxStops, pitStops, results}: PitStopsCha
 		return null;
 	}
 	
-	const baseTime             = Date.UTC(2022, 0, 1, 0, 0, 0, 0);
 	const keys: string[]       = (new Array(maxStops).fill(null).map((v, i) => String(i + 1)));
 	const data: PitStopSerie[] = pitStops.map(p => {
 		const stop: PitStopSerie = {
-			driverId: p.driverId || '',
-			color:    getColorByDriverId(String(p.driverId || ''), results)
+			driverId: p.driverId,
+			code:     p.code || '',
+			color:    getAccessibleColor(p.color || theme.palette.primary.main)
 		};
 		
-		p.stops.forEach(s => {
-			if (s.duration) {
-				stop[String(s.stop)]              = s.duration.length ? getDateFromTimeString(s.duration) - baseTime : 0;
-				stop[`${String(s.stop)}-display`] = s.duration;
+		p.stops.forEach((s) => {
+			if (s.milliseconds) {
+				stop[String(s.stop)]              = s.milliseconds;
+				stop[`${String(s.stop)}-display`] = s.duration || '';
 			}
 		});
 		
@@ -59,10 +55,7 @@ export default function PitStopsChart({maxStops, pitStops, results}: PitStopsCha
 		layoutProps.axisLeft   = {
 			tickSize:     0,
 			tickPadding:  5,
-			tickRotation: 0,
-			format:       (v => {
-				return <ByLine variant="code" id={v}/>;
-			})
+			tickRotation: 0
 		};
 	} else {
 		layoutProps.layout     = 'vertical';
@@ -70,10 +63,7 @@ export default function PitStopsChart({maxStops, pitStops, results}: PitStopsCha
 		layoutProps.axisBottom = {
 			tickSize:     0,
 			tickPadding:  5,
-			tickRotation: 0,
-			format:       (v => {
-				return <ByLine variant="code" id={v}/>;
-			})
+			tickRotation: 0
 		};
 		layoutProps.axisLeft   = null;
 	}
@@ -82,12 +72,10 @@ export default function PitStopsChart({maxStops, pitStops, results}: PitStopsCha
 		<Box sx={{height: isSmall ? 400 : 150, mb: 2}} aria-hidden>
 			<ResponsiveBar
 				theme={nivoTheme}
-				indexBy="driverId"
+				indexBy="code"
 				keys={keys}
 				data={data}
-				colors={({indexValue}) => {
-					return getColorByDriverId(String(indexValue || ''), results);
-				}}
+				colors={({data}) => data.color}
 				enableLabel={false}
 				enableGridY={false}
 				padding={.1}

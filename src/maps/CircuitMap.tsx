@@ -1,78 +1,17 @@
 import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Circuit} from '@gtibrett/effone-hub-api';
+import {Circuit} from '@gtibrett/effone-hub-graph-api';
 import {Box, Grid, SxProps, ToggleButton, ToggleButtonGroup, useTheme} from '@mui/material';
 import {blue, red, yellow} from '@mui/material/colors';
+import {useDarkMode} from '@ui-components';
 import {SVGProps, SyntheticEvent, useState} from 'react';
-import {useDarkMode} from '../ui-components/Theme';
-import {AlbertPark, Americas, Bahrain, Baku, Catalunya, Estoril, Hungaroring, Imola, Interlagos, Jeddah, Losail, MarinaBay, Miami, Monaco, Monza, RedBullRing, Ricard, Rodriguez, Shanghai, Silverstone, Sochi, Spa, Suzuka, Villeneuve, YasMarina, Zandvoort} from './circuits';
+import useCircuitByRef from '../circuits/useCircuitByRef';
+import getMapSVG from './circuits/getMapSVG';
 
 type CircuitMapProps = SVGProps<any> & {
 	variant?: 'interactive' | 'simple';
-	circuit: Circuit;
+	circuitRef: Circuit['circuitRef'];
 }
-
-const getMapSVG = (circuit: Circuit, svgProps: SVGProps<any>) => {
-	switch (circuit.circuitId) {
-		case 'albert_park':
-			return <AlbertPark {...svgProps}/>;
-		case 'americas':
-			return <Americas {...svgProps}/>;
-		case 'bahrain':
-			return <Bahrain {...svgProps}/>;
-		case 'baku':
-			return <Baku {...svgProps}/>;
-		case 'catalunya':
-			return <Catalunya {...svgProps}/>;
-		case 'estoril':
-			return <Estoril {...svgProps}/>;
-		case 'hungaroring':
-			return <Hungaroring {...svgProps}/>;
-		case 'imola':
-			return <Imola {...svgProps}/>;
-		case 'interlagos':
-			return <Interlagos {...svgProps}/>;
-		case 'jeddah':
-			return <Jeddah {...svgProps}/>;
-		case 'losail':
-			return <Losail {...svgProps}/>;
-		case 'marina_bay':
-			return <MarinaBay {...svgProps}/>;
-		case 'miami':
-			return <Miami {...svgProps}/>;
-		case 'monaco':
-			return <Monaco {...svgProps}/>;
-		case 'monza':
-			return <Monza {...svgProps}/>;
-		case 'red_bull_ring':
-			return <RedBullRing {...svgProps}/>;
-		case 'ricard':
-			return <Ricard {...svgProps}/>;
-		case 'rodriguez':
-			return <Rodriguez {...svgProps}/>;
-		case 'shanghai':
-			return <Shanghai {...svgProps}/>;
-		case 'silverstone':
-			return <Silverstone {...svgProps}/>;
-		case 'sochi':
-			return <Sochi {...svgProps}/>;
-		case 'spa':
-			return <Spa {...svgProps}/>;
-		case 'suzuka':
-			return <Suzuka {...svgProps}/>;
-		// case 'vegas':
-		// 	return <Vegas {...svgProps}/>;
-		case 'villeneuve':
-			return <Villeneuve {...svgProps}/>;
-		case 'yas_marina':
-			return <YasMarina {...svgProps}/>;
-		case 'zandvoort':
-			return <Zandvoort {...svgProps}/>;
-		
-		default:
-			return null;
-	}
-};
 
 const useSectorColors = () => {
 	const darkMode = useDarkMode();
@@ -97,33 +36,41 @@ const useSx = (variant: CircuitMapProps['variant'], sector: string | undefined):
 			strokeWidth: 8
 		},
 		
-		'& svg > .st0': {
+		'& svg  .st0': {
 			stroke:      theme.palette.text.primary,
 			strokeWidth: 15 / (variant === 'simple' ? 1.75 : 1)
 		},
 		
-		'& svg > .st1': {
+		'& svg  .st1': {
 			stroke:      sector1,
 			strokeWidth: (sector === '1' ? 15 : 7) / (variant === 'simple' ? 1.75 : 1)
 		},
 		
-		'& svg > .st2': {
+		'& svg  .st2': {
 			stroke:      sector2,
 			strokeWidth: (sector === '2' ? 15 : 7) / (variant === 'simple' ? 1.75 : 1)
 		},
 		
-		'& svg > .st3': {
+		'& svg  .st3': {
 			stroke:      sector3,
 			strokeWidth: (sector === '3' ? 15 : 7) / (variant === 'simple' ? 1.75 : 1)
 		}
 	};
 };
 
-export default function CircuitMap({variant = 'interactive', circuit, height = 300, width = 'auto', ...svgProps}: CircuitMapProps) {
-	const mapSVG                      = getMapSVG(circuit, {height, width, 'aria-label': `${circuit.circuitName} Map`, ...svgProps});
+export default function CircuitMap({variant = 'interactive', circuitRef, height = 300, width, ...svgProps}: CircuitMapProps) {
 	const {sector1, sector2, sector3} = useSectorColors();
 	const [sector, setSector]         = useState<string | undefined>();
 	const sx                          = useSx(variant, sector);
+	const {data, loading}             = useCircuitByRef(circuitRef);
+	
+	if (!data || loading) {
+		return null;
+	}
+	
+	const {circuit} = data;
+	
+	const mapSVG = getMapSVG(circuitRef, {height, width, 'aria-label': `${circuit.name} Map`, ...svgProps});
 	
 	if (!mapSVG) {
 		return null;

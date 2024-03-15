@@ -1,10 +1,11 @@
-import {Location} from '@gtibrett/effone-hub-api';
+import {Circuit} from '@gtibrett/effone-hub-graph-api';
 
 export type Point = {
 	id: string | number;
-	long: Location['long'];
-	lat: Location['lat'];
+	lng: Circuit['lng'];
+	lat: Circuit['lat'];
 	name: string;
+	pointRadius?: number;
 	properties: {
 		[key: string]: any
 	}

@@ -1,17 +1,17 @@
 import {Box, Skeleton, useTheme} from '@mui/material';
 import {ResponsiveHeatMap} from '@nivo/heatmap';
 import {HeatMapSerie} from '@nivo/heatmap/dist/types/types';
+import {NivoTooltip, useNivoTheme} from '@ui-components';
 import {useMemo} from 'react';
-import ByLine from '../../drivers/ByLine';
-import {Lap, Race} from '@gtibrett/effone-hub-api';
-import {NivoTooltip, useNivoTheme} from '../../ui-components/nivo';
+import {DriverByLine} from '../../driver';
+import {useLapByLapData} from '../lapByLap/useLapByLapChartData';
 import {getTicks} from './helpers';
 import LapTooltip from './LapTooltip';
 import useLapTimeChartData, {LapChartDatum} from './useLapTimeChartData';
 
 export type LapTimesProps = {
-	laps: Lap[];
-	results: Race['Results']
+	season: number;
+	round: number;
 }
 
 type ChartProps = {
@@ -37,20 +37,20 @@ const Chart = ({data, lapCount}: ChartProps) => {
 			axisTop={null}
 			axisRight={null}
 			axisBottom={{
-				tickSize: 5,
-				tickPadding: 5,
-				tickRotation: 0,
-				legend: 'Lap',
+				tickSize:       5,
+				tickPadding:    5,
+				tickRotation:   0,
+				legend:         'Lap',
 				legendPosition: 'middle',
-				legendOffset: 46,
-				tickValues: getTicks(lapCount)
+				legendOffset:   46,
+				tickValues:     getTicks(lapCount)
 			}}
 			axisLeft={{
-				tickSize: 0,
-				tickPadding: 5,
+				tickSize:     0,
+				tickPadding:  5,
 				tickRotation: 0,
-				format: (v => {
-					return <ByLine variant="code" id={v}/>;
+				format:       (v => {
+					return <DriverByLine variant="code" id={v}/>;
 				})
 			}}
 			tooltip={NivoTooltip(LapTooltip)}
@@ -60,13 +60,14 @@ const Chart = ({data, lapCount}: ChartProps) => {
 	), [data, theme, nivoTheme, lapCount]);
 };
 
-function LapTimes({laps, results}: LapTimesProps) {
-	const lapCount = Number(results?.[0].laps);
-	const data     = useLapTimeChartData(laps, results);
+function LapTimes({season, round}: LapTimesProps) {
+	const lapByLapData = useLapByLapData(season, round);
+	const {totalLaps}  = lapByLapData;
+	const data         = useLapTimeChartData(lapByLapData);
 	
 	let content = <Skeleton variant="rectangular" width="100%" height="100%"/>;
-	if (laps.length) {
-		content = <Chart lapCount={lapCount} data={data}/>;
+	if (data.length && totalLaps) {
+		content = <Chart lapCount={totalLaps} data={data}/>;
 	}
 	
 	return (

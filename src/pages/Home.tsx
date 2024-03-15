@@ -1,50 +1,63 @@
+import {usePageTitle} from '@gtibrett/mui-additions';
 import {Card, CardHeader, Grid, Typography} from '@mui/material';
+import {Page} from '@ui-components';
+import {useParams} from 'react-router';
 import {useAppState} from '../app/AppStateProvider';
-import RaceWeekend from '../race/RaceWeekend';
-import Schedule from '../schedule/Schedule';
-import Constructors from '../standings/Constructors';
-import Drivers from '../standings/Drivers';
-import DriversChart from '../standings/DriversChart';
-import Navigation from '../ui-components/Navigation';
-import usePageTitle from '../ui-components/usePageTitle';
+import RaceWeekend from '../raceWeekend/RaceWeekend';
+import {Schedule} from '../season';
+import {LapLeader, Poles, Wins} from '../season/stats';
+import {DriverStandings, TeamStandings} from '../standings';
+import useConstructorStandingsData from '../standings/constructors/useConstructorsStandingsData';
+
+const useSeason = () => {
+	const {seasonId = 'current'} = useParams();
+	const [appState]             = useAppState();
+	
+	if (seasonId === 'current' || !seasonId) {
+		return appState.currentSeason;
+	} else {
+		return Number(seasonId);
+	}
+};
 
 export default function Home() {
 	usePageTitle('Home');
+	const season = useSeason();
+	const currentSeasonData = useConstructorStandingsData(season);
 	
-	const [{season}] = useAppState();
+	const seasonToShow =  (currentSeasonData.data?.races?.[0].teamStandings.length) ? season : season -1;
+	
 	return (
-		<Grid container spacing={2}>
-			<Grid item xs={12}>
-				<Navigation>
-					<Typography>{season} Season</Typography>
-				</Navigation>
-			</Grid>
-			<Grid item xs={12}>
-				<RaceWeekend />
-			</Grid>
-			<Grid item xs={12} md={6}>
-				<Card variant="outlined">
-					<CardHeader title="Schedule"/>
-					<Schedule/>
-				</Card>
-			</Grid>
-			<Grid item xs={12} md={6}>
-				<Grid container spacing={2}>
-					<Grid item xs={12}>
-						<Card variant="outlined">
-							<CardHeader title="Driver's Standings"/>
-							<DriversChart/>
-							<Drivers/>
-						</Card>
-					</Grid>
-					<Grid item xs={12}>
-						<Card variant="outlined">
-							<CardHeader title="Constructor's Standings"/>
-							<Constructors/>
-						</Card>
+		<Page
+			title={`${season} Season ${seasonToShow}`}
+			action={(
+				<>
+					{season !== seasonToShow && <Typography>Last Season</Typography>}
+					<Wins size="small" season={seasonToShow}/>
+					<Poles size="small" season={seasonToShow}/>
+					<LapLeader size="small" season={seasonToShow}/>
+				</>
+			)}
+		>
+			<Grid container spacing={2}>
+				<RaceWeekend season={season}/>
+				<Grid item xs={12} md={6}>
+					<Card variant="outlined">
+						<CardHeader title="Schedule"/>
+						<Schedule season={season}/>
+					</Card>
+				</Grid>
+				<Grid item xs={12} md={6}>
+					<Grid container spacing={2}>
+						<Grid item xs={12}>
+							<DriverStandings season={seasonToShow} height={100}/>
+						</Grid>
+						<Grid item xs={12}>
+							<TeamStandings season={seasonToShow} height={100}/>
+						</Grid>
 					</Grid>
 				</Grid>
 			</Grid>
-		</Grid>
+		</Page>
 	);
 }

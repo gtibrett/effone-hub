@@ -1,15 +1,15 @@
 import {faArrowDown, faArrowUp} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {Result} from '@gtibrett/effone-hub-graph-api';
 import {Typography} from '@mui/material';
 import {green, red} from '@mui/material/colors';
-import {Result} from '@gtibrett/effone-hub-api';
 
-export default function PositionChange({grid, position}: Pick<Result, 'grid' | 'position'>) {
-	if (!grid || !position) {
+export default function PositionChange({grid, positionOrder}: Pick<Result, 'grid' | 'position' | 'positionOrder'>) {
+	if (!grid || !positionOrder) {
 		return null;
 	}
 	
-	const change = Number(grid) - Number(position);
+	const change = grid - positionOrder;
 	
 	if (!change) {
 		return null;

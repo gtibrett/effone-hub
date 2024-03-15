@@ -1,19 +1,38 @@
-import {Constructor} from '@gtibrett/effone-hub-api';
-import {alpha, Box, useTheme} from '@mui/material';
+import {alpha, Box, ThemeProvider, useTheme} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
-import {FC} from 'react';
-import useGetColorByConstructorId from '../constructors/useGetColorByConstructorId';
-import {useInvertedTheme, useDarkMode} from './Theme';
+import {BoxPlotDatum} from '@nivo/boxplot/dist/types/types';
+import {Theme} from '@nivo/core';
+import {FC, useCallback} from 'react';
+import {useDarkMode, useInvertedTheme} from './Theme';
+import useGetAccessibleColor from './useGetAccessibleColor';
 
-export const useNivoTheme = () => {
+const blueGreys = new Map<number, string>();
+Object.entries(blueGrey).forEach(([key, color]) => {
+	const numberKey = Number(key);
+	if (!Number.isNaN(numberKey)) {
+		blueGreys.set(numberKey, color);
+	}
+});
+
+type NivoTheme = Theme & {
+	translation: BoxPlotDatum;
+}
+
+export const useNivoTheme = (): NivoTheme => {
 	const theme           = useTheme();
 	const invertedTheme   = useInvertedTheme();
 	const captionFontSize = 11;
 	
 	return {
 		'background':  'transparent',
-		'textColor':   theme.palette.text.primary,
-		'fontSize':    captionFontSize,
+		text: {
+			color:theme.palette.text.primary,
+			'fontSize':    captionFontSize,
+			'fontFamily':  "'Titillium Web', sans-serif",
+		},
+		translation: {
+		
+		},
 		'axis':        {
 			'domain': {
 				'line': {
@@ -104,16 +123,20 @@ export const useNivoTheme = () => {
 			'table':          {},
 			'tableCell':      {},
 			'tableCellValue': {}
-		}
+		},
+		
 	};
 };
 
 export const NivoTooltip = (Component: FC<any>): FC<any> => {
-	return (props: any) => {
-		// eslint-disable-next-line react-hooks/rules-of-hooks
-		const theme = useInvertedTheme();
-		const sx    = {
-			px:           1,
+	const theme = useInvertedTheme();
+	return useCallback((props: any) => {
+		const sx = {
+			minWidth:     200,
+			mb: 2,
+			mr: 20,
+			py:           1,
+			px:           2,
 			borderRadius: 1,
 			background:   alpha(theme.palette.background.paper, .9),
 			color:        theme.palette.getContrastText(theme.palette.background.paper),
@@ -123,21 +146,21 @@ export const NivoTooltip = (Component: FC<any>): FC<any> => {
 			}
 		};
 		
-		return <Box sx={sx}>{Component(props)}</Box>;
-	};
+		const content = Component(props);
+		
+		return content && <Box sx={sx}><ThemeProvider theme={theme}>{content}</ThemeProvider></Box>;
+	}, [Component, theme]);
 };
 
-export function useGetChartColorsByConstructor() {
-	const darkMode                = useDarkMode();
-	const getColorByConstructorId = useGetColorByConstructorId();
+export function useGetAccessibleChartColors() {
+	const darkMode           = useDarkMode();
+	const getAccessibleColor = useGetAccessibleColor();
 	
-	return (constructorId: Constructor['constructorId'] | undefined) => {
-		const color = getColorByConstructorId(constructorId);
+	return (color: string, force: boolean = false) => {
+		const a11yColor = getAccessibleColor(color, force);
 		
 		return darkMode
-			// @ts-ignore
-		       ? [color, ...(new Array(4)).fill(100).map((v, i) => blueGrey[2 * v * (i + 1)])]
-			// @ts-ignore
-		       : [color, ...(new Array(4)).fill(100).map((v, i) => blueGrey[900 - (2 * v * (i + 1))])];
+		       ? [a11yColor, ...(new Array(4)).fill(100).map((v, i) => blueGreys.get(2 * v * (i + 1)) || '')]
+		       : [a11yColor, ...(new Array(4)).fill(100).map((v, i) => blueGreys.get(900 - (2 * v * (i + 1))) || '')];
 	};
 }

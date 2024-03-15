@@ -22,3 +22,6 @@ yarn-debug.log*
 yarn-error.log*
 .idea/*
 /data/
+
+/schema.graphql
+/public/ads.txt
