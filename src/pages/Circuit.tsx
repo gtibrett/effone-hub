@@ -1,101 +1,96 @@
-import {Circuit as CircuitT, Responses} from '@gtibrett/effone-hub-api';
-import {Backdrop, Box, Card, CardContent, CardHeader, CardMedia, Grid, Typography, useTheme} from '@mui/material';
-import {useEffect, useState} from 'react';
+import {Tabs, usePageTitle} from '@gtibrett/mui-additions';
+import {Backdrop, Card, CardContent, CardHeader, Divider, Grid, Hidden, Typography} from '@mui/material';
+import {OpenAILink, Page} from '@ui-components';
 import {useParams} from 'react-router';
-import Caxios from '../api/Caxios';
-import {getCircuitDescription} from '../api/effone';
-import {getAPIUrl, mapCircuits} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
 import History from '../circuits/History';
 import Season from '../circuits/Season';
+import FastestLap from '../circuits/stats/FastestLap';
+import LapLeader from '../circuits/stats/LapLeader';
+import MostWins from '../circuits/stats/MostWins';
+import useCircuitByRef from '../circuits/useCircuitByRef';
 import CircuitMap from '../maps/CircuitMap';
 import RaceMap from '../maps/RaceMap';
 import useMapCircuitsToMapPoints from '../maps/useMapCircuitsToMapPoints';
-import OpenAILink from '../ui-components/citations/OpenAILink';
-import Link from '../ui-components/Link';
-import Navigation from '../ui-components/Navigation';
-import Tabs from '../ui-components/Tabs';
-import usePageTitle from '../ui-components/usePageTitle';
 
 export default function Circuit() {
-	const theme                  = useTheme();
-	const [{season}]             = useAppState();
-	const {circuitId}            = useParams();
 	const mapCircuitsToMapPoints = useMapCircuitsToMapPoints();
-	const [circuit, setCircuit]  = useState<CircuitT | undefined>(undefined);
+	const {circuitRef}           = useParams();
+	const [{currentSeason}]      = useAppState();
+	const {data, loading}        = useCircuitByRef(circuitRef, currentSeason);
+	const {data: lastSeasonData} = useCircuitByRef(circuitRef, currentSeason - 1);
+	const seasonToShow           = data?.circuit.season?.[0].results.length ? currentSeason : currentSeason - 1;
 	
-	usePageTitle(`Circuit: ${circuit?.circuitName}`);
+	usePageTitle(`Circuit: ${data?.circuit.name}`);
 	
-	useEffect(() => {
-		if (circuitId) {
-			Caxios.get<Responses.CircuitResponse>(getAPIUrl(`/circuits/${circuitId}.json`), {params: {limit: 100}})
-			      .then(mapCircuits)
-			      .then(data => {
-				      setCircuit(data?.[0]);
-			      });
-		}
-	}, [circuitId]);
-	
-	if (!circuitId) {
+	if (!circuitRef) {
 		throw new Error('Page Not found');
 	}
 	
-	if (!circuit) {
+	if (!data || loading) {
 		return <Backdrop open/>;
 	}
 	
-	const circuitDescription = getCircuitDescription(circuit.circuitId) || '';
-	const {points, onClick}  = mapCircuitsToMapPoints([circuit]);
+	const {circuit}         = data;
+	const {points, onClick} = mapCircuitsToMapPoints([circuit]);
 	
 	return (
-		<Grid container spacing={2}>
-			<Grid item xs={12}>
-				<Navigation>
-					<Link to="/">{season} Season</Link>
-					<Typography>{circuit.circuitName}</Typography>
-				</Navigation>
-			</Grid>
-			
-			<Grid item xs={12}>
-				<Card elevation={0}>
-					<CardHeader title={circuit.circuitName} subheader={<Typography>{circuit.Location?.locality}, {circuit.Location?.country}</Typography>}/>
-					
-					<CardContent>
-						<Grid container spacing={2}>
-							<Grid item xs={12} md={8} sx={{order: {xs: 2, md: 1}}}>
-								<Tabs active="history" tabs={[
-									{
-										id:      'history', label: 'History',
-										content: <History circuitId={circuitId}/>
-									},
-									{
-										id:      'map', label: 'Circuit Map',
-										content: <CircuitMap circuit={circuit} height="50vh"/>
-									},
-									{
-										id:      'season', label: 'Season',
-										content: <Season circuitId={circuitId}/>
-									}
-								]}/>
+		<Page
+			title={circuit.name}
+			subheader={(
+				<>
+					<Typography variant="body1">{circuit.location}, {circuit.country}</Typography>
+					{circuit.circuitDescription.description && (
+						<>
+							<Typography variant="body1">{circuit.circuitDescription.description}</Typography>
+							<Divider orientation="horizontal" sx={{my: 1}}/>
+							<OpenAILink/>
+						</>
+					)}
+				</>
+			)}
+			action={(
+				<Hidden mdDown>
+					<Card sx={{height: '100%'}}>
+						<RaceMap points={points} onClick={onClick} height={200} centerOn={circuit} zoom/>
+					</Card>
+				</Hidden>
+			)}
+			actionProps={{xs: 0, md: 4, lg: 3}}
+		>
+			<Grid container spacing={2}>
+				<Grid item xs={12} md={8} lg={9} sx={{order: {xs: 2, md: 1}}}>
+					<Card>
+						<Tabs active="history" tabs={[
+							{
+								id:      'history', label: 'History',
+								content: <History data={data} loading={loading}/>
+							},
+							{
+								id:      'map', label: 'Circuit Map',
+								content: <CircuitMap circuitRef={circuitRef} height="50vh"/>
+							},
+							{
+								id:      'season', label: `${currentSeason} Season`,
+								content: <Season data={data} loading={loading}/>
+							}
+						]}/>
+					</Card>
+				</Grid>
+				
+				<Grid item xs={12} md={4} lg={3} sx={{order: {xs: 1, md: 2}}}>
+					<Card sx={{height: '100%'}}>
+						<CardHeader title={`${seasonToShow} Season`}/>
+						<CardContent>
+							<Grid container spacing={2}>
+								<LapLeader data={seasonToShow === currentSeason ? data : lastSeasonData} loading={loading}/>
+								<MostWins data={seasonToShow === currentSeason ? data : lastSeasonData} loading={loading}/>
+								<FastestLap data={seasonToShow === currentSeason ? data : lastSeasonData} loading={loading}/>
 							</Grid>
-							
-							<Grid item xs={12} md={4} sx={{order: {xs: 1, md: 2}}}>
-								<Card variant="outlined">
-									<CardMedia sx={{borderBottom: `1px solid ${theme.palette.divider}`}}>
-										<RaceMap points={points} onClick={onClick} height={300} centerOn={circuit.Location} zoom/>
-									</CardMedia>
-									{circuitDescription && (
-										<CardContent>
-											<Typography variant="body2">{circuitDescription}</Typography>
-											<Box textAlign="right" display="block"><OpenAILink/></Box>
-										</CardContent>
-									)}
-								</Card>
-							</Grid>
-						</Grid>
-					</CardContent>
-				</Card>
+						</CardContent>
+					</Card>
+				</Grid>
 			</Grid>
-		</Grid>
+		</Page>
 	);
 }

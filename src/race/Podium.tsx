@@ -1,8 +1,11 @@
+import {Result} from '@gtibrett/effone-hub-graph-api';
 import {Grid} from '@mui/material';
-import {Race as RaceT} from '@gtibrett/effone-hub-api';
+import {Fragment} from 'react';
 import Place from './Place';
 
-export default function Podium({results}: { results: RaceT['Results'] }) {
+export default function Podium({results}: {
+	results: Result[]
+}) {
 	if (!results?.length) {
 		return null;
 	}
@@ -10,18 +13,15 @@ export default function Podium({results}: { results: RaceT['Results'] }) {
 	const [p1, p2, p3] = results;
 	
 	return (
-		<Grid container spacing={2}>
-			{p1.Driver && <Grid item>
-				<Place driverId={p1.Driver.driverId} place={1}/>
-			</Grid>}
-			
-			{p2.Driver && <Grid item>
-				<Place driverId={p2.Driver.driverId} place={2}/>
-			</Grid>}
-			
-			{p3.Driver && <Grid item>
-				<Place driverId={p3.Driver.driverId} place={3}/>
-			</Grid>}
-		</Grid>
+		<>
+			{
+				[p1, p2, p3].map((p, i) => (
+						<Grid item key={p.driver.driverId}>
+							<Place driverId={p.driver.driverId} place={i + 1} sx={{height: '100%'}}/>
+						</Grid>
+					)
+				)
+			}
+		</>
 	);
 };

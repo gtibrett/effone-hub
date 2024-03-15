@@ -1,63 +1,28 @@
 import {Alert, Skeleton} from '@mui/material';
-import {useEffect, useState} from 'react';
-import Caxios from '../api/Caxios';
-import {getAPIUrl, mapLaps} from '../api/Ergast';
-import {Lap, Race} from '@gtibrett/effone-hub-api';
-import Tabs from '../ui-components/Tabs';
 import LapByLap from './lapByLap/LapByLap';
-import LapByLapTable from './lapByLap/LapByLapTable';
+import {useLapByLapData} from './lapByLap/useLapByLapChartData';
 import LapTimesTable from './lapTimes/LapTimesTable';
 
 type LapByLapProps = {
-	season: string;
-	round: string;
-	results: Race['Results']
+	season: number;
+	round: number;
 }
 
-export default function Laps({season, round, results}: LapByLapProps) {
-	const [laps, setLaps] = useState<Lap[] | undefined>();
+export default function Laps({season, round}: LapByLapProps) {
+	const {loading, data} = useLapByLapData(season, round);
 	
-	useEffect(() => {
-		if (!laps) {
-			Caxios.get(getAPIUrl(`/${season}/${round}/laps.json`), {params: {limit: 2000}})
-			      .then(mapLaps)
-			      .then(laps => setLaps(laps))
-			      .catch(() => setLaps([]));
-		}
-	}, [laps, round, season]);
-	
-	if (!laps) {
+	if (loading) {
 		return <Skeleton variant="rectangular" height={400}/>;
 	}
 	
-	if (!laps.length) {
+	if (!data?.length) {
 		return <Alert variant="outlined" severity="info">Lap Data Not Available</Alert>;
 	}
 	
-	let content = <Skeleton variant="rectangular" sx={{width: '100%'}} height="100%"/>;
-	if (laps.length) {
-		content = (
-			<Tabs active="byLap" tabs={[
-				{
-					id: 'byLap',
-					label: 'Lap by Lap',
-					content: <>
-						<LapByLap laps={laps} results={results}/>
-						<LapByLapTable laps={laps} results={results}/>
-					</>
-				},
-				{
-					id: 'times',
-					label: 'Lap Times',
-					content: <>
-						{/* FIXME: This doesn't work in a production build*/}
-						{/*<LapTimes laps={laps} results={results}/>*/}
-						<LapTimesTable laps={laps} results={results}/>
-					</>
-				}
-			]}/>
-		);
-	}
-	
-	return content;
+	return (
+		<>
+			<LapByLap season={season} round={round}/>
+			<LapTimesTable season={season} round={round}/>
+		</>
+	);
 }

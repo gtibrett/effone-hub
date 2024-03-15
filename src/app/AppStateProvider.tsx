@@ -1,44 +1,22 @@
-import {Responses} from '@gtibrett/effone-hub-api';
+import {Season} from '@gtibrett/effone-hub-graph-api';
 import {Backdrop} from '@mui/material';
-import axios from 'axios';
 import {createContext, Dispatch, FC, PropsWithChildren, SetStateAction, useContext, useEffect, useState} from 'react';
-import {purgeCaches} from '../api/Caxios';
-import {getAPIUrl} from '../api/Ergast';
+import {SeasonsQuery} from '../SeasonMenu';
+import useApolloClient from '../useApolloClient';
+import {ErrorCard} from './ErrorBoundary';
 
 type AppStateType = {
 	season: number;
+	currentSeason: number;
 	ready: boolean;
 };
 
 type SetAppStateType = Dispatch<SetStateAction<AppStateType>>;
 
-const BLANK_STATE = {
-	season: 0,
-	ready:  false
-};
-
-const initializeState = (): Promise<AppStateType> => {
-	purgeCaches();
-	
-	return new Promise(async (resolve, reject) => {
-		const storedAppState = localStorage.getItem('app-state');
-		if (storedAppState !== null) {
-			resolve({
-				...JSON.parse(storedAppState),
-				ready: true
-			});
-		}
-		
-		axios.get<Responses.SeasonResponse>(getAPIUrl('/seasons.json'), {params: {limit: 100}})
-		     .then(response => response.data.MRData?.SeasonTable?.Seasons || [])
-		     .then((seasons) => {
-			     resolve({
-				     season: Math.max(...seasons.map(s => Number(s.season))),
-				     ready:  true
-			     });
-		     })
-		     .catch(err => reject(err));
-	});
+const BLANK_STATE: AppStateType = {
+	season:        0,
+	currentSeason: 0,
+	ready:         false
 };
 
 const Context = createContext<[AppStateType, SetAppStateType]>([
@@ -46,22 +24,29 @@ const Context = createContext<[AppStateType, SetAppStateType]>([
 ]);
 
 const AppStateProvider: FC<PropsWithChildren> = ({children}) => {
-	const [state, setState] = useState<AppStateType>(BLANK_STATE);
+	const {client, ready, error} = useApolloClient();
+	const [state, setState]      = useState<AppStateType>(BLANK_STATE);
 	
 	useEffect(() => {
-		initializeState().then(s => setState(s));
-	}, []);
-	
-	useEffect(() => {
-		if (state) {
-			// Don't store ready state
-			const {ready, ...appState} = state;
-			localStorage.setItem('app-state', JSON.stringify(appState));
+		if (ready) {
+			client.query<{
+				      seasons: Season[]
+			      }>({query: SeasonsQuery})
+			      .then(({data}) => {
+				      const {seasons} = data;
+				      
+				      return {
+					      season:        Math.max(...seasons.map(s => s.year)),
+					      currentSeason: Math.max(...seasons.map(s => s.year)),
+					      ready:         true
+				      };
+			      })
+			      .then(s => setState(s));
 		}
-	}, [state]);
+	}, [client, ready, setState]);
 	
 	if (!state || !state.ready || !state.season) {
-		return <Backdrop open/>;
+		return <Backdrop open>{error ? <ErrorCard message="Could not connect to the data API"/> : null}</Backdrop>;
 	}
 	
 	return <Context.Provider value={[state, setState]}>{children}</Context.Provider>;

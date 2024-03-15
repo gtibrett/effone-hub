@@ -1,93 +1,149 @@
-import {Card, CardContent, CardHeader, CardMedia, Divider, Grid, Typography} from '@mui/material';
-import Box from '@mui/material/Box';
-import {useRef} from 'react';
+import {Tabs, usePageTitle} from '@gtibrett/mui-additions';
+import {Card, CardContent, CardHeader, CardMedia, Divider, Grid, Skeleton, Typography, useTheme} from '@mui/material';
+import {Page, useGetAccessibleColor, WikipediaLink} from '@ui-components';
 import {useParams} from 'react-router';
 import {useAppState} from '../app/AppStateProvider';
-import {ConstructorWithBio, useConstructor} from '../constructors/ConstructorProvider';
-import History from '../constructors/History';
-import Season from '../constructors/Season';
-import useGetColorByConstructorId from '../constructors/useGetColorByConstructorId';
-import Flag from '../flags/Flag';
-import WikipediaLink from '../ui-components/citations/WikipediaLink';
-import Link from '../ui-components/Link';
-import Navigation from '../ui-components/Navigation';
-import Tabs from '../ui-components/Tabs';
-import usePageTitle from '../ui-components/usePageTitle';
+import {History, Season, TeamData, useConstructorData} from '../constructor';
+import Drivers from '../constructor/Drivers';
+import {DriverPodiums, DriverPoints, DriverQualifying} from '../constructor/stats';
+import Flag from '../Flag';
 
-const ConstructorDetails = ({constructor}: { constructor: ConstructorWithBio }) => {
+const TeamDetails = ({team}: {
+	team: TeamData
+}) => {
 	return (
 		<Grid container spacing={4} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
-			<Grid item><Typography variant="h2">{constructor.name}</Typography></Grid>
-			<Grid item><Flag nationality={constructor.nationality} size={48}/></Grid>
+			<Grid item><Typography variant="h2">{team.name}</Typography></Grid>
+			<Grid item><Flag nationality={team.nationality} size={48}/></Grid>
 		</Grid>
 	);
 };
 
-
-export default function Constructor() {
-	const getColorByConstructorId = useGetColorByConstructorId();
-	const [{season}]              = useAppState();
-	const ref                     = useRef(null);
-	const {id}                    = useParams();
-	const constructor             = useConstructor(id);
-	const constructorBio          = constructor?.bio;
-	
-	usePageTitle(`Constructor: ${constructor?.name}`);
-	
-	if (!constructor || !constructorBio) {
-		return null;
-	}
-	
-	return (
+const PageSkeleton = () => (
+	<Page title="Loading">
 		<Grid container spacing={2}>
-			<Grid item xs={12}>
-				<Navigation>
-					<Link to="/">{season} Season</Link>
-					<Typography>{constructor.name}</Typography>
-				</Navigation>
+			<Grid item xs={12} md={8} lg={9} order={{xs: 2, md: 1}}>
+				<Card variant="outlined">
+					<Skeleton variant="rectangular" height={600}/>
+				</Card>
 			</Grid>
 			
-			<Grid item xs={12}>
-				<Card elevation={0}>
-					<CardHeader
-						// constructor is a keyword, so using it as a prop is problematic
-						// @ts-ignore
-						title={<ConstructorDetails constructor={constructor}/>}
-					/>
-					
+			<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>
+				<Card variant="outlined">
+					<CardMedia>
+						<Skeleton variant="rectangular" sx={{height: {xs: 24, md: 48}}}/>
+					</CardMedia>
 					<CardContent>
-						<Grid container spacing={2}>
-							<Grid item xs={12} md={8} lg={9} order={{xs: 2, md: 1}}>
-								<Card variant="outlined">
-									<Tabs active="season" tabs={[
-										{
-											id:      'season', label: 'Season',
-											content: <Season constructorId={constructor.constructorId}/>
-										},
-										{
-											id:      'history', label: 'History',
-											content: <History constructorId={constructor.constructorId}/>
-										}
-									]}/>
-								</Card>
-							</Grid>
-							
-							<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>
-								<Card variant="outlined">
-									<CardMedia ref={ref}>
-										<Box sx={{height: {xs: 24, md: 48}, background: getColorByConstructorId(constructor.constructorId, true)}}/>
-									</CardMedia>
-									<CardContent>
-										<Typography variant="body1">{constructorBio.extract}</Typography>
-										<Divider orientation="horizontal" sx={{my: 1}}/>
-										<WikipediaLink href={constructor.url}/>
-									</CardContent>
-								</Card>
-							</Grid>
-						</Grid>
+						<Typography variant="body1">
+							<Skeleton variant="text"/>
+							<Skeleton variant="text"/>
+							<Skeleton variant="text"/>
+							<Skeleton variant="text"/>
+							<Skeleton variant="text"/>
+							<Skeleton variant="text"/>
+							<Skeleton variant="text"/>
+							<Skeleton variant="text"/>
+							<Skeleton variant="text"/>
+							<Skeleton variant="text"/>
+							<Skeleton variant="text"/>
+							<Skeleton variant="text" width={125}/>
+						</Typography>
+						<Divider orientation="horizontal" sx={{my: 1}}/>
+						<Skeleton variant="text"/>
 					</CardContent>
 				</Card>
 			</Grid>
 		</Grid>
+	</Page>
+);
+
+export default function Constructor() {
+	const theme              = useTheme();
+	const getAccessibleColor = useGetAccessibleColor();
+	const [{currentSeason}]  = useAppState();
+	const {teamRef}          = useParams();
+	const {data, loading}    = useConstructorData(teamRef, currentSeason);
+	const team               = data?.team;
+	
+	usePageTitle(`Constructor: ${team?.name}`);
+	
+	if (!team || loading) {
+		return <PageSkeleton/>;
+	}
+	
+	const isInCurrentSeason = typeof data?.team.standings.find(s => s.year === currentSeason) !== 'undefined';
+	
+	const tabs = [
+		{
+			id:      'history', label: 'History',
+			content: <History data={data} loading={loading}/>
+		},
+		{
+			id:      'drivers', label: 'Drivers',
+			content: <Drivers data={data} loading={loading}/>
+		}
+	];
+	
+	if (team.standings.find(s => s.year === currentSeason)) {
+		tabs.push({
+			id:      'season', label: `${currentSeason} Season`,
+			content: <Season data={data} loading={loading} season={currentSeason}/>
+		});
+	}
+	
+	return (
+		<Page
+			title={<TeamDetails team={team}/>}
+			subheader={<>
+				<Typography variant="body1">{team.bio.extract}</Typography>
+				<Divider orientation="horizontal" sx={{my: 1}}/>
+				<WikipediaLink href={team.url}/>
+			</>}
+			headerProps={{
+				sx: {
+					position:   'relative',
+					pt:         3,
+					'&:before': {
+						position:   'absolute',
+						left:       0,
+						top:        0,
+						bottom:     'auto',
+						width:      '100%',
+						height:     theme.spacing(2),
+						content:    '" "',
+						background: getAccessibleColor(team.colors.primary || theme.palette.primary.main, true)
+					}
+				}
+			}}
+		>
+			<Grid container spacing={2}>
+				<Grid item xs={12} md={isInCurrentSeason ? 8 : 12} lg={isInCurrentSeason ? 9 : 12} order={{xs: 2, md: 1}}>
+					<Card variant="outlined">
+						<Tabs active="history" tabs={tabs}/>
+					</Card>
+				</Grid>
+				
+				{
+					isInCurrentSeason &&
+					<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>
+						<Card variant="outlined">
+							<CardHeader title={`${currentSeason} Season Stats`}/>
+							<CardContent>
+								<Grid container spacing={2}>
+									<DriverPoints teamId={team.teamId} season={currentSeason} place={1}/>
+									<DriverPoints teamId={team.teamId} season={currentSeason} place={2}/>
+									<Grid item xs={12}><Typography variant="h4">Podiums</Typography></Grid>
+									<DriverPodiums teamId={team.teamId} season={currentSeason} place={1}/>
+									<DriverPodiums teamId={team.teamId} season={currentSeason} place={2}/>
+									<Grid item xs={12}><Typography variant="h4">Qualifying Head-to-Head</Typography></Grid>
+									<DriverQualifying teamId={team.teamId} season={currentSeason} place={1}/>
+									<DriverQualifying teamId={team.teamId} season={currentSeason} place={2}/>
+								</Grid>
+							</CardContent>
+						</Card>
+					</Grid>
+				}
+			</Grid>
+		</Page>
 	);
 }

@@ -1,18 +1,13 @@
-import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Driver, Responses} from '@gtibrett/effone-hub-api';
-import {alpha, Button, Card, CardContent, CardHeader, Grid, Paper, Skeleton, TextField, TextFieldProps, Tooltip, Typography, useTheme} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
+import {gql, useQuery} from '@apollo/client';
+import {Driver} from '@gtibrett/effone-hub-graph-api';
+import {usePageTitle} from '@gtibrett/mui-additions';
+import {Card, CardContent, Skeleton, TextField, TextFieldProps} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {Page, TableFilter} from '@ui-components';
 import {SyntheticEvent, useEffect, useState} from 'react';
-import Caxios from '../api/Caxios';
-import {getAPIUrl, mapDrivers} from '../api/Ergast';
 import {useAppState} from '../app/AppStateProvider';
-import ByLine from '../drivers/ByLine';
-import SeasonMenu from '../schedule/SeasonMenu';
-import Link from '../ui-components/Link';
-import Navigation from '../ui-components/Navigation';
-import usePageTitle from '../ui-components/usePageTitle';
+import {DriverByLine} from '../driver';
+import SeasonMenu from '../SeasonMenu';
 
 type DriversTableProps = {
 	drivers: Driver[];
@@ -32,8 +27,8 @@ function DriversTable({drivers}: DriversTableProps) {
 						field:       'driver',
 						headerName:  'Driver',
 						flex:        1,
-						renderCell:  (({row}) => <ByLine id={row.driverId}/>),
-						valueGetter: (({row}) => `${row.familyName}, ${row.givenName}`)
+						renderCell:  (({row}) => <DriverByLine id={row.driverId}/>),
+						valueGetter: (({row}) => `${row.forename}, ${row.surname}`)
 					}
 				] as GridColDef<Driver>[]
 			}
@@ -46,10 +41,24 @@ function DriversTable({drivers}: DriversTableProps) {
 	);
 }
 
+const DriversQuery = gql`
+	#graphql
+	query DriversQuery {
+		drivers (orderBy: SURNAME_ASC) {
+			driverId
+			driverRef
+			forename
+			surname
+			teamsByYear {
+				year
+			}
+		}
+	}
+`;
+
 export default function Drivers() {
 	usePageTitle('Drivers');
 	
-	const theme                           = useTheme();
 	const [{season: currentSeason}]       = useAppState();
 	const [drivers, setDrivers]           = useState<Driver[] | undefined>();
 	const [localFilters, setLocalFilters] = useState({
@@ -80,79 +89,46 @@ export default function Drivers() {
 		setFilters(localFilters);
 	};
 	
-	useEffect(() => {
-		if (Number(filters.season) || filters.search.length) {
-			let url = getAPIUrl(`/drivers.json`);
-			if (Number(filters.season) > 0) {
-				url = getAPIUrl(`/${filters.season}/drivers.json`);
-			}
-			
-			Caxios.get<Responses.DriversResponse>(url, {params: {limit: 2000}})
-			      .then(mapDrivers)
-			      .then(results => {
-				      if (!filters.search.length) {
-					      return results;
-				      }
-				      return results.filter(d => {
-					      const tokens = filters.search.toLowerCase().split(' ');
-					      for (const token of tokens) {
-						      if (d.givenName.toLowerCase().includes(token) || d.familyName.toLowerCase().includes(token)) {
-							      return true;
-						      }
-					      }
-					      return false;
-				      });
-			      })
-			      .then(results => setDrivers(results))
-			      .catch((err) => {
-				      console.log(err);
-				      setDrivers([]);
-			      });
-		}
-	}, [filters.season, filters.search]);
+	const {data, loading} = useQuery<{ drivers: Driver[] }>(DriversQuery, {variables: {year: filters.season > 0 ? filters.season : undefined}});
 	
-	let content = <Skeleton variant="rectangular" height={400}/>;
-	if (drivers) {
-		content = <>
-			<Paper elevation={0} sx={{p: 2, boxShadow: `inset 8px 0 0 ${alpha(theme.palette.primary.main, .5)}`, border: `1px solid ${theme.palette.primary.main}`}}>
-				<form onSubmit={handleSearch}>
-					<Grid container spacing={1}>
-						<Grid item xs>
-							<TextField fullWidth size="small" InputLabelProps={{shrink: true}} id="drivers-search-filter" label="Driver" variant="outlined" value={localFilters.search} onChange={setSearch}/>
-						</Grid>
-						<Grid item xs>
-							<SeasonMenu required={false} variant="normal" id="drivers-season-filter" season={localFilters.season} setSeason={setSeason}/>
-						</Grid>
-						<Grid item>
-							<Tooltip title="Search" arrow placement="bottom">
-								<Button color="secondary" type="submit" variant="contained" onClick={handleSearch}><FontAwesomeIcon icon={faMagnifyingGlass} style={{fontSize: 26}}/><Typography sx={visuallyHidden}>Search</Typography></Button>
-							</Tooltip>
-						</Grid>
-					</Grid>
-				</form>
-			</Paper>
-			<DriversTable drivers={drivers}/>
-		</>;
-	}
+	useEffect(() => {
+		let results = data?.drivers || [];
+		if (filters.season > 0) {
+			results = results.filter(d => d.teamsByYear.find(s => s.year === filters.season));
+		}
+		
+		if (filters.search.length) {
+			results = results.filter(d => {
+				const tokens = filters.search.toLowerCase().split(' ');
+				for (const token of tokens) {
+					if (d.forename.toLowerCase().includes(token) || d.surname.toLowerCase().includes(token)) {
+						return true;
+					}
+				}
+				return false;
+			});
+		}
+		
+		setDrivers(results);
+	}, [data, filters.search, filters.season]);
 	
 	return (
-		<Grid container spacing={2}>
-			<Grid item xs={12}>
-				<Navigation>
-					<Link to="/">{currentSeason} Season</Link>
-					<Typography>All Drivers</Typography>
-				</Navigation>
-			</Grid>
-			
-			<Grid item xs={12}>
-				<Card elevation={0}>
-					<CardHeader title="All Drivers"/>
-					
-					<CardContent>
-						{content}
-					</CardContent>
-				</Card>
-			</Grid>
-		</Grid>
+		<Page title="Drivers">
+			{
+				(loading || !drivers)
+				? <Skeleton variant="rectangular" height={800}/>
+				: (
+					<Card>
+						<TableFilter handleSearch={handleSearch}>
+							<TextField fullWidth size="small" InputLabelProps={{shrink: true}} id="drivers-search-filter" label="Driver" variant="outlined" value={localFilters.search} onChange={setSearch}/>
+							<SeasonMenu required={false} variant="normal" id="drivers-season-filter" season={localFilters.season} setSeason={setSeason}/>
+						</TableFilter>
+						<CardContent>
+							<DriversTable drivers={drivers}/>
+						</CardContent>
+					</Card>
+				)
+			}
+		</Page>
 	);
 }

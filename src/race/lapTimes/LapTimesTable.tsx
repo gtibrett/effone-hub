@@ -1,17 +1,18 @@
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {LapTime} from '@gtibrett/effone-hub-graph-api';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useMemo} from 'react';
-import ByLine from '../../drivers/ByLine';
-import {Lap, Timing} from '@gtibrett/effone-hub-api';
-import {LapByLapProps} from '../lapByLap/LapByLap';
-import {getColorWithAlt, getDateFromTimeString, getFastestLapTimeFromLaps} from './helpers';
+import {DriverByLine} from '../../driver';
+import {getTimeStringFromDate} from '../../helpers';
+import {LapByLapData, useLapByLapData} from '../lapByLap/useLapByLapChartData';
+import {getColorWithAlt} from './helpers';
 import {LapTimesProps} from './LapTimes';
 import {LapChartSeries} from './useLapTimeChartData';
 
 type LapData = {
 	lap: number;
-	timing: Timing;
+	timing: Partial<LapTime>;
 	color: string;
 	alt: string;
 }
@@ -21,80 +22,77 @@ type LapTimesTableRow = {
 	laps: LapData[];
 }
 
-function useLapTimesData(laps: Lap[], results: LapByLapProps['results']) {
+function useLapTimesData(lapByLapData: LapByLapData) {
 	return useMemo(() => {
-		const fastestLap               = results?.find(r => Number(r.FastestLap?.rank) === 1)?.FastestLap;
-		const fastestLapTime           = fastestLap ? getDateFromTimeString(results?.find(r => Number(r.FastestLap?.rank) === 1)?.FastestLap?.Time?.time) : getFastestLapTimeFromLaps(laps);
+		const fastestLapTime           = Math.min(...(lapByLapData.data?.flatMap(d => d.laps).map(lt => lt.milliseconds || Infinity) || []));
 		const data: LapTimesTableRow[] = [];
 		
-		if (laps.length) {
-			laps.forEach(lap => {
-				lap.Timings.forEach(timing => {
-					if (!timing.time) {
-						return;
-					}
-					let index = data.findIndex(driver => driver.driverId === timing.driverId);
-					if (index === -1) {
-						data.push({
-							driverId: timing.driverId,
-							laps: []
-						});
-						index = data.length - 1;
-					}
-					
-					try {
-						const lapTime      = getDateFromTimeString(timing.time);
-						const personalBest = Math.min(...data[index].laps.map(l => getDateFromTimeString(l.timing.time)));
+		if (lapByLapData.data?.length) {
+			lapByLapData.data.forEach(d => {
+				const lapsWithTimes                  = d.laps.filter(l => l.milliseconds).map(l => ({...l, milliseconds: Number(l.milliseconds)}));
+				let personalBest: number | undefined = undefined;
+				
+				data.push({
+					driverId: d.driverId,
+					laps:     lapsWithTimes.map(lt => {
+						personalBest = !personalBest ? lt.milliseconds : Math.min(lt.milliseconds, personalBest);
 						
-						data[index].laps.push({lap: Number(lap.number), timing: timing, ...getColorWithAlt(lapTime, personalBest, fastestLapTime)});
-					}
-					catch (e) {
-						// time couldn't be calculated
-					}
+						return {
+							lap:    lt.lap,
+							personalBest,
+							fastestLapTime,
+							timing: lt,
+							...getColorWithAlt(lt.milliseconds, personalBest, fastestLapTime)
+						};
+					})
 				});
 			});
 		}
 		
 		return data;
-	}, [laps, results]);
+	}, [lapByLapData]);
 }
 
 const useColumns = (laps: number) => {
-	
 	return useMemo(() => {
 		const columns: GridColDef<LapTimesTableRow>[] = [
 			{
-				field: 'driverId',
+				field:      'driverId',
 				headerName: 'Driver',
-				flex: 1,
+				flex:       1,
 				renderCell: ({value}) => (
-					<ByLine id={value} variant="full"/>
+					<DriverByLine id={value} variant="full"/>
 				),
-				minWidth: 240
+				minWidth:   240
 			}
 		];
 		
 		for (let i = 1; i <= laps; i++) {
 			columns.push(
 				{
-					field: String(i),
-					headerName: String(i),
-					type: 'dateTime',
-					align: 'center',
+					field:       String(i),
+					headerName:  String(i),
+					type:        'dateTime',
+					align:       'center',
 					headerAlign: 'center',
-					width: 100,
+					width:       100,
 					valueGetter: ({row, field}) => {
-						return row.laps.find(l => l.lap === Number(field))?.timing?.time;
+						return row.laps.find(l => l.lap === Number(field))?.timing?.milliseconds;
 					},
-					renderCell: ({row, field}) => {
+					renderCell:  ({row, field}) => {
 						const lap = row.laps.find(l => l.lap === Number(field));
 						if (!lap) {
 							return '';
 						}
-						const {color, alt, timing} = lap;
+						const {color, alt, timing: {milliseconds}} = lap;
+						
+						if (!milliseconds) {
+							return '--';
+						}
+						
 						return <>
 							<FontAwesomeIcon icon={faSquare} color={color} title={alt} style={{marginRight: 8}}/>
-							{timing.time}
+							{getTimeStringFromDate(new Date(milliseconds))}
 						</>;
 					}
 				}
@@ -105,9 +103,11 @@ const useColumns = (laps: number) => {
 	}, [laps]);
 };
 
-export default function LapTimesTable({laps, results}: LapTimesProps) {
-	const data    = useLapTimesData(laps, results);
-	const columns = useColumns(laps.length);
+export default function LapTimesTable({season, round}: LapTimesProps) {
+	const lapByLapData    = useLapByLapData(season, round);
+	const data            = useLapTimesData(lapByLapData);
+	const {totalLaps = 0} = lapByLapData;
+	const columns         = useColumns(totalLaps);
 	
 	return (
 		<DataGrid columns={columns} rows={data} getRowId={r => r.driverId} autoHeight/>

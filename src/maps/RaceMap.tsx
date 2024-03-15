@@ -1,9 +1,9 @@
-import {Location} from '@gtibrett/effone-hub-api';
+import {Circuit} from '@gtibrett/effone-hub-graph-api';
+import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {alpha, Box, Skeleton, useTheme} from '@mui/material';
 import {GeoMapEventHandler, ResponsiveGeoMap} from '@nivo/geo';
+import {NivoTooltip, useNivoTheme} from '@ui-components';
 import {useEffect, useState} from 'react';
-import {NivoTooltip, useNivoTheme} from '../ui-components/nivo';
-import useComponentDimensionsWithRef from '../ui-components/useComponentDimensions';
 import MapTooltip from './MapTooltip';
 import {Point} from './types';
 import useLand from './useLand';
@@ -13,12 +13,14 @@ type RaceMapProps = {
 	onClick?: GeoMapEventHandler;
 	height?: number | 'auto';
 	width?: number | 'auto';
-	centerOn?: Pick<Location, 'long' | 'lat'>;
+	centerOn?: Pick<Circuit, 'lng' | 'lat'>;
 	zoom?: boolean;
+	highlightNext?: boolean;
 }
 
 const mapPointsToFeatures = (points: Point[]) => {
 	return points.map((feature) => ({
+		'id':         String(feature.id),
 		'type':       'Feature',
 		'properties': {
 			'name': feature.name,
@@ -27,11 +29,10 @@ const mapPointsToFeatures = (points: Point[]) => {
 		'geometry':   {
 			'type':        'Point',
 			'coordinates': [
-				feature.long,
+				feature.lng,
 				feature.lat
 			]
-		},
-		'id':         feature.id
+		}
 	}));
 };
 
@@ -45,17 +46,20 @@ const calculateYTranslation = (lat: number, scale: number = 1) => {
 	return .5 + (lat / 90) * scale;
 };
 
-export default function RaceMap({points, onClick, height = 300, width = 'auto', centerOn = {long: '0', lat: '0'}, zoom = false}: RaceMapProps) {
-	const nivoTheme                     = useNivoTheme();
-	const theme                         = useTheme();
-	const land                          = useLand();
-	const {ref, dimensions, node}       = useComponentDimensionsWithRef();
-	const pointFeatures                 = mapPointsToFeatures(points);
-	const [translation, setTranslation] = useState<Translation>([.5, .5]);
-	const [ready, setReady]             = useState<boolean>(false);
+export default function RaceMap(props: RaceMapProps) {
+	const {points, onClick, height = 300, width = 'auto', centerOn = {lng: 0, lat: 0}, zoom = false, highlightNext = false} = props;
+	
+	const nivoTheme                           = useNivoTheme();
+	const theme                               = useTheme();
+	const land                                = useLand();
+	const {ref, dimensions, node}             = useComponentDimensionsWithRef();
+	const [lastDimensions, setLastDimensions] = useState(dimensions);
+	const pointFeatures                       = mapPointsToFeatures(points);
+	const [translation, setTranslation]       = useState<Translation>([.5, .5]);
+	const [ready, setReady]                   = useState<boolean>(false);
 	
 	useEffect(() => {
-		if (node) {
+		if (node && (dimensions.width !== lastDimensions.width || dimensions.height !== lastDimensions.height)) {
 			setTimeout(() => {
 				const g = node.querySelector('svg>g:first-of-type');
 				if (g && dimensions.width) {
@@ -63,12 +67,14 @@ export default function RaceMap({points, onClick, height = 300, width = 'auto', 
 					const xScale          = ((width / 2) / dimensions.width);
 					const yScale          = ((height / 2) / dimensions.height);
 					
-					setTranslation([calculateXTranslation(Number(centerOn?.long), xScale), calculateYTranslation(Number(centerOn?.lat), yScale)]);
+					setTranslation([calculateXTranslation(Number(centerOn?.lng), xScale), calculateYTranslation(Number(centerOn?.lat), yScale)]);
 					setReady(true);
 				}
+				
+				setLastDimensions(dimensions);
 			}, 200);
 		}
-	}, [centerOn, node, dimensions.height, dimensions.width]);
+	}, [centerOn, node, dimensions, lastDimensions]);
 	
 	return (
 		<Box ref={ref} sx={{position: 'relative', height, width}} aria-hidden>
@@ -80,16 +86,30 @@ export default function RaceMap({points, onClick, height = 300, width = 'auto', 
 					projectionType="equirectangular"
 					projectionTranslation={translation}
 					projectionScale={zoom ? 500 : 100}
-					borderWidth={0.5}
-					borderColor={theme.palette.primary.main}
-					tooltip={NivoTooltip(MapTooltip)}
+					// @ts-ignore
+					borderColor={feature => {
+						if (feature?.geometry?.type === 'Point') {
+							const nextColor = theme.palette.mode === 'light' ? theme.palette.secondary.dark : theme.palette.secondary.light;
+							return highlightNext && feature.properties.next ? nextColor : theme.palette.background.paper;
+						} else {
+							return theme.palette.primary.main;
+						}
+					}}
+					borderWidth={(feature) => {
+						if (feature?.geometry?.type === 'Point') {
+							return highlightNext && feature.properties.next ? 5 : 1;
+						} else {
+							return .5;
+						}
+					}}
 					fillColor={(feature) => {
 						if (feature?.geometry?.type === 'Point') {
-							return theme.palette.secondary.main;
+							return highlightNext && feature.properties.next ? theme.palette.background.paper : theme.palette.secondary.main;
 						} else {
 							return alpha(theme.palette.primary.light, .25);
 						}
 					}}
+					tooltip={NivoTooltip(MapTooltip)}
 					onClick={onClick}
 				/>
 			</Box>
