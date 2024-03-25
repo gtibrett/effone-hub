@@ -20,12 +20,18 @@
 		"noEmit":                           true,
 		"jsx":                              "react-jsx",
 		"baseUrl":                          "./src",
+		"incremental":                      true,
 		"paths":                            {
 			"@ui-components": [
 				"ui-components"
 			]
 		}
 	},
+	"types": [
+		"node",
+		"jest",
+		"@testing-library/jest-dom"
+	],
 	"include":         [
 		"src"
 	]
