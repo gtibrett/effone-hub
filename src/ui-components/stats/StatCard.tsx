@@ -1,12 +1,12 @@
+import {useTeam} from '@effonehub/constructor';
+import ConstructorAvatar from '@effonehub/constructor/ConstructorAvatar';
+import {DriverAvatar, DriverByLine, useDriver} from '@effonehub/driver';
 import {IconDefinition} from '@fortawesome/fontawesome-svg-core';
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link} from '@gtibrett/mui-additions';
 import {Box, Card, CardProps, Grid, Typography, useTheme} from '@mui/material';
 import {ReactNode} from 'react';
-import ConstructorAvatar from '../../constructor/ConstructorAvatar';
-import {useTeam} from '../../constructor/useTeam';
-import {DriverAvatar, DriverByLine, useDriver} from '../../driver';
 import convertGenericMapToDataWithValueMap from './convertGenericMapToDataWithValueMap';
 import StatCardContent from './StatCardContent';
 import {DataWithValue, StatFormatter} from './types';
@@ -16,6 +16,7 @@ export type StatCardBaseProps<T extends (DataWithValue | number), F extends Data
 	label: string;
 	loading: boolean;
 	cardProps?: CardProps;
+	noGrid?: boolean;
 	size?: 'regular' | 'small'
 	format?: StatFormatter<F>;
 	extra?: ReactNode | StatFormatter<F>;
@@ -109,16 +110,16 @@ const IconVariant = <T extends DataWithValue>({size, label, data, format, extra,
 };
 
 export default function StatCard<T extends (DataWithValue | number) = DataWithValue, F extends DataWithValue = DataWithValue>(props: StatCardProps<T, F>) {
-	const theme                                          = useTheme();
-	const {variant, size, cardProps = {}, loading, data} = props;
-	const {sx = {}, ...otherCardProps}                   = cardProps;
-	const normalizedData                                 = convertGenericMapToDataWithValueMap<T, F>(data);
+	const theme                                                  = useTheme();
+	const {variant, size, noGrid, cardProps = {}, loading, data} = props;
+	const {sx = {}, ...otherCardProps}                           = cardProps;
+	const normalizedData                                         = convertGenericMapToDataWithValueMap<T, F>(data);
 	
 	if (loading || !data.size) {
 		return null;
 	}
 	
-	let content: ReactNode = null;
+	let content: ReactNode;
 	switch (variant) {
 		case 'icon':
 			content = <IconVariant {...props} data={normalizedData}/>;
@@ -134,6 +135,7 @@ export default function StatCard<T extends (DataWithValue | number) = DataWithVa
 			break;
 	}
 	
+	let card: ReactNode;
 	switch (size) {
 		case 'small':
 			const circularSx = {
@@ -144,22 +146,22 @@ export default function StatCard<T extends (DataWithValue | number) = DataWithVa
 				border:       `${theme.spacing(.125)} solid ${theme.palette.background.default}`
 			};
 			
-			return (
-				<Grid item xs>
-					<Card sx={{...circularSx, ...sx}} {...otherCardProps}>
-						{content}
-					</Card>
-				</Grid>
+			card = (
+				<Card variant="elevation" sx={{...circularSx, ...sx}} {...otherCardProps}>
+					{content}
+				</Card>
 			);
+			break;
 		
 		case 'regular':
 		default:
-			return (
-				<Grid item xs>
-					<Card sx={{height: '100%', ...sx}} {...otherCardProps}>
-						{content}
-					</Card>
-				</Grid>
+			card = (
+				<Card variant="elevation" sx={{height: '100%', ...sx}} {...otherCardProps}>
+					{content}
+				</Card>
 			);
+			break;
 	}
+	
+	return noGrid ? card : <Grid item xs>{card}</Grid>;
 }

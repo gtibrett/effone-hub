@@ -1,4 +1,4 @@
-import {DataWithValue} from '@ui-components';
+import {DataWithValue} from '@effonehub/ui-components';
 
 type StatData<T extends DataWithValue = DataWithValue> = Map<number, T>;
 

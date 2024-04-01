@@ -39,11 +39,11 @@ export default function StatCardContent<T extends DataWithValue>({size, avatar, 
 					
 					'&  .MuiAvatar-root': {
 						borderRadius: 0,
-						marginTop: -1,
+						marginTop:    -1,
 						marginBottom: 1,
 						
 						'& > img': {
-							marginTop: 1,
+							marginTop: 1
 						}
 					}
 				},
