@@ -1,40 +1,9 @@
-import {gql, useQuery} from '@apollo/client';
-import {DriverId} from '@effonehub/driver';
-import {DataWithValue, Page, StatCard} from '@effonehub/ui-components';
+import {DriverChampionData, SeasonData, TeamChampionData} from '@effonehub/season/list/types';
+import {StatCard} from '@effonehub/ui-components';
 import {StatCardStat} from '@effonehub/ui-components/stats';
-import {DriverStanding, Season, Team, TeamStanding} from '@gtibrett/effone-hub-graph-api';
-import {Link, setPageTitle} from '@gtibrett/mui-additions';
-import {Card, Skeleton} from '@mui/material';
+import {Season} from '@gtibrett/effone-hub-graph-api';
+import {Link} from '@gtibrett/mui-additions';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-
-type SeasonData = {
-	year: number;
-	racesByYear: {
-		round: number;
-		teamStandings: Pick<TeamStanding, 'teamId' | 'points' | 'wins'>[];
-		driverStandings: Pick<DriverStanding, 'driverId' | 'points' | 'wins'>[];
-	}[]
-};
-
-type Data = {
-	seasons: SeasonData[]
-}
-
-type SeasonsTableProps = {
-	seasons: SeasonData[];
-}
-
-type DriverChampionData = DataWithValue & {
-	driverId: DriverId;
-	points: number;
-	wins: number;
-}
-
-type TeamChampionData = DataWithValue & {
-	teamId: Team['teamId'];
-	points: number;
-	wins: number;
-}
 
 function getAtPlace(variant: 'driver' | 'team', season: SeasonData, place: number) {
 	return variant === 'driver'
@@ -66,8 +35,15 @@ const renderPlace = (place: number, variant: 'driver' | 'team' = 'driver'): Grid
 	}
 );
 
-const SeasonsTable = ({seasons}: SeasonsTableProps) => (
-	<DataGrid
+
+export type SeasonsListProps = {
+	loading: boolean;
+	seasons: SeasonData[];
+}
+
+export default function SeasonsList({loading,seasons}: SeasonsListProps) {
+	return <DataGrid
+		loading={loading}
 		rows={seasons}
 		autoHeight
 		density="compact"
@@ -113,44 +89,5 @@ const SeasonsTable = ({seasons}: SeasonsTableProps) => (
 				sortModel: [{field: 'year', sort: 'desc'}]
 			}
 		}}
-	/>
-);
-
-const query = gql`
-	query SeasonsQuery {
-		seasons(orderBy: YEAR_DESC) {
-			year
-			racesByYear(orderBy: ROUND_DESC, first: 1) {
-				round
-				teamStandings(orderBy: POSITION_ASC, first: 1) {
-					teamId
-					points
-					wins
-				}
-				driverStandings(orderBy: POSITION_ASC, first: 3) {
-					driverId
-					points
-					wins
-				}
-			}
-		}
-	}
-`;
-
-export default function Seasons() {
-	setPageTitle('Past Seasons');
-	const {loading, data} = useQuery<Data>(query);
-	const seasons         = data?.seasons?.filter(s => s.racesByYear[0].driverStandings.length) || [];
-	
-	return (
-		<Page title="Past Seasons">
-			<Card>
-				{
-					!data || loading
-					? <Skeleton variant="rectangular" height={400}/>
-					: <SeasonsTable seasons={seasons}/>
-				}
-			</Card>
-		</Page>
-	);
+	/>;
 }

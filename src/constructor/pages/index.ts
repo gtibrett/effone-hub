@@ -1,2 +1,2 @@
 export {default as Constructor} from './Constructor';
-export {default as Constructors} from './Constructors';
+export {default as Constructors} from '../list/Constructors';

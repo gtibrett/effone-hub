@@ -8,7 +8,7 @@ export {default as PropertiesTable} from './PropertiesTable';
 export {default as PropertiesTableRow} from './PropertiesTableRow';
 export {default as StatCard} from './stats/StatCard';
 export {default as Stats} from './stats/Stats';
-export {default as TableFilter} from './TableFilter';
+export {default as TableFilter, filterByFreeformText, setStringFilter, filterByNumber} from './TableFilter';
 export {useEffTheme, useDarkMode, useInvertedTheme} from './Theme';
 export {NivoTooltipFactory, useNivoTheme, useGetAccessibleChartColors} from './nivo';
 export {default as useGetAccessibleColor} from './useGetAccessibleColor';
