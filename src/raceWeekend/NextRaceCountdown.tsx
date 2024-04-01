@@ -1,5 +1,5 @@
-import {Card, CardContent, Table, TableBody, TableCell, TableRow} from '@mui/material';
-import {useEffect, useState} from 'react';
+import {Card, Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material';
+import {ReactNode, useEffect, useState} from 'react';
 import CountdownClock from './CountdownClock';
 import {RaceData} from './useNextRaceData';
 
@@ -9,13 +9,14 @@ type NextRaceCountdownProps = {
 	circuitSize?: number;
 }
 
-type CountdownRowProps = {
+type ScheduleEvent = {
+	label: string
 	date?: string;
 	time?: string;
-	label: string
+	conditional?: boolean
 }
 
-const CountdownRow = ({date, time, label}: CountdownRowProps) => {
+const CountdownCell = ({date, time, label}: Pick<ScheduleEvent, 'date' | 'time' | 'label'>) => {
 	const [now, setNow] = useState(new Date());
 	const timeTo        = Math.floor(((new Date(`${date} ${time} UTC`)).getTime() - now.getTime()) / 1000);
 	
@@ -25,19 +26,13 @@ const CountdownRow = ({date, time, label}: CountdownRowProps) => {
 		}, 1000);
 	}, [setNow]);
 	
-	if (!date || !time) {
-		return null;
+	let content: ReactNode = '--';
+	if (date && time) {
+		content = timeTo > 0 ? <CountdownClock timeTo={timeTo} size="small"/> : 'Done';
 	}
 	
 	return (
-		<TableRow>
-			<TableCell component="th" scope="row">
-				{label}
-			</TableCell>
-			<TableCell align="right">
-				{timeTo > 0 ? <CountdownClock timeTo={timeTo} size="small"/> : 'Done'}
-			</TableCell>
-		</TableRow>
+		<TableCell component="td" variant="body">{content}</TableCell>
 	);
 };
 
@@ -51,25 +46,32 @@ export default function NextRaceCountdown({race}: NextRaceCountdownProps) {
 		      date, time
 	      } = race;
 	
-	console.log(sprintDate, sprintTime);
-	
 	const isSprint = (!!sprintDate && !!sprintTime);
 	
+	const scheduleEvents: ScheduleEvent[] = [
+		{label: 'FP1', date: fp1Date, time: fp1Time, conditional: isSprint || !isSprint},
+		{label: 'FP2', date: fp2Date, time: fp2Time, conditional: !isSprint},
+		{label: 'FP3', date: fp3Date, time: fp3Time, conditional: !isSprint},
+		{label: 'Sprint Qual', date: fp2Date, time: fp2Time, conditional: isSprint},
+		{label: 'Sprint', date: sprintDate, time: sprintTime, conditional: isSprint},
+		{label: 'Qual', date: qualiDate, time: qualiTime, conditional: isSprint || !isSprint},
+		{label: 'Race', date, time, conditional: isSprint || !isSprint}
+	].filter(({conditional}) => conditional);
+	
 	return (
-		<Card variant="outlined">
-			<CardContent sx={{p: 1, pb: `${8}px !important`}}>
-				<Table size="small">
-					<TableBody sx={{'& tr:last-child .MuiTableCell-root': {borderBottom: 0}}}>
-						<CountdownRow label="FP1" date={fp1Date} time={fp1Time}/>
-						{!isSprint && <CountdownRow label="FP2" date={fp2Date} time={fp2Time}/>}
-						<CountdownRow label="FP3" date={fp3Date} time={fp3Time}/>
-						<CountdownRow label="Qual" date={qualiDate} time={qualiTime}/>
-						{isSprint && <CountdownRow label="Shootout" date={fp2Date} time={fp2Time}/>}
-						<CountdownRow label="Sprint" date={sprintDate} time={sprintTime}/>
-						<CountdownRow label="Race" date={date} time={time}/>
-					</TableBody>
-				</Table>
-			</CardContent>
+		<Card sx={{width: '100%'}}>
+			<Table size="small" sx={{width: '100%'}}>
+				<TableHead>
+					<TableRow>
+						{scheduleEvents.map(({label}) => <TableCell width={`${100 / scheduleEvents.length}%`} key={label} component="th" scope="col" variant="head">{label}</TableCell>)}
+					</TableRow>
+				</TableHead>
+				<TableBody sx={{'& tr:last-child .MuiTableCell-root': {borderBottom: 0}}}>
+					<TableRow>
+						{scheduleEvents.map(({label, date, time}) => <CountdownCell key={label} label={label} date={date} time={time}/>)}
+					</TableRow>
+				</TableBody>
+			</Table>
 		</Card>
 	);
 }
