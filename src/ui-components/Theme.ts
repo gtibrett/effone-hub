@@ -1,28 +1,33 @@
 import type {} from '@mui/x-data-grid/themeAugmentation';
+import {LinkBehavior} from '@gtibrett/mui-additions/react-router';
 import {alpha, createTheme, useMediaQuery, useTheme} from '@mui/material';
-import {blueGrey, red} from '@mui/material/colors';
+import {blueGrey, deepOrange} from '@mui/material/colors';
 import {useMemo} from 'react';
+
+const spacing         = 8;
+const primary         = blueGrey;
+const secondary       = deepOrange;
 
 export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 	const prefersDarkMode = (useMediaQuery('(prefers-color-scheme: dark)') && overrideMode !== 'light') || overrideMode === 'dark';
-	const spacing         = 8;
-	const primary         = blueGrey;
-	const secondary       = red;
+	
+	const background = useMemo(()=>({
+		paper:   prefersDarkMode ? primary[900] : '#fff',
+		default: prefersDarkMode ? primary[800] : primary[200]
+	}), [prefersDarkMode]);
 	
 	return useMemo(() => createTheme({
 		spacing,
 		palette:    {
-			mode:       prefersDarkMode ? 'dark' : 'light',
-			primary:    {
+			contrastThreshold: 4.5,
+			mode:              prefersDarkMode ? 'dark' : 'light',
+			primary:           {
 				main: primary[prefersDarkMode ? 400 : 800]
 			},
-			secondary:  {
+			secondary:         {
 				main: secondary[prefersDarkMode ? 200 : 900]
 			},
-			background: {
-				paper:   prefersDarkMode ? primary[900] : '#fff',
-				default: prefersDarkMode ? primary[800] : primary[200]
-			}
+			background
 		},
 		typography: {
 			fontFamily: "'Titillium Web', sans-serif",
@@ -42,7 +47,8 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 		components: {
 			MuiCard:         {
 				defaultProps:   {
-					elevation: 0
+					elevation: 0,
+					variant:   'outlined'
 				},
 				styleOverrides: {
 					root: {
@@ -61,11 +67,12 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 				styleOverrides: {
 					root: {
 						border:                  0,
-						overflow:                'auto',
-						'& > .MuiDataGrid-main': {
-							overflow: 'unset'
-						}
-					}
+						// overflow:                'auto',
+						// '& > .MuiDataGrid-main': {
+						// 	overflow: 'unset'
+						// },
+						'--DataGrid-containerBackground': background.paper
+					},
 				}
 			},
 			MuiDialog:       {
@@ -93,6 +100,16 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 				styleOverrides: {
 					root: {
 						minWidth: 36
+					}
+				}
+			},
+			MuiMenuItem:     {
+				styleOverrides: {
+					root: {
+						'&.Mui-selected': {
+							backgroundColor: `${secondary[prefersDarkMode ? 400 : 900]} !important`,
+							color:           prefersDarkMode ? '#000' : '#fff'
+						}
 					}
 				}
 			},
@@ -126,7 +143,7 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 				}
 			}
 		}
-	}), [primary, secondary, spacing, prefersDarkMode]);
+	}), [prefersDarkMode, background]);
 };
 
 export const useInvertedTheme = () => {

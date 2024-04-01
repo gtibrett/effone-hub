@@ -1,7 +1,7 @@
 import {ApolloProvider} from '@apollo/client';
-import {GoogleAnalyticsProvider} from '@gtibrett/mui-additions';
+import {useEffTheme} from '@effonehub/ui-components';
+import {GoogleAnalyticsProvider} from '@gtibrett/mui-additions/react-router';
 import {CssBaseline, ThemeProvider} from '@mui/material';
-import {useEffTheme} from '@ui-components';
 import {BrowserRouter} from 'react-router-dom';
 import useApolloClient from '../useApolloClient';
 import AppStateProvider from './AppStateProvider';

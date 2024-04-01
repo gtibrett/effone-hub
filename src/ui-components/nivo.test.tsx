@@ -2,7 +2,7 @@ import {createTheme, Theme, ThemeProvider, useTheme} from '@mui/material';
 import {render, screen} from '@testing-library/react';
 import axe from 'axe-core';
 import {PropsWithChildren} from 'react';
-import {NivoTooltip, useGetAccessibleChartColors, useNivoTheme} from './nivo';
+import {NivoTooltipFactory, useGetAccessibleChartColors, useNivoTheme} from './nivo';
 import {useEffTheme} from './Theme';
 
 const TestAppContainer = ({mode, children}: PropsWithChildren<{ mode: Theme['palette']['mode'] }>) => {
@@ -64,7 +64,7 @@ describe('nivo.ts', () => {
 			expect(screen.getByTestId('unknown')).toHaveTextContent('rgba(0, 0, 0, 0.87)');
 			expect(screen.getByTestId('mercedes')).toHaveTextContent(/#5fcfbe/i);
 			expect(screen.getByTestId('mclaren')).toHaveTextContent(/#ef8833/i);
-			expect(screen.getByTestId('a11y')).toHaveTextContent('rgb(191, 88, 3)');
+			expect(screen.getByTestId('a11y')).toHaveTextContent('rgb(223, 120, 35)');
 		});
 		
 		test('dark mode', async () => {
@@ -83,7 +83,7 @@ describe('nivo.ts', () => {
 	
 	describe('NivoTooltip.tsx', () => {
 		test('Render', async () => {
-			const NivoTooltippedContent = NivoTooltip(() => <div>tooltip content</div>);
+			const NivoTooltippedContent = NivoTooltipFactory(() => <div>tooltip content</div>);
 			render(
 				<NivoTooltippedContent/>
 			);
@@ -92,7 +92,7 @@ describe('nivo.ts', () => {
 		});
 		
 		test('a11y check', async () => {
-			const NivoTooltippedContent = NivoTooltip(() => <div>tooltip content</div>);
+			const NivoTooltippedContent = NivoTooltipFactory(() => <div>tooltip content</div>);
 			const {container}           = render(
 				<NivoTooltippedContent/>
 			);

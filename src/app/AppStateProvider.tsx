@@ -1,7 +1,7 @@
+import {SeasonsQuery} from '@effonehub/components';
 import {Season} from '@gtibrett/effone-hub-graph-api';
 import {Backdrop} from '@mui/material';
 import {createContext, Dispatch, FC, PropsWithChildren, SetStateAction, useContext, useEffect, useState} from 'react';
-import {SeasonsQuery} from '../SeasonMenu';
 import useApolloClient from '../useApolloClient';
 import {ErrorCard} from './ErrorBoundary';
 
