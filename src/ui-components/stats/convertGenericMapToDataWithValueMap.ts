@@ -1,4 +1,4 @@
-import {DataWithValue} from '@ui-components';
+import {DataWithValue} from '@effonehub/ui-components';
 
 export default function convertGenericMapToDataWithValueMap<T extends (DataWithValue | number) = DataWithValue, F extends DataWithValue = DataWithValue>(data: Map<number, T>): Map<number, F> {
 	const dataWithValuesMap = new Map<number, F>();
