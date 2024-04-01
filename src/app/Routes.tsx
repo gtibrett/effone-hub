@@ -1,34 +1,23 @@
+import {About} from '@effonehub/about';
+import {Circuit, Circuits} from '@effonehub/circuits/pages';
+import {Footer, Header} from '@effonehub/components';
+import {Constructor, Constructors} from '@effonehub/constructor/pages';
+import {Driver, Drivers} from '@effonehub/driver/pages';
+import {Race} from '@effonehub/race/pages';
+import {Season, Seasons} from '@effonehub/season/pages';
 import {SkipNav, UkraineButton} from '@gtibrett/mui-additions';
 import {Box, Container, SxProps, useTheme} from '@mui/material';
-import {Header} from '@ui-components';
 import {ReactNode} from 'react';
 import {Outlet, Route, RouteProps, Routes as ReactRouterRoutes} from 'react-router-dom';
-import {Circuits, Constructors, Driver, Drivers, Race} from '../pages';
-import About from '../pages/About';
-import Circuit from '../pages/Circuit';
-import Constructor from '../pages/Constructor';
-import Seasons from '../pages/Seasons';
-import Season from '../season/Season';
 import {useAppState} from './AppStateProvider';
 import ErrorBoundary from './ErrorBoundary';
-import Footer from './Footer';
 
-export const Layout = () => {
+const Layout = () => {
 	const theme = useTheme();
 	
 	const sx: SxProps = {
-		py:         2,
-		position:   'relative',
-		'&:before': {
-			position:        'absolute',
-			top:             0, left: 0,
-			zIndex:          -1,
-			width:           '100%',
-			height:          '100%',
-			content:         '" "',
-			backgroundImage: `url(${process.env.PUBLIC_URL}/carbon-fiber-texture.png)`,
-			opacity:         theme.palette.mode === 'dark' ? .35 : 1
-		}
+		py:       2,
+		position: 'relative'
 	};
 	
 	return (

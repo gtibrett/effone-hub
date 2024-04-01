@@ -24,15 +24,13 @@ export const useNivoTheme = (): NivoTheme => {
 	const captionFontSize = 11;
 	
 	return {
-		'background':  'transparent',
-		text: {
-			color:theme.palette.text.primary,
-			'fontSize':    captionFontSize,
-			'fontFamily':  "'Titillium Web', sans-serif",
+		'background':  alpha(theme.palette.background.default, .25),
+		text:          {
+			color:        theme.palette.text.primary,
+			'fontSize':   captionFontSize,
+			'fontFamily': "'Titillium Web', sans-serif"
 		},
-		translation: {
-		
-		},
+		translation:   {},
 		'axis':        {
 			'domain': {
 				'line': {
@@ -112,7 +110,12 @@ export const useNivoTheme = (): NivoTheme => {
 			}
 		},
 		
-		'tooltip': {
+		tooltip: {
+			// @ts-ignore
+			backdropFilter:   'blur(4px)',
+			padding:          0,
+			borderRadius:     theme.spacing(.5),
+			overflow:         'hidden',
 			'container':      {
 				'background': invertedTheme.palette.background.paper,
 				'color':      invertedTheme.palette.getContrastText(invertedTheme.palette.background.paper),
@@ -123,33 +126,39 @@ export const useNivoTheme = (): NivoTheme => {
 			'table':          {},
 			'tableCell':      {},
 			'tableCellValue': {}
-		},
+		}
 		
 	};
 };
 
-export const NivoTooltip = (Component: FC<any>): FC<any> => {
-	const theme = useInvertedTheme();
+export const NivoTooltipFactory = (Component: FC<any>): FC<any> => {
+	const nivoTheme = useNivoTheme();
+	const theme     = useInvertedTheme();
+	
 	return useCallback((props: any) => {
 		const sx = {
+			...nivoTheme.tooltip?.container,
 			minWidth:     200,
-			mb: 2,
-			mr: 20,
-			py:           1,
-			px:           2,
-			borderRadius: 1,
-			background:   alpha(theme.palette.background.paper, .9),
-			color:        theme.palette.getContrastText(theme.palette.background.paper),
+			borderRadius: theme.spacing(.5),
+			position:     'relative',
+			overflow:     'hidden',
+			p:            0,
+			opacity:      .9,
+			
+			'& .MuiCard-root': {
+				border: 0
+			},
 			
 			'& .MuiTypography-root': {
 				color: theme.palette.getContrastText(theme.palette.background.paper)
 			}
 		};
 		
-		const content = Component(props);
+		const content = Component({...props, theme: nivoTheme});
 		
 		return content && <Box sx={sx}><ThemeProvider theme={theme}>{content}</ThemeProvider></Box>;
-	}, [Component, theme]);
+		
+	}, [Component, nivoTheme, theme]);
 };
 
 export function useGetAccessibleChartColors() {
