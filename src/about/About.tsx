@@ -1,13 +1,13 @@
-import {usePageTitle} from '@gtibrett/mui-additions';
+import {Page} from '@effonehub/ui-components';
+import {setPageTitle} from '@gtibrett/mui-additions';
 import {Grid} from '@mui/material';
-import {Page} from '@ui-components';
-import Data from '../about/Data';
-import Dependencies from '../about/Dependencies';
-import Mission from '../about/Mission';
-import Repositories from '../about/Repositories';
+import Data from './Data';
+import Dependencies from './Dependencies';
+import Mission from './Mission';
+import Repositories from './Repositories';
 
 export default function About() {
-	usePageTitle(`About`);
+	setPageTitle(`About`);
 	
 	return (
 		<Page title="About effOne Hub">
