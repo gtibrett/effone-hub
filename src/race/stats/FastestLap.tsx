@@ -1,8 +1,8 @@
 import {gql, useQuery} from '@apollo/client';
+import {getTimeStringFromDate} from '@effonehub/helpers';
+import {DataWithValue, StatCard} from '@effonehub/ui-components';
 import {LapTime} from '@gtibrett/effone-hub-graph-api';
 import {Typography} from '@mui/material';
-import {DataWithValue, StatCard} from '@ui-components';
-import {getTimeStringFromDate} from '../../helpers';
 import {RaceStatProps} from './types';
 
 type FastestLapQueryData = {

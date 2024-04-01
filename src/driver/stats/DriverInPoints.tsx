@@ -1,5 +1,5 @@
+import {StatCard} from '@effonehub/ui-components';
 import {faBolt} from '@fortawesome/free-solid-svg-icons';
-import {StatCard} from '@ui-components';
 import {DriverStatProps} from './index';
 import useDriverStatsData from './useDriverStatsData';
 

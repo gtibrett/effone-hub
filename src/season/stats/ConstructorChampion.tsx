@@ -1,6 +1,6 @@
 import {gql, useQuery} from '@apollo/client';
+import {StatCard} from '@effonehub/ui-components';
 import {Team} from '@gtibrett/effone-hub-graph-api';
-import {StatCard} from '@ui-components';
 import {useAppState} from '../../app/AppStateProvider';
 
 type Data = {
@@ -31,5 +31,5 @@ export default function ConstructorChampion({season}: { season: number }) {
 	const {teamId} = finalTeamStandingsByYears[0];
 	champion.set(teamId, 1);
 	
-	return <StatCard label={label} loading={loading} data={champion} format={() => ''} variant="team"/>;
+	return <StatCard label={label} loading={loading} data={champion} format={() => ''} variant="team" noGrid cardProps={{sx: {'& > .MuiCardHeader-root': {px: 0, pb: 0}}}}/>;
 }

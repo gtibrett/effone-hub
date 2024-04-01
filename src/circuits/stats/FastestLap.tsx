@@ -1,5 +1,5 @@
-import {StatCard} from '@ui-components';
-import {getTimeStringFromDate} from '../../helpers';
+import {getTimeStringFromDate} from '@effonehub/helpers';
+import {StatCard} from '@effonehub/ui-components';
 import {CircuitDataProps} from '../useCircuitByRef';
 
 export default function FastestLap({data, loading}: CircuitDataProps) {

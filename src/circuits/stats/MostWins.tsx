@@ -1,4 +1,4 @@
-import {StatCard} from '@ui-components';
+import {StatCard} from '@effonehub/ui-components';
 import {CircuitDataProps} from '../useCircuitByRef';
 
 export default function MostWins({data, loading}: CircuitDataProps) {
