@@ -62,7 +62,7 @@ export default function Drivers({data, loading}: DriversProps) {
 							headerAlign: 'center',
 							align:       'center',
 							width:       100,
-							renderCell: ({row}) => <Link to={`/season/${row.year}`}>{row.year}</Link>
+							renderCell:  ({row}) => <Link href={`/season/${row.year}`}>{row.year}</Link>
 						},
 						{
 							field:      'driver1',

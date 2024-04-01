@@ -54,7 +54,7 @@ export default function Season({season, driverId}: SeasonProps) {
 							headerName: 'Race',
 							flex:       1,
 							renderCell: ({row, value}) => (
-								<Link to={`/${currentSeason}/${row.round}#${row.name}`}>{value}</Link>
+								<Link href={`/${currentSeason}/${row.round}#${row.name}`}>{value}</Link>
 							),
 							minWidth:   200
 						},

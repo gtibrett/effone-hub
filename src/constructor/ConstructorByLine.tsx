@@ -22,7 +22,7 @@ export default function ConstructorByLine({id, variant = 'link'}: ByLineProps) {
 		
 		case 'link':
 			return (
-				<Link to={`/constructor/${constructorRef}`}>{name}</Link>
+				<Link href={`/constructor/${constructorRef}`}>{name}</Link>
 			);
 	}
 	

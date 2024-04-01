@@ -43,17 +43,17 @@ export default function DriverByLine({id, variant = 'full', avatarProps = {}, fl
 		case 'code':
 			return <>{code}</>;
 		case 'code-link':
-			return <Link sx={{fontWeight: 'bold'}} to={`/driver/${driverRef}`}>{code}</Link>;
+			return <Link sx={{fontWeight: 'bold'}} href={`/driver/${driverRef}`}>{code}</Link>;
 		case 'name':
 			return <>{name}</>;
 		case 'link':
-			return <Link to={`/driver/${driverRef}`}>{name}</Link>;
+			return <Link href={`/driver/${driverRef}`}>{name}</Link>;
 		
 		case 'full':
 			return (
 				<Grid container spacing={1} alignItems="center" sx={{flexWrap: 'nowrap'}}>
 					<Hidden smDown><Grid item><DriverAvatar driverId={id} {...avatarProps}/></Grid></Hidden>
-					<Grid item><Typography><Link to={`/driver/${driverRef}`}>{name}</Link></Typography></Grid>
+					<Grid item><Typography><Link href={`/driver/${driverRef}`}>{name}</Link></Typography></Grid>
 					<Hidden mdDown><Grid item><Typography><Flag nationality={nationality} {...flagProps}/></Typography></Grid></Hidden>
 				</Grid>
 			);

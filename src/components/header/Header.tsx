@@ -29,9 +29,10 @@ export default function Header() {
 				<Toolbar>
 					<Grid container spacing={1} alignItems="center">
 						<Grid item>
-							<Link to="/" color="inherit" sx={{textDecoration: 'none'}}>
-								<Typography variant="h3" component="h1" sx={{fontFamily: 'Racing Sans One', fontSize: 48}}>
-									<Logo sx={{marginRight: 1}}/> effOne Hub</Typography>
+							<Link href="/" color="inherit" sx={{textDecoration: 'none', '& *': {fontFamily: 'Anton !important', fontSize: '48px !important'}}}>
+								<Typography component="h1">
+									EFF<Typography component="span" sx={{opacity: 1, px: .5, color: lightRed}}>ONE</Typography>HUB
+								</Typography>
 							</Link>
 						</Grid>
 						<Grid item xs/>
