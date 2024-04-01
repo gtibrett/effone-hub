@@ -1,7 +1,7 @@
 export type {DataWithValue, StatFormatter} from './stats';
+export type {ListFiltersProps} from './TableFilter';
 export {default as OpenAILink} from './citations/OpenAILink';
 export {default as WikipediaLink} from './citations/WikipediaLink';
-export {default as Header} from '../app/Header';
 export {default as OpensInNewWindow} from './OpensInNewWindow';
 export {default as Page} from './Page';
 export {default as PropertiesTable} from './PropertiesTable';
@@ -10,5 +10,5 @@ export {default as StatCard} from './stats/StatCard';
 export {default as Stats} from './stats/Stats';
 export {default as TableFilter} from './TableFilter';
 export {useEffTheme, useDarkMode, useInvertedTheme} from './Theme';
-export {NivoTooltip, useNivoTheme, useGetAccessibleChartColors} from './nivo';
+export {NivoTooltipFactory, useNivoTheme, useGetAccessibleChartColors} from './nivo';
 export {default as useGetAccessibleColor} from './useGetAccessibleColor';
