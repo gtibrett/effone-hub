@@ -12,5 +12,7 @@ const root = createRoot(
 );
 
 root.render(
-	<App/>
+	<StrictMode>
+		<App/>
+	</StrictMode>
 );
