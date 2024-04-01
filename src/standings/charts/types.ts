@@ -25,7 +25,7 @@ export interface RaceStandingsWithEntities {
 export type ChartMode = 'position' | 'points';
 
 export type ChartProps = {
-	data: StandingsChartSerie[];
+	data: RaceStandingsWithEntities[];
 	TooltipComponent: FC<any>
 }
 

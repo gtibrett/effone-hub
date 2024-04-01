@@ -18,7 +18,7 @@ export type LapChartSeries = {
 
 export default function useLapTimeChartData(lapByLapData: LapByLapData) {
 	return useMemo(() => {
-		const fastestLapTime           = Math.min(...(lapByLapData.data?.flatMap(d => d.laps).map(lt => lt.milliseconds || Infinity) || []));
+		const fastestLapTime         = Math.min(...(lapByLapData.data?.flatMap(d => d.laps).map(lt => lt.milliseconds || Infinity) || []));
 		const data: LapChartSeries[] = [];
 		
 		if (lapByLapData.data?.length) {

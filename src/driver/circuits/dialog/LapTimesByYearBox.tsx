@@ -1,8 +1,9 @@
 import {QueryResult} from '@apollo/client/react/types/types';
-import {Alert, alpha, Box, darken, lighten, Skeleton, useTheme} from '@mui/material';
+import LapTimesByYearTooltip from '@effonehub/driver/circuits/dialog/LapTimesByYearTooltip';
+import {getTimeStringFromDate} from '@effonehub/helpers';
+import {NivoTooltipFactory, useGetAccessibleColor, useNivoTheme} from '@effonehub/ui-components';
+import {Alert, alpha, Card, darken, lighten, Skeleton, useTheme} from '@mui/material';
 import {ResponsiveBoxPlot} from '@nivo/boxplot';
-import {useGetAccessibleColor, useNivoTheme} from '@ui-components';
-import {getTimeStringFromDate} from '../../../helpers';
 import {mapLapTimeDataToBoxChart} from './mapLapTimeDataToSwarmChart';
 import {CircuitDialogData} from './types';
 
@@ -43,19 +44,19 @@ export default function LapTimesByYearBox({data}: LapTimesChartProps) {
 	
 	
 	return (
-		<Box sx={{height: '60vh', width: '100%'}} aria-hidden>
+		<Card variant="outlined" sx={{height: '60vh', width: '100%'}} aria-hidden>
 			<ResponsiveBoxPlot
 				theme={nivoTheme}
 				data={chartData}
 				colors={({group}: any) => alpha(colorsByYear[group], .25)}
 				groupBy="year"
 				value="milliseconds"
-				margin={{top: 10, right: 10, bottom: 80, left: 60}}
+				margin={{top: 16, right: 16, bottom: 40, left: 72}}
 				axisTop={null}
 				axisRight={null}
 				axisBottom={{
-					tickSize:     10,
-					tickPadding:  5,
+					tickSize:     0,
+					tickPadding:  10,
 					tickRotation: 0
 				}}
 				axisLeft={{
@@ -74,7 +75,8 @@ export default function LapTimesByYearBox({data}: LapTimesChartProps) {
 				whiskerEndSize={0.5}
 				whiskerColor={colorConfig}
 				motionConfig="stiff"
+				tooltip={NivoTooltipFactory(LapTimesByYearTooltip)}
 			/>
-		</Box>
+		</Card>
 	);
 }

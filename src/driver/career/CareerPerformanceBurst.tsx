@@ -1,6 +1,6 @@
-import {Card, CardContent, Skeleton, Typography, useTheme} from '@mui/material';
+import {NivoTooltipFactory, useNivoTheme} from '@effonehub/ui-components';
+import {Box, Card, Skeleton, Typography, useTheme} from '@mui/material';
 import {ComputedDatum, ResponsiveSunburst} from '@nivo/sunburst';
-import {NivoTooltip, useNivoTheme} from '@ui-components';
 import {DriverId, DriverPageData} from '../types';
 import useCareerData from './useCareerData';
 import useStatColors from './useStatColors';
@@ -32,7 +32,11 @@ const usePerformanceData = (data?: DriverPageData): Stats | undefined => {
 const CareerPerformanceTooltip = (datum: ComputedDatum<BurstDatum>) => {
 	const {label} = datum.data;
 	
-	return <Typography>{label}</Typography>;
+	return (
+		<Box py={1} px={2}>
+			<Typography>{label}</Typography>
+		</Box>
+	);
 };
 
 type BurstDatum = {
@@ -111,27 +115,25 @@ export default function CareerPerformanceBurst({driverId, size}: {
 	};
 	
 	return (
-		<Card variant="outlined" aria-hidden>
-			<CardContent sx={{height: size, width: size}}>
-				<ResponsiveSunburst<BurstDatum>
-					theme={nivoTheme}
-					data={chartData}
-					margin={{top: 0, right: 0, bottom: 0, left: 0}}
-					id="id"
-					value="value"
-					cornerRadius={10}
-					borderColor={theme.palette.background.paper}
-					borderWidth={4}
-					inheritColorFromParent={false}
-					colors={(datum) => {
-						// @ts-ignore
-						return colors[datum.id] || theme.palette.primary.main;
-					}}
-					enableArcLabels={false}
+		<Card variant="outlined" aria-hidden sx={{height: size, width: size}}>
+			<ResponsiveSunburst<BurstDatum>
+				theme={nivoTheme}
+				data={chartData}
+				margin={{top: 20, right: 0, bottom: 0, left: 0}}
+				id="id"
+				value="value"
+				cornerRadius={10}
+				borderColor={theme.palette.background.paper}
+				borderWidth={4}
+				inheritColorFromParent={false}
+				colors={(datum) => {
 					// @ts-ignore
-					tooltip={NivoTooltip(CareerPerformanceTooltip)}
-				/>
-			</CardContent>
+					return colors[datum.id] || theme.palette.primary.main;
+				}}
+				enableArcLabels={false}
+				// @ts-ignore
+				tooltip={NivoTooltipFactory(CareerPerformanceTooltip)}
+			/>
 		</Card>
 	);
 }

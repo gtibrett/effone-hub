@@ -1,7 +1,7 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {useGetAccessibleColor, useNivoTheme} from '@effonehub/ui-components';
 import {Alert, Box, Skeleton} from '@mui/material';
 import {ResponsiveSwarmPlot} from '@nivo/swarmplot';
-import {useGetAccessibleColor, useNivoTheme} from '@ui-components';
 import {mapLapTimeDataToSwarmChart, SwarmData} from './mapLapTimeDataToSwarmChart';
 import {CircuitDialogData} from './types';
 

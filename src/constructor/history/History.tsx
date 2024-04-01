@@ -1,12 +1,11 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {ChartSwitcher, ChartSwitcherChart} from '@effonehub/components/charts';
+import HistoryChart from '@effonehub/constructor/history/HistoryChart';
 import {Team} from '@gtibrett/effone-hub-graph-api';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import PointsChart from './history/PointsChart';
-import PositionsChart from './history/PositionsChart';
-import WinsChart from './history/WinsChart';
-import {ConstructorPageData, TeamStandingData} from './types';
+import {ConstructorPageData, TeamStandingData} from '../types';
 
 export type HistoryProps = Pick<QueryResult<ConstructorPageData>, 'data' | 'loading'>;
 
@@ -26,11 +25,28 @@ export default function History({data, loading}: HistoryProps) {
 		return <Alert variant="outlined" severity="info">Career Data Not Available</Alert>;
 	}
 	
+	const charts: ChartSwitcherChart[] = [
+		{
+			id:    'position',
+			label: 'Position',
+			chart: <HistoryChart data={data} loading={loading} dataKey="position" dataMaxKey="maxPosition" invert min={1} max={20}/>
+		},
+		{
+			id:    'points',
+			label: 'Points',
+			chart: <HistoryChart data={data} loading={loading} dataKey="points" dataMaxKey="maxPoints"/>
+		},
+		{
+			id:    'wins',
+			label: 'Wins',
+			chart: <HistoryChart data={data} loading={loading} dataKey="wins" dataMaxKey="maxWins"/>
+		}
+	];
+	
 	return (
 		<>
-			<PositionsChart data={data} loading={loading}/>
-			<PointsChart data={data} loading={loading}/>
-			<WinsChart data={data} loading={loading}/>
+			<ChartSwitcher title="Constructor Timeline" size={250} charts={charts}/>
+			
 			<DataGrid
 				rows={standings}
 				autoHeight
@@ -49,7 +65,7 @@ export default function History({data, loading}: HistoryProps) {
 							headerAlign: 'center',
 							align:       'center',
 							width:       100,
-							renderCell:  ({row}) => <Link to={`/season/${row.year}`}>{row.year}</Link>
+							renderCell:  ({row}) => <Link href={`/season/${row.year}`}>{row.year}</Link>
 						},
 						{
 							field:      'name',

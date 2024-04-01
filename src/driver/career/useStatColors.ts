@@ -1,5 +1,5 @@
+import {useDarkMode} from '@effonehub/ui-components';
 import {amber, blueGrey, deepPurple, green, red} from '@mui/material/colors';
-import {useDarkMode} from '@ui-components';
 
 export default function useStatColors() {
 	const prefersDarkMode = useDarkMode();

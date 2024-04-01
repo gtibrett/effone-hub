@@ -1,5 +1,5 @@
+import {useGetAccessibleColor} from '@effonehub/ui-components';
 import {useTheme} from '@mui/material';
-import {useGetAccessibleColor} from '@ui-components';
 import {useMemo} from 'react';
 import {ChartMode, RaceStandingsWithEntities, StandingsChartSerie} from './types';
 

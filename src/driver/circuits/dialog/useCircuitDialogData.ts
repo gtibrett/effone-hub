@@ -20,6 +20,12 @@ const CircuitDataQuery = gql`
 					status {
 						status
 					}
+					team {
+						teamId
+						colors {
+							primary
+						}
+					}
 				}
 				lapTimes (condition: {driverId: $driverId}) {
 					lap
@@ -28,21 +34,6 @@ const CircuitDataQuery = gql`
 			}
 		}
 		driver: driver(driverId: $driverId) {
-			driverId
-			dob
-			forename
-			surname
-			code
-			number
-			nationality
-			url
-			currentTeam {
-				team {
-					colors {
-						primary
-					}
-				}
-			}
 			teamsByYear {
 				year
 				team {
