@@ -1,7 +1,7 @@
+import {resizeScreenSize} from '@effonehub/jest';
 import {act, render, screen} from '@testing-library/react';
 import axe from 'axe-core';
 import {BrowserRouter} from 'react-router-dom';
-import {resizeScreenSize} from '../jest';
 import Header from './Header';
 
 describe('Header.tsx', () => {

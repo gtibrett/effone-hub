@@ -1,10 +1,14 @@
+import {useNavLinks} from '@effonehub/app';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link} from '@gtibrett/mui-additions';
-import {Grid, Hidden, IconButton, Menu, MenuItem, SxProps, useTheme} from '@mui/material';
+import {Grid, Hidden, IconButton, lighten, Menu, MenuItem, SxProps, useTheme} from '@mui/material';
 import {MouseEvent, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router';
-import {useNavLinks} from '../Routes';
+
+const isActive = (pathname: string, path?: string, rootPath?: string) => (
+	path === pathname || [path, rootPath].filter(p => p && Number(p?.length) > 1 && pathname.startsWith(p)).length > 0
+);
 
 export default function NavMenu() {
 	const {pathname}              = useLocation();
@@ -15,14 +19,22 @@ export default function NavMenu() {
 	const navLinks                = useNavLinks().filter((l => !!l.label));
 	
 	const navLinkSx: SxProps = {
-		fontFamily:                             "'Titillium Web', sans-serif",
-		textDecoration:                         'none',
-		py:                                     .5,
-		px:                                     .5,
-		mx:                                     .5,
-		borderBottom:                           '8px solid transparent',
-		'&:hover, &:focus, &:active, &.active': {
-			borderBottomColor: theme.palette.common.white
+		fontFamily:           "'Titillium Web', sans-serif",
+		fontWeight:           'bold',
+		textDecoration:       'none',
+		py:                   1,
+		px:                   1.5,
+		mx:                   .5,
+		border:               '1px solid transparent',
+		borderRadius:         1,
+		'&:hover, &:focus':   {
+			color:       lighten(theme.palette.secondary.light, .375),
+			borderColor: lighten(theme.palette.secondary.light, .375)
+		},
+		'&:active, &.active': {
+			color:       theme.palette.getContrastText(theme.palette.secondary.main),
+			background:  theme.palette.secondary.main,
+			borderColor: 'transparent !important'
 		}
 	};
 	
@@ -42,7 +54,7 @@ export default function NavMenu() {
 	return <>
 		<Hidden mdDown>
 			{navLinks.map(({path, rootPath, label}, i) => {
-					const isActive = path === pathname || [path, rootPath].filter(p => p && Number(p?.length) > 1 && pathname.startsWith(p)).length > 0;
+					const active = isActive(pathname, path, rootPath);
 					return (
 						<Grid item key={i}>
 							<Link color="inherit" sx={navLinkSx} className={active ? 'active' : ''} href={path}>{label}</Link>
@@ -73,9 +85,10 @@ export default function NavMenu() {
 							'aria-labelledby': 'hamburger-button'
 						}}
 					>
-						{navLinks.map(({path, label}) => (
-								<MenuItem key={String(path)} onClick={handleLink(String(path))}>{label}</MenuItem>
-							)
+						{navLinks.map(({path, rootPath, label}) => {
+								const active = isActive(pathname, path, rootPath);
+								return <MenuItem selected={active} key={String(path)} onClick={handleLink(String(path))}>{label}</MenuItem>;
+							}
 						)}
 					</Menu>
 				</div>

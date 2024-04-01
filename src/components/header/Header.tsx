@@ -1,12 +1,12 @@
 import {Link} from '@gtibrett/mui-additions';
-import {AppBar, Box, darken, Grid, Toolbar, Typography} from '@mui/material';
+import {AppBar, darken, Grid, lighten, Toolbar, Typography, useTheme} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
-import Logo from './header/Logo';
-import NavMenu from './header/NavMenu';
-
-const background = require('./header/header.jpg');
+import NavMenu from './NavMenu';
 
 export default function Header() {
+	const theme = useTheme();
+	const lightRed = lighten(theme.palette.secondary.light, .375);
+	
 	return (
 		<header role="banner">
 			<AppBar
@@ -15,13 +15,15 @@ export default function Header() {
 				aria-label="main navigation"
 				sx={{
 					background: darken(blueGrey[900], .25),
+					borderBottom: `4px solid ${theme.palette.secondary.main}`,
+					py:         1,
 					
 					'&:before': {
 						position:        'absolute',
-						width:           '100%',
-						height:          '100%',
+						top:             0, bottom: 0,
+						left:            0, right: 0,
 						content:         '" "',
-						backgroundImage: `url(${background})`,
+						backgroundImage: `url(${process.env.PUBLIC_URL}/carbon-fiber-texture.png)`,
 						backgroundSize:  'cover',
 						opacity:         .25
 					}
@@ -39,14 +41,8 @@ export default function Header() {
 						<NavMenu/>
 					</Grid>
 				</Toolbar>
-				<Box sx={{
-					background:     'linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 50%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 100%)',
-					backgroundSize: 32,
-					height:         1.5,
-					opacity:        1
-				}}/>
 			</AppBar>
-			<Toolbar/>
+			<Toolbar sx={{my: 2}}/>
 		</header>
 	);
 }
