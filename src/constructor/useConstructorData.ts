@@ -15,7 +15,7 @@ const ConstructorDataQuery = gql`
 			bio {
 				extract
 			}
-			
+
 			drivers: driversByYear(orderBy: DRIVER_ID_ASC) {
 				year
 				driver {
@@ -33,7 +33,7 @@ const ConstructorDataQuery = gql`
 					}
 				}
 			}
-			
+
 			standings: finalTeamStandingsByYears(orderBy: YEAR_ASC) {
 				points
 				position
@@ -41,7 +41,7 @@ const ConstructorDataQuery = gql`
 				wins
 				year
 			}
-			
+
 			teamHistories {
 				startYear
 				endYear
@@ -51,7 +51,7 @@ const ConstructorDataQuery = gql`
 					colors {
 						primary
 					}
-					
+
 					standings: finalTeamStandingsByYears(orderBy: YEAR_ASC) {
 						points
 						position
@@ -86,6 +86,6 @@ const ConstructorDataQuery = gql`
 	}
 `;
 
-export default function useConstructorData(constructorRef?: string, season?:number) {
+export default function useConstructorData(constructorRef?: string, season?: number) {
 	return useQuery<ConstructorPageData>(ConstructorDataQuery, {variables: {constructorRef, season}});
 }

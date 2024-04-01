@@ -34,7 +34,7 @@ const query = gql`
 `;
 
 
-export const useTeam = (teamIdOrRef?: Team['teamId'] | Team['constructorRef']): { team?: Team, loading: boolean } => {
+export default function useTeam(teamIdOrRef?: Team['teamId'] | Team['constructorRef']): { team?: Team, loading: boolean } {
 	const variables = {
 		teamId:            typeof teamIdOrRef === 'number' ? teamIdOrRef : undefined,
 		constructorRef:    typeof teamIdOrRef === 'string' ? teamIdOrRef : undefined,
@@ -44,4 +44,4 @@ export const useTeam = (teamIdOrRef?: Team['teamId'] | Team['constructorRef']): 
 	const {data, loading} = useQuery<{ teamById: Team, teamByRef: Team }>(query, {variables});
 	
 	return {team: data?.teamById || data?.teamByRef || undefined, loading};
-};
+}

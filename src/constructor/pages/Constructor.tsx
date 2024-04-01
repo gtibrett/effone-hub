@@ -1,12 +1,14 @@
-import {Tabs, usePageTitle} from '@gtibrett/mui-additions';
+import {useAppState} from '@effonehub/app';
+import {Flag} from '@effonehub/components';
+import {TeamData, useConstructorData} from '@effonehub/constructor';
+import Drivers from '@effonehub/constructor/Drivers';
+import {DriverPodiums, DriverPoints, DriverQualifying} from '@effonehub/constructor/stats';
+import {Page, useGetAccessibleColor, WikipediaLink} from '@effonehub/ui-components';
+import {Tabs, setPageTitle} from '@gtibrett/mui-additions';
 import {Card, CardContent, CardHeader, CardMedia, Divider, Grid, Skeleton, Typography, useTheme} from '@mui/material';
-import {Page, useGetAccessibleColor, WikipediaLink} from '@ui-components';
 import {useParams} from 'react-router';
-import {useAppState} from '../app/AppStateProvider';
-import {History, Season, TeamData, useConstructorData} from '../constructor';
-import Drivers from '../constructor/Drivers';
-import {DriverPodiums, DriverPoints, DriverQualifying} from '../constructor/stats';
-import Flag from '../Flag';
+import History from '../history/History';
+import Season from '../season/Season';
 
 const TeamDetails = ({team}: {
 	team: TeamData
@@ -65,7 +67,7 @@ export default function Constructor() {
 	const {data, loading}    = useConstructorData(teamRef, currentSeason);
 	const team               = data?.team;
 	
-	usePageTitle(`Constructor: ${team?.name}`);
+	setPageTitle(`Constructor: ${team?.name}`);
 	
 	if (!team || loading) {
 		return <PageSkeleton/>;

@@ -1,9 +1,9 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {DriverByLine} from '@effonehub/driver';
 import {DriverStandingBySeason} from '@gtibrett/effone-hub-graph-api';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {DriverByLine} from '../driver';
 import {ConstructorPageData, DriverByYear} from './types';
 
 type DriversProps = Pick<QueryResult<ConstructorPageData>, 'data' | 'loading'>;

@@ -1,11 +1,11 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {DriverByLine} from '@effonehub/driver';
 import {Race} from '@gtibrett/effone-hub-graph-api';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Grid, Skeleton, Typography} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {DriverByLine} from '../driver';
+import {ConstructorPageData} from '../types';
 import SeasonChart from './SeasonChart';
-import {ConstructorPageData} from './types';
 
 type SeasonProps = Pick<QueryResult<ConstructorPageData>, 'data' | 'loading'> & { season: number };
 
@@ -52,7 +52,7 @@ export default function Season({data, loading, season}: SeasonProps) {
 							headerName: 'Race',
 							flex:       1,
 							renderCell: ({row, value}) => (
-								<Link to={`/${season}/${row.round}#${row.name}`}>{value}</Link>
+								<Link href={`/${season}/${row.round}#${row.name}`}>{value}</Link>
 							)
 						},
 						{

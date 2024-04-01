@@ -1,15 +1,15 @@
 import {gql, useQuery} from '@apollo/client';
+import {useAppState} from '@effonehub/app';
+import {SeasonMenu} from '@effonehub/components';
+import {ConstructorByLine} from '@effonehub/constructor';
+import {Page, TableFilter} from '@effonehub/ui-components';
 import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Team} from '@gtibrett/effone-hub-graph-api';
-import {usePageTitle} from '@gtibrett/mui-additions';
+import {setPageTitle} from '@gtibrett/mui-additions';
 import {Card, CardContent, Skeleton, TextField, TextFieldProps, useTheme} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {Page, TableFilter} from '@ui-components';
 import {SyntheticEvent, useEffect, useState} from 'react';
-import {useAppState} from '../app/AppStateProvider';
-import {ConstructorByLine} from '../constructor';
-import SeasonMenu from '../SeasonMenu';
 
 type ConstructorsTableProps = {
 	teams: Team[];
@@ -69,7 +69,7 @@ const ConstructorsQuery = gql`
 `;
 
 export default function Drivers() {
-	usePageTitle('Constructors');
+	setPageTitle('Constructors');
 	
 	const [{season: currentSeason}]       = useAppState();
 	const [teams, setTeams]               = useState<Team[] | undefined>();

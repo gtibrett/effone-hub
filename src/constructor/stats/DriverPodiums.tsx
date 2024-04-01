@@ -1,7 +1,7 @@
 import {gql, useQuery} from '@apollo/client';
+import {DriverId} from '@effonehub/driver';
+import {StatCard} from '@effonehub/ui-components';
 import {Team} from '@gtibrett/effone-hub-graph-api';
-import {StatCard} from '@ui-components';
-import {DriverId} from '../../driver';
 
 type Data = {
 	races: {

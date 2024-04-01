@@ -1,11 +1,11 @@
 import {gql, useQuery} from '@apollo/client';
+import {DriverId} from '@effonehub/driver';
+import {DataWithValue, Page, StatCard} from '@effonehub/ui-components';
+import {StatCardStat} from '@effonehub/ui-components/stats';
 import {DriverStanding, Season, Team, TeamStanding} from '@gtibrett/effone-hub-graph-api';
-import {Link, usePageTitle} from '@gtibrett/mui-additions';
+import {Link, setPageTitle} from '@gtibrett/mui-additions';
 import {Card, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {DataWithValue, Page, StatCard} from '@ui-components';
-import {DriverId} from '../driver';
-import {StatCardStat} from '../ui-components/stats/StatCardContent';
 
 type SeasonData = {
 	year: number;
@@ -80,7 +80,7 @@ const SeasonsTable = ({seasons}: SeasonsTableProps) => (
 					headerName: 'Season',
 					width:      100,
 					flex:       1,
-					renderCell: ({row}) => <Link to={`/season/${row.year}`}>{row.year}</Link>
+					renderCell: ({row}) => <Link href={`/season/${row.year}`}>{row.year}</Link>
 				},
 				{
 					field:      'winner',
@@ -138,7 +138,7 @@ const query = gql`
 `;
 
 export default function Seasons() {
-	usePageTitle('Past Seasons');
+	setPageTitle('Past Seasons');
 	const {loading, data} = useQuery<Data>(query);
 	const seasons         = data?.seasons?.filter(s => s.racesByYear[0].driverStandings.length) || [];
 	

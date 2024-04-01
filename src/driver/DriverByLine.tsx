@@ -1,6 +1,6 @@
+import {Flag, FlagProps} from '@effonehub/components';
 import {Link} from '@gtibrett/mui-additions';
 import {Grid, Hidden, Skeleton, Typography} from '@mui/material';
-import Flag, {FlagProps} from '../Flag';
 import {DriverAvatar, DriverAvatarProps, DriverId, useDriver} from './index';
 
 type ByLineProps = {

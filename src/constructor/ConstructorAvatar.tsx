@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Team} from '@gtibrett/effone-hub-graph-api';
 import {Avatar, useTheme} from '@mui/material';
 import useAvatarSize, {AvatarSizes} from '../ui-components/useAvatarSize';
-import {useTeam} from './useTeam';
+import useTeam from './useTeam';
 
 export type ConstructorAvatarProps = {
 	teamId?: Team['teamId'];

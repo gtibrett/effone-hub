@@ -1,11 +1,14 @@
+import {Flag} from '@effonehub/components';
+import {DriverAvatar, useDriver} from '@effonehub/driver';
+import Career from '@effonehub/driver/career/Career';
+import Circuits from '@effonehub/driver/circuits/Circuits';
+import Season from '@effonehub/driver/season/Season';
+import {Page, useGetAccessibleColor, WikipediaLink} from '@effonehub/ui-components';
 import {Driver as DriverT} from '@gtibrett/effone-hub-graph-api';
-import {Tabs, usePageTitle} from '@gtibrett/mui-additions';
+import {Tabs, setPageTitle} from '@gtibrett/mui-additions';
 import {Card, CardContent, CardMedia, Divider, Grid, Hidden, Skeleton, Typography, useTheme} from '@mui/material';
-import {Page, useGetAccessibleColor, WikipediaLink} from '@ui-components';
 import {useParams} from 'react-router';
-import {useAppState} from '../app/AppStateProvider';
-import {Career, Circuits, DriverAvatar, Season, useDriver} from '../driver';
-import Flag from '../Flag';
+import {useAppState} from '../../app/AppStateProvider';
 
 const DriverSkeleton = () => {
 	return (
@@ -76,7 +79,7 @@ export default function Driver() {
 	const {driverRef}        = useParams();
 	const driver             = useDriver(driverRef);
 	
-	usePageTitle(`Driver: ${driver ? `${driver?.forename} ${driver?.surname}` : 'Loading'}`);
+	setPageTitle(`Driver: ${driver ? `${driver?.forename} ${driver?.surname}` : 'Loading'}`);
 	
 	if (!driverRef) {
 		throw new Error('Page Not found');
