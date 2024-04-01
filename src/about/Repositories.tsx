@@ -1,8 +1,8 @@
+import {OpensInNewWindow} from '@effonehub/ui-components';
 import {faGithub} from '@fortawesome/free-brands-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link} from '@gtibrett/mui-additions';
 import {Card, CardContent, CardHeader, List, ListItem, ListItemIcon, ListItemText} from '@mui/material';
-import {OpensInNewWindow} from '@ui-components';
 
 const Repositories = () => (
 	<Card sx={{height: '100%'}}>
