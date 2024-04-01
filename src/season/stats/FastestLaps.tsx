@@ -1,5 +1,5 @@
 import {useQuery} from '@apollo/client';
-import {StatCard} from '@ui-components';
+import {StatCard} from '@effonehub/ui-components';
 import {FastestLapQueryData, seasonFastestLapQuery} from './FastestLap';
 import {SeasonStatProps} from './types';
 

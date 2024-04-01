@@ -1,6 +1,6 @@
 import {gql, useQuery} from '@apollo/client';
-import {StatCard} from '@ui-components';
-import {DriverId} from '../../driver';
+import {DriverId} from '@effonehub/driver';
+import {StatCard} from '@effonehub/ui-components';
 import {SeasonStatProps} from './index';
 
 type Data = {
