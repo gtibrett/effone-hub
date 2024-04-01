@@ -1,13 +1,12 @@
+import {DriverByLine} from '@effonehub/driver';
+import {getTimeStringFromDate} from '@effonehub/helpers';
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {LapTime} from '@gtibrett/effone-hub-graph-api';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useMemo} from 'react';
-import {DriverByLine} from '../../driver';
-import {getTimeStringFromDate} from '../../helpers';
 import {LapByLapData, useLapByLapData} from '../lapByLap/useLapByLapChartData';
 import {getColorWithAlt} from './helpers';
-import {LapTimesProps} from './LapTimes';
 import {LapChartSeries} from './useLapTimeChartData';
 
 type LapData = {
@@ -76,8 +75,8 @@ const useColumns = (laps: number) => {
 					align:       'center',
 					headerAlign: 'center',
 					width:       100,
-					valueGetter: ({row, field}) => {
-						return row.laps.find(l => l.lap === Number(field))?.timing?.milliseconds;
+					valueGetter: (value, row, column) => {
+						return row.laps.find(l => l.lap === Number(column.field))?.timing?.milliseconds;
 					},
 					renderCell:  ({row, field}) => {
 						const lap = row.laps.find(l => l.lap === Number(field));
@@ -103,7 +102,12 @@ const useColumns = (laps: number) => {
 	}, [laps]);
 };
 
-export default function LapTimesTable({season, round}: LapTimesProps) {
+export type LapTimesTableProps = {
+	season: number;
+	round: number;
+}
+
+export default function LapTimesTable({season, round}: LapTimesTableProps) {
 	const lapByLapData    = useLapByLapData(season, round);
 	const data            = useLapTimesData(lapByLapData);
 	const {totalLaps = 0} = lapByLapData;

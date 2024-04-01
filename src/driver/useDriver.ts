@@ -21,6 +21,7 @@ const DriverFields = gql`
 		}
 
 		currentTeam {
+			teamId
 			team {
 				colors {
 					primary
@@ -28,8 +29,14 @@ const DriverFields = gql`
 			}
 		}
 
-		teamsByYear (orderBy: YEAR_DESC, first: 1) {
-			year
+		teamsByYear (orderBy: YEAR_DESC) {
+			year,
+			team {
+				teamId
+				colors {
+					primary
+				}
+			}
 		}
 	}
 `;

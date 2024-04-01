@@ -1,8 +1,8 @@
+import {NivoTooltipFactory, useNivoTheme} from '@effonehub/ui-components';
 import {Circuit} from '@gtibrett/effone-hub-graph-api';
 import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {alpha, Box, Skeleton, useTheme} from '@mui/material';
 import {GeoMapEventHandler, ResponsiveGeoMap} from '@nivo/geo';
-import {NivoTooltip, useNivoTheme} from '@ui-components';
 import {useEffect, useState} from 'react';
 import MapTooltip from './MapTooltip';
 import {Point} from './types';
@@ -76,10 +76,28 @@ export default function RaceMap(props: RaceMapProps) {
 		}
 	}, [centerOn, node, dimensions, lastDimensions]);
 	
+	const noop                = () => {
+	};
+	// PropTypes vs TS mismatches
+	const requiredByPropTypes = {
+		projectionRotation: [0, 0, 0],
+		role:               'image',
+		layers:             ['features'],
+		onMouseLeave:       noop,
+		onMouseMove:        noop,
+		onMouseEnter:       noop,
+		isInteractive:      true,
+		graticuleLineColor: 'transparent',
+		graticuleLineWidth: 0,
+		enableGraticule:    false
+	};
+	
 	return (
 		<Box ref={ref} sx={{position: 'relative', height, width}} aria-hidden>
 			<Box sx={{opacity: !ready ? 0 : 1, height, width}}>
 				<ResponsiveGeoMap
+					{...requiredByPropTypes}
+					
 					theme={nivoTheme}
 					features={[land, ...pointFeatures]}
 					margin={{top: 0, right: 0, bottom: 0, left: 0}}
@@ -109,7 +127,7 @@ export default function RaceMap(props: RaceMapProps) {
 							return alpha(theme.palette.primary.light, .25);
 						}
 					}}
-					tooltip={NivoTooltip(MapTooltip)}
+					tooltip={NivoTooltipFactory(MapTooltip)}
 					onClick={onClick}
 				/>
 			</Box>

@@ -1,8 +1,8 @@
+import {ConstructorByLine} from '@effonehub/constructor';
 import {Driver} from '@gtibrett/effone-hub-graph-api';
 import {Link, useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {Alert, Grid, Hidden, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {ConstructorByLine} from '../../constructor';
 import Stats from '../stats';
 import {DriverStandingData} from '../types';
 import CareerChart from './CareerChart';
@@ -16,6 +16,7 @@ export default function Career({driverId}: CareerProps) {
 	const careerStandings            = data?.driver.standings;
 	const {ref, dimensions: {width}} = useComponentDimensionsWithRef();
 	
+	
 	if (loading || !careerStandings) {
 		return <Skeleton variant="rectangular" height={400}/>;
 	}
@@ -24,13 +25,14 @@ export default function Career({driverId}: CareerProps) {
 		return <Alert variant="outlined" severity="info">Career Data Not Available</Alert>;
 	}
 	
+	
 	return (
 		<>
 			<Grid container spacing={2} alignItems="center" justifyContent="space-around">
 				<Stats driverId={driverId}/>
-				<Grid item xs={12} />
+				<Grid item xs={12}/>
 				<Grid item xs={12} md={6} lg={9}>
-					<CareerChart standings={careerStandings} size={width || 200}/>
+					<CareerChart driverId={driverId} size={width || 200}/>
 				</Grid>
 				<Hidden mdDown><Grid item md={6} lg={3} ref={ref}><CareerPerformanceBurst driverId={driverId} size={width}/></Grid></Hidden>
 				<Grid item xs={12}>

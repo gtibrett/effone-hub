@@ -1,9 +1,9 @@
 import {gql, useQuery} from '@apollo/client';
+import {DriverByLine} from '@effonehub/driver';
+import {getTimeStringFromDate} from '@effonehub/helpers';
 import {Driver, PitStop, Race, TeamColor} from '@gtibrett/effone-hub-graph-api';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {DriverByLine} from '../../driver';
-import {getTimeStringFromDate} from '../../helpers';
 import PitStopsChart from './PitStopsChart';
 
 const pitStopsQuery = gql`
@@ -96,7 +96,7 @@ export default function PitStops({season, round}: PitStopsProps) {
 			headerAlign: 'center',
 			align:       'center',
 			type:        'number',
-			valueGetter: ({row}) => row.stops.length
+			valueGetter: (value, row) => row.stops.length
 		},
 		...(new Array(maxStops)).fill(null).map((v, i) => {
 			return {
@@ -106,7 +106,7 @@ export default function PitStops({season, round}: PitStopsProps) {
 				headerAlign: 'center',
 				align:       'center',
 				type:        'number',
-				valueGetter: ({row}) => {
+				valueGetter: (value, row) => {
 					const stopTime = row.stops.find(r => r.stop === i + 1)?.milliseconds;
 					
 					if (stopTime) {
@@ -123,7 +123,6 @@ export default function PitStops({season, round}: PitStopsProps) {
 		<>
 			<PitStopsChart maxStops={maxStops} pitStops={tableData}/>
 			<DataGrid
-				pageSize={100}
 				rows={tableData}
 				getRowId={row => row.driverId || ''}
 				autoHeight

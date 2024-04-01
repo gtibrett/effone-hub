@@ -1,10 +1,10 @@
+import {ConstructorByLine} from '@effonehub/constructor';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {TeamStanding} from '@gtibrett/effone-hub-graph-api';
 import {Dialog, DialogContent, DialogTitle, Grid, IconButton, Tooltip} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {Dispatch, SetStateAction} from 'react';
-import {ConstructorByLine} from '../../constructor';
 import useConstructorStandingsData from './useConstructorsStandingsData';
 
 type ConstructorStandingsDialogProps = {
@@ -40,14 +40,22 @@ export default function ConstructorStandingsDialog({season, open, setOpen}: Cons
 					getRowId={r => r.team.teamId}
 					autoHeight
 					density="compact"
-					pageSize={10}
+					hideFooter
 					initialState={{
 						sorting: {
-							sortModel: [{field: 'points', sort: 'desc'}]
+							sortModel: [{field: 'position', sort: 'asc'}]
 						}
 					}}
 					columns={
 						[
+							{
+								field:       'position',
+								headerName:  'P',
+								headerAlign: 'center',
+								type:        'number',
+								align:       'center',
+								width:       16
+							},
 							{
 								field:      'teamId',
 								headerName: 'Constructor',

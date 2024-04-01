@@ -1,9 +1,9 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {useGetAccessibleColor, useNivoTheme} from '@effonehub/ui-components';
 import {Result} from '@gtibrett/effone-hub-graph-api';
 import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {Paper, useTheme} from '@mui/material';
 import {ResponsiveRadar} from '@nivo/radar';
-import {useGetAccessibleColor, useNivoTheme} from '@ui-components';
 import {CircuitDialogData} from './types';
 
 type Stats = {
@@ -61,10 +61,10 @@ export default function CircuitPerformance({data, loading}: CircuitPerformancePr
 		}
 	];
 	
-	const color = getAccessibleColor(data?.driver?.currentTeam?.team?.colors.primary || theme.palette.primary.main);
+	const color = getAccessibleColor(theme.palette.primary.main);
 	
 	return (
-		<Paper variant="outlined" ref={ref} sx={{height: width, p: 1}}>
+		<Paper variant="outlined" ref={ref} sx={{height: width, p: 0}}>
 			<ResponsiveRadar
 				theme={nivoTheme}
 				data={chartData}
@@ -72,7 +72,7 @@ export default function CircuitPerformance({data, loading}: CircuitPerformancePr
 				maxValue={performanceData.appearances}
 				indexBy="stat"
 				valueFormat=">-,.2"
-				margin={{top: 10, right: 50, bottom: 10, left: 50}}
+				margin={{top: 10, right: 60, bottom: 10, left: 60}}
 				borderColor={{from: 'color'}}
 				borderWidth={1}
 				dotSize={6}

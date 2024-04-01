@@ -1,4 +1,4 @@
-import {Typography} from '@mui/material';
+import {Box, Typography} from '@mui/material';
 
 type MapTooltipProps = {
 	feature: any;
@@ -9,5 +9,9 @@ export default function MapTooltip({feature}: MapTooltipProps) {
 		return null;
 	}
 	
-	return <Typography>{feature.properties.name}</Typography>;
+	return (
+		<Box py={1} px={2}>
+			<Typography>{feature.properties.name}</Typography>
+		</Box>
+	);
 }

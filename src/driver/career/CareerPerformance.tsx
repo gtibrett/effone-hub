@@ -1,8 +1,8 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {NivoTooltipFactory, useDarkMode, useNivoTheme} from '@effonehub/ui-components';
 import {Paper, Typography} from '@mui/material';
 import {blueGrey, deepPurple, green, red} from '@mui/material/colors';
 import {PieTooltipProps, ResponsivePie} from '@nivo/pie';
-import {NivoTooltip, useDarkMode, useNivoTheme} from '@ui-components';
 import {DriverPageData} from '../types';
 
 type Stats = {
@@ -89,7 +89,7 @@ export default function CareerPerformance({data}: CareerPerformanceProps) {
 				padAngle={3}
 				cornerRadius={3}
 				margin={{top: 0, right: 110, bottom: 0, left: 0}}
-				tooltip={NivoTooltip(CareerPerformanceTooltip)}
+				tooltip={NivoTooltipFactory(CareerPerformanceTooltip)}
 				legends={[
 					{
 						anchor:        'right',

@@ -1,15 +1,15 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {useGetAccessibleColor} from '@effonehub/ui-components';
 import {Team} from '@gtibrett/effone-hub-graph-api';
 import {useTheme} from '@mui/material';
 import {Serie as LineSerie} from '@nivo/line';
-import {useGetAccessibleColor} from '@ui-components';
 import {ConstructorPageData, TeamStandingData} from '../types';
 
 type StandingsAndTeamInfo = Pick<Team, 'teamId' | 'name' | 'colors'> & {
 	standings: TeamStandingData[]
 };
 
-type HistoryChartData = {
+export type HistoryChartData = {
 	standingsByTeam: Map<number, StandingsAndTeamInfo>;
 	minYear: number;
 	maxYear: number;
@@ -80,6 +80,7 @@ export function getChartDataByAttribute(attribute: keyof TeamStandingData, chart
 				y = standing[attribute] !== null ? standing[attribute] : null;
 			}
 			
+			// @ts-ignore
 			chartData.data.push({x, y, data: {teamId, name, ...standing}});
 		}
 		

@@ -1,6 +1,8 @@
-import {Button, Card, CardActions, CardContent, CardHeader, Skeleton} from '@mui/material';
+import {ChartSwitcher, ChartSwitcherChart} from '@effonehub/components/charts';
+import {DriverChampion} from '@effonehub/season';
+import {Button, Skeleton} from '@mui/material';
 import {useState} from 'react';
-import {ChartSwitcher, ChartSwitcherToggle, useChartSwitcherMode} from '../charts';
+import {PointsChart, PositionsChart} from '../charts';
 import DriverStandingsDialog from './DriverStandingsDialog';
 import {DriverStandingsPointsTooltip, DriverStandingsPositionTooltip} from './DriverStandingsTooltip';
 import useDriverStandingsData from './useDriversStandingsData';
@@ -9,7 +11,6 @@ type DriversProps = { season: number, height: number };
 
 export default function DriversStandings({season, height}: DriversProps) {
 	const [open, setOpen]            = useState(false);
-	const {mode, handleMode}         = useChartSwitcherMode();
 	const {data, loading, chartData} = useDriverStandingsData(season);
 	const races                      = data?.races.filter(r => r.driverStandings.length);
 	const standings                  = races?.at(-1)?.driverStandings;
@@ -22,16 +23,29 @@ export default function DriversStandings({season, height}: DriversProps) {
 		return null;
 	}
 	
+	const charts: ChartSwitcherChart[] = [
+		{
+			id:    'position',
+			label: 'Position',
+			chart: <PositionsChart data={chartData} TooltipComponent={DriverStandingsPositionTooltip}/>
+		},
+		{
+			id:    'points',
+			label: 'Points',
+			chart: <PointsChart data={chartData} TooltipComponent={DriverStandingsPointsTooltip}/>
+		}
+	];
+	
 	return (
-		<Card variant="outlined">
-			<CardHeader title="Driver's Standings" action={<ChartSwitcherToggle mode={mode} handleMode={handleMode}/>}/>
-			<CardContent sx={{height}}>
-				<ChartSwitcher data={chartData} loading={loading} mode={mode} PointsTooltip={DriverStandingsPointsTooltip} PositionsTooltip={DriverStandingsPositionTooltip}/>
-			</CardContent>
-			<CardActions sx={{justifyContent: 'flex-end'}}>
-				<Button variant="outlined" size="small" onClick={() => setOpen(true)}>show full standings</Button>
-				<DriverStandingsDialog season={season} open={open} setOpen={setOpen}/>
-			</CardActions>
-		</Card>
+		<ChartSwitcher
+			title="Driver's Standings"
+			charts={charts} size={height + 56}
+			subheader={<DriverChampion season={season}/>}
+			actions={
+				<>
+					<Button variant="outlined" size="small" onClick={() => setOpen(true)}>show full standings</Button>
+					<DriverStandingsDialog season={season} open={open} setOpen={setOpen}/>
+				</>
+			}/>
 	);
 }

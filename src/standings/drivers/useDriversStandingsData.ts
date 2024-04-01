@@ -9,7 +9,7 @@ export type DriverStandingsQueryData = {
 export const mapDriverToEntity = (driver: Driver): Entity => ({
 	id:    driver.driverId,
 	name:  driver.surname, //driver.code || (driver.surname || '').replace(' ', '').substring(0, 3).toUpperCase(),
-	color: driver.currentTeam.team.colors.primary
+	color: driver.teamsByYear[0].team.colors.primary
 });
 
 const query = gql`
@@ -24,7 +24,7 @@ const query = gql`
 					driverId
 					code
 					surname
-					currentTeam {
+					teamsByYear (condition: {year: $season}) {
 						team {
 							colors {
 								primary

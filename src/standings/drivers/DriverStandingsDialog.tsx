@@ -1,9 +1,10 @@
+import {DriverByLine} from '@effonehub/driver';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Box, Dialog, DialogContent, DialogTitle, Divider, Grid, IconButton, Tooltip} from '@mui/material';
+import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
+import {Card, Dialog, DialogContent, DialogTitle, Grid, IconButton, Tooltip} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import {Dispatch, SetStateAction} from 'react';
-import {DriverByLine} from '../../driver';
 import Place from '../../race/Place';
 import useDriverStandingsData from './useDriversStandingsData';
 
@@ -23,10 +24,11 @@ type DriverStandingsDialogProps = {
 }
 
 export default function DriverStandingsDialog({season, open, setOpen}: DriverStandingsDialogProps) {
-	const {data}    = useDriverStandingsData(season);
-	const races     = data?.races.filter(r => r.driverStandings.length);
-	const standings = races?.at(-1)?.driverStandings;
-	const onClose   = () => setOpen(false);
+	const {ref, dimensions} = useComponentDimensionsWithRef();
+	const {data}            = useDriverStandingsData(season);
+	const races             = data?.races.filter(r => r.driverStandings.length);
+	const standings         = races?.at(-1)?.driverStandings;
+	const onClose           = () => setOpen(false);
 	
 	if (!standings?.length) {
 		return null;
@@ -49,28 +51,20 @@ export default function DriverStandingsDialog({season, open, setOpen}: DriverSta
 			<DialogContent dividers>
 				<Grid container spacing={2}>
 					<Grid item xs={12} lg={5}>
-						<Place driverId={p1.driver.driverId} place={1} points={p1.points} asterisk={season === 2021}/>
-						<Divider/>
-						<Place driverId={p2.driver.driverId} place={2} points={p2.points}/>
-						<Divider/>
-						<Place driverId={p3.driver.driverId} place={3} points={p3.points}/>
+						<Grid container spacing={2} ref={ref}>
+							<Grid item xs={12}><Place driverId={p1.driver.driverId} place={1} points={p1.points} asterisk={season === 2021}/></Grid>
+							<Grid item xs={12}><Place driverId={p2.driver.driverId} place={2} points={p2.points}/></Grid>
+							<Grid item xs={12}><Place driverId={p3.driver.driverId} place={3} points={p3.points}/></Grid>
+						</Grid>
 					</Grid>
 					<Grid item xs={12} lg={7}>
-						<Box sx={{
-							height: {
-								xs: 300,
-								lg: 'calc(100% - 8px)'
-							},
-							pr:     {
-								xs: 0,
-								lg: 4
-							}
-						}}>
+						<Card sx={{height: dimensions.height - 14}}>
 							<DataGrid
 								sx={sx}
 								rows={rest}
 								density="compact"
 								getRowId={r => r.driver.driverId}
+								hideFooter
 								initialState={{
 									sorting: {
 										sortModel: [{field: 'position', sort: 'asc'}]
@@ -101,7 +95,7 @@ export default function DriverStandingsDialog({season, open, setOpen}: DriverSta
 									]
 								}
 							/>
-						</Box>
+						</Card>
 					</Grid>
 				</Grid>
 			</DialogContent>
