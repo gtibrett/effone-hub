@@ -59,8 +59,8 @@ export default function Schedule({season}: ScheduleProps) {
 							flex:       1,
 							renderCell: ({row, value}) => (
 								season === currentSeason
-								? <Link to={`/${season}/${row.round}#${row.name}`}>{value}</Link>
-								: <Link to={`/season/${season}/${row.round}#${row.name}`}>{value}</Link>
+								? <Link href={`/${season}/${row.round}#${row.name}`}>{value}</Link>
+								: <Link href={`/season/${season}/${row.round}#${row.name}`}>{value}</Link>
 							),
 							minWidth:   200,
 							sortable:   false

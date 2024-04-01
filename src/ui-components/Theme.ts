@@ -84,6 +84,11 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 					}
 				}
 			},
+			MuiLink:         {
+				defaultProps: {
+					component: LinkBehavior
+				}
+			},
 			MuiListItemIcon: {
 				styleOverrides: {
 					root: {

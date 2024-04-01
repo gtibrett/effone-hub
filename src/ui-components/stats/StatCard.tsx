@@ -73,7 +73,7 @@ const TeamVariant = <T extends DataWithValue>({size, label, data, format, extra}
 		<StatCardContent<T>
 			size={size}
 			avatar={<ConstructorAvatar teamId={teamId} size={64}/>}
-			title={<Link to={`/constructor/${constructorRef}`}>{name}</Link>}
+			title={<Link href={`/constructor/${constructorRef}`}>{name}</Link>}
 			label={label}
 			data={value}
 			format={format}

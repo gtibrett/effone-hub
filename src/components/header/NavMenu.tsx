@@ -45,7 +45,7 @@ export default function NavMenu() {
 					const isActive = path === pathname || [path, rootPath].filter(p => p && Number(p?.length) > 1 && pathname.startsWith(p)).length > 0;
 					return (
 						<Grid item key={i}>
-							<Link color="inherit" sx={navLinkSx} className={isActive ? 'active' : ''} to={path}>{label}</Link>
+							<Link color="inherit" sx={navLinkSx} className={active ? 'active' : ''} href={path}>{label}</Link>
 						</Grid>
 					);
 				}
