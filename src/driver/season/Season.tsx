@@ -4,7 +4,7 @@ import {Alert, Skeleton, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useAppState} from '../../app/AppStateProvider';
-import {getPositionTextOutcome, getTimeStringFromDate} from '../../helpers';
+import {getPositionTextOutcome, getTimeStringFromDate} from '@effonehub/helpers';
 import PositionChange from '../../race/PositionChange';
 import {DriverId} from '../index';
 import SeasonChart from './SeasonChart';
@@ -64,7 +64,7 @@ export default function Season({season, driverId}: SeasonProps) {
 							type:        'number',
 							headerAlign: 'center',
 							align:       'center',
-							valueGetter: ({row}) => row.results[0]?.grid || '--'
+							valueGetter: (value, row) => row.results[0]?.grid || '--'
 						},
 						{
 							field:       'result',
@@ -72,7 +72,7 @@ export default function Season({season, driverId}: SeasonProps) {
 							type:        'number',
 							headerAlign: 'center',
 							align:       'center',
-							valueGetter: ({row}) => row.results[0]?.positionOrder || '--'
+							valueGetter: (value, row) => row.results[0]?.positionOrder || '--'
 						},
 						{
 							field:        'change',
@@ -85,7 +85,7 @@ export default function Season({season, driverId}: SeasonProps) {
 								}
 								return '--';
 							},
-							valueGetter:  ({row}) => {
+							valueGetter:  (value, row) => {
 								const result = row.results[0];
 								if (result) {
 									const {grid, positionOrder} = result;
@@ -106,7 +106,7 @@ export default function Season({season, driverId}: SeasonProps) {
 							type:        'number',
 							headerAlign: 'center',
 							align:       'center',
-							valueGetter: ({row}) => row.results[0]?.points || '--'
+							valueGetter: (value, row) => row.results[0]?.points || '--'
 						},
 						{
 							field:       'time',
@@ -115,7 +115,7 @@ export default function Season({season, driverId}: SeasonProps) {
 							headerAlign: 'left',
 							align:       'left',
 							flex:        .5,
-							valueGetter: ({row}) => {
+							valueGetter: (value, row) => {
 								const result = row.results[0];
 								if (result) {
 									const time = result.milliseconds;

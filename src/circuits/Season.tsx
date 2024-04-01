@@ -1,3 +1,6 @@
+import {ConstructorByLine} from '@effonehub/constructor';
+import {DriverByLine} from '@effonehub/driver';
+import {getPositionTextOutcome} from '@effonehub/helpers';
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Result} from '@gtibrett/effone-hub-graph-api';
@@ -5,9 +8,6 @@ import {Grid, Skeleton, Tooltip, Typography} from '@mui/material';
 import {purple} from '@mui/material/colors';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {ConstructorByLine} from '../constructor';
-import {DriverByLine} from '../driver';
-import {getPositionTextOutcome} from '../helpers';
 import PositionChange from '../race/PositionChange';
 import NextRaceCountdown from '../raceWeekend/NextRaceCountdown';
 import {CircuitDataProps} from './useCircuitByRef';
@@ -59,7 +59,7 @@ export default function Season({data, loading}: CircuitDataProps) {
 						renderCell:   ({row}) => (
 							<PositionChange grid={Number(row.grid)} positionOrder={Number(row.positionOrder)}/>
 						),
-						valueGetter:  ({row}) => {
+						valueGetter:  (value, row) => {
 							const {grid, position} = row;
 							if (!grid || !position) {
 								return 0;

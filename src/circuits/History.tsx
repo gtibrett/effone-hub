@@ -1,7 +1,7 @@
+import {DriverByLine} from '@effonehub/driver';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {DriverByLine} from '../driver';
 import {CircuitDataProps, CircuitHistoryData} from './useCircuitByRef';
 
 export default function History({data, loading}: CircuitDataProps) {
@@ -57,7 +57,7 @@ export default function History({data, loading}: CircuitDataProps) {
 						field:       'winner',
 						headerName:  'Winner',
 						flex:        1,
-						valueGetter: ({row}) => {
+						valueGetter: (value, row) => {
 							if (!row.results.length) {
 								return '--';
 							}
