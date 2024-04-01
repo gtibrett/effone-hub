@@ -52,6 +52,9 @@
 			"@effonehub/driver/*":      [
 				"driver/*"
 			],
+			"@effonehub/helpers":  [
+				"helpers.ts"
+			],
 			"@effonehub/maps":      [
 				"maps"
 			],

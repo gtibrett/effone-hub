@@ -1,17 +1,16 @@
 import {gql, useQuery} from '@apollo/client';
+import {RaceMap, useMapSeasonRacesToMapPoints} from '@effonehub/maps';
+import {OpenAILink, Page, WikipediaLink} from '@effonehub/ui-components';
 import {Race as RaceT} from '@gtibrett/effone-hub-graph-api';
-import {Link, TabContent, Tabs, usePageTitle} from '@gtibrett/mui-additions';
+import {Link, setPageTitle, TabContent, Tabs} from '@gtibrett/mui-additions';
 import {Backdrop, Box, Card, CardContent, CardHeader, CardMedia, Grid, Hidden, Typography} from '@mui/material';
-import {OpenAILink, Page, WikipediaLink} from '@ui-components';
 import {useParams} from 'react-router';
-import RaceMap from '../maps/RaceMap';
-import useMapSeasonRacesToMapPoints from '../maps/useMapSeasonRacesToMapPoints';
-import Laps from './Laps';
-import PitStops from './pitStops/PitStops';
-import Qualifying from './Qualifying';
-import Results from './Results';
-import SprintResults from './SprintResults';
-import {FastestLap, LapLeader, Pole, PositionsGained} from './stats';
+import Laps from '../Laps';
+import PitStops from '../pitStops/PitStops';
+import Qualifying from '../Qualifying';
+import Results from '../Results';
+import SprintResults from '../SprintResults';
+import {FastestLap, LapLeader, Pole, PositionsGained} from '../stats';
 
 const raceQuery = gql`
 	#graphql
@@ -78,8 +77,6 @@ const raceQuery = gql`
 	}
 `;
 
-const setPageTitle = usePageTitle;
-
 export default function Race() {
 	const mapSeasonRacesToFeatures = useMapSeasonRacesToMapPoints();
 	const params                   = useParams();
@@ -135,7 +132,7 @@ export default function Race() {
 			id:      'circuit', label: 'Circuit',
 			content: (
 				         <Card>
-					         <CardHeader title={<Link to={`/circuit/${race.circuit.circuitRef}`}>{race.circuit.name}</Link>}/>
+					         <CardHeader title={<Link href={`/circuit/${race.circuit.circuitRef}`}>{race.circuit.name}</Link>}/>
 					         <CardMedia><RaceMap points={points} onClick={onClick} height={140} centerOn={{lat: race.circuit.lat, lng: race.circuit.lng}} zoom/></CardMedia>
 					         <CardContent>
 						         <Typography variant="body1">{circuitDescription} <Box component="span" display="block"><OpenAILink/></Box></Typography>
@@ -158,7 +155,7 @@ export default function Race() {
 				<Hidden mdDown>
 					<Card>
 						<CardMedia><RaceMap points={points} onClick={onClick} height={140} centerOn={{lat: race.circuit.lat, lng: race.circuit.lng}} zoom/></CardMedia>
-						<CardHeader title={<Link to={`/circuit/${race.circuit.circuitRef}`}>{race.circuit.name}</Link>}/>
+						<CardHeader title={<Link href={`/circuit/${race.circuit.circuitRef}`}>{race.circuit.name}</Link>}/>
 					</Card>
 				</Hidden>
 			}
@@ -174,7 +171,7 @@ export default function Race() {
 							)
 							: (
 								<CardContent>
-									<Typography variant="h5"><Link to={`/circuit/${race.circuit.circuitRef}`}>{race.circuit.name}</Link></Typography>
+									<Typography variant="h5"><Link href={`/circuit/${race.circuit.circuitRef}`}>{race.circuit.name}</Link></Typography>
 									<Typography variant="h6">{race.circuit.location}, {race.circuit.country}</Typography>
 									{circuitDescription && (
 										<><Typography variant="body2">{circuitDescription}</Typography>

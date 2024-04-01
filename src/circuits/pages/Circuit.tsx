@@ -1,27 +1,25 @@
-import {Tabs, usePageTitle} from '@gtibrett/mui-additions';
+import {useAppState} from '@effonehub/app';
+import {CircuitMap, RaceMap, useMapCircuitsToMapPoints} from '@effonehub/maps';
+import {OpenAILink, Page} from '@effonehub/ui-components';
+import {setPageTitle, Tabs, useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {Backdrop, Card, CardContent, CardHeader, Divider, Grid, Hidden, Typography} from '@mui/material';
-import {OpenAILink, Page} from '@ui-components';
+import {Fragment} from 'react';
 import {useParams} from 'react-router';
-import {useAppState} from '../app/AppStateProvider';
-import History from '../circuits/History';
-import Season from '../circuits/Season';
-import FastestLap from '../circuits/stats/FastestLap';
-import LapLeader from '../circuits/stats/LapLeader';
-import MostWins from '../circuits/stats/MostWins';
-import useCircuitByRef from '../circuits/useCircuitByRef';
-import CircuitMap from '../maps/CircuitMap';
-import RaceMap from '../maps/RaceMap';
-import useMapCircuitsToMapPoints from '../maps/useMapCircuitsToMapPoints';
+import History from '../History';
+import Season from '../Season';
+import {FastestLap, LapLeader, MostWins} from '../stats';
+import useCircuitByRef from '../useCircuitByRef';
 
 export default function Circuit() {
-	const mapCircuitsToMapPoints = useMapCircuitsToMapPoints();
-	const {circuitRef}           = useParams();
-	const [{currentSeason}]      = useAppState();
-	const {data, loading}        = useCircuitByRef(circuitRef, currentSeason);
-	const {data: lastSeasonData} = useCircuitByRef(circuitRef, currentSeason - 1);
-	const seasonToShow           = data?.circuit.season?.[0].results.length ? currentSeason : currentSeason - 1;
+	const mapCircuitsToMapPoints      = useMapCircuitsToMapPoints();
+	const {circuitRef}                = useParams();
+	const [{currentSeason}]           = useAppState();
+	const {data, loading}             = useCircuitByRef(circuitRef, currentSeason);
+	const {data: lastSeasonData}      = useCircuitByRef(circuitRef, currentSeason - 1);
+	const {ref, dimensions: {height}} = useComponentDimensionsWithRef();
+	const seasonToShow                = data?.circuit.season?.[0].results.length ? currentSeason : currentSeason - 1;
 	
-	usePageTitle(`Circuit: ${data?.circuit.name}`);
+	setPageTitle(`Circuit: ${data?.circuit.name}`);
 	
 	if (!circuitRef) {
 		throw new Error('Page Not found');
@@ -51,8 +49,8 @@ export default function Circuit() {
 			)}
 			action={(
 				<Hidden mdDown>
-					<Card sx={{height: '100%'}}>
-						<RaceMap points={points} onClick={onClick} height={200} centerOn={circuit} zoom/>
+					<Card sx={{height: '100%'}} ref={ref}>
+						<RaceMap points={points} onClick={onClick} height={height} centerOn={circuit} zoom/>
 					</Card>
 				</Hidden>
 			)}

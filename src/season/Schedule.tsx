@@ -1,8 +1,8 @@
+import {DriverByLine} from '@effonehub/driver';
 import {Link} from '@gtibrett/mui-additions';
 import {Box, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useAppState} from '../app/AppStateProvider';
-import {DriverByLine} from '../driver';
 import RaceMap from '../maps/RaceMap';
 import useMapSeasonRacesToMapPoints from '../maps/useMapSeasonRacesToMapPoints';
 import useScheduleData, {RaceData} from './useScheduleData';

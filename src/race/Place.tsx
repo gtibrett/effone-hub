@@ -1,8 +1,8 @@
+import {DriverAvatar, DriverId, useDriver} from '@effonehub/driver';
 import {faAsterisk} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link} from '@gtibrett/mui-additions';
 import {Card, CardHeader, Divider, SxProps, Typography} from '@mui/material';
-import {DriverAvatar, DriverId, useDriver} from '../driver';
 
 type PlaceProps = {
 	driverId?: DriverId;

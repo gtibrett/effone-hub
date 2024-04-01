@@ -1,5 +1,5 @@
 import {Link} from '@gtibrett/mui-additions';
-import {TeamId, useTeam} from './useTeam';
+import useTeam, {TeamId} from './useTeam';
 
 type ByLineProps = {
 	id?: TeamId;

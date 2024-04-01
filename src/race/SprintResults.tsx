@@ -1,3 +1,6 @@
+import {ConstructorByLine} from '@effonehub/constructor';
+import {DriverByLine} from '@effonehub/driver';
+import {getMillisecondsFromTimeString, getPositionTextOutcome} from '@effonehub/helpers';
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {SprintResult} from '@gtibrett/effone-hub-graph-api';
@@ -5,9 +8,6 @@ import {Alert, Grid, Skeleton, Tooltip, Typography} from '@mui/material';
 import {purple} from '@mui/material/colors';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {ConstructorByLine} from '../constructor';
-import {DriverByLine} from '../driver';
-import {getMillisecondsFromTimeString, getPositionTextOutcome} from '../helpers';
 import PositionChange from './PositionChange';
 
 export default function SprintResults({results}: {
@@ -50,7 +50,7 @@ export default function SprintResults({results}: {
 						renderCell:   ({row}) => (
 							<PositionChange {...row}/>
 						),
-						valueGetter:  ({row}) => {
+						valueGetter:  (value, row) => {
 							const {grid, position} = row;
 							if (!grid || !position) {
 								return 0;
