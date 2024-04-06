@@ -23,7 +23,7 @@ const dependencies: DependencyCategory[] = [
 	{
 		title: 'Nationalities',
 		links: [
-			{title: 'emoji-flag', url: 'https://www.npmjs.com/package/emoji-flag'},
+			{title: 'emoji-flags', url: 'https://www.npmjs.com/package/emoji-flags'},
 			{title: 'i18n-nationality', url: 'https://www.npmjs.com/package/i18n-nationality'}
 		]
 	},
