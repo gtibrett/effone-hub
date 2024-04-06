@@ -1,6 +1,5 @@
 import {Avatar, SxProps, useTheme} from '@mui/material';
-// @ts-ignore
-import flag from 'emoji-flag';
+import {countryCode} from 'emoji-flags';
 import nationalities from 'i18n-nationality';
 
 nationalities.registerLocale(require('i18n-nationality/langs/en.json'));
@@ -12,7 +11,7 @@ export const useCountryFlag = (nationality: string | undefined) => {
 	
 	const code = nationalities.getAlpha2Code(nationality === 'Monegasque' ? 'Monacan' : nationality, 'en');
 	
-	return flag(code);
+	return code ? countryCode(code).emoji : null;
 };
 
 export type FlagProps = {
@@ -45,7 +44,7 @@ const useSize = (size: FlagProps['size']): SxProps => {
 export default function Flag({nationality, size = 'small'}: FlagProps) {
 	const sizeSx = useSize(size);
 	const flag   = useCountryFlag(nationality);
-	if (!nationality) {
+	if (!flag) {
 		return null;
 	}
 	
