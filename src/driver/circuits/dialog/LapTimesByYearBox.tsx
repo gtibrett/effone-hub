@@ -1,32 +1,20 @@
 import {QueryResult} from '@apollo/client/react/types/types';
 import LapTimesByYearTooltip from '@effonehub/driver/circuits/dialog/LapTimesByYearTooltip';
+import useGetTeamColorsByYear from '@effonehub/driver/circuits/dialog/useGetTeamColorsByYear';
 import {getTimeStringFromDate} from '@effonehub/helpers';
-import {NivoTooltipFactory, useGetAccessibleColor, useNivoTheme} from '@effonehub/ui-components';
-import {Alert, alpha, Card, darken, lighten, Skeleton, useTheme} from '@mui/material';
+import {NivoTooltipFactory, useNivoTheme} from '@effonehub/ui-components';
+import {Alert, alpha, Card, Skeleton} from '@mui/material';
 import {ResponsiveBoxPlot} from '@nivo/boxplot';
-import {mapLapTimeDataToBoxChart} from './mapLapTimeDataToSwarmChart';
+import {useMapLapTimeDataToSwarmChart} from './mapLapTimeDataToSwarmChart';
 import {CircuitDialogData} from './types';
 
 type LapTimesChartProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading'>;
 
-const factor = .3;
-
-const useTweakColor = () => {
-	const getAccessibleColor = useGetAccessibleColor();
-	const theme              = useTheme();
-	
-	return (color: string) => {
-		const a11yColor = getAccessibleColor(color);
-		return (theme.palette.mode === 'light') ? darken(a11yColor, factor) : lighten(a11yColor, factor);
-	};
-};
-
 export default function LapTimesByYearBox({data}: LapTimesChartProps) {
-	const theme      = useTheme();
-	const nivoTheme  = useNivoTheme();
-	const tweakColor = useTweakColor();
-	
-	const colorConfig = ({group}: any) => colorsByYear[group];
+	const nivoTheme                = useNivoTheme();
+	const colorsByYear             = useGetTeamColorsByYear()(data?.driver.teamsByYear || []);
+	const mapLapTimeDataToBoxChart = useMapLapTimeDataToSwarmChart();
+	const getColorConfig           = ({group}: any) => colorsByYear[group];
 	
 	if (!data) {
 		return <Skeleton variant="rectangular" height={400}/>;
@@ -37,11 +25,6 @@ export default function LapTimesByYearBox({data}: LapTimesChartProps) {
 	if (!chartData.length) {
 		return <Alert variant="outlined" severity="info">Lap Time Data Not Available</Alert>;
 	}
-	
-	const colorsByYear: { [year: number]: string } = data.driver.teamsByYear
-	                                                     .map(({year, team: {colors}}) => ({year, color: colors.primary || theme.palette.primary.main}))
-	                                                     .reduce((colors, {year, color}) => ({...colors, [year]: tweakColor(color)}), {});
-	
 	
 	return (
 		<Card variant="outlined" sx={{height: '60vh', width: '100%'}} aria-hidden>
@@ -68,12 +51,12 @@ export default function LapTimesByYearBox({data}: LapTimesChartProps) {
 					}
 				}}
 				borderWidth={1}
-				borderColor={colorConfig}
+				borderColor={getColorConfig}
 				medianWidth={3}
-				medianColor={colorConfig}
+				medianColor={getColorConfig}
 				whiskerWidth={1}
 				whiskerEndSize={0.5}
-				whiskerColor={colorConfig}
+				whiskerColor={getColorConfig}
 				motionConfig="stiff"
 				tooltip={NivoTooltipFactory(LapTimesByYearTooltip)}
 			/>

@@ -1,16 +1,18 @@
 import {QueryResult} from '@apollo/client/react/types/types';
 import {ChartSwitcher, ChartSwitcherChart, DataWithTeamInfo, LineChartByTeam, LineChartByTeamProps} from '@effonehub/components/charts';
+import {useGetTeamColor} from '@effonehub/constructor';
 import CareerTooltip from '@effonehub/driver/career/CareerTooltip';
 import {CircuitDialogData} from './types';
 
 type CircuitChartProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading'>;
 
 export default function CircuitChart({data}: CircuitChartProps) {
+	const getTeamColor=useGetTeamColor()
 	const races = (data?.circuit.races || []).filter(r => r.results.length);
 	
 	const chartData: DataWithTeamInfo[] = races.map(r => ({
-		teamId:   r.results[0].team.teamId,
-		color:    r.results[0].team.colors.primary,
+		teamId:   r.results[0].team?.teamId as number,
+		color:    getTeamColor(r.results[0].team?.colors, 'primary', false),
 		year:     Number(r.year),
 		points:   Number(r.results[0].points),
 		position: Number(r.results[0].positionOrder),

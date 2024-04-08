@@ -1,12 +1,12 @@
-import {useTeam} from '@effonehub/constructor/index';
 import {Team} from '@gtibrett/effone-hub-graph-api';
 import {SxProps, useTheme} from '@mui/material';
+import useGetTeamColor from './useGetTeamColor';
+import useTeam from './useTeam';
 
 export default function useTeamHeaderSx(teamId: Team['teamId']): SxProps {
-	const theme  = useTheme();
-	const {team} = useTeam(teamId);
-	
-	const background = team?.colors.primary || theme.palette.primary.main;
+	const theme      = useTheme();
+	const {team}     = useTeam(teamId);
+	const background = useGetTeamColor()(team?.colors);
 	const color      = theme.palette.getContrastText(background);
 	
 	return {

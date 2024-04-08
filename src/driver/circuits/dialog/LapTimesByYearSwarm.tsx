@@ -1,16 +1,15 @@
 import {QueryResult} from '@apollo/client/react/types/types';
-import {useGetAccessibleColor, useNivoTheme} from '@effonehub/ui-components';
+import {useNivoTheme} from '@effonehub/ui-components';
 import {Alert, Box, Skeleton} from '@mui/material';
 import {ResponsiveSwarmPlot} from '@nivo/swarmplot';
-import {mapLapTimeDataToSwarmChart, SwarmData} from './mapLapTimeDataToSwarmChart';
+import {SwarmData, useMapLapTimeDataToSwarmChart} from './mapLapTimeDataToSwarmChart';
 import {CircuitDialogData} from './types';
-
 
 type LapTimesChartProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading'>;
 
 export default function LapTimesByYearSwarm({data, loading}: LapTimesChartProps) {
-	const nivoTheme          = useNivoTheme();
-	const getAccessibleColor = useGetAccessibleColor();
+	const nivoTheme                  = useNivoTheme();
+	const mapLapTimeDataToSwarmChart = useMapLapTimeDataToSwarmChart();
 	
 	if (!data || loading) {
 		return <Skeleton variant="rectangular" height={400}/>;
@@ -37,7 +36,7 @@ export default function LapTimesByYearSwarm({data, loading}: LapTimesChartProps)
 				animate={false}
 				data={chartData}
 				groups={years}
-				colors={({data}) => getAccessibleColor(data.color)}
+				colors={({data}) => data.color}
 				gap={10}
 				spacing={0}
 				value="milliseconds"
