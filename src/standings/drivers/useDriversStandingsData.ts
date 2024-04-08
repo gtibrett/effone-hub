@@ -1,16 +1,22 @@
 import {gql, useQuery} from '@apollo/client';
+import {useGetTeamColor} from '@effonehub/constructor';
 import {Driver, Race} from '@gtibrett/effone-hub-graph-api';
-import {Entity, RaceStandingsWithEntities} from '../charts';
+import {useCallback} from 'react';
+import {Entity, RaceStandingsWithEntities, StandingWithEntity} from '../charts';
 
-export type DriverStandingsQueryData = {
+type DriverStandingsQueryData = {
 	races: Pick<Race, 'round' | 'driverStandings'>[]
 }
 
-export const mapDriverToEntity = (driver: Driver): Entity => ({
-	id:    driver.driverId,
-	name:  driver.surname, //driver.code || (driver.surname || '').replace(' ', '').substring(0, 3).toUpperCase(),
-	color: driver.teamsByYear[0].team.colors.primary
-});
+const useMapDriverToEntity = () => {
+	const getTeamColor = useGetTeamColor();
+	
+	return useCallback((driver: Driver): Entity => ({
+		id:    driver.driverId,
+		name:  driver.surname || '',
+		color: getTeamColor(driver?.teamsByYear?.[0].team?.colors, 'primary', false)
+	}), [getTeamColor]);
+};
 
 const query = gql`
 	query driverStandingsQuery($season: Int!) {
@@ -38,18 +44,26 @@ const query = gql`
 `;
 
 export default function useDriverStandingsData(season: number) {
-	const {data, loading} = useQuery<DriverStandingsQueryData>(query, {variables: {season}});
+	const {data, loading}   = useQuery<DriverStandingsQueryData>(query, {variables: {season}});
+	const mapDriverToEntity = useMapDriverToEntity();
 	
 	const chartData: RaceStandingsWithEntities[] = (data?.races || []).map(r => {
+		const standings: StandingWithEntity[] = [];
+		r.driverStandings.forEach(({driverId, position, points, driver}) => {
+				if (driver) {
+					standings.push({
+						id:       driverId as number,
+						position: position as number,
+						points:   points as number,
+						entity:   mapDriverToEntity(driver)
+					});
+				}
+			}
+		);
+		
 		return {
-			round:     r.round,
-			standings: r.driverStandings.map(({driverId, position, points, driver}) => ({
-					id:     driverId,
-					position,
-					points,
-					entity: mapDriverToEntity(driver)
-				})
-			)
+			round: r.round,
+			standings
 		};
 	});
 	

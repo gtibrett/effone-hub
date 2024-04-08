@@ -16,10 +16,10 @@ export function DriverStandingsPositionTooltip({serie}: PositionsChartTooltipPro
 }
 
 export function DriverStandingsPointsTooltip({point}: PointTooltipProps) {
-	const {data}                           = point;
-	const {x}                              = data;
-	const {points, position, entity: {id}} = data.data;
-	const headerSx                         = useDriverHeaderSx(id);
+	const {data}                                  = point;
+	const {x}                                     = data;
+	const {points, position, entity: {id, color}} = data.data;
+	const headerSx                                = useDriverHeaderSx(id, color);
 	
 	return (
 		<Card sx={{p: 0}}>

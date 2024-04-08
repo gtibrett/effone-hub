@@ -12,9 +12,9 @@ export default function PointsChart({data, TooltipComponent}: ChartProps) {
 	const nivoTheme                 = useNivoTheme();
 	const [highlight, setHighlight] = useState<string | number | undefined>();
 	const rounds                    = Math.max(...chartData.map(s => Math.max(...s.data.map(d => Number(d.x)))));
-	const chartPadding              = (rounds - 1) * .025;
+	const maxPoints                 = Math.max(...chartData.map(s => Math.max(...s.data.map(d => Number(d.y)))));
 	
-	if (!data.length) {
+	if (!data.length || !rounds || !maxPoints) {
 		return null;
 	}
 	
@@ -23,23 +23,18 @@ export default function PointsChart({data, TooltipComponent}: ChartProps) {
 			theme={nivoTheme}
 			data={chartData}
 			colors={({color, id}) => color ? (!highlight || id === highlight ? color : alpha(color, .25)) : 'transparent'}
-			lineWidth={3}
-			enablePoints={false}
+			lineWidth={4}
+			pointSize={8}
 			margin={{top: 20, right: 48, bottom: 28, left: 16}}
 			enableGridX={true}
 			gridXValues={getTicks(rounds)}
 			enableGridY={false}
 			axisTop={null}
-			xScale={{
-				type: 'linear',
-				min:  1 - chartPadding,
-				max:  rounds + chartPadding
-			}}
 			axisRight={{
 				tickSize:     2,
 				tickPadding:  8,
 				tickRotation: 0,
-				tickValues:   5
+				tickValues:   [0, maxPoints]
 			}}
 			axisBottom={{
 				tickSize:     2,
