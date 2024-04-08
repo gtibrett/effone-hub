@@ -1,10 +1,11 @@
 import {ConstructorByLine} from '@effonehub/constructor';
+import SeasonDialog from '@effonehub/driver/season/dialog/SeasonDialog';
 import {Driver} from '@gtibrett/effone-hub-graph-api';
 import {Link, useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {Alert, Grid, Hidden, Skeleton} from '@mui/material';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {DataGrid} from '@mui/x-data-grid';
+import {useState} from 'react';
 import Stats from '../stats';
-import {DriverStandingData} from '../types';
 import CareerChart from './CareerChart';
 import CareerPerformanceBurst from './CareerPerformanceBurst';
 import useCareerData from './useCareerData';
@@ -15,7 +16,7 @@ export default function Career({driverId}: CareerProps) {
 	const {data, loading}            = useCareerData(driverId);
 	const careerStandings            = data?.driver.standings;
 	const {ref, dimensions: {width}} = useComponentDimensionsWithRef();
-	
+	const [active, setActive]        = useState<number | undefined>();
 	
 	if (loading || !careerStandings) {
 		return <Skeleton variant="rectangular" height={400}/>;
@@ -36,6 +37,7 @@ export default function Career({driverId}: CareerProps) {
 				</Grid>
 				<Hidden mdDown><Grid item md={6} lg={3} ref={ref}><CareerPerformanceBurst driverId={driverId} size={width}/></Grid></Hidden>
 				<Grid item xs={12}>
+					<SeasonDialog season={active} driverId={driverId} onClose={() => setActive(undefined)}/>
 					<DataGrid
 						rows={careerStandings}
 						autoHeight
@@ -54,7 +56,7 @@ export default function Career({driverId}: CareerProps) {
 									headerAlign: 'center',
 									align:       'center',
 									width:       100,
-									renderCell:  ({row}) => <Link href={`/season/${row.year}`}>{row.year}</Link>
+									renderCell:  ({row}) => <Link href="#" color="secondary" onClick={() => setActive(row.year)}>{row.year}</Link>
 								},
 								{
 									field:       'position',
@@ -94,7 +96,7 @@ export default function Career({driverId}: CareerProps) {
 									minWidth:   150
 								}
 							
-							] as GridColDef<DriverStandingData>[]
+							]
 						}
 					/>
 				</Grid>

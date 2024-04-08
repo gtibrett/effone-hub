@@ -1,5 +1,6 @@
 import {ChartSwitcher, ChartSwitcherChart, LineChartByTeam} from '@effonehub/components/charts';
 import {DriverId} from '@effonehub/driver';
+import CareerBreakdownChart from '@effonehub/driver/career/CareerBreakdownChart';
 import CareerTooltip from './CareerTooltip';
 import useCareerChartDataWithTeam from './useCareerChartDataWithTeam';
 
@@ -12,6 +13,11 @@ export default function CareerChart({driverId, size}: CareerChartProps) {
 	const data = useCareerChartDataWithTeam(driverId);
 	
 	const charts: ChartSwitcherChart[] = [
+		{
+			id:    'breakdown',
+			label: 'Breakdown',
+			chart: <CareerBreakdownChart driverId={driverId}/>
+		},
 		{
 			id:    'position',
 			label: 'Position',
@@ -30,6 +36,6 @@ export default function CareerChart({driverId, size}: CareerChartProps) {
 	];
 	
 	return (
-		<ChartSwitcher title="Career Timeline" size={size} charts={charts}/>
+		<ChartSwitcher title="Career Timeline" size={size} charts={charts} initial="breakdown"/>
 	);
 }

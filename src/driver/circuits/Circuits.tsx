@@ -1,7 +1,7 @@
 import {getTimeStringFromDate} from '@effonehub/helpers';
 import {Driver} from '@gtibrett/effone-hub-graph-api';
 import {Alert, Card, Grid, Link} from '@mui/material';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {DataGrid} from '@mui/x-data-grid';
 import {useState} from 'react';
 import RaceMap from '../../maps/RaceMap';
 import useMapCircuitsToMapPoints from '../../maps/useMapCircuitsToMapPoints';
@@ -90,7 +90,7 @@ export default function Circuits({driverId}: CircuitsProps) {
 									return getTimeStringFromDate(new Date(value));
 								}
 							}
-						] as GridColDef<CircuitWithResults>[]
+						]
 					}
 				/>
 			</Grid>
