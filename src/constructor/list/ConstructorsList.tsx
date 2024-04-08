@@ -32,7 +32,7 @@ export default function ConstructorsList({loading, teams}: ConstructorsTableProp
 						field:      'name',
 						headerName: 'Constructor',
 						flex:       1,
-						renderCell: (({row}) => <ConstructorByLine id={row.teamId}/>)
+						renderCell: ({row}) => <ConstructorByLine team={row} variant="link"/>
 					},
 					{
 						field:       'seasons',
