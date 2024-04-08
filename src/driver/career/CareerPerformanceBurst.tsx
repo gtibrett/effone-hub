@@ -1,33 +1,10 @@
+import {useResultsColors} from '@effonehub/components';
 import {NivoTooltipFactory, useNivoTheme} from '@effonehub/ui-components';
 import {Box, Card, Skeleton, Typography, useTheme} from '@mui/material';
 import {ComputedDatum, ResponsiveSunburst} from '@nivo/sunburst';
-import {DriverId, DriverPageData} from '../types';
+import {DriverId} from '../types';
+import usePerformanceData from '../usePerformanceData';
 import useCareerData from './useCareerData';
-import useStatColors from './useStatColors';
-
-type Stats = {
-	wins: number;
-	podiums: number;
-	inPoints: number;
-	dnfs: number;
-	appearances: number;
-}
-
-const usePerformanceData = (data?: DriverPageData): Stats | undefined => {
-	const careerResults = data?.driver.results;
-	
-	if (!careerResults) {
-		return undefined;
-	}
-	
-	return {
-		wins:        careerResults.filter(r => r.positionOrder === 1).length,
-		podiums:     careerResults.filter(r => r.positionOrder <= 3).length,
-		inPoints:    careerResults.filter(r => r.positionOrder <= 10).length,
-		dnfs:        careerResults.filter(r => r.positionText !== String(r.positionOrder)).length,
-		appearances: careerResults.length
-	};
-};
 
 const CareerPerformanceTooltip = (datum: ComputedDatum<BurstDatum>) => {
 	const {label} = datum.data;
@@ -54,30 +31,30 @@ export default function CareerPerformanceBurst({driverId, size}: {
 	const nivoTheme       = useNivoTheme();
 	const theme           = useTheme();
 	const {data, loading} = useCareerData(driverId);
-	const summaryData     = usePerformanceData(data);
-	const colors          = useStatColors();
+	const performanceData = usePerformanceData(data?.driver.results);
+	const colors          = useResultsColors();
 	
 	if (loading) {
 		return <Skeleton variant="rectangular" height={size} width="100%"/>;
 	}
 	
-	if (!summaryData) {
+	if (!performanceData) {
 		return null;
 	}
 	
-	const {appearances, wins, podiums, inPoints, dnfs} = summaryData;
+	const {appearances, wins, podiums, inPoints, DNFs} = performanceData;
 	
 	const chartData = {
 		id:       'data',
 		children: [
 			{
-				id:       'starts',
+				id:       'appearances',
 				label:    `Starts: ${appearances}`,
 				children: [
 					{
 						id:       'inPoints',
 						label:    `In Points: ${inPoints}`,
-						value:    inPoints - podiums - wins,
+						value:    inPoints - podiums,
 						children: [
 							{
 								id:       'podiums',
@@ -98,14 +75,14 @@ export default function CareerPerformanceBurst({driverId, size}: {
 						label:    `Out of Points: ${appearances - inPoints}`,
 						children: [
 							{
-								id:    'bottom10',
-								label: `Finished: ${appearances - inPoints - dnfs}`,
-								value: appearances - inPoints - dnfs
+								id:    'outOfPoints',
+								label: `Finished: ${appearances - inPoints - DNFs}`,
+								value: appearances - inPoints - DNFs
 							},
 							{
-								id:    'dnfs',
-								label: `DNFs: ${dnfs}`,
-								value: dnfs
+								id:    'DNFs',
+								label: `DNFs: ${DNFs}`,
+								value: DNFs
 							}
 						]
 					}
@@ -124,11 +101,10 @@ export default function CareerPerformanceBurst({driverId, size}: {
 				value="value"
 				cornerRadius={10}
 				borderColor={theme.palette.background.paper}
-				borderWidth={4}
+				borderWidth={2}
 				inheritColorFromParent={false}
 				colors={(datum) => {
-					// @ts-ignore
-					return colors[datum.id] || theme.palette.primary.main;
+					return colors[datum.id].background || theme.palette.primary.main;
 				}}
 				enableArcLabels={false}
 				// @ts-ignore

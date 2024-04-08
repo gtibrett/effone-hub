@@ -1,11 +1,10 @@
 import {QueryResult} from '@apollo/client/react/types/types';
 import {getPositionTextOutcome, getTimeStringFromDate} from '@effonehub/helpers';
-import {Race} from '@gtibrett/effone-hub-graph-api';
+import PositionChange from '@effonehub/race/PositionChange';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Box, Skeleton, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import PositionChange from '../../../race/PositionChange';
+import {DataGrid} from '@mui/x-data-grid';
 import {CircuitDialogData} from './types';
 
 type CircuitTableProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading'>;
@@ -107,13 +106,13 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 							valueGetter: (value, row) => {
 								const result = row.results[0];
 								if (result) {
-									return result.milliseconds ? getTimeStringFromDate(new Date(result.milliseconds)) : getPositionTextOutcome(result.positionText, result.status.status);
+									return result.milliseconds ? getTimeStringFromDate(new Date(result.milliseconds)) : getPositionTextOutcome(result.positionText, result.status?.status);
 								}
 								return '';
 							},
 							flex:        1
 						}
-					] as GridColDef<Race>[]
+					]
 				}
 			/>
 		</Box>

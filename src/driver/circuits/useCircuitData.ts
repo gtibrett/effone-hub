@@ -52,6 +52,10 @@ export default function useCircuitData(driverId?: number, season?: number): Pick
 	}
 	
 	data?.driver.results.forEach(({race, ...result}) => {
+		if (!race?.circuit) {
+			return;
+		}
+		
 		const {circuitId} = race.circuit;
 		let index         = resultsByCircuit.findIndex(c => c.circuitId === circuitId);
 		

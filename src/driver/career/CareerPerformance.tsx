@@ -4,30 +4,7 @@ import {Paper, Typography} from '@mui/material';
 import {blueGrey, deepPurple, green, red} from '@mui/material/colors';
 import {PieTooltipProps, ResponsivePie} from '@nivo/pie';
 import {DriverPageData} from '../types';
-
-type Stats = {
-	wins: number;
-	podiums: number;
-	inPoints: number;
-	dnfs: number;
-	appearances: number;
-}
-
-const usePerformanceData = (data?: DriverPageData): Stats | undefined => {
-	const careerResults = data?.driver.results;
-	
-	if (!careerResults) {
-		return undefined;
-	}
-	
-	return {
-		wins:        careerResults.filter(r => r.positionOrder === 1).length,
-		podiums:     careerResults.filter(r => r.positionOrder <= 3).length,
-		inPoints:    careerResults.filter(r => r.positionOrder <= 10).length,
-		dnfs:        careerResults.filter(r => r.positionText !== String(r.positionOrder)).length,
-		appearances: careerResults.length
-	};
-};
+import usePerformanceData from '../usePerformanceData';
 
 type CareerPerformanceProps = Pick<QueryResult<DriverPageData>, 'data' | 'loading'>;
 
@@ -37,7 +14,7 @@ const CareerPerformanceTooltip = ({datum}: PieTooltipProps<any>) => {
 
 export default function CareerPerformance({data}: CareerPerformanceProps) {
 	const nivoTheme       = useNivoTheme();
-	const summaryData     = usePerformanceData(data);
+	const summaryData     = usePerformanceData(data?.driver.results);
 	const prefersDarkMode = useDarkMode();
 	
 	if (!summaryData) {
@@ -66,13 +43,13 @@ export default function CareerPerformance({data}: CareerPerformanceProps) {
 		{
 			'id':    'appearances',
 			'label': `Out of Points: ${summaryData.appearances}`,
-			'value': summaryData.appearances - summaryData.inPoints - summaryData.dnfs,
+			'value': summaryData.appearances - summaryData.inPoints - summaryData.DNFs,
 			'color': blueGrey[prefersDarkMode ? 100 : 300]
 		},
 		{
-			'id':    'dnfs',
-			'label': `DNFs: ${summaryData.dnfs}`,
-			'value': summaryData.dnfs,
+			'id':    'DNFs',
+			'label': `DNFs: ${summaryData.DNFs}`,
+			'value': summaryData.DNFs,
 			'color': red[prefersDarkMode ? 200 : 600]
 		}
 	];

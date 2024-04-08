@@ -1,14 +1,15 @@
+import {useAppState} from '@effonehub/app';
 import {Flag} from '@effonehub/components';
+import {useGetTeamColor} from '@effonehub/constructor';
 import {DriverAvatar, useDriver} from '@effonehub/driver';
 import Career from '@effonehub/driver/career/Career';
 import Circuits from '@effonehub/driver/circuits/Circuits';
 import Season from '@effonehub/driver/season/Season';
-import {Page, useGetAccessibleColor, WikipediaLink} from '@effonehub/ui-components';
+import {Page, WikipediaLink} from '@effonehub/ui-components';
 import {Driver as DriverT} from '@gtibrett/effone-hub-graph-api';
-import {Tabs, setPageTitle} from '@gtibrett/mui-additions';
+import {setPageTitle, Tabs} from '@gtibrett/mui-additions';
 import {Card, CardContent, CardMedia, Divider, Grid, Hidden, Skeleton, Typography, useTheme} from '@mui/material';
 import {useParams} from 'react-router';
-import {useAppState} from '../../app/AppStateProvider';
 
 const DriverSkeleton = () => {
 	return (
@@ -62,7 +63,7 @@ const DriverDetails = ({driver}: {
 		<Grid container spacing={2} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
 			<Grid item><Typography variant="h2">{driver.forename} {driver.surname}</Typography></Grid>
 			<Hidden mdDown>
-				<Grid item><Flag nationality={driver.nationality} size={48}/></Grid>
+				{driver.nationality && <Grid item><Flag nationality={driver.nationality} size={48}/></Grid>}
 				<Grid item xs/>
 				<Grid item><Typography variant="h2" sx={{fontWeight: 'bold'}}>{driver.code}</Typography></Grid>
 				<Grid item sx={{fontFamily: 'Racing Sans One', fontSize: '1.1em'}}>{driver.number}</Grid>
@@ -73,11 +74,11 @@ const DriverDetails = ({driver}: {
 
 
 export default function Driver() {
-	const theme              = useTheme();
-	const getAccessibleColor = useGetAccessibleColor();
-	const [{currentSeason}]  = useAppState();
-	const {driverRef}        = useParams();
-	const driver             = useDriver(driverRef);
+	const theme             = useTheme();
+	const getTeamColor      = useGetTeamColor();
+	const [{currentSeason}] = useAppState();
+	const {driverRef}       = useParams();
+	const driver            = useDriver(driverRef);
 	
 	setPageTitle(`Driver: ${driver ? `${driver?.forename} ${driver?.surname}` : 'Loading'}`);
 	
@@ -105,7 +106,7 @@ export default function Driver() {
 			action={<DriverAvatar driverId={driver.driverId} size={200}/>}
 			actionProps={{xs: 'auto'}}
 			subheader={<>
-				<Typography variant="body1">{driver.bio.extract}</Typography>
+				{driver.bio && <Typography variant="body1">{driver.bio.extract}</Typography>}
 				<Divider orientation="horizontal" sx={{my: 1}}/>
 				<WikipediaLink href={driver.url}/>
 			</>}
@@ -121,7 +122,7 @@ export default function Driver() {
 						width:      '100%',
 						height:     theme.spacing(2),
 						content:    '" "',
-						background: getAccessibleColor(driver.currentTeam.team.colors.primary || theme.palette.primary.main, true)
+						background: getTeamColor(driver.currentTeam?.team?.colors, 'primary', false)
 					}
 				}
 			}}
