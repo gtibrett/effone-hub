@@ -3,7 +3,7 @@ import {DriverAvatar, DriverByLine} from '@effonehub/driver';
 import {Driver} from '@gtibrett/effone-hub-graph-api';
 import {Grid, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {DataGrid} from '@mui/x-data-grid';
 
 type DriversTableProps = {
 	loading: boolean;
@@ -33,7 +33,7 @@ export default function DriversList({loading, drivers}: DriversTableProps) {
 						field:       'driver',
 						headerName:  'Driver',
 						flex:        1,
-						renderCell:  (({row}) => <DriverByLine id={row.driverId} variant="link"/>),
+						renderCell:  (({row}) => <DriverByLine driver={row} variant="link"/>),
 						valueGetter: (value, row) => `${row.forename}, ${row.surname}`
 					},
 					{
@@ -82,7 +82,7 @@ export default function DriversList({loading, drivers}: DriversTableProps) {
 						type:        'number',
 						valueGetter: (value, row) => row.results.filter(r => Number(r.positionOrder) <= 3).length
 					}
-				] as GridColDef<Driver>[]
+				]
 			}
 			initialState={{
 				sorting: {

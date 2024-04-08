@@ -3,11 +3,10 @@ import {DriverByLine} from '@effonehub/driver';
 import {getPositionTextOutcome} from '@effonehub/helpers';
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Result} from '@gtibrett/effone-hub-graph-api';
 import {Grid, Skeleton, Tooltip, Typography} from '@mui/material';
 import {purple} from '@mui/material/colors';
 import {visuallyHidden} from '@mui/utils';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {DataGrid} from '@mui/x-data-grid';
 import PositionChange from '../race/PositionChange';
 import NextRaceCountdown from '../raceWeekend/NextRaceCountdown';
 import {CircuitDataProps} from './useCircuitByRef';
@@ -37,7 +36,7 @@ export default function Season({data, loading}: CircuitDataProps) {
 			rows={results}
 			autoHeight
 			density="compact"
-			getRowId={r => r.driverId}
+			getRowId={r => r.driverId || ''}
 			initialState={{
 				sorting: {
 					sortModel: [{field: 'position', sort: 'asc'}]
@@ -82,7 +81,7 @@ export default function Season({data, loading}: CircuitDataProps) {
 						field:      'Constructor',
 						headerName: 'Constructor',
 						flex:       1,
-						renderCell: ({row}) => row.team.teamId ? <ConstructorByLine id={row.team.teamId}/> : '',
+						renderCell: ({row}) => row.team?.teamId ? <ConstructorByLine id={row.team.teamId}/> : '',
 						minWidth:   150
 					},
 					{
@@ -110,14 +109,14 @@ export default function Season({data, loading}: CircuitDataProps) {
 											</Tooltip>
 										</Grid>
 									)}
-									<Grid item><>{time ? time : getPositionTextOutcome(row.positionText, row.status.status)}</>
+									<Grid item><>{time ? time : getPositionTextOutcome(row.positionText, row.status?.status)}</>
 									</Grid>
 								</Grid>
 							);
 						},
 						minWidth:    110
 					}
-				] as GridColDef<Result>[]
+				]
 			}
 		/>
 	);

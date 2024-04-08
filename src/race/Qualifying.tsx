@@ -96,7 +96,7 @@ export default function Qualifying({season, round}: QualifyingProps) {
 						align:       'center',
 						type:        'string'
 					}
-				] as GridColDef<Qualify>[]
+				]
 			}
 		/>
 	);

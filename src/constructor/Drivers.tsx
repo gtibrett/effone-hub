@@ -3,7 +3,7 @@ import {DriverByLine} from '@effonehub/driver';
 import {DriverStandingBySeason} from '@gtibrett/effone-hub-graph-api';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {DataGrid} from '@mui/x-data-grid';
 import {ConstructorPageData, DriverByYear} from './types';
 
 type DriversProps = Pick<QueryResult<ConstructorPageData>, 'data' | 'loading'>;
@@ -126,7 +126,7 @@ export default function Drivers({data, loading}: DriversProps) {
 							align:       'center',
 							renderCell:  ({row}) => row.drivers[1] ? findFinalStandings(row.year, row.drivers[1].driverStandingsBySeasons)?.points : ''
 						}
-					] as GridColDef<RowData>[]
+					]
 				}
 			/>
 		</>
