@@ -1,4 +1,4 @@
-import {useTeam} from '@effonehub/constructor';
+import {useGetTeamColor, useTeam} from '@effonehub/constructor';
 import ConstructorAvatar from '@effonehub/constructor/ConstructorAvatar';
 import {DriverAvatar, DriverByLine, useDriver} from '@effonehub/driver';
 import {IconDefinition} from '@fortawesome/fontawesome-svg-core';
@@ -6,13 +6,16 @@ import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link} from '@gtibrett/mui-additions';
 import {Box, Card, CardProps, Grid, Typography, useTheme} from '@mui/material';
+import {Maybe} from 'graphql/jsutils/Maybe';
 import {ReactNode} from 'react';
 import convertGenericMapToDataWithValueMap from './convertGenericMapToDataWithValueMap';
 import StatCardContent from './StatCardContent';
 import {DataWithValue, StatFormatter} from './types';
 import useLeaderData from './useLeaderData';
 
-export type StatCardBaseProps<T extends (DataWithValue | number), F extends DataWithValue = DataWithValue> = {
+export type StatCardData = DataWithValue | number | Maybe<number>;
+
+export type StatCardBaseProps<T extends StatCardData, F extends DataWithValue = DataWithValue> = {
 	label: string;
 	loading: boolean;
 	cardProps?: CardProps;
@@ -23,22 +26,23 @@ export type StatCardBaseProps<T extends (DataWithValue | number), F extends Data
 	data: Map<number, T>;
 };
 
-type DriverStatCardProps<T extends (DataWithValue | number), F extends DataWithValue = DataWithValue> = StatCardBaseProps<T, F> & {
+type DriverStatCardProps<T extends StatCardData, F extends DataWithValue = DataWithValue> = StatCardBaseProps<T, F> & {
 	variant?: 'driver';
 };
 
-type TeamStatCardProps<T extends (DataWithValue | number), F extends DataWithValue = DataWithValue> = StatCardBaseProps<T, F> & {
+type TeamStatCardProps<T extends StatCardData, F extends DataWithValue = DataWithValue> = StatCardBaseProps<T, F> & {
 	variant: 'team';
 };
 
-type IconStatCardProps<T extends (DataWithValue | number), F extends DataWithValue = DataWithValue> = StatCardBaseProps<T, F> & {
+type IconStatCardProps<T extends StatCardData, F extends DataWithValue = DataWithValue> = StatCardBaseProps<T, F> & {
 	variant: 'icon';
 	icon: IconDefinition;
 };
 
-type StatCardProps<T extends (DataWithValue | number), F extends DataWithValue = DataWithValue> = DriverStatCardProps<T, F> | TeamStatCardProps<T, F> | IconStatCardProps<T, F>;
+type StatCardProps<T extends StatCardData, F extends DataWithValue = DataWithValue> = DriverStatCardProps<T, F> | TeamStatCardProps<T, F> | IconStatCardProps<T, F>;
 
 const DriverVariant = <T extends DataWithValue>({size, label, data, format, extra}: DriverStatCardProps<T, T>) => {
+	const getTeamColor      = useGetTeamColor();
 	const [driverId, value] = useLeaderData<T>(data);
 	const driver            = useDriver(driverId);
 	
@@ -52,7 +56,7 @@ const DriverVariant = <T extends DataWithValue>({size, label, data, format, extr
 			avatar={<DriverAvatar driverId={driverId} size={64}/>}
 			title={<DriverByLine id={driverId} variant={size === 'small' ? 'code-link' : 'link'}/>}
 			label={label}
-			color={driver.currentTeam.team.colors.primary}
+			color={getTeamColor(driver?.currentTeam?.team?.colors, 'primary', false)}
 			data={value}
 			format={format}
 			extra={extra}
@@ -109,7 +113,7 @@ const IconVariant = <T extends DataWithValue>({size, label, data, format, extra,
 	);
 };
 
-export default function StatCard<T extends (DataWithValue | number) = DataWithValue, F extends DataWithValue = DataWithValue>(props: StatCardProps<T, F>) {
+export default function StatCard<T extends StatCardData = DataWithValue, F extends DataWithValue = DataWithValue>(props: StatCardProps<T, F>) {
 	const theme                                                  = useTheme();
 	const {variant, size, noGrid, cardProps = {}, loading, data} = props;
 	const {sx = {}, ...otherCardProps}                           = cardProps;

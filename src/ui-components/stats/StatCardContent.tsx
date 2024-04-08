@@ -16,7 +16,7 @@ type StateCardContentProps<T extends DataWithValue> = Pick<CardHeaderProps, 'ava
 export const StatCardStat = <T extends DataWithValue>({label, data, format}: Pick<StateCardContentProps<T>, 'label' | 'data' | 'format'>) => (
 	<Grid container spacing={1} wrap="nowrap" alignItems="center" justifyContent="space-between">
 		{label && <Grid item><Typography noWrap paragraph={false}>{label}</Typography></Grid>}
-		<Grid item><Typography fontWeight="bold" noWrap paragraph={false}>{format ? format(data) : (data.value || '')}</Typography></Grid>
+		<Grid item><Typography fontWeight="bold" noWrap paragraph={false}>{format ? format(data) : (typeof data.value !== 'undefined' ? data.value : '--')}</Typography></Grid>
 	</Grid>
 );
 
@@ -81,7 +81,8 @@ export default function StatCardContent<T extends DataWithValue>({size, avatar, 
 			return (
 				<CardHeader
 					avatar={avatar}
-					title={<Typography noWrap component="div">{title}</Typography>}
+					title={title}
+					titleTypographyProps={{noWrap: true}}
 					subheader={(
 						<>
 							<StatCardStat<T> label={label} data={data} format={format}/>
