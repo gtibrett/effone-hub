@@ -11,12 +11,12 @@ import useCircuitsList from './useCircuitsList';
 export default function Circuits() {
 	setPageTitle('Circuits');
 	
-	const [{season: currentSeason}] = useAppState();
-	const [filters, setFilters]     = useState<CircuitsListFilters>({
+	const [{currentSeason}]     = useAppState();
+	const [filters, setFilters] = useState<CircuitsListFilters>({
 		season: currentSeason,
 		search: ''
 	});
-	const {data, loading}           = useCircuitsList(filters);
+	const {data, loading}       = useCircuitsList(filters);
 	
 	return (
 		<Page title="Circuits">
