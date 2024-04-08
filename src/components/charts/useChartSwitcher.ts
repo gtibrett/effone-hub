@@ -6,8 +6,8 @@ type useChartSwitcherTuple = [
 	setActive: Dispatch<SetStateAction<ActiveChart>>
 ]
 
-export default function useChartSwitcher(): useChartSwitcherTuple {
-	const [active, setActive] = useState<ActiveChart>('position');
+export default function useChartSwitcher(initial: ActiveChart = 'position'): useChartSwitcherTuple {
+	const [active, setActive] = useState<ActiveChart>(initial);
 	
 	return [active, setActive];
 }
