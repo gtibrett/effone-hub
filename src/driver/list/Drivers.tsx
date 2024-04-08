@@ -11,13 +11,13 @@ import useDriversList from './useDriversList';
 export default function Drivers() {
 	setPageTitle('Drivers');
 	
-	const [{season: currentSeason}] = useAppState();
-	const [filters, setFilters]     = useState<DriversListFilters>({
+	const [{currentSeason}]     = useAppState();
+	const [filters, setFilters] = useState<DriversListFilters>({
 		season:      currentSeason,
 		search:      '',
 		nationality: ''
 	});
-	const {data, loading} = useDriversList(filters);
+	const {data, loading}       = useDriversList(filters);
 	
 	return (
 		<Page title="Drivers">
