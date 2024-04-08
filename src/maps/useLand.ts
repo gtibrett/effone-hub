@@ -1,9 +1,9 @@
 import {useMemo} from 'react';
 import {feature} from 'topojson-client';
 
+const land = require('world-atlas/land-110m.json');
+
 export default function useLand() {
-	const land = require('world-atlas/land-110m.json');
-	
 	return useMemo(() => {
 		const geoJSON     = feature(land, land.objects.land);
 		// @ts-ignore
@@ -11,5 +11,5 @@ export default function useLand() {
 		landFeature.id    = 'land';
 		
 		return landFeature;
-	}, [land]);
+	}, []);
 }
