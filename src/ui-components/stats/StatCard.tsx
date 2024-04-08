@@ -6,7 +6,7 @@ import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link} from '@gtibrett/mui-additions';
 import {Box, Card, CardProps, Grid, Typography, useTheme} from '@mui/material';
-import {Maybe} from 'graphql/jsutils/Maybe';
+import {Maybe} from '@gtibrett/effone-hub-graph-api/types';
 import {ReactNode} from 'react';
 import convertGenericMapToDataWithValueMap from './convertGenericMapToDataWithValueMap';
 import StatCardContent from './StatCardContent';

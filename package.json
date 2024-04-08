@@ -5,7 +5,7 @@
 	"scripts": {
 		"initgraphql": "ln -s ./node_modules/@gtibrett/effone-hub-graph-api/schema.graphql .",
 		"clean": "rm -fr build",
-		"start": "craco start",
+		"start": "GENERATE_SOURCEMAP=true craco start",
 		"prebuild": "yarn clean",
 		"build": "GENERATE_SOURCEMAP=false craco build",
 		"test": "craco test --coverage --verbose"
@@ -52,7 +52,7 @@
 		"@fortawesome/free-brands-svg-icons": "^6",
 		"@fortawesome/free-solid-svg-icons": "^6",
 		"@fortawesome/react-fontawesome": "^0.2.0",
-		"@gtibrett/effone-hub-graph-api": "^1.1.0",
+		"@gtibrett/effone-hub-graph-api": "^1.2.0-alpha.1712261139",
 		"@gtibrett/mui-additions": "^0.6.0",
 		"@mui/lab": "^5.0.0-alpha.169",
 		"@mui/material": "^5",
