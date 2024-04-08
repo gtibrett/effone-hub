@@ -1,4 +1,4 @@
-import {ConstructorByLine} from '@effonehub/constructor';
+import {ConstructorByLine, useGetTeamColor} from '@effonehub/constructor';
 import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Team} from '@gtibrett/effone-hub-graph-api';
@@ -11,7 +11,7 @@ type ConstructorsTableProps = {
 }
 
 export default function ConstructorsList({loading, teams}: ConstructorsTableProps) {
-	const theme = useTheme();
+	const getTeamColor = useGetTeamColor();
 	
 	return (
 		<DataGrid
@@ -26,7 +26,7 @@ export default function ConstructorsList({loading, teams}: ConstructorsTableProp
 						field:      'color',
 						headerName: '',
 						width:      24,
-						renderCell: (({row}) => <FontAwesomeIcon icon={faSquareFull} color={row.colors.primary || theme.palette.primary.main}/>),
+						renderCell: (({row}) => <FontAwesomeIcon icon={faSquareFull} color={getTeamColor(row.colors, 'primary', false)}/>),
 						sortable:   false
 					},
 					{

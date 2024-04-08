@@ -1,3 +1,4 @@
+import useGetTeamColorsByYear from '@effonehub/driver/circuits/dialog/useGetTeamColorsByYear';
 import {SwarmPlotSvgProps} from '@nivo/swarmplot';
 import {CircuitDialogData} from './types';
 
@@ -21,36 +22,38 @@ function getStandardDeviation(data: number[]) {
 	return Math.sqrt(data.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n);
 }
 
-export function mapLapTimeDataToSwarmChart(data: CircuitDialogData): SwarmPlotSvgProps<SwarmData>['data'] {
-	const colorsByYear: { [year: number]: string }         = data.driver.teamsByYear
-	                                                             .map(({year, team: {colors}}) => ({year, color: colors.primary}))
-	                                                             .reduce((colors, {year, color}) => ({...colors, [year]: color}), {});
-	const mappedData: SwarmPlotSvgProps<SwarmData>['data'] = [];
+export function useMapLapTimeDataToSwarmChart() {
+	const getColorsByYear = useGetTeamColorsByYear();
 	
-	data?.circuit.races.forEach(race => {
-		const mappedLaps = race.lapTimes
-		                       .filter(l => l.milliseconds)
-		                       .map(l => ({
-			                       lap:          l.lap,
-			                       milliseconds: Number(l.milliseconds)
-		                       }));
+	return (data: CircuitDialogData): SwarmPlotSvgProps<SwarmData>['data'] => {
+		const mappedData: SwarmPlotSvgProps<SwarmData>['data'] = [];
+		const colorsByYear                                     = getColorsByYear(data.driver.teamsByYear);
 		
-		const averageLapTime = mappedLaps.reduce((a, v) => Number(v.milliseconds) + a, 0) / (mappedLaps.length + Number.EPSILON);
-		const stdDevLapTime  = getStandardDeviation(mappedLaps.map(l => l.milliseconds));
-		
-		mappedLaps.forEach(l => {
-			mappedData.push({
-				...l,
-				id:         `${race.raceId}-${l.lap}`,
-				group:      String(race.year),
-				deviations: l.milliseconds ? Math.abs(l.milliseconds - averageLapTime) / stdDevLapTime : 1000,
-				color:      colorsByYear[race.year]
+		data?.circuit.races.forEach(race => {
+			const mappedLaps = race.lapTimes
+			                       .filter(l => l.milliseconds)
+			                       .map(l => ({
+				                       lap:          l.lap,
+				                       milliseconds: Number(l.milliseconds)
+			                       }));
+			
+			const averageLapTime = mappedLaps.reduce((a, v) => Number(v.milliseconds) + a, 0) / (mappedLaps.length + Number.EPSILON);
+			const stdDevLapTime  = getStandardDeviation(mappedLaps.map(l => l.milliseconds));
+			
+			mappedLaps.forEach(l => {
+				mappedData.push({
+					...l,
+					id:         `${race.raceId}-${l.lap}`,
+					group:      String(race.year),
+					deviations: l.milliseconds ? Math.abs(l.milliseconds - averageLapTime) / stdDevLapTime : 1000,
+					color:      colorsByYear[race.year as number]
+				});
 			});
 		});
-	});
-	
-	return mappedData;
-}
+		
+		return mappedData;
+	};
+};
 
 type LapTimeBoxChartData = { year: number, milliseconds: number }[];
 
@@ -67,7 +70,7 @@ export function mapLapTimeDataToBoxChart(data: CircuitDialogData): LapTimeBoxCha
 		
 		mappedLaps.forEach(l => {
 			mappedData.push({
-				year:         race.year,
+				year:         race.year as number,
 				milliseconds: l.milliseconds
 			});
 		});

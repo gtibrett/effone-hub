@@ -1,7 +1,6 @@
 import {QueryResult} from '@apollo/client/react/types/types';
-import {useGetAccessibleColor} from '@effonehub/ui-components';
+import {useGetTeamColor} from '@effonehub/constructor';
 import {Team} from '@gtibrett/effone-hub-graph-api';
-import {useTheme} from '@mui/material';
 import {Serie as LineSerie} from '@nivo/line';
 import {ConstructorPageData, TeamStandingData} from '../types';
 
@@ -54,14 +53,9 @@ const generateBaseSerie = (id: string, data: any) => {
 };
 
 export function useHistoryChartColors(chartData: HistoryChartData | undefined) {
-	const theme              = useTheme();
-	const getAccessibleColor = useGetAccessibleColor();
+	const getTeamColor = useGetTeamColor();
 	
-	if (!chartData) {
-		return [];
-	}
-	
-	return Array.from(chartData.standingsByTeam.values()).map(t => getAccessibleColor(t.colors.primary || theme.palette.primary.main));
+	return !chartData ? [] : Array.from(chartData.standingsByTeam.values()).map(t => getTeamColor(t.colors));
 }
 
 export function getChartDataByAttribute(attribute: keyof TeamStandingData, chartData: HistoryChartData) {

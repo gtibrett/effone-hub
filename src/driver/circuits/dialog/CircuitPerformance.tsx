@@ -1,32 +1,10 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {usePerformanceData} from '@effonehub/driver';
 import {useGetAccessibleColor, useNivoTheme} from '@effonehub/ui-components';
-import {Result} from '@gtibrett/effone-hub-graph-api';
 import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {Paper, useTheme} from '@mui/material';
 import {ResponsiveRadar} from '@nivo/radar';
 import {CircuitDialogData} from './types';
-
-type Stats = {
-	wins: number;
-	podiums: number;
-	inPoints: number;
-	appearances: number;
-	dnfs: number;
-}
-
-const usePerformanceData = (circuitResults: Result[] = []): Stats | undefined => {
-	if (!circuitResults.length) {
-		return undefined;
-	}
-	
-	return {
-		wins:        circuitResults.filter(r => r.positionOrder === 1).length,
-		podiums:     circuitResults.filter(r => r.positionOrder <= 3).length,
-		inPoints:    circuitResults.filter(r => r.positionOrder <= 10).length,
-		dnfs:        circuitResults.filter(r => r.position === null).length,
-		appearances: circuitResults.length
-	};
-};
 
 type CircuitPerformanceProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading'>;
 
@@ -57,7 +35,7 @@ export default function CircuitPerformance({data, loading}: CircuitPerformancePr
 		},
 		{
 			'stat': 'DNFs',
-			value:  performanceData.dnfs
+			value:  performanceData.DNFs
 		}
 	];
 	

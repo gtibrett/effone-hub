@@ -1,10 +1,10 @@
 import {useAppState} from '@effonehub/app';
 import {Flag} from '@effonehub/components';
-import {TeamData, useConstructorData} from '@effonehub/constructor';
+import {TeamData, useConstructorData, useGetTeamColor} from '@effonehub/constructor';
 import Drivers from '@effonehub/constructor/Drivers';
 import {DriverPodiums, DriverPoints, DriverQualifying} from '@effonehub/constructor/stats';
-import {Page, useGetAccessibleColor, WikipediaLink} from '@effonehub/ui-components';
-import {Tabs, setPageTitle} from '@gtibrett/mui-additions';
+import {Page, WikipediaLink} from '@effonehub/ui-components';
+import {setPageTitle, Tabs} from '@gtibrett/mui-additions';
 import {Card, CardContent, CardHeader, CardMedia, Divider, Grid, Skeleton, Typography, useTheme} from '@mui/material';
 import {useParams} from 'react-router';
 import History from '../history/History';
@@ -60,12 +60,12 @@ const PageSkeleton = () => (
 );
 
 export default function Constructor() {
-	const theme              = useTheme();
-	const getAccessibleColor = useGetAccessibleColor();
-	const [{currentSeason}]  = useAppState();
-	const {teamRef}          = useParams();
-	const {data, loading}    = useConstructorData(teamRef, currentSeason);
-	const team               = data?.team;
+	const theme             = useTheme();
+	const getTeamColor      = useGetTeamColor();
+	const [{currentSeason}] = useAppState();
+	const {teamRef}         = useParams();
+	const {data, loading}   = useConstructorData(teamRef, currentSeason);
+	const team              = data?.team;
 	
 	setPageTitle(`Constructor: ${team?.name}`);
 	
@@ -113,7 +113,7 @@ export default function Constructor() {
 						width:      '100%',
 						height:     theme.spacing(2),
 						content:    '" "',
-						background: getAccessibleColor(team.colors.primary || theme.palette.primary.main, true)
+						background: getTeamColor(team.colors)
 					}
 				}
 			}}
