@@ -1,6 +1,6 @@
 import {Circuit} from '@gtibrett/effone-hub-graph-api';
 import {Link} from '@gtibrett/mui-additions';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {DataGrid} from '@mui/x-data-grid';
 
 type CircuitsListProps = {
 	loading: boolean;
@@ -36,7 +36,7 @@ export default function CircuitsList({loading, circuits}: CircuitsListProps) {
 					flex:        .25,
 					valueGetter: (value, row) => row.races.length
 				}
-			] as GridColDef<Circuit>[]
+			]
 		}
 		initialState={{
 			sorting: {

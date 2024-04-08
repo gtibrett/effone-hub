@@ -107,7 +107,7 @@ export default function SprintResults({results}: {
 						},
 						minWidth:    110
 					}
-				] as GridColDef<SprintResult>[]
+				]
 			}
 		/>
 	);

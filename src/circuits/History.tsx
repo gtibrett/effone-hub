@@ -1,8 +1,8 @@
 import {DriverByLine} from '@effonehub/driver';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {CircuitDataProps, CircuitHistoryData} from './useCircuitByRef';
+import {DataGrid} from '@mui/x-data-grid';
+import {CircuitDataProps} from './useCircuitByRef';
 
 export default function History({data, loading}: CircuitDataProps) {
 	if (loading) {
@@ -40,7 +40,7 @@ export default function History({data, loading}: CircuitDataProps) {
 						headerAlign: 'center',
 						type:        'date',
 						align:       'center',
-						valueGetter: ({value}) => (new Date(value)),
+						valueGetter: (value) => (new Date(value)),
 						renderCell:  ({value}) => value.toLocaleDateString(),
 						minWidth:    100
 					},
@@ -83,7 +83,7 @@ export default function History({data, loading}: CircuitDataProps) {
 						renderCell:  ({row}) => row.results[0]?.time || '--',
 						minWidth:    110
 					}
-				] as GridColDef<CircuitHistoryData>[]
+				]
 			}
 		/>
 	);

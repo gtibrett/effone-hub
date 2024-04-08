@@ -113,7 +113,7 @@ export default function Results({results}: { results: Race['results'] }) {
 							},
 							minWidth:    110
 						}
-					] as GridColDef<Result>[]
+					]
 				}
 			/>
 		</>

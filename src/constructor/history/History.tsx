@@ -1,11 +1,10 @@
 import {QueryResult} from '@apollo/client/react/types/types';
 import {ChartSwitcher, ChartSwitcherChart} from '@effonehub/components/charts';
 import HistoryChart from '@effonehub/constructor/history/HistoryChart';
-import {Team} from '@gtibrett/effone-hub-graph-api';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {ConstructorPageData, TeamStandingData} from '../types';
+import {DataGrid} from '@mui/x-data-grid';
+import {ConstructorPageData} from '../types';
 
 export type HistoryProps = Pick<QueryResult<ConstructorPageData>, 'data' | 'loading'>;
 
@@ -17,7 +16,7 @@ export default function History({data, loading}: HistoryProps) {
 	
 	data?.team.teamHistories.forEach(({antecedentTeam, startYear, endYear}) => {
 		antecedentTeam.standings
-		              .filter(s => s.year >= startYear && s.year <= endYear)
+		              .filter(s => s.year && s.year >= startYear && (!endYear || s.year <= endYear))
 		              .forEach(s => standings.push({...s, name: antecedentTeam.name}));
 	});
 	
@@ -97,7 +96,7 @@ export default function History({data, loading}: HistoryProps) {
 							flex:        .5
 						}
 					
-					] as GridColDef<TeamStandingData & { name: Team['name'] }>[]
+					]
 				}
 			/>
 		</>

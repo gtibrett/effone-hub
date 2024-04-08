@@ -1,13 +1,12 @@
 import {ConstructorByLine, useGetTeamColor} from '@effonehub/constructor';
 import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Team} from '@gtibrett/effone-hub-graph-api';
-import {useTheme} from '@mui/material';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {DataGrid} from '@mui/x-data-grid';
+import {TeamWithSeasons} from './useConstructorsList';
 
 type ConstructorsTableProps = {
 	loading: boolean;
-	teams: Team[];
+	teams: TeamWithSeasons[];
 }
 
 export default function ConstructorsList({loading, teams}: ConstructorsTableProps) {
@@ -70,7 +69,7 @@ export default function ConstructorsList({loading, teams}: ConstructorsTableProp
 						type:        'number',
 						valueGetter: (value, row) => row.results.filter(r => Number(r.positionOrder) <= 3).length
 					}
-				] as GridColDef<Team>[]
+				]
 			}
 			initialState={{
 				sorting: {
