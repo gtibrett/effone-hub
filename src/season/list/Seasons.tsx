@@ -11,7 +11,7 @@ export default function Seasons() {
 	return (
 		<Page title="Past Seasons">
 			<Card>
-				<SeasonsList loading={loading} seasons={data}/>
+				<SeasonsList loading={loading} seasons={data?.seasons || []}/>
 			</Card>
 		</Page>
 	);

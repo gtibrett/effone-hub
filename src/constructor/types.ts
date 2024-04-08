@@ -1,4 +1,4 @@
-import {Driver, Race, Result, Team, TeamHistory, TeamStanding} from '@gtibrett/effone-hub-graph-api';
+import {Driver, FinalTeamStandingsByYear, Race, Result, Team, TeamBio, TeamHistory} from '@gtibrett/effone-hub-graph-api';
 
 export type DriverByYear = {
 	year: number;
@@ -12,7 +12,7 @@ export type TeamHistoryData = TeamHistory & {
 }
 
 export type TeamData = Pick<Team, 'teamId' | 'constructorRef' | 'name' | 'nationality' | 'colors' | 'url'> & {
-	bio: Pick<Team['bio'], 'extract'>;
+	bio: Pick<TeamBio, 'extract'>;
 	
 	teamHistories: TeamHistoryData[];
 	
@@ -21,7 +21,7 @@ export type TeamData = Pick<Team, 'teamId' | 'constructorRef' | 'name' | 'nation
 	drivers: DriverByYear[]
 }
 
-export type TeamStandingData = Pick<TeamStanding, 'points' | 'position' | 'positionText' | 'wins' | 'year'>;
+export type TeamStandingData = Pick<FinalTeamStandingsByYear, 'points' | 'position' | 'positionText' | 'wins' | 'year'>;
 
 export type ConstructorPageData = {
 	team: TeamData;

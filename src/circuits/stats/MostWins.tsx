@@ -5,7 +5,9 @@ export default function MostWins({data, loading}: CircuitDataProps) {
 	const winsLeaders = new Map<number, number>();
 	(data?.circuit.history || []).forEach(r => {
 		r.results.forEach(r => {
-			winsLeaders.set(r.driverId, (winsLeaders.get(r.driverId) || 0) + 1);
+			if (r.driverId) {
+				winsLeaders.set(r.driverId, (winsLeaders.get(r.driverId) || 0) + 1);
+			}
 		});
 	});
 	

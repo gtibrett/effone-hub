@@ -1,4 +1,5 @@
 import {Team} from '@gtibrett/effone-hub-graph-api';
+import {TeamColor} from '@gtibrett/effone-hub-graph-api/types/graph';
 import {Datum, Serie} from '@nivo/line';
 import {ReactNode} from 'react';
 
@@ -12,7 +13,7 @@ export type ChartSwitcherChart = {
 
 export type DataWithTeamInfo = {
 	teamId: Team['teamId'];
-	color: Team['colors']['primary'];
+	color: TeamColor['primary'];
 	[key: string]: any;
 }
 

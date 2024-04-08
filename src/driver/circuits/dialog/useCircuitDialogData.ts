@@ -1,4 +1,5 @@
 import {gql, useQuery} from '@apollo/client';
+import {DriverId} from '@effonehub/driver';
 import {CircuitDialogData} from './types';
 
 const CircuitDataQuery = gql`
@@ -46,6 +47,6 @@ const CircuitDataQuery = gql`
 	}
 `;
 
-export default function useCircuitDialogData(circuitId?: number, driverId?: number) {
+export default function useCircuitDialogData(circuitId?: number, driverId?: DriverId) {
 	return useQuery<CircuitDialogData>(CircuitDataQuery, {variables: {circuitId, driverId}});
 }

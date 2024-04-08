@@ -23,8 +23,13 @@ export default function useLapTimeChartData(lapByLapData: LapByLapData) {
 		
 		if (lapByLapData.data?.length) {
 			lapByLapData.data.forEach(d => {
+				if (!d.driverId) {
+					return;
+				}
+				
 				const lapsWithTimes                  = d.laps.filter(l => l.milliseconds).map(l => ({...l, milliseconds: Number(l.milliseconds)}));
 				let personalBest: number | undefined = undefined;
+				
 				data.push({
 					id:   d.driverId,
 					data: lapsWithTimes.map(lt => {

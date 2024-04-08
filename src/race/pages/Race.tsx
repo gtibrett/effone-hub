@@ -99,11 +99,14 @@ export default function Race() {
 		return <Backdrop open/>;
 	}
 	
-	const circuitDescription            = race.circuit.circuitDescription.description || '';
+	const circuitDescription            = race?.circuit?.circuitDescription?.description || '';
 	const hasResults                    = Number(race.results.length) > 0;
 	const seasonToShow                  = hasResults ? season : season - 1;
 	const {points, onClick}             = mapSeasonRacesToFeatures(season, [race].map(
-		({name, round, circuit: {lng, lat}, results}) => ({name, round, lat, lng, hasResults: results?.length > 0}))
+		({name, round, circuit, results}) => {
+			const {lng, lat} = circuit || {};
+			return {name, round, lat, lng, hasResults: results?.length > 0};
+		})
 	);
 	const {results, sprintResults = []} = race;
 	
@@ -132,8 +135,8 @@ export default function Race() {
 			id:      'circuit', label: 'Circuit',
 			content: (
 				         <Card>
-					         <CardHeader title={<Link href={`/circuit/${race.circuit.circuitRef}`}>{race.circuit.name}</Link>}/>
-					         <CardMedia><RaceMap points={points} onClick={onClick} height={140} centerOn={{lat: race.circuit.lat, lng: race.circuit.lng}} zoom/></CardMedia>
+					         <CardHeader title={<Link href={`/circuit/${race.circuit?.circuitRef}`}>{race.circuit?.name}</Link>}/>
+					         <CardMedia><RaceMap points={points} onClick={onClick} height={140} centerOn={{lat: race.circuit?.lat, lng: race.circuit?.lng}} zoom/></CardMedia>
 					         <CardContent>
 						         <Typography variant="body1">{circuitDescription} <Box component="span" display="block"><OpenAILink/></Box></Typography>
 					         </CardContent>
@@ -150,14 +153,15 @@ export default function Race() {
 		<Page
 			title={race.name}
 			subheader={<Typography>Round {race.round}, {(new Date(race.date || '')).toLocaleDateString()}</Typography>}
-			extra={<Typography variant="body2">{race.summary.extract} <Box component="span" display="inline-block"><WikipediaLink href={race.url}/></Box></Typography>}
+			extra={<Typography variant="body2">{race.summary?.extract} <Box component="span" display="inline-block"><WikipediaLink href={race.url}/></Box></Typography>}
 			action={
-				<Hidden mdDown>
-					<Card>
-						<CardMedia><RaceMap points={points} onClick={onClick} height={140} centerOn={{lat: race.circuit.lat, lng: race.circuit.lng}} zoom/></CardMedia>
-						<CardHeader title={<Link href={`/circuit/${race.circuit.circuitRef}`}>{race.circuit.name}</Link>}/>
-					</Card>
-				</Hidden>
+				race.circuit && (<Hidden mdDown>
+						             <Card>
+							             <CardMedia><RaceMap points={points} onClick={onClick} height={140} centerOn={{lat: race.circuit.lat, lng: race.circuit.lng}} zoom/></CardMedia>
+							             <CardHeader title={<Link href={`/circuit/${race.circuit.circuitRef}`}>{race.circuit.name}</Link>}/>
+						             </Card>
+					             </Hidden>
+				             )
 			}
 			actionProps={{xs: 0, md: 3}}
 		>
@@ -171,8 +175,8 @@ export default function Race() {
 							)
 							: (
 								<CardContent>
-									<Typography variant="h5"><Link href={`/circuit/${race.circuit.circuitRef}`}>{race.circuit.name}</Link></Typography>
-									<Typography variant="h6">{race.circuit.location}, {race.circuit.country}</Typography>
+									<Typography variant="h5"><Link href={`/circuit/${race.circuit?.circuitRef}`}>{race.circuit?.name}</Link></Typography>
+									<Typography variant="h6">{race.circuit?.location}, {race.circuit?.country}</Typography>
 									{circuitDescription && (
 										<><Typography variant="body2">{circuitDescription}</Typography>
 											<Box textAlign="right" display="block"><OpenAILink/></Box>

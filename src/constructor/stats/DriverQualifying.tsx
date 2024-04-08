@@ -49,8 +49,10 @@ export default function DriverQualifying({teamId, season, place}: DriverPointsPr
 		if (teamQualyfings.length) {
 			let isFirst = true;
 			teamQualyfings.forEach(({driverId}) => {
-				leaders.set(driverId, (leaders.get(driverId) || 0) + (isFirst ? 1 : 0));
-				isFirst = false;
+				if (driverId) {
+					leaders.set(driverId, (leaders.get(driverId) || 0) + (isFirst ? 1 : 0));
+					isFirst = false;
+				}
 			});
 		}
 	});
