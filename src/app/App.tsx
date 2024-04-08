@@ -7,22 +7,29 @@ import useApolloClient from '../useApolloClient';
 import AppStateProvider from './AppStateProvider';
 import Routes from './Routes';
 
+const ThemedApp = () => {
+	const theme = useEffTheme();
+	
+	return (
+		<ThemeProvider theme={theme}>
+			<Routes/>
+		</ThemeProvider>
+	);
+};
+
 export default function App() {
-	const theme    = useEffTheme();
 	const {client} = useApolloClient();
 	
 	return (
-		<AppStateProvider>
-			<ApolloProvider client={client}>
-				<CssBaseline/>
-				<ThemeProvider theme={theme}>
-					<BrowserRouter>
-						<GoogleAnalyticsProvider trackingId={process.env.REACT_APP_GA_TRACKING_ID}>
-							<Routes/>
-						</GoogleAnalyticsProvider>
-					</BrowserRouter>
-				</ThemeProvider>
-			</ApolloProvider>
-		</AppStateProvider>
+		<ApolloProvider client={client}>
+			<AppStateProvider>
+				<BrowserRouter>
+					<GoogleAnalyticsProvider trackingId={process.env.REACT_APP_GA_TRACKING_ID}>
+						<CssBaseline/>
+						<ThemedApp/>
+					</GoogleAnalyticsProvider>
+				</BrowserRouter>
+			</AppStateProvider>
+		</ApolloProvider>
 	);
 }
