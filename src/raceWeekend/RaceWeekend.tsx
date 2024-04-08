@@ -13,7 +13,7 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 	const lightTheme      = useEffTheme('light');
 	
 	if (loading) {
-		return <Grid item xs={12}><Skeleton variant="rectangular" height={180}/></Grid>;
+		return <Grid item xs={12}><Skeleton variant="rectangular" height={280}/></Grid>;
 	}
 	
 	if (!race) {
@@ -50,12 +50,12 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 				<Card sx={sx}>
 					<Hidden smDown>
 						<CardMedia sx={{float: 'right', width: 200, p: 1, boxSizing: 'border-box'}}>
-							<CircuitMap variant="simple" circuitRef={race.circuit.circuitRef}/>
+							<CircuitMap variant="simple" circuitRef={race.circuit?.circuitRef}/>
 						</CardMedia>
 					</Hidden>
 					<CardHeader
 						title={race.name}
-						titleTypographyProps={{fontSize:30}}
+						titleTypographyProps={{fontSize: 30}}
 						subheader={
 							<>
 								{raceDate.toLocaleDateString(undefined, {month: 'long', day: 'numeric'})}
@@ -63,10 +63,10 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 								{raceDate.toLocaleTimeString(undefined, {hour: 'numeric', minute: '2-digit'})}
 							</>
 						}
-						subheaderTypographyProps={{fontSize:18}}
+						subheaderTypographyProps={{fontSize: 18}}
 					/>
 					<CardContent>
-						<Typography variant="body1" component="p">{race.summary.extract} <Box component="span" ml={1} sx={{'> a': {color: `#FFF !important`}}}><WikipediaLink href={race.url}/></Box></Typography>
+						<Typography variant="body1" component="p">{race.summary?.extract} <Box component="span" ml={1} sx={{'> a': {color: `#FFF !important`}}}><WikipediaLink href={race.url}/></Box></Typography>
 					</CardContent>
 					<CardActions sx={{p: 0, mx: 1, mb: 1}}>
 						<NextRaceCountdown race={race}/>

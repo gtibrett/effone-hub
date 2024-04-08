@@ -1,32 +1,8 @@
 import {gql, useQuery} from '@apollo/client';
-import {Circuit, Race, WikipediaSummary} from '@gtibrett/effone-hub-graph-api';
-
-export type RaceData = Pick<Race,
-	'url' |
-	'name' |
-	'date' |
-	'time' |
-	'fp1Date' |
-	'fp1Time' |
-	'fp2Date' |
-	'fp2Time' |
-	'fp3Date' |
-	'fp3Time' |
-	'sprintDate' |
-	'sprintTime' |
-	'qualiTime' |
-	'qualiDate'
-> & {
-	summary: Pick<WikipediaSummary, 'extract'>;
-	circuit: Pick<Circuit, 'circuitRef'>
-}
+import {Season} from '@gtibrett/effone-hub-graph-api';
 
 export type NextRaceData = {
-	season: {
-		nextRace: ({
-			race: RaceData
-		}) | null
-	}
+	season: Pick<Season, 'nextRace'>
 };
 
 const query = gql`

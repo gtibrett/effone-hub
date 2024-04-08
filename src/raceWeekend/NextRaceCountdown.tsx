@@ -1,39 +1,38 @@
+import {Race} from '@gtibrett/effone-hub-graph-api';
 import {Card, Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material';
+import {Maybe} from '@gtibrett/effone-hub-graph-api/types';
 import {ReactNode, useEffect, useState} from 'react';
 import CountdownClock from './CountdownClock';
-import {RaceData} from './useNextRaceData';
 
 type NextRaceCountdownProps = {
-	race: RaceData;
+	race: Race;
 	mapSize?: number;
 	circuitSize?: number;
 }
 
 type ScheduleEvent = {
 	label: string
-	date?: string;
-	time?: string;
+	date?: Maybe<string> | undefined;
+	time?: Maybe<string> | undefined;
 	conditional?: boolean
 }
 
-const CountdownCell = ({date, time, label}: Pick<ScheduleEvent, 'date' | 'time' | 'label'>) => {
+const CountdownCell = ({date, time}: Pick<ScheduleEvent, 'date' | 'time'>) => {
 	const [now, setNow] = useState(new Date());
 	const timeTo        = Math.floor(((new Date(`${date} ${time} UTC`)).getTime() - now.getTime()) / 1000);
 	
 	useEffect(() => {
-		setInterval(() => {
-			setNow(new Date());
-		}, 1000);
-	}, [setNow]);
+		const interval = setInterval(() => setNow(new Date()), 1000);
+		return () => clearInterval(interval);
+	}, [timeTo]);
+	
 	
 	let content: ReactNode = '--';
 	if (date && time) {
 		content = timeTo > 0 ? <CountdownClock timeTo={timeTo} size="small"/> : 'Done';
 	}
 	
-	return (
-		<TableCell component="td" variant="body">{content}</TableCell>
-	);
+	return content;
 };
 
 export default function NextRaceCountdown({race}: NextRaceCountdownProps) {
@@ -68,7 +67,12 @@ export default function NextRaceCountdown({race}: NextRaceCountdownProps) {
 				</TableHead>
 				<TableBody sx={{'& tr:last-child .MuiTableCell-root': {borderBottom: 0}}}>
 					<TableRow>
-						{scheduleEvents.map(({label, date, time}) => <CountdownCell key={label} label={label} date={date} time={time}/>)}
+						{scheduleEvents.map(({label, date, time}) => (
+								<TableCell component="td" variant="body" key={label}>
+									<CountdownCell date={date} time={time}/>
+								</TableCell>
+							)
+						)}
 					</TableRow>
 				</TableBody>
 			</Table>
