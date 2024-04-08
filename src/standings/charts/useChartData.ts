@@ -12,7 +12,7 @@ export default function useChartData(data: RaceStandingsWithEntities[] = [], mod
 	
 	return useMemo(() => {
 		const chartSeries: StandingsChartSerie[] = [];
-		const maxRound                           = Math.max(...data.filter(r => r.standings.length).map(r => r.round));
+		const maxRound                           = Math.max(...data.filter(r => r.standings.length).map(r => r.round || 0));
 		
 		data.forEach(({round, standings}) => {
 			standings.forEach(standing => {
@@ -33,11 +33,13 @@ export default function useChartData(data: RaceStandingsWithEntities[] = [], mod
 				if (standing[mode]) {
 					const roundIndex = chartSeries[index].data.findIndex(d => d.x === round);
 					if (roundIndex === -1) {
-						chartSeries[index].data.push({
-							x:    round,
-							y:    standing[mode],
-							data: standing
-						});
+						if (round) {
+							chartSeries[index].data.push({
+								x:    round,
+								y:    standing[mode],
+								data: standing
+							});
+						}
 					} else {
 						chartSeries[index].data[roundIndex] = {
 							...(chartSeries[index].data[roundIndex]),
