@@ -114,19 +114,14 @@ export const useNavLinks = () => {
 	return navLinks;
 };
 
-const mapNavLinkToRoute = ({element, path}: NavRoute) => (
-	<Route key={path} element={element} path={path}/>
-);
-
 export default function Routes() {
 	const navLinks = useNavLinks();
-	const routes   = navLinks.map(mapNavLinkToRoute);
 	
 	return (
 		<ErrorBoundary>
 			<ReactRouterRoutes>
 				<Route element={<Layout/>}>
-					{routes}
+					{navLinks.map(({element, path}: NavRoute) => <Route key={path} element={element} path={path}/>)}
 				</Route>
 			</ReactRouterRoutes>
 		</ErrorBoundary>
