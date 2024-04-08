@@ -1,6 +1,7 @@
-import {Result} from '@gtibrett/effone-hub-graph-api';
+import {Result, Status} from '@gtibrett/effone-hub-graph-api';
+import {capitalize} from '@mui/material';
 
-export function getPositionTextOutcome(positionText: Result['positionText'], status: Result['status']['status']) {
+export function getPositionTextOutcome(positionText: Result['positionText'], status: Status['status']) {
 	switch (positionText) {
 		// The value of the positionText attribute is either an integer (finishing position), 
 		case 'R':
@@ -46,3 +47,7 @@ export const getMillisecondsFromTimeString = (timeString?: string): number | und
 	
 	return Date.parse(`01 Jan 1970 ${hmsParts.join(':')}.${ms} GMT`);
 };
+
+export const round = (num: number, precision = 2) => num > 0 ? Math.trunc(num * Math.pow(10, precision)) / Math.pow(10, precision) : 0;
+
+export const capitalizeCamelCase = (value: string) => capitalize(value.replace(/([a-z])([A-Z])/g, '$1 $2'));
