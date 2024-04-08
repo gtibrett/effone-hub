@@ -11,12 +11,12 @@ import {useState} from 'react';
 export default function Drivers() {
 	setPageTitle('Constructors');
 	
-	const [{season: currentSeason}] = useAppState();
-	const [filters, setFilters]     = useState<ConstructorsListFilters>({
+	const [{currentSeason}]     = useAppState();
+	const [filters, setFilters] = useState<ConstructorsListFilters>({
 		season: currentSeason,
 		search: ''
 	});
-	const {data, loading}           = useConstructorsList(filters);
+	const {data, loading}       = useConstructorsList(filters);
 	
 	return (
 		<Page title="Constructors">
