@@ -29,6 +29,10 @@ export default function DriverChampion({season}: { season: number }) {
 	}
 	
 	const {driverId} = driverStandingsBySeasons[0];
+	if (!driverId) {
+		return null;
+	}
+	
 	champion.set(driverId, 1);
 	
 	return <StatCard label={label} loading={loading} data={champion} format={() => ''} noGrid cardProps={{sx: {'& > .MuiCardHeader-root': {px: 0, pb: 0}}}}/>;

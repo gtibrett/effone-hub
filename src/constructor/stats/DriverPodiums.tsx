@@ -35,7 +35,9 @@ export default function DriverPodiums({teamId, season, place}: DriverPointsProps
 	
 	(data?.races || []).forEach(r => {
 		r.results.forEach(rs => {
-			leaders.set(rs.driverId, (leaders.get(rs.driverId) || 0) + (rs.positionOrder < 4 ? 1 : 0));
+			if (rs.driverId) {
+				leaders.set(rs.driverId, (leaders.get(rs.driverId) || 0) + (rs.positionOrder < 4 ? 1 : 0));
+			}
 		});
 	});
 	

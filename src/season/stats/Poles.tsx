@@ -27,7 +27,9 @@ export default function Poles({season, size}: SeasonStatProps) {
 	
 	(data?.races || []).forEach(r => {
 		r.qualifyings.forEach(rs => {
-			leaders.set(rs.driverId, (leaders.get(rs.driverId) || 0) + 1);
+			if (rs.driverId) {
+				leaders.set(rs.driverId, (leaders.get(rs.driverId) || 0) + 1);
+			}
 		});
 	});
 	

@@ -16,7 +16,7 @@ const TeamDetails = ({team}: {
 	return (
 		<Grid container spacing={4} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
 			<Grid item><Typography variant="h2">{team.name}</Typography></Grid>
-			<Grid item><Flag nationality={team.nationality} size={48}/></Grid>
+			{team.nationality && <Grid item><Flag nationality={team.nationality} size={48}/></Grid>}
 		</Grid>
 	);
 };
@@ -97,7 +97,7 @@ export default function Constructor() {
 		<Page
 			title={<TeamDetails team={team}/>}
 			subheader={<>
-				<Typography variant="body1">{team.bio.extract}</Typography>
+				{team.bio.extract && <Typography variant="body1">{team.bio.extract + ''}</Typography>}
 				<Divider orientation="horizontal" sx={{my: 1}}/>
 				<WikipediaLink href={team.url}/>
 			</>}

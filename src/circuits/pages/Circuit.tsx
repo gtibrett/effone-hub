@@ -3,7 +3,6 @@ import {CircuitMap, RaceMap, useMapCircuitsToMapPoints} from '@effonehub/maps';
 import {OpenAILink, Page} from '@effonehub/ui-components';
 import {setPageTitle, Tabs, useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {Backdrop, Card, CardContent, CardHeader, Divider, Grid, Hidden, Typography} from '@mui/material';
-import {Fragment} from 'react';
 import {useParams} from 'react-router';
 import History from '../History';
 import Season from '../Season';
@@ -38,7 +37,7 @@ export default function Circuit() {
 			subheader={(
 				<>
 					<Typography variant="body1">{circuit.location}, {circuit.country}</Typography>
-					{circuit.circuitDescription.description && (
+					{circuit.circuitDescription?.description && (
 						<>
 							<Typography variant="body1">{circuit.circuitDescription.description}</Typography>
 							<Divider orientation="horizontal" sx={{my: 1}}/>

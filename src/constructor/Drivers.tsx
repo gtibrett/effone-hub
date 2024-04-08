@@ -1,6 +1,6 @@
 import {QueryResult} from '@apollo/client/react/types/types';
 import {DriverByLine} from '@effonehub/driver';
-import {DriverStandingBySeason} from '@gtibrett/effone-hub-graph-api';
+import {DriverStandingsBySeason} from '@gtibrett/effone-hub-graph-api';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
@@ -13,7 +13,7 @@ type RowData = {
 	drivers: DriverByYear['driver'][]
 }
 
-const findFinalStandings = (year: number, standings: DriverStandingBySeason[]) => {
+const findFinalStandings = (year: number, standings: DriverStandingsBySeason[]) => {
 	return standings.filter(s => s.year === year)[0];
 };
 

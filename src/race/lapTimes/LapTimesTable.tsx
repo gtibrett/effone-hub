@@ -28,11 +28,15 @@ function useLapTimesData(lapByLapData: LapByLapData) {
 		
 		if (lapByLapData.data?.length) {
 			lapByLapData.data.forEach(d => {
+				if (!d.driverId) {
+					return;
+				}
+				
 				const lapsWithTimes                  = d.laps.filter(l => l.milliseconds).map(l => ({...l, milliseconds: Number(l.milliseconds)}));
 				let personalBest: number | undefined = undefined;
 				
 				data.push({
-					driverId: d.driverId,
+					driverId: Number(d.driverId),
 					laps:     lapsWithTimes.map(lt => {
 						personalBest = !personalBest ? lt.milliseconds : Math.min(lt.milliseconds, personalBest);
 						
@@ -74,24 +78,31 @@ const useColumns = (laps: number) => {
 					type:        'dateTime',
 					align:       'center',
 					headerAlign: 'center',
-					width:       100,
+					width:       110,
 					valueGetter: (value, row, column) => {
-						return row.laps.find(l => l.lap === Number(column.field))?.timing?.milliseconds;
-					},
-					renderCell:  ({row, field}) => {
-						const lap = row.laps.find(l => l.lap === Number(field));
+						const lap = row.laps.find(l => l.lap === Number(column.field));
 						if (!lap) {
-							return '';
+							return undefined;
 						}
-						const {color, alt, timing: {milliseconds}} = lap;
+						const {timing: {milliseconds}} = lap;
 						
 						if (!milliseconds) {
+							return undefined;
+						}
+						
+						return new Date(milliseconds);
+					},
+					renderCell:  ({row, field, value}) => {
+						const lap = row.laps.find(l => l.lap === Number(field));
+						if (!lap || !value) {
 							return '--';
 						}
 						
+						const {color, alt} = lap;
+						
 						return <>
 							<FontAwesomeIcon icon={faSquare} color={color} title={alt} style={{marginRight: 8}}/>
-							{getTimeStringFromDate(new Date(milliseconds))}
+							{getTimeStringFromDate(value)}
 						</>;
 					}
 				}

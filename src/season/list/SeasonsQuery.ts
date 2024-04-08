@@ -2,7 +2,7 @@ import {gql} from '@apollo/client';
 
 const SeasonsQuery = gql`
 	query SeasonsQuery {
-		seasons(orderBy: YEAR_DESC) {
+		seasons(condition: {hasResults: true, ended: true}, orderBy: YEAR_DESC) {
 			year
 			racesByYear(orderBy: ROUND_DESC, first: 1) {
 				round

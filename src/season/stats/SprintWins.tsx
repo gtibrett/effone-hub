@@ -27,7 +27,9 @@ export default function SprintWins({season, size}: SeasonStatProps) {
 	
 	(data?.races || []).forEach(r => {
 		r.sprintResults.forEach(rs => {
-			leaders.set(rs.driverId, (leaders.get(rs.driverId) || 0) + 1);
+			if (rs.driverId) {
+				leaders.set(rs.driverId, (leaders.get(rs.driverId) || 0) + 1);
+			}
 		});
 	});
 	

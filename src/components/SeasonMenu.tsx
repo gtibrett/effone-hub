@@ -6,6 +6,8 @@ export const SeasonsQuery = gql`
 	query seasons {
 		seasons {
 			year
+			ended
+			hasResults
 		}
 	}
 `;

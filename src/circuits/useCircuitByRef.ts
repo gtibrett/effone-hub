@@ -86,6 +86,6 @@ type CircuitPageData = {
 
 export type CircuitDataProps = Pick<QueryResult<CircuitPageData>, 'data' | 'loading'>;
 
-export default function useCircuitByRef(circuitRef: string | undefined, season?: number) {
+export default function useCircuitByRef(circuitRef: CircuitT['circuitRef'], season?: number) {
 	return useQuery<CircuitPageData>(CircuitQuery, {variables: {circuitRef, showCurrentSeason: Boolean(season), season}});
 }

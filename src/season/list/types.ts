@@ -26,3 +26,9 @@ export type TeamChampionData = DataWithValue & {
 	points: number;
 	wins: number;
 }
+
+export type ChampionData = DriverChampionData | TeamChampionData;
+
+export function isDriverChampion(champion: ChampionData): champion is DriverChampionData {
+	return typeof (champion as DriverChampionData).driverId !== 'undefined';
+}

@@ -1,5 +1,5 @@
 import {gql, useQuery} from '@apollo/client';
-import {DriverPageData} from '../types';
+import {DriverId, DriverPageData} from '../types';
 
 const query = gql`
 	query DriverSeasonQuery($driverId: Int!, $season: Int!) {
@@ -8,6 +8,7 @@ const query = gql`
 			round
 			name
 			date
+			time
 
 			results (condition: {driverId: $driverId}) {
 				grid
@@ -24,6 +25,6 @@ const query = gql`
 	}
 `;
 
-export default function useSeasonData(driverId?: number, season?: number) {
+export default function useSeasonData(driverId?: DriverId, season?: number) {
 	return useQuery<DriverPageData>(query, {variables: {driverId, season}});
 }

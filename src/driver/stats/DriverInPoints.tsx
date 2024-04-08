@@ -8,7 +8,9 @@ export default function DriverInPoints({driverId}: DriverStatProps) {
 	const leaders         = new Map<number, number>();
 	
 	data?.results.forEach(rs => {
-		leaders.set(rs.driverId, (leaders.get(rs.driverId) || 0) + (rs.positionOrder < 11 ? 1 : 0));
+		if (rs.driverId && rs.positionOrder) {
+			leaders.set(rs.driverId, (leaders.get(rs.driverId) || 0) + (rs.positionOrder < 11 ? 1 : 0));
+		}
 	});
 	
 	return <StatCard variant="icon" icon={faBolt} loading={loading} data={leaders} label="In Points" cardProps={{variant: 'outlined'}}/>;
