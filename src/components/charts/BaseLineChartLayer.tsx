@@ -11,7 +11,7 @@ type CareerChartLineLayerProps = {
 export default function BaseLineChartLayer(series: any) {
 	const theme = useTheme();
 	
-	return function ({xScale, yScale}: CareerChartLineLayerProps) {
+	return function LineLayer({xScale, yScale}: CareerChartLineLayerProps) {
 		const lineGenerator = line()
 			.x((d: Datum) => {
 				return xScale(Number(d.x));

@@ -44,13 +44,15 @@ export default function FastestLap({season, round, size = 'small'}: RaceStatProp
 	};
 	
 	data.races.forEach(({lapTimes = []}) => {
-		// Get fastest race lap
-		const {milliseconds = Number.POSITIVE_INFINITY, lap, driverId} = lapTimes[0] || {};
-		
-		if (milliseconds < fastestSeasonLap.value) {
-			fastestSeasonLap = {
-				lap, value: milliseconds, driverId
-			};
+		if (lapTimes[0]) {
+			// Get fastest race lap
+			const {milliseconds, lap, driverId} = lapTimes[0];
+			
+			if (milliseconds && milliseconds < fastestSeasonLap.value) {
+				fastestSeasonLap = {
+					lap, value: milliseconds, driverId
+				};
+			}
 		}
 	});
 	

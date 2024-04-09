@@ -27,7 +27,7 @@ export default function PositionsGained({season, round, size}: RaceStatProps) {
 	
 	(data?.races || []).forEach(r => {
 		r.results.forEach(({driverId, grid, positionOrder}) => {
-			if (grid && positionOrder) {
+			if (grid && positionOrder && driverId) {
 				leaders.set(driverId, (leaders.get(driverId) || 0) + (grid - positionOrder));
 			}
 		});

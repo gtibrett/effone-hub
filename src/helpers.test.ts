@@ -1,4 +1,4 @@
-import {getMillisecondsFromTimeString, getPositionTextOutcome, getTimeStringFromDate} from './helpers';
+import {getMillisecondsFromTimeString} from './helpers';
 
 describe('helpers.ts', () => {
 	

@@ -51,11 +51,11 @@ export function setStringFilter<T>(setFilters: Dispatch<SetStateAction<T>>, key:
 	};
 }
 
-type FilterComparator<Q, T = any> = (query: Q, datum: T) => boolean;
+type FilterComparator<Q, T extends object> = (query: Q, datum: T) => boolean;
 
-export function filterByNumber<T extends {}>(data: T[], query: number, fields: (keyof T)[]): T[];
-export function filterByNumber<T extends {}>(data: T[], query: number, comparator: FilterComparator<number, T>): T[];
-export function filterByNumber<T extends {}>(data: T[], query: number, fieldsOrComparator: (keyof T)[] | FilterComparator<number, T>) {
+export function filterByNumber<T extends object>(data: T[], query: number, fields: (keyof T)[]): T[];
+export function filterByNumber<T extends object>(data: T[], query: number, comparator: FilterComparator<number, T>): T[];
+export function filterByNumber<T extends object>(data: T[], query: number, fieldsOrComparator: (keyof T)[] | FilterComparator<number, T>) {
 	if (typeof fieldsOrComparator === 'function') {
 		return data.filter(d => fieldsOrComparator(query, d));
 	} else {
@@ -64,7 +64,7 @@ export function filterByNumber<T extends {}>(data: T[], query: number, fieldsOrC
 		} else {
 			return data.filter(d => {
 				for (const field of fieldsOrComparator) {
-					if (d.hasOwnProperty(field)) {
+					if (Object.prototype.hasOwnProperty.call(d, field)) {
 						if (Number(d[field]) === query) {
 							return true;
 						}
@@ -76,9 +76,9 @@ export function filterByNumber<T extends {}>(data: T[], query: number, fieldsOrC
 	}
 }
 
-export function filterByFreeformText<T extends {}>(data: T[], query: string, fields: (keyof T)[]): T[];
-export function filterByFreeformText<T extends {}>(data: T[], query: string, comparator: FilterComparator<string, T>): T[];
-export function filterByFreeformText<T extends {}>(data: T[], query: string, fieldsOrComparator: (keyof T)[] | FilterComparator<string, T>) {
+export function filterByFreeformText<T extends object>(data: T[], query: string, fields: (keyof T)[]): T[];
+export function filterByFreeformText<T extends object>(data: T[], query: string, comparator: FilterComparator<string, T>): T[];
+export function filterByFreeformText<T extends object>(data: T[], query: string, fieldsOrComparator: (keyof T)[] | FilterComparator<string, T>) {
 	if (typeof fieldsOrComparator === 'function') {
 		return data.filter(d => fieldsOrComparator(query, d));
 	} else {
@@ -98,4 +98,4 @@ export function filterByFreeformText<T extends {}>(data: T[], query: string, fie
 			});
 		}
 	}
-};
+}

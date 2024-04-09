@@ -1,4 +1,5 @@
 import {Result, Status} from '@gtibrett/effone-hub-graph-api';
+import {Maybe} from '@gtibrett/effone-hub-graph-api/types';
 import {capitalize} from '@mui/material';
 
 export function getPositionTextOutcome(positionText: Result['positionText'], status: Status['status']) {
@@ -33,7 +34,7 @@ export const getTimeStringFromDate = (time: Date): string => {
 	       `${seconds}.${millis}`;
 };
 
-export const getMillisecondsFromTimeString = (timeString?: string): number | undefined => {
+export const getMillisecondsFromTimeString = (timeString?: Maybe<string>): number | undefined => {
 	if (!timeString || timeString.startsWith('+')) {
 		return undefined;
 	}

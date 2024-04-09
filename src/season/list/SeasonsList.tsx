@@ -1,6 +1,7 @@
 import {StatCard, StatCardStat} from '@effonehub/ui-components';
 import {Link} from '@gtibrett/mui-additions';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {GridRenderCellParams} from '@mui/x-data-grid/models/params/gridCellParams';
 import {memo} from 'react';
 import {ChampionData, DriverChampionData, isDriverChampion, SeasonData, TeamChampionData} from './types';
 
@@ -15,7 +16,7 @@ function getAtPlace(variant: PlaceVariant, season: SeasonData, place: number) {
 type PlaceColumnRendererProps = {
 	data: DriverChampionData | TeamChampionData | undefined
 }
-const PlaceColumnRenderer = memo(({data}: PlaceColumnRendererProps) => {
+const PlaceColumnRenderer = memo(function PlaceColumnRenderer({data}: PlaceColumnRendererProps) {
 	if (!data || typeof data === 'undefined') {
 		return '--';
 	}
@@ -36,7 +37,7 @@ const PlaceColumnRenderer = memo(({data}: PlaceColumnRendererProps) => {
 });
 
 const renderPlace = (place: number, variant: PlaceVariant = 'driver'): GridColDef<SeasonData>['renderCell'] => (
-	({row}) => {
+	function renderPlace({row}: GridRenderCellParams) {
 		const data = variant === 'driver' ? getAtPlace('driver', row, place) : getAtPlace('team', row, place);
 		return <PlaceColumnRenderer data={data}/>;
 	}

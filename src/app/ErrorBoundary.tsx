@@ -1,6 +1,7 @@
+import {Page} from '@effonehub/ui-components';
 import {faFlag} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Card, CardContent, CardHeader, Typography} from '@mui/material';
+import {Card, CardContent, CardHeader, Container, Typography} from '@mui/material';
 import {red} from '@mui/material/colors';
 import {Component, ComponentProps, ErrorInfo} from 'react';
 
@@ -13,12 +14,16 @@ export function ErrorCard({message}: {
 	message?: string
 }) {
 	return (
-		<Card>
-			<CardHeader title="Red Flag" titleTypographyProps={{fontSize: 32}} avatar={<FontAwesomeIcon icon={faFlag} color={red[500]} size="2x"/>}/>
-			<CardContent>
-				<Typography variant="body1">{message}</Typography>
-			</CardContent>
-		</Card>
+		<Page title="Red Flag">
+			<Container maxWidth="md">
+				<Card>
+					<CardHeader title="Red Flag" titleTypographyProps={{fontSize: 32}} avatar={<FontAwesomeIcon icon={faFlag} color={red[500]} size="2x"/>}/>
+					<CardContent>
+						<Typography variant="body1">{message}</Typography>
+					</CardContent>
+				</Card>
+			</Container>
+		</Page>
 	);
 }
 

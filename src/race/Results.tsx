@@ -3,11 +3,11 @@ import {DriverByLine} from '@effonehub/driver';
 import {getPositionTextOutcome} from '@effonehub/helpers';
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Race, Result} from '@gtibrett/effone-hub-graph-api';
+import {Race} from '@gtibrett/effone-hub-graph-api';
 import {Alert, Grid, Skeleton, Tooltip, Typography} from '@mui/material';
 import {purple} from '@mui/material/colors';
 import {visuallyHidden} from '@mui/utils';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {DataGrid} from '@mui/x-data-grid';
 import Podium from './Podium';
 import PositionChange from './PositionChange';
 
@@ -34,7 +34,7 @@ export default function Results({results}: { results: Race['results'] }) {
 				rows={rows}
 				autoHeight
 				density="compact"
-				getRowId={r => r.driver.driverId}
+				getRowId={r => r.driver?.driverId || 0}
 				initialState={{
 					sorting: {
 						sortModel: [{field: 'position', sort: 'asc'}]
@@ -100,7 +100,7 @@ export default function Results({results}: { results: Race['results'] }) {
 								const time = row.time;
 								return (
 									<Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
-										<Grid item>{time ? time : getPositionTextOutcome(row.positionText, row.status.status)}</Grid>
+										<Grid item>{time ? time : getPositionTextOutcome(row.positionText, row.status?.status)}</Grid>
 										{row.rank === 1 && (
 											<Grid item>
 												<Tooltip title="Fastest Lap">
