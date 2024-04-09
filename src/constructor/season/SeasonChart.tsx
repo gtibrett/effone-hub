@@ -22,7 +22,7 @@ export default function SeasonChart({data, loading}: SeasonChartProps) {
 		alpha(getTeamColor(data.team.colors, 'primary', false), .75),
 		alpha(getTeamColor(data.team.colors, 'secondary', false), .75)
 	];
-	const rounds    = Math.max(...(data?.team.results.map(rs => rs.race?.round || 0)));
+	const rounds    = Math.max(...((data?.team.results || []).map(rs => rs.race?.round || 0)));
 	const blankData = (new Array<number>(rounds)).fill(0).map((v, i) => ({x: i + 1, y: null}));
 	
 	const drivers: LineSerie[] =

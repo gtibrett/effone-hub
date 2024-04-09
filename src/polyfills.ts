@@ -15,5 +15,5 @@ Array.prototype.removeDuplicates = function (comparator = (a, b) => a === b) {
 };
 
 // necessary for declare global above
-// eslint-disable-next-line import/no-anonymous-default-export
+// eslint-disable-next-line
 export default {};

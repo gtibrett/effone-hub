@@ -27,7 +27,9 @@ export default function LapLeader({season, round, size}: RaceStatProps) {
 	
 	(data?.races || []).forEach(r => {
 		r.lapTimes.forEach(lt => {
-			leaders.set(lt.driverId, (leaders.get(lt.driverId) || 0) + 1);
+			if (lt.driverId) {
+				leaders.set(lt.driverId, (leaders.get(lt.driverId) || 0) + 1);
+			}
 		});
 	});
 	

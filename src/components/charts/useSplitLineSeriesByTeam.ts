@@ -34,7 +34,7 @@ export default function useSplitSeriesByTeam() {
 			))
 		};
 		
-		data.forEach(({teamId, color, ...rawData}) => {
+		data.forEach(({teamId, ...rawData}) => {
 			const seriesIndex = seriesByTeam.findIndex(ts => ts.id === teamId);
 			
 			if (!seriesByTeam[seriesIndex]) {
