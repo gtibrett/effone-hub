@@ -28,7 +28,9 @@ const Layout = () => {
 				<Header/>
 				
 				<Container maxWidth="xl" component="main" sx={sx} tabIndex={0}>
-					<Outlet/>
+					<ErrorBoundary>
+						<Outlet/>
+					</ErrorBoundary>
 				</Container>
 				
 				<Footer/>
@@ -118,12 +120,10 @@ export default function Routes() {
 	const navLinks = useNavLinks();
 	
 	return (
-		<ErrorBoundary>
-			<ReactRouterRoutes>
-				<Route element={<Layout/>}>
-					{navLinks.map(({element, path}: NavRoute) => <Route key={path} element={element} path={path}/>)}
-				</Route>
-			</ReactRouterRoutes>
-		</ErrorBoundary>
+		<ReactRouterRoutes>
+			<Route element={<Layout/>}>
+				{navLinks.map(({element, path}: NavRoute) => <Route key={path} element={element} path={path}/>)}
+			</Route>
+		</ReactRouterRoutes>
 	);
 }

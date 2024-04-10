@@ -1,8 +1,7 @@
-import {Page} from '@effonehub/ui-components';
+import {useEffTheme} from '@effonehub/ui-components';
 import {faFlag} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Card, CardContent, CardHeader, Container, Typography} from '@mui/material';
-import {red} from '@mui/material/colors';
+import {Alert, Card, Container, Typography} from '@mui/material';
 import {Component, ComponentProps, ErrorInfo} from 'react';
 
 type ErrorBoundaryState = {
@@ -10,20 +9,20 @@ type ErrorBoundaryState = {
 	error?: Error;
 }
 
-export function ErrorCard({message}: {
-	message?: string
-}) {
+export function ErrorCard({message}: { message?: string }) {
+	const theme = useEffTheme('dark');
+	
+	const background = theme.palette.error.dark;
+	const color      = theme.palette.getContrastText(background);
+	
 	return (
-		<Page title="Red Flag">
-			<Container maxWidth="md">
-				<Card>
-					<CardHeader title="Red Flag" titleTypographyProps={{fontSize: 32}} avatar={<FontAwesomeIcon icon={faFlag} color={red[500]} size="2x"/>}/>
-					<CardContent>
-						<Typography variant="body1">{message}</Typography>
-					</CardContent>
-				</Card>
-			</Container>
-		</Page>
+		<Container maxWidth="md">
+			<Card>
+				<Alert sx={{py: 2, px: 4}} severity="error" variant="filled" icon={<FontAwesomeIcon icon={faFlag} color={color} size="2x"/>}>
+					<Typography variant="h2">{message}</Typography>
+				</Alert>
+			</Card>
+		</Container>
 	);
 }
 
