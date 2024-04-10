@@ -2,6 +2,8 @@ import {Result, Status} from '@gtibrett/effone-hub-graph-api';
 import {Maybe} from '@gtibrett/effone-hub-graph-api/types';
 import {capitalize} from '@mui/material';
 
+export const noop                = () => null;
+
 export function getPositionTextOutcome(positionText: Result['positionText'], status: Status['status']) {
 	switch (positionText) {
 		// The value of the positionText attribute is either an integer (finishing position), 
@@ -52,3 +54,5 @@ export const getMillisecondsFromTimeString = (timeString?: Maybe<string>): numbe
 export const round = (num: number, precision = 2) => num > 0 ? Math.trunc(num * Math.pow(10, precision)) / Math.pow(10, precision) : 0;
 
 export const capitalizeCamelCase = (value: string) => capitalize(value.replace(/([a-z])([A-Z])/g, '$1 $2'));
+
+export const getDateWithTime = (dateTime: Date) => <>{dateTime.toLocaleDateString(undefined, {month: 'long', day: 'numeric'})},&nbsp;{dateTime.toLocaleTimeString(undefined, {hour: 'numeric', minute: '2-digit'})}</>;
