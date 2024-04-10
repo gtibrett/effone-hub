@@ -1,3 +1,4 @@
+import {noop} from '@effonehub/helpers';
 import {NivoTooltipFactory, useNivoTheme} from '@effonehub/ui-components';
 import {Circuit} from '@gtibrett/effone-hub-graph-api';
 import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
@@ -76,8 +77,6 @@ export default function RaceMap(props: RaceMapProps) {
 		}
 	}, [centerOn, node, dimensions, lastDimensions]);
 	
-	const noop                = () => {
-	};
 	// PropTypes vs TS mismatches
 	const requiredByPropTypes = {
 		projectionRotation: [0, 0, 0],
@@ -134,4 +133,4 @@ export default function RaceMap(props: RaceMapProps) {
 			{!ready && <Skeleton variant="rectangular" height={height} sx={{position: 'absolute', top: 0, left: 0, right: 0}}/>}
 		</Box>
 	);
-};
+}

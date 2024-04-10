@@ -1,7 +1,8 @@
+import {getDateWithTime} from '@effonehub/helpers';
 import {useEffTheme, WikipediaLink} from '@effonehub/ui-components';
-import {alpha, Box, Card, CardActions, CardContent, CardHeader, CardMedia, Grid, Hidden, Skeleton, ThemeProvider, Typography} from '@mui/material';
-import CircuitMap from '../maps/CircuitMap';
+import {alpha, Box, Card, CardActions, CardContent, CardHeader, Grid, Skeleton, ThemeProvider, Typography} from '@mui/material';
 import NextRaceCountdown from './NextRaceCountdown';
+import NextRaceSchedule from './NextRaceSchedule';
 import useNextRaceData from './useNextRaceData';
 
 type RaceWeekendProps = { season: number };
@@ -48,28 +49,23 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 		<Grid item xs={12} md={12}>
 			<ThemeProvider theme={darkTheme}>
 				<Card sx={sx}>
-					<Hidden smDown>
-						<CardMedia sx={{float: 'right', width: 200, p: 1, boxSizing: 'border-box'}}>
-							<CircuitMap variant="simple" circuitRef={race.circuit?.circuitRef}/>
-						</CardMedia>
-					</Hidden>
+					{/*<Hidden smDown>*/}
+					{/*	<CardMedia sx={{float: 'right', width: 200, p: 1, boxSizing: 'border-box'}}>*/}
+					{/*		<CircuitMap variant="simple" circuitRef={race.circuit?.circuitRef}/>*/}
+					{/*	</CardMedia>*/}
+					{/*</Hidden>*/}
 					<CardHeader
 						title={race.name}
 						titleTypographyProps={{fontSize: 30}}
-						subheader={
-							<>
-								{raceDate.toLocaleDateString(undefined, {month: 'long', day: 'numeric'})}
-								,&nbsp;
-								{raceDate.toLocaleTimeString(undefined, {hour: 'numeric', minute: '2-digit'})}
-							</>
-						}
+						subheader={getDateWithTime(raceDate)}
 						subheaderTypographyProps={{fontSize: 18}}
+						action={<NextRaceCountdown race={race}/>}
 					/>
 					<CardContent>
 						<Typography variant="body1" component="p">{race.summary?.extract} <Box component="span" ml={1} sx={{'> a': {color: `#FFF !important`}}}><WikipediaLink href={race.url}/></Box></Typography>
 					</CardContent>
 					<CardActions sx={{p: 0, mx: 1, mb: 1}}>
-						<NextRaceCountdown race={race}/>
+						<NextRaceSchedule race={race}/>
 					</CardActions>
 				</Card>
 			</ThemeProvider>

@@ -1,4 +1,5 @@
 import {Typography} from '@mui/material';
+import {useEffect, useState} from 'react';
 
 const DAY  = 24 * 60 * 60;
 const HOUR = 60 * 60;
@@ -12,10 +13,17 @@ type CountdownClockProps = {
 }
 
 export default function CountdownClock({timeTo, size}: CountdownClockProps) {
-	const daysTo    = Math.floor(timeTo / DAY);
-	const hoursTo   = Math.floor((timeTo - DAY * daysTo) / HOUR);
-	const minsTo    = Math.floor((timeTo - DAY * daysTo - HOUR * hoursTo) / MIN);
-	const secondsTo = (timeTo - DAY * daysTo - HOUR * hoursTo - MIN * minsTo);
+	const [countDown, setCountdown] = useState(timeTo);
+	
+	useEffect(() => {
+		const interval = setInterval(() => setCountdown(countDown - 1), 1000);
+		return () => clearInterval(interval);
+	});
+	
+	const daysTo    = Math.floor(countDown / DAY);
+	const hoursTo   = Math.floor((countDown - DAY * daysTo) / HOUR);
+	const minsTo    = Math.floor((countDown - DAY * daysTo - HOUR * hoursTo) / MIN);
+	const secondsTo = (countDown - DAY * daysTo - HOUR * hoursTo - MIN * minsTo);
 	
 	return (
 		<Typography variant={size === 'large' ? 'h5' : 'body2'} component="p" paragraph={false}>
