@@ -18,7 +18,7 @@ export default function useCareerChartDataWithTeam(driverId?: Maybe<number>) {
 			position: s.position,
 			wins:     s.wins
 		}));
-	rawData.sort((a, b) => a.year > b.year ? 1 : a.year < b.year ? -1 : 0);
+	rawData.sortByAttribute('year');
 	
 	return rawData;
 }
