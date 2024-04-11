@@ -1,5 +1,6 @@
 import {TeamStandingData} from '@effonehub/constructor';
 import {NivoTooltipFactory, useNivoTheme} from '@effonehub/ui-components';
+import {RequiredByPropTypes} from '@effonehub/ui-components/nivo';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
 import {HistoryProps} from './History';
 import HistoryTooltip from './HistoryTooltip';
@@ -28,6 +29,7 @@ export default function HistoryChart({data, loading, dataKey, dataMaxKey, invert
 	
 	return (
 		<ResponsiveLine
+			{...RequiredByPropTypes.Line}
 			theme={nivoTheme}
 			data={series}
 			colors={chartColors}

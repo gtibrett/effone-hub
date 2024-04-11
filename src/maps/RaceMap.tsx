@@ -1,5 +1,5 @@
-import {noop} from '@effonehub/helpers';
 import {NivoTooltipFactory, useNivoTheme} from '@effonehub/ui-components';
+import {RequiredByPropTypes} from '@effonehub/ui-components/nivo';
 import {Circuit} from '@gtibrett/effone-hub-graph-api';
 import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {alpha, Box, Skeleton, useTheme} from '@mui/material';
@@ -78,24 +78,11 @@ export default function RaceMap(props: RaceMapProps) {
 	}, [centerOn, node, dimensions, lastDimensions]);
 	
 	// PropTypes vs TS mismatches
-	const requiredByPropTypes = {
-		projectionRotation: [0, 0, 0],
-		role:               'image',
-		layers:             ['features'],
-		onMouseLeave:       noop,
-		onMouseMove:        noop,
-		onMouseEnter:       noop,
-		isInteractive:      true,
-		graticuleLineColor: 'transparent',
-		graticuleLineWidth: 0,
-		enableGraticule:    false
-	};
-	
 	return (
 		<Box ref={ref} sx={{position: 'relative', height, width}} aria-hidden>
 			<Box sx={{opacity: !ready ? 0 : 1, height, width}}>
 				<ResponsiveGeoMap
-					{...requiredByPropTypes}
+					{...RequiredByPropTypes.GeoMap}
 					
 					theme={nivoTheme}
 					features={[land, ...pointFeatures]}
