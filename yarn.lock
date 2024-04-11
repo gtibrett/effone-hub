@@ -1569,10 +1569,10 @@
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.2.0.tgz#5f3d96ec6b2354ad6d8a28bf216a1d97b5426861"
   integrity sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==
 
-"@gtibrett/effone-hub-graph-api@^1.2.0-alpha.1712261139":
-  version "1.2.0-alpha.1712761975"
-  resolved "https://npm.pkg.github.com/download/@gtibrett/effone-hub-graph-api/1.2.0-alpha.1712761975/016ff8bbbebf0a8a3c34e6665e2d4c67f8a8b76e#016ff8bbbebf0a8a3c34e6665e2d4c67f8a8b76e"
-  integrity sha512-7ZVto1diXcSlyH6Kjn3BWKUlr3Hbsxhfd0QlDDt/QNtG99UFe2RZ3nNbn9me0Uw+c5hi/597roHVC5weTssNHw==
+"@gtibrett/effone-hub-graph-api@^1.2.0":
+  version "1.2.0"
+  resolved "https://npm.pkg.github.com/download/@gtibrett/effone-hub-graph-api/1.2.0/0c5fcf1a31492a6c6d480fbb3265c674aab19506#0c5fcf1a31492a6c6d480fbb3265c674aab19506"
+  integrity sha512-CLM2rNSMCPSmqTTROwwqb/oSiB7xtCmzG6/TEtViDo3MFvckQO1q8G7z249+1VZ47LtOnmOvkp4jqG25Dcne1w==
   dependencies:
     "@graphile-contrib/pg-simplify-inflector" "^6.1.0"
     compression "^1.7.4"
