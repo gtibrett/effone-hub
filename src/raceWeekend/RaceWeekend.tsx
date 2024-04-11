@@ -49,17 +49,12 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 		<Grid item xs={12} md={12}>
 			<ThemeProvider theme={darkTheme}>
 				<Card sx={sx}>
-					{/*<Hidden smDown>*/}
-					{/*	<CardMedia sx={{float: 'right', width: 200, p: 1, boxSizing: 'border-box'}}>*/}
-					{/*		<CircuitMap variant="simple" circuitRef={race.circuit?.circuitRef}/>*/}
-					{/*	</CardMedia>*/}
-					{/*</Hidden>*/}
 					<CardHeader
 						title={race.name}
 						titleTypographyProps={{fontSize: 30}}
 						subheader={getDateWithTime(raceDate)}
 						subheaderTypographyProps={{fontSize: 18}}
-						action={<NextRaceCountdown race={race}/>}
+						action={<ThemeProvider theme={lightTheme}><NextRaceCountdown variant="dark" race={race}/></ThemeProvider>}
 					/>
 					<CardContent>
 						<Typography variant="body1" component="p">{race.summary?.extract} <Box component="span" ml={1} sx={{'> a': {color: `#FFF !important`}}}><WikipediaLink href={race.url}/></Box></Typography>
