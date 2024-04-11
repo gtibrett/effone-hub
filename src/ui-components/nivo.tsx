@@ -1,7 +1,10 @@
+import {noop} from '@effonehub/helpers';
 import {alpha, Box, ThemeProvider, useTheme} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
 import {BoxPlotDatum} from '@nivo/boxplot/dist/types/types';
 import {Theme} from '@nivo/core';
+import {GeoMapProps} from '@nivo/geo';
+import {LineSvgProps} from '@nivo/line';
 import {FC, useCallback} from 'react';
 import {useDarkMode, useInvertedTheme} from './Theme';
 import useGetAccessibleColor from './useGetAccessibleColor';
@@ -173,3 +176,61 @@ export function useGetAccessibleChartColors() {
 		       : [a11yColor, ...(new Array(4)).fill(100).map((v, i) => blueGreys.get(900 - (2 * v * (i + 1))) || '')];
 	};
 }
+
+// PropTypes vs TS mismatches
+type RequiredByPropTypesType = {
+	GeoMap: Partial<GeoMapProps>;
+	Line: Partial<LineSvgProps>;
+}
+
+export const RequiredByPropTypes: RequiredByPropTypesType = {
+	GeoMap: {
+		projectionRotation: [0, 0, 0],
+		role:               'image',
+		// @ts-ignore
+		layers:             ['features'],
+		onMouseLeave:       noop,
+		onMouseMove:        noop,
+		onMouseEnter:       noop,
+		isInteractive:      true,
+		graticuleLineColor: 'transparent',
+		graticuleLineWidth: 0,
+		enableGraticule:    false
+	},
+	Line:   {
+		layers:            [
+			'grid',
+			'markers',
+			'axes',
+			'areas',
+			'crosshair',
+			'lines',
+			'points',
+			'slices',
+			'mesh',
+			'legends'
+		],
+		curve:             'linear',
+		areaBaselineValue: 0,
+		enableArea:        false,
+		areaOpacity:       0.2,
+		areaBlendMode:     'normal',
+		enablePoints:      true,
+		pointColor:        {from: 'color'},
+		pointBorderWidth:  0,
+		pointBorderColor:  {theme: 'background'},
+		enablePointLabel:  false,
+		pointLabel:        'yFormatted',
+		
+		defs:            [],
+		fill:            [],
+		legends:         [],
+		isInteractive:   true,
+		debugMesh:       false,
+		enableSlices:    false,
+		debugSlices:     false,
+		sliceTooltip:    () => null,
+		enableCrosshair: true,
+		role:            'img'
+	}
+};

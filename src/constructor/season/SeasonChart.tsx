@@ -1,6 +1,7 @@
 import {QueryResult} from '@apollo/client/react/types/types';
 import {useGetTeamColor} from '@effonehub/constructor';
 import {useNivoTheme} from '@effonehub/ui-components';
+import {RequiredByPropTypes} from '@effonehub/ui-components/nivo';
 import {alpha, Box, Skeleton} from '@mui/material';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
 import {ConstructorPageData} from '../types';
@@ -46,6 +47,7 @@ export default function SeasonChart({data, loading}: SeasonChartProps) {
 	return (
 		<Box sx={{height: 132, width: '100%'}} aria-hidden>
 			<ResponsiveLine
+				{...RequiredByPropTypes.Line}
 				theme={nivoTheme}
 				data={drivers}
 				colors={colors}

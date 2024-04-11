@@ -1,4 +1,5 @@
 import {NivoTooltipFactory, useNivoTheme} from '@effonehub/ui-components';
+import {RequiredByPropTypes} from '@effonehub/ui-components/nivo';
 import {AxisProps} from '@nivo/axes';
 import {Datum, Layer, LineProps, PointTooltip, ResponsiveLine, Serie} from '@nivo/line';
 import BaseLineChartLayer from './BaseLineChartLayer';
@@ -66,6 +67,7 @@ export default function LineChartByTeam({xKey, yKey, data, tooltip, axisBottomFo
 	
 	return (
 		<ResponsiveLine
+			{...RequiredByPropTypes.Line}
 			{...baseProps}
 			
 			data={[

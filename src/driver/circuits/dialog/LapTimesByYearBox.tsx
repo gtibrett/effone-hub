@@ -5,16 +5,15 @@ import {getTimeStringFromDate} from '@effonehub/helpers';
 import {NivoTooltipFactory, useNivoTheme} from '@effonehub/ui-components';
 import {Alert, alpha, Card, Skeleton} from '@mui/material';
 import {ResponsiveBoxPlot} from '@nivo/boxplot';
-import {useMapLapTimeDataToSwarmChart} from './mapLapTimeDataToSwarmChart';
+import {mapLapTimeDataToBoxChart} from './mapLapTimeDataToSwarmChart';
 import {CircuitDialogData} from './types';
 
 type LapTimesChartProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading'>;
 
 export default function LapTimesByYearBox({data}: LapTimesChartProps) {
-	const nivoTheme                = useNivoTheme();
-	const colorsByYear             = useGetTeamColorsByYear()(data?.driver.teamsByYear || []);
-	const mapLapTimeDataToBoxChart = useMapLapTimeDataToSwarmChart();
-	const getColorConfig           = ({group}: any) => colorsByYear[group];
+	const nivoTheme      = useNivoTheme();
+	const colorsByYear   = useGetTeamColorsByYear()(data?.driver.teamsByYear || []);
+	const getColorConfig = ({group}: any) => colorsByYear[group];
 	
 	if (!data) {
 		return <Skeleton variant="rectangular" height={400}/>;

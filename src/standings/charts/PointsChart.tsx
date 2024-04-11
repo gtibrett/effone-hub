@@ -1,4 +1,5 @@
 import {NivoTooltipFactory, useNivoTheme} from '@effonehub/ui-components';
+import {RequiredByPropTypes} from '@effonehub/ui-components/nivo';
 import {alpha} from '@mui/material';
 import {Point, ResponsiveLine} from '@nivo/line';
 import {useState} from 'react';
@@ -20,6 +21,7 @@ export default function PointsChart({data, TooltipComponent}: ChartProps) {
 	
 	return (
 		<ResponsiveLine
+			{...RequiredByPropTypes.Line}
 			theme={nivoTheme}
 			data={chartData}
 			colors={({color, id}) => color ? (!highlight || id === highlight ? color : alpha(color, .25)) : 'transparent'}
