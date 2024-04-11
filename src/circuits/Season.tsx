@@ -24,7 +24,7 @@ export default function Season({data, loading}: CircuitDataProps) {
 		if (!data.circuit.season[0].results.length) {
 			return <>
 				<Typography variant="h5">Countdown</Typography>
-				<NextRaceCountdown race={data.circuit.season[0]}/>
+				<NextRaceCountdown variant="main"  race={data.circuit.season[0]}/>
 			</>;
 		}
 	}
