@@ -112,14 +112,15 @@ export const useNivoTheme = (): NivoTheme => {
 			}
 		},
 		
+		
 		tooltip: {
-			//move this to wrapper: {} when it becomes available
-			// @ts-ignore
-			backdropFilter: 'blur(4px)',
+			wrapper: {
+				backdropFilter: 'blur(4px)',
+				padding:        0,
+				borderRadius:   invertedTheme.spacing(.5),
+				overflow:       'hidden',
+			},
 			
-			padding:        0,
-			borderRadius:   invertedTheme.spacing(.5),
-			overflow:       'hidden',
 			container:      {
 				background: invertedTheme.palette.background.paper,
 				color:      invertedTheme.palette.getContrastText(invertedTheme.palette.background.paper),
@@ -222,15 +223,21 @@ export const RequiredByPropTypes: RequiredByPropTypesType = {
 		enablePointLabel:  false,
 		pointLabel:        'yFormatted',
 		
+		enableGridY: true,
+		xScale:      {type: 'point'},
+		
 		defs:            [],
 		fill:            [],
 		legends:         [],
 		isInteractive:   true,
 		debugMesh:       false,
+		useMesh:         false,
 		enableSlices:    false,
 		debugSlices:     false,
+		tooltip:         () => null,
 		sliceTooltip:    () => null,
 		enableCrosshair: true,
+		crosshairType:   'bottom-left',
 		role:            'img'
 	}
 };

@@ -2,7 +2,7 @@ import {NivoTooltipFactory, useNivoTheme} from '@effonehub/ui-components';
 import {RequiredByPropTypes} from '@effonehub/ui-components/nivo';
 import {Circuit} from '@gtibrett/effone-hub-graph-api';
 import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
-import {alpha, Box, Skeleton, useTheme} from '@mui/material';
+import {alpha, Box, useTheme} from '@mui/material';
 import {GeoMapEventHandler, ResponsiveGeoMap} from '@nivo/geo';
 import {useEffect, useState} from 'react';
 import MapTooltip from './MapTooltip';
@@ -57,7 +57,6 @@ export default function RaceMap(props: RaceMapProps) {
 	const [lastDimensions, setLastDimensions] = useState(dimensions);
 	const pointFeatures                       = mapPointsToFeatures(points);
 	const [translation, setTranslation]       = useState<Translation>([.5, .5]);
-	const [ready, setReady]                   = useState<boolean>(false);
 	
 	useEffect(() => {
 		if (node && (dimensions.width !== lastDimensions.width || dimensions.height !== lastDimensions.height)) {
@@ -69,7 +68,6 @@ export default function RaceMap(props: RaceMapProps) {
 					const yScale          = ((height / 2) / dimensions.height);
 					
 					setTranslation([calculateXTranslation(Number(centerOn?.lng), xScale), calculateYTranslation(Number(centerOn?.lat), yScale)]);
-					setReady(true);
 				}
 				
 				setLastDimensions(dimensions);
@@ -80,7 +78,7 @@ export default function RaceMap(props: RaceMapProps) {
 	// PropTypes vs TS mismatches
 	return (
 		<Box ref={ref} sx={{position: 'relative', height, width}} aria-hidden>
-			<Box sx={{opacity: !ready ? 0 : 1, height, width}}>
+			<Box sx={{height, width}}>
 				<ResponsiveGeoMap
 					{...RequiredByPropTypes.GeoMap}
 					
@@ -117,7 +115,6 @@ export default function RaceMap(props: RaceMapProps) {
 					onClick={onClick}
 				/>
 			</Box>
-			{!ready && <Skeleton variant="rectangular" height={height} sx={{position: 'absolute', top: 0, left: 0, right: 0}}/>}
 		</Box>
 	);
 }
