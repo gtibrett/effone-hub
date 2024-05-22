@@ -25,55 +25,55 @@
 			"@effonehub/app":  [
 				"app"
 			],
-			"@effonehub/about":  [
+			"@effonehub/about":           [
 				"about/index.ts"
 			],
-			"@effonehub/circuits":  [
+			"@effonehub/circuits":        [
 				"circuits/index.ts"
 			],
-			"@effonehub/circuits/*":  [
+			"@effonehub/circuits/*":      [
 				"circuits/*"
 			],
-			"@effonehub/components":  [
+			"@effonehub/components":      [
 				"components/index.ts"
 			],
-			"@effonehub/components/*":  [
+			"@effonehub/components/*":    [
 				"components/*"
 			],
-			"@effonehub/constructor": [
+			"@effonehub/constructor":     [
 				"constructor/index.ts"
 			],
-			"@effonehub/constructor/*": [
+			"@effonehub/constructor/*":   [
 				"constructor/*"
 			],
-			"@effonehub/driver":      [
+			"@effonehub/driver":          [
 				"driver/index.ts"
 			],
-			"@effonehub/driver/*":      [
+			"@effonehub/driver/*":        [
 				"driver/*"
 			],
 			"@effonehub/helpers":  [
 				"helpers.tsx"
 			],
-			"@effonehub/maps":      [
+			"@effonehub/maps":            [
 				"maps"
 			],
-			"@effonehub/race":      [
+			"@effonehub/race":            [
 				"race/index.ts"
 			],
-			"@effonehub/race/*":      [
+			"@effonehub/race/*":          [
 				"race/*"
 			],
-			"@effonehub/season":      [
+			"@effonehub/season":          [
 				"season/index.ts"
 			],
-			"@effonehub/season/*":      [
+			"@effonehub/season/*":        [
 				"season/*"
 			],
-			"@effonehub/jest": [
+			"@effonehub/jest":            [
 				"jest"
 			],
-			"@effonehub/ui-components": [
+			"@effonehub/ui-components":   [
 				"ui-components/index.ts"
 			],
 			"@effonehub/ui-components/*": [

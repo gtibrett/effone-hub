@@ -45,6 +45,7 @@ function LapByLap({season, round}: LapByLapProps) {
 	let content = <Skeleton variant="rectangular" sx={{width: '100%'}} height="100%"/>;
 	if (!loading && lapByLapData.data?.length) {
 		content = (
+			// @ts-ignore
 			<ResponsiveBump
 				theme={nivoTheme}
 				data={data.map(s => ({...s, id: String(s.id)}))}
@@ -77,7 +78,8 @@ function LapByLap({season, round}: LapByLapProps) {
 				}}
 				axisLeft={null}
 				margin={{top: 16, right: 120, bottom: 42, left: 24}}
-				tooltip={NivoTooltipFactory(LapByLapTooltip)}
+				pointTooltip={NivoTooltipFactory(LapByLapTooltip)}
+				lineTooltip={NivoTooltipFactory(LapByLapTooltip)}
 			/>
 		);
 	}

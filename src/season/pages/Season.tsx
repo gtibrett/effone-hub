@@ -29,12 +29,11 @@ export default function Season() {
 			<Grid container spacing={2} alignItems="stretch">
 				<Grid item xs={12} lg={8}>
 					<Grid container spacing={2} alignItems="stretch">
-						<RaceWeekend season={season}/>
+						<Grid item xs={12} md={12}>
+							<RaceWeekend season={season}/>
+						</Grid>
 						<Grid item xs={12}>
-							<Card variant="outlined">
-								<CardHeader title="Schedule"/>
-								<Schedule season={season}/>
-							</Card>
+							<Schedule season={season}/>
 						</Grid>
 					</Grid>
 				</Grid>

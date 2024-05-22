@@ -46,24 +46,22 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 	const raceDate = new Date(`${race.date} ${race.time} UTC`);
 	
 	return (
-		<Grid item xs={12} md={12}>
-			<ThemeProvider theme={darkTheme}>
-				<Card sx={sx}>
-					<CardHeader
-						title={race.name}
-						titleTypographyProps={{fontSize: 30}}
-						subheader={getDateWithTime(raceDate)}
-						subheaderTypographyProps={{fontSize: 18}}
-						action={<ThemeProvider theme={lightTheme}><NextRaceCountdown variant="dark" race={race}/></ThemeProvider>}
-					/>
-					<CardContent>
-						<Typography variant="body1" component="p">{race.summary?.extract} <Box component="span" ml={1} sx={{'> a': {color: `#FFF !important`}}}><WikipediaLink href={race.url}/></Box></Typography>
-					</CardContent>
-					<CardActions sx={{p: 0, mx: 1, mb: 1}}>
-						<NextRaceSchedule race={race}/>
-					</CardActions>
-				</Card>
-			</ThemeProvider>
-		</Grid>
+		<ThemeProvider theme={darkTheme}>
+			<Card sx={sx} id="next-race-weekend">
+				<CardHeader
+					title={race.name}
+					titleTypographyProps={{fontSize: 30}}
+					subheader={getDateWithTime(raceDate)}
+					subheaderTypographyProps={{fontSize: 18}}
+					action={<ThemeProvider theme={lightTheme}><NextRaceCountdown variant="dark" race={race}/></ThemeProvider>}
+				/>
+				<CardContent>
+					<Typography variant="body1" component="p">{race.summary?.extract} <Box component="span" ml={1} sx={{'> a': {color: `#FFF !important`}}}><WikipediaLink href={race.url}/></Box></Typography>
+				</CardContent>
+				<CardActions sx={{p: 0, mx: 1, mb: 1}}>
+					<NextRaceSchedule race={race}/>
+				</CardActions>
+			</Card>
+		</ThemeProvider>
 	);
 }
