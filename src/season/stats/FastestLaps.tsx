@@ -1,5 +1,5 @@
 import {useQuery} from '@apollo/client';
-import {StatCard} from '@ui-components';
+import {StatCard} from '@effonehub/ui-components';
 import {FastestLapQueryData, seasonFastestLapQuery} from './FastestLap';
 import {SeasonStatProps} from './types';
 
@@ -9,7 +9,9 @@ export default function FastestLaps({season, size = 'small'}: SeasonStatProps) {
 	
 	(data?.races || []).forEach(r => {
 		r.lapTimes.forEach(lt => {
-			leaders.set(lt.driverId, (leaders.get(lt.driverId) || 0) + 1);
+			if (lt.driverId) {
+				leaders.set(lt.driverId, (leaders.get(lt.driverId) || 0) + 1);
+			}
 		});
 	});
 	

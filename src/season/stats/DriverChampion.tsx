@@ -1,7 +1,7 @@
 import {gql, useQuery} from '@apollo/client';
-import {StatCard} from '@ui-components';
+import {DriverId} from '@effonehub/driver';
+import {StatCard} from '@effonehub/ui-components';
 import {useAppState} from '../../app/AppStateProvider';
-import {DriverId} from '../../driver';
 
 type Data = {
 	driverStandingsBySeasons: {
@@ -29,7 +29,11 @@ export default function DriverChampion({season}: { season: number }) {
 	}
 	
 	const {driverId} = driverStandingsBySeasons[0];
+	if (!driverId) {
+		return null;
+	}
+	
 	champion.set(driverId, 1);
 	
-	return <StatCard label={label} loading={loading} data={champion} format={() => ''}/>;
+	return <StatCard label={label} loading={loading} data={champion} format={() => ''} noGrid cardProps={{sx: {'& > .MuiCardHeader-root': {px: 0, pb: 0}}}}/>;
 }

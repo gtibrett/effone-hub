@@ -1,8 +1,8 @@
 import {gql, useQuery} from '@apollo/client';
+import {getTimeStringFromDate} from '@effonehub/helpers';
+import {DataWithValue, StatCard} from '@effonehub/ui-components';
 import {LapTime, Race} from '@gtibrett/effone-hub-graph-api';
 import {Typography} from '@mui/material';
-import {DataWithValue, StatCard} from '@ui-components';
-import {getTimeStringFromDate} from '../../helpers';
 import {SeasonStatProps} from './types';
 
 export type FastestLapQueryData = {
@@ -53,11 +53,11 @@ export default function FastestLap({season, size = 'small'}: SeasonStatProps) {
 	
 	data.races.forEach(({name, round, lapTimes = []}) => {
 		// Get fastest race lap
-		const {milliseconds = Number.POSITIVE_INFINITY, lap, driverId} = lapTimes[0] || {};
+		const {milliseconds, lap, driverId} = lapTimes[0] || {};
 		
-		if (milliseconds < fastestSeasonLap.value) {
+		if ((milliseconds || Number.POSITIVE_INFINITY) < fastestSeasonLap.value) {
 			fastestSeasonLap = {
-				name, round, lap, value: milliseconds, driverId, quali: false
+				name, round, lap, value: milliseconds as number, driverId, quali: false
 			};
 		}
 	});

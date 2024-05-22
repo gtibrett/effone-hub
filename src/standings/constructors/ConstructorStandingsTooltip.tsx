@@ -1,35 +1,33 @@
-import {faSquare} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {List, ListItem, ListItemText, Typography} from '@mui/material';
-import {PropertiesTable, PropertiesTableRow} from '@ui-components';
-import {ConstructorByLine} from '../../constructor';
+import useTeamHeaderSx from '@effonehub/constructor/useTeamHeaderSx';
+import {PropertiesTable, PropertiesTableRow} from '@effonehub/ui-components';
+import {Card, CardHeader} from '@mui/material';
 import {PointTooltipProps, PositionsChartTooltipProps} from '../charts';
 
 export function ConstructorStandingsPositionTooltip({serie}: PositionsChartTooltipProps) {
-	const {data: {entity: {id}}, color} = serie;
+	const {data: {entity: {name, id}}} = serie;
+	const headerSx                     = useTeamHeaderSx(id);
 	
 	return (
-		<List dense>
-			<ListItem secondaryAction={<FontAwesomeIcon icon={faSquare} color={color}/>}>
-				<ListItemText primary={<ConstructorByLine id={id} variant="name"/>}/>
-			</ListItem>
-		</List>
+		<Card sx={{p: 0}}>
+			<CardHeader sx={headerSx} title={name}/>
+		</Card>
 	);
 }
 
 export function ConstructorStandingsPointsTooltip({point}: PointTooltipProps) {
-	const {data, color}                      = point;
-	const {x}                                = data;
-	const {points, position, entity: {name}} = data.data;
+	const {data}                                 = point;
+	const {x}                                    = data;
+	const {points, position, entity: {id, name}} = data.data;
+	const headerSx                               = useTeamHeaderSx(id);
 	
 	return (
-		<>
-			<Typography variant="h6"><FontAwesomeIcon icon={faSquare} color={color}/>&nbsp;&nbsp;{name}</Typography>
+		<Card sx={{p: 0}}>
+			<CardHeader sx={headerSx} title={name}/>
 			<PropertiesTable>
 				<PropertiesTableRow header="Round" align="right">{`${x}`}</PropertiesTableRow>
 				<PropertiesTableRow header="Position" align="right">{position}</PropertiesTableRow>
 				<PropertiesTableRow header="Points" align="right">{points}</PropertiesTableRow>
 			</PropertiesTable>
-		</>
+		</Card>
 	);
 }

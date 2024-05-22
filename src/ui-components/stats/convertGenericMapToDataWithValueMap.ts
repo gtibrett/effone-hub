@@ -1,6 +1,7 @@
-import {DataWithValue} from '@ui-components';
+import {DataWithValue} from '@effonehub/ui-components';
+import {StatCardData} from './StatCard';
 
-export default function convertGenericMapToDataWithValueMap<T extends (DataWithValue | number) = DataWithValue, F extends DataWithValue = DataWithValue>(data: Map<number, T>): Map<number, F> {
+export default function convertGenericMapToDataWithValueMap<T extends StatCardData = DataWithValue, F extends DataWithValue = DataWithValue>(data: Map<number, T>): Map<number, F> {
 	const dataWithValuesMap = new Map<number, F>();
 	if (data.size) {
 		// if data contains DataWithValues

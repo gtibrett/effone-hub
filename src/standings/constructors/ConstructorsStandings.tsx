@@ -1,41 +1,49 @@
-import {Alert, Button, Card, CardActions, CardContent, CardHeader, Skeleton} from '@mui/material';
+import {ChartSwitcher, ChartSwitcherChart} from '@effonehub/components/charts';
+import {ConstructorChampion} from '@effonehub/season';
+import {Alert, Button, Skeleton} from '@mui/material';
 import {useState} from 'react';
-import {ChartSwitcher, ChartSwitcherToggle, useChartSwitcherMode} from '../charts';
+import {PointsChart, PositionsChart} from '../charts';
 import ConstructorStandingsDialog from './ConstructorStandingsDialog';
 import {ConstructorStandingsPointsTooltip, ConstructorStandingsPositionTooltip} from './ConstructorStandingsTooltip';
 import useConstructorStandingsData from './useConstructorsStandingsData';
 
-type ConstructorsStandingsProps = { season: number, height:number };
+type ConstructorsStandingsProps = { season: number };
 
-export default function ConstructorsStandings({season,height}: ConstructorsStandingsProps) {
+export default function ConstructorsStandings({season}: ConstructorsStandingsProps) {
 	const [open, setOpen]            = useState(false);
-	const {mode, handleMode}         = useChartSwitcherMode();
 	const {data, loading, chartData} = useConstructorStandingsData(season);
+	const height                     = Math.max(...chartData.map(s => s.standings.length), 10) * 24;
 	
 	if (loading) {
-		return <Skeleton variant="rectangular" height={height}/>;
+		return <Skeleton variant="rectangular" height={height + 182}/>;
 	}
 	
 	if (!data?.races?.length) {
 		return <Alert variant="outlined" severity="info">Constructor Standings Data Not Available</Alert>;
 	}
 	
+	const charts: ChartSwitcherChart[] = [
+		{
+			id:    'position',
+			label: 'Position',
+			chart: <PositionsChart data={chartData} TooltipComponent={ConstructorStandingsPositionTooltip}/>
+		},
+		{
+			id:    'points',
+			label: 'Points',
+			chart: <PointsChart data={chartData} TooltipComponent={ConstructorStandingsPointsTooltip}/>
+		}
+	];
+	
 	return (
-		<Card variant="outlined">
-			<CardHeader title="Constructor's Standings" action={<ChartSwitcherToggle mode={mode} handleMode={handleMode}/>}/>
-			<CardContent sx={{height}}>
-				<ChartSwitcher
-					data={chartData}
-					loading={loading}
-					mode={mode}
-					PointsTooltip={ConstructorStandingsPointsTooltip}
-					PositionsTooltip={ConstructorStandingsPositionTooltip}
-				/>
-			</CardContent>
-			<CardActions sx={{justifyContent: 'flex-end'}}>
-				<Button variant="outlined" size="small" onClick={() => setOpen(true)}>show full standings</Button>
-				<ConstructorStandingsDialog season={season} open={open} setOpen={setOpen}/>
-			</CardActions>
-		</Card>
+		<ChartSwitcher title="Constructor's Standings"
+			charts={charts} size={height}
+			subheader={<ConstructorChampion season={season}/>}
+			actions={
+				<>
+					<Button variant="outlined" size="small" onClick={() => setOpen(true)}>show full standings</Button>
+					<ConstructorStandingsDialog season={season} open={open} setOpen={setOpen}/>
+				</>
+			}/>
 	);
 }

@@ -1,4 +1,5 @@
 import {gql, useQuery} from '@apollo/client';
+import {Maybe} from '@gtibrett/effone-hub-graph-api/types';
 import {DriverPageData} from '../types';
 
 const query = gql`
@@ -47,6 +48,6 @@ const query = gql`
 	}
 `;
 
-export default function useCareerData(driverId?: number) {
+export default function useCareerData(driverId?: Maybe<number>) {
 	return useQuery<DriverPageData>(query, {variables: {driverId}});
 }

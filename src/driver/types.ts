@@ -1,6 +1,7 @@
 import {Driver, DriverStanding, Race, Result, Team} from '@gtibrett/effone-hub-graph-api';
+import {Maybe} from '@gtibrett/effone-hub-graph-api/types';
 
-export type DriverId = Driver['driverId'];
+export type DriverId = Maybe<Driver['driverId']> | undefined;
 
 export type DriverData = Pick<Driver,
 	'driverId' |

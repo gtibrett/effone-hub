@@ -1,32 +1,10 @@
 import {QueryResult} from '@apollo/client/react/types/types';
-import {Result} from '@gtibrett/effone-hub-graph-api';
+import {usePerformanceData} from '@effonehub/driver';
+import {useGetAccessibleColor, useNivoTheme} from '@effonehub/ui-components';
 import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {Paper, useTheme} from '@mui/material';
 import {ResponsiveRadar} from '@nivo/radar';
-import {useGetAccessibleColor, useNivoTheme} from '@ui-components';
 import {CircuitDialogData} from './types';
-
-type Stats = {
-	wins: number;
-	podiums: number;
-	inPoints: number;
-	appearances: number;
-	dnfs: number;
-}
-
-const usePerformanceData = (circuitResults: Result[] = []): Stats | undefined => {
-	if (!circuitResults.length) {
-		return undefined;
-	}
-	
-	return {
-		wins:        circuitResults.filter(r => r.positionOrder === 1).length,
-		podiums:     circuitResults.filter(r => r.positionOrder <= 3).length,
-		inPoints:    circuitResults.filter(r => r.positionOrder <= 10).length,
-		dnfs:        circuitResults.filter(r => r.position === null).length,
-		appearances: circuitResults.length
-	};
-};
 
 type CircuitPerformanceProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading'>;
 
@@ -57,14 +35,14 @@ export default function CircuitPerformance({data, loading}: CircuitPerformancePr
 		},
 		{
 			'stat': 'DNFs',
-			value:  performanceData.dnfs
+			value:  performanceData.DNFs
 		}
 	];
 	
-	const color = getAccessibleColor(data?.driver?.currentTeam?.team?.colors.primary || theme.palette.primary.main);
+	const color = getAccessibleColor(theme.palette.primary.main);
 	
 	return (
-		<Paper variant="outlined" ref={ref} sx={{height: width, p: 1}}>
+		<Paper variant="outlined" ref={ref} sx={{height: width, p: 0}}>
 			<ResponsiveRadar
 				theme={nivoTheme}
 				data={chartData}
@@ -72,7 +50,7 @@ export default function CircuitPerformance({data, loading}: CircuitPerformancePr
 				maxValue={performanceData.appearances}
 				indexBy="stat"
 				valueFormat=">-,.2"
-				margin={{top: 10, right: 50, bottom: 10, left: 50}}
+				margin={{top: 10, right: 60, bottom: 10, left: 60}}
 				borderColor={{from: 'color'}}
 				borderWidth={1}
 				dotSize={6}

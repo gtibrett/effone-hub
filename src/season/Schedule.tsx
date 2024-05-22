@@ -1,11 +1,11 @@
+import {useAppState} from '@effonehub/app';
+import {DriverByLine} from '@effonehub/driver';
 import {Link} from '@gtibrett/mui-additions';
 import {Box, Skeleton} from '@mui/material';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {useAppState} from '../app/AppStateProvider';
-import {DriverByLine} from '../driver';
+import {DataGrid} from '@mui/x-data-grid';
 import RaceMap from '../maps/RaceMap';
 import useMapSeasonRacesToMapPoints from '../maps/useMapSeasonRacesToMapPoints';
-import useScheduleData, {RaceData} from './useScheduleData';
+import useScheduleData from './useScheduleData';
 
 type ScheduleProps = { season: number };
 
@@ -48,7 +48,7 @@ export default function Schedule({season}: ScheduleProps) {
 							headerAlign: 'center',
 							type:        'date',
 							align:       'center',
-							valueGetter: ({value}) => (new Date(value)),
+							valueGetter: (value) => (new Date(value)),
 							renderCell:  ({value}) => value.toLocaleDateString(),
 							minWidth:    100,
 							sortable:    false
@@ -59,8 +59,8 @@ export default function Schedule({season}: ScheduleProps) {
 							flex:       1,
 							renderCell: ({row, value}) => (
 								season === currentSeason
-								? <Link to={`/${season}/${row.round}#${row.name}`}>{value}</Link>
-								: <Link to={`/season/${season}/${row.round}#${row.name}`}>{value}</Link>
+								? <Link href={`/${season}/${row.round}#${row.name}`}>{value}</Link>
+								: <Link href={`/season/${season}/${row.round}#${row.name}`}>{value}</Link>
 							),
 							minWidth:   200,
 							sortable:   false
@@ -93,7 +93,7 @@ export default function Schedule({season}: ScheduleProps) {
 							minWidth:   200,
 							sortable:   false
 						}
-					] as GridColDef<RaceData>[]
+					]
 				}
 			/>
 		</>

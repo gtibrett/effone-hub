@@ -1,5 +1,6 @@
 import {gql, useQuery} from '@apollo/client';
 import {Driver} from '@gtibrett/effone-hub-graph-api';
+import {Maybe} from '@gtibrett/effone-hub-graph-api/types';
 
 const DriverFields = gql`
 	fragment DriverFields on Driver {
@@ -21,6 +22,7 @@ const DriverFields = gql`
 		}
 
 		currentTeam {
+			teamId
 			team {
 				colors {
 					primary
@@ -28,8 +30,14 @@ const DriverFields = gql`
 			}
 		}
 
-		teamsByYear (orderBy: YEAR_DESC, first: 1) {
-			year
+		teamsByYear (orderBy: YEAR_DESC) {
+			year,
+			team {
+				teamId
+				colors {
+					primary
+				}
+			}
 		}
 	}
 `;
@@ -47,7 +55,7 @@ const query = gql`
 	}
 `;
 
-export default function useDriver(driverIdOrRef?: Driver['driverId'] | Driver['driverRef']) {
+export default function useDriver(driverIdOrRef?: Maybe<Driver['driverId']> | Maybe<Driver['driverRef']>) {
 	const variables = {
 		driverId:     typeof driverIdOrRef === 'number' ? driverIdOrRef : undefined,
 		driverRef:    typeof driverIdOrRef === 'string' ? driverIdOrRef : undefined,
@@ -65,7 +73,7 @@ export default function useDriver(driverIdOrRef?: Driver['driverId'] | Driver['d
 	if (!driverData.code) {
 		return {
 			...driverData,
-			code: driverData.surname.replace(/[^a-z]/i, '').substring(0, 3).toUpperCase()
+			code: (driverData?.surname || '').replace(/[^a-z]/i, '').substring(0, 3).toUpperCase()
 		};
 	}
 	

@@ -1,7 +1,8 @@
-import {alpha, Box, Card, CardContent, Grid, Hidden, Skeleton, ThemeProvider, Typography} from '@mui/material';
-import {useEffTheme, WikipediaLink} from '@ui-components';
-import CircuitMap from '../maps/CircuitMap';
+import {getDateWithTime} from '@effonehub/helpers';
+import {useEffTheme, WikipediaLink} from '@effonehub/ui-components';
+import {alpha, Box, Card, CardActions, CardContent, CardHeader, Grid, Skeleton, ThemeProvider, Typography} from '@mui/material';
 import NextRaceCountdown from './NextRaceCountdown';
+import NextRaceSchedule from './NextRaceSchedule';
 import useNextRaceData from './useNextRaceData';
 
 type RaceWeekendProps = { season: number };
@@ -13,7 +14,7 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 	const lightTheme      = useEffTheme('light');
 	
 	if (loading) {
-		return <Grid item xs={12}><Skeleton variant="rectangular" height={180}/></Grid>;
+		return <Grid item xs={12}><Skeleton variant="rectangular" height={280}/></Grid>;
 	}
 	
 	if (!race) {
@@ -23,39 +24,46 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 	const sx = {
 		background:      lightTheme.palette.secondary.main,
 		backgroundImage: `url(${process.env.PUBLIC_URL}/carbon-fiber-texture.png)`,
+		position:        'relative',
 		
-		'& > .MuiCardContent-root': {
+		'&:before': {
+			content:    '" "',
+			position:   'absolute',
+			left:       0,
+			top:        0,
+			height:     '100%',
+			width:      '100%',
+			zIndex:     1,
 			background: alpha(lightTheme.palette.secondary.main, .5)
+		},
+		
+		'& > *': {
+			zIndex:   2,
+			position: 'relative'
 		}
 	};
 	
 	const raceDate = new Date(`${race.date} ${race.time} UTC`);
 	
 	return (
-		<>
-			<Grid item xs={12} md={12}>
-				<ThemeProvider theme={darkTheme}>
-					<Card variant="outlined" sx={sx}>
-						<CardContent>
-							<Grid container spacing={1} justifyContent="space-between" alignItems="center">
-								<Grid item xs={12} sm>
-									<ThemeProvider theme={darkTheme}>
-										<Typography component="h2" sx={{fontSize: 30, fontFamily: 'Racing Sans One', fontWeight: 'bold'}}>{race.name}</Typography>
-										<Typography variant="h4" component="p">
-											{raceDate.toLocaleDateString(undefined, {month: 'long', day: 'numeric'})}
-											,&nbsp;
-											{raceDate.toLocaleTimeString(undefined, {hour: 'numeric', minute: '2-digit'})}
-										</Typography>
-										<Typography variant="body1" component="p">{race.summary.extract} <Box component="span" ml={1} sx={{'> a': {color: `#FFF !important`}}}><WikipediaLink href={race.url}/></Box></Typography>
-									</ThemeProvider>
-								</Grid>
-								<Hidden smDown><Grid item sm={3}><CircuitMap variant="simple" circuitRef={race.circuit.circuitRef} height={125}/></Grid></Hidden>
-								<Grid item xs={12} sx={{maxWidth: {md: 250}, mt: {xs: 0, md: -2.125}, mb: {xs: 0, md: -3.125}, mr: {xs: 0, md: -2.125}}}><NextRaceCountdown race={race}/></Grid>
-							</Grid>
-						</CardContent>
-					</Card>
-				</ThemeProvider>
-			</Grid>
-		</>
+		<Grid item xs={12} md={12}>
+			<ThemeProvider theme={darkTheme}>
+				<Card sx={sx}>
+					<CardHeader
+						title={race.name}
+						titleTypographyProps={{fontSize: 30}}
+						subheader={getDateWithTime(raceDate)}
+						subheaderTypographyProps={{fontSize: 18}}
+						action={<ThemeProvider theme={lightTheme}><NextRaceCountdown variant="dark" race={race}/></ThemeProvider>}
+					/>
+					<CardContent>
+						<Typography variant="body1" component="p">{race.summary?.extract} <Box component="span" ml={1} sx={{'> a': {color: `#FFF !important`}}}><WikipediaLink href={race.url}/></Box></Typography>
+					</CardContent>
+					<CardActions sx={{p: 0, mx: 1, mb: 1}}>
+						<NextRaceSchedule race={race}/>
+					</CardActions>
+				</Card>
+			</ThemeProvider>
+		</Grid>
 	);
 }

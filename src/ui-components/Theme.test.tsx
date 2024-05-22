@@ -20,7 +20,7 @@ describe('Theme.ts', () => {
 			const {result} = renderHook(() => useEffTheme('light'));
 			
 			expect(result.current.palette.primary.main).toBe('#37474f');
-			expect(result.current.palette.secondary.main).toBe('#b71c1c');
+			expect(result.current.palette.secondary.main).toBe('#bf360c');
 		});
 		
 		test('real dark mode', async () => {
@@ -29,14 +29,14 @@ describe('Theme.ts', () => {
 			const {result} = renderHook(() => useEffTheme('dark'));
 			
 			expect(result.current.palette.primary.main).toBe('#78909c');
-			expect(result.current.palette.secondary.main).toBe('#ef9a9a');
+			expect(result.current.palette.secondary.main).toBe('#ffab91');
 		});
 		
 		test('forced dark mode', async () => {
 			const {result} = renderHook(() => useEffTheme('dark'));
 			
 			expect(result.current.palette.primary.main).toBe('#78909c');
-			expect(result.current.palette.secondary.main).toBe('#ef9a9a');
+			expect(result.current.palette.secondary.main).toBe('#ffab91');
 		});
 	});
 	

@@ -1,6 +1,6 @@
+import {OpensInNewWindow} from '@effonehub/ui-components';
 import {Link} from '@gtibrett/mui-additions';
 import {Card, CardContent, CardHeader, List, ListItem, ListItemText, ListSubheader} from '@mui/material';
-import {OpensInNewWindow} from '@ui-components';
 import {Fragment} from 'react';
 
 type DependencyCategory = {
@@ -23,7 +23,7 @@ const dependencies: DependencyCategory[] = [
 	{
 		title: 'Nationalities',
 		links: [
-			{title: 'emoji-flag', url: 'https://www.npmjs.com/package/emoji-flag'},
+			{title: 'emoji-flags', url: 'https://www.npmjs.com/package/emoji-flags'},
 			{title: 'i18n-nationality', url: 'https://www.npmjs.com/package/i18n-nationality'}
 		]
 	},

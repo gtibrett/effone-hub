@@ -1,7 +1,10 @@
+import {noop} from '@effonehub/helpers';
 import {alpha, Box, ThemeProvider, useTheme} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
 import {BoxPlotDatum} from '@nivo/boxplot/dist/types/types';
 import {Theme} from '@nivo/core';
+import {GeoMapProps} from '@nivo/geo';
+import {LineSvgProps} from '@nivo/line';
 import {FC, useCallback} from 'react';
 import {useDarkMode, useInvertedTheme} from './Theme';
 import useGetAccessibleColor from './useGetAccessibleColor';
@@ -19,137 +22,146 @@ type NivoTheme = Theme & {
 }
 
 export const useNivoTheme = (): NivoTheme => {
-	const theme           = useTheme();
-	const invertedTheme   = useInvertedTheme();
-	const captionFontSize = 11;
+	const theme         = useTheme();
+	const invertedTheme = useInvertedTheme();
 	
 	return {
-		'background':  'transparent',
-		text: {
-			color:theme.palette.text.primary,
-			'fontSize':    captionFontSize,
-			'fontFamily':  "'Titillium Web', sans-serif",
+		background:  alpha(theme.palette.background.default, .25),
+		text:        {
+			color:      theme.palette.text.primary,
+			fontSize:   theme.typography.caption.fontSize,
+			fontFamily: "'Titillium Web', sans-serif"
 		},
-		translation: {
-		
-		},
-		'axis':        {
-			'domain': {
-				'line': {
-					'stroke':      theme.palette.divider,
-					'strokeWidth': 1
+		translation: {},
+		axis:        {
+			domain: {
+				line: {
+					stroke:      theme.palette.divider,
+					strokeWidth: 1
 				}
 			},
-			'legend': {
-				'text': {
-					'fontSize': captionFontSize,
-					'fill':     theme.palette.text.secondary
+			legend: {
+				text: {
+					fontSize: theme.typography.caption.fontSize,
+					fill:     theme.palette.text.secondary
 				}
 			},
-			'ticks':  {
-				'line': {
-					'stroke':      theme.palette.divider,
-					'strokeWidth': 1
+			ticks:  {
+				line: {
+					stroke:      theme.palette.divider,
+					strokeWidth: 1
 				},
-				'text': {
-					'fontSize': captionFontSize,
-					'fill':     theme.palette.text.secondary
+				text: {
+					fontSize: theme.typography.caption.fontSize,
+					fill:     theme.palette.text.secondary
 				}
 			}
 		},
-		'grid':        {
-			'line': {
-				'stroke':      theme.palette.divider,
-				'strokeWidth': 1
+		grid:        {
+			line: {
+				stroke:      theme.palette.divider,
+				strokeWidth: 1
 			}
 		},
-		'legends':     {
-			'title': {
-				'text': {
-					'fontSize': captionFontSize,
-					'fill':     theme.palette.text.secondary
+		legends:     {
+			title: {
+				text: {
+					fontSize: theme.typography.caption.fontSize,
+					fill:     theme.palette.text.secondary
 				}
 			},
-			'text':  {
-				'fontSize': captionFontSize,
-				'fill':     theme.palette.text.secondary
+			text:  {
+				fontSize: theme.typography.caption.fontSize,
+				fill:     theme.palette.text.secondary
 			},
-			'ticks': {
-				'line': {},
-				'text': {
-					'fontSize': captionFontSize,
-					'fill':     theme.palette.text.secondary
+			ticks: {
+				line: {},
+				text: {
+					fontSize: theme.typography.caption.fontSize,
+					fill:     theme.palette.text.secondary
 				}
 			}
 		},
-		'annotations': {
-			'text':    {
-				'fontSize':       captionFontSize,
-				'fill':           theme.palette.text.secondary,
-				'outlineWidth':   2,
-				'outlineColor':   theme.palette.background.paper,
-				'outlineOpacity': 1
+		annotations: {
+			text:    {
+				fontSize:       theme.typography.caption.fontSize,
+				fill:           theme.palette.text.secondary,
+				outlineWidth:   2,
+				outlineColor:   theme.palette.background.paper,
+				outlineOpacity: 1
 			},
-			'link':    {
-				'stroke':         theme.palette.text.primary,
-				'strokeWidth':    1,
-				'outlineWidth':   2,
-				'outlineColor':   theme.palette.background.paper,
-				'outlineOpacity': 1
+			link:    {
+				stroke:         theme.palette.text.primary,
+				strokeWidth:    1,
+				outlineWidth:   2,
+				outlineColor:   theme.palette.background.paper,
+				outlineOpacity: 1
 			},
-			'outline': {
-				'stroke':         theme.palette.text.primary,
-				'strokeWidth':    2,
-				'outlineWidth':   2,
-				'outlineColor':   theme.palette.background.paper,
-				'outlineOpacity': 1
+			outline: {
+				stroke:         theme.palette.text.primary,
+				strokeWidth:    2,
+				outlineWidth:   2,
+				outlineColor:   theme.palette.background.paper,
+				outlineOpacity: 1
 			},
-			'symbol':  {
-				'fill':           theme.palette.text.primary,
-				'outlineWidth':   2,
-				'outlineColor':   theme.palette.background.paper,
-				'outlineOpacity': 1
+			symbol:  {
+				fill:           theme.palette.text.primary,
+				outlineWidth:   2,
+				outlineColor:   theme.palette.background.paper,
+				outlineOpacity: 1
 			}
 		},
 		
-		'tooltip': {
-			'container':      {
-				'background': invertedTheme.palette.background.paper,
-				'color':      invertedTheme.palette.getContrastText(invertedTheme.palette.background.paper),
-				'fontSize':   captionFontSize
+		tooltip: {
+			//move this to wrapper: {} when it becomes available
+			// @ts-ignore
+			backdropFilter: 'blur(4px)',
+			
+			padding:        0,
+			borderRadius:   invertedTheme.spacing(.5),
+			overflow:       'hidden',
+			container:      {
+				background: invertedTheme.palette.background.paper,
+				color:      invertedTheme.palette.getContrastText(invertedTheme.palette.background.paper),
+				fontSize:   invertedTheme.typography.caption.fontSize
 			},
-			'basic':          {},
-			'chip':           {},
-			'table':          {},
-			'tableCell':      {},
-			'tableCellValue': {}
-		},
-		
+			basic:          {},
+			chip:           {},
+			table:          {},
+			tableCell:      {},
+			tableCellValue: {}
+		}
 	};
 };
 
-export const NivoTooltip = (Component: FC<any>): FC<any> => {
-	const theme = useInvertedTheme();
+export const NivoTooltipFactory = (Component: FC<any>): FC<any> => {
+	const nivoTheme = useNivoTheme();
+	const theme     = useInvertedTheme();
+	
 	return useCallback((props: any) => {
 		const sx = {
+			...nivoTheme.tooltip?.container,
 			minWidth:     200,
-			mb: 2,
-			mr: 20,
-			py:           1,
-			px:           2,
-			borderRadius: 1,
-			background:   alpha(theme.palette.background.paper, .9),
-			color:        theme.palette.getContrastText(theme.palette.background.paper),
+			borderRadius: theme.spacing(.5),
+			position:     'relative',
+			overflow:     'hidden',
+			p:            0,
+			opacity:      .9,
+			
+			'& .MuiCard-root': {
+				border: 0
+			},
 			
 			'& .MuiTypography-root': {
 				color: theme.palette.getContrastText(theme.palette.background.paper)
 			}
 		};
 		
-		const content = Component(props);
+		const content = Component({...props, theme: nivoTheme});
 		
 		return content && <Box sx={sx}><ThemeProvider theme={theme}>{content}</ThemeProvider></Box>;
-	}, [Component, theme]);
+		
+	}, [Component, nivoTheme, theme]);
 };
 
 export function useGetAccessibleChartColors() {
@@ -164,3 +176,61 @@ export function useGetAccessibleChartColors() {
 		       : [a11yColor, ...(new Array(4)).fill(100).map((v, i) => blueGreys.get(900 - (2 * v * (i + 1))) || '')];
 	};
 }
+
+// PropTypes vs TS mismatches
+type RequiredByPropTypesType = {
+	GeoMap: Partial<GeoMapProps>;
+	Line: Partial<LineSvgProps>;
+}
+
+export const RequiredByPropTypes: RequiredByPropTypesType = {
+	GeoMap: {
+		projectionRotation: [0, 0, 0],
+		role:               'image',
+		// @ts-ignore
+		layers:             ['features'],
+		onMouseLeave:       noop,
+		onMouseMove:        noop,
+		onMouseEnter:       noop,
+		isInteractive:      true,
+		graticuleLineColor: 'transparent',
+		graticuleLineWidth: 0,
+		enableGraticule:    false
+	},
+	Line:   {
+		layers:            [
+			'grid',
+			'markers',
+			'axes',
+			'areas',
+			'crosshair',
+			'lines',
+			'points',
+			'slices',
+			'mesh',
+			'legends'
+		],
+		curve:             'linear',
+		areaBaselineValue: 0,
+		enableArea:        false,
+		areaOpacity:       0.2,
+		areaBlendMode:     'normal',
+		enablePoints:      true,
+		pointColor:        {from: 'color'},
+		pointBorderWidth:  0,
+		pointBorderColor:  {theme: 'background'},
+		enablePointLabel:  false,
+		pointLabel:        'yFormatted',
+		
+		defs:            [],
+		fill:            [],
+		legends:         [],
+		isInteractive:   true,
+		debugMesh:       false,
+		enableSlices:    false,
+		debugSlices:     false,
+		sliceTooltip:    () => null,
+		enableCrosshair: true,
+		role:            'img'
+	}
+};

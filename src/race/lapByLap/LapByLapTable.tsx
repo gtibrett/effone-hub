@@ -1,6 +1,6 @@
+import {DriverByLine} from '@effonehub/driver';
 import {Box} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {DriverByLine} from '../../driver';
 import {LapByLapProps, LapChartSeries} from './LapByLap';
 import useLapByLapChartData, {useLapByLapData} from './useLapByLapChartData';
 
@@ -47,8 +47,8 @@ export default function LapByLapTable({season, round}: LapByLapProps) {
 				align:       'center',
 				headerAlign: 'center',
 				width:       32,
-				valueGetter: ({row, field}) => {
-					return row.laps[field];
+				valueGetter: (value, row, column) => {
+					return row.laps[column.field];
 				}
 			}
 		);
