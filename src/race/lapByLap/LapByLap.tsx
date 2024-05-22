@@ -1,7 +1,8 @@
+import {DriverId} from '@effonehub/driver';
+import {NivoTooltipFactory, useNivoTheme} from '@effonehub/ui-components';
+import {Maybe} from '@gtibrett/effone-hub-graph-api/types';
 import {Box, Skeleton} from '@mui/material';
 import {ResponsiveBump} from '@nivo/bump';
-import {NivoTooltip, useNivoTheme} from '@ui-components';
-import {DriverId} from '../../driver';
 import LapByLapTooltip from './LapByLapTooltip';
 import useLapByLapChartData, {useLapByLapData} from './useLapByLapChartData';
 
@@ -19,8 +20,7 @@ export type LapChartSeries = {
 	id: number;
 	color?: string;
 	driverId: DriverId;
-	name: string;
-	position: number;
+	name: Maybe<string> | undefined;
 	data: LapChartDatum[];
 }
 
@@ -59,25 +59,25 @@ function LapByLap({season, round}: LapByLapProps) {
 				pointBorderWidth={0}
 				activePointBorderWidth={0}
 				startLabel={false}
-				endLabel={({name}) => name}
+				endLabel={({name}) => name || ''}
 				endLabelPadding={32}
 				enableGridX={true}
 				enableGridY={false}
 				axisTop={null}
 				axisRight={{
-					tickSize:     2,
-					tickPadding:  8,
+					tickSize:     0,
+					tickPadding:  10,
 					tickRotation: 0
 				}}
 				axisBottom={{
 					tickSize:     0,
-					tickPadding:  5,
+					tickPadding:  10,
 					tickRotation: 0,
 					tickValues:   getTicks(totalLaps || 0)
 				}}
 				axisLeft={null}
-				margin={{top: 0, right: 120, bottom: 24, left: 24}}
-				tooltip={NivoTooltip(LapByLapTooltip)}
+				margin={{top: 16, right: 120, bottom: 42, left: 24}}
+				tooltip={NivoTooltipFactory(LapByLapTooltip)}
 			/>
 		);
 	}

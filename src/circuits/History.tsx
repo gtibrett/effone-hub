@@ -1,8 +1,8 @@
+import {DriverByLine} from '@effonehub/driver';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {DriverByLine} from '../driver';
-import {CircuitDataProps, CircuitHistoryData} from './useCircuitByRef';
+import {DataGrid} from '@mui/x-data-grid';
+import {CircuitDataProps} from './useCircuitByRef';
 
 export default function History({data, loading}: CircuitDataProps) {
 	if (loading) {
@@ -32,7 +32,7 @@ export default function History({data, loading}: CircuitDataProps) {
 						headerAlign: 'center',
 						align:       'center',
 						width:       100,
-						renderCell:  ({row}) => <Link to={`/season/${row.year}`}>{row.year}</Link>
+						renderCell:  ({row}) => <Link href={`/season/${row.year}`}>{row.year}</Link>
 					},
 					{
 						field:       'date',
@@ -40,7 +40,7 @@ export default function History({data, loading}: CircuitDataProps) {
 						headerAlign: 'center',
 						type:        'date',
 						align:       'center',
-						valueGetter: ({value}) => (new Date(value)),
+						valueGetter: (value) => (new Date(value)),
 						renderCell:  ({value}) => value.toLocaleDateString(),
 						minWidth:    100
 					},
@@ -49,7 +49,7 @@ export default function History({data, loading}: CircuitDataProps) {
 						headerName: 'Race',
 						flex:       1,
 						renderCell: ({row, value}) => (
-							<Link to={`/season/${row.year}/${row.round}#${row.name}`}>{row.year} {value}</Link>
+							<Link href={`/season/${row.year}/${row.round}#${row.name}`}>{row.year} {value}</Link>
 						),
 						minWidth:   200
 					},
@@ -57,7 +57,7 @@ export default function History({data, loading}: CircuitDataProps) {
 						field:       'winner',
 						headerName:  'Winner',
 						flex:        1,
-						valueGetter: ({row}) => {
+						valueGetter: (value, row) => {
 							if (!row.results.length) {
 								return '--';
 							}
@@ -83,7 +83,7 @@ export default function History({data, loading}: CircuitDataProps) {
 						renderCell:  ({row}) => row.results[0]?.time || '--',
 						minWidth:    110
 					}
-				] as GridColDef<CircuitHistoryData>[]
+				]
 			}
 		/>
 	);

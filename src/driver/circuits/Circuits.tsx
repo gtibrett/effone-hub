@@ -1,8 +1,8 @@
+import {getTimeStringFromDate} from '@effonehub/helpers';
 import {Driver} from '@gtibrett/effone-hub-graph-api';
-import {Alert, Grid, Link, Skeleton} from '@mui/material';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {Alert, Card, Grid, Link} from '@mui/material';
+import {DataGrid} from '@mui/x-data-grid';
 import {useState} from 'react';
-import {getTimeStringFromDate} from '../../helpers';
 import RaceMap from '../../maps/RaceMap';
 import useMapCircuitsToMapPoints from '../../maps/useMapCircuitsToMapPoints';
 import CircuitDialog from './dialog/CircuitDialog';
@@ -15,24 +15,25 @@ export default function Circuits({driverId}: CircuitsProps) {
 	const mapCircuitsToMapPoints = useMapCircuitsToMapPoints();
 	const [active, setActive]    = useState<CircuitWithResults['circuitId'] | undefined>();
 	
-	if (!data || loading) {
-		return <Skeleton variant="rectangular" height={400}/>;
-	}
-	
-	if (!data.length) {
+	if (!data?.length) {
 		return <Alert variant="outlined" severity="info">Circuit Data Not Available</Alert>;
 	}
 	
-	const {points, onClick} = mapCircuitsToMapPoints(data);
+	const {points, onClick} = mapCircuitsToMapPoints(data || []);
 	
 	return (
 		<Grid container spacing={2}>
-			<Grid item xs={12}><RaceMap points={points} onClick={onClick}/></Grid>
+			<Grid item xs={12}>
+				<Card>
+					<RaceMap points={points} onClick={onClick} height={250}/>
+				</Card>
+			</Grid>
 			<Grid item xs={12}>
 				<CircuitDialog driverId={driverId} circuitId={active} onClose={() => setActive(undefined)}/>
 				<DataGrid
 					sx={{mt: 2}}
 					rows={data}
+					loading={loading}
 					autoHeight
 					density="compact"
 					getRowId={(row) => row.circuitId || ''}
@@ -57,7 +58,7 @@ export default function Circuits({driverId}: CircuitsProps) {
 								headerAlign: 'center',
 								align:       'center',
 								flex:        1,
-								valueGetter: ({row}) => row.results.length
+								valueGetter: (value, row) => row.results.length
 							},
 							{
 								field:       'wins',
@@ -89,7 +90,7 @@ export default function Circuits({driverId}: CircuitsProps) {
 									return getTimeStringFromDate(new Date(value));
 								}
 							}
-						] as GridColDef<CircuitWithResults>[]
+						]
 					}
 				/>
 			</Grid>

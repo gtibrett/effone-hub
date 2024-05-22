@@ -1,6 +1,6 @@
 import {gql, useQuery} from '@apollo/client';
+import {StatCard} from '@effonehub/ui-components';
 import {Result} from '@gtibrett/effone-hub-graph-api';
-import {StatCard} from '@ui-components';
 import {RaceStatProps} from './index';
 
 type Data = {
@@ -27,7 +27,7 @@ export default function PositionsGained({season, round, size}: RaceStatProps) {
 	
 	(data?.races || []).forEach(r => {
 		r.results.forEach(({driverId, grid, positionOrder}) => {
-			if (grid && positionOrder) {
+			if (grid && positionOrder && driverId) {
 				leaders.set(driverId, (leaders.get(driverId) || 0) + (grid - positionOrder));
 			}
 		});

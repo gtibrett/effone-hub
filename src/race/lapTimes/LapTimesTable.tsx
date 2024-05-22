@@ -1,13 +1,12 @@
+import {DriverByLine} from '@effonehub/driver';
+import {getTimeStringFromDate} from '@effonehub/helpers';
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {LapTime} from '@gtibrett/effone-hub-graph-api';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useMemo} from 'react';
-import {DriverByLine} from '../../driver';
-import {getTimeStringFromDate} from '../../helpers';
 import {LapByLapData, useLapByLapData} from '../lapByLap/useLapByLapChartData';
 import {getColorWithAlt} from './helpers';
-import {LapTimesProps} from './LapTimes';
 import {LapChartSeries} from './useLapTimeChartData';
 
 type LapData = {
@@ -29,11 +28,15 @@ function useLapTimesData(lapByLapData: LapByLapData) {
 		
 		if (lapByLapData.data?.length) {
 			lapByLapData.data.forEach(d => {
+				if (!d.driverId) {
+					return;
+				}
+				
 				const lapsWithTimes                  = d.laps.filter(l => l.milliseconds).map(l => ({...l, milliseconds: Number(l.milliseconds)}));
 				let personalBest: number | undefined = undefined;
 				
 				data.push({
-					driverId: d.driverId,
+					driverId: Number(d.driverId),
 					laps:     lapsWithTimes.map(lt => {
 						personalBest = !personalBest ? lt.milliseconds : Math.min(lt.milliseconds, personalBest);
 						
@@ -75,24 +78,31 @@ const useColumns = (laps: number) => {
 					type:        'dateTime',
 					align:       'center',
 					headerAlign: 'center',
-					width:       100,
-					valueGetter: ({row, field}) => {
-						return row.laps.find(l => l.lap === Number(field))?.timing?.milliseconds;
-					},
-					renderCell:  ({row, field}) => {
-						const lap = row.laps.find(l => l.lap === Number(field));
+					width:       110,
+					valueGetter: (value, row, column) => {
+						const lap = row.laps.find(l => l.lap === Number(column.field));
 						if (!lap) {
-							return '';
+							return undefined;
 						}
-						const {color, alt, timing: {milliseconds}} = lap;
+						const {timing: {milliseconds}} = lap;
 						
 						if (!milliseconds) {
+							return undefined;
+						}
+						
+						return new Date(milliseconds);
+					},
+					renderCell:  ({row, field, value}) => {
+						const lap = row.laps.find(l => l.lap === Number(field));
+						if (!lap || !value) {
 							return '--';
 						}
 						
+						const {color, alt} = lap;
+						
 						return <>
 							<FontAwesomeIcon icon={faSquare} color={color} title={alt} style={{marginRight: 8}}/>
-							{getTimeStringFromDate(new Date(milliseconds))}
+							{getTimeStringFromDate(value)}
 						</>;
 					}
 				}
@@ -103,7 +113,12 @@ const useColumns = (laps: number) => {
 	}, [laps]);
 };
 
-export default function LapTimesTable({season, round}: LapTimesProps) {
+export type LapTimesTableProps = {
+	season: number;
+	round: number;
+}
+
+export default function LapTimesTable({season, round}: LapTimesTableProps) {
 	const lapByLapData    = useLapByLapData(season, round);
 	const data            = useLapTimesData(lapByLapData);
 	const {totalLaps = 0} = lapByLapData;

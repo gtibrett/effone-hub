@@ -1,6 +1,6 @@
 import {gql, useQuery} from '@apollo/client';
-import {StatCard} from '@ui-components';
-import {DriverId} from '../../driver';
+import {DriverId} from '@effonehub/driver';
+import {StatCard} from '@effonehub/ui-components';
 import {RaceStatProps} from './index';
 
 type Data = {
@@ -27,7 +27,9 @@ export default function LapLeader({season, round, size}: RaceStatProps) {
 	
 	(data?.races || []).forEach(r => {
 		r.lapTimes.forEach(lt => {
-			leaders.set(lt.driverId, (leaders.get(lt.driverId) || 0) + 1);
+			if (lt.driverId) {
+				leaders.set(lt.driverId, (leaders.get(lt.driverId) || 0) + 1);
+			}
 		});
 	});
 	

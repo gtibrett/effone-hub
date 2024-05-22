@@ -1,8 +1,9 @@
+import {NivoTooltipFactory, useNivoTheme} from '@effonehub/ui-components';
+import {RequiredByPropTypes} from '@effonehub/ui-components/nivo';
 import {Circuit} from '@gtibrett/effone-hub-graph-api';
 import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {alpha, Box, Skeleton, useTheme} from '@mui/material';
 import {GeoMapEventHandler, ResponsiveGeoMap} from '@nivo/geo';
-import {NivoTooltip, useNivoTheme} from '@ui-components';
 import {useEffect, useState} from 'react';
 import MapTooltip from './MapTooltip';
 import {Point} from './types';
@@ -76,10 +77,13 @@ export default function RaceMap(props: RaceMapProps) {
 		}
 	}, [centerOn, node, dimensions, lastDimensions]);
 	
+	// PropTypes vs TS mismatches
 	return (
 		<Box ref={ref} sx={{position: 'relative', height, width}} aria-hidden>
 			<Box sx={{opacity: !ready ? 0 : 1, height, width}}>
 				<ResponsiveGeoMap
+					{...RequiredByPropTypes.GeoMap}
+					
 					theme={nivoTheme}
 					features={[land, ...pointFeatures]}
 					margin={{top: 0, right: 0, bottom: 0, left: 0}}
@@ -109,11 +113,11 @@ export default function RaceMap(props: RaceMapProps) {
 							return alpha(theme.palette.primary.light, .25);
 						}
 					}}
-					tooltip={NivoTooltip(MapTooltip)}
+					tooltip={NivoTooltipFactory(MapTooltip)}
 					onClick={onClick}
 				/>
 			</Box>
 			{!ready && <Skeleton variant="rectangular" height={height} sx={{position: 'absolute', top: 0, left: 0, right: 0}}/>}
 		</Box>
 	);
-};
+}

@@ -1,13 +1,13 @@
+import {ConstructorByLine} from '@effonehub/constructor';
+import {DriverByLine} from '@effonehub/driver';
+import {getMillisecondsFromTimeString, getPositionTextOutcome} from '@effonehub/helpers';
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {SprintResult} from '@gtibrett/effone-hub-graph-api';
 import {Alert, Grid, Skeleton, Tooltip, Typography} from '@mui/material';
 import {purple} from '@mui/material/colors';
 import {visuallyHidden} from '@mui/utils';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {ConstructorByLine} from '../constructor';
-import {DriverByLine} from '../driver';
-import {getMillisecondsFromTimeString, getPositionTextOutcome} from '../helpers';
+import {DataGrid} from '@mui/x-data-grid';
 import PositionChange from './PositionChange';
 
 export default function SprintResults({results}: {
@@ -28,7 +28,7 @@ export default function SprintResults({results}: {
 			rows={results}
 			autoHeight
 			density="compact"
-			getRowId={r => r.driver.driverId}
+			getRowId={r => r.driver?.driverId || 0}
 			initialState={{
 				sorting: {
 					sortModel: [{field: 'position', sort: 'asc'}]
@@ -50,7 +50,7 @@ export default function SprintResults({results}: {
 						renderCell:   ({row}) => (
 							<PositionChange {...row}/>
 						),
-						valueGetter:  ({row}) => {
+						valueGetter:  (value, row) => {
 							const {grid, position} = row;
 							if (!grid || !position) {
 								return 0;
@@ -94,7 +94,7 @@ export default function SprintResults({results}: {
 							const time = row.time;
 							return (
 								<Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
-									<Grid item>{time ? time : getPositionTextOutcome(row.positionText, row.status.status)}</Grid>
+									<Grid item>{time ? time : getPositionTextOutcome(row.positionText, row.status?.status)}</Grid>
 									{getMillisecondsFromTimeString(row.fastestLapTime) === fastestLapTime && (
 										<Grid item>
 											<Tooltip title="Fastest Lap">
@@ -107,7 +107,7 @@ export default function SprintResults({results}: {
 						},
 						minWidth:    110
 					}
-				] as GridColDef<SprintResult>[]
+				]
 			}
 		/>
 	);

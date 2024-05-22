@@ -8,8 +8,8 @@ export default function OpenAILink() {
 	
 	return (
 		<Link href="https://openai.com" target="_blank">
-			<Typography variant="caption"><FontAwesomeIcon icon={faRobot}/> written by OpenAI</Typography>
-			<Typography sx={visuallyHidden}> (opens in a new window)</Typography>
+			<Typography component="span" variant="caption"><FontAwesomeIcon icon={faRobot}/> written by OpenAI</Typography>
+			<Typography component="span" sx={visuallyHidden}> (opens in a new window)</Typography>
 		</Link>
 	);
 }

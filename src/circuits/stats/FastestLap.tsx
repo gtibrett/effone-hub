@@ -1,9 +1,10 @@
-import {StatCard} from '@ui-components';
-import {getTimeStringFromDate} from '../../helpers';
+import {getTimeStringFromDate} from '@effonehub/helpers';
+import {StatCard} from '@effonehub/ui-components';
+import {Maybe} from '@gtibrett/effone-hub-graph-api/types';
 import {CircuitDataProps} from '../useCircuitByRef';
 
 export default function FastestLap({data, loading}: CircuitDataProps) {
-	const fastestLaps: Map<number, number> = new Map<number, number>(
+	const fastestLaps: Map<number, Maybe<number>> = new Map<number, Maybe<number>>(
 		(data?.circuit.history || [])
 			.filter(r => r.fastestLaps.length)
 			.map(r => r.fastestLaps[0] || {})

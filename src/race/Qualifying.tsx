@@ -1,9 +1,9 @@
 import {gql, useQuery} from '@apollo/client';
-import {Qualify, Race} from '@gtibrett/effone-hub-graph-api';
+import {ConstructorByLine} from '@effonehub/constructor';
+import {DriverByLine} from '@effonehub/driver';
+import {Race} from '@gtibrett/effone-hub-graph-api';
 import {Alert, Skeleton} from '@mui/material';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {ConstructorByLine} from '../constructor';
-import {DriverByLine} from '../driver';
+import {DataGrid} from '@mui/x-data-grid';
 
 const QualifyingQuery = gql`
 	query qualifyingQuery($season: Int!, $round: Int!) {
@@ -45,7 +45,7 @@ export default function Qualifying({season, round}: QualifyingProps) {
 			rows={data.race.qualifyings}
 			autoHeight
 			density="compact"
-			getRowId={r => r.driverId}
+			getRowId={r => r.driverId || 0}
 			initialState={{
 				sorting: {
 					sortModel: [{field: 'position', sort: 'asc'}]
@@ -72,7 +72,7 @@ export default function Qualifying({season, round}: QualifyingProps) {
 						field:      'Constructor',
 						headerName: 'Constructor',
 						flex:       1,
-						renderCell: ({row}) => row.driver.teamsByYear[0].teamId ? <ConstructorByLine id={row.driver.teamsByYear[0].teamId}/> : '',
+						renderCell: ({row}) => row.driver?.teamsByYear[0].teamId ? <ConstructorByLine id={row.driver.teamsByYear[0].teamId}/> : '',
 						minWidth:   150
 					},
 					{
@@ -96,7 +96,7 @@ export default function Qualifying({season, round}: QualifyingProps) {
 						align:       'center',
 						type:        'string'
 					}
-				] as GridColDef<Qualify>[]
+				]
 			}
 		/>
 	);

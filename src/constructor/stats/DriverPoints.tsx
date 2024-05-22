@@ -1,7 +1,7 @@
 import {gql, useQuery} from '@apollo/client';
+import {DriverId} from '@effonehub/driver';
+import {StatCard} from '@effonehub/ui-components';
 import {Team} from '@gtibrett/effone-hub-graph-api';
-import {StatCard} from '@ui-components';
-import {DriverId} from '../../driver';
 
 type Data = {
 	races: {
@@ -35,7 +35,9 @@ export default function DriverPoints({teamId, season, place}: DriverPointsProps)
 	
 	(data?.races || []).forEach(r => {
 		r.results.forEach(rs => {
-			leaders.set(rs.driverId, (leaders.get(rs.driverId) || 0) + rs.points);
+			if (rs.driverId) {
+				leaders.set(rs.driverId, (leaders.get(rs.driverId) || 0) + rs.points);
+			}
 		});
 	});
 	

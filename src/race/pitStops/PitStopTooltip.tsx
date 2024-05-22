@@ -1,23 +1,24 @@
-import {Grid, List, ListItem, ListItemAvatar, ListItemText} from '@mui/material';
+import {DriverAvatar, DriverByLine} from '@effonehub/driver';
+import useDriverHeaderSx from '@effonehub/driver/useDriverHeaderSx';
+import {getTimeStringFromDate} from '@effonehub/helpers';
+import {PropertiesTable, PropertiesTableRow} from '@effonehub/ui-components';
+import {Card, CardHeader} from '@mui/material';
 import {BarTooltipProps} from '@nivo/bar';
-import {DriverAvatar, DriverByLine} from '../../driver';
-import {getTimeStringFromDate} from '../../helpers';
 import {PitStopSerie} from './PitStopsChart';
 
 export default function PitStopTooltip(props: BarTooltipProps<PitStopSerie>) {
 	const {value, id, data: {driverId}} = props;
+	const headerSx                      = useDriverHeaderSx(driverId);
 	
 	return (
-		<List dense>
-			<ListItem>
-				<ListItemAvatar><DriverAvatar driverId={driverId} size={42}/></ListItemAvatar>
-				<ListItemText secondaryTypographyProps={{component: 'div'}} primary={<DriverByLine id={driverId} variant="name"/>} secondary={
-					<Grid container spacing={2} alignItems="center">
-						<Grid item xs>Stop {id}</Grid>
-						<Grid item>{getTimeStringFromDate(new Date(value))}</Grid>
-					</Grid>
-				}/>
-			</ListItem>
-		</List>
+		<Card sx={{p: 0}}>
+			<CardHeader sx={headerSx}
+				avatar={<DriverAvatar driverId={driverId} size={42}/>}
+				title={<DriverByLine id={driverId} variant="name"/>}
+				subheader={<PropertiesTable>
+					<PropertiesTableRow header={`Stop ${id}`}>{getTimeStringFromDate(new Date(value))}</PropertiesTableRow>
+				</PropertiesTable>}
+			/>
+		</Card>
 	);
 }

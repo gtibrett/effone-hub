@@ -1,20 +1,11 @@
 import {gql, useQuery} from '@apollo/client';
+import {useGetTeamColor} from '@effonehub/constructor';
+import {DriverId} from '@effonehub/driver';
+import {useGetAccessibleColor} from '@effonehub/ui-components';
 import {Driver, LapTime, Result} from '@gtibrett/effone-hub-graph-api';
-import {useTheme} from '@mui/material';
-import {useGetAccessibleColor} from '@ui-components';
+import {Maybe} from '@gtibrett/effone-hub-graph-api/types';
 import {useMemo} from 'react';
-import {DriverId} from '../../driver';
 import {LapChartSeries} from './LapByLap';
-
-export type LapTimeData = {
-	race: {
-		lapTimes: Pick<LapTime, 'lap' | 'position' | 'driverId' | 'milliseconds'>[];
-		results: {
-			positionOrder: Result['positionOrder'];
-			driver: Pick<Driver, 'driverId' | 'currentTeam' | 'surname'>
-		}[]
-	}
-}
 
 const lapsQuery = gql`
 	#graphql
@@ -45,24 +36,35 @@ const lapsQuery = gql`
 	}
 `;
 
+export type LapTimeData = {
+	race: {
+		lapTimes: Pick<LapTime, 'lap' | 'position' | 'driverId' | 'milliseconds'>[];
+		results: {
+			positionOrder: Result['positionOrder'];
+			driver: Pick<Driver, 'driverId' | 'currentTeam' | 'surname'>
+		}[]
+	}
+}
+
 export type LapByLapData = {
 	loading: boolean;
 	totalLaps?: number;
 	data?: {
 		driverId: DriverId;
-		name: string;
+		name: Maybe<string> | undefined;
 		color: string;
-		position: number;
+		position: Maybe<number> | undefined;
 		laps: LapTimeData['race']['lapTimes'];
 	}[]
 }
 export const useLapByLapData = (season: number, round: number): LapByLapData => {
-	const theme           = useTheme();
+	const getTeamColor    = useGetTeamColor();
 	const {data, loading} = useQuery<LapTimeData>(lapsQuery, {variables: {season, round}});
 	
-	const dataByDriver = useMemo<Omit<LapByLapData, 'loading'>>(() => {
+	return useMemo<LapByLapData>(() => {
 		if (!data?.race.lapTimes.length || !data.race.results.length) {
 			return {
+				loading,
 				data:      undefined,
 				totalLaps: undefined
 			};
@@ -71,21 +73,17 @@ export const useLapByLapData = (season: number, round: number): LapByLapData => 
 		const {lapTimes, results} = data.race;
 		
 		return {
+			loading,
 			data:      results.map(r => ({
 				driverId: r.driver.driverId,
 				name:     r.driver.surname,
-				color:    r.driver.currentTeam.team.colors.primary || theme.palette.primary.main,
+				color:    getTeamColor(r.driver.currentTeam?.team?.colors, 'primary', false),
 				position: r.positionOrder,
 				laps:     lapTimes.filter(lt => lt.driverId === r.driver.driverId)
 			})),
 			totalLaps: Math.max(...lapTimes.map(lt => lt.lap))
 		};
-	}, [data, theme]);
-	
-	return {
-		loading,
-		...dataByDriver
-	};
+	}, [data?.race, getTeamColor, loading]);
 };
 
 const useLapByLapChartData = (lapByLapData: LapByLapData) => {
@@ -96,7 +94,7 @@ const useLapByLapChartData = (lapByLapData: LapByLapData) => {
 		const drivers: LapChartSeries[] = [];
 		
 		data.forEach(({driverId, laps, color, ...driverData}) => {
-			drivers.push({
+			driverId && drivers.push({
 				...driverData,
 				driverId,
 				id:    driverId,
@@ -110,12 +108,12 @@ const useLapByLapChartData = (lapByLapData: LapByLapData) => {
 		
 		drivers.forEach(driver => {
 			// Fill in missing laps with previous classification (final classification breaks if there are disqualifications)
-			const lastPosition = driver.position || driver.data.at(-1)?.y || null;
+			const lastPosition = driver.data.at(-1)?.y || null;
 			for (let x = driver.data.length; x < totalLaps; x++) {
 				driver.data.push({x, y: lastPosition});
 			}
 			
-			driver.data.push({x: totalLaps + 1, y: driver.position});
+			driver.data.push({x: totalLaps + 1, y: lastPosition || null});
 		});
 		
 		return drivers;

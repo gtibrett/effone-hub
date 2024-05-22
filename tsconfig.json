@@ -19,13 +19,73 @@
 		"isolatedModules":                  true,
 		"noEmit":                           true,
 		"jsx":                              "react-jsx",
+		"incremental":                      true,
 		"baseUrl":                          "./src",
 		"paths":                            {
-			"@ui-components": [
-				"ui-components"
+			"@effonehub/app":  [
+				"app"
+			],
+			"@effonehub/about":  [
+				"about/index.ts"
+			],
+			"@effonehub/circuits":  [
+				"circuits/index.ts"
+			],
+			"@effonehub/circuits/*":  [
+				"circuits/*"
+			],
+			"@effonehub/components":  [
+				"components/index.ts"
+			],
+			"@effonehub/components/*":  [
+				"components/*"
+			],
+			"@effonehub/constructor": [
+				"constructor/index.ts"
+			],
+			"@effonehub/constructor/*": [
+				"constructor/*"
+			],
+			"@effonehub/driver":      [
+				"driver/index.ts"
+			],
+			"@effonehub/driver/*":      [
+				"driver/*"
+			],
+			"@effonehub/helpers":  [
+				"helpers.tsx"
+			],
+			"@effonehub/maps":      [
+				"maps"
+			],
+			"@effonehub/race":      [
+				"race/index.ts"
+			],
+			"@effonehub/race/*":      [
+				"race/*"
+			],
+			"@effonehub/season":      [
+				"season/index.ts"
+			],
+			"@effonehub/season/*":      [
+				"season/*"
+			],
+			"@effonehub/jest": [
+				"jest"
+			],
+			"@effonehub/ui-components": [
+				"ui-components/index.ts"
+			],
+			"@effonehub/ui-components/*": [
+				"ui-components/*"
 			]
 		}
 	},
+	"types":           [
+		"node",
+		"jest",
+		"@testing-library/jest-dom"
+	],
 	"include":         [
 		"src"
 	]

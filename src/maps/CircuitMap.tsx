@@ -1,9 +1,9 @@
+import {useDarkMode} from '@effonehub/ui-components';
 import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Circuit} from '@gtibrett/effone-hub-graph-api';
 import {Box, Grid, SxProps, ToggleButton, ToggleButtonGroup, useTheme} from '@mui/material';
 import {blue, red, yellow} from '@mui/material/colors';
-import {useDarkMode} from '@ui-components';
 import {SVGProps, SyntheticEvent, useState} from 'react';
 import useCircuitByRef from '../circuits/useCircuitByRef';
 import getMapSVG from './circuits/getMapSVG';
@@ -58,7 +58,7 @@ const useSx = (variant: CircuitMapProps['variant'], sector: string | undefined):
 	};
 };
 
-export default function CircuitMap({variant = 'interactive', circuitRef, height = 300, width, ...svgProps}: CircuitMapProps) {
+export default function CircuitMap({variant = 'interactive', circuitRef, height, width, ...svgProps}: CircuitMapProps) {
 	const {sector1, sector2, sector3} = useSectorColors();
 	const [sector, setSector]         = useState<string | undefined>();
 	const sx                          = useSx(variant, sector);

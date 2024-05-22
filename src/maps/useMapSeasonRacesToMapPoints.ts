@@ -1,5 +1,6 @@
 import {Circuit, Race} from '@gtibrett/effone-hub-graph-api';
 import {GeoMapEventHandler} from '@nivo/geo';
+import {useCallback} from 'react';
 import {useNavigate} from 'react-router';
 import {Point} from './types';
 
@@ -7,15 +8,17 @@ type RaceData = Pick<Race, 'name' | 'round'> & Pick<Circuit, 'lat' | 'lng'> & { 
 
 export default function useMapSeasonRacesToMapPoints() {
 	const navigate = useNavigate();
-	let foundNext  = false;
 	
-	return (season: string | number, races: (RaceData)[]): { points: Point[], onClick: GeoMapEventHandler } => {
+	return useCallback((season: string | number, races: (RaceData)[]): { points: Point[], onClick: GeoMapEventHandler } => {
+		let foundNext         = false;
 		const points: Point[] = [];
+		
 		races.forEach(({lng, lat, ...race}) => {
 			if (lng && lat) {
 				const next = (!race.hasResults && !foundNext);
 				points.push({
-					'id': race.round,
+					// @ts-ignore
+					id: race.round,
 					...race,
 					lng, lat,
 					'properties': {
@@ -32,10 +35,10 @@ export default function useMapSeasonRacesToMapPoints() {
 		
 		const onClick: GeoMapEventHandler = (feature) => {
 			if (feature?.geometry?.type === 'Point') {
-				return navigate(`/season/${season}/${feature.properties.round}`);
+				navigate(`/season/${season}/${feature.properties.round}`);
 			}
 		};
 		
 		return {points, onClick};
-	};
+	}, [navigate]);
 }

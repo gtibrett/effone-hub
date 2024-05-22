@@ -1,7 +1,7 @@
 import {gql, useQuery} from '@apollo/client';
+import {DriverId} from '@effonehub/driver';
+import {StatCard} from '@effonehub/ui-components';
 import {Team} from '@gtibrett/effone-hub-graph-api';
-import {StatCard} from '@ui-components';
-import {DriverId} from '../../driver';
 
 type Data = {
 	races: {
@@ -49,8 +49,10 @@ export default function DriverQualifying({teamId, season, place}: DriverPointsPr
 		if (teamQualyfings.length) {
 			let isFirst = true;
 			teamQualyfings.forEach(({driverId}) => {
-				leaders.set(driverId, (leaders.get(driverId) || 0) + (isFirst ? 1 : 0));
-				isFirst = false;
+				if (driverId) {
+					leaders.set(driverId, (leaders.get(driverId) || 0) + (isFirst ? 1 : 0));
+					isFirst = false;
+				}
 			});
 		}
 	});

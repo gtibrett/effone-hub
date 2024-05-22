@@ -1,6 +1,6 @@
+import {NivoTooltipFactory, useGetAccessibleColor, useNivoTheme} from '@effonehub/ui-components';
 import {Box, Skeleton, useMediaQuery, useTheme} from '@mui/material';
 import {BarSvgProps, ResponsiveBar} from '@nivo/bar';
-import {NivoTooltip, useGetAccessibleColor, useNivoTheme} from '@ui-components';
 import {PitStopTableRow} from './PitStops';
 import PitStopTooltip from './PitStopTooltip';
 
@@ -50,7 +50,7 @@ export default function PitStopsChart({maxStops, pitStops}: PitStopsChartProps) 
 	const layoutProps: Partial<BarSvgProps<any>> = {};
 	if (isSmall) {
 		layoutProps.layout     = 'horizontal';
-		layoutProps.margin     = {left: 40};
+		layoutProps.margin     = {left: 44};
 		layoutProps.axisBottom = null;
 		layoutProps.axisLeft   = {
 			tickSize:     0,
@@ -59,7 +59,6 @@ export default function PitStopsChart({maxStops, pitStops}: PitStopsChartProps) 
 		};
 	} else {
 		layoutProps.layout     = 'vertical';
-		layoutProps.margin     = {bottom: 40};
 		layoutProps.axisBottom = {
 			tickSize:     0,
 			tickPadding:  5,
@@ -80,8 +79,9 @@ export default function PitStopsChart({maxStops, pitStops}: PitStopsChartProps) 
 				enableGridY={false}
 				padding={.1}
 				innerPadding={1.5}
-				tooltip={NivoTooltip(PitStopTooltip)}
+				tooltip={NivoTooltipFactory(PitStopTooltip)}
 				{...layoutProps}
+				margin={{top: 16, right: 16, bottom: 32, left: 16,...layoutProps.margin}}
 			/>
 		</Box>
 	);

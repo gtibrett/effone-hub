@@ -1,17 +1,18 @@
 import {Circuit} from '@gtibrett/effone-hub-graph-api';
 import {GeoMapEventHandler} from '@nivo/geo';
+import {useCallback} from 'react';
 import {useNavigate} from 'react-router';
 import {Point} from './types';
 
 export default function useMapCircuitsToMapPoints() {
 	const navigate = useNavigate();
 	
-	return (circuits: Pick<Circuit, 'circuitId' | 'lat' | 'lng' | 'name'>[]): { points: Point[], onClick: GeoMapEventHandler } => {
+	return useCallback((circuits: Pick<Circuit, 'circuitId' | 'lat' | 'lng' | 'name'>[]): { points: Point[], onClick: GeoMapEventHandler } => {
 		const points: Point[] = circuits
 			.filter(c => c.lng && c.lat)
 			.map((circuit) => ({
 				'id':         circuit.circuitId,
-				'name':       circuit.name,
+				'name':       circuit.name || '',
 				lng:          Number(circuit.lng),
 				lat:          Number(circuit.lat),
 				'properties': {
@@ -21,10 +22,10 @@ export default function useMapCircuitsToMapPoints() {
 		
 		const onClick: GeoMapEventHandler = (feature) => {
 			if (feature?.geometry?.type === 'Point') {
-				return navigate(`/circuit/${feature.id}`);
+				navigate(`/circuit/${feature.id}`);
 			}
 		};
 		
 		return {points, onClick};
-	};
+	}, [navigate]);
 }

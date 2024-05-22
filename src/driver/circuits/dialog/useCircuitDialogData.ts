@@ -1,4 +1,5 @@
 import {gql, useQuery} from '@apollo/client';
+import {DriverId} from '@effonehub/driver';
 import {CircuitDialogData} from './types';
 
 const CircuitDataQuery = gql`
@@ -20,6 +21,12 @@ const CircuitDataQuery = gql`
 					status {
 						status
 					}
+					team {
+						teamId
+						colors {
+							primary
+						}
+					}
 				}
 				lapTimes (condition: {driverId: $driverId}) {
 					lap
@@ -28,21 +35,6 @@ const CircuitDataQuery = gql`
 			}
 		}
 		driver: driver(driverId: $driverId) {
-			driverId
-			dob
-			forename
-			surname
-			code
-			number
-			nationality
-			url
-			currentTeam {
-				team {
-					colors {
-						primary
-					}
-				}
-			}
 			teamsByYear {
 				year
 				team {
@@ -55,6 +47,6 @@ const CircuitDataQuery = gql`
 	}
 `;
 
-export default function useCircuitDialogData(circuitId?: number, driverId?: number) {
+export default function useCircuitDialogData(circuitId?: number, driverId?: DriverId) {
 	return useQuery<CircuitDialogData>(CircuitDataQuery, {variables: {circuitId, driverId}});
 }

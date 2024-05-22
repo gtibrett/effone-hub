@@ -1,6 +1,7 @@
 import {faUser} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Avatar} from '@mui/material';
+import {memo} from 'react';
 import useAvatarSize, {AvatarSizes} from '../ui-components/useAvatarSize';
 import {DriverId, useDriver} from './index';
 
@@ -9,7 +10,7 @@ export type DriverAvatarProps = {
 	size?: AvatarSizes
 }
 
-export default function DriverAvatar({driverId, size = 'small'}: DriverAvatarProps) {
+function DriverAvatar({driverId, size = 'small'}: DriverAvatarProps) {
 	const sx     = useAvatarSize(size);
 	const driver = useDriver(driverId);
 	
@@ -25,3 +26,5 @@ export default function DriverAvatar({driverId, size = 'small'}: DriverAvatarPro
 	
 	return <Avatar variant="rounded" sx={sx}>{forename?.[0]}{surname?.[0]}</Avatar>;
 }
+
+export default memo(DriverAvatar);

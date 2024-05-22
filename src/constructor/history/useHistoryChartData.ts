@@ -1,15 +1,14 @@
 import {QueryResult} from '@apollo/client/react/types/types';
+import {useGetTeamColor} from '@effonehub/constructor';
 import {Team} from '@gtibrett/effone-hub-graph-api';
-import {useTheme} from '@mui/material';
 import {Serie as LineSerie} from '@nivo/line';
-import {useGetAccessibleColor} from '@ui-components';
 import {ConstructorPageData, TeamStandingData} from '../types';
 
 type StandingsAndTeamInfo = Pick<Team, 'teamId' | 'name' | 'colors'> & {
 	standings: TeamStandingData[]
 };
 
-type HistoryChartData = {
+export type HistoryChartData = {
 	standingsByTeam: Map<number, StandingsAndTeamInfo>;
 	minYear: number;
 	maxYear: number;
@@ -29,16 +28,16 @@ export default function useHistoryChartData(data: Pick<QueryResult<ConstructorPa
 	standingsByTeam.set(teamId, {name, teamId, colors, standings: data.team.standings || []});
 	
 	data?.team.teamHistories.forEach(({antecedentTeam: {teamId, name, colors, standings = []}, startYear, endYear}) => {
-		const filteredStandings = standings.filter(s => s.year >= startYear && s.year <= endYear);
+		const filteredStandings = standings.filter(s => s.year && s.year >= startYear && (!endYear || s.year <= endYear));
 		standingsByTeam.set(teamId, {name, teamId, colors, standings: filteredStandings});
 	});
 	
 	const flatStandings = Array.from(standingsByTeam.values()).map(t => t.standings).flat();
-	const minYear       = Math.min(...flatStandings.map(s => s.year));
-	const maxYear       = Math.max(...flatStandings.map(s => s.year));
-	const maxPoints     = Math.max(...flatStandings.map(s => s.points));
+	const minYear       = Math.min(...flatStandings.map(s => s.year || Number.POSITIVE_INFINITY));
+	const maxYear       = Math.max(...flatStandings.map(s => s.year || Number.NEGATIVE_INFINITY));
+	const maxPoints     = Math.max(...flatStandings.map(s => s.points || 0));
 	const maxPosition   = Math.max(...flatStandings.map(s => s.position || 0));
-	const maxWins       = Math.max(...flatStandings.map(s => s.wins));
+	const maxWins       = Math.max(...flatStandings.map(s => s.wins || 0));
 	
 	return {standingsByTeam, minYear, maxYear, maxPoints, maxPosition, maxWins};
 }
@@ -54,14 +53,9 @@ const generateBaseSerie = (id: string, data: any) => {
 };
 
 export function useHistoryChartColors(chartData: HistoryChartData | undefined) {
-	const theme              = useTheme();
-	const getAccessibleColor = useGetAccessibleColor();
+	const getTeamColor = useGetTeamColor();
 	
-	if (!chartData) {
-		return [];
-	}
-	
-	return Array.from(chartData.standingsByTeam.values()).map(t => getAccessibleColor(t.colors.primary || theme.palette.primary.main));
+	return !chartData ? [] : Array.from(chartData.standingsByTeam.values()).map(t => getTeamColor(t.colors));
 }
 
 export function getChartDataByAttribute(attribute: keyof TeamStandingData, chartData: HistoryChartData) {
@@ -70,7 +64,7 @@ export function getChartDataByAttribute(attribute: keyof TeamStandingData, chart
 	
 	standingsByTeam.forEach((teamWithStandings) => {
 		const {teamId, name} = teamWithStandings;
-		const chartData      = generateBaseSerie(name, {teamId, name});
+		const chartData      = generateBaseSerie(name || '', {teamId, name});
 		
 		for (let x = minYear; x <= maxYear; x++) {
 			let y          = null;
@@ -80,6 +74,7 @@ export function getChartDataByAttribute(attribute: keyof TeamStandingData, chart
 				y = standing[attribute] !== null ? standing[attribute] : null;
 			}
 			
+			// @ts-ignore
 			chartData.data.push({x, y, data: {teamId, name, ...standing}});
 		}
 		
