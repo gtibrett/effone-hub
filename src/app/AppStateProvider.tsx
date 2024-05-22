@@ -1,6 +1,4 @@
-import {useQuery} from '@apollo/client';
-import {SeasonsQuery} from '@effonehub/components';
-import {Season} from '@gtibrett/effone-hub-graph-api';
+import useSeasons from '@effonehub/season/useSeasons';
 import {Backdrop} from '@mui/material';
 import {createContext, Dispatch, FC, PropsWithChildren, SetStateAction, useContext, useEffect, useState} from 'react';
 import {ErrorCard} from './ErrorBoundary';
@@ -26,21 +24,19 @@ const Context = createContext<[AppStateType, SetAppStateType]>([
 ]);
 
 const AppStateProvider: FC<PropsWithChildren> = ({children}) => {
-	const [state, setState]      = useState<AppStateType>(BLANK_STATE);
-	const {data, loading, error} = useQuery<{ seasons: Season[] }>(SeasonsQuery);
+	const [state, setState]         = useState<AppStateType>(BLANK_STATE);
+	const {seasons, loading, error} = useSeasons();
 	
 	useEffect(() => {
-		if (!state.ready && !loading && data) {
-			const {seasons} = data;
-			
+		if (!state.ready && !loading && seasons) {
 			setState({
-				currentSeason: Math.max(...seasons.filter(s => !s.ended).map(s => s.year)),
+				currentSeason: Math.max(...seasons.filter(s =>  !s.ended).map(s => s.year)),
 				seasonToShow:  Math.max(...seasons.filter(s => s.hasResults).map(s => s.year)),
 				lastSeason:    Math.max(...seasons.filter(s => s.ended).map(s => s.year)),
 				ready:         true
 			});
 		}
-	}, [data, loading, state.ready]);
+	}, [seasons, loading, state.ready]);
 	
 	if (!state || !state.ready || !state.currentSeason) {
 		return <Backdrop open>{error ? <ErrorCard message="Could not connect to the data API"/> : null}</Backdrop>;

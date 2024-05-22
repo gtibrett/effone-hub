@@ -1,7 +1,7 @@
 import {useAppState} from '@effonehub/app';
 import {DriverByLine} from '@effonehub/driver';
 import {Link} from '@gtibrett/mui-additions';
-import {Box, Skeleton} from '@mui/material';
+import {Box, Card, CardHeader, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import RaceMap from '../maps/RaceMap';
 import useMapSeasonRacesToMapPoints from '../maps/useMapSeasonRacesToMapPoints';
@@ -27,7 +27,8 @@ export default function Schedule({season}: ScheduleProps) {
 	);
 	
 	return (
-		<>
+		<Card id="season" variant="outlined">
+			<CardHeader title="Schedule"/>
 			<Box sx={{px: 2}}><RaceMap points={points} onClick={onClick} highlightNext/></Box>
 			<DataGrid
 				sx={{mt: 2}}
@@ -96,6 +97,6 @@ export default function Schedule({season}: ScheduleProps) {
 					]
 				}
 			/>
-		</>
+		</Card>
 	);
 }
