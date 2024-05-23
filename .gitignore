@@ -1,5 +1,5 @@
 # dependencies
-/node_modules
+node_modules
 /.pnp
 .pnp.js
 
@@ -12,16 +12,16 @@
 
 # misc
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env*
+tsconfig.tsbuildinfo
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .idea/*
-/data/
 
-/schema.graphql
-/public/ads.txt
+/packages/*/dist
+/packages/*/build
+
+/packages/api/.env
+/packages/api/configs
