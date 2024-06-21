@@ -1,0 +1,63 @@
+name: eoh-release-api-package
+
+on:
+  release:
+    types: [ created ]
+  push:
+    branches:
+    - 'develop'
+    - 'feature/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Setup Node"
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        registry-url: https://npm.pkg.github.com/
+
+    - name: "Checkout"
+      uses: actions/checkout@v4
+
+    - name: "Install"
+      run: yarn install
+
+    - name: "Build"
+      working-directory: ./packages/api
+      run: yarn build
+
+    - name: "Copy README.md"
+      working-directory: ./packages/api
+      run: cp README.md dist/README.md
+
+    - name: "Copy package.json"
+      working-directory: ./packages/api
+      run: |
+        version=$(jq -r '.version' package.json)
+        timestamp=$(date +%s)
+        if [[ "$version" == *alpha* ]] || [[ "$version" == *beta* ]]
+        then
+          jq .version="\"$version.$timestamp\"" package.json > dist/package.json
+        else
+          cp package.json dist/package.json
+        fi
+        ls -al dist/
+
+    - name: "Publish"
+      working-directory: ./packages/api
+      run: |
+        version=$(jq -r '.version' package.json)
+        timestamp=$(date +%s)
+        if [[ "$version" == *alpha* ]]
+        then
+          yarn publish --tag alpha ./dist
+        elif [[ "$version" == *beta* ]]
+        then
+          yarn publish --tag beta ./dist
+        else
+          yarn publish ./dist
+        fi
+      env:
+        NODE_AUTH_TOKEN: ${{secrets.NPM_PAT_TOKEN}}
