@@ -1,0 +1,10 @@
+{
+	"name":    "@gtibrett/effone-hub-graph-db",
+	"version": "1.4.0-alpha.0",
+	"license": "MIT",
+	"scripts": {
+		"build": "docker compose -f docker-compose.yaml build",
+		"start": "docker compose -f docker-compose.yaml -p effone-hub-graph-db up -d",
+		"stop":  "docker compose -f docker-compose.yaml -p effone-hub-graph-db down"
+	}
+}

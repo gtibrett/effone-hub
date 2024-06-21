@@ -1,0 +1,846 @@
+[
+	{
+		"teamRef": "adams",
+		"color":  ""
+	},
+	{
+		"teamRef": "afm",
+		"color":  "#BFBFBF"
+	},
+	{
+		"teamRef": "ags",
+		"color":  "#3855AF"
+	},
+	{
+		"teamRef": "alfa",
+		"color":  "#831E2F"
+	},
+	{
+		"teamRef": "alphatauri",
+		"color":  "#020B1A"
+	},
+	{
+		"teamRef": "alpine",
+		"color":  "#041225"
+	},
+	{
+		"teamRef": "alta",
+		"color":  ""
+	},
+	{
+		"teamRef": "amon",
+		"color":  "#4040F5"
+	},
+	{
+		"teamRef": "moda",
+		"color":  "#000000"
+	},
+	{
+		"teamRef": "apollon",
+		"color":  "#C9973A"
+	},
+	{
+		"teamRef": "arrows",
+		"color":  ""
+	},
+	{
+		"teamRef": "arzani-volpini",
+		"color":  "#51985E"
+	},
+	{
+		"teamRef": "butterworth",
+		"color":  ""
+	},
+	{
+		"teamRef": "aston_martin",
+		"color":  "#24584F"
+	},
+	{
+		"teamRef": "ats",
+		"color":  "#E2B73F"
+	},
+	{
+		"teamRef": "bar",
+		"color":  "#051361"
+	},
+	{
+		"teamRef": "behra-porsche",
+		"color":  ""
+	},
+	{
+		"teamRef": "bellasi",
+		"color":  ""
+	},
+	{
+		"teamRef": "benetton",
+		"color":  "#2B61F5"
+	},
+	{
+		"teamRef": "bmw",
+		"color":  "#2B65AD"
+	},
+	{
+		"teamRef": "bmw_sauber",
+		"color":  "#2B65AD"
+	},
+	{
+		"teamRef": "boro",
+		"color":  "#A02C2E"
+	},
+	{
+		"teamRef": "brabham",
+		"color":  "#1B3149"
+	},
+	{
+		"teamRef": "brabham-alfa_romeo",
+		"color":  "#1B3149"
+	},
+	{
+		"teamRef": "brabham-brm",
+		"color":  "#1B3149"
+	},
+	{
+		"teamRef": "brabham-climax",
+		"color":  "#1B3149"
+	},
+	{
+		"teamRef": "brabham-ford",
+		"color":  "#1B3149"
+	},
+	{
+		"teamRef": "brabham-repco",
+		"color":  "#1B3149"
+	},
+	{
+		"teamRef": "brawn",
+		"color":  "#D3CA41"
+	},
+	{
+		"teamRef": "brm",
+		"color":  "#131761"
+	},
+	{
+		"teamRef": "brm-ford",
+		"color":  "#131761"
+	},
+	{
+		"teamRef": "bromme",
+		"color":  ""
+	},
+	{
+		"teamRef": "brp",
+		"color":  ""
+	},
+	{
+		"teamRef": "bugatti",
+		"color":  "#CA3135"
+	},
+	{
+		"teamRef": "caterham",
+		"color":  "#9ACE4D"
+	},
+	{
+		"teamRef": "vhristensen",
+		"color":  ""
+	},
+	{
+		"teamRef": "cisitalia",
+		"color":  "#0E2853"
+	},
+	{
+		"teamRef": "coloni",
+		"color":  ""
+	},
+	{
+		"teamRef": "connaught",
+		"color":  "#436339"
+	},
+	{
+		"teamRef": "connew",
+		"color":  "#000000"
+	},
+	{
+		"teamRef": "cooper",
+		"color":  "#9B9BF8"
+	},
+	{
+		"teamRef": "cooper-alfa_romeo",
+		"color":  "#9B9BF8"
+	},
+	{
+		"teamRef": "cooper-ats",
+		"color":  "#9B9BF8"
+	},
+	{
+		"teamRef": "cooper-borgward",
+		"color":  "#9B9BF8"
+	},
+	{
+		"teamRef": "cooper-brm",
+		"color":  "#9B9BF8"
+	},
+	{
+		"teamRef": "cooper-castellotti",
+		"color":  "#9B9BF8"
+	},
+	{
+		"teamRef": "cooper-climax",
+		"color":  "#9B9BF8"
+	},
+	{
+		"teamRef": "cooper-ferrari",
+		"color":  "#9B9BF8"
+	},
+	{
+		"teamRef": "cooper-ford",
+		"color":  "#9B9BF8"
+	},
+	{
+		"teamRef": "cooper-maserati",
+		"color":  "#9B9BF8"
+	},
+	{
+		"teamRef": "cooper-osca",
+		"color":  "#9B9BF8"
+	},
+	{
+		"teamRef": "dallara",
+		"color":  "#F4C743"
+	},
+	{
+		"teamRef": "tomaso",
+		"color":  "#9BC8E6"
+	},
+	{
+		"teamRef": "de_tomaso-alfa_romeo",
+		"color":  "#9BC8E6"
+	},
+	{
+		"teamRef": "de_tomaso-ferrari",
+		"color":  "#9BC8E6"
+	},
+	{
+		"teamRef": "de_tomaso-osca",
+		"color":  "#9BC8E6"
+	},
+	{
+		"teamRef": "deidt",
+		"color":  ""
+	},
+	{
+		"teamRef": "del_roy",
+		"color":  ""
+	},
+	{
+		"teamRef": "derrington",
+		"color":  ""
+	},
+	{
+		"teamRef": "dunn",
+		"color":  ""
+	},
+	{
+		"teamRef": "eagle",
+		"color":  "#B1393B"
+	},
+	{
+		"teamRef": "eagle-climax",
+		"color":  "#B1393B"
+	},
+	{
+		"teamRef": "eagle-weslake",
+		"color":  "#B1393B"
+	},
+	{
+		"teamRef": "elder",
+		"color":  ""
+	},
+	{
+		"teamRef": "hill",
+		"color":  ""
+	},
+	{
+		"teamRef": "emeryson",
+		"color":  ""
+	},
+	{
+		"teamRef": "emw",
+		"color":  "#DE5035"
+	},
+	{
+		"teamRef": "enb",
+		"color":  ""
+	},
+	{
+		"teamRef": "ensign",
+		"color":  "#53B6F5"
+	},
+	{
+		"teamRef": "epperly",
+		"color":  ""
+	},
+	{
+		"teamRef": "era",
+		"color":  ""
+	},
+	{
+		"teamRef": "eurobrun",
+		"color":  ""
+	},
+	{
+		"teamRef": "ewing",
+		"color":  ""
+	},
+	{
+		"teamRef": "ferguson",
+		"color":  ""
+	},
+	{
+		"teamRef": "ferrari",
+		"color":  "#EA3323"
+	},
+	{
+		"teamRef": "fittipaldi",
+		"color":  ""
+	},
+	{
+		"teamRef": "fondmetal",
+		"color":  "#932C1C"
+	},
+	{
+		"teamRef": "footwork",
+		"color":  "#E6323C"
+	},
+	{
+		"teamRef": "force_india",
+		"color":  "#616264"
+	},
+	{
+		"teamRef": "forti",
+		"color":  "#0E0E69"
+	},
+	{
+		"teamRef": "frazer_nash",
+		"color":  ""
+	},
+	{
+		"teamRef": "fry",
+		"color":  ""
+	},
+	{
+		"teamRef": "gilby",
+		"color":  ""
+	},
+	{
+		"teamRef": "gordini",
+		"color":  "#3C69B8"
+	},
+	{
+		"teamRef": "haas",
+		"color":  "#55585A"
+	},
+	{
+		"teamRef": "hall",
+		"color":  ""
+	},
+	{
+		"teamRef": "hesketh",
+		"color":  "#000000"
+	},
+	{
+		"teamRef": "honda",
+		"color":  "#BC271A"
+	},
+	{
+		"teamRef": "hrt",
+		"color":  "#A39158"
+	},
+	{
+		"teamRef": "hwm",
+		"color":  ""
+	},
+	{
+		"teamRef": "iso_marlboro",
+		"color":  ""
+	},
+	{
+		"teamRef": "jaguar",
+		"color":  "#245623"
+	},
+	{
+		"teamRef": "jbw",
+		"color":  ""
+	},
+	{
+		"teamRef": "jordan",
+		"color":  "#FFFF54"
+	},
+	{
+		"teamRef": "kauhsen",
+		"color":  ""
+	},
+	{
+		"teamRef": "klenk",
+		"color":  ""
+	},
+	{
+		"teamRef": "kojima",
+		"color":  "#DD3223"
+	},
+	{
+		"teamRef": "kurtis_kraft",
+		"color":  ""
+	},
+	{
+		"teamRef": "kuzma",
+		"color":  ""
+	},
+	{
+		"teamRef": "lambo",
+		"color":  ""
+	},
+	{
+		"teamRef": "lancia",
+		"color":  "#272359"
+	},
+	{
+		"teamRef": "langley",
+		"color":  ""
+	},
+	{
+		"teamRef": "larrousse",
+		"color":  "#EB5970"
+	},
+	{
+		"teamRef": "lds",
+		"color":  "#3B80BC"
+	},
+	{
+		"teamRef": "lds-alfa_romeo",
+		"color":  "#3B80BC"
+	},
+	{
+		"teamRef": "lds-climax",
+		"color":  "#3B80BC"
+	},
+	{
+		"teamRef": "lec",
+		"color":  ""
+	},
+	{
+		"teamRef": "lesovsky",
+		"color":  ""
+	},
+	{
+		"teamRef": "leyton",
+		"color":  "#77A780"
+	},
+	{
+		"teamRef": "life",
+		"color":  "#EA3E51"
+	},
+	{
+		"teamRef": "ligier",
+		"color":  "#203361"
+	},
+	{
+		"teamRef": "lola",
+		"color":  "#D73837"
+	},
+	{
+		"teamRef": "lotus_racing",
+		"color":  "#163B1F"
+	},
+	{
+		"teamRef": "lotus_f1",
+		"color":  "#163B1F"
+	},
+	{
+		"teamRef": "lotus-borgward",
+		"color":  "#163B1F"
+	},
+	{
+		"teamRef": "lotus-brm",
+		"color":  "#163B1F"
+	},
+	{
+		"teamRef": "lotus-climax",
+		"color":  "#163B1F"
+	},
+	{
+		"teamRef": "lotus-ford",
+		"color":  "#163B1F"
+	},
+	{
+		"teamRef": "lotus-maserati",
+		"color":  "#163B1F"
+	},
+	{
+		"teamRef": "lotus-pw",
+		"color":  "#163B1F"
+	},
+	{
+		"teamRef": "lyncar",
+		"color":  ""
+	},
+	{
+		"teamRef": "maki",
+		"color":  "#2C5919"
+	},
+	{
+		"teamRef": "manor",
+		"color":  "#000000"
+	},
+	{
+		"teamRef": "march",
+		"color":  ""
+	},
+	{
+		"teamRef": "march-alfa_romeo",
+		"color":  ""
+	},
+	{
+		"teamRef": "march-ford",
+		"color":  ""
+	},
+	{
+		"teamRef": "marchese",
+		"color":  ""
+	},
+	{
+		"teamRef": "martini",
+		"color":  "#2D6585"
+	},
+	{
+		"teamRef": "marussia",
+		"color":  "#1E3F89"
+	},
+	{
+		"teamRef": "maserati",
+		"color":  "#000000"
+	},
+	{
+		"teamRef": "matra",
+		"color":  "#0A23A4"
+	},
+	{
+		"teamRef": "matra-ford",
+		"color":  "#0A23A4"
+	},
+	{
+		"teamRef": "mbm",
+		"color":  "#7D1E16"
+	},
+	{
+		"teamRef": "mcguire",
+		"color":  ""
+	},
+	{
+		"teamRef": "mclaren",
+		"color":  "#EF8833"
+	},
+	{
+		"teamRef": "mclaren-alfa_romeo",
+		"color":  "#EF8833"
+	},
+	{
+		"teamRef": "mclaren-brm",
+		"color":  "#EF8833"
+	},
+	{
+		"teamRef": "mclaren-ford",
+		"color":  "#EF8833"
+	},
+	{
+		"teamRef": "mclaren-seren",
+		"color":  "#EF8833"
+	},
+	{
+		"teamRef": "mercedes",
+		"color":  "#5FCFBE"
+	},
+	{
+		"teamRef": "merzario",
+		"color":  ""
+	},
+	{
+		"teamRef": "meskowski",
+		"color":  ""
+	},
+	{
+		"teamRef": "mf1",
+		"color":  "#EA3323"
+	},
+	{
+		"teamRef": "milano",
+		"color":  ""
+	},
+	{
+		"teamRef": "minardi",
+		"color":  "#DA3832"
+	},
+	{
+		"teamRef": "moore",
+		"color":  ""
+	},
+	{
+		"teamRef": "nichels",
+		"color":  ""
+	},
+	{
+		"teamRef": "olson",
+		"color":  ""
+	},
+	{
+		"teamRef": "onyx",
+		"color":  ""
+	},
+	{
+		"teamRef": "osca",
+		"color":  "#474B88"
+	},
+	{
+		"teamRef": "osella",
+		"color":  "#FDF668"
+	},
+	{
+		"teamRef": "pacific",
+		"color":  "#5AA4EE"
+	},
+	{
+		"teamRef": "pankratz",
+		"color":  ""
+	},
+	{
+		"teamRef": "parnelli",
+		"color":  ""
+	},
+	{
+		"teamRef": "pawl",
+		"color":  ""
+	},
+	{
+		"teamRef": "penske",
+		"color":  "#BF2A31"
+	},
+	{
+		"teamRef": "phillips",
+		"color":  ""
+	},
+	{
+		"teamRef": "politoys",
+		"color":  ""
+	},
+	{
+		"teamRef": "porsche",
+		"color":  ""
+	},
+	{
+		"teamRef": "prost",
+		"color":  ""
+	},
+	{
+		"teamRef": "protos",
+		"color":  ""
+	},
+	{
+		"teamRef": "racing_point",
+		"color":  "#E26CB6"
+	},
+	{
+		"teamRef": "rae",
+		"color":  ""
+	},
+	{
+		"teamRef": "ram",
+		"color":  ""
+	},
+	{
+		"teamRef": "re",
+		"color":  ""
+	},
+	{
+		"teamRef": "rebaque",
+		"color":  ""
+	},
+	{
+		"teamRef": "red_bull",
+		"color":  "#C92D45"
+	},
+	{
+		"teamRef": "renault",
+		"color":  "#E9B83F"
+	},
+	{
+		"teamRef": "rial",
+		"color":  ""
+	},
+	{
+		"teamRef": "sauber",
+		"color":  "#CD3F2F"
+	},
+	{
+		"teamRef": "scarab",
+		"color":  ""
+	},
+	{
+		"teamRef": "schroeder",
+		"color":  ""
+	},
+	{
+		"teamRef": "scirocco",
+		"color":  ""
+	},
+	{
+		"teamRef": "shadow",
+		"color":  ""
+	},
+	{
+		"teamRef": "shadow-ford",
+		"color":  ""
+	},
+	{
+		"teamRef": "shadow-matra",
+		"color":  ""
+	},
+	{
+		"teamRef": "shannon",
+		"color":  ""
+	},
+	{
+		"teamRef": "sherman",
+		"color":  ""
+	},
+	{
+		"teamRef": "simca",
+		"color":  ""
+	},
+	{
+		"teamRef": "simtek",
+		"color":  ""
+	},
+	{
+		"teamRef": "snowberger",
+		"color":  ""
+	},
+	{
+		"teamRef": "spirit",
+		"color":  ""
+	},
+	{
+		"teamRef": "spyker",
+		"color":  ""
+	},
+	{
+		"teamRef": "spyker_mf1",
+		"color":  ""
+	},
+	{
+		"teamRef": "stebro",
+		"color":  ""
+	},
+	{
+		"teamRef": "stevens",
+		"color":  ""
+	},
+	{
+		"teamRef": "stewart",
+		"color":  ""
+	},
+	{
+		"teamRef": "super_aguri",
+		"color":  ""
+	},
+	{
+		"teamRef": "surtees",
+		"color":  ""
+	},
+	{
+		"teamRef": "sutton",
+		"color":  ""
+	},
+	{
+		"teamRef": "lago",
+		"color":  ""
+	},
+	{
+		"teamRef": "team_lotus",
+		"color":  ""
+	},
+	{
+		"teamRef": "tec-mec",
+		"color":  ""
+	},
+	{
+		"teamRef": "tecno",
+		"color":  ""
+	},
+	{
+		"teamRef": "theodore",
+		"color":  ""
+	},
+	{
+		"teamRef": "token",
+		"color":  ""
+	},
+	{
+		"teamRef": "toleman",
+		"color":  ""
+	},
+	{
+		"teamRef": "toro_rosso",
+		"color":  "#D9343A"
+	},
+	{
+		"teamRef": "toyota",
+		"color":  ""
+	},
+	{
+		"teamRef": "trevis",
+		"color":  ""
+	},
+	{
+		"teamRef": "trojan",
+		"color":  ""
+	},
+	{
+		"teamRef": "turner",
+		"color":  ""
+	},
+	{
+		"teamRef": "tyrrell",
+		"color":  ""
+	},
+	{
+		"teamRef": "vanwall",
+		"color":  ""
+	},
+	{
+		"teamRef": "veritas",
+		"color":  ""
+	},
+	{
+		"teamRef": "virgin",
+		"color":  "#CA2D31"
+	},
+	{
+		"teamRef": "watson",
+		"color":  ""
+	},
+	{
+		"teamRef": "wetteroth",
+		"color":  ""
+	},
+	{
+		"teamRef": "williams",
+		"color":  "#48A1DB"
+	},
+	{
+		"teamRef": "wolf",
+		"color":  ""
+	},
+	{
+		"teamRef": "zakspeed",
+		"color":  ""
+	}
+]

@@ -1,0 +1,16 @@
+services:
+  effone-hub-graph-db:
+    container_name: effone-hub-graph-db
+    image: postgres
+    build: .
+    restart: always
+    volumes:
+    - effone-hub-graph-db-volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: effonehub
+    ports:
+    - 5432:5432
+volumes:
+  effone-hub-graph-db-volume:
+    name: effone-hub-graph-data
