@@ -5,7 +5,7 @@ import {CachePersistor, LocalStorageWrapper} from 'apollo3-cache-persist';
 import {useEffect, useState} from 'react';
 
 const cache  = new InMemoryCache();
-const client = new ApolloClient({uri: process.env.REACT_APP_GRAPHQL_API_URL, cache});
+export const client = new ApolloClient({uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL, cache});
 
 const LAST_RACE_ID_KEY = 'last-race-id';
 const lastRaceQuery    = gql`

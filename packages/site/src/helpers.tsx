@@ -1,8 +1,12 @@
-import {Result, Status} from '@gtibrett/effone-hub-graph-api';
-import {Maybe} from '@gtibrett/effone-hub-graph-api/types';
+import {Maybe, Result, Status} from '@gtibrett/effone-hub-graph-api';
 import {capitalize} from '@mui/material';
+import {useRouter} from 'next/router';
 
-export const noop                = () => null;
+export const noop = () => null;
+
+export function useSlugs<T extends {}>() {
+	return (useRouter().query || {}) as T;
+}
 
 export function getPositionTextOutcome(positionText: Result['positionText'], status: Status['status']) {
 	switch (positionText) {

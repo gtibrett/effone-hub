@@ -1,22 +1,22 @@
 {
-	"name":       "@gtibrett/effone-hub",
-	"version":    "2.0.0-alpha.0",
-	"license":    "MIT",
-	"private":    true,
+	"name": "@gtibrett/effone-hub",
+	"version": "2.0.0-alpha.0",
+	"license": "MIT",
+	"private": true,
 	"workspaces": [
 		"packages/api",
 		"packages/database",
 		"packages/site"
 	],
-	"scripts":    {
-		"start:db":  "yarn workspace @gtibrett/effone-hub-graph-db run start",
-		"stop:db":   "yarn workspace @gtibrett/effone-hub-graph-db run stop",
-		
-		"build":     "yarn workspace @gtibrett/effone-hub-graph-api @gtibrett/effone-hub-site run build",
-		
+	"scripts": {
+		"postinstall": "node ./scripts/delete-nivo-cjs.js",
+		"postupgrade": "node ./scripts/delete-nivo-cjs.js",
+		"start:db": "yarn workspace @gtibrett/effone-hub-graph-db run start",
+		"stop:db": "yarn workspace @gtibrett/effone-hub-graph-db run stop",
+		"build": "yarn workspace @gtibrett/effone-hub-graph-api @gtibrett/effone-hub-site run build",
 		"build:api": "yarn workspace @gtibrett/effone-hub-graph-api run build",
 		"start:api": "yarn workspace @gtibrett/effone-hub-graph-api run start",
-		
+		"dev:site": "yarn workspace @gtibrett/effone-hub-site run dev",
 		"build:site": "yarn workspace @gtibrett/effone-hub-site run build",
 		"start:site": "yarn workspace @gtibrett/effone-hub-site run start"
 	}

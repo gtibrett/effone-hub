@@ -20,8 +20,10 @@ yarn-debug.log*
 yarn-error.log*
 .idea/*
 
+/packages/*/.next/
 /packages/*/dist
 /packages/*/build
+/packages/*/out/
 
 /packages/api/.env
 /packages/api/configs
