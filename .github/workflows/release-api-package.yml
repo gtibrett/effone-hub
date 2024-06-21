@@ -23,7 +23,7 @@ jobs:
 
     - name: "Install"
       working-directory: ./packages/api
-      run: yarn install
+      run: yarn install --focus
 
     - name: "Build"
       working-directory: ./packages/api
