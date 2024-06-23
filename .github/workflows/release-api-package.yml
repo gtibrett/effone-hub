@@ -21,10 +21,9 @@ jobs:
     - name: "Setup NPM Registries"
       working-directory: .
       run: |
-        pwd
-        ls
-        cp .github/.npmrc ~/.npmrc
-        sed -i 's/FONT_AWESOME_KEY/${{ secrets.FONT_AWESOME_KEY }}/g' ~/.npmrc
+        echo "@gtibrett:registry=https://npm.pkg.github.com" > ~/.npmrc
+        echo "@fortawesome:registry=https://npm.fontawesome.com/" > ~/.npmrc
+        echo "//npm.fontawesome.com/:_authToken=${{ secrets.FONT_AWESOME_KEY }}" > ~/.npmrc
 
     - name: "Checkout"
       uses: actions/checkout@v4
