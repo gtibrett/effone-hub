@@ -19,7 +19,9 @@ jobs:
         registry-url: https://npm.pkg.github.com/
 
     - name: "Setup NPM Registries"
+      working-directory: .
       run: |
+        pwd
         cp .github/.npmrc ~/.npmrc
         sed -i 's/FONT_AWESOME_KEY/${{ secrets.FONT_AWESOME_KEY }}/g' ~/.npmrc
 
