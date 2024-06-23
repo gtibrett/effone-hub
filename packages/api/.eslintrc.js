@@ -28,5 +28,7 @@ module.exports = {
 	"plugins"      : [
 		"@typescript-eslint"
 	],
-	"rules"        : {}
+	"rules"        : {
+		"no-mixed-spaces-and-tabs": "off"
+	}
 };

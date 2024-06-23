@@ -18,12 +18,20 @@ jobs:
         node-version: 20
         registry-url: https://npm.pkg.github.com/
 
+    - name: "Setup .npmrc"
+      run: |
+        yarn config set npmScopes.fortawesome.npmRegistryServer "https://npm.fontawesome.com/"
+        yarn config set npmScopes.fortawesome.npmAlwaysAuth true
+        yarn config set npmScopes.fortawesome.npmAuthToken $NPM_AUTH_TOKEN
+      env:
+        NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_TOKEN }}
+
     - name: "Checkout"
       uses: actions/checkout@v4
 
     - name: "Install"
       working-directory: ./packages/api
-      run: yarn install --focus
+      run: yarn install
 
     - name: "Build"
       working-directory: ./packages/api
