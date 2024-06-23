@@ -22,6 +22,7 @@ jobs:
       working-directory: .
       run: |
         pwd
+        ls
         cp .github/.npmrc ~/.npmrc
         sed -i 's/FONT_AWESOME_KEY/${{ secrets.FONT_AWESOME_KEY }}/g' ~/.npmrc
 
