@@ -3,6 +3,8 @@
 	"version": "2.0.0-alpha",
 	"private": true,
 	"scripts": {
+		"postinstall": "node ../scripts/delete-nivo-cjs.js",
+		"postupgrade": "node ../scripts/delete-nivo-cjs.js",
 		"initgraphql": "ln -s ../api/schema.graphql .",
 		"clean": "rm -fr build",
 		"dev": "next dev",
