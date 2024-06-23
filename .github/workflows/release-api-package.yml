@@ -18,13 +18,10 @@ jobs:
         node-version: 20
         registry-url: https://npm.pkg.github.com/
 
-    - name: "Setup .npmrc"
+    - name: "Setup NPM Registries"
       run: |
-        yarn config set npmScopes.fortawesome.npmRegistryServer "https://npm.fontawesome.com/"
-        yarn config set npmScopes.fortawesome.npmAlwaysAuth true
-        yarn config set npmScopes.fortawesome.npmAuthToken $NPM_AUTH_TOKEN
-      env:
-        NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_TOKEN }}
+        cp .github/.npmrc ~/.npmrc
+        sed -i 's/FONT_AWESOME_KEY/${{ secrets.FONT_AWESOME_KEY }}/g' ~/.npmrc
 
     - name: "Checkout"
       uses: actions/checkout@v4
@@ -32,6 +29,8 @@ jobs:
     - name: "Install"
       working-directory: ./packages/api
       run: yarn install
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_PAT_TOKEN }}
 
     - name: "Build"
       working-directory: ./packages/api
