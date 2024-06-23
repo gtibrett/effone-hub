@@ -46,7 +46,8 @@
 		"copydeps": "cd dist && yarn install --production=true",
 		"postcopydeps": "rm dist/yarn.lock",
 		"copyschema": "cp src/schema.graphql dist/",
-		"prepackage": "yarn build",
+		"prepublish-package": "yarn build",
+		"publish-package": "sh ./scripts/pre-publish.sh",
 		"package": "rm effone-hub-graph-api.tgz && cd dist && tar -zcf ../effone-hub-graph-api.tgz *"
 	}
 }
