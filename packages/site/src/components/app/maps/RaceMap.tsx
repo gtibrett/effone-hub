@@ -1,5 +1,5 @@
 import {NivoTooltipFactory, RequiredByPropTypes, useNivoTheme} from '@/components/ui/nivo';
-import useComponentDimensionsWithRef from '@/components/ui/useComponentDimensionsWithRef';
+import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {GeoMapEventHandler, ResponsiveGeoMap} from '@nivo/geo';
 import {Circuit} from '@gtibrett/effone-hub-graph-api';
 import {alpha, Box, useTheme} from '@mui/material';
