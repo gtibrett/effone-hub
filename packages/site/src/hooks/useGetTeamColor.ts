@@ -1,6 +1,6 @@
 import {useFallbackColor} from '@/components/ui';
 import {useGetAccessibleColor} from '@/hooks';
-import {Team, TeamColor} from '@gtibrett/effone-hub-graph-api';
+import {Team, TeamColor} from '@/gql/graphql';
 import {useCallback} from 'react';
 
 type ColorVariants = keyof Pick<TeamColor, 'primary' | 'secondary'>

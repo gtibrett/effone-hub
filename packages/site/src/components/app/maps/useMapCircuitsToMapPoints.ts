@@ -1,4 +1,4 @@
-import {Circuit} from '@gtibrett/effone-hub-graph-api';
+import {Circuit} from '@/gql/graphql';
 import {GeoMapEventHandler} from '@nivo/geo';
 import {useRouter} from 'next/navigation';
 import {useCallback} from 'react';

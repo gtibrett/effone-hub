@@ -1,4 +1,4 @@
-import {Circuit} from '@gtibrett/effone-hub-graph-api';
+import {Circuit} from '@/gql/graphql';
 import {Link} from '@gtibrett/mui-additions';
 import {DataGrid} from '@mui/x-data-grid';
 

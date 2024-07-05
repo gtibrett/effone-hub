@@ -1,5 +1,5 @@
 import {gql, useQuery} from '@apollo/client';
-import {Season} from "@gtibrett/effone-hub-graph-api";
+import {Season} from '@/gql/graphql';
 import {alpha, FormControl, InputLabel, MenuItem, Select, useTheme} from '@mui/material';
 
 export const SeasonsQuery = gql`

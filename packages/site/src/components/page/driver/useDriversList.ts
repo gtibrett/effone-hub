@@ -1,6 +1,6 @@
 import {filterByFreeformText, filterByNumber} from '@/components/ui';
 import {useQuery} from '@apollo/client';
-import {Driver} from '@gtibrett/effone-hub-graph-api';
+import {Driver} from '@/gql/graphql';
 import {useMemo} from 'react';
 import DriversQuery from './DriversQuery';
 import {DriversListFilters} from './types';

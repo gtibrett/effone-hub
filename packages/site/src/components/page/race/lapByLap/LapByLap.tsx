@@ -1,6 +1,6 @@
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
 import {DriverId} from '@/types';
-import {Maybe} from '@gtibrett/effone-hub-graph-api/types';
+import {Maybe} from '@/gql/graphql';
 import {Box, Skeleton} from '@mui/material';
 import {ResponsiveBump} from '@nivo/bump';
 import LapByLapTooltip from './LapByLapTooltip';

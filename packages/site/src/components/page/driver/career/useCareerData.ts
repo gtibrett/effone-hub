@@ -1,5 +1,5 @@
 import {gql, useQuery} from '@apollo/client';
-import {Maybe} from '@gtibrett/effone-hub-graph-api/types';
+import {Maybe} from '@/gql/graphql';
 import {DriverPageData} from '../types';
 
 const query = gql`

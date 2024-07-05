@@ -1,5 +1,5 @@
 import {useTeam} from '@/hooks/data';
-import {Team} from '@gtibrett/effone-hub-graph-api';
+import {Team} from '@/gql/graphql';
 import {SxProps, useTheme} from '@mui/material';
 import useGetTeamColor from './useGetTeamColor';
 

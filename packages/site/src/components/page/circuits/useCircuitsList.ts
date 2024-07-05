@@ -1,6 +1,6 @@
 import {filterByFreeformText, filterByNumber} from '@/components/ui';
 import {useSuspenseQuery} from '@apollo/client';
-import {Circuit} from '@gtibrett/effone-hub-graph-api';
+import {Circuit} from '@/gql/graphql';
 import CircuitQuery from './CircuitsQuery';
 import {CircuitsListFilters} from './types';
 

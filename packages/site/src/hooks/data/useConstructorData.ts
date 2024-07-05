@@ -1,5 +1,5 @@
 import {gql, useQuery} from '@apollo/client';
-import {Driver, FinalTeamStandingsByYear, Race, Result, Team, TeamBio, TeamHistory} from '@gtibrett/effone-hub-graph-api';
+import {Driver, FinalTeamStandingsByYear, Race, Result, Team, TeamBio, TeamHistory} from '@/gql/graphql';
 
 export type DriverByYear = {
 	year: number;

@@ -1,7 +1,7 @@
 import {Flag, FlagProps} from '@/components/ui';
 import {useDriver} from '@/hooks/data';
 import {DriverId} from '@/types';
-import {Driver} from '@gtibrett/effone-hub-graph-api';
+import {Driver} from '@/gql/graphql';
 import {Link} from '@gtibrett/mui-additions';
 import {Grid, Hidden, Skeleton, Typography} from '@mui/material';
 import {memo} from 'react';

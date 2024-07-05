@@ -1,4 +1,4 @@
-import {Race} from '@gtibrett/effone-hub-graph-api';
+import {Race} from '@/gql/graphql';
 import {BumpComputedSerie, BumpDatum, BumpSerie} from '@nivo/bump';
 import {Point} from '@nivo/line';
 import {FC} from 'react';

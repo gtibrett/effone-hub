@@ -1,6 +1,6 @@
 import {DriverId} from '@/types';
 import {gql, useSuspenseQuery} from '@apollo/client';
-import {Circuit, Race} from '@gtibrett/effone-hub-graph-api';
+import {Circuit, Race} from '@/gql/graphql';
 
 type DriverResult = {
 	driverId: DriverId

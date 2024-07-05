@@ -1,6 +1,6 @@
 import {DataWithValue} from '@/components/app';
 import {DriverId} from '@/types';
-import {DriverStanding, Team, TeamStanding} from '@gtibrett/effone-hub-graph-api';
+import {DriverStanding, Team, TeamStanding} from '@/gql/graphql';
 
 export type SeasonData = {
 	year: number;

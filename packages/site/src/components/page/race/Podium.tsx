@@ -1,4 +1,4 @@
-import {Result} from '@gtibrett/effone-hub-graph-api';
+import {Result} from '@/gql/graphql';
 import {Grid} from '@mui/material';
 import Place from './Place';
 

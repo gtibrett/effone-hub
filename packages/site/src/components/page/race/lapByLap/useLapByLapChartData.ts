@@ -1,8 +1,8 @@
 import {useGetAccessibleColor, useGetTeamColor} from '@/hooks';
 import {DriverId} from '@/types';
 import {gql, useQuery} from '@apollo/client';
-import {Driver, LapTime, Result} from '@gtibrett/effone-hub-graph-api';
-import {Maybe} from '@gtibrett/effone-hub-graph-api/types';
+import {Driver, LapTime, Result} from '@/gql/graphql';
+import {Maybe} from '@/gql/graphql';
 import {useMemo} from 'react';
 import {LapChartSeries} from './LapByLap';
 

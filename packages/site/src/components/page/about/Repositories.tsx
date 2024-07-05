@@ -20,7 +20,7 @@ const Repositories = () => (
 					<ListItemIcon><FontAwesomeIcon icon={faGithub}/></ListItemIcon>
 					<ListItemText
 						primary={<Link href="https://github.com/gtibrett/effone-hub-graph">effone-hub-graph <OpensInNewWindow/></Link>}
-						secondary="A GraphQL implementation of the Ergast API. Still a work in progress."
+						secondary="A GraphQL implementation of the Ergast API. Now deprecated."
 					/>
 				</ListItem>
 				<ListItem>

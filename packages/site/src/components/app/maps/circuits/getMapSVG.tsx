@@ -1,4 +1,4 @@
-import {Circuit} from '@gtibrett/effone-hub-graph-api';
+import {Circuit} from '@/gql/graphql';
 import {SVGProps} from 'react';
 import {AlbertPark, Americas, Bahrain, Baku, Catalunya, Estoril, Hungaroring, Imola, Interlagos, Jeddah, Losail, MarinaBay, Miami, Monaco, Monza, RedBullRing, Ricard, Rodriguez, Shanghai, Silverstone, Sochi, Spa, Suzuka, Villeneuve, YasMarina, Zandvoort} from './index';
 

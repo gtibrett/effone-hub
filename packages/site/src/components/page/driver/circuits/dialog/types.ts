@@ -1,4 +1,4 @@
-import {Circuit, Driver} from '@gtibrett/effone-hub-graph-api';
+import {Circuit, Driver} from '@/gql/graphql';
 
 export type CircuitData = Pick<Circuit,
 	'circuitId' |

@@ -1,6 +1,6 @@
 import {DriverByLine} from '@/components/app';
 import {QueryResult} from '@apollo/client/react/types/types';
-import {DriverStandingsBySeason} from '@gtibrett/effone-hub-graph-api';
+import {DriverStandingsBySeason} from '@/gql/graphql';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';

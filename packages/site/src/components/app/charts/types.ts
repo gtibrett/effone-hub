@@ -1,4 +1,4 @@
-import {Team, TeamColor} from '@gtibrett/effone-hub-graph-api';
+import {Team, TeamColor} from '@/gql/graphql';
 import {Datum, Serie} from '@nivo/line';
 import {ReactNode} from 'react';
 

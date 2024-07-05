@@ -1,5 +1,5 @@
 import {getDateWithTime} from '@/helpers';
-import {Race} from '@gtibrett/effone-hub-graph-api';
+import {Race} from '@/gql/graphql';
 import {Card, Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material';
 import useRaceScheduleEvents, {ScheduleEvent} from './useRaceScheduleEvents';
 

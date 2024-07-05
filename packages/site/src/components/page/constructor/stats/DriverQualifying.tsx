@@ -1,7 +1,7 @@
 import {StatCard} from '@/components/app';
 import {DriverId} from '@/types';
 import {gql, useQuery} from '@apollo/client';
-import {Team} from '@gtibrett/effone-hub-graph-api';
+import {Team} from '@/gql/graphql';
 
 type Data = {
 	races: {
@@ -18,7 +18,7 @@ type Data = {
 }
 
 const query = gql`
-	query driverSeasonStatsByConstructor($season: Int!) {
+	query driverQualifying($season: Int!) {
 		races (condition: {year: $season},orderBy: ROUND_ASC) {
 			qualifyings (orderBy: POSITION_ASC) {
 				driverId

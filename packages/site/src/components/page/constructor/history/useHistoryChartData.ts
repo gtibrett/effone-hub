@@ -1,6 +1,6 @@
 import {useGetTeamColor} from '@/hooks';
 import {QueryResult} from '@apollo/client/react/types/types';
-import {Team} from '@gtibrett/effone-hub-graph-api';
+import {Team} from '@/gql/graphql';
 import {Serie as LineSerie} from '@nivo/line';
 import {ConstructorPageData, TeamStandingData} from '../types';
 
