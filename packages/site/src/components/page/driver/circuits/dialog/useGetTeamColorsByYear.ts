@@ -1,5 +1,5 @@
 import {useGetTeamColor} from '@/hooks';
-import {Driver} from '@gtibrett/effone-hub-graph-api';
+import {Driver} from '@/gql/graphql';
 import {useCallback} from 'react';
 
 type ColorsByYear = {

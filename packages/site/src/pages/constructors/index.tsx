@@ -2,8 +2,8 @@ import {useAppState} from '@/components/app';
 import {ConstructorsFilters, ConstructorsList, ConstructorsListFilters, useConstructorsList} from '@/components/page/constructor';
 import {Page} from '@/components/ui';
 import {setPageTitle} from '@gtibrett/mui-additions';
-import {Card, CardContent} from '@mui/material';
-import {useState} from 'react';
+import {Card, CardContent, Skeleton} from '@mui/material';
+import {Suspense, useState} from 'react';
 
 export default function Drivers() {
 	setPageTitle('Constructors');
@@ -17,14 +17,14 @@ export default function Drivers() {
 	
 	return (
 		<Page title="Constructors">
-			{
+			<Suspense fallback={<Skeleton variant="rectangular" height="60vh"/>}>
 				<Card>
 					<ConstructorsFilters filters={filters} setFilters={setFilters}/>
 					<CardContent>
 						<ConstructorsList loading={loading} teams={data}/>
 					</CardContent>
 				</Card>
-			}
+			</Suspense>
 		</Page>
 	);
 }

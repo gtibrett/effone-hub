@@ -1,5 +1,5 @@
-import {Race} from '@gtibrett/effone-hub-graph-api';
-import {Maybe} from '@gtibrett/effone-hub-graph-api/types';
+import {Race} from '@/gql/graphql';
+import {Maybe} from '@/gql/graphql';
 
 export type ScheduleEvent = {
 	label: string;

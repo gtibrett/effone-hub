@@ -1,6 +1,6 @@
 import {filterByFreeformText, filterByNumber} from '@/components/ui';
 import {useQuery} from '@apollo/client';
-import {Team} from '@gtibrett/effone-hub-graph-api';
+import {Team} from '@/gql/graphql';
 import ConstructorsQuery from './ConstructorsQuery';
 import {ConstructorsListFilters} from './types';
 

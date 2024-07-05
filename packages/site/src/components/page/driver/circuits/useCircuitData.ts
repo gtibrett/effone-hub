@@ -1,6 +1,6 @@
 import {gql, useQuery} from '@apollo/client';
 import {QueryResult} from '@apollo/client/react/types/types';
-import {Circuit, Result} from '@gtibrett/effone-hub-graph-api';
+import {Circuit, Result} from '@/gql/graphql';
 import {DriverPageData} from '../types';
 
 export type CircuitWithResults = Pick<Circuit, 'circuitId' | 'circuitRef' | 'name' | 'lng' | 'lat'> & {

@@ -1,7 +1,7 @@
 import '@/polyfills';
 import {DataWithTeamInfo} from '@/components/app';
 import {useGetTeamColor} from '@/hooks';
-import {Maybe} from '@gtibrett/effone-hub-graph-api';
+import {Maybe} from '@/gql/graphql';
 import useCareerData from './useCareerData';
 
 export default function useCareerChartDataWithTeam(driverId?: Maybe<number>) {

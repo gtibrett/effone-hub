@@ -1,4 +1,4 @@
-import {Driver, DriverStanding, Race, Result, Team} from '@gtibrett/effone-hub-graph-api';
+import {Driver, DriverStanding, Race, Result, Team} from '@/gql/graphql';
 
 export type DriverData = Pick<Driver,
 	'driverId' |

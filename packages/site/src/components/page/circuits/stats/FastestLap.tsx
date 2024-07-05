@@ -1,7 +1,7 @@
 import {StatCard} from '@/components/app';
 import {getTimeStringFromDate} from '@/helpers';
 import {CircuitDataProps} from '@/hooks/data';
-import {Maybe} from '@gtibrett/effone-hub-graph-api';
+import {Maybe} from '@/gql/graphql';
 
 export default function FastestLap({data, loading}: CircuitDataProps) {
 	const fastestLaps: Map<number, Maybe<number>> = new Map<number, Maybe<number>>(

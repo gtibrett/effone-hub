@@ -1,5 +1,5 @@
 import {gql, useQuery} from '@apollo/client';
-import {Result} from '@gtibrett/effone-hub-graph-api';
+import {Result} from '@/gql/graphql';
 import {DriverId} from '@/types';
 
 type Data = {

@@ -2,7 +2,7 @@ import {useDarkMode} from '@/components/ui';
 import {useCircuitByRef} from '@/hooks/data';
 import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Circuit} from '@gtibrett/effone-hub-graph-api';
+import {Circuit} from '@/gql/graphql';
 import {Box, Grid, SxProps, ToggleButton, ToggleButtonGroup, useTheme} from '@mui/material';
 import {blue, red, yellow} from '@mui/material/colors';
 import {SVGProps, SyntheticEvent, useState} from 'react';

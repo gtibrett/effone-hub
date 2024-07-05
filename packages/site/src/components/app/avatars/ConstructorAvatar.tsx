@@ -2,7 +2,7 @@ import {AvatarSizes, useAvatarSize, useGetTeamColor} from '@/hooks';
 import {useTeam} from '@/hooks/data';
 import {faIndustry} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Team} from '@gtibrett/effone-hub-graph-api';
+import {Team} from '@/gql/graphql';
 import {Avatar, useTheme} from '@mui/material';
 
 export type ConstructorAvatarProps = {

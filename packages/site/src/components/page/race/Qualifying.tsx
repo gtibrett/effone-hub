@@ -1,6 +1,6 @@
 import {ConstructorByLine, DriverByLine} from '@/components/app';
 import {gql, useQuery} from '@apollo/client';
-import {Race} from '@gtibrett/effone-hub-graph-api';
+import {Race} from '@/gql/graphql';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 

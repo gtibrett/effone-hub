@@ -4,7 +4,7 @@ import {useDriver, useTeam} from '@/hooks/data';
 import {IconDefinition} from '@fortawesome/fontawesome-svg-core';
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Maybe} from '@gtibrett/effone-hub-graph-api/types';
+import {Maybe} from '@/gql/graphql';
 import {Link} from '@gtibrett/mui-additions';
 import {Box, Card, CardProps, Grid, Typography, useTheme} from '@mui/material';
 import {ReactNode} from 'react';

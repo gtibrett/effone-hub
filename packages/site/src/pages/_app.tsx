@@ -7,6 +7,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 import {Layout} from '@/components/app';
 import {config} from '@fortawesome/fontawesome-svg-core';
 import {AppCacheProvider} from '@mui/material-nextjs/v14-pagesRouter';
+import {GoogleAnalytics} from '@next/third-parties/google';
 import {FC} from 'react';
 
 config.autoAddCss = false;
@@ -22,6 +23,7 @@ export default function App({Component, pageProps}: AppProps) {
 			<Layout>
 				<Component {...pageProps} />
 			</Layout>
+			{process.env.NEXT_PUBLIC_GA_TRACKING_ID && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_TRACKING_ID}/>}
 		</AppCacheProvider>
 	);
 }

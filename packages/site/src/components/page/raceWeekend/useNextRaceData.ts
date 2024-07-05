@@ -1,5 +1,5 @@
 import {gql, useSuspenseQuery} from '@apollo/client';
-import {Season} from '@gtibrett/effone-hub-graph-api';
+import {Season} from '@/gql/graphql';
 
 export type NextRaceData = {
 	season: Pick<Season, 'nextRace'>

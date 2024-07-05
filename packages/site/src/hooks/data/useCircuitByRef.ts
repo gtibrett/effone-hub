@@ -1,6 +1,6 @@
 import {gql, useQuery} from '@apollo/client';
 import {QueryResult} from '@apollo/client/react/types/types';
-import {Circuit as CircuitT, Race, Result} from '@gtibrett/effone-hub-graph-api';
+import {Circuit as CircuitT, Race, Result} from '@/gql/graphql';
 
 const CircuitQuery = gql`
 	query CircuitQuery($circuitRef: String!, $showCurrentSeason: Boolean!, $season: Int) {

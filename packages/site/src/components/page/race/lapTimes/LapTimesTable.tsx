@@ -2,7 +2,7 @@ import {DriverByLine} from '@/components/app';
 import {getTimeStringFromDate} from '@/helpers';
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {LapTime} from '@gtibrett/effone-hub-graph-api';
+import {LapTime} from '@/gql/graphql';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useMemo} from 'react';
 import {LapByLapData, useLapByLapData} from '../lapByLap/useLapByLapChartData';

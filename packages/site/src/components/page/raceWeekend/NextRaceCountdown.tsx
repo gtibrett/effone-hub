@@ -1,5 +1,5 @@
 import '@/polyfills';
-import {Race} from '@gtibrett/effone-hub-graph-api';
+import {Race} from '@/gql/graphql';
 import {Card, SxProps, useTheme} from '@mui/material';
 import {PaletteColor} from '@mui/material/styles/createPalette';
 import CountdownClock from './CountdownClock';

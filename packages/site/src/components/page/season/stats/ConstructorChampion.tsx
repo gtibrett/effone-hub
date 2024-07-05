@@ -1,6 +1,6 @@
 import {StatCard, useAppState} from '@/components/app';
 import {gql, useQuery} from '@apollo/client';
-import {Team} from '@gtibrett/effone-hub-graph-api';
+import {Team} from '@/gql/graphql';
 
 type Data = {
 	finalTeamStandingsByYears: {

@@ -1,6 +1,6 @@
 import {useGetTeamColor} from '@/hooks';
 import {gql, useSuspenseQuery} from '@apollo/client';
-import {Race, Team} from '@gtibrett/effone-hub-graph-api';
+import {Race, Team} from '@/gql/graphql';
 import {useCallback} from 'react';
 import {Entity, RaceStandingsWithEntities} from '../charts';
 

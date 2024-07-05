@@ -19,12 +19,10 @@ export default function Index() {
 		<Page title="Circuits">
 			<Suspense fallback={<Skeleton variant="rectangular" height="60vh"/>}>
 				<Card>
-					
 					<CircuitsFilters filters={filters} setFilters={setFilters}/>
 					<CardContent>
 						<CircuitsList circuits={data}/>
 					</CardContent>
-				
 				</Card>
 			</Suspense>
 		</Page>

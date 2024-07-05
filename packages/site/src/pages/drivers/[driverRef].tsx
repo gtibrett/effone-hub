@@ -4,7 +4,7 @@ import {Flag, Page, WikipediaLink} from '@/components/ui';
 import {useSlugs} from '@/helpers';
 import {useGetTeamColor} from '@/hooks';
 import {useDriver} from '@/hooks/data';
-import {Driver as DriverT} from '@gtibrett/effone-hub-graph-api';
+import {Driver as DriverT} from '@/gql/graphql';
 import {setPageTitle, Tabs} from '@gtibrett/mui-additions';
 import {Card, CardContent, CardMedia, Divider, Grid, Hidden, Skeleton, Typography, useTheme} from '@mui/material';
 

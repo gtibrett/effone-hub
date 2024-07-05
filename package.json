@@ -4,7 +4,6 @@
 	"license": "MIT",
 	"private": true,
 	"workspaces": [
-		"packages/api",
 		"packages/database",
 		"packages/site"
 	],
@@ -13,9 +12,7 @@
 		"postupgrade": "node ./scripts/delete-nivo-cjs.js",
 		"start:db": "yarn workspace @gtibrett/effone-hub-graph-db run start",
 		"stop:db": "yarn workspace @gtibrett/effone-hub-graph-db run stop",
-		"build": "yarn workspace @gtibrett/effone-hub-graph-api @gtibrett/effone-hub-site run build",
-		"build:api": "yarn workspace @gtibrett/effone-hub-graph-api run build",
-		"start:api": "yarn workspace @gtibrett/effone-hub-graph-api run start",
+		"build": "yarn workspace @gtibrett/effone-hub-site run build",
 		"dev:site": "yarn workspace @gtibrett/effone-hub-site run dev",
 		"build:site": "yarn workspace @gtibrett/effone-hub-site run build",
 		"start:site": "yarn workspace @gtibrett/effone-hub-site run start"

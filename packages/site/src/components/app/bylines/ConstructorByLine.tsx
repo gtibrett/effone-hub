@@ -1,6 +1,6 @@
 import {useTeam} from '@/hooks/data';
 import {TeamId} from '@/types';
-import {Team} from '@gtibrett/effone-hub-graph-api';
+import {Team} from '@/gql/graphql';
 import {Link} from '@gtibrett/mui-additions';
 import {Skeleton} from '@mui/material';
 import {ReactNode} from 'react';

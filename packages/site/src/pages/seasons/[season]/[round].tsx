@@ -4,7 +4,7 @@ import {FastestLap, LapLeader, Pole, PositionsGained} from '@/components/page/ra
 import {OpenAILink, Page, WikipediaLink} from '@/components/ui';
 import {useSlugs} from '@/helpers';
 import {gql, useQuery} from '@apollo/client';
-import {Race as RaceT} from '@gtibrett/effone-hub-graph-api';
+import {Race as RaceT} from '@/gql/graphql';
 import {Link, setPageTitle, TabContent, Tabs} from '@gtibrett/mui-additions';
 import {Backdrop, Box, Card, CardContent, CardHeader, CardMedia, Grid, Hidden, Typography} from '@mui/material';
 

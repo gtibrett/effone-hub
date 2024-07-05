@@ -1,5 +1,5 @@
 import {ConstructorByLine} from '@/components/app';
-import {Driver} from '@gtibrett/effone-hub-graph-api';
+import {Driver} from '@/gql/graphql';
 import {Link, useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {Alert, Grid, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';

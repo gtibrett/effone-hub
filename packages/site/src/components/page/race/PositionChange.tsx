@@ -1,6 +1,6 @@
 import {faArrowDown, faArrowUp} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Result} from '@gtibrett/effone-hub-graph-api';
+import {Result} from '@/gql/graphql';
 import {Typography} from '@mui/material';
 import {green, red} from '@mui/material/colors';
 

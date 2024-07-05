@@ -1,6 +1,6 @@
 import {RaceMap, useMapCircuitsToMapPoints} from '@/components/app';
 import {getTimeStringFromDate} from '@/helpers';
-import {Driver} from '@gtibrett/effone-hub-graph-api';
+import {Driver} from '@/gql/graphql';
 import {Alert, Card, Grid, Link} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import {useState} from 'react';

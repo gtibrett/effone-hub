@@ -1,4 +1,4 @@
-import {Circuit} from '@gtibrett/effone-hub-graph-api';
+import {Circuit} from '@/gql/graphql';
 
 export type Point = {
 	id: string | number;

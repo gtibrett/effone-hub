@@ -1,7 +1,7 @@
 import {DataWithValue, StatCard} from '@/components/app';
 import {getTimeStringFromDate} from '@/helpers';
 import {gql, useQuery} from '@apollo/client';
-import {LapTime, Race} from '@gtibrett/effone-hub-graph-api';
+import {LapTime, Race} from '@/gql/graphql';
 import {Typography} from '@mui/material';
 import {SeasonStatProps} from './types';
 

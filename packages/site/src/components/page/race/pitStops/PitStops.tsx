@@ -2,7 +2,7 @@ import {DriverByLine} from '@/components/app';
 import {getTimeStringFromDate} from '@/helpers';
 import {useGetTeamColor} from '@/hooks';
 import {gql, useQuery} from '@apollo/client';
-import {Driver, PitStop, Race, TeamColor} from '@gtibrett/effone-hub-graph-api';
+import {Driver, PitStop, Race, TeamColor} from '@/gql/graphql';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useCallback} from 'react';

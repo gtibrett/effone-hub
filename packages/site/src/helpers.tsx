@@ -1,4 +1,4 @@
-import {Maybe, Result, Status} from '@gtibrett/effone-hub-graph-api';
+import {Maybe, Result, Status} from '@/gql/graphql';
 import {capitalize} from '@mui/material';
 import {useRouter} from 'next/router';
 

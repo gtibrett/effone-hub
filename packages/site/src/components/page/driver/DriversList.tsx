@@ -1,6 +1,6 @@
 import {DriverAvatar, DriverByLine} from '@/components/app';
 import {Flag} from '@/components/ui';
-import {Driver} from '@gtibrett/effone-hub-graph-api';
+import {Driver} from '@/gql/graphql';
 import {Grid, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';

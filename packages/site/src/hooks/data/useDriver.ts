@@ -1,5 +1,5 @@
 import {gql, useQuery} from '@apollo/client';
-import {Driver, Maybe} from '@gtibrett/effone-hub-graph-api';
+import {Driver, Maybe} from '@/gql/graphql';
 
 const DriverFields = gql`
 	fragment DriverFields on Driver {

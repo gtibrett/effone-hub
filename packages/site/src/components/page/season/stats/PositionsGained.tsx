@@ -1,6 +1,6 @@
 import {StatCard} from '@/components/app';
 import {gql, useQuery} from '@apollo/client';
-import {Result} from '@gtibrett/effone-hub-graph-api';
+import {Result} from '@/gql/graphql';
 import {SeasonStatProps} from './index';
 
 type Data = {
