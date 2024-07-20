@@ -1,6 +1,6 @@
 import {ChartSwitcher, ChartSwitcherChart} from '@/components/app';
-import {Button, Skeleton} from '@mui/material';
-import {memo, Suspense, useState} from 'react';
+import {Button} from '@mui/material';
+import {memo, useState} from 'react';
 import {DriverChampion} from '../../stats';
 import {PointsChart, PositionsChart} from '../charts';
 import DriverStandingsDialog from './DriverStandingsDialog';
@@ -42,14 +42,12 @@ function DriversStandings({season}: DriversStandingsProps) {
 	];
 	
 	return (
-		<Suspense fallback={<Skeleton variant="rectangular" height={height + 182}/>}>
-			<ChartSwitcher
-				title="Driver's Standings"
-				charts={charts} size={height}
-				subheader={<DriverChampion season={season}/>}
-				actions={<DriversStandingsActions season={season}/>}
-			/>
-		</Suspense>
+		<ChartSwitcher
+			title="Driver's Standings"
+			charts={charts} size={height}
+			subheader={<DriverChampion season={season}/>}
+			actions={<DriversStandingsActions season={season}/>}
+		/>
 	);
 }
 

@@ -4,8 +4,8 @@ import {NormalizedCacheObject} from '@apollo/client/cache/inmemory/types';
 import {CachePersistor, LocalStorageWrapper} from 'apollo3-cache-persist';
 import {useEffect, useState} from 'react';
 
-const cache  = new InMemoryCache();
-export const client = new ApolloClient({uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL, cache});
+const cache               = new InMemoryCache();
+export const apolloClient = new ApolloClient({uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL, cache});
 
 const LAST_RACE_ID_KEY = 'last-race-id';
 const lastRaceQuery    = gql`
@@ -27,9 +27,9 @@ function setupApollo() {
 		cache: ApolloCache<NormalizedCacheObject>,
 		persistor: CachePersistor<any>
 	}>((resolve, reject) => {
-		client.query({query: lastRaceQuery})
-		      .then(result => result.data.results.length ? result.data.results[0].raceId : 0)
-		      .then(lastRaceId => {
+		apolloClient.query({query: lastRaceQuery})
+		            .then(result => result.data.results.length ? result.data.results[0].raceId : 0)
+		            .then(lastRaceId => {
 			      const persistor         = new CachePersistor({
 				      cache,
 				      storage: new LocalStorageWrapper(window.localStorage)
@@ -45,7 +45,7 @@ function setupApollo() {
 				               .then(() => resolve({cache, persistor}));
 			      }
 		      })
-		      .catch(error => reject(error));
+		            .catch(error => reject(error));
 	});
 }
 
@@ -67,5 +67,5 @@ export default function useApolloClient(): ApolloState {
 		
 	}, [persisted]);
 	
-	return {client, ready: persisted, error};
+	return {client: apolloClient, ready: persisted, error};
 }

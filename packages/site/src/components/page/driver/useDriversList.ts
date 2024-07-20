@@ -1,15 +1,13 @@
 import {filterByFreeformText, filterByNumber} from '@/components/ui';
-import {useQuery} from '@apollo/client';
 import {Driver} from '@/gql/graphql';
+import {useSuspenseQuery} from '@apollo/client';
 import {useMemo} from 'react';
 import DriversQuery from './DriversQuery';
 import {DriversListFilters} from './types';
 
-export default function useDriversList(filters: DriversListFilters) {
-	const {data, loading} = useQuery<{ drivers: Driver[] }>(DriversQuery);
-	
+export default function useDriversList(unfilteredDrivers: Driver[], filters: DriversListFilters) {
 	return useMemo(() => {
-		let drivers = data?.drivers || [];
+		let drivers = unfilteredDrivers || [];
 		if (filters.season > 0) {
 			drivers = filterByNumber<Driver>(drivers, filters.season, (season, d) => d.teamsByYear.filter(s => s.year === season).length > 0);
 		}
@@ -22,6 +20,6 @@ export default function useDriversList(filters: DriversListFilters) {
 			drivers = filterByFreeformText(drivers, filters.nationality, ['nationality']);
 		}
 		
-		return {data: drivers, loading};
-	}, [data?.drivers, filters, loading]);
+		return drivers;
+	}, [unfilteredDrivers, filters]);
 }

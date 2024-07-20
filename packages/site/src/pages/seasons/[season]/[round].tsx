@@ -2,98 +2,20 @@ import {RaceMap, useMapSeasonRacesToMapPoints} from '@/components/app';
 import {Laps, PitStops, Qualifying, Results, SprintResults} from '@/components/page/race';
 import {FastestLap, LapLeader, Pole, PositionsGained} from '@/components/page/race/stats';
 import {OpenAILink, Page, WikipediaLink} from '@/components/ui';
-import {useSlugs} from '@/helpers';
-import {gql, useQuery} from '@apollo/client';
-import {Race as RaceT} from '@/gql/graphql';
+import {Race} from '@/gql/graphql';
+import useRace from '@/hooks/data/useRace';
+import {apolloClient} from '@/useApolloClient';
+import {gql} from '@apollo/client';
 import {Link, setPageTitle, TabContent, Tabs} from '@gtibrett/mui-additions';
-import {Backdrop, Box, Card, CardContent, CardHeader, CardMedia, Grid, Hidden, Typography} from '@mui/material';
+import {Box, Card, CardContent, CardHeader, CardMedia, Grid, Hidden, Typography} from '@mui/material';
 
-const raceQuery = gql`
-	#graphql
-	query raceBySeasonRound($season: Int!, $round: Int!) {
-		races(condition: { year: $season, round: $round }) {
-			name
-			date
-			round
-			url
-			summary {
-				extract
-			}
-			circuit {
-				circuitRef
-				name
-				location
-				country
-				lat
-				lng
-				circuitDescription {
-					description
-				}
-			}
-			results {
-				driver {
-					driverId
-				}
-				teamId
-				grid
-				position
-				positionText
-				positionOrder
-				points
-				laps
-				time
-				milliseconds
-				fastestLap
-				rank
-				fastestLapTime
-				status {
-					status
-				}
-			}
-			sprintResults {
-				driver {
-					driverId
-				}
-				teamId
-				grid
-				position
-				positionText
-				positionOrder
-				points
-				laps
-				time
-				milliseconds
-				fastestLap
-				fastestLapTime
-				status {
-					status
-				}
-			}
-		}
-	}
-`;
-
-export default function Race() {
+export default function Round(props: { season: string, round: string }) {
+	const season                   = Number(props.season);
+	const round                    = Number(props.round);
 	const mapSeasonRacesToFeatures = useMapSeasonRacesToMapPoints();
-	const params                   = useSlugs<{ season: string, round: string }>();
-	const season                   = Number(params.season);
-	const round                    = Number(params.round);
-	
-	const {data} = useQuery<{
-		races: RaceT[]
-	}>(raceQuery, {variables: {season: season, round: round}});
-	
-	if (!season || !round) {
-		throw new Error('Page Not found');
-	}
-	
-	const race: RaceT | undefined = data?.races[0];
+	const race                     = useRace(season, round);
 	
 	setPageTitle(race ? `Race: ${season} ${race.name}` : 'Race not found');
-	
-	if (!race) {
-		return <Backdrop open/>;
-	}
 	
 	const circuitDescription            = race?.circuit?.circuitDescription?.description || '';
 	const hasResults                    = Number(race.results.length) > 0;
@@ -201,4 +123,31 @@ export default function Race() {
 			</Grid>
 		</Page>
 	);
+}
+
+export async function getStaticProps({params: {season, round}}: { params: { season: string, round: string, race: Race } }) {
+	return {
+		props: {
+			season, round
+		}
+	};
+}
+
+const AllRacesQuery = gql`
+	query AllRacesQuery {
+		races {
+			year
+			round
+		}
+	}
+`;
+
+export async function getStaticPaths() {
+	const {data: {races}} = await apolloClient.query<{ races: Race[] }>({query: AllRacesQuery});
+	
+	const paths = races.map(race => ({
+		params: {season: race.year?.toString(), round: race.round?.toString()}
+	}));
+	
+	return {paths, fallback: false};
 }

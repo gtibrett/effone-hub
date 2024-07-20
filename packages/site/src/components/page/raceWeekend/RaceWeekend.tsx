@@ -1,8 +1,6 @@
-'use client';
 import {useEffTheme, WikipediaLink} from '@/components/ui';
 import {getDateWithTime} from '@/helpers';
-import {alpha, Box, Card, CardActions, CardContent, CardHeader, Grid, Skeleton, ThemeProvider, Typography} from '@mui/material';
-import {Suspense} from 'react';
+import {alpha, Box, Card, CardActions, CardContent, CardHeader, Grid, ThemeProvider, Typography} from '@mui/material';
 import NextRaceCountdown from './NextRaceCountdown';
 import NextRaceSchedule from './NextRaceSchedule';
 import useNextRaceData from './useNextRaceData';
@@ -15,9 +13,8 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 	const darkTheme  = useEffTheme('dark');
 	const lightTheme = useEffTheme('light');
 	
-	let content;
 	if (!race) {
-		content = null;
+		return null;
 	} else {
 		const sx       = {
 			background:      lightTheme.palette.secondary.main,
@@ -42,7 +39,7 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 		};
 		const raceDate = new Date(`${race.date}T${race.time}`);
 		
-		content = (
+		return (
 			<Grid item xs={12} md={12}>
 				<ThemeProvider theme={darkTheme}>
 					<Card sx={sx} id="next-race-weekend">
@@ -64,10 +61,4 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 			</Grid>
 		);
 	}
-	
-	return (
-		<Suspense fallback={<Grid item xs={12} md={12}><Skeleton variant="rectangular" height={280}/></Grid>}>
-			{content}
-		</Suspense>
-	);
-}
+};

@@ -1,5 +1,6 @@
-import {gql, useQuery} from '@apollo/client';
 import {Team} from '@/gql/graphql';
+import {gql, useLazyQuery} from '@apollo/client';
+import {useMemo} from 'react';
 
 const ConstructorFields = gql`
 	fragment ConstructorFields on Team {
@@ -32,14 +33,20 @@ const query = gql`
 `;
 
 
-export default function useTeam(teamIdOrRef?: Team['teamId'] | Team['constructorRef']): { team?: Team, loading: boolean } {
+export default function useTeam(teamIdOrRef?: Team['teamId'] | Team['constructorRef']): { team?: Team } {
 	const variables = {
 		teamId:            typeof teamIdOrRef === 'number' ? teamIdOrRef : undefined,
 		constructorRef:    typeof teamIdOrRef === 'string' ? teamIdOrRef : undefined,
 		useConstructorRef: typeof teamIdOrRef === 'string'
 	};
 	
-	const {data, loading} = useQuery<{ teamById: Team, teamByRef: Team }>(query, {variables});
+	const [loadTeam, {called, loading, data}] = useLazyQuery<{ teamById: Team, teamByRef: Team }>(query, {variables});
 	
-	return {team: data?.teamById || data?.teamByRef || undefined, loading};
+	return useMemo(() => {
+		if (!called) {
+			loadTeam();
+		}
+		
+		return {team: data?.teamById || data?.teamByRef || undefined};
+	}, [called, data, loadTeam]);
 }

@@ -33,7 +33,6 @@ export default function LapTimesByYearSwarm({data, loading}: LapTimesChartProps)
 		<Box sx={{height: '60vh', width: '100%'}} aria-hidden>
 			<ResponsiveSwarmPlot
 				theme={nivoTheme}
-				animate={false}
 				data={chartData}
 				groups={years}
 				colors={({data}) => data.color}
