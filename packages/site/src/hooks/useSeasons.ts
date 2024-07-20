@@ -2,7 +2,7 @@ import {ApolloError, gql, useQuery} from '@apollo/client';
 import {Season} from '@/gql/graphql';
 import {useMemo} from 'react';
 
-const SeasonsListQuery = gql`
+export const SeasonsListQuery = gql`
 	query SeasonsListQuery {
 		seasons {
 			year

@@ -1,14 +1,19 @@
+import {useCircuitsList} from '@/components/page/circuits/index';
+import {CircuitsListFilters} from '@/components/page/circuits/types';
 import {Circuit} from '@/gql/graphql';
 import {Link} from '@gtibrett/mui-additions';
 import {DataGrid} from '@mui/x-data-grid';
 
 type CircuitsListProps = {
 	circuits: Circuit[];
+	filters: CircuitsListFilters
 }
 
-export default function CircuitsList({circuits}: CircuitsListProps) {
+export default function CircuitsList({circuits, filters}: CircuitsListProps) {
+	const filteredCircuits = useCircuitsList(circuits, filters);
+	
 	return <DataGrid
-		rows={circuits}
+		rows={filteredCircuits}
 		autoHeight
 		density="compact"
 		getRowId={c => c.circuitId}

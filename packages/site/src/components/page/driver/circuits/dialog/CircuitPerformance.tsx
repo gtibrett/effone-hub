@@ -61,7 +61,6 @@ export default function CircuitPerformance({data, loading}: CircuitPerformancePr
 				colors={[color]}
 				blendMode="normal"
 				fillOpacity={.5}
-				animate={false}
 			/>
 		</Paper>
 	);

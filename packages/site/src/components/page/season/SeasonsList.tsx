@@ -47,11 +47,9 @@ const renderPlaceFactory = (place: number, variant: PlaceVariant = 'driver'): Gr
 	}
 );
 
-export type SeasonsListProps = {
-	seasons: SeasonData[];
-}
 
-export default function SeasonsList({seasons}: SeasonsListProps) {
+export default function SeasonsList({seasons}: { seasons: SeasonData[] }) {
+	
 	return (
 		<Suspense fallback={<Skeleton variant="rectangular" height="60vh"/>}>
 			<DataGrid

@@ -80,7 +80,16 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 						}
 					}
 				},
-				MuiDataGrid:     {
+				MuiDataGrid: {
+					defaultProps: {
+							slotProps: {
+								loadingOverlay: {
+									//@ts-ignore
+									variant:       'linear-progress',
+									noRowsVariant: 'skeleton'
+								}
+							}
+					},
 					styleOverrides: {
 						root: {
 							border: 0,

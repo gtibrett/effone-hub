@@ -27,7 +27,6 @@ export default function CareerBreakdownChart({driverId, season}: CareerBreakdown
 		<ResponsiveBar<BreakdownDatum>
 			theme={nivoTheme}
 			layout={isSingleSeason ? 'horizontal' : 'vertical'}
-			animate={false}
 			indexBy="year"
 			keys={[...keys].map(k => `${k}Percentage`).reverse()}
 			data={chartData}

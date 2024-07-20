@@ -1,5 +1,6 @@
-import {gql, useQuery} from '@apollo/client';
+import {gql, useLazyQuery, useQuery} from '@apollo/client';
 import {Driver, Maybe} from '@/gql/graphql';
+import {useMemo} from 'react';
 
 const DriverFields = gql`
 	fragment DriverFields on Driver {
@@ -61,20 +62,26 @@ export default function useDriver(driverIdOrRef?: Maybe<Driver['driverId']> | Ma
 		useDriverRef: typeof driverIdOrRef === 'string'
 	};
 	
-	const {data} = useQuery<{ driverById: Driver, driverByRef: Driver }>(query, {variables});
+	const [loadDriver, {called, loading, data}] = useLazyQuery<{ driverById: Driver, driverByRef: Driver }>(query, {variables});
 	
-	if (!data?.driverById && !data?.driverByRef) {
-		return undefined;
-	}
-	
-	const driverData = data.driverById || data.driverByRef;
-	
-	if (!driverData.code) {
-		return {
-			...driverData,
-			code: (driverData?.surname || '').replace(/[^a-z]/i, '').substring(0, 3).toUpperCase()
-		};
-	}
-	
-	return driverData;
+	return useMemo(()=> {
+		if (!called) {
+			loadDriver()
+		}
+		
+		if (!called || loading || (!data?.driverById && !data?.driverByRef)) {
+			return undefined;
+		}
+		
+		const driverData = data.driverById || data.driverByRef;
+		
+		if (!driverData.code) {
+			return {
+				...driverData,
+				code: (driverData?.surname || '').replace(/[^a-z]/i, '').substring(0, 3).toUpperCase()
+			};
+		}
+		
+		return driverData;
+	}, [called, data, loadDriver, loading])
 };

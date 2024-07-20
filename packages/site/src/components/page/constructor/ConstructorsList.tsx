@@ -1,4 +1,5 @@
 import {ConstructorByLine} from '@/components/app';
+import {ConstructorsListFilters, useConstructorsList} from '@/components/page/constructor/index';
 import {useGetTeamColor} from '@/hooks';
 import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -6,17 +7,17 @@ import {DataGrid} from '@mui/x-data-grid';
 import {TeamWithSeasons} from './useConstructorsList';
 
 type ConstructorsTableProps = {
-	loading: boolean;
-	teams: TeamWithSeasons[];
+	teams: TeamWithSeasons[]
+	filters: ConstructorsListFilters;
 }
 
-export default function ConstructorsList({loading, teams}: ConstructorsTableProps) {
-	const getTeamColor = useGetTeamColor();
+export default function ConstructorsList({teams, filters}: ConstructorsTableProps) {
+	const filteredTeams = useConstructorsList(teams, filters);
+	const getTeamColor  = useGetTeamColor();
 	
 	return (
 		<DataGrid
-			loading={loading}
-			rows={teams}
+			rows={filteredTeams}
 			autoHeight
 			density="compact"
 			getRowId={r => r.teamId}

@@ -72,7 +72,7 @@ const ByDriver = (props: ByLinePropsByDriver) => {
 			return (
 				<Grid container spacing={1} alignItems="center" sx={{flexWrap: 'nowrap'}}>
 					<Hidden smDown><Grid item><DriverAvatar driverId={driverId} {...avatarProps}/></Grid></Hidden>
-					<Grid item><Typography><Link href={`/driver/${driverRef}`}>{name}</Link></Typography></Grid>
+					<Grid item><Typography><Link href={`/drivers/${driverRef}`}>{name}</Link></Typography></Grid>
 					{!noFlag && nationality && <Hidden mdDown><Grid item><Typography><Flag nationality={nationality} {...flagProps}/></Typography></Grid></Hidden>}
 				</Grid>
 			);

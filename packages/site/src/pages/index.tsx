@@ -1,5 +1,6 @@
 import {useAppState} from '@/components/app';
-import {Backdrop} from '@mui/material';
+import {Page} from '@/components/ui';
+import {Skeleton} from '@mui/material';
 import {useRouter} from 'next/navigation';
 import {useEffect} from 'react';
 
@@ -15,6 +16,8 @@ export default function HomePage() {
 	});
 	
 	return (
-		<Backdrop open>{currentSeason}</Backdrop>
+		<Page title="Loading...">
+			<Skeleton variant="rectangular" height="60vh"/>
+		</Page>
 	);
 }

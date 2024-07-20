@@ -1,21 +1,25 @@
 import {DriverAvatar, DriverByLine} from '@/components/app';
+import DriversQuery from '@/components/page/driver/DriversQuery';
+import {useDriversList} from '@/components/page/driver/index';
+import {DriversListFilters} from '@/components/page/driver/types';
 import {Flag} from '@/components/ui';
 import {Driver} from '@/gql/graphql';
+import {apolloClient} from '@/useApolloClient';
 import {Grid, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';
 
 type DriversTableProps = {
-	loading: boolean;
-	drivers: Driver[];
+	drivers: Driver[]
+	filters: DriversListFilters
 }
 
-export default function DriversList({loading, drivers}: DriversTableProps) {
+export default function DriversList({drivers, filters}: DriversTableProps) {
+	const filteredDrivers = useDriversList(drivers, filters);
 	
 	return (
 		<DataGrid
-			loading={loading}
-			rows={drivers}
+			rows={filteredDrivers}
 			autoHeight
 			density="compact"
 			getRowId={r => r.driverId}
