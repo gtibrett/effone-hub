@@ -12,7 +12,7 @@ export default function History({data, loading}: HistoryProps) {
 	if (loading) {
 		return <Skeleton variant="rectangular" height={400}/>;
 	}
-	const standings = data?.team.standings.map(s => ({...s, name: data?.team.name})) || [];
+	const standings = data?.team?.standings.map(s => ({...s, name: data?.team.name})) || [];
 	
 	data?.team.teamHistories.forEach(({antecedentTeam, startYear, endYear}) => {
 		antecedentTeam.standings

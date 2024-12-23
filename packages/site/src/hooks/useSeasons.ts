@@ -17,6 +17,7 @@ type useSeasonReturnType = {
 	loading: boolean;
 	error: ApolloError | undefined
 }
+
 export default function useSeasons(): useSeasonReturnType {
 	const {data, loading, error} = useQuery<{ seasons: Season[] }>(SeasonsListQuery);
 	

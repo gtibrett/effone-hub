@@ -1,57 +1,13 @@
 import {DriverAvatar, useAppState} from '@/components/app';
 import {Career, Circuits, Season} from '@/components/page/driver';
 import {Flag, Page, WikipediaLink} from '@/components/ui';
-import {useSlugs} from '@/helpers';
-import {useGetTeamColor} from '@/hooks';
-import {useDriver} from '@/hooks/data';
 import {Driver as DriverT} from '@/gql/graphql';
+import {useGetTeamColor} from '@/hooks';
+import {DriverQuery} from '@/hooks/data/useDriver';
+import {apolloClient} from '@/useApolloClient';
 import {setPageTitle, Tabs} from '@gtibrett/mui-additions';
-import {Card, CardContent, CardMedia, Divider, Grid, Hidden, Skeleton, Typography, useTheme} from '@mui/material';
-
-const DriverSkeleton = () => {
-	return (
-		<Page title="Loading...">
-			<Grid container spacing={2}>
-				<Grid item xs={12} md={8} lg={9} order={{xs: 2, md: 1}}>
-					<Card>
-						<Skeleton variant="rectangular" height={600}/>
-					</Card>
-				</Grid>
-				
-				<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>
-					<Card variant="outlined">
-						<Hidden mdDown>
-							<CardMedia>
-								<DriverAvatar size={200}/>
-							</CardMedia>
-						</Hidden>
-						
-						<CardContent>
-							<Grid container spacing={2}>
-								<Hidden mdUp>
-									<Grid item><DriverAvatar size={128}/></Grid>
-								</Hidden>
-								
-								<Grid item xs>
-									<Typography variant="body2"><Skeleton variant="text"/></Typography>
-									<Divider orientation="horizontal" sx={{my: 1}}/>
-									<Typography variant="body1">
-										<Skeleton variant="text"/>
-										<Skeleton variant="text"/>
-										<Skeleton variant="text"/>
-										<Skeleton variant="text" width={125}/>
-									</Typography>
-									<Divider orientation="horizontal" sx={{my: 1}}/>
-									<Skeleton variant="text"/>
-								</Grid>
-							</Grid>
-						</CardContent>
-					</Card>
-				</Grid>
-			</Grid>
-		</Page>
-	);
-};
+import {Card, Divider, Grid, Hidden, Typography, useTheme} from '@mui/material';
+import DriversQuery from '../../components/page/driver/DriversQuery';
 
 const DriverDetails = ({driver}: {
 	driver: DriverT
@@ -69,23 +25,12 @@ const DriverDetails = ({driver}: {
 	);
 };
 
-
-export default function Driver() {
+export default function Driver({driver}: { driver: DriverT }) {
 	const theme             = useTheme();
 	const getTeamColor      = useGetTeamColor();
 	const [{currentSeason}] = useAppState();
-	const {driverRef}       = useSlugs<{ driverRef: string }>();
-	const driver            = useDriver(driverRef);
 	
-	setPageTitle(`Driver: ${driver ? `${driver?.forename} ${driver?.surname}` : 'Loading'}`);
-	
-	if (!driverRef) {
-		throw new Error('Page Not found');
-	}
-	
-	if (!driver) {
-		return <DriverSkeleton/>;
-	}
+	setPageTitle(`Driver: ${driver?.forename} ${driver?.surname}`);
 	
 	const tabs = [
 		{id: 'career', label: 'Career', content: <Career driverId={driver.driverId}/>},
@@ -129,4 +74,25 @@ export default function Driver() {
 			</Card>
 		</Page>
 	);
+}
+
+export async function getStaticProps({params: {driverRef}}: { params: { driverRef: string, driver: DriverT } }) {
+	const {data: {driverByRef: driver}} = await apolloClient.query({query: DriverQuery, variables: {driverRef, useDriverRef: true}});
+	
+	return {
+		props: {
+			driverRef,
+			driver: driver || null
+		}
+	};
+}
+
+export async function getStaticPaths() {
+	const {data: {drivers}} = await apolloClient.query<{ drivers: DriverT[] }>({query: DriversQuery});
+	
+	const paths = drivers.map(driver => ({
+		params: {driverRef: driver.driverRef}
+	}));
+	
+	return {paths, fallback: 'blocking'};
 }

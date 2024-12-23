@@ -1,19 +1,21 @@
+import '@/polyfills';
 import {ConstructorByLine} from '@/components/app';
-import {ConstructorsListFilters, useConstructorsList} from '@/components/page/constructor/index';
+import {ConstructorsListFilters, ConstructorsQuery, useConstructorsList} from '@/components/page/constructor/index';
 import {useGetTeamColor} from '@/hooks';
+import {useSuspenseQuery} from '@apollo/client';
 import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {DataGrid} from '@mui/x-data-grid';
 import {TeamWithSeasons} from './useConstructorsList';
 
 type ConstructorsTableProps = {
-	teams: TeamWithSeasons[]
 	filters: ConstructorsListFilters;
 }
 
-export default function ConstructorsList({teams, filters}: ConstructorsTableProps) {
-	const filteredTeams = useConstructorsList(teams, filters);
-	const getTeamColor  = useGetTeamColor();
+export default function ConstructorsList({filters}: ConstructorsTableProps) {
+	const {data: {teams}} = useSuspenseQuery<{ teams: TeamWithSeasons[] }>(ConstructorsQuery);
+	const filteredTeams   = useConstructorsList(teams, filters);
+	const getTeamColor    = useGetTeamColor();
 	
 	return (
 		<DataGrid
@@ -41,14 +43,14 @@ export default function ConstructorsList({teams, filters}: ConstructorsTableProp
 						headerName:  'Seasons',
 						flex:        .25,
 						type:        'number',
-						valueGetter: (value, row) => row.seasons.length
+						valueGetter: (_, row) => row.seasons.map(s => s.year).distinct().length
 					},
 					{
 						field:       'races',
 						headerName:  'Races',
 						flex:        .25,
 						type:        'number',
-						valueGetter: (value, row) => row.results.length
+						valueGetter: (_, row) => row.results.map(r => `${r.raceId}-${r.driverId}`).distinct().length
 					},
 					// {
 					// 	field:       'championships',

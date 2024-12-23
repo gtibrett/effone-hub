@@ -4,18 +4,18 @@ import {useDriversList} from '@/components/page/driver/index';
 import {DriversListFilters} from '@/components/page/driver/types';
 import {Flag} from '@/components/ui';
 import {Driver} from '@/gql/graphql';
-import {apolloClient} from '@/useApolloClient';
+import {useSuspenseQuery} from '@apollo/client';
 import {Grid, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';
 
 type DriversTableProps = {
-	drivers: Driver[]
 	filters: DriversListFilters
 }
 
-export default function DriversList({drivers, filters}: DriversTableProps) {
-	const filteredDrivers = useDriversList(drivers, filters);
+export default function DriversList({filters}: DriversTableProps) {
+	const {data: {drivers}} = useSuspenseQuery<{ drivers: Driver[] }>(DriversQuery);
+	const filteredDrivers   = useDriversList(drivers, filters);
 	
 	return (
 		<DataGrid

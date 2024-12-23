@@ -1,14 +1,17 @@
 import {useAppState} from '@/components/app';
-import {Drivers, History, Season} from '@/components/page/constructor';
+import {ConstructorsQuery, Drivers, History, Season} from '@/components/page/constructor';
 import {DriverPodiums, DriverPoints, DriverQualifying} from '@/components/page/constructor/stats';
 import {Flag, Page, WikipediaLink} from '@/components/ui';
-import {useSlugs} from '@/helpers';
+import {Team} from '@/gql/graphql';
 import {useGetTeamColor} from '@/hooks';
-import {TeamData, useConstructorData} from '@/hooks/data';
+import {useConstructorData} from '@/hooks/data';
+import {apolloClient} from '@/useApolloClient';
+import {gql} from '@apollo/client';
 import {setPageTitle, Tabs} from '@gtibrett/mui-additions';
 import {Card, CardContent, CardHeader, CardMedia, Divider, Grid, Skeleton, Typography, useTheme} from '@mui/material';
+import {useRouter} from 'next/router';
 
-const TeamDetails = ({team}: { team: TeamData }) => {
+const TeamDetails = ({team}: { team: Team }) => {
 	return (
 		<Grid container spacing={4} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
 			<Grid item><Typography variant="h2">{team.name}</Typography></Grid>
@@ -55,17 +58,16 @@ const PageSkeleton = () => (
 	</Page>
 );
 
-export default function Constructor() {
+export default function Constructor({teamRef, team}: { teamRef: Team['constructorRef'], team: Team }) {
 	const theme             = useTheme();
+	const {isFallback}      = useRouter();
 	const getTeamColor      = useGetTeamColor();
 	const [{currentSeason}] = useAppState();
-	const {teamRef}         = useSlugs<{ teamRef: string }>();
-	const {data, loading}   = useConstructorData(teamRef, currentSeason);
-	const team              = data?.team;
+	const {data, loading}   = useConstructorData(teamRef || '', currentSeason);
 	
 	setPageTitle(`Constructor: ${team?.name}`);
 	
-	if (!team || loading) {
+	if (!data?.team || loading || isFallback) {
 		return <PageSkeleton/>;
 	}
 	
@@ -82,7 +84,7 @@ export default function Constructor() {
 		}
 	];
 	
-	if (team.standings.find(s => s.year === currentSeason)) {
+	if (data.team.standings.find(s => s.year === currentSeason)) {
 		tabs.push({
 			id:      'season', label: `${currentSeason} Season`,
 			content: <Season data={data} loading={loading} season={currentSeason}/>
@@ -93,7 +95,7 @@ export default function Constructor() {
 		<Page
 			title={<TeamDetails team={team}/>}
 			subheader={<>
-				{team.bio.extract && <Typography variant="body1">{team.bio.extract + ''}</Typography>}
+				{team.bio?.extract && <Typography variant="body1">{team.bio.extract + ''}</Typography>}
 				<Divider orientation="horizontal" sx={{my: 1}}/>
 				<WikipediaLink href={team.url}/>
 			</>}
@@ -144,4 +146,43 @@ export default function Constructor() {
 			</Grid>
 		</Page>
 	);
+}
+
+export const ConstructorDataQuery = gql`
+	query ConstructorDataQuery($constructorRef: String!) {
+		team: teamByConstructorRef(constructorRef: $constructorRef) {
+			teamId
+			constructorRef
+			name
+			nationality
+			colors {
+				primary
+			}
+			url
+			bio {
+				extract
+			}
+		}
+	}
+`;
+
+export async function getStaticProps({params: {teamRef}}: { params: { teamRef: string } }) {
+	const {data: {team}} = await apolloClient.query({query: ConstructorDataQuery, variables: {constructorRef: teamRef}});
+	
+	return {
+		props: {
+			teamRef,
+			team:           team || null
+		}
+	};
+}
+
+export async function getStaticPaths() {
+	const {data: {teams}} = await apolloClient.query<{ teams: Team[] }>({query: ConstructorsQuery});
+	
+	const paths = teams.map(team => ({
+		params: {teamRef: team.constructorRef}
+	}));
+	
+	return {paths, fallback: 'blocking'};
 }

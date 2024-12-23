@@ -1,4 +1,6 @@
 import {StatCard, StatCardStat} from '@/components/app';
+import SeasonsQuery from '@/components/page/season/SeasonsQuery';
+import {useSuspenseQuery} from '@apollo/client';
 import {Link} from '@gtibrett/mui-additions';
 import {Box, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
@@ -48,7 +50,8 @@ const renderPlaceFactory = (place: number, variant: PlaceVariant = 'driver'): Gr
 );
 
 
-export default function SeasonsList({seasons}: { seasons: SeasonData[] }) {
+export default function SeasonsList() {
+	const {data: {seasons}} = useSuspenseQuery<{ seasons: SeasonData[] }>(SeasonsQuery);
 	
 	return (
 		<Suspense fallback={<Skeleton variant="rectangular" height="60vh"/>}>
@@ -64,7 +67,7 @@ export default function SeasonsList({seasons}: { seasons: SeasonData[] }) {
 							headerName: 'Season',
 							width:      100,
 							flex:       1,
-							renderCell: ({row}) => <Link href={`/seasons/${row.year}`}>{row.year}</Link>
+							renderCell: ({row}) => <Link href={`/${row.year}`}>{row.year}</Link>
 						},
 						{
 							field:      'winner',

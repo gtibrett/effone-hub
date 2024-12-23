@@ -1,11 +1,11 @@
 import {useDarkMode} from '@/components/ui';
+import {Circuit} from '@/gql/graphql';
 import {useCircuitByRef} from '@/hooks/data';
 import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Circuit} from '@/gql/graphql';
 import {Box, Grid, SxProps, ToggleButton, ToggleButtonGroup, useTheme} from '@mui/material';
 import {blue, red, yellow} from '@mui/material/colors';
-import {SVGProps, SyntheticEvent, useState} from 'react';
+import {Suspense, SVGProps, SyntheticEvent, useState} from 'react';
 import getMapSVG from './circuits/getMapSVG';
 
 type CircuitMapProps = SVGProps<any> & {
@@ -62,13 +62,8 @@ export default function CircuitMap({variant = 'interactive', circuitRef, height,
 	const {sector1, sector2, sector3} = useSectorColors();
 	const [sector, setSector]         = useState<string | undefined>();
 	const sx                          = useSx(variant, sector);
-	const {data, loading}             = useCircuitByRef(circuitRef);
+	const {data: {circuit}}           = useCircuitByRef(circuitRef);
 	
-	if (!data || loading) {
-		return null;
-	}
-	
-	const {circuit} = data;
 	
 	const mapSVG = getMapSVG(circuitRef, {height, width, 'aria-label': `${circuit.name} Map`, ...svgProps});
 	
@@ -77,7 +72,7 @@ export default function CircuitMap({variant = 'interactive', circuitRef, height,
 	}
 	
 	if (variant === 'simple') {
-		return <Box sx={sx}>{mapSVG}</Box>;
+		return <Suspense><Box sx={sx}>{mapSVG}</Box></Suspense>;
 	}
 	
 	const handleChange = (event: SyntheticEvent<HTMLElement>, sector: string) => {
@@ -87,15 +82,17 @@ export default function CircuitMap({variant = 'interactive', circuitRef, height,
 	};
 	
 	return (
-		<Grid container spacing={2} justifyContent="flex-end">
-			<Grid item>
-				<ToggleButtonGroup size="small" value={sector} onChange={handleChange} exclusive aria-hidden>
-					<ToggleButton value="1"><FontAwesomeIcon icon={faSquareFull} color={sector1}/>&nbsp;Sector 1</ToggleButton>
-					<ToggleButton value="2"><FontAwesomeIcon icon={faSquareFull} color={sector2}/>&nbsp;Sector 2</ToggleButton>
-					<ToggleButton value="3"><FontAwesomeIcon icon={faSquareFull} color={sector3}/>&nbsp;Sector 3</ToggleButton>
-				</ToggleButtonGroup>
+		<Suspense>
+			<Grid container spacing={2} justifyContent="flex-end">
+				<Grid item>
+					<ToggleButtonGroup size="small" value={sector} onChange={handleChange} exclusive aria-hidden>
+						<ToggleButton value="1"><FontAwesomeIcon icon={faSquareFull} color={sector1}/>&nbsp;Sector 1</ToggleButton>
+						<ToggleButton value="2"><FontAwesomeIcon icon={faSquareFull} color={sector2}/>&nbsp;Sector 2</ToggleButton>
+						<ToggleButton value="3"><FontAwesomeIcon icon={faSquareFull} color={sector3}/>&nbsp;Sector 3</ToggleButton>
+					</ToggleButtonGroup>
+				</Grid>
+				<Grid item xs={12} sx={sx}>{mapSVG}</Grid>
 			</Grid>
-			<Grid item xs={12} sx={sx}>{mapSVG}</Grid>
-		</Grid>
+		</Suspense>
 	);
 };

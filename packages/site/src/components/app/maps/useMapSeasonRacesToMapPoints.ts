@@ -35,7 +35,7 @@ export default function useMapSeasonRacesToMapPoints() {
 		
 		const onClick: GeoMapEventHandler = (feature) => {
 			if (feature?.geometry?.type === 'Point') {
-				router.push(`/seasons/${season}/${feature.properties.round}`);
+				router.push(`/${season}/${feature.properties.round}`);
 			}
 		};
 		

@@ -2,8 +2,19 @@ declare global {
 	interface Array<T> {
 		removeDuplicates: (comparator?: (a: T, b: T) => boolean) => T[];
 		sortByAttribute: (key: keyof T) => T[];
+		distinct: () => T[];
 	}
 }
+
+
+function onlyUnique<T>(value: T, index: number, array: T[]) {
+	return array.indexOf(value) === index;
+}
+
+Array.prototype.distinct = function () {
+	return this.filter(onlyUnique);
+};
+
 
 // eslint-disable-next-line no-extend-native
 Array.prototype.removeDuplicates = function (comparator = (a, b) => a === b) {

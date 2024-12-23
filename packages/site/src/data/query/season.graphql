@@ -1,0 +1,98 @@
+fragment DriverFields on Driver {
+	driverId
+	driverRef
+	fullName
+	nationality
+	bio {
+		thumbnail {
+			source
+			width
+			height
+		}
+	}
+	teamsByYear {
+		team {
+			teamId
+			colors {
+				primary
+			}
+		}
+	}
+}
+
+fragment SeasonFields on Season {
+	year
+	url
+	ended
+	hasResults
+
+	racesByYear {
+		raceId
+		year
+		round
+		name
+		date
+		time
+
+		circuit {
+			circuitId
+			name
+			lat
+			lng
+		}
+
+		driverStandings {
+			driverStandingsId
+			points
+			position
+			driver {
+				...DriverFields
+			}
+		}
+
+		teamStandings {
+			constructorStandingsId
+			points
+			position
+			team {
+				teamId
+				name
+				colors {
+					primary
+				}
+			}
+		}
+
+		results(orderBy: POSITION_ORDER_ASC, first: 1) {
+			resultId
+			driver {
+				...DriverFields
+			}
+		}
+
+		sprintResults(orderBy: POSITION_ORDER_ASC, first: 1) {
+			sprintResultId
+			driver {
+				...DriverFields
+			}
+		}
+	}
+}
+
+query PastSeasonsQuery {
+	seasons(condition: {ended: true}) {
+		year
+	}
+}
+
+query CurrentSeasonQuery {
+	seasons(first: 1, orderBy: YEAR_DESC) {
+		...SeasonFields
+	}
+}
+
+query SingleSeasonQuery($season: Int!) {
+	season(year: $season) {
+		...SeasonFields
+	}
+}

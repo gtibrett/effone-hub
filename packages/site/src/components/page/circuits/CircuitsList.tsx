@@ -1,16 +1,18 @@
+import CircuitQuery from '@/components/page/circuits/CircuitsQuery';
 import {useCircuitsList} from '@/components/page/circuits/index';
 import {CircuitsListFilters} from '@/components/page/circuits/types';
 import {Circuit} from '@/gql/graphql';
+import {useSuspenseQuery} from '@apollo/client';
 import {Link} from '@gtibrett/mui-additions';
 import {DataGrid} from '@mui/x-data-grid';
 
 type CircuitsListProps = {
-	circuits: Circuit[];
 	filters: CircuitsListFilters
 }
 
-export default function CircuitsList({circuits, filters}: CircuitsListProps) {
-	const filteredCircuits = useCircuitsList(circuits, filters);
+export default function CircuitsList({filters}: CircuitsListProps) {
+	const {data: {circuits}} = useSuspenseQuery<{ circuits: Circuit[] }>(CircuitQuery);
+	const filteredCircuits   = useCircuitsList(circuits, filters);
 	
 	return <DataGrid
 		rows={filteredCircuits}

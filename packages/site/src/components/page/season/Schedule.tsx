@@ -1,10 +1,25 @@
 import {DriverByLine, RaceMap, useMapSeasonRacesToMapPoints} from '@/components/app';
+import {Circuit, Race, Season} from '@/gql/graphql';
 import {Link} from '@gtibrett/mui-additions';
-import {Box, Card, CardHeader} from '@mui/material';
+import {Box, Card, CardHeader, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import useScheduleData from './useScheduleData';
 
-type ScheduleProps = { season: number };
+type RaceWithCircuit = Omit<Race, 'circuit'> & {
+	circuit: Circuit
+}
+
+type ScheduleProps = {
+	season: Season['year'];
+};
+
+export const ScheduleSkeleton = () => (
+	<Card id="season" variant="outlined">
+		<CardHeader title="Schedule"/>
+		<Box sx={{px: 2}}><Skeleton variant="rectangular" height={300}/></Box>
+		<Skeleton variant="rectangular" height={300}/>
+	</Card>
+);
 
 export default function Schedule({season}: ScheduleProps) {
 	const {data}                   = useScheduleData(season);
@@ -47,7 +62,8 @@ export default function Schedule({season}: ScheduleProps) {
 							field:      'name',
 							headerName: 'Race',
 							flex:       1,
-							renderCell: ({row, value}) => <Link href={`/seasons/${season}/${row.round}#${row.name}`}>{value}</Link>,
+							renderCell: ({row, value}) => <Link
+								href={`/${season}/${row.round}#${row.name}`}>{value}</Link>,
 							minWidth:   200,
 							sortable:   false
 						},
@@ -56,11 +72,11 @@ export default function Schedule({season}: ScheduleProps) {
 							headerName: 'Winner',
 							flex:       1,
 							renderCell: ({row}) => {
-								if (!row.results.length) {
+								if (!row.results?.length) {
 									return '--';
 								}
 								
-								return <DriverByLine id={row.results[0].driverId}/>;
+								return <DriverByLine id={row.results?.[0]?.driverId}/>;
 							},
 							minWidth:   200,
 							sortable:   false
@@ -70,11 +86,11 @@ export default function Schedule({season}: ScheduleProps) {
 							headerName: 'Sprint Winner',
 							flex:       1,
 							renderCell: ({row}) => {
-								if (!row.sprintResults.length) {
+								if (!row.sprintResults?.length) {
 									return '--';
 								}
 								
-								return <DriverByLine id={row.sprintResults[0].driverId}/>;
+								return <DriverByLine id={row.sprintResults?.[0]?.driverId}/>;
 							},
 							minWidth:   200,
 							sortable:   false

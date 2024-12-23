@@ -42,7 +42,7 @@ const DriverFields = gql`
 	}
 `;
 
-const query = gql`
+export const DriverQuery = gql`
 	${DriverFields}
 	query DriverQuery($driverId: Int = -1, $driverRef: String = "", $useDriverRef: Boolean!) {
 		driverById: driver(driverId: $driverId) @skip(if: $useDriverRef) {
@@ -62,7 +62,7 @@ export default function useDriver(driverIdOrRef?: Maybe<Driver['driverId']> | Ma
 		useDriverRef: typeof driverIdOrRef === 'string'
 	};
 	
-	const [loadDriver, {called, loading, data}] = useLazyQuery<{ driverById: Driver, driverByRef: Driver }>(query, {variables});
+	const [loadDriver, {called, loading, data}] = useLazyQuery<{ driverById: Driver, driverByRef: Driver }>(DriverQuery, {variables});
 	
 	return useMemo(()=> {
 		if (!called) {

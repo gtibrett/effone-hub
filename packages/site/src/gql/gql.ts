@@ -32,7 +32,9 @@ const documents = {
     "\n\tquery seasonPositionsGainedLeaderQuery($season: Int!) {\n\t\traces (condition: {year: $season},orderBy: ROUND_ASC) {\n\t\t\tresults {\n\t\t\t\tdriverId\n\t\t\t\tgrid\n\t\t\t\tpositionOrder\n\t\t\t}\n\t\t}\n\t}\n": types.SeasonPositionsGainedLeaderQueryDocument,
     "\n\tquery seasonSprintWinsLeaderQuery($season: Int!) {\n\t\traces (condition: {year: $season},orderBy: ROUND_ASC) {\n\t\t\tsprintResults (condition: {positionOrder: 1}) {\n\t\t\t\tdriverId\n\t\t\t}\n\t\t}\n\t}\n": types.SeasonSprintWinsLeaderQueryDocument,
     "\n\tquery seasonWinsLeaderQuery($season: Int!) {\n\t\traces (condition: {year: $season},orderBy: ROUND_ASC) {\n\t\t\tresults (condition: {positionOrder: 1}) {\n\t\t\t\tdriverId\n\t\t\t}\n\t\t}\n\t}\n": types.SeasonWinsLeaderQueryDocument,
-    "\n\tquery AllRacesQuery {\n\t\traces {\n\t\t\tyear\n\t\t\tround\n\t\t}\n\t}\n": types.AllRacesQueryDocument,
+    "\n\tquery RaceQuery($season: Int!, $round: Int!) {\n\t\traces(condition: {year: $season, round: $round }) {\n\t\t\traceId\n\t\t\tyear\n\t\t\tround\n\t\t\tname\n\t\t\tdate\n\t\t\turl\n\t\t\tsummary {\n\t\t\t\textract\n\t\t\t}\n\t\t\tcircuit {\n\t\t\t\tcircuitId\n\t\t\t\tcircuitRef\n\t\t\t\tname\n\t\t\t\tlocation\n\t\t\t\tcountry\n\t\t\t\tlat\n\t\t\t\tlng\n\t\t\t\tcircuitDescription {\n\t\t\t\t\tcircuitId\n\t\t\t\t\tdescription\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n": types.RaceQueryDocument,
+    "\n\t\tquery AllRacesQuery {\n\t\t\traces {\n\t\t\t\traceId\n\t\t\t\tyear\n\t\t\t\tround\n\t\t\t}\n\t\t}\n\t": types.AllRacesQueryDocument,
+    "\n\t\tquery AllCircuitsQuery {\n\t\t\tcircuits {\n\t\t\t\tcircuitId\n\t\t\t\tcircuitRef\n\t\t\t}\n\t\t}\n\t": types.AllCircuitsQueryDocument,
 };
 
 /**
@@ -128,7 +130,15 @@ export function graphql(source: "\n\tquery seasonWinsLeaderQuery($season: Int!) 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n\tquery AllRacesQuery {\n\t\traces {\n\t\t\tyear\n\t\t\tround\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery AllRacesQuery {\n\t\traces {\n\t\t\tyear\n\t\t\tround\n\t\t}\n\t}\n"];
+export function graphql(source: "\n\tquery RaceQuery($season: Int!, $round: Int!) {\n\t\traces(condition: {year: $season, round: $round }) {\n\t\t\traceId\n\t\t\tyear\n\t\t\tround\n\t\t\tname\n\t\t\tdate\n\t\t\turl\n\t\t\tsummary {\n\t\t\t\textract\n\t\t\t}\n\t\t\tcircuit {\n\t\t\t\tcircuitId\n\t\t\t\tcircuitRef\n\t\t\t\tname\n\t\t\t\tlocation\n\t\t\t\tcountry\n\t\t\t\tlat\n\t\t\t\tlng\n\t\t\t\tcircuitDescription {\n\t\t\t\t\tcircuitId\n\t\t\t\t\tdescription\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery RaceQuery($season: Int!, $round: Int!) {\n\t\traces(condition: {year: $season, round: $round }) {\n\t\t\traceId\n\t\t\tyear\n\t\t\tround\n\t\t\tname\n\t\t\tdate\n\t\t\turl\n\t\t\tsummary {\n\t\t\t\textract\n\t\t\t}\n\t\t\tcircuit {\n\t\t\t\tcircuitId\n\t\t\t\tcircuitRef\n\t\t\t\tname\n\t\t\t\tlocation\n\t\t\t\tcountry\n\t\t\t\tlat\n\t\t\t\tlng\n\t\t\t\tcircuitDescription {\n\t\t\t\t\tcircuitId\n\t\t\t\t\tdescription\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\t\tquery AllRacesQuery {\n\t\t\traces {\n\t\t\t\traceId\n\t\t\t\tyear\n\t\t\t\tround\n\t\t\t}\n\t\t}\n\t"): (typeof documents)["\n\t\tquery AllRacesQuery {\n\t\t\traces {\n\t\t\t\traceId\n\t\t\t\tyear\n\t\t\t\tround\n\t\t\t}\n\t\t}\n\t"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\t\tquery AllCircuitsQuery {\n\t\t\tcircuits {\n\t\t\t\tcircuitId\n\t\t\t\tcircuitRef\n\t\t\t}\n\t\t}\n\t"): (typeof documents)["\n\t\tquery AllCircuitsQuery {\n\t\t\tcircuits {\n\t\t\t\tcircuitId\n\t\t\t\tcircuitRef\n\t\t\t}\n\t\t}\n\t"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
