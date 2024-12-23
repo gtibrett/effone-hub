@@ -39,7 +39,7 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 							headerAlign: 'center',
 							align:       'center',
 							width:       100,
-							renderCell:  ({row}) => <Link href={`/seasons/${row.year}`}>{row.year}</Link>
+							renderCell:  ({row}) => <Link href={`/${row.year}`}>{row.year}</Link>
 						},
 						{
 							field:       'grid',

@@ -5,24 +5,7 @@ const raceQuery = gql`
 	#graphql
 	query raceBySeasonRound($season: Int!, $round: Int!) {
 		races(condition: { year: $season, round: $round }) {
-			name
-			date
-			round
-			url
-			summary {
-				extract
-			}
-			circuit {
-				circuitRef
-				name
-				location
-				country
-				lat
-				lng
-				circuitDescription {
-					description
-				}
-			}
+			raceId
 			results {
 				driver {
 					driverId

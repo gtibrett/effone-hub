@@ -9,35 +9,43 @@ import {MouseEvent, useState} from 'react';
 type NavRoute = {
 	path: string;
 	label: string | number;
+	active: boolean;
 }
 
-export const useNavLinks = () => {
+export const useNavLinks = (pathname: string) => {
 	const [{currentSeason}] = useAppState();
+	const firstSegment      = pathname.split('/').filter(s => s.length)[0];
 	
 	const navLinks: NavRoute[] = [
 		{
-			path:  `/${currentSeason}`,
-			label: currentSeason
+			path:   `/${currentSeason}`,
+			label:  currentSeason,
+			active: Number(firstSegment) === currentSeason
 		},
 		{
-			path:  '/seasons',
-			label: 'Past Seasons'
+			path:   '/seasons',
+			label:  'Past Seasons',
+			active: firstSegment === 'seasons' || Number(firstSegment) < currentSeason
 		},
 		{
-			path:  '/circuits',
-			label: 'Circuits'
+			path:   '/circuits',
+			label:  'Circuits',
+			active: firstSegment === 'circuits'
 		},
 		{
-			path:  '/constructors',
-			label: 'Constructors'
+			path:   '/constructors',
+			label:  'Constructors',
+			active: firstSegment === 'constructors'
 		},
 		{
-			path:  '/drivers',
-			label: 'Drivers'
+			path:   '/drivers',
+			label:  'Drivers',
+			active: firstSegment === 'drivers'
 		},
 		{
-			path:  '/about',
-			label: 'About'
+			path:   '/about',
+			label:  'About',
+			active: firstSegment === 'about'
 		}
 	];
 	
@@ -45,12 +53,12 @@ export const useNavLinks = () => {
 };
 
 export default function NavMenu() {
-	const pathname                = usePathname() || '';
 	const router                  = useRouter();
 	const theme                   = useTheme();
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 	const open                    = Boolean(anchorEl);
-	const navLinks                = useNavLinks();
+	const pathname                = usePathname() || '';
+	const navLinks                = useNavLinks(pathname);
 	
 	const navLinkSx: SxProps = {
 		fontFamily:           "'Titillium Web', sans-serif",
@@ -87,11 +95,10 @@ export default function NavMenu() {
 	
 	return <>
 		<Hidden mdDown>
-			{navLinks.map(({path, label}, i) => {
-					const isActive = pathname.startsWith(path);
+			{navLinks.map(({path, label, active}, i) => {
 					return (
 						<Grid item key={i}>
-							<Link color="inherit" sx={navLinkSx} className={isActive ? 'active' : ''} href={path}>{label}</Link>
+							<Link color="inherit" sx={navLinkSx} className={active ? 'active' : ''} href={path}>{label}</Link>
 						</Grid>
 					);
 				}
@@ -119,9 +126,8 @@ export default function NavMenu() {
 							'aria-labelledby': 'hamburger-button'
 						}}
 					>
-						{navLinks.map(({path, label}) => {
-								const isActive = pathname.startsWith(path);
-								return <MenuItem selected={isActive} key={String(path)} onClick={handleLink(String(path))}>{label}</MenuItem>;
+						{navLinks.map(({path, label, active}) => {
+								return <MenuItem selected={active} key={String(path)} onClick={handleLink(String(path))}>{label}</MenuItem>;
 							}
 						)}
 					</Menu>

@@ -1,13 +1,11 @@
 import {useAppState} from '@/components/app';
-import {ConstructorsFilters, ConstructorsList, ConstructorsListFilters, ConstructorsQuery} from '@/components/page/constructor';
-import {TeamWithSeasons} from '@/components/page/constructor/useConstructorsList';
+import {ConstructorsFilters, ConstructorsList, ConstructorsListFilters} from '@/components/page/constructor';
 import {Page} from '@/components/ui';
-import {apolloClient} from '@/useApolloClient';
 import {setPageTitle} from '@gtibrett/mui-additions';
-import {Card, CardContent} from '@mui/material';
-import {useState} from 'react';
+import {Card, CardContent, Skeleton} from '@mui/material';
+import {Suspense, useState} from 'react';
 
-export default function Constructors({teams}: { teams: TeamWithSeasons[] }) {
+export default function Constructors() {
 	setPageTitle('Constructors');
 	
 	const [{currentSeason}]     = useAppState();
@@ -20,21 +18,12 @@ export default function Constructors({teams}: { teams: TeamWithSeasons[] }) {
 		<Page title="Constructors">
 			<Card>
 				<ConstructorsFilters filters={filters} setFilters={setFilters}/>
-				<CardContent>
-					<ConstructorsList teams={teams} filters={filters}/>
-				</CardContent>
+				<Suspense fallback={<Skeleton variant="rectangular" height="45vh"/>}>
+					<CardContent>
+						<ConstructorsList filters={filters}/>
+					</CardContent>
+				</Suspense>
 			</Card>
-		
 		</Page>
 	);
-}
-
-export async function getStaticProps() {
-	const {data: {teams}} = await apolloClient.query<{ teams: TeamWithSeasons[] }>({query: ConstructorsQuery});
-	
-	return {
-		props: {
-			teams
-		}
-	};
 }

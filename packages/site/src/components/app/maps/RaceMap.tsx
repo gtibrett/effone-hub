@@ -1,8 +1,8 @@
 import {NivoTooltipFactory, RequiredByPropTypes, useNivoTheme} from '@/components/ui/nivo';
-import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
-import {GeoMapEventHandler, ResponsiveGeoMap} from '@nivo/geo';
 import {Circuit} from '@/gql/graphql';
+import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {alpha, Box, useTheme} from '@mui/material';
+import {GeoMapEventHandler, ResponsiveGeoMap} from '@nivo/geo';
 import {useEffect, useState} from 'react';
 import MapTooltip from './MapTooltip';
 import {Point} from './types';

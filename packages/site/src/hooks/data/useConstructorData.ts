@@ -1,5 +1,5 @@
-import {gql, useQuery} from '@apollo/client';
 import {Driver, FinalTeamStandingsByYear, Race, Result, Team, TeamBio, TeamHistory} from '@/gql/graphql';
+import {gql, useQuery} from '@apollo/client';
 
 export type DriverByYear = {
 	year: number;

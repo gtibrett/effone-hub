@@ -1,23 +1,39 @@
-import {useAppState} from '@/components/app';
-import {Page} from '@/components/ui';
-import {Skeleton} from '@mui/material';
-import {useRouter} from 'next/navigation';
-import {useEffect} from 'react';
+import Season from '@/components/page/season/Season';
+import {apolloClient} from '@/useApolloClient';
+import {gql} from '@apollo/client';
+import type {InferGetStaticPropsType} from 'next';
 
-export default function HomePage() {
-	const [state]         = useAppState();
-	const {currentSeason} = state;
-	const router          = useRouter();
+type HomePageProps = InferGetStaticPropsType<typeof getStaticProps>
+
+type SeasonData = {
+	year: number,
+	ended: boolean,
+	hasResults: boolean
+}
+
+export async function getStaticProps() {
+	const {data}          = await apolloClient.query<{ seasons: SeasonData[] }>({query: CurrentAndLastSeasonQuery});
+	const {seasons}       = data;
+	const [currentSeason] = seasons;
 	
-	useEffect(() => {
-		if (currentSeason) {
-			router.push(`/${currentSeason}`);
+	return {
+		props: {
+			season: currentSeason
 		}
-	});
-	
+	};
+}
+
+export default function HomePage({season}: HomePageProps) {
 	return (
-		<Page title="Loading...">
-			<Skeleton variant="rectangular" height="60vh"/>
-		</Page>
+		<Season season={season}/>
 	);
 }
+
+const CurrentAndLastSeasonQuery = gql`query SeasonsListQuery {
+	seasons (orderBy:YEAR_DESC, first:1) {
+		year
+		ended
+		hasResults
+	}
+}`;
+
