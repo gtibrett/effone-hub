@@ -1,22 +1,17 @@
-import {AppConfig} from '@/api/types';
-import options from '@/api/postgraphile/Options';
-import {postgraphile, PostGraphileOptions} from 'postgraphile';
+import type {IncomingMessage, ServerResponse} from 'http';
+import {postgraphile} from 'postgraphile';
+import {grafserv} from 'postgraphile/grafserv/node';
+import preset from '../../../graphile.config';
 
-const {
-	      POSTGRES_URL,
-	      POSTGRES_SCHEMA,
-      } = process.env as AppConfig;
+// PostGraphile v5: build the GraphQL instance once at module load and reuse.
+// The `serv.createHandler()` returns a connect-style middleware
+// `(req, res, next?) => void` that we can call directly from a Next.js
+// Pages Router API route.
+const pgl  = postgraphile(preset);
+const serv = pgl.createServ(grafserv);
 
-if (!POSTGRES_URL || !POSTGRES_SCHEMA) {
-	throw new Error('Database info missing');
+const handler = serv.createHandler();
+
+export default function postgraphileMiddleware(req: IncomingMessage, res: ServerResponse, next?: (err?: Error) => void): void {
+	handler(req, res, next);
 }
-
-// POSTGRES_SCHEMA accepts a single name or comma-separated list.
-// Multi-schema lets PostGraphile expose f1db (vendored) + app (our supplementary
-// tables: lap_times, circuit_descriptions, team_colors, team_history) under
-// one GraphQL endpoint with cross-schema relations.
-const schemas = POSTGRES_SCHEMA.split(',').map(s => s.trim()).filter(Boolean);
-
-const postgraphileMiddleware = postgraphile(POSTGRES_URL, schemas, {...(options as PostGraphileOptions)});
-
-export default postgraphileMiddleware;
