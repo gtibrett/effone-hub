@@ -2,6 +2,7 @@ import type {} from 'postgraphile';
 import {PostGraphileAmberPreset} from 'postgraphile/presets/amber';
 import {makePgService} from 'postgraphile/adaptors/pg';
 import {PgSimplifyInflectionPreset} from '@graphile/simplify-inflection';
+import F1dbSmartTags from './src/api/postgraphile/F1dbSmartTags';
 
 const POSTGRES_URL    = process.env.POSTGRES_URL;
 const POSTGRES_SCHEMA = process.env.POSTGRES_SCHEMA ?? 'f1db,app';
@@ -13,7 +14,8 @@ if (!POSTGRES_URL) {
 const schemas = POSTGRES_SCHEMA.split(',').map(s => s.trim()).filter(Boolean);
 
 const preset: GraphileConfig.Preset = {
-	extends:    [PostGraphileAmberPreset, PgSimplifyInflectionPreset],
+	extends: [PostGraphileAmberPreset, PgSimplifyInflectionPreset],
+	plugins: [F1dbSmartTags],
 	pgServices: [
 		makePgService({
 			connectionString: POSTGRES_URL,

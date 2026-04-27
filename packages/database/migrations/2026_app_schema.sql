@@ -56,3 +56,31 @@ create table if not exists app.team_history
     end_year                  int,
     primary key (constructor_id, antecedent_constructor_id)
 );
+
+-- Computed columns for f1db.season: PostGraphile auto-exposes functions named
+-- `app.<table>_<column>(t <schema>.<table>)` as fields on the corresponding
+-- GraphQL type. These two are dropped by the f1db schema swap (DROP SCHEMA
+-- CASCADE), so the ingest function recreates them via this same script after
+-- each swap.
+create or replace function app.season_ended(s f1db.season) returns boolean
+    stable language sql as $$
+    with c as (
+        select count(*) as total,
+               count(*) filter (where exists (
+                   select 1 from f1db.race_result rr where rr.race_id = r.id
+               )) as with_results
+        from f1db.race r
+        where r.year = s.year
+    )
+    select total > 0 and total = with_results from c;
+$$;
+
+create or replace function app.season_has_results(s f1db.season) returns boolean
+    stable language sql as $$
+    select exists (
+        select 1
+        from f1db.race r
+        join f1db.race_result rr on rr.race_id = r.id
+        where r.year = s.year
+    );
+$$;
