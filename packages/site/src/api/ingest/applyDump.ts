@@ -38,6 +38,34 @@ export async function applyDumpAndSwap(connectionString: string, sql: string): P
 		`;
 		await client.query(swap);
 
+		// Recreate computed-column functions in `app` that reference f1db
+		// types. The DROP SCHEMA f1db_old CASCADE in the swap above drops
+		// these because they depend on the f1db.season composite type.
+		// Keep these in sync with packages/database/migrations/2026_app_schema.sql.
+		await client.query(`
+			create or replace function app.season_ended(s f1db.season) returns boolean
+			    stable language sql as $$
+			    with c as (
+			        select count(*) as total,
+			               count(*) filter (where exists (
+			                   select 1 from f1db.race_result rr where rr.race_id = r.id
+			               )) as with_results
+			        from f1db.race r
+			        where r.year = s.year
+			    )
+			    select total > 0 and total = with_results from c;
+			$$;
+			create or replace function app.season_has_results(s f1db.season) returns boolean
+			    stable language sql as $$
+			    select exists (
+			        select 1
+			        from f1db.race r
+			        join f1db.race_result rr on rr.race_id = r.id
+			        where r.year = s.year
+			    );
+			$$;
+		`);
+
 		await client.query('commit');
 		return {durationMs: Date.now() - startedAt};
 	} catch (err) {
