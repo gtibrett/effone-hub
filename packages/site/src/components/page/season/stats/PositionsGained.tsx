@@ -1,21 +1,27 @@
 import {StatCard} from '@/components/app';
+import {DriverId} from '@/types';
 import {gql, useQuery} from '@apollo/client';
-import {Result} from '@/gql/graphql';
+import {Season} from '@/gql/graphql';
 import {SeasonStatProps} from './index';
 
 type Data = {
-	races: {
-		results: Pick<Result, 'driverId' | 'grid' | 'positionOrder'>[]
-	}[]
+	season: Pick<Season, 'racesByYear'> | null;
 }
 
 const query = gql`
-	query seasonPositionsGainedLeaderQuery($season: Int!) {
-		races (condition: {year: $season},orderBy: ROUND_ASC) {
-			results {
-				driverId
-				grid
-				positionOrder
+	query SeasonPositionsGainedQuery($season: Int!) {
+		season(year: $season) {
+			racesByYear {
+				nodes {
+					rowId
+					raceResults {
+						nodes {
+							driverId
+							gridPositionNumber
+							positionNumber
+						}
+					}
+				}
 			}
 		}
 	}
@@ -23,15 +29,16 @@ const query = gql`
 
 export default function PositionsGained({season, size}: SeasonStatProps) {
 	const {data, loading} = useQuery<Data>(query, {variables: {season}});
-	const leaders         = new Map<number, number>();
-	
-	(data?.races || []).forEach(r => {
-		r.results.forEach(({driverId, grid, positionOrder}) => {
-			if (grid && positionOrder && driverId) {
-				leaders.set(driverId, (leaders.get(driverId) || 0) + (grid - positionOrder));
+	const leaders         = new Map<string, number>();
+
+	(data?.season?.racesByYear?.nodes || []).forEach(r => {
+		(r?.raceResults?.nodes || []).forEach(rs => {
+			const {driverId, gridPositionNumber, positionNumber} = rs as {driverId?: string; gridPositionNumber?: number | null; positionNumber?: number | null};
+			if (driverId && gridPositionNumber != null && positionNumber != null) {
+				leaders.set(driverId, (leaders.get(driverId) || 0) + (gridPositionNumber - positionNumber));
 			}
 		});
 	});
-	
-	return <StatCard size={size} loading={loading} data={leaders} label="Most Positions Gained"/>;
+
+	return <StatCard size={size} loading={loading} data={leaders as unknown as Map<DriverId, number>} label="Most Positions Gained"/>;
 }

@@ -1,39 +1,98 @@
-import {useGetTeamColor} from '@/hooks';
+import {useFallbackColor} from '@/components/ui';
+import {useGetAccessibleColor} from '@/hooks';
 import {gql, useSuspenseQuery} from '@apollo/client';
-import {Driver, Race} from '@/gql/graphql';
 import {useCallback} from 'react';
 import {Entity, RaceStandingsWithEntities, StandingWithEntity} from '../charts';
 
+type DriverColors = {
+	primaryHex: string | null;
+};
+
+type DriverConstructorNode = {
+	colors: DriverColors | null;
+};
+
+type DriverSeasonEntrantNode = {
+	constructor: DriverConstructorNode | null;
+};
+
+type DriverNode = {
+	rowId: string;
+	lastName: string;
+	seasonEntrantDrivers: { nodes: DriverSeasonEntrantNode[] };
+};
+
+type RaceDriverStandingNode = {
+	driverId: string;
+	positionNumber: number | null;
+	points: string;
+	driver: DriverNode | null;
+};
+
+type RaceNode = {
+	round: number;
+	raceDriverStandings: { nodes: RaceDriverStandingNode[] };
+};
+
+type SeasonDriverStandingNode = {
+	driverId: string;
+	positionNumber: number | null;
+	points: string;
+};
+
 type DriverStandingsQueryData = {
-	races: Pick<Race, 'round' | 'driverStandings'>[]
-}
+	season: {
+		seasonDriverStandingsByYear: { nodes: SeasonDriverStandingNode[] };
+		racesByYear: { nodes: RaceNode[] };
+	} | null;
+};
 
 const useMapDriverToEntity = () => {
-	const getTeamColor = useGetTeamColor();
-	
-	return useCallback((driver: Driver): Entity => ({
-		id:    driver.driverId,
-		name:  driver.surname || '',
-		color: getTeamColor(driver?.teamsByYear?.[0].team?.colors, 'primary', false)
-	}), [getTeamColor]);
+	const getAccessibleColor = useGetAccessibleColor();
+	const fallbackColor      = useFallbackColor();
+
+	return useCallback((driver: DriverNode): Entity => {
+		const primaryHex = driver.seasonEntrantDrivers.nodes[0]?.constructor?.colors?.primaryHex;
+		const color      = getAccessibleColor(primaryHex || fallbackColor, false);
+
+		return {
+			id:    driver.rowId,
+			name:  driver.lastName,
+			color
+		};
+	}, [getAccessibleColor, fallbackColor]);
 };
 
 const query = gql`
 	query driverStandingsQuery($season: Int!) {
-		races (condition: {year: $season}, orderBy: ROUND_ASC) {
-			round
-			driverStandings(orderBy: POSITION_ASC) {
-				driverId
-				points
-				position
-				driver {
+		season(year: $season) {
+			seasonDriverStandingsByYear(orderBy: POSITION_NUMBER_ASC) {
+				nodes {
 					driverId
-					code
-					surname
-					teamsByYear (condition: {year: $season}) {
-						team {
-							colors {
-								primary
+					positionNumber
+					points
+				}
+			}
+			racesByYear(orderBy: ROUND_ASC) {
+				nodes {
+					round
+					raceDriverStandings(orderBy: POSITION_NUMBER_ASC) {
+						nodes {
+							driverId
+							positionNumber
+							points
+							driver {
+								rowId
+								lastName
+								seasonEntrantDrivers(condition: {year: $season}, first: 1) {
+									nodes {
+										constructor {
+											colors {
+												primaryHex
+											}
+										}
+									}
+								}
 							}
 						}
 					}
@@ -44,28 +103,24 @@ const query = gql`
 `;
 
 export default function useDriverStandingsData(season: number) {
-	const {data}            = useSuspenseQuery<DriverStandingsQueryData>(query, {variables: {season}});
+	const {data}          = useSuspenseQuery<DriverStandingsQueryData>(query, {variables: {season}});
 	const mapDriverToEntity = useMapDriverToEntity();
-	
-	const chartData: RaceStandingsWithEntities[] = (data?.races || []).map(r => {
-		const standings: StandingWithEntity[] = [];
-		r.driverStandings.forEach(({driverId, position, points, driver}) => {
-				if (driver) {
-					standings.push({
-						id:       driverId as number,
-						position: position as number,
-						points:   points as number,
-						entity:   mapDriverToEntity(driver)
-					});
-				}
-			}
-		);
-		
+
+	const chartData: RaceStandingsWithEntities[] = (data?.season?.racesByYear?.nodes ?? []).map(r => {
+		const standings: StandingWithEntity[] = r.raceDriverStandings.nodes
+			.filter(s => s.driver)
+			.map(({driverId, positionNumber, points, driver}) => ({
+				id:       driverId,
+				position: Number(positionNumber),
+				points:   Number(points),
+				entity:   mapDriverToEntity(driver as DriverNode)
+			}));
+
 		return {
 			round: r.round,
 			standings
 		};
 	});
-	
+
 	return {data, chartData};
 }

@@ -1,45 +1,57 @@
 import {StatCard} from '@/components/app';
-import {DriverId} from '@/types';
 import {gql, useQuery} from '@apollo/client';
-import {Team} from '@/gql/graphql';
 
-type Data = {
-	races: {
-		results: {
-			driverId: DriverId;
-			positionOrder: number;
-		}[]
-	}[]
-}
+type RaceResultNode = {
+	driverId: string | null;
+	positionNumber: number | null;
+};
+
+type RaceNode = {
+	rowId: number;
+	raceResults: { nodes: RaceResultNode[] };
+};
+
+type QueryResponse = {
+	season: {
+		racesByYear: { nodes: RaceNode[] };
+	} | null;
+};
 
 const query = gql`
-	query driverPodiums($season: Int!, $teamId: Int!) {
-		races (condition: {year: $season},orderBy: ROUND_ASC) {
-			results (condition: {teamId: $teamId}) {
-				driverId
-				positionOrder
+	query constructorDriverPodiumsQuery($season: Int!, $constructorId: String!) {
+		season(year: $season) {
+			racesByYear(orderBy: ROUND_ASC) {
+				nodes {
+					rowId
+					raceResults(condition: {constructorId: $constructorId}) {
+						nodes {
+							driverId
+							positionNumber
+						}
+					}
+				}
 			}
 		}
 	}
 `;
 
-type DriverPointsProps = {
-	teamId: Team['teamId'];
+type DriverPodiumsProps = {
+	constructorId: string;
 	season: number;
-	place: 1 | 2
-}
+	place: 1 | 2;
+};
 
-export default function DriverPodiums({teamId, season, place}: DriverPointsProps) {
-	const {data, loading} = useQuery<Data>(query, {variables: {teamId, season}});
-	const leaders         = new Map<number, number>();
-	
-	(data?.races || []).forEach(r => {
-		r.results.forEach(rs => {
-			if (rs.driverId) {
-				leaders.set(rs.driverId, (leaders.get(rs.driverId) || 0) + (rs.positionOrder < 4 ? 1 : 0));
+export default function DriverPodiums({constructorId, season, place}: DriverPodiumsProps) {
+	const {data, loading} = useQuery<QueryResponse>(query, {variables: {constructorId, season}});
+	const leaders         = new Map<string, number>();
+
+	(data?.season?.racesByYear?.nodes ?? []).forEach(race => {
+		race.raceResults.nodes.forEach(result => {
+			if (result.driverId && result.positionNumber != null && result.positionNumber <= 3) {
+				leaders.set(result.driverId, (leaders.get(result.driverId) ?? 0) + 1);
 			}
 		});
 	});
-	
+
 	return <StatCard loading={loading} data={new Map([...leaders.entries()].sort((a, b) => b[1] - a[1]).slice(place - 1, place))} label="Podiums"/>;
 }
