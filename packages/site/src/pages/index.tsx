@@ -6,19 +6,16 @@ import type {InferGetStaticPropsType} from 'next';
 type HomePageProps = InferGetStaticPropsType<typeof getStaticProps>
 
 type SeasonData = {
-	year: number,
-	ended: boolean,
-	hasResults: boolean
+	year: number;
 }
 
 export async function getStaticProps() {
-	const {data}          = await apolloClient.query<{ seasons: SeasonData[] }>({query: CurrentAndLastSeasonQuery});
-	const {seasons}       = data;
-	const [currentSeason] = seasons;
-	
+	const {data}    = await apolloClient.query<{ seasons: { nodes: SeasonData[] } }>({query: CurrentSeasonQuery});
+	const [current] = data.seasons.nodes;
+
 	return {
 		props: {
-			season: currentSeason
+			season: current ?? {year: new Date().getFullYear()}
 		}
 	};
 }
@@ -29,11 +26,10 @@ export default function HomePage({season}: HomePageProps) {
 	);
 }
 
-const CurrentAndLastSeasonQuery = gql`query SeasonsListQuery {
-	seasons (orderBy:YEAR_DESC, first:1) {
-		year
-		ended
-		hasResults
+const CurrentSeasonQuery = gql`query CurrentSeasonQuery {
+	seasons(orderBy: YEAR_DESC, first: 1) {
+		nodes {
+			year
+		}
 	}
 }`;
-

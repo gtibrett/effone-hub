@@ -4,28 +4,29 @@ import {useMemo} from 'react';
 
 export const SeasonsListQuery = gql`
 	query SeasonsListQuery {
-		seasons {
-			year
-			ended
-			hasResults
+		seasons(orderBy: YEAR_DESC) {
+			nodes {
+				year
+				ended
+				hasResults
+			}
 		}
 	}
 `;
 
+type SeasonRow = Pick<Season, 'year' | 'ended' | 'hasResults'>;
+
 type useSeasonReturnType = {
-	seasons: Season[];
+	seasons: SeasonRow[];
 	loading: boolean;
 	error: ApolloError | undefined
 }
 
 export default function useSeasons(): useSeasonReturnType {
-	const {data, loading, error} = useQuery<{ seasons: Season[] }>(SeasonsListQuery);
-	
+	const {data, loading, error} = useQuery<{ seasons: { nodes: SeasonRow[] } }>(SeasonsListQuery);
+
 	return useMemo<useSeasonReturnType>(() => {
-		const seasons = (data?.seasons || [{year: (new Date()).getFullYear()}] as Season[]).map(s => s);
-		seasons.sort();
-		seasons.reverse();
-		
+		const seasons = data?.seasons.nodes ?? [{year: (new Date()).getFullYear(), ended: false, hasResults: false}];
 		return {seasons, loading, error};
 	}, [data, loading, error]);
 }
