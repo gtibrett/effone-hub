@@ -1,19 +1,23 @@
 import {gql} from '@apollo/client';
 
 const CircuitQuery = gql`
-	#graphql
-	query q {
-		circuits {
-			circuitId
-			circuitRef
-			name
-			location
-			country
-			lat
-			lng
-
-			races {
-				year
+	query CircuitsListQuery {
+		circuits(orderBy: FULL_NAME_ASC) {
+			nodes {
+				rowId
+				fullName
+				placeName
+				countryId
+				latitude
+				longitude
+				type
+				direction
+				races(orderBy: YEAR_DESC) {
+					nodes {
+						year
+						round
+					}
+				}
 			}
 		}
 	}

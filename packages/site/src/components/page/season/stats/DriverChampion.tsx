@@ -3,36 +3,40 @@ import {DriverId} from '@/types';
 import {gql, useQuery} from '@apollo/client';
 
 type Data = {
-	driverStandingsBySeasons: {
-		driverId: DriverId
-	}[]
+	seasonDriverStandings: {
+		nodes: {
+			driverId: string
+		}[]
+	}
 }
 
 const query = gql`
-	query seasonDriverChampionQuery($season: Int!) {
-		driverStandingsBySeasons (condition: {year: $season}, orderBy: POSITION_ASC, first: 1) {
-			driverId
+	query SeasonDriverChampionQuery($season: Int!) {
+		seasonDriverStandings(condition: {year: $season}, orderBy: POSITION_NUMBER_ASC, first: 1) {
+			nodes {
+				driverId
+			}
 		}
 	}
 `;
 
 export default function DriverChampion({season}: { season: number }) {
-	const {loading, data: {driverStandingsBySeasons = []} = {}} = useQuery<Data>(query, {variables: {season}});
-	
+	const {loading, data: {seasonDriverStandings: {nodes = []} = {}} = {}} = useQuery<Data>(query, {variables: {season}});
+
 	const [{currentSeason}] = useAppState();
-	const champion          = new Map<number, number>();
+	const champion          = new Map<DriverId, number>();
 	const label             = season === currentSeason ? 'Driver Leader' : 'Driver Champion';
-	
-	if (!driverStandingsBySeasons.length) {
+
+	if (!nodes.length) {
 		return null;
 	}
-	
-	const {driverId} = driverStandingsBySeasons[0];
+
+	const {driverId} = nodes[0];
 	if (!driverId) {
 		return null;
 	}
-	
-	champion.set(driverId, 1);
-	
+
+	champion.set(driverId as DriverId, 1);
+
 	return <StatCard label={label} loading={loading} data={champion} format={() => ''} noGrid cardProps={{sx: {'& > .MuiCardHeader-root': {px: 0, pb: 0}}}}/>;
 }

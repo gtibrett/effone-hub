@@ -1,34 +1,40 @@
 import {StatCard, useAppState} from '@/components/app';
 import {gql, useQuery} from '@apollo/client';
-import {Team} from '@/gql/graphql';
+import {Season} from '@/gql/graphql';
 
 type Data = {
-	finalTeamStandingsByYears: {
-		teamId: Team['teamId']
-	}[]
+	season: Pick<Season, 'seasonConstructorStandingsByYear'> | null;
 }
 
 const query = gql`
 	query seasonConstructorChampionQuery($season: Int!) {
-		finalTeamStandingsByYears (condition: {year: $season}, orderBy: POSITION_ASC, first: 1) {
-			teamId
+		season(year: $season) {
+			seasonConstructorStandingsByYear(orderBy: POSITION_NUMBER_ASC, first: 1) {
+				nodes {
+					constructorId
+				}
+			}
 		}
 	}
 `;
 
 export default function ConstructorChampion({season}: { season: number }) {
-	const {loading, data: {finalTeamStandingsByYears = []} = {}} = useQuery<Data>(query, {variables: {season}});
-	
+	const {loading, data} = useQuery<Data>(query, {variables: {season}});
+
 	const [{currentSeason}] = useAppState();
-	const champion          = new Map<number, number>();
+	const champion          = new Map<string, number>();
 	const label             = season === currentSeason ? 'Constructor Leader' : 'Constructor Champion';
-	
-	if (!finalTeamStandingsByYears.length) {
+
+	const nodes = data?.season?.seasonConstructorStandingsByYear?.nodes ?? [];
+	if (!nodes.length) {
 		return null;
 	}
-	
-	const {teamId} = finalTeamStandingsByYears[0];
-	champion.set(teamId, 1);
-	
-	return <StatCard label={label} loading={loading} data={champion} format={() => ''} variant="team" noGrid cardProps={{sx: {'& > .MuiCardHeader-root': {px: 0, pb: 0}}}}/>;
+
+	const {constructorId} = nodes[0];
+	if (!constructorId) {
+		return null;
+	}
+	champion.set(constructorId, 1);
+
+	return <StatCard label={label} loading={loading} data={champion as unknown as Map<number, number>} format={() => ''} variant="team" noGrid cardProps={{sx: {'& > .MuiCardHeader-root': {px: 0, pb: 0}}}}/>;
 }
