@@ -3,24 +3,15 @@ import {gql} from '@apollo/client';
 const DriversQuery = gql`
 	#graphql
 	query DriversQuery {
-		drivers (orderBy: SURNAME_ASC) {
-			driverId
-			driverRef
-			forename
-			surname
-			nationality
+		drivers (orderBy: LAST_NAME_ASC) {
+			nodes {
+				id
+				firstName
+				lastName
+				nationality
 #			driverStandingsBySeasons{
 #				position
 #			}
-			results {
-				positionOrder
-			}
-			teamsByYear {
-				year
-				teamId
-				team {
-					name
-				}
 			}
 		}
 	}
