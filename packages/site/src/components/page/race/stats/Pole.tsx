@@ -5,17 +5,25 @@ import {RaceStatProps} from './index';
 
 type Data = {
 	races: {
-		qualifyings: {
-			driverId: DriverId
+		nodes: {
+			qualifyingResults: {
+				nodes: {
+					driverId: DriverId
+				}[]
+			}
 		}[]
-	}[]
+	}
 }
 
 const query = gql`
 	query racePolesLeaderQuery($season: Int!, $round: Int!) {
 		races (condition: {year: $season, round: $round}) {
-			qualifyings (condition: {position: 1}) {
-				driverId
+			nodes {
+				qualifyingResults (condition: {positionNumber: 1}, first: 1) {
+					nodes {
+						driverId
+					}
+				}
 			}
 		}
 	}
@@ -23,15 +31,15 @@ const query = gql`
 
 export default function Pole({season, round, size}: RaceStatProps) {
 	const {data, loading} = useQuery<Data>(query, {variables: {season, round}});
-	const leaders         = new Map<number, number>();
-	
-	(data?.races || []).forEach(r => {
-		r.qualifyings.forEach(rs => {
+	const leaders         = new Map<DriverId, number>();
+
+	(data?.races?.nodes || []).forEach(r => {
+		(r.qualifyingResults?.nodes || []).forEach(rs => {
 			if (rs.driverId) {
 				leaders.set(rs.driverId, (leaders.get(rs.driverId) || 0) + 1);
 			}
 		});
 	});
-	
+
 	return <StatCard size={size} loading={loading} data={leaders} label="Pole Position" format={() => null}/>;
 }

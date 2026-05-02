@@ -11,7 +11,7 @@ type PitStopsChartProps = {
 }
 
 export type PitStopSerie = {
-	driverId: number;
+	driverId: string;
 	code: string;
 	[stop: string]: number | string;
 }
@@ -39,9 +39,9 @@ export default function PitStopsChart({maxStops, pitStops}: PitStopsChartProps) 
 		};
 		
 		p.stops.forEach((s) => {
-			if (s.milliseconds) {
-				stop[String(s.stop)]              = s.milliseconds;
-				stop[`${String(s.stop)}-display`] = s.duration || '';
+			if (s.timeMillis) {
+				stop[String(s.stop)]              = s.timeMillis;
+				stop[`${String(s.stop)}-display`] = s.time || '';
 			}
 		});
 		

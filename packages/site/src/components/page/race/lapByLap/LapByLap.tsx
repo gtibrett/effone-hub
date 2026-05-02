@@ -17,7 +17,7 @@ type LapChartDatum = {
 }
 
 export type LapChartSeries = {
-	id: number;
+	id: DriverId;
 	color?: string;
 	driverId: DriverId;
 	name: Maybe<string> | undefined;
