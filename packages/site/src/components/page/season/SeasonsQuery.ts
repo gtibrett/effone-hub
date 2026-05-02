@@ -3,18 +3,21 @@ import {gql} from '@apollo/client';
 const SeasonsQuery = gql`
 	query SeasonsQuery {
 		seasons(condition: {hasResults: true, ended: true}, orderBy: YEAR_DESC) {
-			year
-			racesByYear(orderBy: ROUND_DESC, first: 1) {
-				round
-				teamStandings(orderBy: POSITION_ASC, first: 1) {
-					teamId
-					points
-					wins
+			nodes {
+				year
+				seasonConstructorStandingsByYear(orderBy: POSITION_NUMBER_ASC, first: 1) {
+					nodes {
+						constructorId
+						points
+						positionNumber
+					}
 				}
-				driverStandings(orderBy: POSITION_ASC, first: 3) {
-					driverId
-					points
-					wins
+				seasonDriverStandingsByYear(orderBy: POSITION_NUMBER_ASC, first: 3) {
+					nodes {
+						driverId
+						points
+						positionNumber
+					}
 				}
 			}
 		}

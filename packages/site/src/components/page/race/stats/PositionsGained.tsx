@@ -1,37 +1,38 @@
 import {StatCard} from '@/components/app';
 import {gql, useQuery} from '@apollo/client';
-import {Result} from '@/gql/graphql';
-import {RaceStatProps} from './index';
+import {Race, RaceResult} from '@/gql/graphql';
+import {RaceStatProps} from './types';
 
 type Data = {
-	races: {
-		results: Pick<Result, 'driverId' | 'grid' | 'positionOrder'>[]
-	}[]
+	race: Pick<Race, 'raceResults'> | null;
 }
 
 const query = gql`
 	query racePositionsGainedLeaderQuery($season: Int!, $round: Int!) {
-		races (condition: {year: $season, round: $round}) {
-			results {
-				driverId
-				grid
-				positionOrder
+		race: raceByYearAndRound(year: $season, round: $round) {
+			raceResults {
+				nodes {
+					driverId
+					gridPositionNumber
+					positionNumber
+				}
 			}
 		}
 	}
 `;
 
+type ResultNode = Pick<RaceResult, 'driverId' | 'gridPositionNumber' | 'positionNumber'>;
+
 export default function PositionsGained({season, round, size}: RaceStatProps) {
 	const {data, loading} = useQuery<Data>(query, {variables: {season, round}});
-	const leaders         = new Map<number, number>();
-	
-	(data?.races || []).forEach(r => {
-		r.results.forEach(({driverId, grid, positionOrder}) => {
-			if (grid && positionOrder && driverId) {
-				leaders.set(driverId, (leaders.get(driverId) || 0) + (grid - positionOrder));
-			}
-		});
+	const leaders         = new Map<string, number>();
+
+	(data?.race?.raceResults?.nodes || []).forEach((r: ResultNode) => {
+		const {driverId, gridPositionNumber, positionNumber} = r;
+		if (driverId && gridPositionNumber != null && positionNumber != null) {
+			leaders.set(driverId, (leaders.get(driverId) || 0) + (gridPositionNumber - positionNumber));
+		}
 	});
-	
-	return <StatCard size={size} loading={loading} data={leaders} label="Most Positions Gained"/>;
+
+	return <StatCard size={size} loading={loading} data={leaders as unknown as Map<number, number>} label="Most Positions Gained"/>;
 }

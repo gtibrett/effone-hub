@@ -1,13 +1,28 @@
 import {DriverId} from '@/types';
 import {gql, useSuspenseQuery} from '@apollo/client';
-import {Circuit, Race} from '@/gql/graphql';
 
 type DriverResult = {
-	driverId: DriverId
+	driverId: DriverId;
 }
 
-export type RaceData = Pick<Race, 'date' | 'name' | 'round'> & {
-	circuit: Pick<Circuit, 'lat' | 'lng'>;
+type RaceNode = {
+	rowId: number;
+	round: number;
+	date: string;
+	officialName: string;
+	circuit: {
+		latitude: number | null;
+		longitude: number | null;
+	} | null;
+	raceResults: { nodes: DriverResult[] };
+	sprintRaceResults: { nodes: DriverResult[] };
+}
+
+export type RaceData = {
+	date: string;
+	name: string;
+	round: number;
+	circuit: { lat: number | null; lng: number | null };
 	results: DriverResult[];
 	sprintResults: DriverResult[];
 }
@@ -16,26 +31,56 @@ export type ScheduleData = {
 	races: RaceData[];
 }
 
+type ScheduleQueryResponse = {
+	season: {
+		racesByYear: { nodes: RaceNode[] };
+	} | null;
+}
+
 const query = gql`
 	query scheduleQuery($season: Int!) {
-		races (condition: {year: $season},orderBy: ROUND_ASC) {
-			date
-			name
-			round
-			circuit {
-				lat
-				lng
-			}
-			results(first: 1, orderBy: POSITION_ASC) {
-				driverId
-			}
-			sprintResults(first: 1, orderBy: POSITION_ASC) {
-				driverId
+		season(year: $season) {
+			racesByYear(orderBy: ROUND_ASC) {
+				nodes {
+					rowId
+					round
+					date
+					officialName
+					circuit {
+						latitude
+						longitude
+					}
+					raceResults(condition: {positionNumber: 1}, first: 1) {
+						nodes {
+							driverId
+						}
+					}
+					sprintRaceResults(condition: {positionNumber: 1}, first: 1) {
+						nodes {
+							driverId
+						}
+					}
+				}
 			}
 		}
 	}
 `;
 
 export default function useScheduleData(season: number) {
-	return useSuspenseQuery<ScheduleData>(query, {variables: {season}});
+	const result = useSuspenseQuery<ScheduleQueryResponse>(query, {variables: {season}});
+	const nodes = result.data?.season?.racesByYear?.nodes ?? [];
+
+	const races: RaceData[] = nodes.map((race) => ({
+		date: race.date,
+		name: race.officialName,
+		round: race.round,
+		circuit: {
+			lat: race.circuit?.latitude ?? null,
+			lng: race.circuit?.longitude ?? null
+		},
+		results: race.raceResults?.nodes ?? [],
+		sprintResults: race.sprintRaceResults?.nodes ?? []
+	}));
+
+	return {...result, data: {races}};
 }
