@@ -4,8 +4,7 @@ import {useMemo} from 'react';
 
 const ConstructorFields = gql`
 	fragment ConstructorFields on Team {
-		teamId
-		constructorRef
+		id
 		name
 		nationality
 		colors {
@@ -21,32 +20,26 @@ const ConstructorFields = gql`
 
 const query = gql`
 	${ConstructorFields}
-	query constructorById($teamId: Int = -1, $constructorRef: String = "", $useConstructorRef: Boolean!) {
-		teamById: team(teamId: $teamId) @skip(if: $useConstructorRef) {
-			...ConstructorFields
-		}
-
-		teamByRef: teamByConstructorRef(constructorRef: $constructorRef) @include(if: $useConstructorRef) {
-			...ConstructorFields
+	query constructorById($id: String = "") {
+		teams(condition: { id: $id }) {
+			nodes {
+				...ConstructorFields
+			}
 		}
 	}
 `;
 
 
-export default function useTeam(teamIdOrRef?: Team['teamId'] | Team['constructorRef']): { team?: Team } {
-	const variables = {
-		teamId:            typeof teamIdOrRef === 'number' ? teamIdOrRef : undefined,
-		constructorRef:    typeof teamIdOrRef === 'string' ? teamIdOrRef : undefined,
-		useConstructorRef: typeof teamIdOrRef === 'string'
-	};
-	
-	const [loadTeam, {called, loading, data}] = useLazyQuery<{ teamById: Team, teamByRef: Team }>(query, {variables});
-	
+export default function useTeam(constructorId?: Team['id']): { team?: Team } {
+	const variables = {id: constructorId ?? ''};
+
+	const [loadTeam, {called, data}] = useLazyQuery<{ teams: { nodes: Team[] } }>(query, {variables});
+
 	return useMemo(() => {
 		if (!called) {
 			loadTeam();
 		}
-		
-		return {team: data?.teamById || data?.teamByRef || undefined};
+
+		return {team: data?.teams?.nodes?.[0] ?? undefined};
 	}, [called, data, loadTeam]);
 }
