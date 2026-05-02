@@ -7,17 +7,15 @@ import {DataGrid} from '@mui/x-data-grid';
 const QualifyingQuery = gql`
 	query qualifyingQuery($season: Int!, $round: Int!) {
 		race: raceByYearAndRound(year: $season, round: $round) {
-			qualifyings {
-				driverId
-				driver {
-					teamsByYear (condition: {year: $season}) {
-						teamId
-					}
+			qualifyingResults {
+				nodes {
+					driverId
+					constructorId
+					positionNumber
+					q1
+					q2
+					q3
 				}
-				position
-				q1
-				q2
-				q3
 			}
 		}
 	}
@@ -29,31 +27,33 @@ type QualifyingProps = {
 }
 
 export default function Qualifying({season, round}: QualifyingProps) {
-	const {data, loading} = useQuery<{ race: Pick<Race, 'qualifyings'> }>(QualifyingQuery, {variables: {season, round}});
-	
+	const {data, loading} = useQuery<{ race: Pick<Race, 'qualifyingResults'> }>(QualifyingQuery, {variables: {season, round}});
+
 	if (loading) {
 		return <Skeleton variant="rectangular" height={400}/>;
 	}
-	
-	if (!data?.race.qualifyings.length) {
+
+	const rows = data?.race?.qualifyingResults?.nodes ?? [];
+
+	if (!rows.length) {
 		return <Alert variant="outlined" severity="info">Qualifying Data Not Available</Alert>;
 	}
-	
+
 	return (
 		<DataGrid
-			rows={data.race.qualifyings}
+			rows={rows}
 			autoHeight
 			density="compact"
-			getRowId={r => r.driverId || 0}
+			getRowId={r => `${r.driverId ?? 'x'}-${r.positionNumber ?? 0}`}
 			initialState={{
 				sorting: {
-					sortModel: [{field: 'position', sort: 'asc'}]
+					sortModel: [{field: 'positionNumber', sort: 'asc'}]
 				}
 			}}
 			columns={
 				[
 					{
-						field:       'position',
+						field:       'positionNumber',
 						headerName:  'P',
 						width:       60,
 						headerAlign: 'center',
@@ -71,7 +71,7 @@ export default function Qualifying({season, round}: QualifyingProps) {
 						field:      'Constructor',
 						headerName: 'Constructor',
 						flex:       1,
-						renderCell: ({row}) => row.driver?.teamsByYear[0].teamId ? <ConstructorByLine id={row.driver.teamsByYear[0].teamId}/> : '',
+						renderCell: ({row}) => row.constructorId ? <ConstructorByLine id={row.constructorId}/> : '',
 						minWidth:   150
 					},
 					{

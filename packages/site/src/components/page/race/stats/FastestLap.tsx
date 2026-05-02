@@ -1,73 +1,61 @@
 import {DataWithValue, StatCard} from '@/components/app';
 import {getTimeStringFromDate} from '@/helpers';
 import {gql, useQuery} from '@apollo/client';
-import {LapTime} from '@/gql/graphql';
+import {FastestLap as FastestLapNode, Race} from '@/gql/graphql';
 import {Typography} from '@mui/material';
 import {RaceStatProps} from './types';
 
 type FastestLapQueryData = {
-	races: (
-		{
-			lapTimes: Pick<LapTime, 'lap' | 'milliseconds' | 'driverId'>[];
-		}
-		)[]
+	race: Pick<Race, 'fastestLaps'> | null;
 }
 
 const query = gql`
 	query raceFastestLapQuery($season: Int!, $round: Int!) {
-		races (condition: {year: $season, round: $round}) {
-			lapTimes (orderBy: MILLISECONDS_ASC, first: 1) {
-				lap
-				milliseconds
-				driverId
+		race: raceByYearAndRound(year: $season, round: $round) {
+			fastestLaps(first: 1) {
+				nodes {
+					driverId
+					lap
+					time
+					timeMillis
+				}
 			}
 		}
 	}
 `;
 
 interface FastestRaceLap extends DataWithValue {
-	lap: LapTime['lap'];
-	driverId: LapTime['driverId'];
+	lap: FastestLapNode['lap'];
+	driverId: FastestLapNode['driverId'];
 }
 
 export default function FastestLap({season, round, size = 'small'}: RaceStatProps) {
 	const {loading, data} = useQuery<FastestLapQueryData>(query, {variables: {season, round}});
-	
-	if (!data?.races.length) {
+
+	const node = data?.race?.fastestLaps?.nodes?.[0];
+
+	if (!node || node.timeMillis == null || node.driverId == null) {
 		return null;
 	}
-	
-	let fastestSeasonLap: FastestRaceLap = {
-		lap:      0,
-		value:    Number.POSITIVE_INFINITY,
-		driverId: 0
+
+	const fastestRaceLap: FastestRaceLap = {
+		lap:      node.lap,
+		value:    node.timeMillis,
+		driverId: node.driverId
 	};
-	
-	data.races.forEach(({lapTimes = []}) => {
-		if (lapTimes[0]) {
-			// Get fastest race lap
-			const {milliseconds, lap, driverId} = lapTimes[0];
-			
-			if (milliseconds && milliseconds < fastestSeasonLap.value) {
-				fastestSeasonLap = {
-					lap, value: milliseconds, driverId
-				};
-			}
-		}
-	});
-	
-	const fastestDriver = new Map<number, FastestRaceLap>();
-	fastestDriver.set(fastestSeasonLap.driverId, fastestSeasonLap);
-	
-	const formatExtra = (data: FastestRaceLap) => (
-		<Typography variant="caption">Lap {data.lap}</Typography>
+
+	const fastestDriver = new Map<string, FastestRaceLap>();
+	fastestDriver.set(node.driverId, fastestRaceLap);
+
+	const formatExtra = (d: FastestRaceLap) => (
+		<Typography variant="caption">Lap {d.lap}</Typography>
 	);
-	
+
 	return <StatCard<FastestRaceLap, FastestRaceLap>
 		label="Fastest Lap"
 		size={size}
 		loading={loading}
-		data={fastestDriver}
+		data={fastestDriver as unknown as Map<number, FastestRaceLap>}
 		format={(t) => getTimeStringFromDate(new Date(t.value))}
 		extra={formatExtra}
 	/>;

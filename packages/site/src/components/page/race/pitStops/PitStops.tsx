@@ -2,7 +2,7 @@ import {DriverByLine} from '@/components/app';
 import {getTimeStringFromDate} from '@/helpers';
 import {useGetTeamColor} from '@/hooks';
 import {gql, useQuery} from '@apollo/client';
-import {Driver, PitStop, Race, TeamColor} from '@/gql/graphql';
+import {Driver, PitStop, Race} from '@/gql/graphql';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useCallback} from 'react';
@@ -13,19 +13,19 @@ const pitStopsQuery = gql`
 	query pitStopsBySeasonRound($season: Int!, $round: Int!) {
 		race: raceByYearAndRound(year: $season, round: $round) {
 			pitStops {
-				lap
-				time
-				duration
-				milliseconds
-				driver {
+				nodes {
+					lap
+					stop
+					time
+					timeMillis
 					driverId
-					code
-
-					currentTeam {
-						team {
-							colors {
-								primary
-							}
+					driver {
+						id
+						abbreviation
+					}
+					constructor {
+						colors {
+							primaryHex
 						}
 					}
 				}
@@ -40,57 +40,59 @@ type PitStopsProps = {
 }
 
 export type PitStopTableRow = {
-	driverId: Driver['driverId'];
-	code: Driver['code'];
-	color: TeamColor['primary'];
+	driverId: Driver['id'];
+	code: Driver['abbreviation'];
+	color: string;
 	stops: PitStop[];
 }
 
 const useMapTableData = () => {
 	const getTeamColor = useGetTeamColor();
-	
+
 	return useCallback((pitStops: PitStop[]) => {
 		const tableData: PitStopTableRow[] = [];
-		
+
 		pitStops.forEach(p => {
 			if (!p.driver) {
 				return;
 			}
-			let index = tableData.findIndex(driver => driver.driverId === p.driver?.driverId);
+			let index = tableData.findIndex(driver => driver.driverId === p.driver?.id);
 			if (index === -1) {
+				const primary = p.constructor?.colors?.primaryHex;
 				tableData.push({
-					driverId: p.driver.driverId,
-					code:     p.driver.code,
-					color:    getTeamColor(p.driver.currentTeam?.team?.colors, 'primary', false),
+					driverId: p.driver.id,
+					code:     p.driver.abbreviation,
+					color:    getTeamColor(primary ? {primary} : undefined, 'primary', false),
 					stops:    []
 				});
 				index = tableData.length - 1;
 			}
-			
+
 			tableData[index].stops.push({
 				...p,
 				stop: tableData[index].stops.length + 1
 			});
 		});
-		
+
 		return {tableData, maxStops: Math.max(0, ...tableData.map(d => d.stops.length))};
 	}, [getTeamColor]);
 };
 
 export default function PitStops({season, round}: PitStopsProps) {
-	const {loading, data} = useQuery<{ race: Pick<Race, 'pitStops'> }>(pitStopsQuery, {variables: {season, round}});
+	const {loading, data} = useQuery<{ race: { pitStops: { nodes: PitStop[] } } }>(pitStopsQuery, {variables: {season, round}});
 	const mapTableData    = useMapTableData();
-	
+
 	if (loading) {
 		return <Skeleton variant="rectangular" height={400}/>;
 	}
-	
-	if (!data?.race.pitStops.length) {
+
+	const nodes = data?.race?.pitStops?.nodes ?? [];
+	if (!nodes.length) {
 		return <Alert variant="outlined" severity="info">Pit Stop Data Not Available</Alert>;
 	}
-	
-	const {tableData, maxStops} = mapTableData(data.race.pitStops);
-	
+
+	const {tableData, maxStops} = mapTableData(nodes);
+
 	const columns: GridColDef<PitStopTableRow>[] = [
 		{
 			field:      'Driver',
@@ -117,18 +119,18 @@ export default function PitStops({season, round}: PitStopsProps) {
 				align:       'center',
 				type:        'number',
 				valueGetter: (value, row) => {
-					const stopTime = row.stops.find(r => r.stop === i + 1)?.milliseconds;
-					
+					const stopTime = row.stops.find(r => r.stop === i + 1)?.timeMillis;
+
 					if (stopTime) {
 						return getTimeStringFromDate(new Date(stopTime));
 					}
-					
+
 					return '--';
 				}
 			} as GridColDef<PitStopTableRow>;
 		})
 	];
-	
+
 	return (
 		<>
 			<PitStopsChart maxStops={maxStops} pitStops={tableData}/>
