@@ -3,18 +3,18 @@ import {Season} from '@/gql/graphql';
 import {alpha, FormControl, InputLabel, MenuItem, Select, useTheme} from '@mui/material';
 
 export const SeasonsQuery = gql`
-	query seasons {
-		seasons {
-			year
-			ended
-			hasResults
+	query SeasonMenuQuery {
+		seasons(orderBy: YEAR_DESC) {
+			nodes {
+				year
+			}
 		}
 	}
 `;
 
 const useSelectSx = () => {
 	const theme = useTheme();
-	
+
 	return {
 		m:            0,
 		minWidth:     120,
@@ -23,7 +23,7 @@ const useSelectSx = () => {
 		'&:hover':    {
 			backgroundColor: alpha(theme.palette.divider, 0.05)
 		},
-		
+
 		'& > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
 			border: 0
 		}
@@ -40,18 +40,16 @@ type SeasonMenuProps = {
 
 export default function SeasonMenu({variant = 'simple', id, season, setSeason, required = true}: SeasonMenuProps) {
 	const sx              = useSelectSx();
-	const {data, loading} = useQuery<{ seasons: Season[] }>(SeasonsQuery);
-	
-	const seasons = (data?.seasons || [{year: (new Date()).getFullYear()}]).map(s => s.year);
-	seasons.sort();
-	seasons.reverse();
-	
+	const {data, loading} = useQuery<{ seasons: { nodes: Pick<Season, 'year'>[] } }>(SeasonsQuery);
+
+	const seasons = (data?.seasons.nodes ?? [{year: (new Date()).getFullYear()}]).map(s => s.year);
+
 	if (!seasons.length || loading) {
 		return null;
 	}
-	
+
 	const seasonOptions = seasons.map(year => <MenuItem key={year} value={year}>{year}</MenuItem>);
-	
+
 	switch (variant) {
 		case 'simple':
 			return (
@@ -69,7 +67,7 @@ export default function SeasonMenu({variant = 'simple', id, season, setSeason, r
 					</Select>
 				</FormControl>
 			);
-		
+
 		case 'normal':
 			return (
 				<FormControl fullWidth size="small" variant="outlined">
@@ -87,7 +85,7 @@ export default function SeasonMenu({variant = 'simple', id, season, setSeason, r
 				</FormControl>
 			);
 	}
-	
+
 	return (
 		<FormControl fullWidth sx={variant === 'simple' ? sx : undefined} size="small">
 			<Select
