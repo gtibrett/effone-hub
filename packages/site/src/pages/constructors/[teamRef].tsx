@@ -2,7 +2,6 @@ import {useAppState} from '@/components/app';
 import {ConstructorsQuery, Drivers, History, Season} from '@/components/page/constructor';
 import {DriverPodiums, DriverPoints, DriverQualifying} from '@/components/page/constructor/stats';
 import {Flag, Page, WikipediaLink} from '@/components/ui';
-import {Team} from '@/gql/graphql';
 import {useGetTeamColor} from '@/hooks';
 import {useConstructorData} from '@/hooks/data';
 import {apolloClient} from '@/useApolloClient';
@@ -11,7 +10,16 @@ import {setPageTitle, Tabs} from '@gtibrett/mui-additions';
 import {Card, CardContent, CardHeader, CardMedia, Divider, Grid, Skeleton, Typography, useTheme} from '@mui/material';
 import {useRouter} from 'next/router';
 
-const TeamDetails = ({team}: { team: Team }) => {
+type TeamProp = {
+	id: string;
+	name?: string | null;
+	nationality?: string | null;
+	url?: string | null;
+	colors?: { primaryHex?: string | null } | null;
+	bio?: { extract?: string | null } | null;
+};
+
+const TeamDetails = ({team}: { team: TeamProp }) => {
 	return (
 		<Grid container spacing={4} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
 			<Grid item><Typography variant="h2">{team.name}</Typography></Grid>
@@ -58,7 +66,7 @@ const PageSkeleton = () => (
 	</Page>
 );
 
-export default function Constructor({teamRef, team}: { teamRef: Team['constructorRef'], team: Team }) {
+export default function Constructor({teamRef, team}: { teamRef: string, team: TeamProp }) {
 	const theme             = useTheme();
 	const {isFallback}      = useRouter();
 	const getTeamColor      = useGetTeamColor();
@@ -111,7 +119,7 @@ export default function Constructor({teamRef, team}: { teamRef: Team['constructo
 						width:      '100%',
 						height:     theme.spacing(2),
 						content:    '" "',
-						background: getTeamColor(team.colors)
+						background: getTeamColor({primary: team.colors?.primaryHex} as any)
 					}
 				}
 			}}
@@ -130,14 +138,14 @@ export default function Constructor({teamRef, team}: { teamRef: Team['constructo
 							<CardHeader title={`${currentSeason} Season Stats`}/>
 							<CardContent>
 								<Grid container spacing={2}>
-									<DriverPoints teamId={team.teamId} season={currentSeason} place={1}/>
-									<DriverPoints teamId={team.teamId} season={currentSeason} place={2}/>
+									<DriverPoints constructorId={team.id} season={currentSeason} place={1}/>
+									<DriverPoints constructorId={team.id} season={currentSeason} place={2}/>
 									<Grid item xs={12}><Typography variant="h4">Podiums</Typography></Grid>
-									<DriverPodiums teamId={team.teamId} season={currentSeason} place={1}/>
-									<DriverPodiums teamId={team.teamId} season={currentSeason} place={2}/>
+									<DriverPodiums constructorId={team.id} season={currentSeason} place={1}/>
+									<DriverPodiums constructorId={team.id} season={currentSeason} place={2}/>
 									<Grid item xs={12}><Typography variant="h4">Qualifying Head-to-Head</Typography></Grid>
-									<DriverQualifying teamId={team.teamId} season={currentSeason} place={1}/>
-									<DriverQualifying teamId={team.teamId} season={currentSeason} place={2}/>
+									<DriverQualifying constructorId={team.id} season={currentSeason} place={1}/>
+									<DriverQualifying constructorId={team.id} season={currentSeason} place={2}/>
 								</Grid>
 							</CardContent>
 						</Card>
@@ -149,14 +157,13 @@ export default function Constructor({teamRef, team}: { teamRef: Team['constructo
 }
 
 export const ConstructorDataQuery = gql`
-	query ConstructorDataQuery($constructorRef: String!) {
-		team: teamByConstructorRef(constructorRef: $constructorRef) {
-			teamId
-			constructorRef
+	query ConstructorPageStaticQuery($constructorRef: String!) {
+		team: constructor(id: $constructorRef) {
+			id
 			name
 			nationality
 			colors {
-				primary
+				primaryHex
 			}
 			url
 			bio {
@@ -178,11 +185,11 @@ export async function getStaticProps({params: {teamRef}}: { params: { teamRef: s
 }
 
 export async function getStaticPaths() {
-	const {data: {teams}} = await apolloClient.query<{ teams: Team[] }>({query: ConstructorsQuery});
-	
-	const paths = teams.map(team => ({
-		params: {teamRef: team.constructorRef}
+	const {data: {constructors}} = await apolloClient.query<{ constructors: { nodes: { id: string }[] } }>({query: ConstructorsQuery});
+
+	const paths = constructors.nodes.map(team => ({
+		params: {teamRef: team.id}
 	}));
-	
+
 	return {paths, fallback: 'blocking'};
 }
