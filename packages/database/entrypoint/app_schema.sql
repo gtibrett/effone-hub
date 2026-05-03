@@ -33,10 +33,10 @@ CREATE TABLE IF NOT EXISTS app.circuit_descriptions (
 -- Team brand colors — F1DB ships colors per season_entrant_constructor; this is a
 -- per-constructor fallback for places we want a single canonical look.
 CREATE TABLE IF NOT EXISTS app.team_colors (
-  constructor_id varchar(100) PRIMARY KEY,
-  primary_hex    varchar(7),
-  secondary_hex  varchar(7),
-  logo           text
+  team_id       varchar(100) PRIMARY KEY,
+  primary_hex   varchar(7),
+  secondary_hex varchar(7),
+  logo          text
 );
 
 -- Driver bios — OpenAI-generated description + Wikipedia title/extract.
@@ -52,22 +52,22 @@ CREATE TABLE IF NOT EXISTS app.driver_bios (
 
 -- Constructor bios — same shape, 1:1 with f1db.constructor.
 CREATE TABLE IF NOT EXISTS app.constructor_bios (
-  constructor_id varchar(100) PRIMARY KEY,
-  description    text,
-  title          text,
-  extract        text,
-  source         text,
-  updated_at     timestamptz NOT NULL DEFAULT now()
+  team_id     varchar(100) PRIMARY KEY,
+  description text,
+  title       text,
+  extract     text,
+  source      text,
+  updated_at  timestamptz NOT NULL DEFAULT now()
 );
 
 -- Manually-curated team lineage edges. F1DB has constructor_chronology; this stays
 -- as an editorial layer for the timeline UI to express things F1DB does not model.
 CREATE TABLE IF NOT EXISTS app.team_history (
-  constructor_id            varchar(100) NOT NULL,
-  antecedent_constructor_id varchar(100) NOT NULL,
-  start_year                int,
-  end_year                  int,
-  PRIMARY KEY (constructor_id, antecedent_constructor_id)
+  team_id            varchar(100) NOT NULL,
+  antecedent_team_id varchar(100) NOT NULL,
+  start_year         int,
+  end_year           int,
+  PRIMARY KEY (team_id, antecedent_team_id)
 );
 
 INSERT INTO app.ingest_state (key, value)

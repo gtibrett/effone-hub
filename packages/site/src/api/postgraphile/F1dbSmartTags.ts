@@ -14,6 +14,13 @@ const F1dbSmartTags = makeJSONPgSmartTagsPlugin({
 	version: 1,
 	config:  {
 		class: {
+			// NOTE: f1db.constructor* tables are renamed to f1db.team* by init.sh
+			// (see entrypoint/init.sh). This is required because PostGraphile
+			// inflection iterates relation maps via plain JS property access,
+			// which collides with `Object.prototype.constructor` and produces
+			// garbage field names like `functionObjectNativeCodeSeasonEntrantDrivers`.
+			// The rename also matches UI domain language (useTeam, TeamId, etc.).
+
 			// app -> f1db cross-schema relations. We deliberately omit real
 			// FKs at the DB level since the f1db schema is dropped+recreated
 			// each ingest.
@@ -37,19 +44,19 @@ const F1dbSmartTags = makeJSONPgSmartTagsPlugin({
 			},
 			'app.constructor_bios': {
 				tags: {
-					foreignKey: '(constructor_id) references f1db.constructor (id)|@fieldName constructor|@foreignFieldName bio'
+					foreignKey: '(team_id) references f1db.team (id)|@fieldName team|@foreignFieldName bio'
 				}
 			},
 			'app.team_colors': {
 				tags: {
-					foreignKey: '(constructor_id) references f1db.constructor (id)|@fieldName constructor|@foreignFieldName colors'
+					foreignKey: '(team_id) references f1db.team (id)|@fieldName team|@foreignFieldName colors'
 				}
 			},
 			'app.team_history': {
 				tags: {
 					foreignKey: [
-						'(constructor_id) references f1db.constructor (id)|@fieldName constructor|@foreignFieldName antecedents',
-						'(antecedent_constructor_id) references f1db.constructor (id)|@fieldName antecedent|@foreignFieldName successors'
+						'(team_id) references f1db.team (id)|@fieldName team|@foreignFieldName antecedents',
+						'(antecedent_team_id) references f1db.team (id)|@fieldName antecedentTeam|@foreignFieldName successors'
 					]
 				}
 			},
@@ -63,7 +70,7 @@ const F1dbSmartTags = makeJSONPgSmartTagsPlugin({
 					foreignKey: [
 						'(race_id) references f1db.race (id)|@foreignFieldName raceResults',
 						'(driver_id) references f1db.driver (id)|@foreignFieldName raceResults',
-						'(constructor_id) references f1db.constructor (id)|@foreignFieldName raceResults'
+						'(team_id) references f1db.team (id)|@foreignFieldName raceResults'
 					]
 				}
 			},
@@ -73,7 +80,7 @@ const F1dbSmartTags = makeJSONPgSmartTagsPlugin({
 					foreignKey: [
 						'(race_id) references f1db.race (id)|@foreignFieldName qualifyingResults',
 						'(driver_id) references f1db.driver (id)|@foreignFieldName qualifyingResults',
-						'(constructor_id) references f1db.constructor (id)|@foreignFieldName qualifyingResults'
+						'(team_id) references f1db.team (id)|@foreignFieldName qualifyingResults'
 					]
 				}
 			},
@@ -83,7 +90,7 @@ const F1dbSmartTags = makeJSONPgSmartTagsPlugin({
 					foreignKey: [
 						'(race_id) references f1db.race (id)|@foreignFieldName sprintRaceResults',
 						'(driver_id) references f1db.driver (id)|@foreignFieldName sprintRaceResults',
-						'(constructor_id) references f1db.constructor (id)|@foreignFieldName sprintRaceResults'
+						'(team_id) references f1db.team (id)|@foreignFieldName sprintRaceResults'
 					]
 				}
 			},
@@ -93,7 +100,7 @@ const F1dbSmartTags = makeJSONPgSmartTagsPlugin({
 					foreignKey: [
 						'(race_id) references f1db.race (id)|@foreignFieldName sprintQualifyingResults',
 						'(driver_id) references f1db.driver (id)|@foreignFieldName sprintQualifyingResults',
-						'(constructor_id) references f1db.constructor (id)|@foreignFieldName sprintQualifyingResults'
+						'(team_id) references f1db.team (id)|@foreignFieldName sprintQualifyingResults'
 					]
 				}
 			},
@@ -103,7 +110,7 @@ const F1dbSmartTags = makeJSONPgSmartTagsPlugin({
 					foreignKey: [
 						'(race_id) references f1db.race (id)|@foreignFieldName startingGridPositions',
 						'(driver_id) references f1db.driver (id)|@foreignFieldName startingGridPositions',
-						'(constructor_id) references f1db.constructor (id)|@foreignFieldName startingGridPositions'
+						'(team_id) references f1db.team (id)|@foreignFieldName startingGridPositions'
 					]
 				}
 			},
@@ -113,7 +120,7 @@ const F1dbSmartTags = makeJSONPgSmartTagsPlugin({
 					foreignKey: [
 						'(race_id) references f1db.race (id)|@foreignFieldName sprintStartingGridPositions',
 						'(driver_id) references f1db.driver (id)|@foreignFieldName sprintStartingGridPositions',
-						'(constructor_id) references f1db.constructor (id)|@foreignFieldName sprintStartingGridPositions'
+						'(team_id) references f1db.team (id)|@foreignFieldName sprintStartingGridPositions'
 					]
 				}
 			},
@@ -123,7 +130,7 @@ const F1dbSmartTags = makeJSONPgSmartTagsPlugin({
 					foreignKey: [
 						'(race_id) references f1db.race (id)|@foreignFieldName pitStops',
 						'(driver_id) references f1db.driver (id)|@foreignFieldName pitStops',
-						'(constructor_id) references f1db.constructor (id)|@foreignFieldName pitStops'
+						'(team_id) references f1db.team (id)|@foreignFieldName pitStops'
 					]
 				}
 			},
@@ -133,7 +140,7 @@ const F1dbSmartTags = makeJSONPgSmartTagsPlugin({
 					foreignKey: [
 						'(race_id) references f1db.race (id)|@foreignFieldName fastestLaps',
 						'(driver_id) references f1db.driver (id)|@foreignFieldName fastestLaps',
-						'(constructor_id) references f1db.constructor (id)|@foreignFieldName fastestLaps'
+						'(team_id) references f1db.team (id)|@foreignFieldName fastestLaps'
 					]
 				}
 			},
@@ -143,7 +150,7 @@ const F1dbSmartTags = makeJSONPgSmartTagsPlugin({
 					foreignKey: [
 						'(race_id) references f1db.race (id)|@foreignFieldName driverOfTheDayResults',
 						'(driver_id) references f1db.driver (id)|@foreignFieldName driverOfTheDayResults',
-						'(constructor_id) references f1db.constructor (id)|@foreignFieldName driverOfTheDayResults'
+						'(team_id) references f1db.team (id)|@foreignFieldName driverOfTheDayResults'
 					]
 				}
 			}

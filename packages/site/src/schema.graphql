@@ -45,13 +45,13 @@ type Query implements Node {
   driverFamilyRelationshipByDriverIdAndOtherDriverIdAndType(driverId: String!, otherDriverId: String!, type: String!): DriverFamilyRelationship
 
   """Get a single `AppTeamColor`."""
-  appTeamColor(constructorId: String!): AppTeamColor
+  appTeamColor(teamId: String!): AppTeamColor
 
   """Get a single `AppTeamHistory`."""
-  appTeamHistory(constructorId: String!, antecedentConstructorId: String!): AppTeamHistory
+  appTeamHistory(teamId: String!, antecedentTeamId: String!): AppTeamHistory
 
-  """Get a single `SeasonEntrantConstructor`."""
-  seasonEntrantConstructor(year: Int!, entrantId: String!, constructorId: String!, engineManufacturerId: String!): SeasonEntrantConstructor
+  """Get a single `SeasonEntrantTeam`."""
+  seasonEntrantTeam(year: Int!, entrantId: String!, teamId: String!, engineManufacturerId: String!): SeasonEntrantTeam
 
   """Get a single `AppCircuitDescription`."""
   appCircuitDescription(circuitId: String!): AppCircuitDescription
@@ -59,23 +59,23 @@ type Query implements Node {
   """Get a single `AppIngestState`."""
   appIngestState(key: String!): AppIngestState
 
-  """Get a single `ConstructorChronology`."""
-  constructorChronology(constructorId: String!, positionDisplayOrder: Int!): ConstructorChronology
+  """Get a single `TeamChronology`."""
+  teamChronology(teamId: String!, positionDisplayOrder: Int!): TeamChronology
 
-  """Get a single `ConstructorChronology`."""
-  constructorChronologyByConstructorIdAndOtherConstructorIdAndYearFromAndYearTo(constructorId: String!, otherConstructorId: String!, yearFrom: Int!, yearTo: Int!): ConstructorChronology
+  """Get a single `TeamChronology`."""
+  teamChronologyByTeamIdAndOtherTeamIdAndYearFromAndYearTo(teamId: String!, otherTeamId: String!, yearFrom: Int!, yearTo: Int!): TeamChronology
 
   """Get a single `SeasonEntrantChassis`."""
-  seasonEntrantChassis(year: Int!, entrantId: String!, constructorId: String!, engineManufacturerId: String!, chassisId: String!): SeasonEntrantChassis
+  seasonEntrantChassis(year: Int!, entrantId: String!, teamId: String!, engineManufacturerId: String!, chassisId: String!): SeasonEntrantChassis
 
   """Get a single `SeasonEntrantEngine`."""
-  seasonEntrantEngine(year: Int!, entrantId: String!, constructorId: String!, engineManufacturerId: String!, engineId: String!): SeasonEntrantEngine
+  seasonEntrantEngine(year: Int!, entrantId: String!, teamId: String!, engineManufacturerId: String!, engineId: String!): SeasonEntrantEngine
 
   """Get a single `SeasonEntrantTyreManufacturer`."""
-  seasonEntrantTyreManufacturer(year: Int!, entrantId: String!, constructorId: String!, engineManufacturerId: String!, tyreManufacturerId: String!): SeasonEntrantTyreManufacturer
+  seasonEntrantTyreManufacturer(year: Int!, entrantId: String!, teamId: String!, engineManufacturerId: String!, tyreManufacturerId: String!): SeasonEntrantTyreManufacturer
 
   """Get a single `AppConstructorBio`."""
-  appConstructorBio(constructorId: String!): AppConstructorBio
+  appConstructorBio(teamId: String!): AppConstructorBio
 
   """Get a single `AppDriverBio`."""
   appDriverBio(driverId: String!): AppDriverBio
@@ -104,11 +104,11 @@ type Query implements Node {
   """Get a single `SeasonDriverStanding`."""
   seasonDriverStanding(year: Int!, positionDisplayOrder: Int!): SeasonDriverStanding
 
-  """Get a single `SeasonConstructorStanding`."""
-  seasonConstructorStanding(year: Int!, positionDisplayOrder: Int!): SeasonConstructorStanding
-
   """Get a single `SeasonEntrantDriver`."""
-  seasonEntrantDriver(year: Int!, entrantId: String!, constructorId: String!, engineManufacturerId: String!, driverId: String!): SeasonEntrantDriver
+  seasonEntrantDriver(year: Int!, entrantId: String!, teamId: String!, engineManufacturerId: String!, driverId: String!): SeasonEntrantDriver
+
+  """Get a single `SeasonTeamStanding`."""
+  seasonTeamStanding(year: Int!, positionDisplayOrder: Int!): SeasonTeamStanding
 
   """Get a single `Engine`."""
   engine(rowId: String!): Engine
@@ -116,8 +116,8 @@ type Query implements Node {
   """Get a single `RaceDriverStanding`."""
   raceDriverStanding(raceId: Int!, positionDisplayOrder: Int!): RaceDriverStanding
 
-  """Get a single `RaceConstructorStanding`."""
-  raceConstructorStanding(raceId: Int!, positionDisplayOrder: Int!): RaceConstructorStanding
+  """Get a single `RaceTeamStanding`."""
+  raceTeamStanding(raceId: Int!, positionDisplayOrder: Int!): RaceTeamStanding
 
   """Get a single `DriverOfTheDayResult`."""
   driverOfTheDayResult(raceId: Int!, positionDisplayOrder: Int!): DriverOfTheDayResult
@@ -146,17 +146,17 @@ type Query implements Node {
   """Get a single `SeasonEngineManufacturer`."""
   seasonEngineManufacturer(year: Int!, engineManufacturerId: String!): SeasonEngineManufacturer
 
-  """Get a single `SeasonConstructor`."""
-  seasonConstructor(year: Int!, constructorId: String!): SeasonConstructor
-
   """Get a single `SeasonDriver`."""
   seasonDriver(year: Int!, driverId: String!): SeasonDriver
+
+  """Get a single `SeasonTeam`."""
+  seasonTeam(year: Int!, teamId: String!): SeasonTeam
 
   """Get a single `EngineManufacturer`."""
   engineManufacturer(rowId: String!): EngineManufacturer
 
-  """Get a single `Constructor`."""
-  constructor(rowId: String!): Constructor
+  """Get a single `Team`."""
+  team(rowId: String!): Team
 
   """Get a single `QualifyingResult`."""
   qualifyingResult(raceId: Int!, positionDisplayOrder: Int!): QualifyingResult
@@ -240,15 +240,13 @@ type Query implements Node {
     id: ID!
   ): AppTeamHistory
 
-  """
-  Reads a single `SeasonEntrantConstructor` using its globally unique `ID`.
-  """
-  seasonEntrantConstructorById(
+  """Reads a single `SeasonEntrantTeam` using its globally unique `ID`."""
+  seasonEntrantTeamById(
     """
-    The globally unique `ID` to be used in selecting a single `SeasonEntrantConstructor`.
+    The globally unique `ID` to be used in selecting a single `SeasonEntrantTeam`.
     """
     id: ID!
-  ): SeasonEntrantConstructor
+  ): SeasonEntrantTeam
 
   """Reads a single `AppCircuitDescription` using its globally unique `ID`."""
   appCircuitDescriptionById(
@@ -266,13 +264,13 @@ type Query implements Node {
     id: ID!
   ): AppIngestState
 
-  """Reads a single `ConstructorChronology` using its globally unique `ID`."""
-  constructorChronologyById(
+  """Reads a single `TeamChronology` using its globally unique `ID`."""
+  teamChronologyById(
     """
-    The globally unique `ID` to be used in selecting a single `ConstructorChronology`.
+    The globally unique `ID` to be used in selecting a single `TeamChronology`.
     """
     id: ID!
-  ): ConstructorChronology
+  ): TeamChronology
 
   """Reads a single `SeasonEntrantChassis` using its globally unique `ID`."""
   seasonEntrantChassisById(
@@ -352,16 +350,6 @@ type Query implements Node {
     id: ID!
   ): SeasonDriverStanding
 
-  """
-  Reads a single `SeasonConstructorStanding` using its globally unique `ID`.
-  """
-  seasonConstructorStandingById(
-    """
-    The globally unique `ID` to be used in selecting a single `SeasonConstructorStanding`.
-    """
-    id: ID!
-  ): SeasonConstructorStanding
-
   """Reads a single `SeasonEntrantDriver` using its globally unique `ID`."""
   seasonEntrantDriverById(
     """
@@ -369,6 +357,14 @@ type Query implements Node {
     """
     id: ID!
   ): SeasonEntrantDriver
+
+  """Reads a single `SeasonTeamStanding` using its globally unique `ID`."""
+  seasonTeamStandingById(
+    """
+    The globally unique `ID` to be used in selecting a single `SeasonTeamStanding`.
+    """
+    id: ID!
+  ): SeasonTeamStanding
 
   """Reads a single `Engine` using its globally unique `ID`."""
   engineById(
@@ -384,15 +380,13 @@ type Query implements Node {
     id: ID!
   ): RaceDriverStanding
 
-  """
-  Reads a single `RaceConstructorStanding` using its globally unique `ID`.
-  """
-  raceConstructorStandingById(
+  """Reads a single `RaceTeamStanding` using its globally unique `ID`."""
+  raceTeamStandingById(
     """
-    The globally unique `ID` to be used in selecting a single `RaceConstructorStanding`.
+    The globally unique `ID` to be used in selecting a single `RaceTeamStanding`.
     """
     id: ID!
-  ): RaceConstructorStanding
+  ): RaceTeamStanding
 
   """Reads a single `DriverOfTheDayResult` using its globally unique `ID`."""
   driverOfTheDayResultById(
@@ -468,14 +462,6 @@ type Query implements Node {
     id: ID!
   ): SeasonEngineManufacturer
 
-  """Reads a single `SeasonConstructor` using its globally unique `ID`."""
-  seasonConstructorById(
-    """
-    The globally unique `ID` to be used in selecting a single `SeasonConstructor`.
-    """
-    id: ID!
-  ): SeasonConstructor
-
   """Reads a single `SeasonDriver` using its globally unique `ID`."""
   seasonDriverById(
     """
@@ -483,6 +469,14 @@ type Query implements Node {
     """
     id: ID!
   ): SeasonDriver
+
+  """Reads a single `SeasonTeam` using its globally unique `ID`."""
+  seasonTeamById(
+    """
+    The globally unique `ID` to be used in selecting a single `SeasonTeam`.
+    """
+    id: ID!
+  ): SeasonTeam
 
   """Reads a single `EngineManufacturer` using its globally unique `ID`."""
   engineManufacturerById(
@@ -492,13 +486,11 @@ type Query implements Node {
     id: ID!
   ): EngineManufacturer
 
-  """Reads a single `Constructor` using its globally unique `ID`."""
-  constructorById(
-    """
-    The globally unique `ID` to be used in selecting a single `Constructor`.
-    """
+  """Reads a single `Team` using its globally unique `ID`."""
+  teamById(
+    """The globally unique `ID` to be used in selecting a single `Team`."""
     id: ID!
-  ): Constructor
+  ): Team
 
   """Reads a single `QualifyingResult` using its globally unique `ID`."""
   qualifyingResultById(
@@ -786,10 +778,8 @@ type Query implements Node {
     orderBy: [AppTeamHistoryOrderBy!] = [PRIMARY_KEY_ASC]
   ): AppTeamHistoryConnection
 
-  """
-  Reads and enables pagination through a set of `SeasonEntrantConstructor`.
-  """
-  seasonEntrantConstructors(
+  """Reads and enables pagination through a set of `SeasonEntrantTeam`."""
+  seasonEntrantTeams(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -811,11 +801,11 @@ type Query implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: SeasonEntrantConstructorCondition
+    condition: SeasonEntrantTeamCondition
 
-    """The method to use when ordering `SeasonEntrantConstructor`."""
-    orderBy: [SeasonEntrantConstructorOrderBy!] = [PRIMARY_KEY_ASC]
-  ): SeasonEntrantConstructorConnection
+    """The method to use when ordering `SeasonEntrantTeam`."""
+    orderBy: [SeasonEntrantTeamOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SeasonEntrantTeamConnection
 
   """Reads and enables pagination through a set of `AppCircuitDescription`."""
   appCircuitDescriptions(
@@ -875,8 +865,8 @@ type Query implements Node {
     orderBy: [AppIngestStateOrderBy!] = [PRIMARY_KEY_ASC]
   ): AppIngestStateConnection
 
-  """Reads and enables pagination through a set of `ConstructorChronology`."""
-  constructorChronologies(
+  """Reads and enables pagination through a set of `TeamChronology`."""
+  teamChronologies(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -898,11 +888,11 @@ type Query implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ConstructorChronologyCondition
+    condition: TeamChronologyCondition
 
-    """The method to use when ordering `ConstructorChronology`."""
-    orderBy: [ConstructorChronologyOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ConstructorChronologyConnection
+    """The method to use when ordering `TeamChronology`."""
+    orderBy: [TeamChronologyOrderBy!] = [PRIMARY_KEY_ASC]
+  ): TeamChronologyConnection
 
   """Reads and enables pagination through a set of `SeasonEntrantChassis`."""
   seasonEntrantChassises(
@@ -1196,37 +1186,6 @@ type Query implements Node {
     orderBy: [SeasonDriverStandingOrderBy!] = [PRIMARY_KEY_ASC]
   ): SeasonDriverStandingConnection
 
-  """
-  Reads and enables pagination through a set of `SeasonConstructorStanding`.
-  """
-  seasonConstructorStandings(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: SeasonConstructorStandingCondition
-
-    """The method to use when ordering `SeasonConstructorStanding`."""
-    orderBy: [SeasonConstructorStandingOrderBy!] = [PRIMARY_KEY_ASC]
-  ): SeasonConstructorStandingConnection
-
   """Reads and enables pagination through a set of `SeasonEntrantDriver`."""
   seasonEntrantDrivers(
     """Only read the first `n` values of the set."""
@@ -1255,6 +1214,35 @@ type Query implements Node {
     """The method to use when ordering `SeasonEntrantDriver`."""
     orderBy: [SeasonEntrantDriverOrderBy!] = [PRIMARY_KEY_ASC]
   ): SeasonEntrantDriverConnection
+
+  """Reads and enables pagination through a set of `SeasonTeamStanding`."""
+  seasonTeamStandings(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonTeamStandingCondition
+
+    """The method to use when ordering `SeasonTeamStanding`."""
+    orderBy: [SeasonTeamStandingOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SeasonTeamStandingConnection
 
   """Reads and enables pagination through a set of `Engine`."""
   engines(
@@ -1314,10 +1302,8 @@ type Query implements Node {
     orderBy: [RaceDriverStandingOrderBy!] = [PRIMARY_KEY_ASC]
   ): RaceDriverStandingConnection
 
-  """
-  Reads and enables pagination through a set of `RaceConstructorStanding`.
-  """
-  raceConstructorStandings(
+  """Reads and enables pagination through a set of `RaceTeamStanding`."""
+  raceTeamStandings(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -1339,11 +1325,11 @@ type Query implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: RaceConstructorStandingCondition
+    condition: RaceTeamStandingCondition
 
-    """The method to use when ordering `RaceConstructorStanding`."""
-    orderBy: [RaceConstructorStandingOrderBy!] = [PRIMARY_KEY_ASC]
-  ): RaceConstructorStandingConnection
+    """The method to use when ordering `RaceTeamStanding`."""
+    orderBy: [RaceTeamStandingOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RaceTeamStandingConnection
 
   """Reads and enables pagination through a set of `DriverOfTheDayResult`."""
   driverOfTheDayResults(
@@ -1844,35 +1830,6 @@ type Query implements Node {
     orderBy: [SeasonEngineManufacturerOrderBy!] = [PRIMARY_KEY_ASC]
   ): SeasonEngineManufacturerConnection
 
-  """Reads and enables pagination through a set of `SeasonConstructor`."""
-  seasonConstructors(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: SeasonConstructorCondition
-
-    """The method to use when ordering `SeasonConstructor`."""
-    orderBy: [SeasonConstructorOrderBy!] = [PRIMARY_KEY_ASC]
-  ): SeasonConstructorConnection
-
   """Reads and enables pagination through a set of `SeasonDriver`."""
   seasonDrivers(
     """Only read the first `n` values of the set."""
@@ -1901,6 +1858,35 @@ type Query implements Node {
     """The method to use when ordering `SeasonDriver`."""
     orderBy: [SeasonDriverOrderBy!] = [PRIMARY_KEY_ASC]
   ): SeasonDriverConnection
+
+  """Reads and enables pagination through a set of `SeasonTeam`."""
+  seasonTeams(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonTeamCondition
+
+    """The method to use when ordering `SeasonTeam`."""
+    orderBy: [SeasonTeamOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SeasonTeamConnection
 
   """Reads and enables pagination through a set of `EngineManufacturer`."""
   engineManufacturers(
@@ -1931,8 +1917,8 @@ type Query implements Node {
     orderBy: [EngineManufacturerOrderBy!] = [PRIMARY_KEY_ASC]
   ): EngineManufacturerConnection
 
-  """Reads and enables pagination through a set of `Constructor`."""
-  constructors(
+  """Reads and enables pagination through a set of `Team`."""
+  teams(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -1954,11 +1940,11 @@ type Query implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ConstructorCondition
+    condition: TeamCondition
 
-    """The method to use when ordering `Constructor`."""
-    orderBy: [ConstructorOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ConstructorConnection
+    """The method to use when ordering `Team`."""
+    orderBy: [TeamOrderBy!] = [PRIMARY_KEY_ASC]
+  ): TeamConnection
 
   """Reads and enables pagination through a set of `QualifyingResult`."""
   qualifyingResults(
@@ -2210,10 +2196,8 @@ type Season implements Node {
     orderBy: [SeasonEntrantOrderBy!] = [PRIMARY_KEY_ASC]
   ): SeasonEntrantConnection!
 
-  """
-  Reads and enables pagination through a set of `SeasonEntrantConstructor`.
-  """
-  seasonEntrantConstructorsByYear(
+  """Reads and enables pagination through a set of `SeasonEntrantTeam`."""
+  seasonEntrantTeamsByYear(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -2235,11 +2219,11 @@ type Season implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: SeasonEntrantConstructorCondition
+    condition: SeasonEntrantTeamCondition
 
-    """The method to use when ordering `SeasonEntrantConstructor`."""
-    orderBy: [SeasonEntrantConstructorOrderBy!] = [PRIMARY_KEY_ASC]
-  ): SeasonEntrantConstructorConnection!
+    """The method to use when ordering `SeasonEntrantTeam`."""
+    orderBy: [SeasonEntrantTeamOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SeasonEntrantTeamConnection!
 
   """Reads and enables pagination through a set of `SeasonEntrantChassis`."""
   seasonEntrantChassisByYear(
@@ -2359,8 +2343,8 @@ type Season implements Node {
     orderBy: [SeasonEntrantDriverOrderBy!] = [PRIMARY_KEY_ASC]
   ): SeasonEntrantDriverConnection!
 
-  """Reads and enables pagination through a set of `SeasonConstructor`."""
-  seasonConstructorsByYear(
+  """Reads and enables pagination through a set of `SeasonTeam`."""
+  seasonTeamsByYear(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -2382,11 +2366,11 @@ type Season implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: SeasonConstructorCondition
+    condition: SeasonTeamCondition
 
-    """The method to use when ordering `SeasonConstructor`."""
-    orderBy: [SeasonConstructorOrderBy!] = [PRIMARY_KEY_ASC]
-  ): SeasonConstructorConnection!
+    """The method to use when ordering `SeasonTeam`."""
+    orderBy: [SeasonTeamOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SeasonTeamConnection!
 
   """
   Reads and enables pagination through a set of `SeasonEngineManufacturer`.
@@ -2508,10 +2492,8 @@ type Season implements Node {
     orderBy: [SeasonDriverStandingOrderBy!] = [PRIMARY_KEY_ASC]
   ): SeasonDriverStandingConnection!
 
-  """
-  Reads and enables pagination through a set of `SeasonConstructorStanding`.
-  """
-  seasonConstructorStandingsByYear(
+  """Reads and enables pagination through a set of `SeasonTeamStanding`."""
+  seasonTeamStandingsByYear(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -2533,11 +2515,11 @@ type Season implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: SeasonConstructorStandingCondition
+    condition: SeasonTeamStandingCondition
 
-    """The method to use when ordering `SeasonConstructorStanding`."""
-    orderBy: [SeasonConstructorStandingOrderBy!] = [PRIMARY_KEY_ASC]
-  ): SeasonConstructorStandingConnection!
+    """The method to use when ordering `SeasonTeamStanding`."""
+    orderBy: [SeasonTeamStandingOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SeasonTeamStandingConnection!
 
   """Reads and enables pagination through a set of `Race`."""
   racesByYear(
@@ -2708,8 +2690,8 @@ type Country implements Node {
     orderBy: [DriverOrderBy!] = [PRIMARY_KEY_ASC]
   ): DriverConnection!
 
-  """Reads and enables pagination through a set of `Constructor`."""
-  constructors(
+  """Reads and enables pagination through a set of `Team`."""
+  teams(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -2731,11 +2713,11 @@ type Country implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ConstructorCondition
+    condition: TeamCondition
 
-    """The method to use when ordering `Constructor`."""
-    orderBy: [ConstructorOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ConstructorConnection!
+    """The method to use when ordering `Team`."""
+    orderBy: [TeamOrderBy!] = [PRIMARY_KEY_ASC]
+  ): TeamConnection!
 
   """Reads and enables pagination through a set of `EngineManufacturer`."""
   engineManufacturers(
@@ -3689,17 +3671,15 @@ type SeasonEntrantDriver implements Node {
   id: ID!
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   driverId: String!
   rounds: String
   roundsText: String
   testDriver: Boolean!
 
-  """
-  Reads a single `Constructor` that is related to this `SeasonEntrantDriver`.
-  """
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `SeasonEntrantDriver`."""
+  team: Team
 
   """Reads a single `Driver` that is related to this `SeasonEntrantDriver`."""
   driver: Driver
@@ -3718,7 +3698,7 @@ type SeasonEntrantDriver implements Node {
   season: Season
 }
 
-type Constructor implements Node {
+type Team implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
@@ -3746,11 +3726,11 @@ type Constructor implements Node {
   totalSprintRaceStarts: Int!
   totalSprintRaceWins: Int!
 
-  """Reads a single `Country` that is related to this `Constructor`."""
+  """Reads a single `Country` that is related to this `Team`."""
   country: Country
 
-  """Reads and enables pagination through a set of `ConstructorChronology`."""
-  functionObjectNativeCodeConstructorChronologies(
+  """Reads and enables pagination through a set of `TeamChronology`."""
+  teamChronologies(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3772,14 +3752,14 @@ type Constructor implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ConstructorChronologyCondition
+    condition: TeamChronologyCondition
 
-    """The method to use when ordering `ConstructorChronology`."""
-    orderBy: [ConstructorChronologyOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ConstructorChronologyConnection!
+    """The method to use when ordering `TeamChronology`."""
+    orderBy: [TeamChronologyOrderBy!] = [PRIMARY_KEY_ASC]
+  ): TeamChronologyConnection!
 
-  """Reads and enables pagination through a set of `ConstructorChronology`."""
-  constructorChronologiesByOtherConstructorId(
+  """Reads and enables pagination through a set of `TeamChronology`."""
+  teamChronologiesByOtherTeamId(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3801,14 +3781,14 @@ type Constructor implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ConstructorChronologyCondition
+    condition: TeamChronologyCondition
 
-    """The method to use when ordering `ConstructorChronology`."""
-    orderBy: [ConstructorChronologyOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ConstructorChronologyConnection!
+    """The method to use when ordering `TeamChronology`."""
+    orderBy: [TeamChronologyOrderBy!] = [PRIMARY_KEY_ASC]
+  ): TeamChronologyConnection!
 
   """Reads and enables pagination through a set of `Chassis`."""
-  functionObjectNativeCodeChassises(
+  chassises(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3836,10 +3816,8 @@ type Constructor implements Node {
     orderBy: [ChassisOrderBy!] = [PRIMARY_KEY_ASC]
   ): ChassisConnection!
 
-  """
-  Reads and enables pagination through a set of `SeasonEntrantConstructor`.
-  """
-  functionObjectNativeCodeSeasonEntrantConstructors(
+  """Reads and enables pagination through a set of `SeasonEntrantTeam`."""
+  seasonEntrantTeams(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3861,14 +3839,14 @@ type Constructor implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: SeasonEntrantConstructorCondition
+    condition: SeasonEntrantTeamCondition
 
-    """The method to use when ordering `SeasonEntrantConstructor`."""
-    orderBy: [SeasonEntrantConstructorOrderBy!] = [PRIMARY_KEY_ASC]
-  ): SeasonEntrantConstructorConnection!
+    """The method to use when ordering `SeasonEntrantTeam`."""
+    orderBy: [SeasonEntrantTeamOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SeasonEntrantTeamConnection!
 
   """Reads and enables pagination through a set of `SeasonEntrantChassis`."""
-  functionObjectNativeCodeSeasonEntrantChassises(
+  seasonEntrantChassises(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3897,7 +3875,7 @@ type Constructor implements Node {
   ): SeasonEntrantChassisConnection!
 
   """Reads and enables pagination through a set of `SeasonEntrantEngine`."""
-  functionObjectNativeCodeSeasonEntrantEngines(
+  seasonEntrantEngines(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3928,7 +3906,7 @@ type Constructor implements Node {
   """
   Reads and enables pagination through a set of `SeasonEntrantTyreManufacturer`.
   """
-  functionObjectNativeCodeSeasonEntrantTyreManufacturers(
+  seasonEntrantTyreManufacturers(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3957,7 +3935,7 @@ type Constructor implements Node {
   ): SeasonEntrantTyreManufacturerConnection!
 
   """Reads and enables pagination through a set of `SeasonEntrantDriver`."""
-  functionObjectNativeCodeSeasonEntrantDrivers(
+  seasonEntrantDrivers(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3985,8 +3963,8 @@ type Constructor implements Node {
     orderBy: [SeasonEntrantDriverOrderBy!] = [PRIMARY_KEY_ASC]
   ): SeasonEntrantDriverConnection!
 
-  """Reads and enables pagination through a set of `SeasonConstructor`."""
-  functionObjectNativeCodeSeasonConstructors(
+  """Reads and enables pagination through a set of `SeasonTeam`."""
+  seasonTeams(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -4008,16 +3986,14 @@ type Constructor implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: SeasonConstructorCondition
+    condition: SeasonTeamCondition
 
-    """The method to use when ordering `SeasonConstructor`."""
-    orderBy: [SeasonConstructorOrderBy!] = [PRIMARY_KEY_ASC]
-  ): SeasonConstructorConnection!
+    """The method to use when ordering `SeasonTeam`."""
+    orderBy: [SeasonTeamOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SeasonTeamConnection!
 
-  """
-  Reads and enables pagination through a set of `SeasonConstructorStanding`.
-  """
-  functionObjectNativeCodeSeasonConstructorStandings(
+  """Reads and enables pagination through a set of `SeasonTeamStanding`."""
+  seasonTeamStandings(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -4039,14 +4015,14 @@ type Constructor implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: SeasonConstructorStandingCondition
+    condition: SeasonTeamStandingCondition
 
-    """The method to use when ordering `SeasonConstructorStanding`."""
-    orderBy: [SeasonConstructorStandingOrderBy!] = [PRIMARY_KEY_ASC]
-  ): SeasonConstructorStandingConnection!
+    """The method to use when ordering `SeasonTeamStanding`."""
+    orderBy: [SeasonTeamStandingOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SeasonTeamStandingConnection!
 
   """Reads and enables pagination through a set of `RaceDatum`."""
-  functionObjectNativeCodeRaceData(
+  raceData(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -4074,10 +4050,8 @@ type Constructor implements Node {
     orderBy: [RaceDatumOrderBy!] = [PRIMARY_KEY_ASC]
   ): RaceDatumConnection!
 
-  """
-  Reads and enables pagination through a set of `RaceConstructorStanding`.
-  """
-  functionObjectNativeCodeRaceConstructorStandings(
+  """Reads and enables pagination through a set of `RaceTeamStanding`."""
+  raceTeamStandings(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -4099,11 +4073,11 @@ type Constructor implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: RaceConstructorStandingCondition
+    condition: RaceTeamStandingCondition
 
-    """The method to use when ordering `RaceConstructorStanding`."""
-    orderBy: [RaceConstructorStandingOrderBy!] = [PRIMARY_KEY_ASC]
-  ): RaceConstructorStandingConnection!
+    """The method to use when ordering `RaceTeamStanding`."""
+    orderBy: [RaceTeamStandingOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RaceTeamStandingConnection!
 
   """Reads and enables pagination through a set of `DriverOfTheDayResult`."""
   driverOfTheDayResults(
@@ -4370,12 +4344,10 @@ type Constructor implements Node {
     orderBy: [StartingGridPositionOrderBy!] = [PRIMARY_KEY_ASC]
   ): StartingGridPositionConnection!
 
-  """
-  Reads a single `AppConstructorBio` that is related to this `Constructor`.
-  """
+  """Reads a single `AppConstructorBio` that is related to this `Team`."""
   bio: AppConstructorBio
 
-  """Reads a single `AppTeamColor` that is related to this `Constructor`."""
+  """Reads a single `AppTeamColor` that is related to this `Team`."""
   colors: AppTeamColor
 
   """Reads and enables pagination through a set of `AppTeamHistory`."""
@@ -4437,69 +4409,63 @@ type Constructor implements Node {
   ): AppTeamHistoryConnection!
 }
 
-"""A connection to a list of `ConstructorChronology` values."""
-type ConstructorChronologyConnection {
-  """A list of `ConstructorChronology` objects."""
-  nodes: [ConstructorChronology]!
+"""A connection to a list of `TeamChronology` values."""
+type TeamChronologyConnection {
+  """A list of `TeamChronology` objects."""
+  nodes: [TeamChronology]!
 
   """
-  A list of edges which contains the `ConstructorChronology` and cursor to aid in pagination.
+  A list of edges which contains the `TeamChronology` and cursor to aid in pagination.
   """
-  edges: [ConstructorChronologyEdge]!
+  edges: [TeamChronologyEdge]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
-  """
-  The count of *all* `ConstructorChronology` you could get from the connection.
-  """
+  """The count of *all* `TeamChronology` you could get from the connection."""
   totalCount: Int!
 }
 
-type ConstructorChronology implements Node {
+type TeamChronology implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   id: ID!
-  constructorId: String!
+  teamId: String!
   positionDisplayOrder: Int!
-  otherConstructorId: String!
+  otherTeamId: String!
   yearFrom: Int!
   yearTo: Int
 
-  """
-  Reads a single `Constructor` that is related to this `ConstructorChronology`.
-  """
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `TeamChronology`."""
+  team: Team
 
-  """
-  Reads a single `Constructor` that is related to this `ConstructorChronology`.
-  """
-  otherConstructor: Constructor
+  """Reads a single `Team` that is related to this `TeamChronology`."""
+  otherTeam: Team
 }
 
-"""A `ConstructorChronology` edge in the connection."""
-type ConstructorChronologyEdge {
+"""A `TeamChronology` edge in the connection."""
+type TeamChronologyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
-  """The `ConstructorChronology` at the end of the edge."""
-  node: ConstructorChronology
+  """The `TeamChronology` at the end of the edge."""
+  node: TeamChronology
 }
 
 """
-A condition to be used against `ConstructorChronology` object types. All fields
-are tested for equality and combined with a logical ‘and.’
+A condition to be used against `TeamChronology` object types. All fields are
+tested for equality and combined with a logical ‘and.’
 """
-input ConstructorChronologyCondition {
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+input TeamChronologyCondition {
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `positionDisplayOrder` field."""
   positionDisplayOrder: Int
 
-  """Checks for equality with the object’s `otherConstructorId` field."""
-  otherConstructorId: String
+  """Checks for equality with the object’s `otherTeamId` field."""
+  otherTeamId: String
 
   """Checks for equality with the object’s `yearFrom` field."""
   yearFrom: Int
@@ -4508,17 +4474,17 @@ input ConstructorChronologyCondition {
   yearTo: Int
 }
 
-"""Methods to use when ordering `ConstructorChronology`."""
-enum ConstructorChronologyOrderBy {
+"""Methods to use when ordering `TeamChronology`."""
+enum TeamChronologyOrderBy {
   NATURAL
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   POSITION_DISPLAY_ORDER_ASC
   POSITION_DISPLAY_ORDER_DESC
-  OTHER_CONSTRUCTOR_ID_ASC
-  OTHER_CONSTRUCTOR_ID_DESC
+  OTHER_TEAM_ID_ASC
+  OTHER_TEAM_ID_DESC
   YEAR_FROM_ASC
   YEAR_FROM_DESC
   YEAR_TO_ASC
@@ -4548,12 +4514,12 @@ type Chassis implements Node {
   """
   id: ID!
   rowId: String!
-  constructorId: String!
+  teamId: String!
   name: String!
   fullName: String!
 
-  """Reads a single `Constructor` that is related to this `Chassis`."""
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `Chassis`."""
+  team: Team
 
   """Reads and enables pagination through a set of `SeasonEntrantChassis`."""
   seasonEntrantChassises(
@@ -4611,7 +4577,7 @@ type SeasonEntrantChassis implements Node {
   id: ID!
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   chassisId: String!
 
@@ -4620,10 +4586,8 @@ type SeasonEntrantChassis implements Node {
   """
   chassis: Chassis
 
-  """
-  Reads a single `Constructor` that is related to this `SeasonEntrantChassis`.
-  """
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `SeasonEntrantChassis`."""
+  team: Team
 
   """
   Reads a single `EngineManufacturer` that is related to this `SeasonEntrantChassis`.
@@ -4699,10 +4663,8 @@ type EngineManufacturer implements Node {
     orderBy: [EngineOrderBy!] = [PRIMARY_KEY_ASC]
   ): EngineConnection!
 
-  """
-  Reads and enables pagination through a set of `SeasonEntrantConstructor`.
-  """
-  seasonEntrantConstructors(
+  """Reads and enables pagination through a set of `SeasonEntrantTeam`."""
+  seasonEntrantTeams(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -4724,11 +4686,11 @@ type EngineManufacturer implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: SeasonEntrantConstructorCondition
+    condition: SeasonEntrantTeamCondition
 
-    """The method to use when ordering `SeasonEntrantConstructor`."""
-    orderBy: [SeasonEntrantConstructorOrderBy!] = [PRIMARY_KEY_ASC]
-  ): SeasonEntrantConstructorConnection!
+    """The method to use when ordering `SeasonEntrantTeam`."""
+    orderBy: [SeasonEntrantTeamOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SeasonEntrantTeamConnection!
 
   """Reads and enables pagination through a set of `SeasonEntrantChassis`."""
   seasonEntrantChassises(
@@ -4879,10 +4841,8 @@ type EngineManufacturer implements Node {
     orderBy: [SeasonEngineManufacturerOrderBy!] = [PRIMARY_KEY_ASC]
   ): SeasonEngineManufacturerConnection!
 
-  """
-  Reads and enables pagination through a set of `SeasonConstructorStanding`.
-  """
-  seasonConstructorStandings(
+  """Reads and enables pagination through a set of `SeasonTeamStanding`."""
+  seasonTeamStandings(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -4904,11 +4864,11 @@ type EngineManufacturer implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: SeasonConstructorStandingCondition
+    condition: SeasonTeamStandingCondition
 
-    """The method to use when ordering `SeasonConstructorStanding`."""
-    orderBy: [SeasonConstructorStandingOrderBy!] = [PRIMARY_KEY_ASC]
-  ): SeasonConstructorStandingConnection!
+    """The method to use when ordering `SeasonTeamStanding`."""
+    orderBy: [SeasonTeamStandingOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SeasonTeamStandingConnection!
 
   """Reads and enables pagination through a set of `RaceDatum`."""
   raceData(
@@ -4939,10 +4899,8 @@ type EngineManufacturer implements Node {
     orderBy: [RaceDatumOrderBy!] = [PRIMARY_KEY_ASC]
   ): RaceDatumConnection!
 
-  """
-  Reads and enables pagination through a set of `RaceConstructorStanding`.
-  """
-  raceConstructorStandings(
+  """Reads and enables pagination through a set of `RaceTeamStanding`."""
+  raceTeamStandings(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -4964,11 +4922,11 @@ type EngineManufacturer implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: RaceConstructorStandingCondition
+    condition: RaceTeamStandingCondition
 
-    """The method to use when ordering `RaceConstructorStanding`."""
-    orderBy: [RaceConstructorStandingOrderBy!] = [PRIMARY_KEY_ASC]
-  ): RaceConstructorStandingConnection!
+    """The method to use when ordering `RaceTeamStanding`."""
+    orderBy: [RaceTeamStandingOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RaceTeamStandingConnection!
 }
 
 """A connection to a list of `Engine` values."""
@@ -5060,14 +5018,12 @@ type SeasonEntrantEngine implements Node {
   id: ID!
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   engineId: String!
 
-  """
-  Reads a single `Constructor` that is related to this `SeasonEntrantEngine`.
-  """
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `SeasonEntrantEngine`."""
+  team: Team
 
   """Reads a single `Engine` that is related to this `SeasonEntrantEngine`."""
   engine: Engine
@@ -5123,10 +5079,8 @@ type Entrant implements Node {
     orderBy: [SeasonEntrantOrderBy!] = [PRIMARY_KEY_ASC]
   ): SeasonEntrantConnection!
 
-  """
-  Reads and enables pagination through a set of `SeasonEntrantConstructor`.
-  """
-  seasonEntrantConstructors(
+  """Reads and enables pagination through a set of `SeasonEntrantTeam`."""
+  seasonEntrantTeams(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -5148,11 +5102,11 @@ type Entrant implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: SeasonEntrantConstructorCondition
+    condition: SeasonEntrantTeamCondition
 
-    """The method to use when ordering `SeasonEntrantConstructor`."""
-    orderBy: [SeasonEntrantConstructorOrderBy!] = [PRIMARY_KEY_ASC]
-  ): SeasonEntrantConstructorConnection!
+    """The method to use when ordering `SeasonEntrantTeam`."""
+    orderBy: [SeasonEntrantTeamOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SeasonEntrantTeamConnection!
 
   """Reads and enables pagination through a set of `SeasonEntrantChassis`."""
   seasonEntrantChassises(
@@ -5301,85 +5255,79 @@ enum SeasonEntrantOrderBy {
   COUNTRY_ID_DESC
 }
 
-"""A connection to a list of `SeasonEntrantConstructor` values."""
-type SeasonEntrantConstructorConnection {
-  """A list of `SeasonEntrantConstructor` objects."""
-  nodes: [SeasonEntrantConstructor]!
+"""A connection to a list of `SeasonEntrantTeam` values."""
+type SeasonEntrantTeamConnection {
+  """A list of `SeasonEntrantTeam` objects."""
+  nodes: [SeasonEntrantTeam]!
 
   """
-  A list of edges which contains the `SeasonEntrantConstructor` and cursor to aid in pagination.
+  A list of edges which contains the `SeasonEntrantTeam` and cursor to aid in pagination.
   """
-  edges: [SeasonEntrantConstructorEdge]!
+  edges: [SeasonEntrantTeamEdge]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
   """
-  The count of *all* `SeasonEntrantConstructor` you could get from the connection.
+  The count of *all* `SeasonEntrantTeam` you could get from the connection.
   """
   totalCount: Int!
 }
 
-type SeasonEntrantConstructor implements Node {
+type SeasonEntrantTeam implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   id: ID!
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
 
-  """
-  Reads a single `Constructor` that is related to this `SeasonEntrantConstructor`.
-  """
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `SeasonEntrantTeam`."""
+  team: Team
 
   """
-  Reads a single `EngineManufacturer` that is related to this `SeasonEntrantConstructor`.
+  Reads a single `EngineManufacturer` that is related to this `SeasonEntrantTeam`.
   """
   engineManufacturer: EngineManufacturer
 
-  """
-  Reads a single `Entrant` that is related to this `SeasonEntrantConstructor`.
-  """
+  """Reads a single `Entrant` that is related to this `SeasonEntrantTeam`."""
   entrant: Entrant
 
-  """
-  Reads a single `Season` that is related to this `SeasonEntrantConstructor`.
-  """
+  """Reads a single `Season` that is related to this `SeasonEntrantTeam`."""
   season: Season
 }
 
-"""A `SeasonEntrantConstructor` edge in the connection."""
-type SeasonEntrantConstructorEdge {
+"""A `SeasonEntrantTeam` edge in the connection."""
+type SeasonEntrantTeamEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
-  """The `SeasonEntrantConstructor` at the end of the edge."""
-  node: SeasonEntrantConstructor
+  """The `SeasonEntrantTeam` at the end of the edge."""
+  node: SeasonEntrantTeam
 }
 
 """
-A condition to be used against `SeasonEntrantConstructor` object types. All
-fields are tested for equality and combined with a logical ‘and.’
+A condition to be used against `SeasonEntrantTeam` object types. All fields are
+tested for equality and combined with a logical ‘and.’
 """
-input SeasonEntrantConstructorCondition {
+input SeasonEntrantTeamCondition {
   """Checks for equality with the object’s `year` field."""
   year: Int
 
   """Checks for equality with the object’s `entrantId` field."""
   entrantId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
 }
 
-"""Methods to use when ordering `SeasonEntrantConstructor`."""
-enum SeasonEntrantConstructorOrderBy {
+"""Methods to use when ordering `SeasonEntrantTeam`."""
+enum SeasonEntrantTeamOrderBy {
   NATURAL
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
@@ -5387,8 +5335,8 @@ enum SeasonEntrantConstructorOrderBy {
   YEAR_DESC
   ENTRANT_ID_ASC
   ENTRANT_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
 }
@@ -5404,8 +5352,8 @@ input SeasonEntrantChassisCondition {
   """Checks for equality with the object’s `entrantId` field."""
   entrantId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -5423,8 +5371,8 @@ enum SeasonEntrantChassisOrderBy {
   YEAR_DESC
   ENTRANT_ID_ASC
   ENTRANT_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   CHASSIS_ID_ASC
@@ -5442,8 +5390,8 @@ input SeasonEntrantEngineCondition {
   """Checks for equality with the object’s `entrantId` field."""
   entrantId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -5461,8 +5409,8 @@ enum SeasonEntrantEngineOrderBy {
   YEAR_DESC
   ENTRANT_ID_ASC
   ENTRANT_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   ENGINE_ID_ASC
@@ -5495,14 +5443,14 @@ type SeasonEntrantTyreManufacturer implements Node {
   id: ID!
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   tyreManufacturerId: String!
 
   """
-  Reads a single `Constructor` that is related to this `SeasonEntrantTyreManufacturer`.
+  Reads a single `Team` that is related to this `SeasonEntrantTyreManufacturer`.
   """
-  constructor: Constructor
+  team: Team
 
   """
   Reads a single `EngineManufacturer` that is related to this `SeasonEntrantTyreManufacturer`.
@@ -5653,8 +5601,8 @@ input SeasonEntrantTyreManufacturerCondition {
   """Checks for equality with the object’s `entrantId` field."""
   entrantId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -5672,8 +5620,8 @@ enum SeasonEntrantTyreManufacturerOrderBy {
   YEAR_DESC
   ENTRANT_ID_ASC
   ENTRANT_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -5792,7 +5740,7 @@ type RaceDatum implements Node {
   positionText: String!
   driverNumber: String!
   driverId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   tyreManufacturerId: String!
   practiceTime: String
@@ -5857,8 +5805,8 @@ type RaceDatum implements Node {
   pitStopTimeMillis: Int
   driverOfTheDayPercentage: BigFloat
 
-  """Reads a single `Constructor` that is related to this `RaceDatum`."""
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `RaceDatum`."""
+  team: Team
 
   """Reads a single `Driver` that is related to this `RaceDatum`."""
   driver: Driver
@@ -5994,10 +5942,8 @@ type Race implements Node {
     orderBy: [RaceDriverStandingOrderBy!] = [PRIMARY_KEY_ASC]
   ): RaceDriverStandingConnection!
 
-  """
-  Reads and enables pagination through a set of `RaceConstructorStanding`.
-  """
-  raceConstructorStandings(
+  """Reads and enables pagination through a set of `RaceTeamStanding`."""
+  raceTeamStandings(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -6019,11 +5965,11 @@ type Race implements Node {
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: RaceConstructorStandingCondition
+    condition: RaceTeamStandingCondition
 
-    """The method to use when ordering `RaceConstructorStanding`."""
-    orderBy: [RaceConstructorStandingOrderBy!] = [PRIMARY_KEY_ASC]
-  ): RaceConstructorStandingConnection!
+    """The method to use when ordering `RaceTeamStanding`."""
+    orderBy: [RaceTeamStandingOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RaceTeamStandingConnection!
 
   """Reads and enables pagination through a set of `DriverOfTheDayResult`."""
   driverOfTheDayResults(
@@ -6693,8 +6639,8 @@ input RaceDatumCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -6722,8 +6668,8 @@ enum RaceDatumOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -6817,26 +6763,26 @@ enum RaceDriverStandingOrderBy {
   DRIVER_ID_DESC
 }
 
-"""A connection to a list of `RaceConstructorStanding` values."""
-type RaceConstructorStandingConnection {
-  """A list of `RaceConstructorStanding` objects."""
-  nodes: [RaceConstructorStanding]!
+"""A connection to a list of `RaceTeamStanding` values."""
+type RaceTeamStandingConnection {
+  """A list of `RaceTeamStanding` objects."""
+  nodes: [RaceTeamStanding]!
 
   """
-  A list of edges which contains the `RaceConstructorStanding` and cursor to aid in pagination.
+  A list of edges which contains the `RaceTeamStanding` and cursor to aid in pagination.
   """
-  edges: [RaceConstructorStandingEdge]!
+  edges: [RaceTeamStandingEdge]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
   """
-  The count of *all* `RaceConstructorStanding` you could get from the connection.
+  The count of *all* `RaceTeamStanding` you could get from the connection.
   """
   totalCount: Int!
 }
 
-type RaceConstructorStanding implements Node {
+type RaceTeamStanding implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
@@ -6845,42 +6791,38 @@ type RaceConstructorStanding implements Node {
   positionDisplayOrder: Int!
   positionNumber: Int
   positionText: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   points: BigFloat!
   positionsGained: Int
   championshipWon: Boolean!
 
-  """
-  Reads a single `Constructor` that is related to this `RaceConstructorStanding`.
-  """
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `RaceTeamStanding`."""
+  team: Team
 
   """
-  Reads a single `EngineManufacturer` that is related to this `RaceConstructorStanding`.
+  Reads a single `EngineManufacturer` that is related to this `RaceTeamStanding`.
   """
   engineManufacturer: EngineManufacturer
 
-  """
-  Reads a single `Race` that is related to this `RaceConstructorStanding`.
-  """
+  """Reads a single `Race` that is related to this `RaceTeamStanding`."""
   race: Race
 }
 
-"""A `RaceConstructorStanding` edge in the connection."""
-type RaceConstructorStandingEdge {
+"""A `RaceTeamStanding` edge in the connection."""
+type RaceTeamStandingEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
-  """The `RaceConstructorStanding` at the end of the edge."""
-  node: RaceConstructorStanding
+  """The `RaceTeamStanding` at the end of the edge."""
+  node: RaceTeamStanding
 }
 
 """
-A condition to be used against `RaceConstructorStanding` object types. All
-fields are tested for equality and combined with a logical ‘and.’
+A condition to be used against `RaceTeamStanding` object types. All fields are
+tested for equality and combined with a logical ‘and.’
 """
-input RaceConstructorStandingCondition {
+input RaceTeamStandingCondition {
   """Checks for equality with the object’s `raceId` field."""
   raceId: Int
 
@@ -6893,15 +6835,15 @@ input RaceConstructorStandingCondition {
   """Checks for equality with the object’s `positionText` field."""
   positionText: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
 }
 
-"""Methods to use when ordering `RaceConstructorStanding`."""
-enum RaceConstructorStandingOrderBy {
+"""Methods to use when ordering `RaceTeamStanding`."""
+enum RaceTeamStandingOrderBy {
   NATURAL
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
@@ -6913,8 +6855,8 @@ enum RaceConstructorStandingOrderBy {
   POSITION_NUMBER_DESC
   POSITION_TEXT_ASC
   POSITION_TEXT_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
 }
@@ -6949,7 +6891,7 @@ type DriverOfTheDayResult implements Node {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   percentage: BigFloat
@@ -6962,10 +6904,8 @@ type DriverOfTheDayResult implements Node {
   """
   driver: Driver
 
-  """
-  Reads a single `Constructor` that is related to this `DriverOfTheDayResult`.
-  """
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `DriverOfTheDayResult`."""
+  team: Team
 }
 
 """A `DriverOfTheDayResult` edge in the connection."""
@@ -7000,8 +6940,8 @@ input DriverOfTheDayResultCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -7030,8 +6970,8 @@ enum DriverOfTheDayResultOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -7068,7 +7008,7 @@ type FastestLap implements Node {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   lap: Int
@@ -7085,8 +7025,8 @@ type FastestLap implements Node {
   """Reads a single `Driver` that is related to this `FastestLap`."""
   driver: Driver
 
-  """Reads a single `Constructor` that is related to this `FastestLap`."""
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `FastestLap`."""
+  team: Team
 }
 
 """A `FastestLap` edge in the connection."""
@@ -7121,8 +7061,8 @@ input FastestLapCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -7169,8 +7109,8 @@ enum FastestLapOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -7219,7 +7159,7 @@ type PitStop implements Node {
   positionText: String
   driverNumber: String
   driverId: String!
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   stop: Int!
@@ -7233,8 +7173,8 @@ type PitStop implements Node {
   """Reads a single `Driver` that is related to this `PitStop`."""
   driver: Driver
 
-  """Reads a single `Constructor` that is related to this `PitStop`."""
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `PitStop`."""
+  team: Team
 }
 
 """A `PitStop` edge in the connection."""
@@ -7268,8 +7208,8 @@ input PitStopCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -7307,8 +7247,8 @@ enum PitStopOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -7353,7 +7293,7 @@ type QualifyingResult implements Node {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -7376,10 +7316,8 @@ type QualifyingResult implements Node {
   """Reads a single `Driver` that is related to this `QualifyingResult`."""
   driver: Driver
 
-  """
-  Reads a single `Constructor` that is related to this `QualifyingResult`.
-  """
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `QualifyingResult`."""
+  team: Team
 }
 
 """A `QualifyingResult` edge in the connection."""
@@ -7414,8 +7352,8 @@ input QualifyingResultCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -7480,8 +7418,8 @@ enum QualifyingResultOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -7542,7 +7480,7 @@ type RaceResult implements Node {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   sharedCar: Boolean
@@ -7575,8 +7513,8 @@ type RaceResult implements Node {
   """Reads a single `Driver` that is related to this `RaceResult`."""
   driver: Driver
 
-  """Reads a single `Constructor` that is related to this `RaceResult`."""
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `RaceResult`."""
+  team: Team
 }
 
 """A `RaceResult` edge in the connection."""
@@ -7611,8 +7549,8 @@ input RaceResultCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -7711,8 +7649,8 @@ enum RaceResultOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -7795,7 +7733,7 @@ type SprintQualifyingResult implements Node {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -7823,9 +7761,9 @@ type SprintQualifyingResult implements Node {
   driver: Driver
 
   """
-  Reads a single `Constructor` that is related to this `SprintQualifyingResult`.
+  Reads a single `Team` that is related to this `SprintQualifyingResult`.
   """
-  constructor: Constructor
+  team: Team
 }
 
 """A `SprintQualifyingResult` edge in the connection."""
@@ -7860,8 +7798,8 @@ input SprintQualifyingResultCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -7926,8 +7864,8 @@ enum SprintQualifyingResultOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -7990,7 +7928,7 @@ type SprintRaceResult implements Node {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   laps: Int
@@ -8017,10 +7955,8 @@ type SprintRaceResult implements Node {
   """Reads a single `Driver` that is related to this `SprintRaceResult`."""
   driver: Driver
 
-  """
-  Reads a single `Constructor` that is related to this `SprintRaceResult`.
-  """
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `SprintRaceResult`."""
+  team: Team
 }
 
 """A `SprintRaceResult` edge in the connection."""
@@ -8055,8 +7991,8 @@ input SprintRaceResultCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -8137,8 +8073,8 @@ enum SprintRaceResultOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -8209,7 +8145,7 @@ type SprintStartingGridPosition implements Node {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   qualificationPositionNumber: Int
@@ -8230,9 +8166,9 @@ type SprintStartingGridPosition implements Node {
   driver: Driver
 
   """
-  Reads a single `Constructor` that is related to this `SprintStartingGridPosition`.
+  Reads a single `Team` that is related to this `SprintStartingGridPosition`.
   """
-  constructor: Constructor
+  team: Team
 }
 
 """A `SprintStartingGridPosition` edge in the connection."""
@@ -8267,8 +8203,8 @@ input SprintStartingGridPositionCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -8316,8 +8252,8 @@ enum SprintStartingGridPositionOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -8366,7 +8302,7 @@ type StartingGridPosition implements Node {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   qualificationPositionNumber: Int
@@ -8384,10 +8320,8 @@ type StartingGridPosition implements Node {
   """
   driver: Driver
 
-  """
-  Reads a single `Constructor` that is related to this `StartingGridPosition`.
-  """
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `StartingGridPosition`."""
+  team: Team
 }
 
 """A `StartingGridPosition` edge in the connection."""
@@ -8422,8 +8356,8 @@ input StartingGridPositionCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -8471,8 +8405,8 @@ enum StartingGridPositionOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -8593,8 +8527,8 @@ input SeasonEntrantDriverCondition {
   """Checks for equality with the object’s `entrantId` field."""
   entrantId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -8612,8 +8546,8 @@ enum SeasonEntrantDriverOrderBy {
   YEAR_DESC
   ENTRANT_ID_ASC
   ENTRANT_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   DRIVER_ID_ASC
@@ -8771,26 +8705,26 @@ enum SeasonEngineManufacturerOrderBy {
   ENGINE_MANUFACTURER_ID_DESC
 }
 
-"""A connection to a list of `SeasonConstructorStanding` values."""
-type SeasonConstructorStandingConnection {
-  """A list of `SeasonConstructorStanding` objects."""
-  nodes: [SeasonConstructorStanding]!
+"""A connection to a list of `SeasonTeamStanding` values."""
+type SeasonTeamStandingConnection {
+  """A list of `SeasonTeamStanding` objects."""
+  nodes: [SeasonTeamStanding]!
 
   """
-  A list of edges which contains the `SeasonConstructorStanding` and cursor to aid in pagination.
+  A list of edges which contains the `SeasonTeamStanding` and cursor to aid in pagination.
   """
-  edges: [SeasonConstructorStandingEdge]!
+  edges: [SeasonTeamStandingEdge]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
   """
-  The count of *all* `SeasonConstructorStanding` you could get from the connection.
+  The count of *all* `SeasonTeamStanding` you could get from the connection.
   """
   totalCount: Int!
 }
 
-type SeasonConstructorStanding implements Node {
+type SeasonTeamStanding implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
@@ -8799,41 +8733,37 @@ type SeasonConstructorStanding implements Node {
   positionDisplayOrder: Int!
   positionNumber: Int
   positionText: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   points: BigFloat!
   championshipWon: Boolean!
 
-  """
-  Reads a single `Constructor` that is related to this `SeasonConstructorStanding`.
-  """
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `SeasonTeamStanding`."""
+  team: Team
 
   """
-  Reads a single `EngineManufacturer` that is related to this `SeasonConstructorStanding`.
+  Reads a single `EngineManufacturer` that is related to this `SeasonTeamStanding`.
   """
   engineManufacturer: EngineManufacturer
 
-  """
-  Reads a single `Season` that is related to this `SeasonConstructorStanding`.
-  """
+  """Reads a single `Season` that is related to this `SeasonTeamStanding`."""
   season: Season
 }
 
-"""A `SeasonConstructorStanding` edge in the connection."""
-type SeasonConstructorStandingEdge {
+"""A `SeasonTeamStanding` edge in the connection."""
+type SeasonTeamStandingEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
-  """The `SeasonConstructorStanding` at the end of the edge."""
-  node: SeasonConstructorStanding
+  """The `SeasonTeamStanding` at the end of the edge."""
+  node: SeasonTeamStanding
 }
 
 """
-A condition to be used against `SeasonConstructorStanding` object types. All
-fields are tested for equality and combined with a logical ‘and.’
+A condition to be used against `SeasonTeamStanding` object types. All fields are
+tested for equality and combined with a logical ‘and.’
 """
-input SeasonConstructorStandingCondition {
+input SeasonTeamStandingCondition {
   """Checks for equality with the object’s `year` field."""
   year: Int
 
@@ -8846,15 +8776,15 @@ input SeasonConstructorStandingCondition {
   """Checks for equality with the object’s `positionText` field."""
   positionText: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
 }
 
-"""Methods to use when ordering `SeasonConstructorStanding`."""
-enum SeasonConstructorStandingOrderBy {
+"""Methods to use when ordering `SeasonTeamStanding`."""
+enum SeasonTeamStandingOrderBy {
   NATURAL
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
@@ -8866,8 +8796,8 @@ enum SeasonConstructorStandingOrderBy {
   POSITION_NUMBER_DESC
   POSITION_TEXT_ASC
   POSITION_TEXT_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
 }
@@ -8897,8 +8827,8 @@ input ChassisCondition {
   """Checks for equality with the object’s `rowId` field."""
   rowId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `name` field."""
   name: String
@@ -8914,40 +8844,38 @@ enum ChassisOrderBy {
   PRIMARY_KEY_DESC
   ROW_ID_ASC
   ROW_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   NAME_ASC
   NAME_DESC
   FULL_NAME_ASC
   FULL_NAME_DESC
 }
 
-"""A connection to a list of `SeasonConstructor` values."""
-type SeasonConstructorConnection {
-  """A list of `SeasonConstructor` objects."""
-  nodes: [SeasonConstructor]!
+"""A connection to a list of `SeasonTeam` values."""
+type SeasonTeamConnection {
+  """A list of `SeasonTeam` objects."""
+  nodes: [SeasonTeam]!
 
   """
-  A list of edges which contains the `SeasonConstructor` and cursor to aid in pagination.
+  A list of edges which contains the `SeasonTeam` and cursor to aid in pagination.
   """
-  edges: [SeasonConstructorEdge]!
+  edges: [SeasonTeamEdge]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
-  """
-  The count of *all* `SeasonConstructor` you could get from the connection.
-  """
+  """The count of *all* `SeasonTeam` you could get from the connection."""
   totalCount: Int!
 }
 
-type SeasonConstructor implements Node {
+type SeasonTeam implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   id: ID!
   year: Int!
-  constructorId: String!
+  teamId: String!
   positionNumber: Int
   positionText: String
   bestStartingGridPosition: Int
@@ -8966,45 +8894,43 @@ type SeasonConstructor implements Node {
   totalSprintRaceStarts: Int!
   totalSprintRaceWins: Int!
 
-  """
-  Reads a single `Constructor` that is related to this `SeasonConstructor`.
-  """
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `SeasonTeam`."""
+  team: Team
 
-  """Reads a single `Season` that is related to this `SeasonConstructor`."""
+  """Reads a single `Season` that is related to this `SeasonTeam`."""
   season: Season
 }
 
-"""A `SeasonConstructor` edge in the connection."""
-type SeasonConstructorEdge {
+"""A `SeasonTeam` edge in the connection."""
+type SeasonTeamEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
-  """The `SeasonConstructor` at the end of the edge."""
-  node: SeasonConstructor
+  """The `SeasonTeam` at the end of the edge."""
+  node: SeasonTeam
 }
 
 """
-A condition to be used against `SeasonConstructor` object types. All fields are
-tested for equality and combined with a logical ‘and.’
+A condition to be used against `SeasonTeam` object types. All fields are tested
+for equality and combined with a logical ‘and.’
 """
-input SeasonConstructorCondition {
+input SeasonTeamCondition {
   """Checks for equality with the object’s `year` field."""
   year: Int
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 }
 
-"""Methods to use when ordering `SeasonConstructor`."""
-enum SeasonConstructorOrderBy {
+"""Methods to use when ordering `SeasonTeam`."""
+enum SeasonTeamOrderBy {
   NATURAL
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
   YEAR_ASC
   YEAR_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
 }
 
 type AppConstructorBio implements Node {
@@ -9012,17 +8938,15 @@ type AppConstructorBio implements Node {
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   id: ID!
-  constructorId: String!
+  teamId: String!
   description: String
   title: String
   extract: String
   source: String
   updatedAt: Datetime!
 
-  """
-  Reads a single `Constructor` that is related to this `AppConstructorBio`.
-  """
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `AppConstructorBio`."""
+  team: Team
 }
 
 type AppTeamColor implements Node {
@@ -9030,13 +8954,13 @@ type AppTeamColor implements Node {
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   id: ID!
-  constructorId: String!
+  teamId: String!
   primaryHex: String
   secondaryHex: String
   logo: String
 
-  """Reads a single `Constructor` that is related to this `AppTeamColor`."""
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `AppTeamColor`."""
+  team: Team
 }
 
 """A connection to a list of `AppTeamHistory` values."""
@@ -9061,16 +8985,16 @@ type AppTeamHistory implements Node {
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   id: ID!
-  constructorId: String!
-  antecedentConstructorId: String!
+  teamId: String!
+  antecedentTeamId: String!
   startYear: Int
   endYear: Int
 
-  """Reads a single `Constructor` that is related to this `AppTeamHistory`."""
-  constructor: Constructor
+  """Reads a single `Team` that is related to this `AppTeamHistory`."""
+  team: Team
 
-  """Reads a single `Constructor` that is related to this `AppTeamHistory`."""
-  antecedent: Constructor
+  """Reads a single `Team` that is related to this `AppTeamHistory`."""
+  antecedentTeam: Team
 }
 
 """A `AppTeamHistory` edge in the connection."""
@@ -9087,11 +9011,11 @@ A condition to be used against `AppTeamHistory` object types. All fields are
 tested for equality and combined with a logical ‘and.’
 """
 input AppTeamHistoryCondition {
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
-  """Checks for equality with the object’s `antecedentConstructorId` field."""
-  antecedentConstructorId: String
+  """Checks for equality with the object’s `antecedentTeamId` field."""
+  antecedentTeamId: String
 }
 
 """Methods to use when ordering `AppTeamHistory`."""
@@ -9099,10 +9023,10 @@ enum AppTeamHistoryOrderBy {
   NATURAL
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
-  ANTECEDENT_CONSTRUCTOR_ID_ASC
-  ANTECEDENT_CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ANTECEDENT_TEAM_ID_ASC
+  ANTECEDENT_TEAM_ID_DESC
 }
 
 """A `SeasonEntrantDriver` edge in the connection."""
@@ -9394,37 +9318,36 @@ enum DriverOrderBy {
   SECOND_NATIONALITY_COUNTRY_ID_DESC
 }
 
-"""A connection to a list of `Constructor` values."""
-type ConstructorConnection {
-  """A list of `Constructor` objects."""
-  nodes: [Constructor]!
+"""A connection to a list of `Team` values."""
+type TeamConnection {
+  """A list of `Team` objects."""
+  nodes: [Team]!
 
   """
-  A list of edges which contains the `Constructor` and cursor to aid in pagination.
+  A list of edges which contains the `Team` and cursor to aid in pagination.
   """
-  edges: [ConstructorEdge]!
+  edges: [TeamEdge]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
-  """The count of *all* `Constructor` you could get from the connection."""
+  """The count of *all* `Team` you could get from the connection."""
   totalCount: Int!
 }
 
-"""A `Constructor` edge in the connection."""
-type ConstructorEdge {
+"""A `Team` edge in the connection."""
+type TeamEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
-  """The `Constructor` at the end of the edge."""
-  node: Constructor
+  """The `Team` at the end of the edge."""
+  node: Team
 }
 
 """
-A condition to be used against `Constructor` object types. All fields are tested
-for equality and combined with a logical ‘and.’
+A condition to be used against `Team` object types. All fields are tested for equality and combined with a logical ‘and.’
 """
-input ConstructorCondition {
+input TeamCondition {
   """Checks for equality with the object’s `rowId` field."""
   rowId: String
 
@@ -9438,8 +9361,8 @@ input ConstructorCondition {
   countryId: String
 }
 
-"""Methods to use when ordering `Constructor`."""
-enum ConstructorOrderBy {
+"""Methods to use when ordering `Team`."""
+enum TeamOrderBy {
   NATURAL
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
@@ -9902,8 +9825,8 @@ A condition to be used against `AppTeamColor` object types. All fields are
 tested for equality and combined with a logical ‘and.’
 """
 input AppTeamColorCondition {
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 }
 
 """Methods to use when ordering `AppTeamColor`."""
@@ -9911,8 +9834,8 @@ enum AppTeamColorOrderBy {
   NATURAL
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
 }
 
 """A connection to a list of `AppCircuitDescription` values."""
@@ -10038,8 +9961,8 @@ A condition to be used against `AppConstructorBio` object types. All fields are
 tested for equality and combined with a logical ‘and.’
 """
 input AppConstructorBioCondition {
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 }
 
 """Methods to use when ordering `AppConstructorBio`."""
@@ -10047,8 +9970,8 @@ enum AppConstructorBioOrderBy {
   NATURAL
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
 }
 
 """A connection to a list of `AppDriverBio` values."""
@@ -10121,7 +10044,7 @@ type FreePractice1Result {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -10165,8 +10088,8 @@ input FreePractice1ResultCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -10211,8 +10134,8 @@ enum FreePractice1ResultOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -10259,7 +10182,7 @@ type FreePractice2Result {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -10303,8 +10226,8 @@ input FreePractice2ResultCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -10349,8 +10272,8 @@ enum FreePractice2ResultOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -10397,7 +10320,7 @@ type FreePractice3Result {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -10441,8 +10364,8 @@ input FreePractice3ResultCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -10487,8 +10410,8 @@ enum FreePractice3ResultOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -10535,7 +10458,7 @@ type FreePractice4Result {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -10579,8 +10502,8 @@ input FreePractice4ResultCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -10625,8 +10548,8 @@ enum FreePractice4ResultOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -10673,7 +10596,7 @@ type PreQualifyingResult {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -10717,8 +10640,8 @@ input PreQualifyingResultCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -10763,8 +10686,8 @@ enum PreQualifyingResultOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -10811,7 +10734,7 @@ type Qualifying1Result {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -10855,8 +10778,8 @@ input Qualifying1ResultCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -10901,8 +10824,8 @@ enum Qualifying1ResultOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -10949,7 +10872,7 @@ type Qualifying2Result {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -10993,8 +10916,8 @@ input Qualifying2ResultCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -11039,8 +10962,8 @@ enum Qualifying2ResultOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -11087,7 +11010,7 @@ type WarmingUpResult {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -11131,8 +11054,8 @@ input WarmingUpResultCondition {
   """Checks for equality with the object’s `driverId` field."""
   driverId: String
 
-  """Checks for equality with the object’s `constructorId` field."""
-  constructorId: String
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
 
   """Checks for equality with the object’s `engineManufacturerId` field."""
   engineManufacturerId: String
@@ -11177,8 +11100,8 @@ enum WarmingUpResultOrderBy {
   DRIVER_NUMBER_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-  CONSTRUCTOR_ID_ASC
-  CONSTRUCTOR_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
   ENGINE_MANUFACTURER_ID_ASC
   ENGINE_MANUFACTURER_ID_DESC
   TYRE_MANUFACTURER_ID_ASC
@@ -11267,13 +11190,13 @@ type Mutation {
     input: CreateAppTeamHistoryInput!
   ): CreateAppTeamHistoryPayload
 
-  """Creates a single `SeasonEntrantConstructor`."""
-  createSeasonEntrantConstructor(
+  """Creates a single `SeasonEntrantTeam`."""
+  createSeasonEntrantTeam(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: CreateSeasonEntrantConstructorInput!
-  ): CreateSeasonEntrantConstructorPayload
+    input: CreateSeasonEntrantTeamInput!
+  ): CreateSeasonEntrantTeamPayload
 
   """Creates a single `AppCircuitDescription`."""
   createAppCircuitDescription(
@@ -11291,13 +11214,13 @@ type Mutation {
     input: CreateAppIngestStateInput!
   ): CreateAppIngestStatePayload
 
-  """Creates a single `ConstructorChronology`."""
-  createConstructorChronology(
+  """Creates a single `TeamChronology`."""
+  createTeamChronology(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: CreateConstructorChronologyInput!
-  ): CreateConstructorChronologyPayload
+    input: CreateTeamChronologyInput!
+  ): CreateTeamChronologyPayload
 
   """Creates a single `SeasonEntrantChassis`."""
   createSeasonEntrantChassis(
@@ -11379,14 +11302,6 @@ type Mutation {
     input: CreateSeasonDriverStandingInput!
   ): CreateSeasonDriverStandingPayload
 
-  """Creates a single `SeasonConstructorStanding`."""
-  createSeasonConstructorStanding(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateSeasonConstructorStandingInput!
-  ): CreateSeasonConstructorStandingPayload
-
   """Creates a single `SeasonEntrantDriver`."""
   createSeasonEntrantDriver(
     """
@@ -11394,6 +11309,14 @@ type Mutation {
     """
     input: CreateSeasonEntrantDriverInput!
   ): CreateSeasonEntrantDriverPayload
+
+  """Creates a single `SeasonTeamStanding`."""
+  createSeasonTeamStanding(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateSeasonTeamStandingInput!
+  ): CreateSeasonTeamStandingPayload
 
   """Creates a single `Engine`."""
   createEngine(
@@ -11411,13 +11334,13 @@ type Mutation {
     input: CreateRaceDriverStandingInput!
   ): CreateRaceDriverStandingPayload
 
-  """Creates a single `RaceConstructorStanding`."""
-  createRaceConstructorStanding(
+  """Creates a single `RaceTeamStanding`."""
+  createRaceTeamStanding(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: CreateRaceConstructorStandingInput!
-  ): CreateRaceConstructorStandingPayload
+    input: CreateRaceTeamStandingInput!
+  ): CreateRaceTeamStandingPayload
 
   """Creates a single `DriverOfTheDayResult`."""
   createDriverOfTheDayResult(
@@ -11555,14 +11478,6 @@ type Mutation {
     input: CreateSeasonEngineManufacturerInput!
   ): CreateSeasonEngineManufacturerPayload
 
-  """Creates a single `SeasonConstructor`."""
-  createSeasonConstructor(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateSeasonConstructorInput!
-  ): CreateSeasonConstructorPayload
-
   """Creates a single `SeasonDriver`."""
   createSeasonDriver(
     """
@@ -11570,6 +11485,14 @@ type Mutation {
     """
     input: CreateSeasonDriverInput!
   ): CreateSeasonDriverPayload
+
+  """Creates a single `SeasonTeam`."""
+  createSeasonTeam(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateSeasonTeamInput!
+  ): CreateSeasonTeamPayload
 
   """Creates a single `EngineManufacturer`."""
   createEngineManufacturer(
@@ -11579,13 +11502,13 @@ type Mutation {
     input: CreateEngineManufacturerInput!
   ): CreateEngineManufacturerPayload
 
-  """Creates a single `Constructor`."""
-  createConstructor(
+  """Creates a single `Team`."""
+  createTeam(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: CreateConstructorInput!
-  ): CreateConstructorPayload
+    input: CreateTeamInput!
+  ): CreateTeamPayload
 
   """Creates a single `QualifyingResult`."""
   createQualifyingResult(
@@ -11808,24 +11731,22 @@ type Mutation {
   ): UpdateAppTeamHistoryPayload
 
   """
-  Updates a single `SeasonEntrantConstructor` using its globally unique id and a patch.
+  Updates a single `SeasonEntrantTeam` using its globally unique id and a patch.
   """
-  updateSeasonEntrantConstructorById(
+  updateSeasonEntrantTeamById(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateSeasonEntrantConstructorByIdInput!
-  ): UpdateSeasonEntrantConstructorPayload
+    input: UpdateSeasonEntrantTeamByIdInput!
+  ): UpdateSeasonEntrantTeamPayload
 
-  """
-  Updates a single `SeasonEntrantConstructor` using a unique key and a patch.
-  """
-  updateSeasonEntrantConstructor(
+  """Updates a single `SeasonEntrantTeam` using a unique key and a patch."""
+  updateSeasonEntrantTeam(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateSeasonEntrantConstructorInput!
-  ): UpdateSeasonEntrantConstructorPayload
+    input: UpdateSeasonEntrantTeamInput!
+  ): UpdateSeasonEntrantTeamPayload
 
   """
   Updates a single `AppCircuitDescription` using its globally unique id and a patch.
@@ -11866,34 +11787,30 @@ type Mutation {
   ): UpdateAppIngestStatePayload
 
   """
-  Updates a single `ConstructorChronology` using its globally unique id and a patch.
+  Updates a single `TeamChronology` using its globally unique id and a patch.
   """
-  updateConstructorChronologyById(
+  updateTeamChronologyById(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateConstructorChronologyByIdInput!
-  ): UpdateConstructorChronologyPayload
+    input: UpdateTeamChronologyByIdInput!
+  ): UpdateTeamChronologyPayload
 
-  """
-  Updates a single `ConstructorChronology` using a unique key and a patch.
-  """
-  updateConstructorChronology(
+  """Updates a single `TeamChronology` using a unique key and a patch."""
+  updateTeamChronology(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateConstructorChronologyInput!
-  ): UpdateConstructorChronologyPayload
+    input: UpdateTeamChronologyInput!
+  ): UpdateTeamChronologyPayload
 
-  """
-  Updates a single `ConstructorChronology` using a unique key and a patch.
-  """
-  updateConstructorChronologyByConstructorIdAndOtherConstructorIdAndYearFromAndYearTo(
+  """Updates a single `TeamChronology` using a unique key and a patch."""
+  updateTeamChronologyByTeamIdAndOtherTeamIdAndYearFromAndYearTo(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateConstructorChronologyByConstructorIdAndOtherConstructorIdAndYearFromAndYearToInput!
-  ): UpdateConstructorChronologyPayload
+    input: UpdateTeamChronologyByTeamIdAndOtherTeamIdAndYearFromAndYearToInput!
+  ): UpdateTeamChronologyPayload
 
   """
   Updates a single `SeasonEntrantChassis` using its globally unique id and a patch.
@@ -12102,26 +12019,6 @@ type Mutation {
   ): UpdateSeasonDriverStandingPayload
 
   """
-  Updates a single `SeasonConstructorStanding` using its globally unique id and a patch.
-  """
-  updateSeasonConstructorStandingById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateSeasonConstructorStandingByIdInput!
-  ): UpdateSeasonConstructorStandingPayload
-
-  """
-  Updates a single `SeasonConstructorStanding` using a unique key and a patch.
-  """
-  updateSeasonConstructorStanding(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateSeasonConstructorStandingInput!
-  ): UpdateSeasonConstructorStandingPayload
-
-  """
   Updates a single `SeasonEntrantDriver` using its globally unique id and a patch.
   """
   updateSeasonEntrantDriverById(
@@ -12138,6 +12035,24 @@ type Mutation {
     """
     input: UpdateSeasonEntrantDriverInput!
   ): UpdateSeasonEntrantDriverPayload
+
+  """
+  Updates a single `SeasonTeamStanding` using its globally unique id and a patch.
+  """
+  updateSeasonTeamStandingById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateSeasonTeamStandingByIdInput!
+  ): UpdateSeasonTeamStandingPayload
+
+  """Updates a single `SeasonTeamStanding` using a unique key and a patch."""
+  updateSeasonTeamStanding(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateSeasonTeamStandingInput!
+  ): UpdateSeasonTeamStandingPayload
 
   """Updates a single `Engine` using its globally unique id and a patch."""
   updateEngineById(
@@ -12174,24 +12089,22 @@ type Mutation {
   ): UpdateRaceDriverStandingPayload
 
   """
-  Updates a single `RaceConstructorStanding` using its globally unique id and a patch.
+  Updates a single `RaceTeamStanding` using its globally unique id and a patch.
   """
-  updateRaceConstructorStandingById(
+  updateRaceTeamStandingById(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateRaceConstructorStandingByIdInput!
-  ): UpdateRaceConstructorStandingPayload
+    input: UpdateRaceTeamStandingByIdInput!
+  ): UpdateRaceTeamStandingPayload
 
-  """
-  Updates a single `RaceConstructorStanding` using a unique key and a patch.
-  """
-  updateRaceConstructorStanding(
+  """Updates a single `RaceTeamStanding` using a unique key and a patch."""
+  updateRaceTeamStanding(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateRaceConstructorStandingInput!
-  ): UpdateRaceConstructorStandingPayload
+    input: UpdateRaceTeamStandingInput!
+  ): UpdateRaceTeamStandingPayload
 
   """
   Updates a single `DriverOfTheDayResult` using its globally unique id and a patch.
@@ -12362,24 +12275,6 @@ type Mutation {
   ): UpdateSeasonEngineManufacturerPayload
 
   """
-  Updates a single `SeasonConstructor` using its globally unique id and a patch.
-  """
-  updateSeasonConstructorById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateSeasonConstructorByIdInput!
-  ): UpdateSeasonConstructorPayload
-
-  """Updates a single `SeasonConstructor` using a unique key and a patch."""
-  updateSeasonConstructor(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateSeasonConstructorInput!
-  ): UpdateSeasonConstructorPayload
-
-  """
   Updates a single `SeasonDriver` using its globally unique id and a patch.
   """
   updateSeasonDriverById(
@@ -12396,6 +12291,24 @@ type Mutation {
     """
     input: UpdateSeasonDriverInput!
   ): UpdateSeasonDriverPayload
+
+  """
+  Updates a single `SeasonTeam` using its globally unique id and a patch.
+  """
+  updateSeasonTeamById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateSeasonTeamByIdInput!
+  ): UpdateSeasonTeamPayload
+
+  """Updates a single `SeasonTeam` using a unique key and a patch."""
+  updateSeasonTeam(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateSeasonTeamInput!
+  ): UpdateSeasonTeamPayload
 
   """
   Updates a single `EngineManufacturer` using its globally unique id and a patch.
@@ -12415,23 +12328,21 @@ type Mutation {
     input: UpdateEngineManufacturerInput!
   ): UpdateEngineManufacturerPayload
 
-  """
-  Updates a single `Constructor` using its globally unique id and a patch.
-  """
-  updateConstructorById(
+  """Updates a single `Team` using its globally unique id and a patch."""
+  updateTeamById(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateConstructorByIdInput!
-  ): UpdateConstructorPayload
+    input: UpdateTeamByIdInput!
+  ): UpdateTeamPayload
 
-  """Updates a single `Constructor` using a unique key and a patch."""
-  updateConstructor(
+  """Updates a single `Team` using a unique key and a patch."""
+  updateTeam(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateConstructorInput!
-  ): UpdateConstructorPayload
+    input: UpdateTeamInput!
+  ): UpdateTeamPayload
 
   """
   Updates a single `QualifyingResult` using its globally unique id and a patch.
@@ -12717,23 +12628,21 @@ type Mutation {
     input: DeleteAppTeamHistoryInput!
   ): DeleteAppTeamHistoryPayload
 
-  """
-  Deletes a single `SeasonEntrantConstructor` using its globally unique id.
-  """
-  deleteSeasonEntrantConstructorById(
+  """Deletes a single `SeasonEntrantTeam` using its globally unique id."""
+  deleteSeasonEntrantTeamById(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteSeasonEntrantConstructorByIdInput!
-  ): DeleteSeasonEntrantConstructorPayload
+    input: DeleteSeasonEntrantTeamByIdInput!
+  ): DeleteSeasonEntrantTeamPayload
 
-  """Deletes a single `SeasonEntrantConstructor` using a unique key."""
-  deleteSeasonEntrantConstructor(
+  """Deletes a single `SeasonEntrantTeam` using a unique key."""
+  deleteSeasonEntrantTeam(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteSeasonEntrantConstructorInput!
-  ): DeleteSeasonEntrantConstructorPayload
+    input: DeleteSeasonEntrantTeamInput!
+  ): DeleteSeasonEntrantTeamPayload
 
   """Deletes a single `AppCircuitDescription` using its globally unique id."""
   deleteAppCircuitDescriptionById(
@@ -12767,29 +12676,29 @@ type Mutation {
     input: DeleteAppIngestStateInput!
   ): DeleteAppIngestStatePayload
 
-  """Deletes a single `ConstructorChronology` using its globally unique id."""
-  deleteConstructorChronologyById(
+  """Deletes a single `TeamChronology` using its globally unique id."""
+  deleteTeamChronologyById(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteConstructorChronologyByIdInput!
-  ): DeleteConstructorChronologyPayload
+    input: DeleteTeamChronologyByIdInput!
+  ): DeleteTeamChronologyPayload
 
-  """Deletes a single `ConstructorChronology` using a unique key."""
-  deleteConstructorChronology(
+  """Deletes a single `TeamChronology` using a unique key."""
+  deleteTeamChronology(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteConstructorChronologyInput!
-  ): DeleteConstructorChronologyPayload
+    input: DeleteTeamChronologyInput!
+  ): DeleteTeamChronologyPayload
 
-  """Deletes a single `ConstructorChronology` using a unique key."""
-  deleteConstructorChronologyByConstructorIdAndOtherConstructorIdAndYearFromAndYearTo(
+  """Deletes a single `TeamChronology` using a unique key."""
+  deleteTeamChronologyByTeamIdAndOtherTeamIdAndYearFromAndYearTo(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteConstructorChronologyByConstructorIdAndOtherConstructorIdAndYearFromAndYearToInput!
-  ): DeleteConstructorChronologyPayload
+    input: DeleteTeamChronologyByTeamIdAndOtherTeamIdAndYearFromAndYearToInput!
+  ): DeleteTeamChronologyPayload
 
   """Deletes a single `SeasonEntrantChassis` using its globally unique id."""
   deleteSeasonEntrantChassisById(
@@ -12977,24 +12886,6 @@ type Mutation {
     input: DeleteSeasonDriverStandingInput!
   ): DeleteSeasonDriverStandingPayload
 
-  """
-  Deletes a single `SeasonConstructorStanding` using its globally unique id.
-  """
-  deleteSeasonConstructorStandingById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteSeasonConstructorStandingByIdInput!
-  ): DeleteSeasonConstructorStandingPayload
-
-  """Deletes a single `SeasonConstructorStanding` using a unique key."""
-  deleteSeasonConstructorStanding(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteSeasonConstructorStandingInput!
-  ): DeleteSeasonConstructorStandingPayload
-
   """Deletes a single `SeasonEntrantDriver` using its globally unique id."""
   deleteSeasonEntrantDriverById(
     """
@@ -13010,6 +12901,22 @@ type Mutation {
     """
     input: DeleteSeasonEntrantDriverInput!
   ): DeleteSeasonEntrantDriverPayload
+
+  """Deletes a single `SeasonTeamStanding` using its globally unique id."""
+  deleteSeasonTeamStandingById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteSeasonTeamStandingByIdInput!
+  ): DeleteSeasonTeamStandingPayload
+
+  """Deletes a single `SeasonTeamStanding` using a unique key."""
+  deleteSeasonTeamStanding(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteSeasonTeamStandingInput!
+  ): DeleteSeasonTeamStandingPayload
 
   """Deletes a single `Engine` using its globally unique id."""
   deleteEngineById(
@@ -13043,23 +12950,21 @@ type Mutation {
     input: DeleteRaceDriverStandingInput!
   ): DeleteRaceDriverStandingPayload
 
-  """
-  Deletes a single `RaceConstructorStanding` using its globally unique id.
-  """
-  deleteRaceConstructorStandingById(
+  """Deletes a single `RaceTeamStanding` using its globally unique id."""
+  deleteRaceTeamStandingById(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteRaceConstructorStandingByIdInput!
-  ): DeleteRaceConstructorStandingPayload
+    input: DeleteRaceTeamStandingByIdInput!
+  ): DeleteRaceTeamStandingPayload
 
-  """Deletes a single `RaceConstructorStanding` using a unique key."""
-  deleteRaceConstructorStanding(
+  """Deletes a single `RaceTeamStanding` using a unique key."""
+  deleteRaceTeamStanding(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteRaceConstructorStandingInput!
-  ): DeleteRaceConstructorStandingPayload
+    input: DeleteRaceTeamStandingInput!
+  ): DeleteRaceTeamStandingPayload
 
   """Deletes a single `DriverOfTheDayResult` using its globally unique id."""
   deleteDriverOfTheDayResultById(
@@ -13211,22 +13116,6 @@ type Mutation {
     input: DeleteSeasonEngineManufacturerInput!
   ): DeleteSeasonEngineManufacturerPayload
 
-  """Deletes a single `SeasonConstructor` using its globally unique id."""
-  deleteSeasonConstructorById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteSeasonConstructorByIdInput!
-  ): DeleteSeasonConstructorPayload
-
-  """Deletes a single `SeasonConstructor` using a unique key."""
-  deleteSeasonConstructor(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteSeasonConstructorInput!
-  ): DeleteSeasonConstructorPayload
-
   """Deletes a single `SeasonDriver` using its globally unique id."""
   deleteSeasonDriverById(
     """
@@ -13242,6 +13131,22 @@ type Mutation {
     """
     input: DeleteSeasonDriverInput!
   ): DeleteSeasonDriverPayload
+
+  """Deletes a single `SeasonTeam` using its globally unique id."""
+  deleteSeasonTeamById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteSeasonTeamByIdInput!
+  ): DeleteSeasonTeamPayload
+
+  """Deletes a single `SeasonTeam` using a unique key."""
+  deleteSeasonTeam(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteSeasonTeamInput!
+  ): DeleteSeasonTeamPayload
 
   """Deletes a single `EngineManufacturer` using its globally unique id."""
   deleteEngineManufacturerById(
@@ -13259,21 +13164,21 @@ type Mutation {
     input: DeleteEngineManufacturerInput!
   ): DeleteEngineManufacturerPayload
 
-  """Deletes a single `Constructor` using its globally unique id."""
-  deleteConstructorById(
+  """Deletes a single `Team` using its globally unique id."""
+  deleteTeamById(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteConstructorByIdInput!
-  ): DeleteConstructorPayload
+    input: DeleteTeamByIdInput!
+  ): DeleteTeamPayload
 
-  """Deletes a single `Constructor` using a unique key."""
-  deleteConstructor(
+  """Deletes a single `Team` using a unique key."""
+  deleteTeam(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteConstructorInput!
-  ): DeleteConstructorPayload
+    input: DeleteTeamInput!
+  ): DeleteTeamPayload
 
   """Deletes a single `QualifyingResult` using its globally unique id."""
   deleteQualifyingResultById(
@@ -13559,7 +13464,7 @@ input CreateChassisInput {
 """An input for mutations affecting `Chassis`"""
 input ChassisInput {
   rowId: String!
-  constructorId: String!
+  teamId: String!
   name: String!
   fullName: String!
 }
@@ -13687,7 +13592,7 @@ input CreateAppTeamColorInput {
 
 """An input for mutations affecting `AppTeamColor`"""
 input AppTeamColorInput {
-  constructorId: String!
+  teamId: String!
   primaryHex: String
   secondaryHex: String
   logo: String
@@ -13730,52 +13635,52 @@ input CreateAppTeamHistoryInput {
 
 """An input for mutations affecting `AppTeamHistory`"""
 input AppTeamHistoryInput {
-  constructorId: String!
-  antecedentConstructorId: String!
+  teamId: String!
+  antecedentTeamId: String!
   startYear: Int
   endYear: Int
 }
 
-"""The output of our create `SeasonEntrantConstructor` mutation."""
-type CreateSeasonEntrantConstructorPayload {
+"""The output of our create `SeasonEntrantTeam` mutation."""
+type CreateSeasonEntrantTeamPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `SeasonEntrantConstructor` that was created by this mutation."""
-  seasonEntrantConstructor: SeasonEntrantConstructor
+  """The `SeasonEntrantTeam` that was created by this mutation."""
+  seasonEntrantTeam: SeasonEntrantTeam
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `SeasonEntrantConstructor`. May be used by Relay 1."""
-  seasonEntrantConstructorEdge(
-    """The method to use when ordering `SeasonEntrantConstructor`."""
-    orderBy: [SeasonEntrantConstructorOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): SeasonEntrantConstructorEdge
+  """An edge for our `SeasonEntrantTeam`. May be used by Relay 1."""
+  seasonEntrantTeamEdge(
+    """The method to use when ordering `SeasonEntrantTeam`."""
+    orderBy: [SeasonEntrantTeamOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): SeasonEntrantTeamEdge
 }
 
-"""All input for the create `SeasonEntrantConstructor` mutation."""
-input CreateSeasonEntrantConstructorInput {
+"""All input for the create `SeasonEntrantTeam` mutation."""
+input CreateSeasonEntrantTeamInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
 
-  """The `SeasonEntrantConstructor` to be created by this mutation."""
-  seasonEntrantConstructor: SeasonEntrantConstructorInput!
+  """The `SeasonEntrantTeam` to be created by this mutation."""
+  seasonEntrantTeam: SeasonEntrantTeamInput!
 }
 
-"""An input for mutations affecting `SeasonEntrantConstructor`"""
-input SeasonEntrantConstructorInput {
+"""An input for mutations affecting `SeasonEntrantTeam`"""
+input SeasonEntrantTeamInput {
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
 }
 
@@ -13863,46 +13768,46 @@ input AppIngestStateInput {
   updatedAt: Datetime
 }
 
-"""The output of our create `ConstructorChronology` mutation."""
-type CreateConstructorChronologyPayload {
+"""The output of our create `TeamChronology` mutation."""
+type CreateTeamChronologyPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `ConstructorChronology` that was created by this mutation."""
-  constructorChronology: ConstructorChronology
+  """The `TeamChronology` that was created by this mutation."""
+  teamChronology: TeamChronology
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `ConstructorChronology`. May be used by Relay 1."""
-  constructorChronologyEdge(
-    """The method to use when ordering `ConstructorChronology`."""
-    orderBy: [ConstructorChronologyOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): ConstructorChronologyEdge
+  """An edge for our `TeamChronology`. May be used by Relay 1."""
+  teamChronologyEdge(
+    """The method to use when ordering `TeamChronology`."""
+    orderBy: [TeamChronologyOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): TeamChronologyEdge
 }
 
-"""All input for the create `ConstructorChronology` mutation."""
-input CreateConstructorChronologyInput {
+"""All input for the create `TeamChronology` mutation."""
+input CreateTeamChronologyInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
 
-  """The `ConstructorChronology` to be created by this mutation."""
-  constructorChronology: ConstructorChronologyInput!
+  """The `TeamChronology` to be created by this mutation."""
+  teamChronology: TeamChronologyInput!
 }
 
-"""An input for mutations affecting `ConstructorChronology`"""
-input ConstructorChronologyInput {
-  constructorId: String!
+"""An input for mutations affecting `TeamChronology`"""
+input TeamChronologyInput {
+  teamId: String!
   positionDisplayOrder: Int!
-  otherConstructorId: String!
+  otherTeamId: String!
   yearFrom: Int!
   yearTo: Int
 }
@@ -13946,7 +13851,7 @@ input CreateSeasonEntrantChassisInput {
 input SeasonEntrantChassisInput {
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   chassisId: String!
 }
@@ -13990,7 +13895,7 @@ input CreateSeasonEntrantEngineInput {
 input SeasonEntrantEngineInput {
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   engineId: String!
 }
@@ -14036,7 +13941,7 @@ input CreateSeasonEntrantTyreManufacturerInput {
 input SeasonEntrantTyreManufacturerInput {
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   tyreManufacturerId: String!
 }
@@ -14078,7 +13983,7 @@ input CreateAppConstructorBioInput {
 
 """An input for mutations affecting `AppConstructorBio`"""
 input AppConstructorBioInput {
-  constructorId: String!
+  teamId: String!
   description: String
   title: String
   extract: String
@@ -14358,53 +14263,6 @@ input SeasonDriverStandingInput {
   championshipWon: Boolean!
 }
 
-"""The output of our create `SeasonConstructorStanding` mutation."""
-type CreateSeasonConstructorStandingPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `SeasonConstructorStanding` that was created by this mutation."""
-  seasonConstructorStanding: SeasonConstructorStanding
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `SeasonConstructorStanding`. May be used by Relay 1."""
-  seasonConstructorStandingEdge(
-    """The method to use when ordering `SeasonConstructorStanding`."""
-    orderBy: [SeasonConstructorStandingOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): SeasonConstructorStandingEdge
-}
-
-"""All input for the create `SeasonConstructorStanding` mutation."""
-input CreateSeasonConstructorStandingInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `SeasonConstructorStanding` to be created by this mutation."""
-  seasonConstructorStanding: SeasonConstructorStandingInput!
-}
-
-"""An input for mutations affecting `SeasonConstructorStanding`"""
-input SeasonConstructorStandingInput {
-  year: Int!
-  positionDisplayOrder: Int!
-  positionNumber: Int
-  positionText: String!
-  constructorId: String!
-  engineManufacturerId: String!
-  points: BigFloat!
-  championshipWon: Boolean!
-}
-
 """The output of our create `SeasonEntrantDriver` mutation."""
 type CreateSeasonEntrantDriverPayload {
   """
@@ -14444,12 +14302,59 @@ input CreateSeasonEntrantDriverInput {
 input SeasonEntrantDriverInput {
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   driverId: String!
   rounds: String
   roundsText: String
   testDriver: Boolean!
+}
+
+"""The output of our create `SeasonTeamStanding` mutation."""
+type CreateSeasonTeamStandingPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `SeasonTeamStanding` that was created by this mutation."""
+  seasonTeamStanding: SeasonTeamStanding
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `SeasonTeamStanding`. May be used by Relay 1."""
+  seasonTeamStandingEdge(
+    """The method to use when ordering `SeasonTeamStanding`."""
+    orderBy: [SeasonTeamStandingOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): SeasonTeamStandingEdge
+}
+
+"""All input for the create `SeasonTeamStanding` mutation."""
+input CreateSeasonTeamStandingInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `SeasonTeamStanding` to be created by this mutation."""
+  seasonTeamStanding: SeasonTeamStandingInput!
+}
+
+"""An input for mutations affecting `SeasonTeamStanding`"""
+input SeasonTeamStandingInput {
+  year: Int!
+  positionDisplayOrder: Int!
+  positionNumber: Int
+  positionText: String!
+  teamId: String!
+  engineManufacturerId: String!
+  points: BigFloat!
+  championshipWon: Boolean!
 }
 
 """The output of our create `Engine` mutation."""
@@ -14545,48 +14450,48 @@ input RaceDriverStandingInput {
   championshipWon: Boolean!
 }
 
-"""The output of our create `RaceConstructorStanding` mutation."""
-type CreateRaceConstructorStandingPayload {
+"""The output of our create `RaceTeamStanding` mutation."""
+type CreateRaceTeamStandingPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `RaceConstructorStanding` that was created by this mutation."""
-  raceConstructorStanding: RaceConstructorStanding
+  """The `RaceTeamStanding` that was created by this mutation."""
+  raceTeamStanding: RaceTeamStanding
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `RaceConstructorStanding`. May be used by Relay 1."""
-  raceConstructorStandingEdge(
-    """The method to use when ordering `RaceConstructorStanding`."""
-    orderBy: [RaceConstructorStandingOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): RaceConstructorStandingEdge
+  """An edge for our `RaceTeamStanding`. May be used by Relay 1."""
+  raceTeamStandingEdge(
+    """The method to use when ordering `RaceTeamStanding`."""
+    orderBy: [RaceTeamStandingOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): RaceTeamStandingEdge
 }
 
-"""All input for the create `RaceConstructorStanding` mutation."""
-input CreateRaceConstructorStandingInput {
+"""All input for the create `RaceTeamStanding` mutation."""
+input CreateRaceTeamStandingInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
 
-  """The `RaceConstructorStanding` to be created by this mutation."""
-  raceConstructorStanding: RaceConstructorStandingInput!
+  """The `RaceTeamStanding` to be created by this mutation."""
+  raceTeamStanding: RaceTeamStandingInput!
 }
 
-"""An input for mutations affecting `RaceConstructorStanding`"""
-input RaceConstructorStandingInput {
+"""An input for mutations affecting `RaceTeamStanding`"""
+input RaceTeamStandingInput {
   raceId: Int!
   positionDisplayOrder: Int!
   positionNumber: Int
   positionText: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   points: BigFloat!
   positionsGained: Int
@@ -14636,7 +14541,7 @@ input DriverOfTheDayResultInput {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   percentage: BigFloat
@@ -14737,7 +14642,7 @@ input PitStopInput {
   positionText: String
   driverNumber: String
   driverId: String!
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   stop: Int!
@@ -14843,7 +14748,7 @@ input SprintStartingGridPositionInput {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   qualificationPositionNumber: Int
@@ -14897,7 +14802,7 @@ input StartingGridPositionInput {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   qualificationPositionNumber: Int
@@ -14945,7 +14850,7 @@ input FreePractice1ResultInput {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -14994,7 +14899,7 @@ input FreePractice2ResultInput {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -15043,7 +14948,7 @@ input FreePractice3ResultInput {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -15092,7 +14997,7 @@ input FreePractice4ResultInput {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -15141,7 +15046,7 @@ input PreQualifyingResultInput {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -15190,7 +15095,7 @@ input Qualifying1ResultInput {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -15239,7 +15144,7 @@ input Qualifying2ResultInput {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -15288,7 +15193,7 @@ input WarmingUpResultInput {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -15398,7 +15303,7 @@ input FastestLapInput {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   lap: Int
@@ -15467,64 +15372,6 @@ input SeasonEngineManufacturerInput {
   totalSprintRaceWins: Int!
 }
 
-"""The output of our create `SeasonConstructor` mutation."""
-type CreateSeasonConstructorPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `SeasonConstructor` that was created by this mutation."""
-  seasonConstructor: SeasonConstructor
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `SeasonConstructor`. May be used by Relay 1."""
-  seasonConstructorEdge(
-    """The method to use when ordering `SeasonConstructor`."""
-    orderBy: [SeasonConstructorOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): SeasonConstructorEdge
-}
-
-"""All input for the create `SeasonConstructor` mutation."""
-input CreateSeasonConstructorInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `SeasonConstructor` to be created by this mutation."""
-  seasonConstructor: SeasonConstructorInput!
-}
-
-"""An input for mutations affecting `SeasonConstructor`"""
-input SeasonConstructorInput {
-  year: Int!
-  constructorId: String!
-  positionNumber: Int
-  positionText: String
-  bestStartingGridPosition: Int
-  bestRaceResult: Int
-  bestSprintRaceResult: Int
-  totalRaceEntries: Int!
-  totalRaceStarts: Int!
-  totalRaceWins: Int!
-  total1And2Finishes: Int!
-  totalRaceLaps: Int!
-  totalPodiums: Int!
-  totalPodiumRaces: Int!
-  totalPoints: BigFloat!
-  totalPolePositions: Int!
-  totalFastestLaps: Int!
-  totalSprintRaceStarts: Int!
-  totalSprintRaceWins: Int!
-}
-
 """The output of our create `SeasonDriver` mutation."""
 type CreateSeasonDriverPayload {
   """
@@ -15581,6 +15428,64 @@ input SeasonDriverInput {
   totalSprintRaceWins: Int!
   totalDriverOfTheDay: Int!
   totalGrandSlams: Int!
+}
+
+"""The output of our create `SeasonTeam` mutation."""
+type CreateSeasonTeamPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `SeasonTeam` that was created by this mutation."""
+  seasonTeam: SeasonTeam
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `SeasonTeam`. May be used by Relay 1."""
+  seasonTeamEdge(
+    """The method to use when ordering `SeasonTeam`."""
+    orderBy: [SeasonTeamOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): SeasonTeamEdge
+}
+
+"""All input for the create `SeasonTeam` mutation."""
+input CreateSeasonTeamInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `SeasonTeam` to be created by this mutation."""
+  seasonTeam: SeasonTeamInput!
+}
+
+"""An input for mutations affecting `SeasonTeam`"""
+input SeasonTeamInput {
+  year: Int!
+  teamId: String!
+  positionNumber: Int
+  positionText: String
+  bestStartingGridPosition: Int
+  bestRaceResult: Int
+  bestSprintRaceResult: Int
+  totalRaceEntries: Int!
+  totalRaceStarts: Int!
+  totalRaceWins: Int!
+  total1And2Finishes: Int!
+  totalRaceLaps: Int!
+  totalPodiums: Int!
+  totalPodiumRaces: Int!
+  totalPoints: BigFloat!
+  totalPolePositions: Int!
+  totalFastestLaps: Int!
+  totalSprintRaceStarts: Int!
+  totalSprintRaceWins: Int!
 }
 
 """The output of our create `EngineManufacturer` mutation."""
@@ -15642,43 +15547,43 @@ input EngineManufacturerInput {
   totalSprintRaceWins: Int!
 }
 
-"""The output of our create `Constructor` mutation."""
-type CreateConstructorPayload {
+"""The output of our create `Team` mutation."""
+type CreateTeamPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `Constructor` that was created by this mutation."""
-  constructor: Constructor
+  """The `Team` that was created by this mutation."""
+  team: Team
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `Constructor`. May be used by Relay 1."""
-  constructorEdge(
-    """The method to use when ordering `Constructor`."""
-    orderBy: [ConstructorOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): ConstructorEdge
+  """An edge for our `Team`. May be used by Relay 1."""
+  teamEdge(
+    """The method to use when ordering `Team`."""
+    orderBy: [TeamOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): TeamEdge
 }
 
-"""All input for the create `Constructor` mutation."""
-input CreateConstructorInput {
+"""All input for the create `Team` mutation."""
+input CreateTeamInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
 
-  """The `Constructor` to be created by this mutation."""
-  constructor: ConstructorInput!
+  """The `Team` to be created by this mutation."""
+  team: TeamInput!
 }
 
-"""An input for mutations affecting `Constructor`"""
-input ConstructorInput {
+"""An input for mutations affecting `Team`"""
+input TeamInput {
   rowId: String!
   name: String!
   fullName: String!
@@ -15746,7 +15651,7 @@ input QualifyingResultInput {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -15807,7 +15712,7 @@ input SprintQualifyingResultInput {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -15868,7 +15773,7 @@ input SprintRaceResultInput {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   laps: Int
@@ -16004,7 +15909,7 @@ input RaceResultInput {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   sharedCar: Boolean
@@ -16158,7 +16063,7 @@ input RaceDatumInput {
   positionText: String!
   driverNumber: String!
   driverId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   tyreManufacturerId: String!
   practiceTime: String
@@ -16467,7 +16372,7 @@ Represents an update to a `Chassis`. Fields that are set will be updated.
 """
 input ChassisPatch {
   rowId: String
-  constructorId: String
+  teamId: String
   name: String
   fullName: String
 }
@@ -16717,7 +16622,7 @@ input UpdateAppTeamColorByIdInput {
 Represents an update to a `AppTeamColor`. Fields that are set will be updated.
 """
 input AppTeamColorPatch {
-  constructorId: String
+  teamId: String
   primaryHex: String
   secondaryHex: String
   logo: String
@@ -16730,7 +16635,7 @@ input UpdateAppTeamColorInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  constructorId: String!
+  teamId: String!
 
   """
   An object where the defined keys will be set on the `AppTeamColor` being updated.
@@ -16784,8 +16689,8 @@ input UpdateAppTeamHistoryByIdInput {
 Represents an update to a `AppTeamHistory`. Fields that are set will be updated.
 """
 input AppTeamHistoryPatch {
-  constructorId: String
-  antecedentConstructorId: String
+  teamId: String
+  antecedentTeamId: String
   startYear: Int
   endYear: Int
 }
@@ -16797,8 +16702,8 @@ input UpdateAppTeamHistoryInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  constructorId: String!
-  antecedentConstructorId: String!
+  teamId: String!
+  antecedentTeamId: String!
 
   """
   An object where the defined keys will be set on the `AppTeamHistory` being updated.
@@ -16806,31 +16711,31 @@ input UpdateAppTeamHistoryInput {
   patch: AppTeamHistoryPatch!
 }
 
-"""The output of our update `SeasonEntrantConstructor` mutation."""
-type UpdateSeasonEntrantConstructorPayload {
+"""The output of our update `SeasonEntrantTeam` mutation."""
+type UpdateSeasonEntrantTeamPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `SeasonEntrantConstructor` that was updated by this mutation."""
-  seasonEntrantConstructor: SeasonEntrantConstructor
+  """The `SeasonEntrantTeam` that was updated by this mutation."""
+  seasonEntrantTeam: SeasonEntrantTeam
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `SeasonEntrantConstructor`. May be used by Relay 1."""
-  seasonEntrantConstructorEdge(
-    """The method to use when ordering `SeasonEntrantConstructor`."""
-    orderBy: [SeasonEntrantConstructorOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): SeasonEntrantConstructorEdge
+  """An edge for our `SeasonEntrantTeam`. May be used by Relay 1."""
+  seasonEntrantTeamEdge(
+    """The method to use when ordering `SeasonEntrantTeam`."""
+    orderBy: [SeasonEntrantTeamOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): SeasonEntrantTeamEdge
 }
 
-"""All input for the `updateSeasonEntrantConstructorById` mutation."""
-input UpdateSeasonEntrantConstructorByIdInput {
+"""All input for the `updateSeasonEntrantTeamById` mutation."""
+input UpdateSeasonEntrantTeamByIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -16838,28 +16743,28 @@ input UpdateSeasonEntrantConstructorByIdInput {
   clientMutationId: String
 
   """
-  The globally unique `ID` which will identify a single `SeasonEntrantConstructor` to be updated.
+  The globally unique `ID` which will identify a single `SeasonEntrantTeam` to be updated.
   """
   id: ID!
 
   """
-  An object where the defined keys will be set on the `SeasonEntrantConstructor` being updated.
+  An object where the defined keys will be set on the `SeasonEntrantTeam` being updated.
   """
-  patch: SeasonEntrantConstructorPatch!
+  patch: SeasonEntrantTeamPatch!
 }
 
 """
-Represents an update to a `SeasonEntrantConstructor`. Fields that are set will be updated.
+Represents an update to a `SeasonEntrantTeam`. Fields that are set will be updated.
 """
-input SeasonEntrantConstructorPatch {
+input SeasonEntrantTeamPatch {
   year: Int
   entrantId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
 }
 
-"""All input for the `updateSeasonEntrantConstructor` mutation."""
-input UpdateSeasonEntrantConstructorInput {
+"""All input for the `updateSeasonEntrantTeam` mutation."""
+input UpdateSeasonEntrantTeamInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -16867,13 +16772,13 @@ input UpdateSeasonEntrantConstructorInput {
   clientMutationId: String
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
 
   """
-  An object where the defined keys will be set on the `SeasonEntrantConstructor` being updated.
+  An object where the defined keys will be set on the `SeasonEntrantTeam` being updated.
   """
-  patch: SeasonEntrantConstructorPatch!
+  patch: SeasonEntrantTeamPatch!
 }
 
 """The output of our update `AppCircuitDescription` mutation."""
@@ -17008,31 +16913,31 @@ input UpdateAppIngestStateInput {
   patch: AppIngestStatePatch!
 }
 
-"""The output of our update `ConstructorChronology` mutation."""
-type UpdateConstructorChronologyPayload {
+"""The output of our update `TeamChronology` mutation."""
+type UpdateTeamChronologyPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `ConstructorChronology` that was updated by this mutation."""
-  constructorChronology: ConstructorChronology
+  """The `TeamChronology` that was updated by this mutation."""
+  teamChronology: TeamChronology
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `ConstructorChronology`. May be used by Relay 1."""
-  constructorChronologyEdge(
-    """The method to use when ordering `ConstructorChronology`."""
-    orderBy: [ConstructorChronologyOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): ConstructorChronologyEdge
+  """An edge for our `TeamChronology`. May be used by Relay 1."""
+  teamChronologyEdge(
+    """The method to use when ordering `TeamChronology`."""
+    orderBy: [TeamChronologyOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): TeamChronologyEdge
 }
 
-"""All input for the `updateConstructorChronologyById` mutation."""
-input UpdateConstructorChronologyByIdInput {
+"""All input for the `updateTeamChronologyById` mutation."""
+input UpdateTeamChronologyByIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -17040,61 +16945,61 @@ input UpdateConstructorChronologyByIdInput {
   clientMutationId: String
 
   """
-  The globally unique `ID` which will identify a single `ConstructorChronology` to be updated.
+  The globally unique `ID` which will identify a single `TeamChronology` to be updated.
   """
   id: ID!
 
   """
-  An object where the defined keys will be set on the `ConstructorChronology` being updated.
+  An object where the defined keys will be set on the `TeamChronology` being updated.
   """
-  patch: ConstructorChronologyPatch!
+  patch: TeamChronologyPatch!
 }
 
 """
-Represents an update to a `ConstructorChronology`. Fields that are set will be updated.
+Represents an update to a `TeamChronology`. Fields that are set will be updated.
 """
-input ConstructorChronologyPatch {
-  constructorId: String
+input TeamChronologyPatch {
+  teamId: String
   positionDisplayOrder: Int
-  otherConstructorId: String
+  otherTeamId: String
   yearFrom: Int
   yearTo: Int
 }
 
-"""All input for the `updateConstructorChronology` mutation."""
-input UpdateConstructorChronologyInput {
+"""All input for the `updateTeamChronology` mutation."""
+input UpdateTeamChronologyInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  constructorId: String!
+  teamId: String!
   positionDisplayOrder: Int!
 
   """
-  An object where the defined keys will be set on the `ConstructorChronology` being updated.
+  An object where the defined keys will be set on the `TeamChronology` being updated.
   """
-  patch: ConstructorChronologyPatch!
+  patch: TeamChronologyPatch!
 }
 
 """
-All input for the `updateConstructorChronologyByConstructorIdAndOtherConstructorIdAndYearFromAndYearTo` mutation.
+All input for the `updateTeamChronologyByTeamIdAndOtherTeamIdAndYearFromAndYearTo` mutation.
 """
-input UpdateConstructorChronologyByConstructorIdAndOtherConstructorIdAndYearFromAndYearToInput {
+input UpdateTeamChronologyByTeamIdAndOtherTeamIdAndYearFromAndYearToInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  constructorId: String!
-  otherConstructorId: String!
+  teamId: String!
+  otherTeamId: String!
   yearFrom: Int!
   yearTo: Int!
 
   """
-  An object where the defined keys will be set on the `ConstructorChronology` being updated.
+  An object where the defined keys will be set on the `TeamChronology` being updated.
   """
-  patch: ConstructorChronologyPatch!
+  patch: TeamChronologyPatch!
 }
 
 """The output of our update `SeasonEntrantChassis` mutation."""
@@ -17145,7 +17050,7 @@ Represents an update to a `SeasonEntrantChassis`. Fields that are set will be up
 input SeasonEntrantChassisPatch {
   year: Int
   entrantId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   chassisId: String
 }
@@ -17159,7 +17064,7 @@ input UpdateSeasonEntrantChassisInput {
   clientMutationId: String
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   chassisId: String!
 
@@ -17217,7 +17122,7 @@ Represents an update to a `SeasonEntrantEngine`. Fields that are set will be upd
 input SeasonEntrantEnginePatch {
   year: Int
   entrantId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   engineId: String
 }
@@ -17231,7 +17136,7 @@ input UpdateSeasonEntrantEngineInput {
   clientMutationId: String
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   engineId: String!
 
@@ -17291,7 +17196,7 @@ Represents an update to a `SeasonEntrantTyreManufacturer`. Fields that are set w
 input SeasonEntrantTyreManufacturerPatch {
   year: Int
   entrantId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
 }
@@ -17305,7 +17210,7 @@ input UpdateSeasonEntrantTyreManufacturerInput {
   clientMutationId: String
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   tyreManufacturerId: String!
 
@@ -17361,7 +17266,7 @@ input UpdateAppConstructorBioByIdInput {
 Represents an update to a `AppConstructorBio`. Fields that are set will be updated.
 """
 input AppConstructorBioPatch {
-  constructorId: String
+  teamId: String
   description: String
   title: String
   extract: String
@@ -17376,7 +17281,7 @@ input UpdateAppConstructorBioInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  constructorId: String!
+  teamId: String!
 
   """
   An object where the defined keys will be set on the `AppConstructorBio` being updated.
@@ -17848,78 +17753,6 @@ input UpdateSeasonDriverStandingInput {
   patch: SeasonDriverStandingPatch!
 }
 
-"""The output of our update `SeasonConstructorStanding` mutation."""
-type UpdateSeasonConstructorStandingPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `SeasonConstructorStanding` that was updated by this mutation."""
-  seasonConstructorStanding: SeasonConstructorStanding
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `SeasonConstructorStanding`. May be used by Relay 1."""
-  seasonConstructorStandingEdge(
-    """The method to use when ordering `SeasonConstructorStanding`."""
-    orderBy: [SeasonConstructorStandingOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): SeasonConstructorStandingEdge
-}
-
-"""All input for the `updateSeasonConstructorStandingById` mutation."""
-input UpdateSeasonConstructorStandingByIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `SeasonConstructorStanding` to be updated.
-  """
-  id: ID!
-
-  """
-  An object where the defined keys will be set on the `SeasonConstructorStanding` being updated.
-  """
-  patch: SeasonConstructorStandingPatch!
-}
-
-"""
-Represents an update to a `SeasonConstructorStanding`. Fields that are set will be updated.
-"""
-input SeasonConstructorStandingPatch {
-  year: Int
-  positionDisplayOrder: Int
-  positionNumber: Int
-  positionText: String
-  constructorId: String
-  engineManufacturerId: String
-  points: BigFloat
-  championshipWon: Boolean
-}
-
-"""All input for the `updateSeasonConstructorStanding` mutation."""
-input UpdateSeasonConstructorStandingInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  year: Int!
-  positionDisplayOrder: Int!
-
-  """
-  An object where the defined keys will be set on the `SeasonConstructorStanding` being updated.
-  """
-  patch: SeasonConstructorStandingPatch!
-}
-
 """The output of our update `SeasonEntrantDriver` mutation."""
 type UpdateSeasonEntrantDriverPayload {
   """
@@ -17968,7 +17801,7 @@ Represents an update to a `SeasonEntrantDriver`. Fields that are set will be upd
 input SeasonEntrantDriverPatch {
   year: Int
   entrantId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   driverId: String
   rounds: String
@@ -17985,7 +17818,7 @@ input UpdateSeasonEntrantDriverInput {
   clientMutationId: String
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   driverId: String!
 
@@ -17993,6 +17826,78 @@ input UpdateSeasonEntrantDriverInput {
   An object where the defined keys will be set on the `SeasonEntrantDriver` being updated.
   """
   patch: SeasonEntrantDriverPatch!
+}
+
+"""The output of our update `SeasonTeamStanding` mutation."""
+type UpdateSeasonTeamStandingPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `SeasonTeamStanding` that was updated by this mutation."""
+  seasonTeamStanding: SeasonTeamStanding
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `SeasonTeamStanding`. May be used by Relay 1."""
+  seasonTeamStandingEdge(
+    """The method to use when ordering `SeasonTeamStanding`."""
+    orderBy: [SeasonTeamStandingOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): SeasonTeamStandingEdge
+}
+
+"""All input for the `updateSeasonTeamStandingById` mutation."""
+input UpdateSeasonTeamStandingByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `SeasonTeamStanding` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `SeasonTeamStanding` being updated.
+  """
+  patch: SeasonTeamStandingPatch!
+}
+
+"""
+Represents an update to a `SeasonTeamStanding`. Fields that are set will be updated.
+"""
+input SeasonTeamStandingPatch {
+  year: Int
+  positionDisplayOrder: Int
+  positionNumber: Int
+  positionText: String
+  teamId: String
+  engineManufacturerId: String
+  points: BigFloat
+  championshipWon: Boolean
+}
+
+"""All input for the `updateSeasonTeamStanding` mutation."""
+input UpdateSeasonTeamStandingInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  year: Int!
+  positionDisplayOrder: Int!
+
+  """
+  An object where the defined keys will be set on the `SeasonTeamStanding` being updated.
+  """
+  patch: SeasonTeamStandingPatch!
 }
 
 """The output of our update `Engine` mutation."""
@@ -18137,31 +18042,31 @@ input UpdateRaceDriverStandingInput {
   patch: RaceDriverStandingPatch!
 }
 
-"""The output of our update `RaceConstructorStanding` mutation."""
-type UpdateRaceConstructorStandingPayload {
+"""The output of our update `RaceTeamStanding` mutation."""
+type UpdateRaceTeamStandingPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `RaceConstructorStanding` that was updated by this mutation."""
-  raceConstructorStanding: RaceConstructorStanding
+  """The `RaceTeamStanding` that was updated by this mutation."""
+  raceTeamStanding: RaceTeamStanding
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `RaceConstructorStanding`. May be used by Relay 1."""
-  raceConstructorStandingEdge(
-    """The method to use when ordering `RaceConstructorStanding`."""
-    orderBy: [RaceConstructorStandingOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): RaceConstructorStandingEdge
+  """An edge for our `RaceTeamStanding`. May be used by Relay 1."""
+  raceTeamStandingEdge(
+    """The method to use when ordering `RaceTeamStanding`."""
+    orderBy: [RaceTeamStandingOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): RaceTeamStandingEdge
 }
 
-"""All input for the `updateRaceConstructorStandingById` mutation."""
-input UpdateRaceConstructorStandingByIdInput {
+"""All input for the `updateRaceTeamStandingById` mutation."""
+input UpdateRaceTeamStandingByIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -18169,33 +18074,33 @@ input UpdateRaceConstructorStandingByIdInput {
   clientMutationId: String
 
   """
-  The globally unique `ID` which will identify a single `RaceConstructorStanding` to be updated.
+  The globally unique `ID` which will identify a single `RaceTeamStanding` to be updated.
   """
   id: ID!
 
   """
-  An object where the defined keys will be set on the `RaceConstructorStanding` being updated.
+  An object where the defined keys will be set on the `RaceTeamStanding` being updated.
   """
-  patch: RaceConstructorStandingPatch!
+  patch: RaceTeamStandingPatch!
 }
 
 """
-Represents an update to a `RaceConstructorStanding`. Fields that are set will be updated.
+Represents an update to a `RaceTeamStanding`. Fields that are set will be updated.
 """
-input RaceConstructorStandingPatch {
+input RaceTeamStandingPatch {
   raceId: Int
   positionDisplayOrder: Int
   positionNumber: Int
   positionText: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   points: BigFloat
   positionsGained: Int
   championshipWon: Boolean
 }
 
-"""All input for the `updateRaceConstructorStanding` mutation."""
-input UpdateRaceConstructorStandingInput {
+"""All input for the `updateRaceTeamStanding` mutation."""
+input UpdateRaceTeamStandingInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -18205,9 +18110,9 @@ input UpdateRaceConstructorStandingInput {
   positionDisplayOrder: Int!
 
   """
-  An object where the defined keys will be set on the `RaceConstructorStanding` being updated.
+  An object where the defined keys will be set on the `RaceTeamStanding` being updated.
   """
-  patch: RaceConstructorStandingPatch!
+  patch: RaceTeamStandingPatch!
 }
 
 """The output of our update `DriverOfTheDayResult` mutation."""
@@ -18262,7 +18167,7 @@ input DriverOfTheDayResultPatch {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   percentage: BigFloat
@@ -18412,7 +18317,7 @@ input PitStopPatch {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   stop: Int
@@ -18569,7 +18474,7 @@ input SprintStartingGridPositionPatch {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   qualificationPositionNumber: Int
@@ -18648,7 +18553,7 @@ input StartingGridPositionPatch {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   qualificationPositionNumber: Int
@@ -18806,7 +18711,7 @@ input FastestLapPatch {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   lap: Int
@@ -18916,89 +18821,6 @@ input UpdateSeasonEngineManufacturerInput {
   patch: SeasonEngineManufacturerPatch!
 }
 
-"""The output of our update `SeasonConstructor` mutation."""
-type UpdateSeasonConstructorPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `SeasonConstructor` that was updated by this mutation."""
-  seasonConstructor: SeasonConstructor
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `SeasonConstructor`. May be used by Relay 1."""
-  seasonConstructorEdge(
-    """The method to use when ordering `SeasonConstructor`."""
-    orderBy: [SeasonConstructorOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): SeasonConstructorEdge
-}
-
-"""All input for the `updateSeasonConstructorById` mutation."""
-input UpdateSeasonConstructorByIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `SeasonConstructor` to be updated.
-  """
-  id: ID!
-
-  """
-  An object where the defined keys will be set on the `SeasonConstructor` being updated.
-  """
-  patch: SeasonConstructorPatch!
-}
-
-"""
-Represents an update to a `SeasonConstructor`. Fields that are set will be updated.
-"""
-input SeasonConstructorPatch {
-  year: Int
-  constructorId: String
-  positionNumber: Int
-  positionText: String
-  bestStartingGridPosition: Int
-  bestRaceResult: Int
-  bestSprintRaceResult: Int
-  totalRaceEntries: Int
-  totalRaceStarts: Int
-  totalRaceWins: Int
-  total1And2Finishes: Int
-  totalRaceLaps: Int
-  totalPodiums: Int
-  totalPodiumRaces: Int
-  totalPoints: BigFloat
-  totalPolePositions: Int
-  totalFastestLaps: Int
-  totalSprintRaceStarts: Int
-  totalSprintRaceWins: Int
-}
-
-"""All input for the `updateSeasonConstructor` mutation."""
-input UpdateSeasonConstructorInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  year: Int!
-  constructorId: String!
-
-  """
-  An object where the defined keys will be set on the `SeasonConstructor` being updated.
-  """
-  patch: SeasonConstructorPatch!
-}
-
 """The output of our update `SeasonDriver` mutation."""
 type UpdateSeasonDriverPayload {
   """
@@ -19080,6 +18902,89 @@ input UpdateSeasonDriverInput {
   An object where the defined keys will be set on the `SeasonDriver` being updated.
   """
   patch: SeasonDriverPatch!
+}
+
+"""The output of our update `SeasonTeam` mutation."""
+type UpdateSeasonTeamPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `SeasonTeam` that was updated by this mutation."""
+  seasonTeam: SeasonTeam
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `SeasonTeam`. May be used by Relay 1."""
+  seasonTeamEdge(
+    """The method to use when ordering `SeasonTeam`."""
+    orderBy: [SeasonTeamOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): SeasonTeamEdge
+}
+
+"""All input for the `updateSeasonTeamById` mutation."""
+input UpdateSeasonTeamByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `SeasonTeam` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `SeasonTeam` being updated.
+  """
+  patch: SeasonTeamPatch!
+}
+
+"""
+Represents an update to a `SeasonTeam`. Fields that are set will be updated.
+"""
+input SeasonTeamPatch {
+  year: Int
+  teamId: String
+  positionNumber: Int
+  positionText: String
+  bestStartingGridPosition: Int
+  bestRaceResult: Int
+  bestSprintRaceResult: Int
+  totalRaceEntries: Int
+  totalRaceStarts: Int
+  totalRaceWins: Int
+  total1And2Finishes: Int
+  totalRaceLaps: Int
+  totalPodiums: Int
+  totalPodiumRaces: Int
+  totalPoints: BigFloat
+  totalPolePositions: Int
+  totalFastestLaps: Int
+  totalSprintRaceStarts: Int
+  totalSprintRaceWins: Int
+}
+
+"""All input for the `updateSeasonTeam` mutation."""
+input UpdateSeasonTeamInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  year: Int!
+  teamId: String!
+
+  """
+  An object where the defined keys will be set on the `SeasonTeam` being updated.
+  """
+  patch: SeasonTeamPatch!
 }
 
 """The output of our update `EngineManufacturer` mutation."""
@@ -19165,31 +19070,31 @@ input UpdateEngineManufacturerInput {
   patch: EngineManufacturerPatch!
 }
 
-"""The output of our update `Constructor` mutation."""
-type UpdateConstructorPayload {
+"""The output of our update `Team` mutation."""
+type UpdateTeamPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `Constructor` that was updated by this mutation."""
-  constructor: Constructor
+  """The `Team` that was updated by this mutation."""
+  team: Team
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `Constructor`. May be used by Relay 1."""
-  constructorEdge(
-    """The method to use when ordering `Constructor`."""
-    orderBy: [ConstructorOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): ConstructorEdge
+  """An edge for our `Team`. May be used by Relay 1."""
+  teamEdge(
+    """The method to use when ordering `Team`."""
+    orderBy: [TeamOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): TeamEdge
 }
 
-"""All input for the `updateConstructorById` mutation."""
-input UpdateConstructorByIdInput {
+"""All input for the `updateTeamById` mutation."""
+input UpdateTeamByIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -19197,20 +19102,18 @@ input UpdateConstructorByIdInput {
   clientMutationId: String
 
   """
-  The globally unique `ID` which will identify a single `Constructor` to be updated.
+  The globally unique `ID` which will identify a single `Team` to be updated.
   """
   id: ID!
 
   """
-  An object where the defined keys will be set on the `Constructor` being updated.
+  An object where the defined keys will be set on the `Team` being updated.
   """
-  patch: ConstructorPatch!
+  patch: TeamPatch!
 }
 
-"""
-Represents an update to a `Constructor`. Fields that are set will be updated.
-"""
-input ConstructorPatch {
+"""Represents an update to a `Team`. Fields that are set will be updated."""
+input TeamPatch {
   rowId: String
   name: String
   fullName: String
@@ -19235,8 +19138,8 @@ input ConstructorPatch {
   totalSprintRaceWins: Int
 }
 
-"""All input for the `updateConstructor` mutation."""
-input UpdateConstructorInput {
+"""All input for the `updateTeam` mutation."""
+input UpdateTeamInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -19245,9 +19148,9 @@ input UpdateConstructorInput {
   rowId: String!
 
   """
-  An object where the defined keys will be set on the `Constructor` being updated.
+  An object where the defined keys will be set on the `Team` being updated.
   """
-  patch: ConstructorPatch!
+  patch: TeamPatch!
 }
 
 """The output of our update `QualifyingResult` mutation."""
@@ -19302,7 +19205,7 @@ input QualifyingResultPatch {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -19388,7 +19291,7 @@ input SprintQualifyingResultPatch {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   time: String
@@ -19474,7 +19377,7 @@ input SprintRaceResultPatch {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   laps: Int
@@ -19659,7 +19562,7 @@ input RaceResultPatch {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   sharedCar: Boolean
@@ -19876,7 +19779,7 @@ input RaceDatumPatch {
   positionText: String
   driverNumber: String
   driverId: String
-  constructorId: String
+  teamId: String
   engineManufacturerId: String
   tyreManufacturerId: String
   practiceTime: String
@@ -20328,7 +20231,7 @@ input DeleteAppTeamColorInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  constructorId: String!
+  teamId: String!
 }
 
 """The output of our delete `AppTeamHistory` mutation."""
@@ -20376,36 +20279,36 @@ input DeleteAppTeamHistoryInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  constructorId: String!
-  antecedentConstructorId: String!
+  teamId: String!
+  antecedentTeamId: String!
 }
 
-"""The output of our delete `SeasonEntrantConstructor` mutation."""
-type DeleteSeasonEntrantConstructorPayload {
+"""The output of our delete `SeasonEntrantTeam` mutation."""
+type DeleteSeasonEntrantTeamPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `SeasonEntrantConstructor` that was deleted by this mutation."""
-  seasonEntrantConstructor: SeasonEntrantConstructor
-  deletedSeasonEntrantConstructorId: ID
+  """The `SeasonEntrantTeam` that was deleted by this mutation."""
+  seasonEntrantTeam: SeasonEntrantTeam
+  deletedSeasonEntrantTeamId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `SeasonEntrantConstructor`. May be used by Relay 1."""
-  seasonEntrantConstructorEdge(
-    """The method to use when ordering `SeasonEntrantConstructor`."""
-    orderBy: [SeasonEntrantConstructorOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): SeasonEntrantConstructorEdge
+  """An edge for our `SeasonEntrantTeam`. May be used by Relay 1."""
+  seasonEntrantTeamEdge(
+    """The method to use when ordering `SeasonEntrantTeam`."""
+    orderBy: [SeasonEntrantTeamOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): SeasonEntrantTeamEdge
 }
 
-"""All input for the `deleteSeasonEntrantConstructorById` mutation."""
-input DeleteSeasonEntrantConstructorByIdInput {
+"""All input for the `deleteSeasonEntrantTeamById` mutation."""
+input DeleteSeasonEntrantTeamByIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -20413,13 +20316,13 @@ input DeleteSeasonEntrantConstructorByIdInput {
   clientMutationId: String
 
   """
-  The globally unique `ID` which will identify a single `SeasonEntrantConstructor` to be deleted.
+  The globally unique `ID` which will identify a single `SeasonEntrantTeam` to be deleted.
   """
   id: ID!
 }
 
-"""All input for the `deleteSeasonEntrantConstructor` mutation."""
-input DeleteSeasonEntrantConstructorInput {
+"""All input for the `deleteSeasonEntrantTeam` mutation."""
+input DeleteSeasonEntrantTeamInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -20427,7 +20330,7 @@ input DeleteSeasonEntrantConstructorInput {
   clientMutationId: String
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
 }
 
@@ -20527,32 +20430,32 @@ input DeleteAppIngestStateInput {
   key: String!
 }
 
-"""The output of our delete `ConstructorChronology` mutation."""
-type DeleteConstructorChronologyPayload {
+"""The output of our delete `TeamChronology` mutation."""
+type DeleteTeamChronologyPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `ConstructorChronology` that was deleted by this mutation."""
-  constructorChronology: ConstructorChronology
-  deletedConstructorChronologyId: ID
+  """The `TeamChronology` that was deleted by this mutation."""
+  teamChronology: TeamChronology
+  deletedTeamChronologyId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `ConstructorChronology`. May be used by Relay 1."""
-  constructorChronologyEdge(
-    """The method to use when ordering `ConstructorChronology`."""
-    orderBy: [ConstructorChronologyOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): ConstructorChronologyEdge
+  """An edge for our `TeamChronology`. May be used by Relay 1."""
+  teamChronologyEdge(
+    """The method to use when ordering `TeamChronology`."""
+    orderBy: [TeamChronologyOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): TeamChronologyEdge
 }
 
-"""All input for the `deleteConstructorChronologyById` mutation."""
-input DeleteConstructorChronologyByIdInput {
+"""All input for the `deleteTeamChronologyById` mutation."""
+input DeleteTeamChronologyByIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -20560,33 +20463,33 @@ input DeleteConstructorChronologyByIdInput {
   clientMutationId: String
 
   """
-  The globally unique `ID` which will identify a single `ConstructorChronology` to be deleted.
+  The globally unique `ID` which will identify a single `TeamChronology` to be deleted.
   """
   id: ID!
 }
 
-"""All input for the `deleteConstructorChronology` mutation."""
-input DeleteConstructorChronologyInput {
+"""All input for the `deleteTeamChronology` mutation."""
+input DeleteTeamChronologyInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  constructorId: String!
+  teamId: String!
   positionDisplayOrder: Int!
 }
 
 """
-All input for the `deleteConstructorChronologyByConstructorIdAndOtherConstructorIdAndYearFromAndYearTo` mutation.
+All input for the `deleteTeamChronologyByTeamIdAndOtherTeamIdAndYearFromAndYearTo` mutation.
 """
-input DeleteConstructorChronologyByConstructorIdAndOtherConstructorIdAndYearFromAndYearToInput {
+input DeleteTeamChronologyByTeamIdAndOtherTeamIdAndYearFromAndYearToInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  constructorId: String!
-  otherConstructorId: String!
+  teamId: String!
+  otherTeamId: String!
   yearFrom: Int!
   yearTo: Int!
 }
@@ -20638,7 +20541,7 @@ input DeleteSeasonEntrantChassisInput {
   clientMutationId: String
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   chassisId: String!
 }
@@ -20690,7 +20593,7 @@ input DeleteSeasonEntrantEngineInput {
   clientMutationId: String
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   engineId: String!
 }
@@ -20744,7 +20647,7 @@ input DeleteSeasonEntrantTyreManufacturerInput {
   clientMutationId: String
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   tyreManufacturerId: String!
 }
@@ -20794,7 +20697,7 @@ input DeleteAppConstructorBioInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  constructorId: String!
+  teamId: String!
 }
 
 """The output of our delete `AppDriverBio` mutation."""
@@ -21118,55 +21021,6 @@ input DeleteSeasonDriverStandingInput {
   positionDisplayOrder: Int!
 }
 
-"""The output of our delete `SeasonConstructorStanding` mutation."""
-type DeleteSeasonConstructorStandingPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `SeasonConstructorStanding` that was deleted by this mutation."""
-  seasonConstructorStanding: SeasonConstructorStanding
-  deletedSeasonConstructorStandingId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `SeasonConstructorStanding`. May be used by Relay 1."""
-  seasonConstructorStandingEdge(
-    """The method to use when ordering `SeasonConstructorStanding`."""
-    orderBy: [SeasonConstructorStandingOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): SeasonConstructorStandingEdge
-}
-
-"""All input for the `deleteSeasonConstructorStandingById` mutation."""
-input DeleteSeasonConstructorStandingByIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `SeasonConstructorStanding` to be deleted.
-  """
-  id: ID!
-}
-
-"""All input for the `deleteSeasonConstructorStanding` mutation."""
-input DeleteSeasonConstructorStandingInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  year: Int!
-  positionDisplayOrder: Int!
-}
-
 """The output of our delete `SeasonEntrantDriver` mutation."""
 type DeleteSeasonEntrantDriverPayload {
   """
@@ -21214,9 +21068,58 @@ input DeleteSeasonEntrantDriverInput {
   clientMutationId: String
   year: Int!
   entrantId: String!
-  constructorId: String!
+  teamId: String!
   engineManufacturerId: String!
   driverId: String!
+}
+
+"""The output of our delete `SeasonTeamStanding` mutation."""
+type DeleteSeasonTeamStandingPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `SeasonTeamStanding` that was deleted by this mutation."""
+  seasonTeamStanding: SeasonTeamStanding
+  deletedSeasonTeamStandingId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `SeasonTeamStanding`. May be used by Relay 1."""
+  seasonTeamStandingEdge(
+    """The method to use when ordering `SeasonTeamStanding`."""
+    orderBy: [SeasonTeamStandingOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): SeasonTeamStandingEdge
+}
+
+"""All input for the `deleteSeasonTeamStandingById` mutation."""
+input DeleteSeasonTeamStandingByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `SeasonTeamStanding` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteSeasonTeamStanding` mutation."""
+input DeleteSeasonTeamStandingInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  year: Int!
+  positionDisplayOrder: Int!
 }
 
 """The output of our delete `Engine` mutation."""
@@ -21316,32 +21219,32 @@ input DeleteRaceDriverStandingInput {
   positionDisplayOrder: Int!
 }
 
-"""The output of our delete `RaceConstructorStanding` mutation."""
-type DeleteRaceConstructorStandingPayload {
+"""The output of our delete `RaceTeamStanding` mutation."""
+type DeleteRaceTeamStandingPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `RaceConstructorStanding` that was deleted by this mutation."""
-  raceConstructorStanding: RaceConstructorStanding
-  deletedRaceConstructorStandingId: ID
+  """The `RaceTeamStanding` that was deleted by this mutation."""
+  raceTeamStanding: RaceTeamStanding
+  deletedRaceTeamStandingId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `RaceConstructorStanding`. May be used by Relay 1."""
-  raceConstructorStandingEdge(
-    """The method to use when ordering `RaceConstructorStanding`."""
-    orderBy: [RaceConstructorStandingOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): RaceConstructorStandingEdge
+  """An edge for our `RaceTeamStanding`. May be used by Relay 1."""
+  raceTeamStandingEdge(
+    """The method to use when ordering `RaceTeamStanding`."""
+    orderBy: [RaceTeamStandingOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): RaceTeamStandingEdge
 }
 
-"""All input for the `deleteRaceConstructorStandingById` mutation."""
-input DeleteRaceConstructorStandingByIdInput {
+"""All input for the `deleteRaceTeamStandingById` mutation."""
+input DeleteRaceTeamStandingByIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -21349,13 +21252,13 @@ input DeleteRaceConstructorStandingByIdInput {
   clientMutationId: String
 
   """
-  The globally unique `ID` which will identify a single `RaceConstructorStanding` to be deleted.
+  The globally unique `ID` which will identify a single `RaceTeamStanding` to be deleted.
   """
   id: ID!
 }
 
-"""All input for the `deleteRaceConstructorStanding` mutation."""
-input DeleteRaceConstructorStandingInput {
+"""All input for the `deleteRaceTeamStanding` mutation."""
+input DeleteRaceTeamStandingInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -21805,55 +21708,6 @@ input DeleteSeasonEngineManufacturerInput {
   engineManufacturerId: String!
 }
 
-"""The output of our delete `SeasonConstructor` mutation."""
-type DeleteSeasonConstructorPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `SeasonConstructor` that was deleted by this mutation."""
-  seasonConstructor: SeasonConstructor
-  deletedSeasonConstructorId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `SeasonConstructor`. May be used by Relay 1."""
-  seasonConstructorEdge(
-    """The method to use when ordering `SeasonConstructor`."""
-    orderBy: [SeasonConstructorOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): SeasonConstructorEdge
-}
-
-"""All input for the `deleteSeasonConstructorById` mutation."""
-input DeleteSeasonConstructorByIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `SeasonConstructor` to be deleted.
-  """
-  id: ID!
-}
-
-"""All input for the `deleteSeasonConstructor` mutation."""
-input DeleteSeasonConstructorInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  year: Int!
-  constructorId: String!
-}
-
 """The output of our delete `SeasonDriver` mutation."""
 type DeleteSeasonDriverPayload {
   """
@@ -21901,6 +21755,55 @@ input DeleteSeasonDriverInput {
   clientMutationId: String
   year: Int!
   driverId: String!
+}
+
+"""The output of our delete `SeasonTeam` mutation."""
+type DeleteSeasonTeamPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `SeasonTeam` that was deleted by this mutation."""
+  seasonTeam: SeasonTeam
+  deletedSeasonTeamId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `SeasonTeam`. May be used by Relay 1."""
+  seasonTeamEdge(
+    """The method to use when ordering `SeasonTeam`."""
+    orderBy: [SeasonTeamOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): SeasonTeamEdge
+}
+
+"""All input for the `deleteSeasonTeamById` mutation."""
+input DeleteSeasonTeamByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `SeasonTeam` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteSeasonTeam` mutation."""
+input DeleteSeasonTeamInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  year: Int!
+  teamId: String!
 }
 
 """The output of our delete `EngineManufacturer` mutation."""
@@ -21951,32 +21854,32 @@ input DeleteEngineManufacturerInput {
   rowId: String!
 }
 
-"""The output of our delete `Constructor` mutation."""
-type DeleteConstructorPayload {
+"""The output of our delete `Team` mutation."""
+type DeleteTeamPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `Constructor` that was deleted by this mutation."""
-  constructor: Constructor
-  deletedConstructorId: ID
+  """The `Team` that was deleted by this mutation."""
+  team: Team
+  deletedTeamId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `Constructor`. May be used by Relay 1."""
-  constructorEdge(
-    """The method to use when ordering `Constructor`."""
-    orderBy: [ConstructorOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): ConstructorEdge
+  """An edge for our `Team`. May be used by Relay 1."""
+  teamEdge(
+    """The method to use when ordering `Team`."""
+    orderBy: [TeamOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): TeamEdge
 }
 
-"""All input for the `deleteConstructorById` mutation."""
-input DeleteConstructorByIdInput {
+"""All input for the `deleteTeamById` mutation."""
+input DeleteTeamByIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -21984,13 +21887,13 @@ input DeleteConstructorByIdInput {
   clientMutationId: String
 
   """
-  The globally unique `ID` which will identify a single `Constructor` to be deleted.
+  The globally unique `ID` which will identify a single `Team` to be deleted.
   """
   id: ID!
 }
 
-"""All input for the `deleteConstructor` mutation."""
-input DeleteConstructorInput {
+"""All input for the `deleteTeam` mutation."""
+input DeleteTeamInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
