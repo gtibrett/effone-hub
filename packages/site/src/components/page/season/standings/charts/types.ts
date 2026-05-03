@@ -4,7 +4,7 @@ import {Point} from '@nivo/line';
 import {FC} from 'react';
 
 export type Entity = {
-	id: number;
+	id: string;
 	name: string;
 	color?: string;
 }
@@ -31,7 +31,7 @@ export type ChartProps = {
 
 type BumpChartExtraProps = {
 	entity: {
-		id: number;
+		id: string;
 		name: string;
 	}
 	color: string;

@@ -9,8 +9,8 @@ export default function CareerTooltip({point}: PointTooltipProps) {
 	
 	// @ts-ignore
 	const {points, wins, position, grid} = data; // extra added to make tooltip better
-	const {team}                         = useTeam(teamId);
-	const headerSx                       = useTeamHeaderSx(Number(teamId));
+	const {team}                         = useTeam(String(teamId));
+	const headerSx                       = useTeamHeaderSx(String(teamId));
 	
 	return (
 		<Card sx={{p: 0}}>

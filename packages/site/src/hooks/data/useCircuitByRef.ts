@@ -5,6 +5,7 @@ import {QueryResult} from '@apollo/client/react/types/types';
 const CircuitQuery = gql`
 	query CircuitQuery($circuitRef: String!, $showCurrentSeason: Boolean!, $season: Int) {
 		circuit(id: $circuitRef) {
+			rowId
 			fullName
 			placeName
 			countryId
@@ -93,7 +94,7 @@ export type CircuitHistoryData = Pick<Race, 'year' | 'round' | 'date'> & {
 }
 
 type CircuitPageData = {
-	circuit: Pick<CircuitT, 'fullName' | 'placeName' | 'countryId' | 'latitude' | 'longitude' | 'description'> & {
+	circuit: Pick<CircuitT, 'rowId' | 'fullName' | 'placeName' | 'countryId' | 'latitude' | 'longitude' | 'description'> & {
 		history: { nodes: CircuitHistoryData[] };
 		season: { nodes: Race[] };
 	}

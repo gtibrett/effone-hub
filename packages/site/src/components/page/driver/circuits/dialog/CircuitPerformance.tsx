@@ -13,14 +13,18 @@ export default function CircuitPerformance({data, loading}: CircuitPerformancePr
 	const theme                      = useTheme();
 	const nivoTheme                  = useNivoTheme();
 	const {ref, dimensions: {width}} = useComponentDimensionsWithRef();
-	const circuitResults             = data?.circuit.races.flatMap(r => r.results);
+	const rawResults                 = data?.circuit.races?.nodes?.flatMap(r => r.results);
+	const circuitResults             = rawResults?.map(r => ({
+		positionOrder: r.positionDisplayOrder ?? undefined,
+		positionText:  r.positionText ?? undefined
+	})) as any;
 	const performanceData            = usePerformanceData(circuitResults);
 	const getAccessibleColor         = useGetAccessibleColor();
-	
+
 	if (!performanceData || loading) {
 		return null;
 	}
-	
+
 	const chartData = [
 		{
 			'stat':  'Wins',
@@ -39,9 +43,9 @@ export default function CircuitPerformance({data, loading}: CircuitPerformancePr
 			value:  performanceData.DNFs
 		}
 	];
-	
+
 	const color = getAccessibleColor(theme.palette.primary.main);
-	
+
 	return (
 		<Paper variant="outlined" ref={ref} sx={{height: width, width, p: 0}}>
 			<ResponsiveRadar

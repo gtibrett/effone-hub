@@ -1,10 +1,7 @@
 import {ConstructorByLine, DriverByLine} from '@/components/app';
 import {getPositionTextOutcome} from '@/helpers';
 import {CircuitDataProps} from '@/hooks/data';
-import {faSquare} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Grid, Skeleton, Tooltip, Typography} from '@mui/material';
-import {purple} from '@mui/material/colors';
+import {Grid, Skeleton, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';
 import PositionChange from '../race/PositionChange';
@@ -19,16 +16,16 @@ export default function Season({data, loading}: CircuitDataProps) {
 		return null;
 	}
 	
-	if (data.circuit.season.length) {
-		if (!data.circuit.season[0].results.length) {
+	if (data.circuit.season.nodes.length) {
+		if (!data.circuit.season.nodes[0].raceResults.nodes.length) {
 			return <>
 				<Typography variant="h5">Countdown</Typography>
-				<NextRaceCountdown variant="main" race={data.circuit.season[0]}/>
+				<NextRaceCountdown variant="main" race={data.circuit.season.nodes[0] as any}/>
 			</>;
 		}
 	}
-	
-	const results = data.circuit.season[0].results;
+
+	const results = (data.circuit.season.nodes[0].raceResults.nodes).filter(Boolean) as NonNullable<typeof data.circuit.season.nodes[0]['raceResults']['nodes'][number]>[];
 	
 	return (
 		<DataGrid
@@ -38,13 +35,13 @@ export default function Season({data, loading}: CircuitDataProps) {
 			getRowId={r => r.driverId || ''}
 			initialState={{
 				sorting: {
-					sortModel: [{field: 'position', sort: 'asc'}]
+					sortModel: [{field: 'positionDisplayOrder', sort: 'asc'}]
 				}
 			}}
 			columns={
 				[
 					{
-						field:       'positionOrder',
+						field:       'positionDisplayOrder',
 						headerName:  'P',
 						width:       60,
 						headerAlign: 'center',
@@ -55,15 +52,15 @@ export default function Season({data, loading}: CircuitDataProps) {
 						field:        'change',
 						renderHeader: () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
 						renderCell:   ({row}) => (
-							<PositionChange grid={Number(row.grid)} positionOrder={Number(row.positionOrder)}/>
+							<PositionChange gridPositionNumber={Number(row.gridPositionNumber)} positionDisplayOrder={Number(row.positionDisplayOrder)}/>
 						),
 						valueGetter:  (value, row) => {
-							const {grid, position} = row;
-							if (!grid || !position) {
+							const {gridPositionNumber, positionDisplayOrder} = row;
+							if (!gridPositionNumber || !positionDisplayOrder) {
 								return 0;
 							}
-							
-							return Number(grid) - Number(position);
+
+							return Number(gridPositionNumber) - Number(positionDisplayOrder);
 						},
 						width:        60,
 						headerAlign:  'center',
@@ -80,7 +77,7 @@ export default function Season({data, loading}: CircuitDataProps) {
 						field:      'Constructor',
 						headerName: 'Constructor',
 						flex:       1,
-						renderCell: ({row}) => row.team?.teamId ? <ConstructorByLine id={row.team.teamId}/> : '',
+						renderCell: ({row}) => row.constructor?.id ? <ConstructorByLine id={row.constructor.id}/> : '',
 						minWidth:   150
 					},
 					{
@@ -91,24 +88,16 @@ export default function Season({data, loading}: CircuitDataProps) {
 						align:       'center'
 					},
 					{
-						field:       'time',
-						headerName:  'Time',
+						field:       'reasonRetired',
+						headerName:  'Status',
 						sortable:    false,
 						headerAlign: 'left',
 						align:       'left',
 						flex:        .5,
 						renderCell:  ({row}) => {
-							const time = row.time;
 							return (
 								<Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
-									{row.rank === 1 && (
-										<Grid item>
-											<Tooltip title="Fastest Lap">
-												<FontAwesomeIcon icon={faSquare} color={purple[400]}/>
-											</Tooltip>
-										</Grid>
-									)}
-									<Grid item><>{time ? time : getPositionTextOutcome(row.positionText, row.status?.status)}</>
+									<Grid item><>{row.reasonRetired ? row.reasonRetired : getPositionTextOutcome(String(row.positionDisplayOrder), undefined)}</>
 									</Grid>
 								</Grid>
 							);

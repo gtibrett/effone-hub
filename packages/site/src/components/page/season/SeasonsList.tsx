@@ -25,8 +25,8 @@ const PlaceColumnRenderer = memo(function PlaceColumnRenderer({data}: PlaceColum
 	}
 	
 	const variant: PlaceVariant = isDriverChampion(data) ? 'driver' : 'team';
-	const key                   = isDriverChampion(data) ? data.driverId : data.teamId;
-	
+	const key                   = isDriverChampion(data) ? data.driverId : data.constructorId;
+
 	return (
 		<Box sx={{mt: 1.5}}>
 			<StatCard<ChampionData, ChampionData>
@@ -35,7 +35,7 @@ const PlaceColumnRenderer = memo(function PlaceColumnRenderer({data}: PlaceColum
 				size="small"
 				label="Points"
 				loading={false}
-				data={new Map([[key as number, {...data, value: data.points}]])}
+				data={new Map([[key as string, {...data, value: data.points}]])}
 				extra={<StatCardStat<ChampionData> label="Wins" data={{...data, value: 1}} format={({wins}) => wins}/>}
 			/>
 		</Box>

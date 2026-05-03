@@ -10,16 +10,16 @@ import {CircuitDialogData} from './types';
 type CircuitTableProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading'>;
 
 export default function CircuitTable({data, loading}: CircuitTableProps) {
-	if (!data?.circuit.races || loading) {
+	if (!data?.circuit.races?.nodes || loading) {
 		return <Skeleton variant="rectangular" height={400}/>;
 	}
-	
-	const races = data?.circuit.races.filter(r => r.results.length);
-	
+
+	const races = data?.circuit.races?.nodes?.filter(r => r.results.length);
+
 	if (!races.length) {
 		return <Alert variant="outlined" severity="info">Race Data Not Available</Alert>;
 	}
-	
+
 	return (
 		<Box height={400}>
 			<DataGrid
@@ -47,8 +47,8 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 							type:        'number',
 							headerAlign: 'center',
 							align:       'center',
-							valueGetter: (value, row) => {
-								return row.results[0].grid;
+							valueGetter: (_value: unknown, row: typeof races[number]) => {
+								return row.results[0].gridPositionNumber;
 							},
 							flex:        1
 						},
@@ -58,8 +58,8 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 							type:        'number',
 							headerAlign: 'center',
 							align:       'center',
-							valueGetter: (value, row) => {
-								return row.results[0].positionOrder;
+							valueGetter: (_value: unknown, row: typeof races[number]) => {
+								return row.results[0].positionDisplayOrder;
 							},
 							flex:        1
 						},
@@ -69,18 +69,18 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 							renderCell:   ({row}) => {
 								const result = row.results[0];
 								if (result) {
-									const {grid, positionOrder} = result;
-									return <PositionChange grid={grid} positionOrder={positionOrder}/>;
+									const {gridPositionNumber, positionDisplayOrder} = result;
+									return <PositionChange gridPositionNumber={gridPositionNumber ?? 0} positionDisplayOrder={positionDisplayOrder ?? 0}/>;
 								}
 								return '';
 							},
-							valueGetter:  (value, row) => {
-								const {grid, position} = row.results[0] || {};
-								if (!grid || !position) {
+							valueGetter:  (_value: unknown, row: typeof races[number]) => {
+								const {gridPositionNumber, positionDisplayOrder} = row.results[0] || {};
+								if (!gridPositionNumber || !positionDisplayOrder) {
 									return 0;
 								}
-								
-								return grid - position;
+
+								return gridPositionNumber - positionDisplayOrder;
 							},
 							width:        60,
 							headerAlign:  'center',
@@ -92,7 +92,7 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 							type:        'number',
 							headerAlign: 'center',
 							align:       'center',
-							valueGetter: (value, row) => {
+							valueGetter: (_value: unknown, row: typeof races[number]) => {
 								return row.results[0].points;
 							},
 							flex:        1
@@ -103,10 +103,10 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 							sortable:    false,
 							headerAlign: 'left',
 							align:       'left',
-							valueGetter: (value, row) => {
+							valueGetter: (_value: unknown, row: typeof races[number]) => {
 								const result = row.results[0];
 								if (result) {
-									return result.milliseconds ? getTimeStringFromDate(new Date(result.milliseconds)) : getPositionTextOutcome(result.positionText, result.status?.status);
+									return result.timeMillis ? getTimeStringFromDate(new Date(result.timeMillis)) : getPositionTextOutcome(result.positionText, result.reasonRetired);
 								}
 								return '';
 							},

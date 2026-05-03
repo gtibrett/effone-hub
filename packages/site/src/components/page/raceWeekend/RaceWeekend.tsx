@@ -1,6 +1,6 @@
-import {useEffTheme, WikipediaLink} from '@/components/ui';
+import {useEffTheme} from '@/components/ui';
 import {getDateWithTime} from '@/helpers';
-import {alpha, Box, Card, CardActions, CardContent, CardHeader, Grid, ThemeProvider, Typography} from '@mui/material';
+import {alpha, Card, CardActions, CardContent, CardHeader, Grid, ThemeProvider, Typography} from '@mui/material';
 import NextRaceCountdown from './NextRaceCountdown';
 import NextRaceSchedule from './NextRaceSchedule';
 import useNextRaceData from './useNextRaceData';
@@ -9,7 +9,7 @@ type RaceWeekendProps = { season: number };
 
 export default function RaceWeekend({season}: RaceWeekendProps) {
 	const {data}     = useNextRaceData(season);
-	const race       = data?.season.nextRace?.race;
+	const race       = data?.race;
 	const darkTheme  = useEffTheme('dark');
 	const lightTheme = useEffTheme('light');
 	
@@ -51,7 +51,7 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 							action={<ThemeProvider theme={lightTheme}><NextRaceCountdown variant="dark" race={race}/></ThemeProvider>}
 						/>
 						<CardContent>
-							<Typography variant="body1" component="p">{race.summary?.extract} <Box component="span" ml={1} sx={{'> a': {color: `#FFF !important`}}}><WikipediaLink href={race.url}/></Box></Typography>
+							<Typography variant="body1" component="p">{race.name}</Typography>
 						</CardContent>
 						<CardActions sx={{p: 0, mx: 1, mb: 1}}>
 							<NextRaceSchedule race={race}/>

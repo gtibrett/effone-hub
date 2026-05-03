@@ -1,7 +1,6 @@
 import {StatCard} from '@/components/app';
-import {DriverId} from '@/types';
 import {gql, useQuery} from '@apollo/client';
-import {LapTime, Race, Season} from '@/gql/graphql';
+import {AppLapTime, Race, Season} from '@/gql/graphql';
 import {SeasonStatProps} from './index';
 
 type Data = {
@@ -9,7 +8,7 @@ type Data = {
 		racesByYear: {
 			nodes: (Pick<Race, 'rowId' | 'round'> & {
 				lapTimes: {
-					nodes: Pick<LapTime, 'driverId' | 'position'>[]
+					nodes: Pick<AppLapTime, 'driverId' | 'position'>[]
 				}
 			})[]
 		}
@@ -40,12 +39,12 @@ export default function LapLeader({season, size}: SeasonStatProps) {
 	const leaders         = new Map<string, number>();
 
 	(data?.season?.racesByYear?.nodes || []).forEach(r => {
-		(r.lapTimes?.nodes || []).forEach((lt: Pick<LapTime, 'driverId' | 'position'>) => {
+		(r.lapTimes?.nodes || []).forEach((lt: Pick<AppLapTime, 'driverId' | 'position'>) => {
 			if (lt.driverId && lt.position === 1) {
 				leaders.set(lt.driverId, (leaders.get(lt.driverId) || 0) + 1);
 			}
 		});
 	});
 
-	return <StatCard size={size} loading={loading} data={leaders as unknown as Map<DriverId, number>} label="Most Laps Led"/>;
+	return <StatCard size={size} loading={loading} data={leaders} label="Most Laps Led"/>;
 }

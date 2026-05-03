@@ -10,7 +10,7 @@ export default function DriverAppearances({driverId}: DriverStatProps) {
 		return null;
 	}
 	
-	const leaders = new Map<number, number>([[driverId, (data?.results || []).length]]);
+	const leaders = new Map<string, number>([[driverId ?? '', (data?.driver?.raceResults?.nodes || []).length]]);
 	
 	return <StatCard variant="icon" icon={faFlag} loading={loading} data={leaders} label="Appearances" cardProps={{variant: 'outlined'}}/>;
 }

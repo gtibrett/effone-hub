@@ -1,7 +1,6 @@
 import {useAppState} from '@/components/app';
 import {PositionChange} from '@/components/page/race';
 import {getPositionTextOutcome, getTimeStringFromDate} from '@/helpers';
-import {DriverId} from '@/types';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Grid, Skeleton, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
@@ -9,32 +8,32 @@ import {DataGrid} from '@mui/x-data-grid';
 import SeasonChart from './SeasonChart';
 import useSeasonData from './useSeasonData';
 
-type SeasonProps = { season: number, driverId: DriverId };
+type SeasonProps = { season: number, driverId: string };
 
 export default function Season({season, driverId}: SeasonProps) {
 	const [{currentSeason}] = useAppState();
 	const {data, loading}   = useSeasonData(driverId, season);
-	
+
 	if (loading || !data?.races) {
 		return <Skeleton variant="rectangular" height={400}/>;
 	}
-	
-	if (!data.races.length) {
+
+	if (!data.races.nodes.length) {
 		return <Alert variant="outlined" severity="info">Season Data Not Available</Alert>;
 	}
-	
+
 	return (
 		<Grid container spacing={2}>
 			<Grid item xs={12}>
 				<SeasonChart season={season} driverId={driverId} data={data} loading={loading}/>
 			</Grid>
-			
+
 			<Grid item xs={12}>
 				<DataGrid
-					rows={data.races}
+					rows={data.races.nodes}
 					autoHeight
 					density="compact"
-					getRowId={(row) => row.raceId || ''}
+					getRowId={(row) => row.rowId || ''}
 					initialState={{
 						sorting: {
 							sortModel: [{field: 'date', sort: 'asc'}]
@@ -53,11 +52,11 @@ export default function Season({season, driverId}: SeasonProps) {
 								minWidth:    100
 							},
 							{
-								field:      'name',
+								field:      'officialName',
 								headerName: 'Race',
 								flex:       1,
 								renderCell: ({row, value}) => (
-									<Link href={`/${currentSeason}/${row.round}#${row.name}`}>{value}</Link>
+									<Link href={`/${currentSeason}/${row.round}#${row.officialName}`}>{value}</Link>
 								),
 								minWidth:   200
 							},
@@ -67,7 +66,7 @@ export default function Season({season, driverId}: SeasonProps) {
 								type:        'number',
 								headerAlign: 'center',
 								align:       'center',
-								valueGetter: (value, row) => row.results[0]?.grid || '--'
+								valueGetter: (value, row) => row.raceResults?.nodes?.[0]?.gridPositionNumber || '--'
 							},
 							{
 								field:       'result',
@@ -75,28 +74,28 @@ export default function Season({season, driverId}: SeasonProps) {
 								type:        'number',
 								headerAlign: 'center',
 								align:       'center',
-								valueGetter: (value, row) => row.results[0]?.positionOrder || '--'
+								valueGetter: (value, row) => row.raceResults?.nodes?.[0]?.positionDisplayOrder || '--'
 							},
 							{
 								field:        'change',
 								renderHeader: () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
 								renderCell:   ({row}) => {
-									const result = row.results[0];
+									const result = row.raceResults?.nodes?.[0];
 									if (result) {
-										const {grid, positionOrder} = result;
-										return <PositionChange grid={grid} positionOrder={positionOrder}/>;
+										const {gridPositionNumber, positionDisplayOrder} = result;
+										return <PositionChange gridPositionNumber={gridPositionNumber} positionDisplayOrder={positionDisplayOrder}/>;
 									}
 									return '--';
 								},
 								valueGetter:  (value, row) => {
-									const result = row.results[0];
+									const result = row.raceResults?.nodes?.[0];
 									if (result) {
-										const {grid, positionOrder} = result;
-										if (grid && positionOrder) {
-											return grid - positionOrder;
+										const {gridPositionNumber, positionDisplayOrder} = result;
+										if (gridPositionNumber && positionDisplayOrder) {
+											return gridPositionNumber - positionDisplayOrder;
 										}
 									}
-									
+
 									return 'unknown';
 								},
 								width:        60,
@@ -109,7 +108,7 @@ export default function Season({season, driverId}: SeasonProps) {
 								type:        'number',
 								headerAlign: 'center',
 								align:       'center',
-								valueGetter: (value, row) => row.results[0]?.points || '--'
+								valueGetter: (value, row) => row.raceResults?.nodes?.[0]?.points || '--'
 							},
 							{
 								field:       'time',
@@ -119,10 +118,10 @@ export default function Season({season, driverId}: SeasonProps) {
 								align:       'left',
 								flex:        .5,
 								valueGetter: (value, row) => {
-									const result = row.results[0];
+									const result = row.raceResults?.nodes?.[0];
 									if (result) {
-										const time = result.milliseconds;
-										return time ? getTimeStringFromDate(new Date(time)) : getPositionTextOutcome(result.positionText, result.status?.status);
+										const time = result.timeMillis;
+										return time ? getTimeStringFromDate(new Date(time)) : getPositionTextOutcome(result.positionText, result.reasonRetired);
 									}
 									return '--';
 								}

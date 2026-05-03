@@ -1,16 +1,13 @@
 import {ConstructorByLine, DriverByLine} from '@/components/app';
-import {getMillisecondsFromTimeString, getPositionTextOutcome} from '@/helpers';
-import {faSquare} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {SprintResult} from '@/gql/graphql';
-import {Alert, Grid, Skeleton, Tooltip, Typography} from '@mui/material';
-import {purple} from '@mui/material/colors';
+import {getPositionTextOutcome} from '@/helpers';
+import {SprintRaceResult} from '@/gql/graphql';
+import {Alert, Grid, Skeleton, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';
 import PositionChange from './PositionChange';
 
 export default function SprintResults({results}: {
-	results: SprintResult[]
+	results: SprintRaceResult[]
 }) {
 	if (!results) {
 		return <Skeleton variant="rectangular" height={400}/>;
@@ -20,23 +17,21 @@ export default function SprintResults({results}: {
 		return <Alert variant="outlined" severity="info">Race Data Not Available</Alert>;
 	}
 	
-	const fastestLapTime = Math.min(...results.map(r => getMillisecondsFromTimeString(r.fastestLapTime) || Number.POSITIVE_INFINITY));
-	
 	return (
 		<DataGrid
 			rows={results}
 			autoHeight
 			density="compact"
-			getRowId={r => r.driver?.driverId || 0}
+			getRowId={r => r.driverId || r.positionDisplayOrder}
 			initialState={{
 				sorting: {
-					sortModel: [{field: 'position', sort: 'asc'}]
+					sortModel: [{field: 'positionDisplayOrder', sort: 'asc'}]
 				}
 			}}
 			columns={
 				[
 					{
-						field:       'positionOrder',
+						field:       'positionDisplayOrder',
 						headerName:  'P',
 						width:       60,
 						headerAlign: 'center',
@@ -50,12 +45,12 @@ export default function SprintResults({results}: {
 							<PositionChange {...row}/>
 						),
 						valueGetter:  (value, row) => {
-							const {grid, position} = row;
-							if (!grid || !position) {
+							const {gridPositionNumber, positionNumber} = row;
+							if (!gridPositionNumber || !positionNumber) {
 								return 0;
 							}
-							
-							return Number(grid) - Number(position);
+
+							return Number(gridPositionNumber) - Number(positionNumber);
 						},
 						width:        60,
 						headerAlign:  'center',
@@ -65,14 +60,14 @@ export default function SprintResults({results}: {
 						field:      'Driver',
 						headerName: 'Driver',
 						flex:       1,
-						renderCell: ({row}) => row.driver ? <DriverByLine id={row.driver.driverId}/> : '',
+						renderCell: ({row}) => row.driverId ? <DriverByLine id={row.driverId}/> : '',
 						minWidth:   200
 					},
 					{
 						field:      'Constructor',
 						headerName: 'Constructor',
 						flex:       1,
-						renderCell: ({row}) => row.teamId ? <ConstructorByLine id={row.teamId}/> : '',
+						renderCell: ({row}) => row.constructorId ? <ConstructorByLine id={row.constructorId}/> : '',
 						minWidth:   150
 					},
 					{
@@ -93,14 +88,7 @@ export default function SprintResults({results}: {
 							const time = row.time;
 							return (
 								<Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
-									<Grid item>{time ? time : getPositionTextOutcome(row.positionText, row.status?.status)}</Grid>
-									{getMillisecondsFromTimeString(row.fastestLapTime) === fastestLapTime && (
-										<Grid item>
-											<Tooltip title="Fastest Lap">
-												<FontAwesomeIcon icon={faSquare} color={purple[400]}/>
-											</Tooltip>
-										</Grid>
-									)}
+									<Grid item>{time ? time : getPositionTextOutcome(row.positionText, row.reasonRetired)}</Grid>
 								</Grid>
 							);
 						},

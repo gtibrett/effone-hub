@@ -1,6 +1,6 @@
 import {DriverAvatar, useAppState} from '@/components/app';
 import {Career, Circuits, Season} from '@/components/page/driver';
-import {Flag, Page, WikipediaLink} from '@/components/ui';
+import {Flag, Page} from '@/components/ui';
 import {Driver as DriverT} from '@/gql/graphql';
 import {useGetTeamColor} from '@/hooks';
 import {DriverQuery} from '@/hooks/data/useDriver';
@@ -16,7 +16,7 @@ const DriverDetails = ({driver}: {
 		<Grid container spacing={2} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
 			<Grid item><Typography variant="h2">{driver.firstName} {driver.lastName}</Typography></Grid>
 			<Hidden mdDown>
-				{driver.nationality && <Grid item><Flag nationality={driver.nationality} size={48}/></Grid>}
+				{driver.nationalityCountryId && <Grid item><Flag nationality={driver.nationalityCountryId} size={48}/></Grid>}
 				<Grid item xs/>
 				<Grid item><Typography variant="h2" sx={{fontWeight: 'bold'}}>{driver.abbreviation}</Typography></Grid>
 				<Grid item sx={{fontFamily: 'Racing Sans One', fontSize: '1.1em'}}>{driver.permanentNumber}</Grid>
@@ -33,7 +33,7 @@ export default function Driver({driver}: { driver: DriverT }) {
 	setPageTitle(`Driver: ${driver?.firstName} ${driver?.lastName}`);
 
 	const latestSeasonNode = driver.seasonEntrantDrivers?.nodes?.[0];
-	const primaryColor     = latestSeasonNode?.seasonEntrantConstructor?.constructor?.colors?.primaryHex;
+	const primaryColor     = latestSeasonNode?.constructor?.colors?.primaryHex;
 
 	const tabs = [
 		{id: 'career', label: 'Career', content: <Career driverId={driver.id}/>},
@@ -51,9 +51,7 @@ export default function Driver({driver}: { driver: DriverT }) {
 			action={<DriverAvatar driverId={driver.id} size={200}/>}
 			actionProps={{xs: 'auto'}}
 			subheader={<>
-				{driver.bio && <Typography variant="body1">{driver.bio.extract}</Typography>}
 				<Divider orientation="horizontal" sx={{my: 1}}/>
-				<WikipediaLink href={driver.url}/>
 			</>}
 			headerProps={{
 				sx: {

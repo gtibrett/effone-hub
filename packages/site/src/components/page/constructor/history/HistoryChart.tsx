@@ -7,7 +7,7 @@ import useHistoryChartData, {getChartDataByAttribute, HistoryChartData, useHisto
 
 type HistoryChartProps = HistoryProps & {
 	dataKey: keyof TeamStandingData;
-	dataMaxKey: keyof (Omit<HistoryChartData, 'standingsByTeam'>);
+	dataMaxKey: keyof (Omit<HistoryChartData, 'standingsByTeam' | 'minYear' | 'maxYear'>);
 	invert?: boolean;
 	min?: number;
 	max?: number;

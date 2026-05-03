@@ -1,6 +1,6 @@
 import {ConstructorByLine, DriverByLine} from '@/components/app';
 import {gql, useQuery} from '@apollo/client';
-import {Race} from '@/gql/graphql';
+import {QualifyingResult, Race} from '@/gql/graphql';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 
@@ -33,7 +33,7 @@ export default function Qualifying({season, round}: QualifyingProps) {
 		return <Skeleton variant="rectangular" height={400}/>;
 	}
 
-	const rows = data?.race?.qualifyingResults?.nodes ?? [];
+	const rows = (data?.race?.qualifyingResults?.nodes ?? []).filter((r): r is QualifyingResult => r != null);
 
 	if (!rows.length) {
 		return <Alert variant="outlined" severity="info">Qualifying Data Not Available</Alert>;

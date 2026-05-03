@@ -12,7 +12,7 @@ type LapTimesChartProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading
 
 export default function LapTimesByYearBox({data}: LapTimesChartProps) {
 	const nivoTheme      = useNivoTheme();
-	const colorsByYear   = useGetTeamColorsByYear()(data?.driver.teamsByYear || []);
+	const colorsByYear   = useGetTeamColorsByYear()(data?.driver.seasonEntrantDrivers ?? {nodes: []});
 	const getColorConfig = ({group}: any) => colorsByYear[group];
 	
 	if (!data) {

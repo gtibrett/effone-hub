@@ -12,27 +12,27 @@ import useCircuitDialogData from './useCircuitDialogData';
 
 type CircuitProps = {
 	driverId: DriverId;
-	circuitId?: number;
+	circuitId?: string;
 	onClose: () => void
 };
 
 export default function CircuitDialog({driverId, circuitId, onClose}: CircuitProps) {
 	const mapCircuitsToMapPoints = useMapCircuitsToMapPoints();
 	const {data, loading}        = useCircuitDialogData(circuitId, driverId);
-	
+
 	if (!data || loading) {
 		return null;
 	}
-	
+
 	const {circuit}         = data;
 	const {points, onClick} = mapCircuitsToMapPoints([circuit]);
-	
+
 	return (
 		<Dialog
 			open={!!circuitId} closeIcon={<FontAwesomeIcon fixedWidth icon={faTimes}/>} onClose={onClose} maxWidth="lg" fullWidth
 			title={
 				<>
-					{circuit.name}
+					{circuit.fullName}
 					<Typography paragraph variant="subtitle1"><DriverByLine id={driverId} variant="name"/></Typography>
 				</>
 			}>
@@ -60,7 +60,7 @@ export default function CircuitDialog({driverId, circuitId, onClose}: CircuitPro
 					<Grid container spacing={1}>
 						<Grid item xs={12}>
 							<Card sx={{mb: 2}}>
-								<RaceMap points={points} onClick={onClick} height={200} centerOn={{lat: circuit.lat, lng: circuit.lng}} zoom/>
+								<RaceMap points={points} onClick={onClick} height={200} centerOn={{latitude: circuit.latitude, longitude: circuit.longitude}} zoom/>
 							</Card>
 						</Grid>
 						<Grid item xs={12}><CircuitPerformance data={data} loading={loading}/></Grid>

@@ -17,24 +17,25 @@ export default function SeasonChart({data, loading}: SeasonChartProps) {
 	}
 	
 	const colors    = [
-		getTeamColor(data.team.colors, 'primary', false),
-		getTeamColor(data.team.colors, 'secondary', false),
-		alpha(getTeamColor(data.team.colors, 'primary', false), .75),
-		alpha(getTeamColor(data.team.colors, 'secondary', false), .75)
+		getTeamColor(data.team.colors, 'primaryHex', false),
+		getTeamColor(data.team.colors, 'secondaryHex', false),
+		alpha(getTeamColor(data.team.colors, 'primaryHex', false), .75),
+		alpha(getTeamColor(data.team.colors, 'secondaryHex', false), .75)
 	];
-	const rounds    = Math.max(...((data?.team.results || []).map(rs => rs.race?.round || 0)));
-	const blankData = (new Array<number>(rounds)).fill(0).map((v, i) => ({x: i + 1, y: null}));
-	
+	const raceResults = data.team.raceResults.nodes;
+	const rounds      = Math.max(...(raceResults.map(rs => rs.race?.round || 0)));
+	const blankData   = (new Array<number>(rounds)).fill(0).map((v, i) => ({x: i + 1, y: null}));
+
 	const drivers: LineSerie[] =
-		      data.team.results
-		          .map(r => String(r.driver?.code))
+		      raceResults
+		          .map(r => String(r.driver?.abbreviation))
 		          .removeDuplicates()
 		          .map(id => ({
 			          id,
 			          data: blankData.map(d => {
 				          const point = {
 					          x: d.x,
-					          y: data.team.results.find(rs => String(rs.driver?.code) === id && rs.race?.round === d.x)?.positionOrder || null
+					          y: raceResults.find(rs => String(rs.driver?.abbreviation) === id && rs.race?.round === d.x)?.positionNumber || null
 				          };
 				          
 				          maxPosition = Math.max(maxPosition, point.y || 0);

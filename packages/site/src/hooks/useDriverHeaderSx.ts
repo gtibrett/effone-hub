@@ -8,7 +8,7 @@ export function useDriverHeaderSx(driverId: DriverId, color: string): SxProps;
 
 export default function useDriverHeaderSx(driverId: DriverId, yearOrColor: any = 'current'): SxProps {
 	const theme        = useTheme();
-	const driver       = useDriver(driverId);
+	const driver       = useDriver(driverId ?? undefined);
 	const getTeamColor = useGetTeamColor();
 	
 	let background = getTeamColor(

@@ -1,6 +1,6 @@
 import {useGetTeamColor} from '@/hooks';
-import {Driver} from '@/gql/graphql';
 import {useCallback} from 'react';
+import {CircuitDialogData} from './types';
 
 type ColorsByYear = {
 	[year: number]: string
@@ -8,10 +8,10 @@ type ColorsByYear = {
 
 export default function useGetTeamColorsByYear() {
 	const getTeamColor = useGetTeamColor();
-	
-	return useCallback((teamsByYear: Driver['teamsByYear']): ColorsByYear => {
-		return teamsByYear
-			.map(({year, team}) => ({year: year as number, color: getTeamColor(team?.colors)}))
+
+	return useCallback((seasonEntrantDrivers: CircuitDialogData['driver']['seasonEntrantDrivers']): ColorsByYear => {
+		return (seasonEntrantDrivers?.nodes || [])
+			.map(({year, constructor: c}) => ({year: year as number, color: getTeamColor(c?.colors)}))
 			.reduce((colors, {year, color}) => ({...colors, [year]: color}), {});
 	}, [getTeamColor]);
 }

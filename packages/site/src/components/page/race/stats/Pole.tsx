@@ -31,12 +31,12 @@ const query = gql`
 
 export default function Pole({season, round, size}: RaceStatProps) {
 	const {data, loading} = useQuery<Data>(query, {variables: {season, round}});
-	const leaders         = new Map<DriverId, number>();
+	const leaders         = new Map<string, number>();
 
 	(data?.races?.nodes || []).forEach(r => {
 		(r.qualifyingResults?.nodes || []).forEach(rs => {
 			if (rs.driverId) {
-				leaders.set(rs.driverId, (leaders.get(rs.driverId) || 0) + 1);
+				leaders.set(rs.driverId as string, (leaders.get(rs.driverId as string) || 0) + 1);
 			}
 		});
 	});

@@ -1,64 +1,74 @@
 import {gql, useQuery} from '@apollo/client';
 import {QueryResult} from '@apollo/client/react/types/types';
-import {Circuit, Result} from '@/gql/graphql';
+import {Circuit} from '@/gql/graphql';
 import {DriverPageData} from '../types';
 
-export type CircuitWithResults = Pick<Circuit, 'circuitId' | 'circuitRef' | 'name' | 'lng' | 'lat'> & {
-	results: Partial<Result>[];
+type RaceResultData = {
+	gridPositionNumber?: number | null;
+	positionDisplayOrder?: number | null;
+	points?: number | null;
+	positionText?: string | null;
+	constructorId?: string | null;
+	timeMillis?: number | null;
+	reasonRetired?: string | null;
+}
+
+export type CircuitWithResults = Pick<Circuit, 'rowId' | 'fullName' | 'longitude' | 'latitude'> & {
+	results: RaceResultData[];
 	averagePosition?: number;
 	averageTime?: number;
 	wins: number;
 }
 
 const query = gql`
-	query DriverCircuitQuery($driverId: Int!) {
-		driver(driverId: $driverId) {
-			results {
-				raceId
-				race {
-					year
-					round
-					circuit {
-						circuitId
-						name
-						lng
-						lat
+	query DriverCircuitQuery($driverId: String!) {
+		driver(id: $driverId) {
+			raceResults {
+				nodes {
+					race {
+						rowId
+						year
+						round
+						circuit {
+							rowId
+							fullName
+							longitude
+							latitude
+						}
 					}
-				}
-				grid
-				positionOrder
-				points
-				positionText
-				teamId
-				milliseconds
-				status {
-					status
+					gridPositionNumber
+					positionDisplayOrder
+					points
+					positionText
+					constructorId
+					timeMillis
+					reasonRetired
 				}
 			}
 		}
 	}
 `;
 
-export default function useCircuitData(driverId?: number, season?: number): Pick<QueryResult<CircuitWithResults[]>, 'data' | 'loading'> {
+export default function useCircuitData(driverId?: string, season?: number): Pick<QueryResult<CircuitWithResults[]>, 'data' | 'loading'> {
 	const result                                 = useQuery<DriverPageData>(query, {variables: {driverId, season}});
 	const {data, loading}                        = result;
 	const resultsByCircuit: CircuitWithResults[] = [];
-	
+
 	if (loading || !data) {
 		return {
 			...result,
 			data: undefined
 		};
 	}
-	
-	data?.driver.results.forEach(({race, ...result}) => {
+
+	data?.driver.raceResults?.nodes?.forEach(({race, ...result}) => {
 		if (!race?.circuit) {
 			return;
 		}
-		
-		const {circuitId} = race.circuit;
-		let index         = resultsByCircuit.findIndex(c => c.circuitId === circuitId);
-		
+
+		const {rowId} = race.circuit;
+		let index     = resultsByCircuit.findIndex(c => c.rowId === rowId);
+
 		if (index === -1) {
 			resultsByCircuit.push({
 				...race.circuit,
@@ -67,27 +77,27 @@ export default function useCircuitData(driverId?: number, season?: number): Pick
 				averageTime:     0,
 				wins:            0
 			});
-			
+
 			index = resultsByCircuit.length - 1;
 		}
-		
-		resultsByCircuit[index].results.push(result);
+
+		resultsByCircuit[index].results.push(result as RaceResultData);
 	});
-	
+
 	return {
 		loading,
 		data: resultsByCircuit.map((circuit) => {
 			const racePositions: number[] = [];
 			const raceTimes: number[]     = [];
-			
-			circuit.results.forEach((result: Partial<Result>) => {
-				if (result.positionOrder) {
-					racePositions.push(result.positionOrder);
+
+			circuit.results.forEach((result: RaceResultData) => {
+				if (result.positionDisplayOrder) {
+					racePositions.push(result.positionDisplayOrder);
 				}
-				
+
 				try {
-					const time = result.milliseconds;
-					
+					const time = result.timeMillis;
+
 					if (time) {
 						raceTimes.push(time);
 					}
@@ -95,12 +105,12 @@ export default function useCircuitData(driverId?: number, season?: number): Pick
 					// time could not be calculated
 				}
 			});
-			
+
 			return {
 				...circuit,
 				averagePosition: !racePositions.length ? undefined : Math.round(racePositions.reduce((a, v) => a + v, 0) / racePositions.length),
 				averageTime:     !raceTimes.length ? undefined : raceTimes.reduce((a, v) => a + v, 0) / raceTimes.length,
-				wins:            circuit.results.filter(r => r.positionOrder === 1).length
+				wins:            circuit.results.filter(r => r.positionDisplayOrder === 1).length
 			};
 		})
 	};

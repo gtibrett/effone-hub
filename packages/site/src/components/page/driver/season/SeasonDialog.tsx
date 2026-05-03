@@ -22,7 +22,7 @@ export default function SeasonDialog({driverId, season, onClose}: SeasonDialogPr
 					<Typography paragraph variant="subtitle1"><DriverByLine id={driverId} variant="name"/></Typography>
 				</>
 			}>
-			{season && <Season season={season} driverId={driverId}/>}
+			{season && <Season season={season} driverId={driverId || ''}/>}
 		</Dialog>
 	);
 }

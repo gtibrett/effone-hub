@@ -7,16 +7,15 @@ export default function HistoryTooltip(props: PointTooltipProps) {
 	const {point}                                = props;
 	const {data}                                 = point;
 	// @ts-ignore
-	const {points, wins, position, name, teamId} = data.data; // extra added to make tooltip better
-	const headerSx                               = useTeamHeaderSx(Number(teamId));
+	const {points, positionNumber, name, id} = data.data; // extra added to make tooltip better
+	const headerSx                           = useTeamHeaderSx(id);
 	
 	return (
 		<Card sx={{p: 0}}>
 			<CardHeader sx={headerSx} title={name} subheader={point.data.xFormatted}/>
 			<PropertiesTable>
-				{position && <PropertiesTableRow header="Position" align="right">{position}</PropertiesTableRow>}
+				{positionNumber && <PropertiesTableRow header="Position" align="right">{positionNumber}</PropertiesTableRow>}
 				{typeof points !== 'undefined' && <PropertiesTableRow header="Points" align="right">{points}</PropertiesTableRow>}
-				{typeof wins !== 'undefined' && <PropertiesTableRow header="Wins" align="right">{wins}</PropertiesTableRow>}
 			</PropertiesTable>
 		</Card>
 	);

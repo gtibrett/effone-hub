@@ -1,5 +1,5 @@
-import {Race} from '@/gql/graphql';
 import {Maybe} from '@/gql/graphql';
+import {NextRace} from './useNextRaceData';
 
 export type ScheduleEvent = {
 	label: string;
@@ -12,7 +12,7 @@ export type ScheduleEvent = {
 
 const getTimeTo = (date?: Maybe<string>, time?: Maybe<string>) => Math.floor(((new Date(`${date}T${time}`)).getTime() - (new Date()).getTime()) / 1000);
 
-export default function useRaceScheduleEvents(race: Race): Omit<ScheduleEvent, 'conditional'>[] {
+export default function useRaceScheduleEvents(race: NextRace): Omit<ScheduleEvent, 'conditional'>[] {
 	const {
 		      fp1Date, fp1Time,
 		      fp2Date, fp2Time,

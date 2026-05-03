@@ -1,4 +1,4 @@
-import {Team} from '@/gql/graphql';
+import {Constructor} from '@/gql/graphql';
 import {AvatarSizes, useAvatarSize, useGetTeamColor} from '@/hooks';
 import {useTeam} from '@/hooks/data';
 import {faIndustry} from '@fortawesome/free-solid-svg-icons';
@@ -7,7 +7,7 @@ import {Avatar, useTheme} from '@mui/material';
 import {useMemo} from 'react';
 
 export type ConstructorAvatarProps = {
-	teamId?: Team['teamId'];
+	teamId?: Constructor['id'];
 	size?: AvatarSizes
 }
 
@@ -16,14 +16,14 @@ export default function ConstructorAvatar({teamId, size = 'small'}: ConstructorA
 	const sizeSx       = useAvatarSize(size);
 	const {team}       = useTeam(teamId);
 	const getTeamColor = useGetTeamColor();
-	
+
 	return useMemo(() => {
 		if (!team) {
 			return <Avatar variant="rounded" sx={sizeSx}><FontAwesomeIcon icon={faIndustry}/></Avatar>;
 		}
-		
+
 		const {name, colors} = team;
-		const primary        = getTeamColor(colors, 'primary', false);
+		const primary        = getTeamColor(colors, 'primaryHex', false);
 		const textColor      = theme.palette.getContrastText(primary);
 		
 		const initials = name?.replace('F1 Team', '')
