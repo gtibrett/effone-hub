@@ -31,7 +31,7 @@ const query = gql`
 				nodes {
 					rowId
 					round
-					qualifyingResults(filter: {constructorId: {equalTo: $constructorId}}, orderBy: POSITION_NUMBER_ASC) {
+					qualifyingResults(condition: {constructorId: $constructorId}, orderBy: POSITION_NUMBER_ASC) {
 						nodes {
 							driverId
 							positionNumber

@@ -135,24 +135,22 @@ export default function Round(props: { season: string, round: string, race: Part
 const RaceQuery = gql`
 	query RaceQuery($season: Int!, $round: Int!) {
 		races(condition: {year: $season, round: $round }) {
-			rowId
-			year
-			round
-			officialName
-			date
-			url
-			summary {
-				extract
-			}
-			circuit {
-				id
-				name
-				location
-				country
-				lat
-				lng
-				circuitDescription {
-					description
+			nodes {
+				rowId
+				year
+				round
+				officialName
+				date
+				circuit {
+					id
+					fullName
+					placeName
+					countryId
+					latitude
+					longitude
+					description {
+						description
+					}
 				}
 			}
 		}
@@ -161,8 +159,8 @@ const RaceQuery = gql`
 
 export async function getStaticProps(input: { params: { season: string, round: string } }) {
 	const {params: {season, round}} = input;
-	const {data: {races}}           = await apolloClient.query<{ races: Race[] }>({query: RaceQuery, variables: {season: Number(season), round: Number(round)}});
-	const race                      = races[0];
+	const {data: {races}}           = await apolloClient.query<{ races: { nodes: Race[] } }>({query: RaceQuery, variables: {season: Number(season), round: Number(round)}});
+	const race                      = races.nodes[0];
 	
 	return {
 		props: {
@@ -175,16 +173,18 @@ export async function getStaticPaths() {
 	const query = gql`
 		query AllRacesQuery {
 			races {
-				rowId
-				year
-				round
+				nodes {
+					rowId
+					year
+					round
+				}
 			}
 		}
 	`;
-	
-	const {data: {races}} = await apolloClient.query<{ races: Race[] }>({query: query});
-	
-	const paths = races.map(race => ({
+
+	const {data: {races}} = await apolloClient.query<{ races: { nodes: Race[] } }>({query: query});
+
+	const paths = races.nodes.map(race => ({
 		params: {season: race.year?.toString(), round: race.round?.toString()}
 	}));
 	
