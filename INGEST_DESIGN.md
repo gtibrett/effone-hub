@@ -74,6 +74,19 @@ PostGraphile watch mode (dev) picks up the swap automatically. In production `gr
 
 ---
 
+## Time Budget and Chunking
+
+Vercel Cron hard-kills the function after `maxDuration: 300s`. The lap-times backfill loop uses a soft 4-minute (`MAX_RUN_MS = 240 000 ms`) budget with a 15-second per-race guard (`MIN_BUDGET_PER_RACE_MS`):
+
+- Before starting each race, the handler checks `elapsed + MIN_BUDGET_PER_RACE_MS > MAX_RUN_MS`. If true it breaks out of the loop and records `truncated: true` in the response.
+- A single race whose fetch+insert overruns the budget is allowed to complete (the budget check runs *before* each race, not during it).
+- A hard ceiling of `MAX_RACES_PER_RUN = 50` caps the SQL query so the loop never queues more than 50 races even when the time budget would allow it.
+- **Resumability** is free: `pickRacesNeedingLapTimes` filters on `not exists (select 1 from app.lap_times where race_id = r.id)`, so races completed in a prior run are automatically excluded. No extra state is needed.
+- The response payload includes `racesAttempted`, `racesCompleted`, `racesPending` (post-run count from a fresh query), and `truncated`. When `racesPending = 0` the backfill is complete.
+- The schema-swap path is unaffected — the time budget only governs the per-race lap-times loop.
+
+---
+
 ## Open Questions / TBD
 
 - **Tests:** TBD. Unit tests for `fetchF1DB`, `applyDump`, `swapSchema` helpers would exercise the logic without a real DB.

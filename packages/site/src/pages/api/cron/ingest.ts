@@ -27,12 +27,20 @@ export const config = {
 	api: {bodyParser: false}
 };
 
+const MAX_RUN_MS            = 4 * 60 * 1000; // 4 minutes — leave 60 s of headroom before the 300 s hard limit
+const MIN_BUDGET_PER_RACE_MS = 15_000;        // stop scheduling new races when less than 15 s remains
+const MAX_RACES_PER_RUN      = 50;            // hard ceiling regardless of remaining time budget
+
 type IngestResult = {
-	status:        'no-op' | 'updated';
-	tag?:          string;
-	durationMs?:   number;
-	lapReports?:   LapInsertReport[];
-	error?:        string;
+	status:          'no-op' | 'updated';
+	tag?:            string;
+	durationMs?:     number;
+	lapReports?:     LapInsertReport[];
+	racesAttempted?: number;
+	racesCompleted?: number;
+	racesPending?:   number;
+	truncated?:      boolean;
+	error?:          string;
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<IngestResult>) {
@@ -88,24 +96,53 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 	console.log(`[ingest] dump applied in ${durationMs}ms`);
 
 	// --- Lap-times backfill ---
+	const startedAt = Date.now();
 	const lapClient = new Client({connectionString});
 	await lapClient.connect();
 	const lapReports: LapInsertReport[] = [];
+	let racesAttempted = 0;
+	let truncated = false;
 	try {
-		const races = await pickRacesNeedingLapTimes(lapClient);
+		const races = await pickRacesNeedingLapTimes(lapClient, 2025, MAX_RACES_PER_RUN);
 		const resolve = await buildDriverResolver(lapClient);
-		for (const race of races) {
+		for (let i = 0; i < races.length; i++) {
+			if (Date.now() - startedAt + MIN_BUDGET_PER_RACE_MS > MAX_RUN_MS) {
+				console.log(`[ingest] truncated at race ${i + 1}/${races.length}, returning early`);
+				truncated = true;
+				break;
+			}
+			const race = races[i];
+			racesAttempted++;
 			try {
 				const report = await ingestLapTimesForRace(lapClient, resolve, race);
 				lapReports.push(report);
 				console.log(`[ingest] laps race ${race.raceId} (${race.year}/${race.round}): ${report.rowsInserted} inserted`);
 			} catch (err) {
-				// Log and continue — lap-time failures are not fatal to the schema swap.
+				const msg = err instanceof Error ? err.message : String(err);
+				// 429 = rate-limited by Jolpica; further requests this run will fail too.
+				// Break early and surface as truncated so the next cron picks up.
+				if (msg.includes('Jolpica 429') || msg.includes('429')) {
+					console.log(`[ingest] Jolpica rate-limited at race ${i + 1}/${races.length}, returning early`);
+					truncated = true;
+					break;
+				}
 				console.error(`[ingest] lap fetch failed for race ${race.raceId}:`, err);
 			}
 		}
 	} finally {
 		await lapClient.end();
+	}
+	const racesCompleted = lapReports.length;
+
+	// Query remaining pending races (post-run) for telemetry.
+	const pendingClient = new Client({connectionString});
+	await pendingClient.connect();
+	let racesPending = 0;
+	try {
+		const pending = await pickRacesNeedingLapTimes(pendingClient);
+		racesPending = pending.length;
+	} finally {
+		await pendingClient.end();
 	}
 
 	// --- Update ingest_state ---
@@ -122,6 +159,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 		await updateClient.end();
 	}
 
-	console.log(`[ingest] done. tag=${release.tag} dumpMs=${durationMs} lapRaces=${lapReports.length}`);
-	res.status(200).json({status: 'updated', tag: release.tag, durationMs, lapReports});
+	console.log(`[ingest] done. tag=${release.tag} dumpMs=${durationMs} lapRaces=${racesCompleted} pending=${racesPending} truncated=${truncated}`);
+	res.status(200).json({status: 'updated', tag: release.tag, durationMs, lapReports, racesAttempted, racesCompleted, racesPending, truncated});
 }

@@ -27,7 +27,7 @@ export async function ingestLapTimesForRace(
 
 	for (const lap of laps) {
 		for (const t of lap.timings) {
-			const driverId = await resolve(t.driverId);
+			const driverId = await resolve(t.driverId, {year: race.year, round: race.round});
 			if (!driverId) {
 				skippedSet.add(t.driverId);
 				continue;

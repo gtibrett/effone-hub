@@ -12790,6 +12790,8 @@ export type RaceTeamStandingPatch = {
 
 export type Season = Node & {
   __typename?: 'Season';
+  ended?: Maybe<Scalars['Boolean']['output']>;
+  hasResults?: Maybe<Scalars['Boolean']['output']>;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   id: Scalars['ID']['output'];
   /** Reads and enables pagination through a set of `Race`. */
