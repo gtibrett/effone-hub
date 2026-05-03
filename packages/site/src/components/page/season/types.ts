@@ -1,13 +1,13 @@
 import {DataWithValue} from '@/components/app';
 import {DriverId} from '@/types';
-import {DriverStanding, Team, TeamStanding} from '@/gql/graphql';
+import {SeasonConstructorStanding, SeasonDriverStanding} from '@/gql/graphql';
 
 export type SeasonData = {
 	year: number;
 	racesByYear: {
 		round: number;
-		teamStandings: Pick<TeamStanding, 'teamId' | 'points' | 'wins'>[];
-		driverStandings: Pick<DriverStanding, 'driverId' | 'points' | 'wins'>[];
+		teamStandings: Pick<SeasonConstructorStanding, 'constructorId' | 'points'>[];
+		driverStandings: Pick<SeasonDriverStanding, 'driverId' | 'points'>[];
 	}[]
 };
 
@@ -22,7 +22,7 @@ export type DriverChampionData = DataWithValue & {
 }
 
 export type TeamChampionData = DataWithValue & {
-	teamId: Team['teamId'];
+	constructorId: string;
 	points: number;
 	wins: number;
 }

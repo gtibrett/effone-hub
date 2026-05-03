@@ -1,31 +1,34 @@
-import type {Driver, FinalTeamStandingsByYear, Race, Result, Team, TeamBio, TeamHistory} from '@/gql/graphql';
+import {Constructor, Driver, Race, RaceResult, SeasonConstructorStanding} from '@/gql/graphql';
 
 export type DriverByYear = {
 	year: number;
 	driver: Driver;
 }
 
-export type TeamStandingData = Pick<FinalTeamStandingsByYear, 'points' | 'position' | 'positionText' | 'wins' | 'year'>;
+export type TeamStandingData = Pick<SeasonConstructorStanding, 'points' | 'positionNumber' | 'positionText' | 'year'>;
 
-export type TeamHistoryData = TeamHistory & {
-	antecedentTeam: {
+export type TeamHistoryData = {
+	constructorId: string;
+	startYear?: number | null;
+	endYear?: number | null;
+	constructor: {
+		id: string;
+		name: string;
+		colors?: { primaryHex?: string | null } | null;
 		standings: TeamStandingData[];
 	}
 }
 
-export type TeamData = Pick<Team, 'teamId' | 'constructorRef' | 'name' | 'nationality' | 'colors' | 'url'> & {
-	bio: Pick<TeamBio, 'extract'>;
-	
-	teamHistories: TeamHistoryData[];
-	
-	standings: TeamStandingData[];
-	results: Result[];
-	drivers: DriverByYear[]
+export type TeamData = Pick<Constructor, 'id' | 'name' | 'countryId' | 'colors'> & {
+	antecedents: { nodes: TeamHistoryData[] };
+	standings: { nodes: TeamStandingData[] };
+	raceResults: { nodes: RaceResult[] };
+	drivers: { nodes: DriverByYear[] };
 }
 
 export type ConstructorPageData = {
 	team: TeamData;
-	races: Race[];
+	races: { nodes: Race[] };
 }
 
 export type ConstructorsListFilters = {
