@@ -29,7 +29,7 @@ const lapsQuery = gql`
 						id
 						lastName
 					}
-					constructor {
+					team {
 						colors {
 							primaryHex
 						}
@@ -44,7 +44,7 @@ type LapTimeRow = Pick<AppLapTime, 'lap' | 'position' | 'driverId' | 'timeText' 
 
 type RaceResultRow = Pick<RaceResult, 'positionDisplayOrder' | 'positionNumber'> & {
 	driver: Pick<Driver, 'id' | 'lastName'> | null;
-	constructor: { colors: { primaryHex: Maybe<string> } | null } | null;
+	team: { colors: { primaryHex: Maybe<string> } | null } | null;
 };
 
 export type LapTimeData = {
@@ -86,7 +86,7 @@ export const useLapByLapData = (season: number, round: number): LapByLapData => 
 			data:      results.map(r => ({
 				driverId: r.driver?.id,
 				name:     r.driver?.lastName,
-				color:    r.constructor?.colors?.primaryHex || fallbackColor,
+				color:    r.team?.colors?.primaryHex || fallbackColor,
 				position: r.positionNumber ?? r.positionDisplayOrder,
 				laps:     lapTimes.filter(lt => lt.driverId === r.driver?.id)
 			})),

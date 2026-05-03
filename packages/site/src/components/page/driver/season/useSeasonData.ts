@@ -16,7 +16,7 @@ const query = gql`
 						positionDisplayOrder
 						points
 						positionText
-						constructorId
+						teamId
 						timeMillis
 						reasonRetired
 					}

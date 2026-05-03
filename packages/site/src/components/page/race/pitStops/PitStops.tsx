@@ -23,7 +23,7 @@ const pitStopsQuery = gql`
 						id
 						abbreviation
 					}
-					constructor {
+					team {
 						colors {
 							primaryHex
 						}
@@ -58,7 +58,7 @@ const useMapTableData = () => {
 			}
 			let index = tableData.findIndex(driver => driver.driverId === p.driver?.id);
 			if (index === -1) {
-				const primaryHex = p.constructor?.colors?.primaryHex;
+				const primaryHex = p.team?.colors?.primaryHex;
 				tableData.push({
 					driverId: p.driver.id,
 					code:     p.driver.abbreviation,

@@ -13,8 +13,8 @@ export default function useDriverHeaderSx(driverId: DriverId, yearOrColor: any =
 	
 	let background = getTeamColor(
 		yearOrColor === 'current'
-		? driver?.seasonEntrantDrivers?.nodes?.[0]?.constructor?.colors
-		: driver?.seasonEntrantDrivers?.nodes?.find((t: any) => t.year === yearOrColor)?.constructor?.colors,
+		? driver?.seasonEntrantDrivers?.nodes?.[0]?.team?.colors
+		: driver?.seasonEntrantDrivers?.nodes?.find((t: any) => t.year === yearOrColor)?.team?.colors,
 		'primaryHex', false);
 	
 	if (typeof yearOrColor === 'string' && yearOrColor !== 'current') {

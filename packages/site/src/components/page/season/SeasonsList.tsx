@@ -25,7 +25,7 @@ const PlaceColumnRenderer = memo(function PlaceColumnRenderer({data}: PlaceColum
 	}
 	
 	const variant: PlaceVariant = isDriverChampion(data) ? 'driver' : 'team';
-	const key                   = isDriverChampion(data) ? data.driverId : data.constructorId;
+	const key                   = isDriverChampion(data) ? data.driverId : data.teamId;
 
 	return (
 		<Box sx={{mt: 1.5}}>

@@ -1,10 +1,10 @@
 import {useGetTeamColor} from '@/hooks';
 import {QueryResult} from '@apollo/client/react/types/types';
-import {Constructor} from '@/gql/graphql';
+import {Team} from '@/gql/graphql';
 import {Serie as LineSerie} from '@nivo/line';
 import {ConstructorPageData, TeamStandingData} from '../types';
 
-type StandingsAndTeamInfo = Pick<Constructor, 'id' | 'name' | 'colors'> & {
+type StandingsAndTeamInfo = Pick<Team, 'id' | 'name' | 'colors'> & {
 	standings: TeamStandingData[]
 };
 
@@ -26,7 +26,7 @@ export default function useHistoryChartData(data: Pick<QueryResult<ConstructorPa
 	const {name, id, colors} = data.team;
 	standingsByTeam.set(id, {name, id, colors, standings: data.team.standings.nodes || []});
 
-	data?.team.antecedents.nodes.forEach(({constructor: antecedentTeam, startYear, endYear}) => {
+	data?.team.antecedents.nodes.forEach(({antecedentTeam, startYear, endYear}) => {
 		const {id, name, colors, standings = []} = antecedentTeam;
 		const filteredStandings = standings.filter(s => s.year && s.year >= (startYear ?? 0) && (!endYear || s.year <= endYear));
 		standingsByTeam.set(id, {name, id, colors: colors as any, standings: filteredStandings});

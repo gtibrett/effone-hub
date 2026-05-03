@@ -1,17 +1,18 @@
 import {StatCard, useAppState} from '@/components/app';
 import {gql, useQuery} from '@apollo/client';
-import {Season} from '@/gql/graphql';
 
 type Data = {
-	season: Pick<Season, 'seasonConstructorStandingsByYear'> | null;
+	season: {
+		seasonTeamStandingsByYear: { nodes: Array<{ teamId: string }> };
+	} | null;
 }
 
 const query = gql`
 	query seasonConstructorChampionQuery($season: Int!) {
 		season(year: $season) {
-			seasonConstructorStandingsByYear(orderBy: POSITION_NUMBER_ASC, first: 1) {
+			seasonTeamStandingsByYear(orderBy: POSITION_NUMBER_ASC, first: 1) {
 				nodes {
-					constructorId
+					teamId
 				}
 			}
 		}
@@ -25,16 +26,16 @@ export default function ConstructorChampion({season}: { season: number }) {
 	const champion          = new Map<string, number>();
 	const label             = season === currentSeason ? 'Constructor Leader' : 'Constructor Champion';
 
-	const nodes = data?.season?.seasonConstructorStandingsByYear?.nodes ?? [];
+	const nodes = data?.season?.seasonTeamStandingsByYear?.nodes ?? [];
 	if (!nodes.length) {
 		return null;
 	}
 
-	const constructorId = nodes[0]?.constructorId;
-	if (!constructorId) {
+	const teamId = nodes[0]?.teamId;
+	if (!teamId) {
 		return null;
 	}
-	champion.set(constructorId, 1);
+	champion.set(teamId, 1);
 
 	return <StatCard label={label} loading={loading} data={champion} format={() => ''} variant="team" noGrid cardProps={{sx: {'& > .MuiCardHeader-root': {px: 0, pb: 0}}}}/>;
 }

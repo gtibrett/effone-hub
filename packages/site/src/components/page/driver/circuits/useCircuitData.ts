@@ -8,7 +8,7 @@ type RaceResultData = {
 	positionDisplayOrder?: number | null;
 	points?: number | null;
 	positionText?: string | null;
-	constructorId?: string | null;
+	teamId?: string | null;
 	timeMillis?: number | null;
 	reasonRetired?: string | null;
 }
@@ -22,7 +22,7 @@ export type CircuitWithResults = Pick<Circuit, 'rowId' | 'fullName' | 'longitude
 
 const query = gql`
 	query DriverCircuitQuery($driverId: String!) {
-		driver(id: $driverId) {
+		driver(rowId: $driverId) {
 			raceResults {
 				nodes {
 					race {
@@ -40,7 +40,7 @@ const query = gql`
 					positionDisplayOrder
 					points
 					positionText
-					constructorId
+					teamId
 					timeMillis
 					reasonRetired
 				}

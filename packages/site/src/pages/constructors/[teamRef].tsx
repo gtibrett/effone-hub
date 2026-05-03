@@ -154,7 +154,7 @@ export default function Constructor({teamRef, team}: { teamRef: string, team: Te
 
 export const ConstructorDataQuery = gql`
 	query ConstructorPageStaticQuery($constructorRef: String!) {
-		constructors(condition: {rowId: $constructorRef}) {
+		teams(condition: {rowId: $constructorRef}) {
 			nodes {
 				id
 				name
@@ -168,20 +168,20 @@ export const ConstructorDataQuery = gql`
 `;
 
 export async function getStaticProps({params: {teamRef}}: { params: { teamRef: string } }) {
-	const {data: {constructors}} = await apolloClient.query<{ constructors: { nodes: TeamProp[] } }>({query: ConstructorDataQuery, variables: {constructorRef: teamRef}});
+	const {data: {teams}} = await apolloClient.query<{ teams: { nodes: TeamProp[] } }>({query: ConstructorDataQuery, variables: {constructorRef: teamRef}});
 
 	return {
 		props: {
 			teamRef,
-			team: constructors.nodes[0] || null
+			team: teams.nodes[0] || null
 		}
 	};
 }
 
 export async function getStaticPaths() {
-	const {data: {constructors}} = await apolloClient.query<{ constructors: { nodes: { id: string }[] } }>({query: ConstructorsQuery});
+	const {data: {teams}} = await apolloClient.query<{ teams: { nodes: { id: string }[] } }>({query: ConstructorsQuery});
 
-	const paths = constructors.nodes.map(team => ({
+	const paths = teams.nodes.map(team => ({
 		params: {teamRef: team.id}
 	}));
 

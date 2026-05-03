@@ -23,13 +23,13 @@ const query = gql`
 		season(year: $season) {
 			racesByYear {
 				nodes {
-					raceResults(condition: {constructorId: $constructorId}) {
+					raceResults(condition: {teamId: $constructorId}) {
 						nodes {
 							driverId
 							points
 						}
 					}
-					sprintRaceResults(condition: {constructorId: $constructorId}) {
+					sprintRaceResults(condition: {teamId: $constructorId}) {
 						nodes {
 							driverId
 							points

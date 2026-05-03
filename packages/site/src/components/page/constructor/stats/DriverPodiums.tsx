@@ -23,7 +23,7 @@ const query = gql`
 			racesByYear(orderBy: ROUND_ASC) {
 				nodes {
 					rowId
-					raceResults(condition: {constructorId: $constructorId}) {
+					raceResults(condition: {teamId: $constructorId}) {
 						nodes {
 							driverId
 							positionNumber

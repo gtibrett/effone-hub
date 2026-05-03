@@ -15,15 +15,15 @@ type ConstructorNode = {
 };
 
 type RaceConstructorStandingNode = {
-	constructorId: string;
+	teamId: string;
 	positionNumber: number | null;
 	points: string;
-	constructor: ConstructorNode | null;
+	team: ConstructorNode | null;
 };
 
 type RaceNode = {
 	round: number;
-	raceConstructorStandings: { nodes: RaceConstructorStandingNode[] };
+	raceTeamStandings: { nodes: RaceConstructorStandingNode[] };
 };
 
 type ConstructorStandingsQueryData = {
@@ -49,12 +49,12 @@ const query = gql`
 			racesByYear(orderBy: ROUND_ASC) {
 				nodes {
 					round
-					raceConstructorStandings(orderBy: POSITION_NUMBER_ASC) {
+					raceTeamStandings(orderBy: POSITION_NUMBER_ASC) {
 						nodes {
-							constructorId
+							teamId
 							positionNumber
 							points
-							constructor {
+							team {
 								rowId
 								name
 								colors {
@@ -74,13 +74,13 @@ export default function useConstructorStandingsData(season: number) {
 	const mapConstructorToEntity  = useMapConstructorToEntity();
 
 	const chartData: RaceStandingsWithEntities[] = (data?.season?.racesByYear?.nodes ?? []).map(r => {
-		const standings = r.raceConstructorStandings.nodes
-			.filter(cs => cs.constructor)
-			.map(({constructorId, positionNumber, points, constructor}) => ({
-				id:       constructorId,
+		const standings = r.raceTeamStandings.nodes
+			.filter(cs => cs.team)
+			.map(({teamId, positionNumber, points, team}) => ({
+				id:       teamId,
 				position: Number(positionNumber),
 				points:   Number(points),
-				entity:   mapConstructorToEntity(constructor as ConstructorNode)
+				entity:   mapConstructorToEntity(team as ConstructorNode)
 			}));
 
 		return {

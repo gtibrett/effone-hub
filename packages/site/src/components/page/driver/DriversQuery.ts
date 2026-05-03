@@ -8,7 +8,7 @@ const DriversQuery = gql`
 				id
 				firstName
 				lastName
-				nationality
+				nationalityCountryId
 #			driverStandingsBySeasons{
 #				position
 #			}

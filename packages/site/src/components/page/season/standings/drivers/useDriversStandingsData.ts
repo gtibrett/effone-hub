@@ -13,7 +13,7 @@ type DriverConstructorNode = {
 };
 
 type DriverSeasonEntrantNode = {
-	constructor: DriverConstructorNode | null;
+	team: DriverConstructorNode | null;
 };
 
 type DriverNode = {
@@ -52,7 +52,7 @@ const useMapDriverToEntity = () => {
 	const fallbackColor      = useFallbackColor();
 
 	return useCallback((driver: DriverNode): Entity => {
-		const primaryHex = driver.seasonEntrantDrivers.nodes[0]?.constructor?.colors?.primaryHex;
+		const primaryHex = driver.seasonEntrantDrivers.nodes[0]?.team?.colors?.primaryHex;
 		const color      = getAccessibleColor(primaryHex || fallbackColor, false);
 
 		return {
@@ -86,7 +86,7 @@ const query = gql`
 								lastName
 								seasonEntrantDrivers(condition: {year: $season}, first: 1) {
 									nodes {
-										constructor {
+										team {
 											colors {
 												primaryHex
 											}

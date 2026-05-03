@@ -3,22 +3,18 @@ import {DriverPageData} from '../types';
 
 const query = gql`
 	query DriverCareerQuery($driverId: String!) {
-		driver(id: $driverId) {
+		driver(rowId: $driverId) {
 			standings: seasonDriverStandings(orderBy: YEAR_ASC) {
 				nodes {
 					year
 					positionNumber
 					positionText
 					points
-					constructor {
-						id
-						colors { primaryHex }
-					}
 				}
 			}
 
 			# for CareerPerformance.tsx
-			raceResults(orderBy: [YEAR_ASC, ROUND_ASC]) {
+			raceResults {
 				nodes {
 					race {
 						rowId
@@ -35,7 +31,7 @@ const query = gql`
 					positionDisplayOrder
 					points
 					positionText
-					constructorId
+					teamId
 					timeMillis
 					reasonRetired
 				}

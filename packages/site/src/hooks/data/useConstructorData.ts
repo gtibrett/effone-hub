@@ -3,7 +3,7 @@ import {gql, useQuery} from '@apollo/client';
 
 const ConstructorDataQuery = gql`
 	query ConstructorDataQuery($constructorRef: String!, $season: Int!) {
-		team: constructor(id: $constructorRef) {
+		team(rowId: $constructorRef) {
 			id
 			name
 			countryId
@@ -23,14 +23,13 @@ const ConstructorDataQuery = gql`
 								year
 								points
 								positionNumber
-								wins
 							}
 						}
 					}
 				}
 			}
 
-			standings: seasonConstructorStandings(orderBy: YEAR_ASC) {
+			standings: seasonTeamStandings(orderBy: YEAR_ASC) {
 				nodes {
 					points
 					positionNumber
@@ -41,16 +40,16 @@ const ConstructorDataQuery = gql`
 
 			antecedents {
 				nodes {
-					constructorId
+					antecedentTeamId
 					startYear
 					endYear
-					constructor {
+					antecedentTeam {
 						id
 						name
 						colors {
 							primaryHex
 						}
-						standings: seasonConstructorStandings(orderBy: YEAR_ASC) {
+						standings: seasonTeamStandings(orderBy: YEAR_ASC) {
 							nodes {
 								points
 								positionNumber
@@ -62,7 +61,7 @@ const ConstructorDataQuery = gql`
 				}
 			}
 
-			raceResults(condition: { year: $season }) {
+			raceResults {
 				nodes {
 					raceId
 					race {

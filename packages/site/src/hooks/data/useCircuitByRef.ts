@@ -4,7 +4,7 @@ import {QueryResult} from '@apollo/client/react/types/types';
 
 const CircuitQuery = gql`
 	query CircuitQuery($circuitRef: String!, $showCurrentSeason: Boolean!, $season: Int) {
-		circuit(id: $circuitRef) {
+		circuit(rowId: $circuitRef) {
 			rowId
 			fullName
 			placeName
@@ -15,7 +15,7 @@ const CircuitQuery = gql`
 				description
 			}
 
-			history: racesByYear(orderBy: YEAR_DESC) {
+			history: races(orderBy: YEAR_DESC) {
 				nodes {
 					year
 					round
@@ -23,7 +23,7 @@ const CircuitQuery = gql`
 					officialName
 					raceResults(condition: {positionNumber: 1}) {
 						nodes {
-							constructorId
+							teamId
 							driverId
 							driver {
 								firstName
@@ -32,21 +32,21 @@ const CircuitQuery = gql`
 							time
 						}
 					}
-					lapTimes(condition: {position: 1}) {
+					lapTimes(condition: {lap: 1}) {
 						nodes {
 							driverId
 						}
 					}
-					fastestLaps: lapTimes(orderBy: TIME_MILLIS_ASC, first: 1) {
+					fastestLaps: lapTimes(first: 1) {
 						nodes {
 							driverId
-							timeMillis
+							milliseconds
 						}
 					}
 				}
 			}
 
-			season: racesByYear(condition: {year: $season}) @include(if: $showCurrentSeason) {
+			season: races(condition: {year: $season}) @include(if: $showCurrentSeason) {
 				nodes {
 					year
 					round
@@ -64,7 +64,7 @@ const CircuitQuery = gql`
 					raceResults {
 						nodes {
 							driverId
-							constructor {
+							team {
 								id
 							}
 							gridPositionNumber
@@ -83,14 +83,14 @@ export type CircuitHistoryData = Pick<Race, 'year' | 'round' | 'date'> & {
 	officialName: string;
 	raceResults: {
 		nodes: {
-			constructorId: string;
+			teamId: string;
 			driverId: string;
 			driver: { firstName: string; lastName: string };
 			time: string | null;
 		}[];
 	};
 	lapTimes: { nodes: { driverId: string }[] };
-	fastestLaps: { nodes: { driverId: string; timeMillis: number | null }[] };
+	fastestLaps: { nodes: { driverId: string; milliseconds: number | null }[] };
 }
 
 type CircuitPageData = {

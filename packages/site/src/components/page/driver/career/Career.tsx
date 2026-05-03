@@ -89,7 +89,7 @@ export default function Career({driverId}: CareerProps) {
 									headerName: 'Constructor',
 									filterable: false,
 									renderCell: ({row}) => (
-										<ConstructorByLine id={row.constructor?.id} variant="link"/>
+										<ConstructorByLine id={row.team?.id} variant="link"/>
 									),
 									flex:       1,
 									minWidth:   150

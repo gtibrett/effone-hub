@@ -1,17 +1,17 @@
-import {Constructor, Driver, Race, RaceResult, SeasonConstructorStanding} from '@/gql/graphql';
+import {Driver, Race, RaceResult, SeasonTeamStanding, Team} from '@/gql/graphql';
 
 export type DriverByYear = {
 	year: number;
 	driver: Driver;
 }
 
-export type TeamStandingData = Pick<SeasonConstructorStanding, 'points' | 'positionNumber' | 'positionText' | 'year'>;
+export type TeamStandingData = Pick<SeasonTeamStanding, 'points' | 'positionNumber' | 'positionText' | 'year'>;
 
 export type TeamHistoryData = {
-	constructorId: string;
+	antecedentTeamId: string;
 	startYear?: number | null;
 	endYear?: number | null;
-	constructor: {
+	antecedentTeam: {
 		id: string;
 		name: string;
 		colors?: { primaryHex?: string | null } | null;
@@ -19,7 +19,7 @@ export type TeamHistoryData = {
 	}
 }
 
-export type TeamData = Pick<Constructor, 'id' | 'name' | 'countryId' | 'colors'> & {
+export type TeamData = Pick<Team, 'id' | 'name' | 'countryId' | 'colors'> & {
 	antecedents: { nodes: TeamHistoryData[] };
 	standings: { nodes: TeamStandingData[] };
 	raceResults: { nodes: RaceResult[] };

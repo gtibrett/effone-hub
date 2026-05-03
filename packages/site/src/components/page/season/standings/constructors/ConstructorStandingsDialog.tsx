@@ -14,7 +14,7 @@ type ConstructorStandingsDialogProps = {
 
 export default function ConstructorStandingsDialog({season, open, setOpen}: ConstructorStandingsDialogProps) {
 	const {data}            = useConstructorStandingsData(season);
-	const lastRaceStandings = data?.season?.racesByYear?.nodes?.filter(r => r.raceConstructorStandings.nodes.length)?.at(-1)?.raceConstructorStandings?.nodes || [];
+	const lastRaceStandings = data?.season?.racesByYear?.nodes?.filter(r => r.raceTeamStandings.nodes.length)?.at(-1)?.raceTeamStandings?.nodes || [];
 	const onClose           = () => setOpen(false);
 	
 	if (!lastRaceStandings?.length) {
@@ -29,7 +29,7 @@ export default function ConstructorStandingsDialog({season, open, setOpen}: Cons
 		>
 			<DataGrid
 				rows={lastRaceStandings}
-				getRowId={r => r.constructorId || ''}
+				getRowId={r => r.teamId || ''}
 				autoHeight
 				density="compact"
 				hideFooter
@@ -49,10 +49,10 @@ export default function ConstructorStandingsDialog({season, open, setOpen}: Cons
 							width:       16
 						},
 						{
-							field:      'constructorId',
+							field:      'teamId',
 							headerName: 'Constructor',
 							flex:       1,
-							renderCell: ({row}) => <ConstructorByLine id={row.constructor?.rowId} variant="link"/>
+							renderCell: ({row}) => <ConstructorByLine id={row.team?.rowId} variant="link"/>
 						},
 						{
 							field:      'points',

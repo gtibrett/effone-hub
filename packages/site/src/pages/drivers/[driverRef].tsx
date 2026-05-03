@@ -33,7 +33,7 @@ export default function Driver({driver}: { driver: DriverT }) {
 	setPageTitle(`Driver: ${driver?.firstName} ${driver?.lastName}`);
 
 	const latestSeasonNode = driver.seasonEntrantDrivers?.nodes?.[0];
-	const primaryColor     = latestSeasonNode?.constructor?.colors?.primaryHex;
+	const primaryColor     = latestSeasonNode?.team?.colors?.primaryHex;
 
 	const tabs = [
 		{id: 'career', label: 'Career', content: <Career driverId={driver.id}/>},

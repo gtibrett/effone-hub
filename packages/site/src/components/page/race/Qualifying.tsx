@@ -10,7 +10,7 @@ const QualifyingQuery = gql`
 			qualifyingResults {
 				nodes {
 					driverId
-					constructorId
+					teamId
 					positionNumber
 					q1
 					q2
@@ -71,7 +71,7 @@ export default function Qualifying({season, round}: QualifyingProps) {
 						field:      'Constructor',
 						headerName: 'Constructor',
 						flex:       1,
-						renderCell: ({row}) => row.constructorId ? <ConstructorByLine id={row.constructorId}/> : '',
+						renderCell: ({row}) => row.teamId ? <ConstructorByLine id={row.teamId}/> : '',
 						minWidth:   150
 					},
 					{

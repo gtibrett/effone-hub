@@ -1,4 +1,4 @@
-import {Constructor} from '@/gql/graphql';
+import {Team} from '@/gql/graphql';
 import {AvatarSizes, useAvatarSize, useGetTeamColor} from '@/hooks';
 import {useTeam} from '@/hooks/data';
 import {faIndustry} from '@fortawesome/free-solid-svg-icons';
@@ -6,12 +6,12 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Avatar, useTheme} from '@mui/material';
 import {useMemo} from 'react';
 
-export type ConstructorAvatarProps = {
-	teamId?: Constructor['id'];
+export type TeamAvatarProps = {
+	teamId?: Team['id'];
 	size?: AvatarSizes
 }
 
-export default function ConstructorAvatar({teamId, size = 'small'}: ConstructorAvatarProps) {
+export default function TeamAvatar({teamId, size = 'small'}: TeamAvatarProps) {
 	const theme        = useTheme();
 	const sizeSx       = useAvatarSize(size);
 	const {team}       = useTeam(teamId);

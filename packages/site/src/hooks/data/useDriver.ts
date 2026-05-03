@@ -15,7 +15,7 @@ const DriverFields = gql`
 		seasonEntrantDrivers(orderBy: YEAR_DESC, first: 1) {
 			nodes {
 				year
-				constructor {
+				team {
 					id
 					colors {
 						primaryHex
@@ -27,7 +27,7 @@ const DriverFields = gql`
 		teamsByYear: seasonEntrantDrivers(orderBy: YEAR_DESC) {
 			nodes {
 				year
-				constructor {
+				team {
 					id
 					colors {
 						primaryHex
@@ -41,7 +41,7 @@ const DriverFields = gql`
 export const DriverQuery = gql`
 	${DriverFields}
 	query DriverQuery($id: String!) {
-		driver(id: $id) {
+		driver(rowId: $id) {
 			...DriverFields
 		}
 	}

@@ -2,12 +2,12 @@ import {gql} from '@apollo/client';
 
 const SeasonsQuery = gql`
 	query SeasonsQuery {
-		seasons(condition: {hasResults: true, ended: true}, orderBy: YEAR_DESC) {
+		seasons(orderBy: YEAR_DESC) {
 			nodes {
 				year
-				seasonConstructorStandingsByYear(orderBy: POSITION_NUMBER_ASC, first: 1) {
+				seasonTeamStandingsByYear(orderBy: POSITION_NUMBER_ASC, first: 1) {
 					nodes {
-						constructorId
+						teamId
 						points
 						positionNumber
 					}

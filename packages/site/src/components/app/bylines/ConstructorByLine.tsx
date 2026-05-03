@@ -1,6 +1,6 @@
 import {useTeam} from '@/hooks/data';
 import {TeamId} from '@/types';
-import {Constructor} from '@/gql/graphql';
+import {Team} from '@/gql/graphql';
 import {Link} from '@gtibrett/mui-additions';
 import {Skeleton} from '@mui/material';
 import {ReactNode} from 'react';
@@ -15,7 +15,7 @@ type ByLinePropsById = BaseByLineProps & {
 }
 
 type ByLinePropsByTeam = BaseByLineProps & {
-	team?: Pick<Constructor, 'rowId' | 'name' | 'colors'>;
+	team?: Pick<Team, 'rowId' | 'name' | 'colors'>;
 }
 
 export function isByTeam(props: ByLinePropsById | ByLinePropsByTeam): props is ByLinePropsByTeam {

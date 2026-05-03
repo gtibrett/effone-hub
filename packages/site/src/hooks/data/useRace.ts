@@ -11,7 +11,7 @@ const raceQuery = gql`
 						driver {
 							id
 						}
-						constructorId
+						teamId
 						gridPositionNumber
 						positionNumber
 						positionText
@@ -28,7 +28,7 @@ const raceQuery = gql`
 						driver {
 							id
 						}
-						constructorId
+						teamId
 						gridPositionNumber
 						positionNumber
 						positionText
