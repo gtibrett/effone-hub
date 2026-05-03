@@ -38,6 +38,7 @@ export type AppCircuitDescription = Node & {
   description: Scalars['String']['output'];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   id: Scalars['ID']['output'];
+  updatedAt: Scalars['Datetime']['output'];
 };
 
 /**
@@ -75,6 +76,7 @@ export type AppCircuitDescriptionEdge = {
 export type AppCircuitDescriptionInput = {
   circuitId: Scalars['String']['input'];
   description: Scalars['String']['input'];
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
 };
 
 /** Methods to use when ordering `AppCircuitDescription`. */
@@ -90,6 +92,155 @@ export enum AppCircuitDescriptionOrderBy {
 export type AppCircuitDescriptionPatch = {
   circuitId?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+};
+
+export type AppConstructorBio = Node & {
+  __typename?: 'AppConstructorBio';
+  /** Reads a single `Constructor` that is related to this `AppConstructorBio`. */
+  constructor?: Maybe<Constructor>;
+  constructorId: Scalars['String']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  extract?: Maybe<Scalars['String']['output']>;
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  id: Scalars['ID']['output'];
+  source?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updatedAt: Scalars['Datetime']['output'];
+};
+
+/**
+ * A condition to be used against `AppConstructorBio` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type AppConstructorBioCondition = {
+  /** Checks for equality with the object’s `constructorId` field. */
+  constructorId?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** A connection to a list of `AppConstructorBio` values. */
+export type AppConstructorBioConnection = {
+  __typename?: 'AppConstructorBioConnection';
+  /** A list of edges which contains the `AppConstructorBio` and cursor to aid in pagination. */
+  edges: Array<Maybe<AppConstructorBioEdge>>;
+  /** A list of `AppConstructorBio` objects. */
+  nodes: Array<Maybe<AppConstructorBio>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `AppConstructorBio` you could get from the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** A `AppConstructorBio` edge in the connection. */
+export type AppConstructorBioEdge = {
+  __typename?: 'AppConstructorBioEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  /** The `AppConstructorBio` at the end of the edge. */
+  node?: Maybe<AppConstructorBio>;
+};
+
+/** An input for mutations affecting `AppConstructorBio` */
+export type AppConstructorBioInput = {
+  constructorId: Scalars['String']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  extract?: InputMaybe<Scalars['String']['input']>;
+  source?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+};
+
+/** Methods to use when ordering `AppConstructorBio`. */
+export enum AppConstructorBioOrderBy {
+  ConstructorIdAsc = 'CONSTRUCTOR_ID_ASC',
+  ConstructorIdDesc = 'CONSTRUCTOR_ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/** Represents an update to a `AppConstructorBio`. Fields that are set will be updated. */
+export type AppConstructorBioPatch = {
+  constructorId?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  extract?: InputMaybe<Scalars['String']['input']>;
+  source?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+};
+
+export type AppDriverBio = Node & {
+  __typename?: 'AppDriverBio';
+  description?: Maybe<Scalars['String']['output']>;
+  /** Reads a single `Driver` that is related to this `AppDriverBio`. */
+  driver?: Maybe<Driver>;
+  driverId: Scalars['String']['output'];
+  extract?: Maybe<Scalars['String']['output']>;
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  id: Scalars['ID']['output'];
+  source?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updatedAt: Scalars['Datetime']['output'];
+};
+
+/**
+ * A condition to be used against `AppDriverBio` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type AppDriverBioCondition = {
+  /** Checks for equality with the object’s `driverId` field. */
+  driverId?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** A connection to a list of `AppDriverBio` values. */
+export type AppDriverBioConnection = {
+  __typename?: 'AppDriverBioConnection';
+  /** A list of edges which contains the `AppDriverBio` and cursor to aid in pagination. */
+  edges: Array<Maybe<AppDriverBioEdge>>;
+  /** A list of `AppDriverBio` objects. */
+  nodes: Array<Maybe<AppDriverBio>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `AppDriverBio` you could get from the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** A `AppDriverBio` edge in the connection. */
+export type AppDriverBioEdge = {
+  __typename?: 'AppDriverBioEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  /** The `AppDriverBio` at the end of the edge. */
+  node?: Maybe<AppDriverBio>;
+};
+
+/** An input for mutations affecting `AppDriverBio` */
+export type AppDriverBioInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  driverId: Scalars['String']['input'];
+  extract?: InputMaybe<Scalars['String']['input']>;
+  source?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+};
+
+/** Methods to use when ordering `AppDriverBio`. */
+export enum AppDriverBioOrderBy {
+  DriverIdAsc = 'DRIVER_ID_ASC',
+  DriverIdDesc = 'DRIVER_ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/** Represents an update to a `AppDriverBio`. Fields that are set will be updated. */
+export type AppDriverBioPatch = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  driverId?: InputMaybe<Scalars['String']['input']>;
+  extract?: InputMaybe<Scalars['String']['input']>;
+  source?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
 };
 
 export type AppIngestState = Node & {
@@ -163,12 +314,12 @@ export type AppLapTime = Node & {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   id: Scalars['ID']['output'];
   lap: Scalars['Int']['output'];
+  milliseconds?: Maybe<Scalars['Int']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
   /** Reads a single `Race` that is related to this `AppLapTime`. */
   race?: Maybe<Race>;
   raceId: Scalars['Int']['output'];
-  time?: Maybe<Scalars['String']['output']>;
-  timeMillis?: Maybe<Scalars['Int']['output']>;
+  timeText?: Maybe<Scalars['String']['output']>;
 };
 
 /**
@@ -210,10 +361,10 @@ export type AppLapTimeEdge = {
 export type AppLapTimeInput = {
   driverId: Scalars['String']['input'];
   lap: Scalars['Int']['input'];
+  milliseconds?: InputMaybe<Scalars['Int']['input']>;
   position?: InputMaybe<Scalars['Int']['input']>;
   raceId: Scalars['Int']['input'];
-  time?: InputMaybe<Scalars['String']['input']>;
-  timeMillis?: InputMaybe<Scalars['Int']['input']>;
+  timeText?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Methods to use when ordering `AppLapTime`. */
@@ -233,10 +384,10 @@ export enum AppLapTimeOrderBy {
 export type AppLapTimePatch = {
   driverId?: InputMaybe<Scalars['String']['input']>;
   lap?: InputMaybe<Scalars['Int']['input']>;
+  milliseconds?: InputMaybe<Scalars['Int']['input']>;
   position?: InputMaybe<Scalars['Int']['input']>;
   raceId?: InputMaybe<Scalars['Int']['input']>;
-  time?: InputMaybe<Scalars['String']['input']>;
-  timeMillis?: InputMaybe<Scalars['Int']['input']>;
+  timeText?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type AppTeamColor = Node & {
@@ -711,6 +862,8 @@ export type Constructor = Node & {
   bestRaceResult?: Maybe<Scalars['Int']['output']>;
   bestSprintRaceResult?: Maybe<Scalars['Int']['output']>;
   bestStartingGridPosition?: Maybe<Scalars['Int']['output']>;
+  /** Reads a single `AppConstructorBio` that is related to this `Constructor`. */
+  bio?: Maybe<AppConstructorBio>;
   /** Reads a single `AppTeamColor` that is related to this `Constructor`. */
   colors?: Maybe<AppTeamColor>;
   /** Reads and enables pagination through a set of `ConstructorChronology`. */
@@ -1552,6 +1705,72 @@ export type CreateAppCircuitDescriptionPayload = {
 /** The output of our create `AppCircuitDescription` mutation. */
 export type CreateAppCircuitDescriptionPayloadAppCircuitDescriptionEdgeArgs = {
   orderBy?: Array<AppCircuitDescriptionOrderBy>;
+};
+
+/** All input for the create `AppConstructorBio` mutation. */
+export type CreateAppConstructorBioInput = {
+  /** The `AppConstructorBio` to be created by this mutation. */
+  appConstructorBio: AppConstructorBioInput;
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The output of our create `AppConstructorBio` mutation. */
+export type CreateAppConstructorBioPayload = {
+  __typename?: 'CreateAppConstructorBioPayload';
+  /** The `AppConstructorBio` that was created by this mutation. */
+  appConstructorBio?: Maybe<AppConstructorBio>;
+  /** An edge for our `AppConstructorBio`. May be used by Relay 1. */
+  appConstructorBioEdge?: Maybe<AppConstructorBioEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our create `AppConstructorBio` mutation. */
+export type CreateAppConstructorBioPayloadAppConstructorBioEdgeArgs = {
+  orderBy?: Array<AppConstructorBioOrderBy>;
+};
+
+/** All input for the create `AppDriverBio` mutation. */
+export type CreateAppDriverBioInput = {
+  /** The `AppDriverBio` to be created by this mutation. */
+  appDriverBio: AppDriverBioInput;
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The output of our create `AppDriverBio` mutation. */
+export type CreateAppDriverBioPayload = {
+  __typename?: 'CreateAppDriverBioPayload';
+  /** The `AppDriverBio` that was created by this mutation. */
+  appDriverBio?: Maybe<AppDriverBio>;
+  /** An edge for our `AppDriverBio`. May be used by Relay 1. */
+  appDriverBioEdge?: Maybe<AppDriverBioEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our create `AppDriverBio` mutation. */
+export type CreateAppDriverBioPayloadAppDriverBioEdgeArgs = {
+  orderBy?: Array<AppDriverBioOrderBy>;
 };
 
 /** All input for the create `AppIngestState` mutation. */
@@ -3248,6 +3467,94 @@ export type DeleteAppCircuitDescriptionPayload = {
 /** The output of our delete `AppCircuitDescription` mutation. */
 export type DeleteAppCircuitDescriptionPayloadAppCircuitDescriptionEdgeArgs = {
   orderBy?: Array<AppCircuitDescriptionOrderBy>;
+};
+
+/** All input for the `deleteAppConstructorBioById` mutation. */
+export type DeleteAppConstructorBioByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `AppConstructorBio` to be deleted. */
+  id: Scalars['ID']['input'];
+};
+
+/** All input for the `deleteAppConstructorBio` mutation. */
+export type DeleteAppConstructorBioInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  constructorId: Scalars['String']['input'];
+};
+
+/** The output of our delete `AppConstructorBio` mutation. */
+export type DeleteAppConstructorBioPayload = {
+  __typename?: 'DeleteAppConstructorBioPayload';
+  /** The `AppConstructorBio` that was deleted by this mutation. */
+  appConstructorBio?: Maybe<AppConstructorBio>;
+  /** An edge for our `AppConstructorBio`. May be used by Relay 1. */
+  appConstructorBioEdge?: Maybe<AppConstructorBioEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  deletedAppConstructorBioId?: Maybe<Scalars['ID']['output']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our delete `AppConstructorBio` mutation. */
+export type DeleteAppConstructorBioPayloadAppConstructorBioEdgeArgs = {
+  orderBy?: Array<AppConstructorBioOrderBy>;
+};
+
+/** All input for the `deleteAppDriverBioById` mutation. */
+export type DeleteAppDriverBioByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `AppDriverBio` to be deleted. */
+  id: Scalars['ID']['input'];
+};
+
+/** All input for the `deleteAppDriverBio` mutation. */
+export type DeleteAppDriverBioInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  driverId: Scalars['String']['input'];
+};
+
+/** The output of our delete `AppDriverBio` mutation. */
+export type DeleteAppDriverBioPayload = {
+  __typename?: 'DeleteAppDriverBioPayload';
+  /** The `AppDriverBio` that was deleted by this mutation. */
+  appDriverBio?: Maybe<AppDriverBio>;
+  /** An edge for our `AppDriverBio`. May be used by Relay 1. */
+  appDriverBioEdge?: Maybe<AppDriverBioEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  deletedAppDriverBioId?: Maybe<Scalars['ID']['output']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our delete `AppDriverBio` mutation. */
+export type DeleteAppDriverBioPayloadAppDriverBioEdgeArgs = {
+  orderBy?: Array<AppDriverBioOrderBy>;
 };
 
 /** All input for the `deleteAppIngestStateById` mutation. */
@@ -5324,6 +5631,8 @@ export type Driver = Node & {
   bestRaceResult?: Maybe<Scalars['Int']['output']>;
   bestSprintRaceResult?: Maybe<Scalars['Int']['output']>;
   bestStartingGridPosition?: Maybe<Scalars['Int']['output']>;
+  /** Reads a single `AppDriverBio` that is related to this `Driver`. */
+  bio?: Maybe<AppDriverBio>;
   /** Reads a single `Country` that is related to this `Driver`. */
   countryOfBirthCountry?: Maybe<Country>;
   countryOfBirthCountryId: Scalars['String']['output'];
@@ -7290,6 +7599,10 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** Creates a single `AppCircuitDescription`. */
   createAppCircuitDescription?: Maybe<CreateAppCircuitDescriptionPayload>;
+  /** Creates a single `AppConstructorBio`. */
+  createAppConstructorBio?: Maybe<CreateAppConstructorBioPayload>;
+  /** Creates a single `AppDriverBio`. */
+  createAppDriverBio?: Maybe<CreateAppDriverBioPayload>;
   /** Creates a single `AppIngestState`. */
   createAppIngestState?: Maybe<CreateAppIngestStatePayload>;
   /** Creates a single `AppLapTime`. */
@@ -7398,6 +7711,14 @@ export type Mutation = {
   deleteAppCircuitDescription?: Maybe<DeleteAppCircuitDescriptionPayload>;
   /** Deletes a single `AppCircuitDescription` using its globally unique id. */
   deleteAppCircuitDescriptionById?: Maybe<DeleteAppCircuitDescriptionPayload>;
+  /** Deletes a single `AppConstructorBio` using a unique key. */
+  deleteAppConstructorBio?: Maybe<DeleteAppConstructorBioPayload>;
+  /** Deletes a single `AppConstructorBio` using its globally unique id. */
+  deleteAppConstructorBioById?: Maybe<DeleteAppConstructorBioPayload>;
+  /** Deletes a single `AppDriverBio` using a unique key. */
+  deleteAppDriverBio?: Maybe<DeleteAppDriverBioPayload>;
+  /** Deletes a single `AppDriverBio` using its globally unique id. */
+  deleteAppDriverBioById?: Maybe<DeleteAppDriverBioPayload>;
   /** Deletes a single `AppIngestState` using a unique key. */
   deleteAppIngestState?: Maybe<DeleteAppIngestStatePayload>;
   /** Deletes a single `AppIngestState` using its globally unique id. */
@@ -7594,6 +7915,14 @@ export type Mutation = {
   updateAppCircuitDescription?: Maybe<UpdateAppCircuitDescriptionPayload>;
   /** Updates a single `AppCircuitDescription` using its globally unique id and a patch. */
   updateAppCircuitDescriptionById?: Maybe<UpdateAppCircuitDescriptionPayload>;
+  /** Updates a single `AppConstructorBio` using a unique key and a patch. */
+  updateAppConstructorBio?: Maybe<UpdateAppConstructorBioPayload>;
+  /** Updates a single `AppConstructorBio` using its globally unique id and a patch. */
+  updateAppConstructorBioById?: Maybe<UpdateAppConstructorBioPayload>;
+  /** Updates a single `AppDriverBio` using a unique key and a patch. */
+  updateAppDriverBio?: Maybe<UpdateAppDriverBioPayload>;
+  /** Updates a single `AppDriverBio` using its globally unique id and a patch. */
+  updateAppDriverBioById?: Maybe<UpdateAppDriverBioPayload>;
   /** Updates a single `AppIngestState` using a unique key and a patch. */
   updateAppIngestState?: Maybe<UpdateAppIngestStatePayload>;
   /** Updates a single `AppIngestState` using its globally unique id and a patch. */
@@ -7792,6 +8121,18 @@ export type Mutation = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateAppCircuitDescriptionArgs = {
   input: CreateAppCircuitDescriptionInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateAppConstructorBioArgs = {
+  input: CreateAppConstructorBioInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateAppDriverBioArgs = {
+  input: CreateAppDriverBioInput;
 };
 
 
@@ -8116,6 +8457,30 @@ export type MutationDeleteAppCircuitDescriptionArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteAppCircuitDescriptionByIdArgs = {
   input: DeleteAppCircuitDescriptionByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteAppConstructorBioArgs = {
+  input: DeleteAppConstructorBioInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteAppConstructorBioByIdArgs = {
+  input: DeleteAppConstructorBioByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteAppDriverBioArgs = {
+  input: DeleteAppDriverBioInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteAppDriverBioByIdArgs = {
+  input: DeleteAppDriverBioByIdInput;
 };
 
 
@@ -8704,6 +9069,30 @@ export type MutationUpdateAppCircuitDescriptionArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateAppCircuitDescriptionByIdArgs = {
   input: UpdateAppCircuitDescriptionByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateAppConstructorBioArgs = {
+  input: UpdateAppConstructorBioInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateAppConstructorBioByIdArgs = {
+  input: UpdateAppConstructorBioByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateAppDriverBioArgs = {
+  input: UpdateAppDriverBioInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateAppDriverBioByIdArgs = {
+  input: UpdateAppDriverBioByIdInput;
 };
 
 
@@ -10078,6 +10467,18 @@ export type Query = Node & {
   appCircuitDescriptionById?: Maybe<AppCircuitDescription>;
   /** Reads and enables pagination through a set of `AppCircuitDescription`. */
   appCircuitDescriptions?: Maybe<AppCircuitDescriptionConnection>;
+  /** Get a single `AppConstructorBio`. */
+  appConstructorBio?: Maybe<AppConstructorBio>;
+  /** Reads a single `AppConstructorBio` using its globally unique `ID`. */
+  appConstructorBioById?: Maybe<AppConstructorBio>;
+  /** Reads and enables pagination through a set of `AppConstructorBio`. */
+  appConstructorBios?: Maybe<AppConstructorBioConnection>;
+  /** Get a single `AppDriverBio`. */
+  appDriverBio?: Maybe<AppDriverBio>;
+  /** Reads a single `AppDriverBio` using its globally unique `ID`. */
+  appDriverBioById?: Maybe<AppDriverBio>;
+  /** Reads and enables pagination through a set of `AppDriverBio`. */
+  appDriverBios?: Maybe<AppDriverBioConnection>;
   /** Get a single `AppIngestState`. */
   appIngestState?: Maybe<AppIngestState>;
   /** Reads a single `AppIngestState` using its globally unique `ID`. */
@@ -10407,6 +10808,54 @@ export type QueryAppCircuitDescriptionsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<AppCircuitDescriptionOrderBy>>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAppConstructorBioArgs = {
+  constructorId: Scalars['String']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAppConstructorBioByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAppConstructorBiosArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<AppConstructorBioCondition>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<AppConstructorBioOrderBy>>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAppDriverBioArgs = {
+  driverId: Scalars['String']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAppDriverBioByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAppDriverBiosArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<AppDriverBioCondition>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<AppDriverBioOrderBy>>;
 };
 
 
@@ -12867,8 +13316,6 @@ export type RaceResultPatch = {
 
 export type Season = Node & {
   __typename?: 'Season';
-  ended?: Maybe<Scalars['Boolean']['output']>;
-  hasResults?: Maybe<Scalars['Boolean']['output']>;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   id: Scalars['ID']['output'];
   /** Reads and enables pagination through a set of `Race`. */
@@ -15268,6 +15715,100 @@ export type UpdateAppCircuitDescriptionPayload = {
 /** The output of our update `AppCircuitDescription` mutation. */
 export type UpdateAppCircuitDescriptionPayloadAppCircuitDescriptionEdgeArgs = {
   orderBy?: Array<AppCircuitDescriptionOrderBy>;
+};
+
+/** All input for the `updateAppConstructorBioById` mutation. */
+export type UpdateAppConstructorBioByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `AppConstructorBio` to be updated. */
+  id: Scalars['ID']['input'];
+  /** An object where the defined keys will be set on the `AppConstructorBio` being updated. */
+  patch: AppConstructorBioPatch;
+};
+
+/** All input for the `updateAppConstructorBio` mutation. */
+export type UpdateAppConstructorBioInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  constructorId: Scalars['String']['input'];
+  /** An object where the defined keys will be set on the `AppConstructorBio` being updated. */
+  patch: AppConstructorBioPatch;
+};
+
+/** The output of our update `AppConstructorBio` mutation. */
+export type UpdateAppConstructorBioPayload = {
+  __typename?: 'UpdateAppConstructorBioPayload';
+  /** The `AppConstructorBio` that was updated by this mutation. */
+  appConstructorBio?: Maybe<AppConstructorBio>;
+  /** An edge for our `AppConstructorBio`. May be used by Relay 1. */
+  appConstructorBioEdge?: Maybe<AppConstructorBioEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our update `AppConstructorBio` mutation. */
+export type UpdateAppConstructorBioPayloadAppConstructorBioEdgeArgs = {
+  orderBy?: Array<AppConstructorBioOrderBy>;
+};
+
+/** All input for the `updateAppDriverBioById` mutation. */
+export type UpdateAppDriverBioByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `AppDriverBio` to be updated. */
+  id: Scalars['ID']['input'];
+  /** An object where the defined keys will be set on the `AppDriverBio` being updated. */
+  patch: AppDriverBioPatch;
+};
+
+/** All input for the `updateAppDriverBio` mutation. */
+export type UpdateAppDriverBioInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  driverId: Scalars['String']['input'];
+  /** An object where the defined keys will be set on the `AppDriverBio` being updated. */
+  patch: AppDriverBioPatch;
+};
+
+/** The output of our update `AppDriverBio` mutation. */
+export type UpdateAppDriverBioPayload = {
+  __typename?: 'UpdateAppDriverBioPayload';
+  /** The `AppDriverBio` that was updated by this mutation. */
+  appDriverBio?: Maybe<AppDriverBio>;
+  /** An edge for our `AppDriverBio`. May be used by Relay 1. */
+  appDriverBioEdge?: Maybe<AppDriverBioEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our update `AppDriverBio` mutation. */
+export type UpdateAppDriverBioPayloadAppDriverBioEdgeArgs = {
+  orderBy?: Array<AppDriverBioOrderBy>;
 };
 
 /** All input for the `updateAppIngestStateById` mutation. */

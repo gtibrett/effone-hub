@@ -15,8 +15,8 @@ const lapsQuery = gql`
 				nodes {
 					lap
 					position
-					time
-					timeMillis
+					timeText
+					milliseconds
 					driverId
 				}
 			}
@@ -40,7 +40,7 @@ const lapsQuery = gql`
 	}
 `;
 
-type LapTimeRow = Pick<AppLapTime, 'lap' | 'position' | 'driverId' | 'time' | 'timeMillis'>;
+type LapTimeRow = Pick<AppLapTime, 'lap' | 'position' | 'driverId' | 'timeText' | 'milliseconds'>;
 
 type RaceResultRow = Pick<RaceResult, 'positionDisplayOrder' | 'positionNumber'> & {
 	driver: Pick<Driver, 'id' | 'lastName'> | null;

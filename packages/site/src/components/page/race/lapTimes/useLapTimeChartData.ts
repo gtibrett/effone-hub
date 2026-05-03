@@ -18,7 +18,7 @@ export type LapChartSeries = {
 
 export default function useLapTimeChartData(lapByLapData: LapByLapData) {
 	return useMemo(() => {
-		const fastestLapTime         = Math.min(...(lapByLapData.data?.flatMap(d => d.laps).map(lt => lt.timeMillis || Infinity) || []));
+		const fastestLapTime         = Math.min(...(lapByLapData.data?.flatMap(d => d.laps).map(lt => lt.milliseconds || Infinity) || []));
 		const data: LapChartSeries[] = [];
 		
 		if (lapByLapData.data?.length) {
@@ -27,18 +27,18 @@ export default function useLapTimeChartData(lapByLapData: LapByLapData) {
 					return;
 				}
 				
-				const lapsWithTimes                  = d.laps.filter(l => l.timeMillis).map(l => ({...l, timeMillis: Number(l.timeMillis)}));
+				const lapsWithTimes                  = d.laps.filter(l => l.milliseconds).map(l => ({...l, milliseconds: Number(l.milliseconds)}));
 				let personalBest: number | undefined = undefined;
 				
 				data.push({
 					id:   d.driverId,
 					data: lapsWithTimes.map(lt => {
-						personalBest = !personalBest ? lt.timeMillis : Math.min(lt.timeMillis, personalBest);
+						personalBest = !personalBest ? lt.milliseconds : Math.min(lt.milliseconds, personalBest);
 						
 						return {
 							x:      lt.lap,
-							y:      lt.timeMillis,
-							color:  getColorWithAlt(lt.timeMillis, personalBest, fastestLapTime).color,
+							y:      lt.milliseconds,
+							color:  getColorWithAlt(lt.milliseconds, personalBest, fastestLapTime).color,
 							timing: lt
 						};
 					})

@@ -1,5 +1,4 @@
 import {ApolloError, gql, useQuery} from '@apollo/client';
-import {Season} from '@/gql/graphql';
 import {useMemo} from 'react';
 
 export const SeasonsListQuery = gql`
@@ -7,14 +6,24 @@ export const SeasonsListQuery = gql`
 		seasons(orderBy: YEAR_DESC) {
 			nodes {
 				year
-				ended
-				hasResults
+				seasonDriverStandingsByYear(first: 1) {
+					totalCount
+				}
 			}
 		}
 	}
 `;
 
-type SeasonRow = Pick<Season, 'year' | 'ended' | 'hasResults'>;
+type SeasonRow = {
+	year: number;
+	ended: boolean;
+	hasResults: boolean;
+};
+
+type SeasonNode = {
+	year: number;
+	seasonDriverStandingsByYear: { totalCount: number };
+};
 
 type useSeasonReturnType = {
 	seasons: SeasonRow[];
@@ -23,10 +32,15 @@ type useSeasonReturnType = {
 }
 
 export default function useSeasons(): useSeasonReturnType {
-	const {data, loading, error} = useQuery<{ seasons: { nodes: SeasonRow[] } }>(SeasonsListQuery);
+	const {data, loading, error} = useQuery<{ seasons: { nodes: SeasonNode[] } }>(SeasonsListQuery);
 
 	return useMemo<useSeasonReturnType>(() => {
-		const seasons = data?.seasons.nodes ?? [{year: (new Date()).getFullYear(), ended: false, hasResults: false}];
+		const currentYear = new Date().getFullYear();
+		const seasons: SeasonRow[] = data?.seasons.nodes.map(s => ({
+			year:       s.year,
+			ended:      s.year < currentYear,
+			hasResults: (s.seasonDriverStandingsByYear?.totalCount ?? 0) > 0
+		})) ?? [{year: currentYear, ended: false, hasResults: false}];
 		return {seasons, loading, error};
 	}, [data, loading, error]);
 }

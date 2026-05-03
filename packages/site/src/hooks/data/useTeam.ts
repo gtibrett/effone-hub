@@ -3,12 +3,13 @@ import {gql, useLazyQuery} from '@apollo/client';
 import {useMemo} from 'react';
 
 const ConstructorFields = gql`
-	fragment ConstructorFields on Team {
+	fragment ConstructorFields on Constructor {
 		id
 		name
-		nationality
+		countryId
 		colors {
-			primary
+			primaryHex
+			secondaryHex
 		}
 		bio {
 			description
@@ -20,11 +21,9 @@ const ConstructorFields = gql`
 
 const query = gql`
 	${ConstructorFields}
-	query constructorById($id: String = "") {
-		teams(condition: { id: $id }) {
-			nodes {
-				...ConstructorFields
-			}
+	query constructorById($id: String!) {
+		constructor(id: $id) {
+			...ConstructorFields
 		}
 	}
 `;
@@ -33,13 +32,13 @@ const query = gql`
 export default function useTeam(constructorId?: Constructor['id']): { team?: Constructor } {
 	const variables = {id: constructorId ?? ''};
 
-	const [loadTeam, {called, data}] = useLazyQuery<{ teams: { nodes: Constructor[] } }>(query, {variables});
+	const [loadTeam, {called, data}] = useLazyQuery<{ constructor: Constructor | null }>(query, {variables});
 
 	return useMemo(() => {
 		if (!called) {
 			loadTeam();
 		}
 
-		return {team: data?.teams?.nodes?.[0] ?? undefined};
+		return {team: data?.constructor ?? undefined};
 	}, [called, data, loadTeam]);
 }

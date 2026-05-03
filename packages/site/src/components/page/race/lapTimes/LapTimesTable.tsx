@@ -23,7 +23,7 @@ type LapTimesTableRow = {
 
 function useLapTimesData(lapByLapData: LapByLapData) {
 	return useMemo(() => {
-		const fastestLapTime           = Math.min(...(lapByLapData.data?.flatMap(d => d.laps).map(lt => lt.timeMillis || Infinity) || []));
+		const fastestLapTime           = Math.min(...(lapByLapData.data?.flatMap(d => d.laps).map(lt => lt.milliseconds || Infinity) || []));
 		const data: LapTimesTableRow[] = [];
 		
 		if (lapByLapData.data?.length) {
@@ -32,20 +32,20 @@ function useLapTimesData(lapByLapData: LapByLapData) {
 					return;
 				}
 				
-				const lapsWithTimes                  = d.laps.filter(l => l.timeMillis).map(l => ({...l, timeMillis: Number(l.timeMillis)}));
+				const lapsWithTimes                  = d.laps.filter(l => l.milliseconds).map(l => ({...l, milliseconds: Number(l.milliseconds)}));
 				let personalBest: number | undefined = undefined;
 				
 				data.push({
 					driverId: d.driverId,
 					laps:     lapsWithTimes.map(lt => {
-						personalBest = !personalBest ? lt.timeMillis : Math.min(lt.timeMillis, personalBest);
+						personalBest = !personalBest ? lt.milliseconds : Math.min(lt.milliseconds, personalBest);
 						
 						return {
 							lap:    lt.lap,
 							personalBest,
 							fastestLapTime,
 							timing: lt,
-							...getColorWithAlt(lt.timeMillis, personalBest, fastestLapTime)
+							...getColorWithAlt(lt.milliseconds, personalBest, fastestLapTime)
 						};
 					})
 				});
@@ -84,13 +84,13 @@ const useColumns = (laps: number) => {
 						if (!lap) {
 							return undefined;
 						}
-						const {timing: {timeMillis}} = lap;
+						const {timing: {milliseconds}} = lap;
 						
-						if (!timeMillis) {
+						if (!milliseconds) {
 							return undefined;
 						}
 						
-						return new Date(timeMillis);
+						return new Date(milliseconds);
 					},
 					renderCell:  ({row, field, value}) => {
 						const lap = row.laps.find(l => l.lap === Number(field));
