@@ -5,6 +5,7 @@ import {useMemo} from 'react';
 const DriverFields = gql`
 	fragment DriverFields on Driver {
 		id
+		rowId
 		dateOfBirth
 		firstName
 		lastName

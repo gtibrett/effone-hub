@@ -14,8 +14,8 @@ type ConstructorsTableProps = {
 }
 
 export default function ConstructorsList({filters}: ConstructorsTableProps) {
-	const {data: {teams}} = useSuspenseQuery<{ teams: TeamWithSeasons[] }>(ConstructorsQuery);
-	const filteredTeams   = useConstructorsList(teams, filters);
+	const {data: {teams}} = useSuspenseQuery<{ teams: { nodes: TeamWithSeasons[] } }>(ConstructorsQuery);
+	const filteredTeams   = useConstructorsList(teams.nodes, filters);
 	const getTeamColor    = useGetTeamColor();
 	
 	return (
@@ -44,7 +44,7 @@ export default function ConstructorsList({filters}: ConstructorsTableProps) {
 						headerName:  'Seasons',
 						flex:        .25,
 						type:        'number',
-						valueGetter: (_, row) => row.seasons.map((s: { year: number }) => s.year).distinct().length
+						valueGetter: (_, row) => (row.seasons?.nodes ?? []).map((s: { year: number }) => s.year).distinct().length
 					},
 					{
 						field:       'races',

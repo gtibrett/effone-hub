@@ -10,7 +10,9 @@ const raceQuery = gql`
 					nodes {
 						driver {
 							id
+							rowId
 						}
+						driverId
 						teamId
 						gridPositionNumber
 						positionNumber
@@ -27,7 +29,9 @@ const raceQuery = gql`
 					nodes {
 						driver {
 							id
+							rowId
 						}
+						driverId
 						teamId
 						gridPositionNumber
 						positionNumber

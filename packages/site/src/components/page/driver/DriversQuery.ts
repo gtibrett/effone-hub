@@ -6,6 +6,7 @@ const DriversQuery = gql`
 		drivers (orderBy: LAST_NAME_ASC) {
 			nodes {
 				id
+				rowId
 				firstName
 				lastName
 				nationalityCountryId

@@ -1,14 +1,13 @@
-import {SeasonData} from '@/components/page/season';
 import {default as SeasonContent} from '@/components/page/season/Season';
 import {PastSeasonsQuery, SingleSeasonQuery} from '@/data/query/season.graphql';
 import {Season} from '@/gql/graphql';
 import {apolloClient} from '@/useApolloClient';
 import {setPageTitle} from '@gtibrett/mui-additions';
 
-type SeasonProps = { season: Season }
+type SeasonProps = { season: Pick<Season, 'year'> }
 
 export default function SeasonPage({season}: SeasonProps) {
-	setPageTitle(`${season} Season`);
+	setPageTitle(`${season.year} Season`);
 	
 	return (
 		<SeasonContent season={season}/>
@@ -17,7 +16,7 @@ export default function SeasonPage({season}: SeasonProps) {
 
 export async function getStaticProps({params}: { params: { season: string } }) {
 	const year             = Number(params.season);
-	const {data: {season}} = await apolloClient.query<{ season: SeasonData }>({query: SingleSeasonQuery, variables: {season: year}});
+	const {data: {season}} = await apolloClient.query<{ season: { year: number } }>({query: SingleSeasonQuery, variables: {season: year}});
 	
 	return {
 		props: {
@@ -27,9 +26,9 @@ export async function getStaticProps({params}: { params: { season: string } }) {
 }
 
 export async function getStaticPaths() {
-	const {data: {seasons}} = await apolloClient.query<{ seasons: SeasonData[] }>({query: PastSeasonsQuery});
-	
-	const paths = seasons.map(season => ({
+	const {data: {seasons}} = await apolloClient.query<{ seasons: { nodes: { year: number }[] } }>({query: PastSeasonsQuery});
+
+	const paths = seasons.nodes.map(season => ({
 		params: {season: season.year.toString()}
 	}));
 	

@@ -36,19 +36,19 @@ export default function Driver({driver}: { driver: DriverT }) {
 	const primaryColor     = latestSeasonNode?.team?.colors?.primaryHex;
 
 	const tabs = [
-		{id: 'career', label: 'Career', content: <Career driverId={driver.id}/>},
-		{id: 'circuits', label: 'Circuits', content: <Circuits driverId={driver.id}/>}
+		{id: 'career', label: 'Career', content: <Career driverId={driver.rowId}/>},
+		{id: 'circuits', label: 'Circuits', content: <Circuits driverId={driver.rowId}/>}
 
 	];
 
 	if (latestSeasonNode?.year === currentSeason) {
-		tabs.push({id: 'season', label: `${currentSeason} Season`, content: <Season driverId={driver.id} season={currentSeason}/>});
+		tabs.push({id: 'season', label: `${currentSeason} Season`, content: <Season driverId={driver.rowId} season={currentSeason}/>});
 	}
 
 	return (
 		<Page
 			title={<DriverDetails driver={driver}/>}
-			action={<DriverAvatar driverId={driver.id} size={200}/>}
+			action={<DriverAvatar driverId={driver.rowId} size={200}/>}
 			actionProps={{xs: 'auto'}}
 			subheader={<>
 				<Divider orientation="horizontal" sx={{my: 1}}/>
@@ -92,7 +92,7 @@ export async function getStaticPaths() {
 	const {data: {drivers}} = await apolloClient.query<{ drivers: { nodes: DriverT[] } }>({query: DriversQuery});
 
 	const paths = drivers.nodes.map(driver => ({
-		params: {driverRef: driver.id}
+		params: {driverRef: driver.rowId}
 	}));
 
 	return {paths, fallback: 'blocking'};

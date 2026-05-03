@@ -14,8 +14,8 @@ type DriversTableProps = {
 }
 
 export default function DriversList({filters}: DriversTableProps) {
-	const {data: {drivers}} = useSuspenseQuery<{ drivers: Driver[] }>(DriversQuery);
-	const filteredDrivers   = useDriversList(drivers, filters);
+	const {data: {drivers}} = useSuspenseQuery<{ drivers: { nodes: Driver[] } }>(DriversQuery);
+	const filteredDrivers   = useDriversList(drivers.nodes, filters);
 	
 	return (
 		<DataGrid

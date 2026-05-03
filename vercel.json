@@ -1,0 +1,14 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/ingest",
+      "schedule": "0 6 * * *"
+    }
+  ],
+  "functions": {
+    "packages/site/src/pages/api/cron/ingest.ts": {
+      "memory": 1024,
+      "maxDuration": 300
+    }
+  }
+}

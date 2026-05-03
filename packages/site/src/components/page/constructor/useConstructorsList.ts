@@ -4,14 +4,14 @@ import {useMemo} from 'react';
 import {ConstructorsListFilters} from './types';
 
 export type TeamWithSeasons = Omit<Team, 'seasonEntrantDrivers'> & {
-	seasons: { year: number }[];
+	seasons: { nodes: { year: number }[] };
 }
 
 export default function useConstructorsList(unfilteredTeams: TeamWithSeasons[], filters: ConstructorsListFilters) {
 	return useMemo(() => {
 		let teams = unfilteredTeams || [];
 		if (filters.season > 0) {
-			teams = filterByNumber<TeamWithSeasons>(teams, filters.season, (season, d) => d.seasons.filter((s: { year: number }) => s.year === season).length > 0);
+			teams = filterByNumber<TeamWithSeasons>(teams, filters.season, (season, d) => (d.seasons?.nodes ?? []).filter((s: { year: number }) => s.year === season).length > 0);
 		}
 		
 		if (filters.search.length) {
