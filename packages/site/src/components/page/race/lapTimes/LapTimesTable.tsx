@@ -2,7 +2,7 @@ import {DriverByLine} from '@/components/app';
 import {getTimeStringFromDate} from '@/helpers';
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {LapTime} from '@/gql/graphql';
+import {AppLapTime} from '@/gql/graphql';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useMemo} from 'react';
 import {LapByLapData, useLapByLapData} from '../lapByLap/useLapByLapChartData';
@@ -11,7 +11,7 @@ import {LapChartSeries} from './useLapTimeChartData';
 
 type LapData = {
 	lap: number;
-	timing: Partial<LapTime>;
+	timing: Partial<AppLapTime>;
 	color: string;
 	alt: string;
 }
@@ -23,7 +23,7 @@ type LapTimesTableRow = {
 
 function useLapTimesData(lapByLapData: LapByLapData) {
 	return useMemo(() => {
-		const fastestLapTime           = Math.min(...(lapByLapData.data?.flatMap(d => d.laps).map(lt => lt.milliseconds || Infinity) || []));
+		const fastestLapTime           = Math.min(...(lapByLapData.data?.flatMap(d => d.laps).map(lt => lt.timeMillis || Infinity) || []));
 		const data: LapTimesTableRow[] = [];
 		
 		if (lapByLapData.data?.length) {
@@ -32,20 +32,20 @@ function useLapTimesData(lapByLapData: LapByLapData) {
 					return;
 				}
 				
-				const lapsWithTimes                  = d.laps.filter(l => l.milliseconds).map(l => ({...l, milliseconds: Number(l.milliseconds)}));
+				const lapsWithTimes                  = d.laps.filter(l => l.timeMillis).map(l => ({...l, timeMillis: Number(l.timeMillis)}));
 				let personalBest: number | undefined = undefined;
 				
 				data.push({
-					driverId: Number(d.driverId),
+					driverId: d.driverId,
 					laps:     lapsWithTimes.map(lt => {
-						personalBest = !personalBest ? lt.milliseconds : Math.min(lt.milliseconds, personalBest);
+						personalBest = !personalBest ? lt.timeMillis : Math.min(lt.timeMillis, personalBest);
 						
 						return {
 							lap:    lt.lap,
 							personalBest,
 							fastestLapTime,
 							timing: lt,
-							...getColorWithAlt(lt.milliseconds, personalBest, fastestLapTime)
+							...getColorWithAlt(lt.timeMillis, personalBest, fastestLapTime)
 						};
 					})
 				});
@@ -84,13 +84,13 @@ const useColumns = (laps: number) => {
 						if (!lap) {
 							return undefined;
 						}
-						const {timing: {milliseconds}} = lap;
+						const {timing: {timeMillis}} = lap;
 						
-						if (!milliseconds) {
+						if (!timeMillis) {
 							return undefined;
 						}
 						
-						return new Date(milliseconds);
+						return new Date(timeMillis);
 					},
 					renderCell:  ({row, field, value}) => {
 						const lap = row.laps.find(l => l.lap === Number(field));

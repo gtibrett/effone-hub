@@ -58,11 +58,11 @@ const useMapTableData = () => {
 			}
 			let index = tableData.findIndex(driver => driver.driverId === p.driver?.id);
 			if (index === -1) {
-				const primary = p.constructor?.colors?.primaryHex;
+				const primaryHex = p.constructor?.colors?.primaryHex;
 				tableData.push({
 					driverId: p.driver.id,
 					code:     p.driver.abbreviation,
-					color:    getTeamColor(primary ? {primary} : undefined, 'primary', false),
+					color:    getTeamColor(primaryHex ? {primaryHex, secondaryHex: null} : undefined, 'primaryHex', false),
 					stops:    []
 				});
 				index = tableData.length - 1;

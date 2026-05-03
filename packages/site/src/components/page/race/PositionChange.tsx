@@ -1,15 +1,15 @@
 import {faArrowDown, faArrowUp} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Result} from '@/gql/graphql';
+import {RaceResult} from '@/gql/graphql';
 import {Typography} from '@mui/material';
 import {green, red} from '@mui/material/colors';
 
-export default function PositionChange({grid, positionOrder}: Pick<Result, 'grid' | 'position' | 'positionOrder'>) {
-	if (!grid || !positionOrder) {
+export default function PositionChange({gridPositionNumber, positionDisplayOrder}: Pick<RaceResult, 'gridPositionNumber' | 'positionDisplayOrder'>) {
+	if (!gridPositionNumber || !positionDisplayOrder) {
 		return null;
 	}
-	
-	const change = grid - positionOrder;
+
+	const change = gridPositionNumber - positionDisplayOrder;
 	
 	if (!change) {
 		return null;

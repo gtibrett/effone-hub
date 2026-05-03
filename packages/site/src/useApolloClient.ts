@@ -11,8 +11,10 @@ const LAST_RACE_ID_KEY = 'last-race-id';
 const lastRaceQuery    = gql`
 	#graphql
 	query lastRaceQuery {
-		results (orderBy: RACE_ID_DESC, first: 1) {
-			raceId
+		races (orderBy: [YEAR_DESC, ROUND_DESC], first: 1) {
+			nodes {
+				rowId
+			}
 		}
 	}`;
 
@@ -28,7 +30,7 @@ function setupApollo() {
 		persistor: CachePersistor<any>
 	}>((resolve, reject) => {
 		apolloClient.query({query: lastRaceQuery})
-		            .then(result => result.data.results.length ? result.data.results[0].raceId : 0)
+		            .then(result => result.data.races.nodes.length ? result.data.races.nodes[0].rowId : 0)
 		            .then(lastRaceId => {
 			      const persistor         = new CachePersistor({
 				      cache,

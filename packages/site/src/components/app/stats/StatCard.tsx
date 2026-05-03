@@ -22,7 +22,7 @@ export type StatCardBaseProps<T extends StatCardData, F extends DataWithValue = 
 	size?: 'regular' | 'small'
 	format?: StatFormatter<F>;
 	extra?: ReactNode | StatFormatter<F>;
-	data: Map<number, T>;
+	data: Map<string, T>;
 };
 
 type DriverStatCardProps<T extends StatCardData, F extends DataWithValue = DataWithValue> = StatCardBaseProps<T, F> & {
@@ -55,7 +55,7 @@ const DriverVariant = <T extends DataWithValue>({size, label, data, format, extr
 			avatar={<DriverAvatar driverId={driverId} size={64}/>}
 			title={<DriverByLine id={driverId} variant={size === 'small' ? 'code-link' : 'link'}/>}
 			label={label}
-			color={getTeamColor(driver?.currentTeam?.team?.colors, 'primary', false)}
+			color={getTeamColor(driver?.seasonEntrantDrivers?.nodes?.[0]?.constructor?.colors, 'primaryHex', false)}
 			data={value}
 			format={format}
 			extra={extra}
@@ -71,7 +71,7 @@ const TeamVariant = <T extends DataWithValue>({size, label, data, format, extra}
 		return null;
 	}
 	
-	const {name, constructorRef} = team;
+	const {name, id: constructorRef} = team;
 	
 	return (
 		<StatCardContent<T>
@@ -116,7 +116,7 @@ export default function StatCard<T extends StatCardData = DataWithValue, F exten
 	const theme                                                  = useTheme();
 	const {variant, size, noGrid, cardProps = {}, loading, data} = props;
 	const {sx = {}, ...otherCardProps}                           = cardProps;
-	const normalizedData                                         = convertGenericMapToDataWithValueMap<T, F>(data);
+	const normalizedData                                         = convertGenericMapToDataWithValueMap<T, F>(data) as Map<string, F>;
 	
 	if (loading || !data.size) {
 		return null;

@@ -55,7 +55,7 @@ export default function FastestLap({season, round, size = 'small'}: RaceStatProp
 		label="Fastest Lap"
 		size={size}
 		loading={loading}
-		data={fastestDriver as unknown as Map<number, FastestRaceLap>}
+		data={fastestDriver}
 		format={(t) => getTimeStringFromDate(new Date(t.value))}
 		extra={formatExtra}
 	/>;

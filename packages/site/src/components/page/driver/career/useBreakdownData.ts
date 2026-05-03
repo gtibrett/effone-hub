@@ -1,4 +1,4 @@
-import {DriverId} from '@/types';
+import {RaceResult} from '@/gql/graphql';
 import {BarDatum} from '@nivo/bar/dist/types/types';
 import useCareerData from './useCareerData';
 
@@ -13,25 +13,25 @@ export interface BreakdownMetrics extends BarDatum {
 
 export interface BreakdownDatum extends BarDatum {
 	// @ts-ignore
-	driverId: DriverId;
+	driverId: string | undefined;
 	year: number;
 	// @ts-ignore
 	raw: BreakdownMetrics; // this works, but doesn't pass ts check
 }
 
-export default function useBreakdownData(driverId: DriverId): BreakdownDatum[] | undefined {
+export default function useBreakdownData(driverId: string | undefined): BreakdownDatum[] | undefined {
 	const {data}        = useCareerData(driverId);
-	const careerResults = data?.driver.results;
-	
+	const careerResults = data?.driver.raceResults?.nodes;
+
 	if (!careerResults) {
 		return undefined;
 	}
-	
+
 	// @ts-ignore
 	return data?.driver.standings.map(({year}) => {
-		const seasonResults = careerResults.filter(r => r.race?.year === year);
+		const seasonResults = careerResults.filter((r: RaceResult) => r.race?.year === year);
 		const appearances   = seasonResults.length;
-		
+
 		const raw: BreakdownMetrics = {
 			wins:        0,
 			podiums:     0,
@@ -40,19 +40,19 @@ export default function useBreakdownData(driverId: DriverId): BreakdownDatum[] |
 			DNFs:        0,
 			appearances
 		};
-		
-		seasonResults.forEach(r => {
+
+		seasonResults.forEach((r: RaceResult) => {
 			switch (true) {
-				case (r.positionOrder === 1):
+				case (r.positionNumber === 1):
 					raw.wins++;
 					break;
-				case (r.positionOrder && r.positionOrder <= 3):
+				case (r.positionNumber && r.positionNumber <= 3):
 					raw.podiums++;
 					break;
-				case (r.positionOrder && r.positionOrder <= 10):
+				case (r.positionNumber && r.positionNumber <= 10):
 					raw.inPoints++;
 					break;
-				case (r.positionText !== String(r.positionOrder)):
+				case (r.positionText !== String(r.positionNumber)):
 					raw.DNFs++;
 					break;
 				default:

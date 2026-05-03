@@ -1,5 +1,4 @@
 import {StatCard, useAppState} from '@/components/app';
-import {DriverId} from '@/types';
 import {gql, useQuery} from '@apollo/client';
 
 type Data = {
@@ -24,7 +23,7 @@ export default function DriverChampion({season}: { season: number }) {
 	const {loading, data: {seasonDriverStandings: {nodes = []} = {}} = {}} = useQuery<Data>(query, {variables: {season}});
 
 	const [{currentSeason}] = useAppState();
-	const champion          = new Map<DriverId, number>();
+	const champion          = new Map<string, number>();
 	const label             = season === currentSeason ? 'Driver Leader' : 'Driver Champion';
 
 	if (!nodes.length) {
@@ -36,7 +35,7 @@ export default function DriverChampion({season}: { season: number }) {
 		return null;
 	}
 
-	champion.set(driverId as DriverId, 1);
+	champion.set(driverId, 1);
 
 	return <StatCard label={label} loading={loading} data={champion} format={() => ''} noGrid cardProps={{sx: {'& > .MuiCardHeader-root': {px: 0, pb: 0}}}}/>;
 }

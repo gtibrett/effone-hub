@@ -8,14 +8,14 @@ export default function History({data, loading}: CircuitDataProps) {
 	if (loading) {
 		return <Skeleton variant="rectangular" height={400}/>;
 	}
-	
-	if (!data?.circuit.history.length) {
+
+	if (!data?.circuit.history.nodes.length) {
 		return <Alert variant="outlined" severity="info">Race Data Not Available</Alert>;
 	}
-	
+
 	return (
 		<DataGrid
-			rows={data.circuit.history}
+			rows={data.circuit.history.nodes}
 			autoHeight
 			density="compact"
 			getRowId={r => r.date}
@@ -45,11 +45,11 @@ export default function History({data, loading}: CircuitDataProps) {
 						minWidth:    100
 					},
 					{
-						field:      'name',
+						field:      'officialName',
 						headerName: 'Race',
 						flex:       1,
-						renderCell: ({row, value}) => (
-							<Link href={`/${row.year}/${row.round}#${row.name}`}>{row.year} {value}</Link>
+						renderCell: ({row}) => (
+							<Link href={`/${row.year}/${row.round}#${row.officialName}`}>{row.year} {row.officialName}</Link>
 						),
 						minWidth:   200
 					},
@@ -58,18 +58,18 @@ export default function History({data, loading}: CircuitDataProps) {
 						headerName:  'Winner',
 						flex:        1,
 						valueGetter: (value, row) => {
-							if (!row.results.length) {
+							if (!row.raceResults?.nodes?.length) {
 								return '--';
 							}
-							
-							return `${row.results[0]?.driver?.surname}, ${row.results[0]?.driver?.forename}`;
+
+							return `${row.raceResults?.nodes?.[0]?.driver?.lastName}, ${row.raceResults?.nodes?.[0]?.driver?.firstName}`;
 						},
 						renderCell:  ({row}) => {
-							if (!row.results.length) {
+							if (!row.raceResults?.nodes?.length) {
 								return '--';
 							}
-							
-							return <DriverByLine id={row.results[0]?.driverId}/>;
+
+							return <DriverByLine id={row.raceResults?.nodes?.[0]?.driverId}/>;
 						},
 						minWidth:    200
 					},
@@ -80,7 +80,7 @@ export default function History({data, loading}: CircuitDataProps) {
 						headerAlign: 'left',
 						align:       'left',
 						flex:        .5,
-						renderCell:  ({row}) => row.results[0]?.time || '--',
+						renderCell:  ({row}) => row.raceResults?.nodes?.[0]?.time || '--',
 						minWidth:    110
 					}
 				]

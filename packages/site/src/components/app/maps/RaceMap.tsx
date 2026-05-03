@@ -13,7 +13,7 @@ type RaceMapProps = {
 	onClick?: GeoMapEventHandler;
 	height?: number | 'auto';
 	width?: number | 'auto';
-	centerOn?: Pick<Circuit, 'lng' | 'lat'>;
+	centerOn?: Pick<Circuit, 'longitude' | 'latitude'>;
 	zoom?: boolean;
 	highlightNext?: boolean;
 }
@@ -47,7 +47,7 @@ const calculateYTranslation = (lat: number, scale: number = 1) => {
 };
 
 export default function RaceMap(props: RaceMapProps) {
-	const {points, onClick, height = 300, width = 'auto', centerOn = {lng: 0, lat: 0}, zoom = false, highlightNext = false} = props;
+	const {points, onClick, height = 300, width = 'auto', centerOn = {longitude: 0, latitude: 0}, zoom = false, highlightNext = false} = props;
 	
 	const nivoTheme                           = useNivoTheme();
 	const theme                               = useTheme();
@@ -66,7 +66,7 @@ export default function RaceMap(props: RaceMapProps) {
 					const xScale          = ((width / 2) / dimensions.width);
 					const yScale          = ((height / 2) / dimensions.height);
 					
-					setTranslation([calculateXTranslation(Number(centerOn?.lng), xScale), calculateYTranslation(Number(centerOn?.lat), yScale)]);
+					setTranslation([calculateXTranslation(Number(centerOn?.longitude), xScale), calculateYTranslation(Number(centerOn?.latitude), yScale)]);
 				}
 				
 				setLastDimensions(dimensions);
@@ -88,7 +88,7 @@ export default function RaceMap(props: RaceMapProps) {
 					projectionTranslation={translation}
 					projectionScale={zoom ? 500 : 100}
 					// @ts-ignore
-					borderColor={feature => {
+					borderColor={(feature: any) => {
 						if (feature?.geometry?.type === 'Point') {
 							const nextColor = theme.palette.mode === 'light' ? theme.palette.secondary.dark : theme.palette.secondary.light;
 							return highlightNext && feature.properties.next ? nextColor : theme.palette.background.paper;
@@ -96,14 +96,14 @@ export default function RaceMap(props: RaceMapProps) {
 							return theme.palette.primary.main;
 						}
 					}}
-					borderWidth={(feature) => {
+					borderWidth={(feature: any) => {
 						if (feature?.geometry?.type === 'Point') {
 							return highlightNext && feature.properties.next ? 5 : 1;
 						} else {
 							return .5;
 						}
 					}}
-					fillColor={(feature) => {
+					fillColor={(feature: any) => {
 						if (feature?.geometry?.type === 'Point') {
 							return highlightNext && feature.properties.next ? theme.palette.background.paper : theme.palette.secondary.main;
 						} else {

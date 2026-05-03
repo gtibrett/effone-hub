@@ -22,13 +22,13 @@ export default function DriversList({filters}: DriversTableProps) {
 			rows={filteredDrivers}
 			autoHeight
 			density="compact"
-			getRowId={r => r.driverId}
+			getRowId={r => r.id}
 			columns={
 				[
 					{
 						field:        'avatar',
 						renderHeader: () => <Typography sx={visuallyHidden}>Photo</Typography>,
-						renderCell:   (({row}) => <DriverAvatar driverId={row.driverId}/>),
+						renderCell:   (({row}) => <DriverAvatar driverId={row.id}/>),
 						width:        50,
 						align:        'center',
 						sortable:     false
@@ -38,10 +38,10 @@ export default function DriversList({filters}: DriversTableProps) {
 						headerName:  'Driver',
 						flex:        1,
 						renderCell:  (({row}) => <DriverByLine driver={row} variant="link"/>),
-						valueGetter: (value, row) => `${row.forename}, ${row.surname}`
+						valueGetter: (value, row) => `${row.firstName}, ${row.lastName}`
 					},
 					{
-						field:      'nationality',
+						field:      'nationalityCountryId',
 						headerName: 'Nationality',
 						flex:       1,
 						renderCell: ({value}) => (
@@ -56,14 +56,14 @@ export default function DriversList({filters}: DriversTableProps) {
 						headerName:  'Seasons',
 						flex:        .25,
 						type:        'number',
-						valueGetter: (value, row) => row.teamsByYear.length
+						valueGetter: (value, row) => row.seasonEntrantDrivers?.nodes?.length ?? 0
 					},
 					{
 						field:       'races',
 						headerName:  'Races',
 						flex:        .25,
 						type:        'number',
-						valueGetter: (value, row) => row.results.length
+						valueGetter: (value, row) => row.raceResults?.nodes?.length ?? 0
 					},
 					// {
 					// 	field:       'championships',
@@ -77,14 +77,14 @@ export default function DriversList({filters}: DriversTableProps) {
 						headerName:  'Wins',
 						flex:        .25,
 						type:        'number',
-						valueGetter: (value, row) => row.results.filter(r => Number(r.positionOrder) === 1).length
+						valueGetter: (value, row) => (row.raceResults?.nodes ?? []).filter((r: any) => Number(r.positionOrder) === 1).length
 					},
 					{
 						field:       'podiums',
 						headerName:  'Podiums',
 						flex:        .25,
 						type:        'number',
-						valueGetter: (value, row) => row.results.filter(r => Number(r.positionOrder) <= 3).length
+						valueGetter: (value, row) => (row.raceResults?.nodes ?? []).filter((r: any) => Number(r.positionOrder) <= 3).length
 					}
 				]
 			}

@@ -9,15 +9,15 @@ export default function useDriversList(unfilteredDrivers: Driver[], filters: Dri
 	return useMemo(() => {
 		let drivers = unfilteredDrivers || [];
 		if (filters.season > 0) {
-			drivers = filterByNumber<Driver>(drivers, filters.season, (season, d) => d.teamsByYear.filter(s => s.year === season).length > 0);
+			drivers = filterByNumber<Driver>(drivers, filters.season, (season, d) => (d.seasonEntrantDrivers?.nodes ?? []).filter((s: any) => s.year === season).length > 0);
 		}
-		
+
 		if (filters.search.length) {
-			drivers = filterByFreeformText(drivers, filters.search, ['forename', 'surname']);
+			drivers = filterByFreeformText(drivers, filters.search, ['firstName', 'lastName']);
 		}
-		
+
 		if (filters.nationality.length) {
-			drivers = filterByFreeformText(drivers, filters.nationality, ['nationality']);
+			drivers = filterByFreeformText(drivers, filters.nationality, ['nationalityCountryId']);
 		}
 		
 		return drivers;

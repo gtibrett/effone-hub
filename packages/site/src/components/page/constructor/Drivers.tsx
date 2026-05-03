@@ -1,6 +1,6 @@
 import {DriverByLine} from '@/components/app';
 import {QueryResult} from '@apollo/client/react/types/types';
-import {DriverStandingsBySeason} from '@/gql/graphql';
+import {SeasonDriverStanding} from '@/gql/graphql';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
@@ -13,7 +13,7 @@ type RowData = {
 	drivers: DriverByYear['driver'][]
 }
 
-const findFinalStandings = (year: number, standings: DriverStandingsBySeason[]) => {
+const findFinalStandings = (year: number, standings: SeasonDriverStanding[]) => {
 	return standings.filter(s => s.year === year)[0];
 };
 
@@ -23,7 +23,7 @@ export default function Drivers({data, loading}: DriversProps) {
 	}
 	const years: RowData[] = [];
 	
-	(data?.team.drivers || []).forEach(dy => {
+	(data?.team.drivers.nodes || []).forEach(dy => {
 		let index = years.findIndex(y => y.year === dy.year);
 		
 		if (index === -1) {
@@ -69,15 +69,7 @@ export default function Drivers({data, loading}: DriversProps) {
 							headerName: 'Driver',
 							flex:       1,
 							minWidth:   175,
-							renderCell: ({row}) => row.drivers[0] ? <DriverByLine id={row.drivers[0].driverId} variant="full"/> : ''
-						},
-						{
-							field:       'wins1',
-							headerName:  'Wins',
-							type:        'number',
-							headerAlign: 'center',
-							align:       'center',
-							renderCell:  ({row}) => row.drivers[0] ? findFinalStandings(row.year, row.drivers[0].driverStandingsBySeasons)?.wins : ''
+							renderCell: ({row}) => row.drivers[0] ? <DriverByLine id={row.drivers[0].id} variant="full"/> : ''
 						},
 						{
 							field:       'standing1',
@@ -85,30 +77,23 @@ export default function Drivers({data, loading}: DriversProps) {
 							type:        'number',
 							headerAlign: 'center',
 							align:       'center',
-							renderCell:  ({row}) => row.drivers[0] ? findFinalStandings(row.year, row.drivers[0].driverStandingsBySeasons)?.position : ''
+							renderCell:  ({row}) => row.drivers[0] ? findFinalStandings(row.year, row.drivers[0].seasonDriverStandings?.nodes?.filter((s): s is SeasonDriverStanding => s != null))?.positionNumber : ''
 						},
+
 						{
 							field:       'points1',
 							headerName:  'Points',
 							type:        'number',
 							headerAlign: 'center',
 							align:       'center',
-							renderCell:  ({row}) => row.drivers[0] ? findFinalStandings(row.year, row.drivers[0].driverStandingsBySeasons)?.points : ''
+							renderCell:  ({row}) => row.drivers[0] ? findFinalStandings(row.year, row.drivers[0].seasonDriverStandings?.nodes?.filter((s): s is SeasonDriverStanding => s != null))?.points : ''
 						},
 						{
 							field:      'driver2',
 							headerName: 'Driver',
 							flex:       1,
 							minWidth:   175,
-							renderCell: ({row}) => row.drivers[1] ? <DriverByLine id={row.drivers[1].driverId} variant="full"/> : ''
-						},
-						{
-							field:       'wins2',
-							headerName:  'Wins',
-							type:        'number',
-							headerAlign: 'center',
-							align:       'center',
-							renderCell:  ({row}) => row.drivers[1] ? findFinalStandings(row.year, row.drivers[1].driverStandingsBySeasons)?.wins : ''
+							renderCell: ({row}) => row.drivers[1] ? <DriverByLine id={row.drivers[1].id} variant="full"/> : ''
 						},
 						{
 							field:       'standing2',
@@ -116,7 +101,7 @@ export default function Drivers({data, loading}: DriversProps) {
 							type:        'number',
 							headerAlign: 'center',
 							align:       'center',
-							renderCell:  ({row}) => row.drivers[1] ? findFinalStandings(row.year, row.drivers[1].driverStandingsBySeasons)?.position : ''
+							renderCell:  ({row}) => row.drivers[1] ? findFinalStandings(row.year, row.drivers[1].seasonDriverStandings?.nodes?.filter((s): s is SeasonDriverStanding => s != null))?.positionNumber : ''
 						},
 						{
 							field:       'points2',
@@ -124,7 +109,7 @@ export default function Drivers({data, loading}: DriversProps) {
 							type:        'number',
 							headerAlign: 'center',
 							align:       'center',
-							renderCell:  ({row}) => row.drivers[1] ? findFinalStandings(row.year, row.drivers[1].driverStandingsBySeasons)?.points : ''
+							renderCell:  ({row}) => row.drivers[1] ? findFinalStandings(row.year, row.drivers[1].seasonDriverStandings?.nodes?.filter((s): s is SeasonDriverStanding => s != null))?.points : ''
 						}
 					]
 				}

@@ -2,32 +2,31 @@ import {ChartSwitcher, ChartSwitcherChart, LineChartByTeam, LineChartByTeamProps
 import {DriverPageData} from '@/components/page/driver';
 import {useGetTeamColor} from '@/hooks';
 import {useDriver} from '@/hooks/data';
-import {DriverId} from '@/types';
 import {QueryResult} from '@apollo/client/react/types/types';
 import CareerBreakdownChart from '../career/CareerBreakdownChart';
 import CareerTooltip from '../career/CareerTooltip';
 
 type SeasonChartProps = Pick<QueryResult<DriverPageData>, 'data' | 'loading'> & {
-	driverId: DriverId
+	driverId: string | undefined
 	season?: number
 };
 
 export default function SeasonChart({driverId, season, data, loading}: SeasonChartProps) {
 	const getTeamColor  = useGetTeamColor();
 	const driver        = useDriver(driverId);
-	const seasonResults = data?.races.filter(r => r.results.length).map(r => ({...r.results[0], race: r}));
+	const seasonResults = data?.races?.nodes?.filter(r => r.raceResults?.nodes?.length).map(r => ({...r.raceResults?.nodes?.[0], race: r}));
 	const firstResult   = seasonResults?.[0];
-	
+
 	if (!firstResult || !driver || loading) {
 		return null;
 	}
-	
-	const chartData = seasonResults.map(({race: {round}, grid, positionOrder}) => ({
-		teamId:   driver.currentTeam?.teamId as number,
-		color:    getTeamColor(driver.currentTeam?.team?.colors, 'primary', false),
+
+	const chartData = seasonResults.map(({race: {round}, gridPositionNumber, positionDisplayOrder}) => ({
+		teamId:   driver.seasonEntrantDrivers?.nodes?.[0]?.constructor?.id ?? '',
+		color:    getTeamColor(driver.seasonEntrantDrivers?.nodes?.[0]?.constructor?.colors, 'primaryHex', false),
 		round,
-		grid,
-		position: positionOrder
+		grid:     gridPositionNumber,
+		position: positionDisplayOrder
 	}));
 	
 	const baseProps: Omit<LineChartByTeamProps, 'yKey'> = {

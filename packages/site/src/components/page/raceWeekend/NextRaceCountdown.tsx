@@ -1,12 +1,12 @@
 import '@/polyfills';
-import {Race} from '@/gql/graphql';
 import {Card, SxProps, useTheme} from '@mui/material';
 import {PaletteColor} from '@mui/material/styles/createPalette';
 import CountdownClock from './CountdownClock';
 import useRaceScheduleEvents from './useRaceScheduleEvents';
+import {NextRace} from './useNextRaceData';
 
 type NextRaceCountdownProps = {
-	race: Race
+	race: NextRace
 	variant: keyof Pick<PaletteColor, 'dark' | 'main'>
 }
 

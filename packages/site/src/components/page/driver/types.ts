@@ -7,14 +7,14 @@ export type DriverData = Pick<Driver, 'id' | 'rowId' | 'abbreviation' | 'permane
 			constructor?: { id: string; rowId: string; colors?: { primaryHex?: string | null } | null } | null;
 		}[]
 	};
-	standings: DriverStandingData[];
+	standings: { nodes: DriverStandingData[] };
 	raceResults: { nodes: RaceResult[] };
 }
 
 export type DriverStandingData = Pick<SeasonDriverStanding, 'points' | 'positionNumber' | 'positionText'> & {
 	year: number;
 	constructorId?: string;
-	constructor?: { colors?: { primaryHex?: string | null } | null } | null;
+	constructor?: { id?: string; colors?: { primaryHex?: string | null } | null } | null;
 };
 
 export type DriverPageData = {

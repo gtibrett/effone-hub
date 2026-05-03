@@ -10,25 +10,15 @@ const DriverFields = gql`
 		lastName
 		abbreviation
 		permanentNumber
-		nationality
-		url
-		bio {
-			description
-			extract
-			thumbnail {
-				source
-			}
-		}
+		nationalityCountryId
 
 		seasonEntrantDrivers(orderBy: YEAR_DESC, first: 1) {
 			nodes {
 				year
-				seasonEntrantConstructor {
-					constructor {
-						id
-						colors {
-							primaryHex
-						}
+				constructor {
+					id
+					colors {
+						primaryHex
 					}
 				}
 			}
@@ -37,12 +27,10 @@ const DriverFields = gql`
 		teamsByYear: seasonEntrantDrivers(orderBy: YEAR_DESC) {
 			nodes {
 				year
-				seasonEntrantConstructor {
-					constructor {
-						id
-						colors {
-							primaryHex
-						}
+				constructor {
+					id
+					colors {
+						primaryHex
 					}
 				}
 			}

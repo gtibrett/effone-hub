@@ -80,12 +80,10 @@ export type NextRaceData = {
 };
 
 const query = gql`
-	query NextRaceBySeason($season: Int!, $today: Date!) {
+	query NextRaceBySeason($season: Int!) {
 		races(
 			condition: {year: $season},
-			filter: {date: {greaterThanOrEqualTo: $today}},
-			orderBy: ROUND_ASC,
-			first: 1
+			orderBy: ROUND_ASC
 		) {
 			nodes {
 				id
@@ -127,10 +125,10 @@ const query = gql`
 
 export default function useNextRaceData(season: number) {
 	const today  = new Date().toISOString().slice(0, 10);
-	const result = useSuspenseQuery<NextRaceQueryResult>(query, {variables: {season, today}});
+	const result = useSuspenseQuery<NextRaceQueryResult>(query, {variables: {season}});
 
 	const data = useMemo<NextRaceData>(() => {
-		const node = result.data?.races.nodes[0];
+		const node = (result.data?.races.nodes ?? []).find(r => r.date && r.date >= today) ?? null;
 		if (!node) {
 			return {race: null};
 		}

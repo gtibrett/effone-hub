@@ -15,7 +15,7 @@ const CareerPerformanceTooltip = ({datum}: PieTooltipProps<any>) => {
 
 export default function CareerPerformance({data}: CareerPerformanceProps) {
 	const nivoTheme       = useNivoTheme();
-	const summaryData     = usePerformanceData(data?.driver.results);
+	const summaryData     = usePerformanceData(data?.driver.raceResults?.nodes);
 	const prefersDarkMode = useDarkMode();
 	
 	if (!summaryData) {

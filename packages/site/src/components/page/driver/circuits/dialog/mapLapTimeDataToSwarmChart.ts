@@ -13,44 +13,44 @@ export type SwarmData = {
 
 function getStandardDeviation(data: number[]) {
 	const n = data.length;
-	
+
 	if (!n) {
 		return 0;
 	}
-	
+
 	const mean = data.reduce((a, b) => a + b, 0) / n;
 	return Math.sqrt(data.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n);
 }
 
 export function useMapLapTimeDataToSwarmChart() {
 	const getColorsByYear = useGetTeamColorsByYear();
-	
+
 	return (data: CircuitDialogData): SwarmPlotSvgProps<SwarmData>['data'] => {
 		const mappedData: SwarmPlotSvgProps<SwarmData>['data'] = [];
-		const colorsByYear                                     = getColorsByYear(data.driver.teamsByYear);
-		
-		data?.circuit.races.forEach(race => {
-			const mappedLaps = race.lapTimes
-			                       .filter(l => l.milliseconds)
-			                       .map(l => ({
-				                       lap:          l.lap,
-				                       milliseconds: Number(l.milliseconds)
-			                       }));
-			
+		const colorsByYear                                     = getColorsByYear(data.driver.seasonEntrantDrivers);
+
+		data?.circuit.races?.nodes?.forEach(race => {
+			const mappedLaps = (race.lapTimes?.nodes || [])
+				.filter(l => l.timeMillis)
+				.map(l => ({
+					lap:          l.lap,
+					milliseconds: Number(l.timeMillis)
+				}));
+
 			const averageLapTime = mappedLaps.reduce((a, v) => Number(v.milliseconds) + a, 0) / (mappedLaps.length + Number.EPSILON);
 			const stdDevLapTime  = getStandardDeviation(mappedLaps.map(l => l.milliseconds));
-			
+
 			mappedLaps.forEach(l => {
 				mappedData.push({
 					...l,
-					id:         `${race.raceId}-${l.lap}`,
+					id:         `${race.rowId}-${l.lap}`,
 					group:      String(race.year),
 					deviations: l.milliseconds ? Math.abs(l.milliseconds - averageLapTime) / stdDevLapTime : 1000,
 					color:      colorsByYear[race.year as number]
 				});
 			});
 		});
-		
+
 		return mappedData;
 	};
 };
@@ -59,15 +59,15 @@ type LapTimeBoxChartData = { year: number, milliseconds: number }[];
 
 export function mapLapTimeDataToBoxChart(data: CircuitDialogData): LapTimeBoxChartData {
 	const mappedData: LapTimeBoxChartData = [];
-	
-	data?.circuit.races.forEach(race => {
-		const mappedLaps = race.lapTimes
-		                       .filter(l => l.milliseconds)
-		                       .map(l => ({
-			                       lap:          l.lap,
-			                       milliseconds: Number(l.milliseconds)
-		                       }));
-		
+
+	data?.circuit.races?.nodes?.forEach(race => {
+		const mappedLaps = (race.lapTimes?.nodes || [])
+			.filter(l => l.timeMillis)
+			.map(l => ({
+				lap:          l.lap,
+				milliseconds: Number(l.timeMillis)
+			}));
+
 		mappedLaps.forEach(l => {
 			mappedData.push({
 				year:         race.year as number,
@@ -75,6 +75,6 @@ export function mapLapTimeDataToBoxChart(data: CircuitDialogData): LapTimeBoxCha
 			});
 		});
 	});
-	
+
 	return mappedData;
 }

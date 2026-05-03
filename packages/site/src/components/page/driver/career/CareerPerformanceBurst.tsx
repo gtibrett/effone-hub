@@ -1,6 +1,5 @@
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
 import {useResultsColors} from '@/hooks';
-import {DriverId} from '@/types';
 import {Box, Card, Skeleton, Typography, useTheme} from '@mui/material';
 import {ComputedDatum, ResponsiveSunburst} from '@nivo/sunburst';
 import usePerformanceData from '../usePerformanceData';
@@ -25,13 +24,13 @@ type BurstDatum = {
 }
 
 export default function CareerPerformanceBurst({driverId, size}: {
-	driverId: DriverId,
+	driverId: string | undefined,
 	size: number
 }) {
 	const nivoTheme       = useNivoTheme();
 	const theme           = useTheme();
 	const {data, loading} = useCareerData(driverId);
-	const performanceData = usePerformanceData(data?.driver.results);
+	const performanceData = usePerformanceData(data?.driver.raceResults?.nodes as any);
 	const colors          = useResultsColors();
 	
 	if (loading) {

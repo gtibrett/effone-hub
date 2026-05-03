@@ -7,14 +7,14 @@ import {Point} from './types';
 export default function useMapCircuitsToMapPoints() {
 	const router = useRouter();
 	
-	return useCallback((circuits: Pick<Circuit, 'circuitId' | 'lat' | 'lng' | 'name'>[]): { points: Point[], onClick: GeoMapEventHandler } => {
+	return useCallback((circuits: Pick<Circuit, 'rowId' | 'latitude' | 'longitude' | 'fullName'>[]): { points: Point[], onClick: GeoMapEventHandler } => {
 		const points: Point[] = circuits
-			.filter(c => c.lng && c.lat)
+			.filter(c => c.longitude && c.latitude)
 			.map((circuit) => ({
-				'id':         circuit.circuitId,
-				'name':       circuit.name || '',
-				lng:          Number(circuit.lng),
-				lat:          Number(circuit.lat),
+				'id':         circuit.rowId,
+				'name':       circuit.fullName || '',
+				lng:          Number(circuit.longitude),
+				lat:          Number(circuit.latitude),
 				'properties': {
 					...circuit
 				}

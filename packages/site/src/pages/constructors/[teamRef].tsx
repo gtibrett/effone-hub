@@ -77,7 +77,7 @@ export default function Constructor({teamRef, team}: { teamRef: string, team: Te
 		return <PageSkeleton/>;
 	}
 	
-	const isInCurrentSeason = typeof data?.team.standings.find(s => s.year === currentSeason) !== 'undefined';
+	const isInCurrentSeason = typeof data?.team.standings.nodes.find((s: any) => s.year === currentSeason) !== 'undefined';
 	
 	const tabs = [
 		{
@@ -90,7 +90,7 @@ export default function Constructor({teamRef, team}: { teamRef: string, team: Te
 		}
 	];
 	
-	if (data.team.standings.find(s => s.year === currentSeason)) {
+	if (data.team.standings.nodes.find((s: any) => s.year === currentSeason)) {
 		tabs.push({
 			id:      'season', label: `${currentSeason} Season`,
 			content: <Season data={data} loading={loading} season={currentSeason}/>

@@ -10,7 +10,7 @@ import getMapSVG from './circuits/getMapSVG';
 
 type CircuitMapProps = SVGProps<any> & {
 	variant?: 'interactive' | 'simple';
-	circuitRef: Circuit['circuitRef'];
+	circuitRef: Circuit['rowId'];
 }
 
 const useSectorColors = () => {
@@ -65,7 +65,7 @@ export default function CircuitMap({variant = 'interactive', circuitRef, height,
 	const {data: {circuit}}           = useCircuitByRef(circuitRef);
 	
 	
-	const mapSVG = getMapSVG(circuitRef, {height, width, 'aria-label': `${circuit.name} Map`, ...svgProps});
+	const mapSVG = getMapSVG(circuitRef, {height, width, 'aria-label': `${circuit.fullName} Map`, ...svgProps});
 	
 	if (!mapSVG) {
 		return null;

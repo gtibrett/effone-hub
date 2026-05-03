@@ -16,12 +16,16 @@ export default function Circuit({circuitRef}: { circuitRef: string }) {
 	const {data}                      = useCircuitByRef(circuitRef, currentSeason);
 	const {data: lastSeasonData}      = useCircuitByRef(circuitRef, currentSeason - 1);
 	const {ref, dimensions: {height}} = useComponentDimensionsWithRef();
-	const seasonToShow                = data?.circuit.season?.[0].results.length ? currentSeason : currentSeason - 1;
+	const seasonToShow                = data?.circuit.season?.nodes?.[0]?.raceResults?.nodes?.length ? currentSeason : currentSeason - 1;
 	
 	setPageTitle(`Circuit: ${data?.circuit.fullName}`);
 
 	if (!circuitRef) {
 		throw new Error('Page Not found');
+	}
+
+	if (!data) {
+		return null;
 	}
 
 	const {circuit}         = data;

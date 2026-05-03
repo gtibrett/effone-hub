@@ -17,8 +17,8 @@ export default function Season({data, loading, season}: SeasonProps) {
 		return <Skeleton variant="rectangular" height={400}/>;
 	}
 	
-	const races   = data.races;
-	const results = data.team.results;
+	const races   = data.races.nodes;
+	const results = data.team.raceResults.nodes;
 	
 	if (!races?.length) {
 		return <Alert variant="outlined" severity="info">Season Data Not Available</Alert>;
@@ -50,11 +50,11 @@ export default function Season({data, loading, season}: SeasonProps) {
 							renderCell:  ({value}) => value.toLocaleDateString()
 						},
 						{
-							field:      'name',
+							field:      'officialName',
 							headerName: 'Race',
 							flex:       1,
 							renderCell: ({row, value}) => (
-								<Link href={`/${season}/${row.round}#${row.name}`}>{value}</Link>
+								<Link href={`/${season}/${row.round}#${row.officialName}`}>{value}</Link>
 							)
 						},
 						{
@@ -64,7 +64,7 @@ export default function Season({data, loading, season}: SeasonProps) {
 							renderCell: ({row}) => (
 								<>
 									{
-										results.filter(r => r.raceId === row.raceId).map(result => <CellValueWrapper key={result.driverId} align="left"><DriverByLine id={result.driverId} variant="link"/></CellValueWrapper>)
+										results.filter(r => r.raceId === row.rowId).map(result => <CellValueWrapper key={result.driverId ?? undefined} align="left"><DriverByLine id={result.driverId ?? undefined} variant="link"/></CellValueWrapper>)
 									}
 								</>
 							)
@@ -77,7 +77,7 @@ export default function Season({data, loading, season}: SeasonProps) {
 							renderCell:  ({row}) => (
 								<>
 									{
-										results.filter(r => r.raceId === row.raceId).map(result => <CellValueWrapper key={result.driverId}>{result.grid}</CellValueWrapper>)
+										results.filter(r => r.raceId === row.rowId).map(result => <CellValueWrapper key={result.driverId ?? ''}>{result.gridPositionNumber}</CellValueWrapper>)
 									}
 								</>
 							)
@@ -89,7 +89,7 @@ export default function Season({data, loading, season}: SeasonProps) {
 							align:       'center',
 							renderCell:  ({row}) => {
 								return <>
-									{results.filter(r => r.raceId === row.raceId).map(result => <CellValueWrapper key={result.driverId}>{result.positionOrder}</CellValueWrapper>)}
+									{results.filter(r => r.raceId === row.rowId).map(result => <CellValueWrapper key={result.driverId ?? ''}>{result.positionNumber}</CellValueWrapper>)}
 								</>;
 							}
 						},
@@ -100,7 +100,7 @@ export default function Season({data, loading, season}: SeasonProps) {
 							align:       'center',
 							renderCell:  ({row}) => {
 								return <Grid container spacing={0} justifyContent="center">
-									{results.filter(r => r.raceId === row.raceId).map(result => <Grid item xs={12} key={result.driverId}><Typography align="center">{result.points}</Typography></Grid>)}
+									{results.filter(r => r.raceId === row.rowId).map(result => <Grid item xs={12} key={result.driverId ?? ''}><Typography align="center">{result.points}</Typography></Grid>)}
 								</Grid>;
 							}
 						}

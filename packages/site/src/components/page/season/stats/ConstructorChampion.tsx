@@ -30,11 +30,11 @@ export default function ConstructorChampion({season}: { season: number }) {
 		return null;
 	}
 
-	const {constructorId} = nodes[0];
+	const constructorId = nodes[0]?.constructorId;
 	if (!constructorId) {
 		return null;
 	}
 	champion.set(constructorId, 1);
 
-	return <StatCard label={label} loading={loading} data={champion as unknown as Map<number, number>} format={() => ''} variant="team" noGrid cardProps={{sx: {'& > .MuiCardHeader-root': {px: 0, pb: 0}}}}/>;
+	return <StatCard label={label} loading={loading} data={champion} format={() => ''} variant="team" noGrid cardProps={{sx: {'& > .MuiCardHeader-root': {px: 0, pb: 0}}}}/>;
 }

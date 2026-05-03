@@ -1,6 +1,6 @@
 import {useTeam} from '@/hooks/data';
 import {TeamId} from '@/types';
-import {Team} from '@/gql/graphql';
+import {Constructor} from '@/gql/graphql';
 import {Link} from '@gtibrett/mui-additions';
 import {Skeleton} from '@mui/material';
 import {ReactNode} from 'react';
@@ -15,7 +15,7 @@ type ByLinePropsById = BaseByLineProps & {
 }
 
 type ByLinePropsByTeam = BaseByLineProps & {
-	team?: Pick<Team, 'teamId' | 'constructorRef' | 'name' | 'colors'>;
+	team?: Pick<Constructor, 'rowId' | 'name' | 'colors'>;
 }
 
 export function isByTeam(props: ByLinePropsById | ByLinePropsByTeam): props is ByLinePropsByTeam {
@@ -37,15 +37,15 @@ const ByTeam = ({variant = 'link', placeholder = false, team}: ByLinePropsByTeam
 		}
 	}
 	
-	const {constructorRef, name} = team;
-	
+	const {rowId, name} = team;
+
 	switch (variant) {
 		case 'name':
 			return <>{name}</>;
-		
+
 		case 'link':
 			return (
-				<Link href={`/constructors/${constructorRef}`}>{name}</Link>
+				<Link href={`/constructors/${rowId}`}>{name}</Link>
 			);
 	}
 	

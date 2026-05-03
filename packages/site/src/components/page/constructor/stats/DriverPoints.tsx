@@ -59,5 +59,5 @@ export default function DriverPoints({constructorId, season, place}: DriverPoint
 		});
 	});
 
-	return <StatCard loading={loading} data={new Map([...leaders.entries()].sort((a, b) => b[1] - a[1]).slice(place - 1, place)) as unknown as Map<DriverId, number>} label="Points"/>;
+	return <StatCard loading={loading} data={new Map([...leaders.entries()].sort((a, b) => b[1] - a[1]).slice(place - 1, place))} label="Points"/>;
 }

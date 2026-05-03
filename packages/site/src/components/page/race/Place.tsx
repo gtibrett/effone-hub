@@ -22,14 +22,14 @@ export default function Place({driverId, place, points, wins, asterisk = false, 
 		return null;
 	}
 	
-	const {forename, surname, driverRef} = driver;
-	const name                           = `${forename} ${surname}`;
-	
+	const {firstName, lastName, rowId} = driver;
+	const name                         = `${firstName} ${lastName}`;
+
 	return (
 		<Card sx={sx}>
 			<CardHeader
 				avatar={<DriverAvatar driverId={driverId} size={64}/>}
-				title={<Typography noWrap><Link href={`/drivers/${driverRef}`}>{name}</Link> {asterisk && <FontAwesomeIcon icon={faAsterisk} title="We all know what really happened"/>}</Typography>}
+				title={<Typography noWrap><Link href={`/drivers/${rowId}`}>{name}</Link> {asterisk && <FontAwesomeIcon icon={faAsterisk} title="We all know what really happened"/>}</Typography>}
 				subheader={<>
 					{place ? `P${place} ` : ''}
 					{points ? <Typography variant="caption"><Divider orientation="vertical"/> {points} pts</Typography> : ''}

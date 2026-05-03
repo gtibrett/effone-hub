@@ -1,5 +1,4 @@
 import {ConstructorByLine} from '@/components/app';
-import {Driver} from '@/gql/graphql';
 import {Link, useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {Alert, Grid, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
@@ -9,24 +8,24 @@ import Stats from '../stats';
 import CareerChart from './CareerChart';
 import useCareerData from './useCareerData';
 
-type CareerProps = Pick<Driver, 'driverId'>
+type CareerProps = { driverId: string }
 
 export default function Career({driverId}: CareerProps) {
 	const {data, loading}                          = useCareerData(driverId);
-	const careerStandings                          = data?.driver.standings;
+	const careerStandings                          = data?.driver.standings?.nodes;
 	const racesByYear: { [key: number]: number }   = {};
 	const {ref, node, dimensions: {width, height}} = useComponentDimensionsWithRef();
 	const [active, setActive]                      = useState<number | undefined>();
-	
+
 	if (loading || !careerStandings) {
 		return <Skeleton variant="rectangular" height={400}/>;
 	}
-	
+
 	if (!careerStandings.length) {
 		return <Alert variant="outlined" severity="info">Career Data Not Available</Alert>;
 	}
-	
-	data?.driver.results.forEach(r => r.race?.year && (racesByYear[r.race?.year] = (racesByYear[r.race?.year] || 0) + 1));
+
+	data?.driver.raceResults?.nodes?.forEach(r => r.race?.year && (racesByYear[r.race?.year] = (racesByYear[r.race?.year] || 0) + 1));
 	
 	return (
 		<>
@@ -68,7 +67,7 @@ export default function Career({driverId}: CareerProps) {
 									minWidth:    100
 								},
 								{
-									field:       'position',
+									field:       'positionNumber',
 									headerName:  'Position',
 									type:        'number',
 									headerAlign: 'center',
@@ -86,20 +85,11 @@ export default function Career({driverId}: CareerProps) {
 									minWidth:    100
 								},
 								{
-									field:       'wins',
-									headerName:  'Wins',
-									type:        'number',
-									headerAlign: 'center',
-									align:       'center',
-									flex:        1,
-									minWidth:    100
-								},
-								{
 									field:      'team',
 									headerName: 'Constructor',
 									filterable: false,
 									renderCell: ({row}) => (
-										<ConstructorByLine id={row.driverTeamByDriverIdAndYear.team.teamId} variant="link"/>
+										<ConstructorByLine id={row.constructor?.id} variant="link"/>
 									),
 									flex:       1,
 									minWidth:   150

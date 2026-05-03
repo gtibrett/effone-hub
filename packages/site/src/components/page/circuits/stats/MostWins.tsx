@@ -2,11 +2,11 @@ import {StatCard} from '@/components/app';
 import {CircuitDataProps} from '@/hooks/data';
 
 export default function MostWins({data, loading}: CircuitDataProps) {
-	const winsLeaders = new Map<number, number>();
-	(data?.circuit.history || []).forEach(r => {
-		r.results.forEach(r => {
-			if (r.driverId) {
-				winsLeaders.set(r.driverId, (winsLeaders.get(r.driverId) || 0) + 1);
+	const winsLeaders = new Map<string, number>();
+	(data?.circuit.history?.nodes || []).forEach((r: { raceResults: { nodes: { driverId?: string }[] } }) => {
+		r.raceResults.nodes.forEach((result: { driverId?: string }) => {
+			if (result.driverId) {
+				winsLeaders.set(result.driverId, (winsLeaders.get(result.driverId) || 0) + 1);
 			}
 		});
 	});

@@ -83,7 +83,7 @@ export default function FastestLap({season, size = 'small'}: SeasonStatProps) {
 
 	const winner: FastestSeasonLap = fastestSeasonLap;
 	const fastestDriver = new Map<string, FastestSeasonLap>();
-	fastestDriver.set(winner.driverId, winner);
+	fastestDriver.set(winner.driverId || '', winner);
 
 	const formatExtra = (d: FastestSeasonLap) => (
 		<Typography variant="caption">{d.name}: {d.quali ? 'Q' : 'Lap '}{d.lap}</Typography>
@@ -93,7 +93,7 @@ export default function FastestLap({season, size = 'small'}: SeasonStatProps) {
 		label="Fastest Lap"
 		size={size}
 		loading={loading}
-		data={fastestDriver as unknown as Map<number, FastestSeasonLap>}
+		data={fastestDriver}
 		format={(t) => getTimeStringFromDate(new Date(t.value))}
 		extra={formatExtra}
 	/>;

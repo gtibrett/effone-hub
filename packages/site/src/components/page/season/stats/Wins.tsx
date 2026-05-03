@@ -1,5 +1,4 @@
 import {StatCard} from '@/components/app';
-import {DriverId} from '@/types';
 import {gql, useQuery} from '@apollo/client';
 import {Season} from '@/gql/graphql';
 import {SeasonStatProps} from './index';
@@ -37,5 +36,5 @@ export default function Wins({season, size}: SeasonStatProps) {
 		});
 	});
 
-	return <StatCard size={size} loading={loading} data={leaders as unknown as Map<DriverId, number>} label="Most Wins"/>;
+	return <StatCard size={size} loading={loading} data={leaders} label="Most Wins"/>;
 }

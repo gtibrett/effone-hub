@@ -14,7 +14,7 @@ export default function ConstructorsStandings({season}: ConstructorsStandingsPro
 	const {data, chartData} = useConstructorStandingsData(season);
 	const height            = Math.max(...chartData.map(s => s.standings.length), 10) * 24;
 	
-	if (!data?.races?.length) {
+	if (!data?.season?.racesByYear?.nodes?.length) {
 		return <Alert variant="outlined" severity="info">Constructor Standings Data Not Available</Alert>;
 	}
 	

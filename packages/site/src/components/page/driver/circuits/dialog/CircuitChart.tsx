@@ -8,23 +8,23 @@ type CircuitChartProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading'
 
 export default function CircuitChart({data}: CircuitChartProps) {
 	const getTeamColor = useGetTeamColor();
-	const races        = (data?.circuit.races || []).filter(r => r.results.length);
-	
+	const races        = (data?.circuit.races?.nodes || []).filter(r => r.results.length);
+
 	const chartData: DataWithTeamInfo[] = races.map(r => ({
-		teamId:   r.results[0].team?.teamId as number,
-		color:    getTeamColor(r.results[0].team?.colors, 'primary', false),
+		teamId:   r.results[0].constructor?.rowId ?? '',
+		color:    getTeamColor(r.results[0].constructor?.colors, 'primaryHex', false),
 		year:     Number(r.year),
 		points:   Number(r.results[0].points),
-		position: Number(r.results[0].positionOrder),
-		grid:     Number(r.results[0].grid)
+		position: Number(r.results[0].positionDisplayOrder),
+		grid:     Number(r.results[0].gridPositionNumber)
 	}));
-	
+
 	const baseProps: Omit<LineChartByTeamProps, 'yKey'> = {
 		xKey:    'year',
 		data:    chartData,
 		tooltip: CareerTooltip
 	};
-	
+
 	const charts: ChartSwitcherChart[] = [
 		{
 			id:    'position',
@@ -42,7 +42,7 @@ export default function CircuitChart({data}: CircuitChartProps) {
 			chart: <LineChartByTeam {...baseProps} yKey="points"/>
 		}
 	];
-	
+
 	return (
 		<ChartSwitcher title="Circuit History" charts={charts} size={200}/>
 	);

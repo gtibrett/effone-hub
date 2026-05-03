@@ -27,12 +27,12 @@ export default function PositionsGained({season, round, size}: RaceStatProps) {
 	const {data, loading} = useQuery<Data>(query, {variables: {season, round}});
 	const leaders         = new Map<string, number>();
 
-	(data?.race?.raceResults?.nodes || []).forEach((r: ResultNode) => {
+	((data?.race?.raceResults?.nodes || []) as Array<ResultNode | null>).filter((r): r is ResultNode => r != null).forEach((r: ResultNode) => {
 		const {driverId, gridPositionNumber, positionNumber} = r;
 		if (driverId && gridPositionNumber != null && positionNumber != null) {
 			leaders.set(driverId, (leaders.get(driverId) || 0) + (gridPositionNumber - positionNumber));
 		}
 	});
 
-	return <StatCard size={size} loading={loading} data={leaders as unknown as Map<number, number>} label="Most Positions Gained"/>;
+	return <StatCard size={size} loading={loading} data={leaders} label="Most Positions Gained"/>;
 }

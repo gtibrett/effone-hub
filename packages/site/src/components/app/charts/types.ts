@@ -1,4 +1,4 @@
-import {Team, TeamColor} from '@/gql/graphql';
+import {AppTeamColor, Constructor} from '@/gql/graphql';
 import {Datum, Serie} from '@nivo/line';
 import {ReactNode} from 'react';
 
@@ -11,8 +11,8 @@ export type ChartSwitcherChart = {
 }
 
 export type DataWithTeamInfo = {
-	teamId: Team['teamId'];
-	color: TeamColor['primary'];
+	teamId: Constructor['rowId'];
+	color: AppTeamColor['primaryHex'];
 	[key: string]: any;
 }
 

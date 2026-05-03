@@ -1,4 +1,4 @@
-import {LapTime} from '@/gql/graphql';
+import {AppLapTime} from '@/gql/graphql';
 import {useMemo} from 'react';
 import {LapByLapData} from '../lapByLap/useLapByLapChartData';
 import {getColorWithAlt} from './helpers';
@@ -6,19 +6,19 @@ import {getColorWithAlt} from './helpers';
 export type LapChartDatum = {
 	x: number;
 	y: number;
-	timing: Partial<LapTime>;
+	timing: Partial<AppLapTime>;
 	color: string;
 };
 
 export type LapChartSeries = {
-	id: number;
+	id: string;
 	color?: string;
 	data: LapChartDatum[]
 }
 
 export default function useLapTimeChartData(lapByLapData: LapByLapData) {
 	return useMemo(() => {
-		const fastestLapTime         = Math.min(...(lapByLapData.data?.flatMap(d => d.laps).map(lt => lt.milliseconds || Infinity) || []));
+		const fastestLapTime         = Math.min(...(lapByLapData.data?.flatMap(d => d.laps).map(lt => lt.timeMillis || Infinity) || []));
 		const data: LapChartSeries[] = [];
 		
 		if (lapByLapData.data?.length) {
@@ -27,18 +27,18 @@ export default function useLapTimeChartData(lapByLapData: LapByLapData) {
 					return;
 				}
 				
-				const lapsWithTimes                  = d.laps.filter(l => l.milliseconds).map(l => ({...l, milliseconds: Number(l.milliseconds)}));
+				const lapsWithTimes                  = d.laps.filter(l => l.timeMillis).map(l => ({...l, timeMillis: Number(l.timeMillis)}));
 				let personalBest: number | undefined = undefined;
 				
 				data.push({
 					id:   d.driverId,
 					data: lapsWithTimes.map(lt => {
-						personalBest = !personalBest ? lt.milliseconds : Math.min(lt.milliseconds, personalBest);
+						personalBest = !personalBest ? lt.timeMillis : Math.min(lt.timeMillis, personalBest);
 						
 						return {
 							x:      lt.lap,
-							y:      lt.milliseconds,
-							color:  getColorWithAlt(lt.milliseconds, personalBest, fastestLapTime).color,
+							y:      lt.timeMillis,
+							color:  getColorWithAlt(lt.timeMillis, personalBest, fastestLapTime).color,
 							timing: lt
 						};
 					})

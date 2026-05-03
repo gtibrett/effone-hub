@@ -1,13 +1,13 @@
 import {getDateWithTime} from '@/helpers';
-import {Race} from '@/gql/graphql';
 import {Card, Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material';
 import useRaceScheduleEvents, {ScheduleEvent} from './useRaceScheduleEvents';
+import {NextRace} from './useNextRaceData';
 
 const ScheduleCell = ({date, time, asDate}: Pick<ScheduleEvent, 'date' | 'time' | 'asDate'>) => {
 	return date && time ? getDateWithTime(asDate) : '--';
 };
 
-export default function NextRaceSchedule({race}: { race: Race }) {
+export default function NextRaceSchedule({race}: { race: NextRace }) {
 	const scheduleEvents = useRaceScheduleEvents(race);
 	
 	return (

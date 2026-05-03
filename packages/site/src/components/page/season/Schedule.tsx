@@ -27,7 +27,7 @@ export default function Schedule({season}: ScheduleProps) {
 	const races                    = data?.races;
 	
 	const {points, onClick} = mapSeasonRacesToFeatures(season, races.map(
-		({name, round, circuit: {lng, lat}, results}) => ({name, round, lat, lng, hasResults: results?.length > 0}))
+		({name, round, circuit, results}) => ({officialName: name, round, latitude: circuit?.lat, longitude: circuit?.lng, hasResults: (results?.length ?? 0) > 0}))
 	);
 	
 	return (

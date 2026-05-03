@@ -1,5 +1,4 @@
 import {StatCard} from '@/components/app';
-import {DriverId} from '@/types';
 import {gql, useQuery} from '@apollo/client';
 import {SeasonStatProps} from './index';
 
@@ -47,5 +46,5 @@ export default function Poles({season, size}: SeasonStatProps) {
 		});
 	});
 
-	return <StatCard size={size} loading={loading} data={leaders as unknown as Map<DriverId, number>} label="Most Poles"/>;
+	return <StatCard size={size} loading={loading} data={leaders} label="Most Poles"/>;
 }

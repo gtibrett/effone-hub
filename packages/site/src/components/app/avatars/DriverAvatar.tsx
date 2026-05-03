@@ -20,13 +20,9 @@ function DriverAvatar({driverId, size = 'small'}: DriverAvatarProps) {
 			return <Avatar variant="rounded" sx={sx}><FontAwesomeIcon icon={faUser}/></Avatar>;
 		}
 		
-		const {forename, surname, bio} = driver;
-		
-		if (bio?.thumbnail?.source) {
-			return <Avatar variant="rounded" alt="" src={bio?.thumbnail?.source} sx={{...sx, objectPosition: 'top'}}/>;
-		}
-		
-		return <Avatar variant="rounded" sx={sx}>{forename?.[0]}{surname?.[0]}</Avatar>;
+		const {firstName, lastName} = driver;
+
+		return <Avatar variant="rounded" sx={sx}>{firstName?.[0]}{lastName?.[0]}</Avatar>;
 	}, [sx, driver]);
 }
 

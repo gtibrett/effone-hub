@@ -19,7 +19,7 @@ type ByLinePropsById = BaseByLineProps & {
 }
 
 type ByLinePropsByDriver = BaseByLineProps & {
-	driver?: Pick<Driver, 'driverId' | 'driverRef' | 'forename' | 'surname' | 'nationality' | 'code'>
+	driver?: Pick<Driver, 'id' | 'rowId' | 'firstName' | 'lastName' | 'nationalityCountryId' | 'abbreviation'>
 }
 
 const DriverSkeleton = ({variant = 'full', avatarProps = {}}: BaseByLineProps) => {
@@ -55,25 +55,25 @@ const ByDriver = (props: ByLinePropsByDriver) => {
 		return <DriverSkeleton variant={variant} avatarProps={avatarProps} flagProps={flagProps}/>;
 	}
 	
-	const {driverId, driverRef, forename, surname, nationality, code} = driver;
-	const name                                                        = `${forename} ${surname}`;
-	
+	const {id, rowId, firstName, lastName, nationalityCountryId, abbreviation} = driver;
+	const name                                                                 = `${firstName} ${lastName}`;
+
 	switch (variant) {
 		case 'code':
-			return <>{code}</>;
+			return <>{abbreviation}</>;
 		case 'code-link':
-			return <Link sx={{fontWeight: 'bold'}} href={`/drivers/${driverRef}`}>{code}</Link>;
+			return <Link sx={{fontWeight: 'bold'}} href={`/drivers/${rowId}`}>{abbreviation}</Link>;
 		case 'name':
 			return <>{name}</>;
 		case 'link':
-			return <Link href={`/drivers/${driverRef}`}>{name}</Link>;
-		
+			return <Link href={`/drivers/${rowId}`}>{name}</Link>;
+
 		case 'full':
 			return (
 				<Grid container spacing={1} alignItems="center" sx={{flexWrap: 'nowrap'}}>
-					<Hidden smDown><Grid item><DriverAvatar driverId={driverId} {...avatarProps}/></Grid></Hidden>
-					<Grid item><Typography><Link href={`/drivers/${driverRef}`}>{name}</Link></Typography></Grid>
-					{!noFlag && nationality && <Hidden mdDown><Grid item><Typography><Flag nationality={nationality} {...flagProps}/></Typography></Grid></Hidden>}
+					<Hidden smDown><Grid item><DriverAvatar driverId={id} {...avatarProps}/></Grid></Hidden>
+					<Grid item><Typography><Link href={`/drivers/${rowId}`}>{name}</Link></Typography></Grid>
+					{!noFlag && nationalityCountryId && <Hidden mdDown><Grid item><Typography><Flag nationality={nationalityCountryId} {...flagProps}/></Typography></Grid></Hidden>}
 				</Grid>
 			);
 	}

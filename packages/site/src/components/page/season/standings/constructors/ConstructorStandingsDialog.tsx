@@ -14,7 +14,7 @@ type ConstructorStandingsDialogProps = {
 
 export default function ConstructorStandingsDialog({season, open, setOpen}: ConstructorStandingsDialogProps) {
 	const {data}            = useConstructorStandingsData(season);
-	const lastRaceStandings = data?.races?.filter(r => r.teamStandings.length)?.at(-1)?.teamStandings || [];
+	const lastRaceStandings = data?.season?.racesByYear?.nodes?.filter(r => r.raceConstructorStandings.nodes.length)?.at(-1)?.raceConstructorStandings?.nodes || [];
 	const onClose           = () => setOpen(false);
 	
 	if (!lastRaceStandings?.length) {
@@ -29,19 +29,19 @@ export default function ConstructorStandingsDialog({season, open, setOpen}: Cons
 		>
 			<DataGrid
 				rows={lastRaceStandings}
-				getRowId={r => r.team?.teamId || ''}
+				getRowId={r => r.constructorId || ''}
 				autoHeight
 				density="compact"
 				hideFooter
 				initialState={{
 					sorting: {
-						sortModel: [{field: 'position', sort: 'asc'}]
+						sortModel: [{field: 'positionNumber', sort: 'asc'}]
 					}
 				}}
 				columns={
 					[
 						{
-							field:       'position',
+							field:       'positionNumber',
 							headerName:  'P',
 							headerAlign: 'center',
 							type:        'number',
@@ -49,10 +49,10 @@ export default function ConstructorStandingsDialog({season, open, setOpen}: Cons
 							width:       16
 						},
 						{
-							field:      'teamId',
+							field:      'constructorId',
 							headerName: 'Constructor',
 							flex:       1,
-							renderCell: ({row}) => <ConstructorByLine id={row.team?.teamId} variant="link"/>
+							renderCell: ({row}) => <ConstructorByLine id={row.constructor?.rowId} variant="link"/>
 						},
 						{
 							field:      'points',

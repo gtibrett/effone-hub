@@ -1,4 +1,4 @@
-export type {ConstructorPageData, TeamStandingData, TeamData, TeamHistoryData, DriverByYear} from './useConstructorData';
+export type {ConstructorPageData, TeamStandingData, TeamData, TeamHistoryData, DriverByYear} from '@/components/page/constructor/types';
 export type {CircuitDataProps, CircuitHistoryData} from './useCircuitByRef';
 
 export {default as useCircuitByRef} from './useCircuitByRef';
