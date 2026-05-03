@@ -18,25 +18,25 @@ export default function Circuit({circuitRef}: { circuitRef: string }) {
 	const {ref, dimensions: {height}} = useComponentDimensionsWithRef();
 	const seasonToShow                = data?.circuit.season?.[0].results.length ? currentSeason : currentSeason - 1;
 	
-	setPageTitle(`Circuit: ${data?.circuit.name}`);
-	
+	setPageTitle(`Circuit: ${data?.circuit.fullName}`);
+
 	if (!circuitRef) {
 		throw new Error('Page Not found');
 	}
-	
+
 	const {circuit}         = data;
 	const {points, onClick} = mapCircuitsToMapPoints([circuit]);
-	
+
 	return (
 		<Suspense>
 			<Page
-				title={circuit.name}
+				title={circuit.fullName}
 				subheader={(
 					<>
-						<Typography variant="body1">{circuit.location}, {circuit.country}</Typography>
-						{circuit.circuitDescription?.description && (
+						<Typography variant="body1">{circuit.placeName}, {circuit.countryId}</Typography>
+						{circuit.description?.description && (
 							<>
-								<Typography variant="body1">{circuit.circuitDescription.description}</Typography>
+								<Typography variant="body1">{circuit.description.description}</Typography>
 								<Divider orientation="horizontal" sx={{my: 1}}/>
 								<OpenAILink/>
 							</>
@@ -104,16 +104,17 @@ export async function getStaticPaths() {
 	const query = gql`
 		query AllCircuitsQuery {
 			circuits {
-				circuitId
-				circuitRef
+				nodes {
+					id
+				}
 			}
 		}
 	`;
-	
-	const {data: {circuits}} = await apolloClient.query<{ circuits: CircuitT[] }>({query: query});
-	
-	const paths = circuits.map(({circuitRef}) => ({
-		params: {circuitRef}
+
+	const {data: {circuits}} = await apolloClient.query<{ circuits: { nodes: CircuitT[] } }>({query: query});
+
+	const paths = circuits.nodes.map(({id}) => ({
+		params: {circuitRef: id}
 	}));
 	
 	return {paths, fallback: 'blocking'};

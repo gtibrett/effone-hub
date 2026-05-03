@@ -1,70 +1,76 @@
-import {Circuit as CircuitT, Race, Result} from '@/gql/graphql';
+import {Circuit as CircuitT, Race} from '@/gql/graphql';
 import {gql, useSuspenseQuery} from '@apollo/client';
 import {QueryResult} from '@apollo/client/react/types/types';
 
 const CircuitQuery = gql`
 	query CircuitQuery($circuitRef: String!, $showCurrentSeason: Boolean!, $season: Int) {
-		circuit: circuitByCircuitRef(circuitRef: $circuitRef) {
-			circuitId
-			circuitRef
-			name
-			location
-			country
-			lat
-			lng
-			circuitDescription {
+		circuit(id: $circuitRef) {
+			fullName
+			placeName
+			countryId
+			latitude
+			longitude
+			description {
 				description
 			}
 
-			history: races {
-				year
-				round
-				date
-				name
-				results (condition: {position: 1}) {
-					teamId
-					driverId
-					driver {
-						forename
-						surname
+			history: racesByYear(orderBy: YEAR_DESC) {
+				nodes {
+					year
+					round
+					date
+					officialName
+					raceResults(condition: {positionNumber: 1}) {
+						nodes {
+							constructorId
+							driverId
+							driver {
+								firstName
+								lastName
+							}
+							time
+						}
 					}
-					time
-				}
-				lapTimes (condition: {position: 1}) {
-					driverId
-				}
-				fastestLaps: lapTimes(orderBy: MILLISECONDS_ASC, first:1 ) {
-					driverId
-					milliseconds
+					lapTimes(condition: {position: 1}) {
+						nodes {
+							driverId
+						}
+					}
+					fastestLaps: lapTimes(orderBy: TIME_MILLIS_ASC, first: 1) {
+						nodes {
+							driverId
+							timeMillis
+						}
+					}
 				}
 			}
 
-			season: races(condition: {year: $season}) @include(if: $showCurrentSeason) {
-				year
-				round
-				name
-				fp1Date
-				fp1Time
-				fp2Date
-				fp2Time
-				fp3Date
-				fp3Time
-				qualiDate
-				qualiTime
-				date
-				time
-				results {
-					driverId
-					team {
-						teamId
-						constructorRef
-					}
-					grid
-					positionOrder
-					points
+			season: racesByYear(condition: {year: $season}) @include(if: $showCurrentSeason) {
+				nodes {
+					year
+					round
+					officialName
+					freePractice1Date
+					freePractice1Time
+					freePractice2Date
+					freePractice2Time
+					freePractice3Date
+					freePractice3Time
+					qualifyingDate
+					qualifyingTime
+					date
 					time
-					status {
-						status
+					raceResults {
+						nodes {
+							driverId
+							constructor {
+								id
+							}
+							gridPositionNumber
+							positionDisplayOrder
+							points
+							reasonRetired
+						}
 					}
 				}
 			}
@@ -72,20 +78,29 @@ const CircuitQuery = gql`
 	}
 `;
 
-export type CircuitHistoryData = Pick<Race, 'year' | 'round' | 'date' | 'name' | 'lapTimes'> & {
-	results: Pick<Result, 'teamId' | 'driverId' | 'driver' | 'time'>[]
-	fastestLaps: Race['lapTimes']
+export type CircuitHistoryData = Pick<Race, 'year' | 'round' | 'date'> & {
+	officialName: string;
+	raceResults: {
+		nodes: {
+			constructorId: string;
+			driverId: string;
+			driver: { firstName: string; lastName: string };
+			time: string | null;
+		}[];
+	};
+	lapTimes: { nodes: { driverId: string }[] };
+	fastestLaps: { nodes: { driverId: string; timeMillis: number | null }[] };
 }
 
 type CircuitPageData = {
-	circuit: Pick<CircuitT, 'circuitId' | 'circuitRef' | 'name' | 'location' | 'country' | 'lat' | 'lng' | 'circuitDescription'> & {
-		history: CircuitHistoryData[];
-		season: Race[]
+	circuit: Pick<CircuitT, 'fullName' | 'placeName' | 'countryId' | 'latitude' | 'longitude' | 'description'> & {
+		history: { nodes: CircuitHistoryData[] };
+		season: { nodes: Race[] };
 	}
 }
 
 export type CircuitDataProps = Pick<QueryResult<CircuitPageData>, 'data' | 'loading'>;
 
-export default function useCircuitByRef(circuitRef: CircuitT['circuitRef'], season?: number) {
+export default function useCircuitByRef(circuitRef: string, season?: number) {
 	return useSuspenseQuery<CircuitPageData>(CircuitQuery, {variables: {circuitRef, showCurrentSeason: Boolean(season), season}});
 }

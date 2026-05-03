@@ -14,12 +14,12 @@ const DriverDetails = ({driver}: {
 }) => {
 	return (
 		<Grid container spacing={2} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
-			<Grid item><Typography variant="h2">{driver.forename} {driver.surname}</Typography></Grid>
+			<Grid item><Typography variant="h2">{driver.firstName} {driver.lastName}</Typography></Grid>
 			<Hidden mdDown>
 				{driver.nationality && <Grid item><Flag nationality={driver.nationality} size={48}/></Grid>}
 				<Grid item xs/>
-				<Grid item><Typography variant="h2" sx={{fontWeight: 'bold'}}>{driver.code}</Typography></Grid>
-				<Grid item sx={{fontFamily: 'Racing Sans One', fontSize: '1.1em'}}>{driver.number}</Grid>
+				<Grid item><Typography variant="h2" sx={{fontWeight: 'bold'}}>{driver.abbreviation}</Typography></Grid>
+				<Grid item sx={{fontFamily: 'Racing Sans One', fontSize: '1.1em'}}>{driver.permanentNumber}</Grid>
 			</Hidden>
 		</Grid>
 	);
@@ -29,23 +29,26 @@ export default function Driver({driver}: { driver: DriverT }) {
 	const theme             = useTheme();
 	const getTeamColor      = useGetTeamColor();
 	const [{currentSeason}] = useAppState();
-	
-	setPageTitle(`Driver: ${driver?.forename} ${driver?.surname}`);
-	
+
+	setPageTitle(`Driver: ${driver?.firstName} ${driver?.lastName}`);
+
+	const latestSeasonNode = driver.seasonEntrantDrivers?.nodes?.[0];
+	const primaryColor     = latestSeasonNode?.seasonEntrantConstructor?.constructor?.colors?.primaryHex;
+
 	const tabs = [
-		{id: 'career', label: 'Career', content: <Career driverId={driver.driverId}/>},
-		{id: 'circuits', label: 'Circuits', content: <Circuits driverId={driver.driverId}/>}
-	
+		{id: 'career', label: 'Career', content: <Career driverId={driver.id}/>},
+		{id: 'circuits', label: 'Circuits', content: <Circuits driverId={driver.id}/>}
+
 	];
-	
-	if (driver.teamsByYear[0].year === currentSeason) {
-		tabs.push({id: 'season', label: `${currentSeason} Season`, content: <Season driverId={driver.driverId} season={currentSeason}/>});
+
+	if (latestSeasonNode?.year === currentSeason) {
+		tabs.push({id: 'season', label: `${currentSeason} Season`, content: <Season driverId={driver.id} season={currentSeason}/>});
 	}
-	
+
 	return (
 		<Page
 			title={<DriverDetails driver={driver}/>}
-			action={<DriverAvatar driverId={driver.driverId} size={200}/>}
+			action={<DriverAvatar driverId={driver.id} size={200}/>}
 			actionProps={{xs: 'auto'}}
 			subheader={<>
 				{driver.bio && <Typography variant="body1">{driver.bio.extract}</Typography>}
@@ -64,7 +67,7 @@ export default function Driver({driver}: { driver: DriverT }) {
 						width:      '100%',
 						height:     theme.spacing(2),
 						content:    '" "',
-						background: getTeamColor(driver.currentTeam?.team?.colors, 'primary', false)
+						background: primaryColor ?? 'transparent'
 					}
 				}
 			}}
@@ -77,8 +80,8 @@ export default function Driver({driver}: { driver: DriverT }) {
 }
 
 export async function getStaticProps({params: {driverRef}}: { params: { driverRef: string, driver: DriverT } }) {
-	const {data: {driverByRef: driver}} = await apolloClient.query({query: DriverQuery, variables: {driverRef, useDriverRef: true}});
-	
+	const {data: {driver}} = await apolloClient.query({query: DriverQuery, variables: {id: driverRef}});
+
 	return {
 		props: {
 			driverRef,
@@ -88,11 +91,11 @@ export async function getStaticProps({params: {driverRef}}: { params: { driverRe
 }
 
 export async function getStaticPaths() {
-	const {data: {drivers}} = await apolloClient.query<{ drivers: DriverT[] }>({query: DriversQuery});
-	
-	const paths = drivers.map(driver => ({
-		params: {driverRef: driver.driverRef}
+	const {data: {drivers}} = await apolloClient.query<{ drivers: { nodes: DriverT[] } }>({query: DriversQuery});
+
+	const paths = drivers.nodes.map(driver => ({
+		params: {driverRef: driver.id}
 	}));
-	
+
 	return {paths, fallback: 'blocking'};
 }

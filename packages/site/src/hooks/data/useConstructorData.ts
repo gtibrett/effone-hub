@@ -1,115 +1,151 @@
-import {Driver, FinalTeamStandingsByYear, Race, Result, Team, TeamBio, TeamHistory} from '@/gql/graphql';
 import {gql, useQuery} from '@apollo/client';
 
-export type DriverByYear = {
+export type TeamStandingData = {
+	points: number;
+	positionNumber: number;
+	positionText: string;
+	wins: number;
 	year: number;
-	driver: Driver;
-}
+};
 
-export type TeamStandingData = Pick<FinalTeamStandingsByYear, 'points' | 'position' | 'positionText' | 'wins' | 'year'>;
+export type TeamHistoryData = {
+	constructorId: string;
+	name: string;
+	colors: { primaryHex: string };
+	standings: { nodes: TeamStandingData[] };
+};
 
-export type TeamHistoryData = TeamHistory & {
-	antecedentTeam: {
-		standings: TeamStandingData[];
-	}
-}
+export type TeamData = {
+	id: string;
+	name: string;
+	nationality: string;
+	colors: { primaryHex: string };
+	url: string;
 
-export type TeamData = Pick<Team, 'teamId' | 'constructorRef' | 'name' | 'nationality' | 'colors' | 'url'> & {
-	bio: Pick<TeamBio, 'extract'>;
-	
-	teamHistories: TeamHistoryData[];
-	
-	standings: TeamStandingData[];
-	results: Result[];
-	drivers: DriverByYear[]
-}
+	antecedents: { nodes: TeamHistoryData[] };
+
+	standings: { nodes: TeamStandingData[] };
+
+	results: {
+		nodes: {
+			raceId: number;
+			race: { round: number };
+			driverId: string;
+			driver: { abbreviation: string };
+			gridPositionNumber: number;
+			positionDisplayOrder: number;
+			points: number;
+		}[];
+	};
+
+	drivers: {
+		nodes: {
+			year: number;
+			driver: {
+				id: string;
+				firstName: string;
+				lastName: string;
+				driverStandings: {
+					nodes: {
+						year: number;
+						points: number;
+						positionNumber: number;
+						wins: number;
+					}[];
+				};
+			};
+		}[];
+	};
+};
 
 export type ConstructorPageData = {
 	team: TeamData;
-	races: Race[];
-}
+	races: { nodes: { rowId: number; round: number; officialName: string; date: string }[] };
+};
 
 const ConstructorDataQuery = gql`
 	query ConstructorDataQuery($constructorRef: String!, $season: Int!) {
-		team: teamByConstructorRef(constructorRef: $constructorRef) {
-			teamId
-			constructorRef
+		team: constructor(id: $constructorRef) {
+			id
 			name
 			nationality
 			colors {
-				primary
+				primaryHex
 			}
 			url
-			bio {
-				extract
-			}
 
-			drivers: driversByYear(orderBy: DRIVER_ID_ASC) {
-				year
-				driver {
-					driverId
-					driverRef
-					forename
-					surname
-
-					driverStandingsBySeasons {
-						year
-						driverId
-						points
-						position
-						wins
+			drivers: seasonEntrantDrivers(orderBy: YEAR_ASC) {
+				nodes {
+					year
+					driver {
+						id
+						firstName
+						lastName
+						driverStandings: seasonDriverStandings(orderBy: YEAR_ASC) {
+							nodes {
+								year
+								points
+								positionNumber
+								wins
+							}
+						}
 					}
 				}
 			}
 
-			standings: finalTeamStandingsByYears(orderBy: YEAR_ASC) {
-				points
-				position
-				positionText
-				wins
-				year
+			standings: seasonConstructorStandings(orderBy: YEAR_ASC) {
+				nodes {
+					points
+					positionNumber
+					positionText
+					wins
+					year
+				}
 			}
 
-			teamHistories {
-				startYear
-				endYear
-				antecedentTeam {
-					teamId
+			antecedents {
+				nodes {
+					constructorId
 					name
 					colors {
-						primary
+						primaryHex
 					}
-
-					standings: finalTeamStandingsByYears(orderBy: YEAR_ASC) {
-						points
-						position
-						positionText
-						wins
-						year
+					standings: seasonConstructorStandings(orderBy: YEAR_ASC) {
+						nodes {
+							points
+							positionNumber
+							positionText
+							wins
+							year
+						}
 					}
 				}
 			}
 
-			results(condition: { year: $season }) {
-				raceId
-				race {
-					round
+			results: raceResults(condition: { year: $season }) {
+				nodes {
+					raceId
+					race {
+						round
+					}
+					driverId
+					driver {
+						abbreviation
+					}
+					gridPositionNumber
+					positionDisplayOrder
+					points
 				}
-				driverId
-				driver {
-					code
-				}
-				grid
-				positionOrder
-				points
 			}
 		}
 
-		races (condition: {year: $season}, orderBy:ROUND_ASC) {
-			raceId
-			round
-			name
-			date
+		races(condition: { year: $season }, orderBy: ROUND_ASC) {
+			nodes {
+				rowId
+				round
+				officialName
+				date
+			}
 		}
 	}
 `;

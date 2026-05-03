@@ -23,15 +23,15 @@ export default function Round(props: { season: string, round: string, race: Part
 		return <Backdrop open>Loading...</Backdrop>;
 	}
 	
-	setPageTitle(`Race: ${season} ${race.name}`);
-	
+	setPageTitle(`Race: ${season} ${race.officialName}`);
+
 	const circuitDescription = race?.circuit?.circuitDescription?.description || '';
 	const hasResults         = Number(results?.length) > 0;
 	const seasonToShow       = hasResults ? season : season - 1;
 	const {points, onClick}  = mapSeasonRacesToFeatures(season, [race].map(
-		({name, round, circuit, results}) => {
+		({officialName, round, circuit, results}) => {
 			const {lng, lat} = circuit || {};
-			return {name, round, lat, lng, hasResults: Number(results?.length) > 0};
+			return {name: officialName, round, lat, lng, hasResults: Number(results?.length) > 0};
 		})
 	);
 	
@@ -60,7 +60,7 @@ export default function Round(props: { season: string, round: string, race: Part
 			id:      'circuit', label: 'Circuit',
 			content: (
 				         <Card>
-					         <CardHeader title={<Link href={`/circuits/${race.circuit?.circuitRef}`}>{race.circuit?.name}</Link>}/>
+					         <CardHeader title={<Link href={`/circuits/${race.circuit?.id}`}>{race.circuit?.name}</Link>}/>
 					         <CardMedia><RaceMap points={points} onClick={onClick} height={140} centerOn={{lat: race.circuit?.lat, lng: race.circuit?.lng}} zoom/></CardMedia>
 					         <CardContent>
 						         <Typography variant="body1">{circuitDescription} <Box component="span" display="block"><OpenAILink/></Box></Typography>
@@ -76,14 +76,14 @@ export default function Round(props: { season: string, round: string, race: Part
 	
 	return (
 		<Page
-			title={race.name}
+			title={race.officialName}
 			subheader={<Typography>Round {race.round}, {(new Date(race.date || '')).toLocaleDateString()}</Typography>}
 			extra={<Typography variant="body2">{race.summary?.extract} <Box component="span" display="inline-block"><WikipediaLink href={race.url}/></Box></Typography>}
 			action={
 				race.circuit && (<Hidden mdDown>
 						             <Card>
 							             <CardMedia><RaceMap points={points} onClick={onClick} height={140} centerOn={{lat: race.circuit.lat, lng: race.circuit.lng}} zoom/></CardMedia>
-							             <CardHeader title={<Link href={`/circuits/${race.circuit.circuitRef}`}>{race.circuit.name}</Link>}/>
+							             <CardHeader title={<Link href={`/circuits/${race.circuit.id}`}>{race.circuit.name}</Link>}/>
 						             </Card>
 					             </Hidden>
 				             )
@@ -100,7 +100,7 @@ export default function Round(props: { season: string, round: string, race: Part
 							)
 							: (
 								<CardContent>
-									<Typography variant="h5"><Link href={`/circuits/${race.circuit?.circuitRef}`}>{race.circuit?.name}</Link></Typography>
+									<Typography variant="h5"><Link href={`/circuits/${race.circuit?.id}`}>{race.circuit?.name}</Link></Typography>
 									<Typography variant="h6">{race.circuit?.location}, {race.circuit?.country}</Typography>
 									{circuitDescription && (
 										<><Typography variant="body2">{circuitDescription}</Typography>
@@ -135,25 +135,23 @@ export default function Round(props: { season: string, round: string, race: Part
 const RaceQuery = gql`
 	query RaceQuery($season: Int!, $round: Int!) {
 		races(condition: {year: $season, round: $round }) {
-			raceId
+			rowId
 			year
 			round
-			name
+			officialName
 			date
 			url
 			summary {
 				extract
 			}
 			circuit {
-				circuitId
-				circuitRef
+				id
 				name
 				location
 				country
 				lat
 				lng
 				circuitDescription {
-					circuitId
 					description
 				}
 			}
@@ -177,7 +175,7 @@ export async function getStaticPaths() {
 	const query = gql`
 		query AllRacesQuery {
 			races {
-				raceId
+				rowId
 				year
 				round
 			}
