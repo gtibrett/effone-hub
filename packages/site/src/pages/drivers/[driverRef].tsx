@@ -4,9 +4,10 @@ import {Flag, Page} from '@/components/ui';
 import {Driver as DriverT} from '@/gql/graphql';
 import {useGetTeamColor} from '@/hooks';
 import {DriverQuery} from '@/hooks/data/useDriver';
+import useBioRefresh from '@/hooks/useBioRefresh';
 import {apolloClient} from '@/useApolloClient';
 import {setPageTitle, Tabs} from '@gtibrett/mui-additions';
-import {Card, Divider, Grid, Hidden, Typography, useTheme} from '@mui/material';
+import {Box, Card, Divider, Grid, Hidden, Typography, useTheme} from '@mui/material';
 import DriversQuery from '../../components/page/driver/DriversQuery';
 
 const DriverDetails = ({driver}: {
@@ -32,8 +33,11 @@ export default function Driver({driver}: { driver: DriverT }) {
 
 	setPageTitle(`Driver: ${driver?.firstName} ${driver?.lastName}`);
 
-	const latestSeasonNode = driver.seasonEntrantDrivers?.nodes?.[0];
-	const primaryColor     = latestSeasonNode?.team?.colors?.primaryHex;
+	const latestSeasonNode  = driver.seasonEntrantDrivers?.nodes?.[0];
+	const primaryColor      = latestSeasonNode?.team?.colors?.primaryHex;
+	const isCurrentSeason   = latestSeasonNode?.year === currentSeason;
+
+	useBioRefresh('driver', driver.rowId, isCurrentSeason);
 
 	const tabs = [
 		{id: 'career', label: 'Career', content: <Career driverId={driver.rowId}/>},
@@ -41,14 +45,20 @@ export default function Driver({driver}: { driver: DriverT }) {
 
 	];
 
-	if (latestSeasonNode?.year === currentSeason) {
+	if (isCurrentSeason) {
 		tabs.push({id: 'season', label: `${currentSeason} Season`, content: <Season driverId={driver.rowId} season={currentSeason}/>});
 	}
+
+	const bio = driver.bio;
 
 	return (
 		<Page
 			title={<DriverDetails driver={driver}/>}
-			action={<DriverAvatar driverId={driver.rowId} size={200}/>}
+			action={
+				bio?.thumbnailUrl
+					? <Box component="img" src={bio.thumbnailUrl} alt={`${driver.firstName} ${driver.lastName}`} sx={{width: 200, height: 200, objectFit: 'cover', borderRadius: 1}}/>
+					: <DriverAvatar driverId={driver.rowId} size={200}/>
+			}
 			actionProps={{xs: 'auto'}}
 			subheader={<>
 				<Divider orientation="horizontal" sx={{my: 1}}/>
@@ -70,6 +80,11 @@ export default function Driver({driver}: { driver: DriverT }) {
 				}
 			}}
 		>
+			{bio?.extract && (
+				<Card sx={{mb: 2, p: 2}}>
+					<Typography variant="body1">{bio.extract}</Typography>
+				</Card>
+			)}
 			<Card>
 				<Tabs active="career" tabs={tabs}/>
 			</Card>

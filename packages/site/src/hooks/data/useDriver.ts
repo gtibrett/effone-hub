@@ -13,6 +13,13 @@ const DriverFields = gql`
 		permanentNumber
 		nationalityCountryId
 
+		bio {
+			description
+			title
+			extract
+			thumbnailUrl
+		}
+
 		seasonEntrantDrivers(orderBy: YEAR_DESC, first: 1) {
 			nodes {
 				year

@@ -4,10 +4,12 @@ import {DriverPodiums, DriverPoints, DriverQualifying} from '@/components/page/c
 import {Flag, Page, WikipediaLink} from '@/components/ui';
 import {useGetTeamColor} from '@/hooks';
 import {useConstructorData} from '@/hooks/data';
+import useBioRefresh from '@/hooks/useBioRefresh';
+import useTeam from '@/hooks/data/useTeam';
 import {apolloClient} from '@/useApolloClient';
 import {gql} from '@apollo/client';
 import {setPageTitle, Tabs} from '@gtibrett/mui-additions';
-import {Card, CardContent, CardHeader, CardMedia, Divider, Grid, Skeleton, Typography, useTheme} from '@mui/material';
+import {Box, Card, CardContent, CardHeader, CardMedia, Divider, Grid, Skeleton, Typography, useTheme} from '@mui/material';
 import {useRouter} from 'next/router';
 
 type TeamProp = {
@@ -71,15 +73,20 @@ export default function Constructor({teamRef, team}: { teamRef: string, team: Te
 	const getTeamColor      = useGetTeamColor();
 	const [{currentSeason}] = useAppState();
 	const {data, loading}   = useConstructorData(teamRef || '', currentSeason);
-	
+	// Fetch bio (with thumbnailUrl) via the TeamQuery fragment.
+	const {team: teamWithBio} = useTeam(teamRef || undefined);
+
 	setPageTitle(`Constructor: ${team?.name}`);
-	
+
+	const isInCurrentSeason = typeof data?.team?.standings.nodes.find((s: any) => s.year === currentSeason) !== 'undefined';
+
+	// Must call hooks unconditionally — before any early returns.
+	useBioRefresh('team', team?.rowId, isInCurrentSeason);
+
 	if (!data?.team || loading || isFallback) {
 		return <PageSkeleton/>;
 	}
-	
-	const isInCurrentSeason = typeof data?.team.standings.nodes.find((s: any) => s.year === currentSeason) !== 'undefined';
-	
+
 	const tabs = [
 		{
 			id:      'history', label: 'History',
@@ -90,14 +97,16 @@ export default function Constructor({teamRef, team}: { teamRef: string, team: Te
 			content: <Drivers data={data} loading={loading}/>
 		}
 	];
-	
+
 	if (data.team.standings.nodes.find((s: any) => s.year === currentSeason)) {
 		tabs.push({
 			id:      'season', label: `${currentSeason} Season`,
 			content: <Season data={data} loading={loading} season={currentSeason}/>
 		});
 	}
-	
+
+	const bio = teamWithBio?.bio;
+
 	return (
 		<Page
 			title={<TeamDetails team={team}/>}
@@ -123,11 +132,20 @@ export default function Constructor({teamRef, team}: { teamRef: string, team: Te
 		>
 			<Grid container spacing={2}>
 				<Grid item xs={12} md={isInCurrentSeason ? 8 : 12} lg={isInCurrentSeason ? 9 : 12} order={{xs: 2, md: 1}}>
+					{bio?.extract && (
+						<Card variant="outlined" sx={{mb: 2, p: 2}}>
+							{bio.thumbnailUrl && (
+								<Box component="img" src={bio.thumbnailUrl} alt={team.name ?? ''} sx={{float: 'right', ml: 2, mb: 1, width: 120, height: 120, objectFit: 'cover', borderRadius: 1}}/>
+							)}
+							<Typography variant="body1">{bio.extract}</Typography>
+							<Box sx={{clear: 'both'}}/>
+						</Card>
+					)}
 					<Card variant="outlined">
 						<Tabs active="history" tabs={tabs}/>
 					</Card>
 				</Grid>
-				
+
 				{
 					isInCurrentSeason &&
 					<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>

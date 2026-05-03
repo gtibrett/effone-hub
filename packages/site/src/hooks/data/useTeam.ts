@@ -15,11 +15,12 @@ const TeamFields = gql`
 			description
 			title
 			extract
+			thumbnailUrl
 		}
 	}
 `;
 
-const query = gql`
+export const TeamQuery = gql`
 	${TeamFields}
 	query teamById($rowId: String!) {
 		team(rowId: $rowId) {
@@ -32,7 +33,7 @@ const query = gql`
 export default function useTeam(constructorId?: Team['id']): { team?: Team } {
 	const variables = {rowId: constructorId ?? ''};
 
-	const [loadTeam, {called, data}] = useLazyQuery<{ team: Team | null }>(query, {variables});
+	const [loadTeam, {called, data}] = useLazyQuery<{ team: Team | null }>(TeamQuery, {variables});
 
 	return useMemo(() => {
 		if (!called) {

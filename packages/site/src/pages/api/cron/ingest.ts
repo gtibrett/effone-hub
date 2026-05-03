@@ -21,7 +21,6 @@ import {applyDumpAndSwap} from '@/api/ingest/applyDump';
 import {pickRacesNeedingLapTimes} from '@/api/ingest/pickNewRaces';
 import {buildDriverResolver} from '@/api/ingest/resolveDriverId';
 import {ingestLapTimesForRace, LapInsertReport} from '@/api/ingest/insertLapTimes';
-import {fetchAllDriverBios, fetchAllConstructorBios, BioReport} from '@/api/ingest/fetchWikipediaBios';
 
 export const config = {
 	maxDuration: 300,
@@ -31,9 +30,6 @@ export const config = {
 const MAX_RUN_MS             = 4 * 60 * 1000; // 4 minutes — leave 60 s of headroom before the 300 s hard limit
 const MIN_BUDGET_PER_RACE_MS = 15_000;        // stop scheduling new races when less than 15 s remains
 const MAX_RACES_PER_RUN      = 50;            // hard ceiling regardless of remaining time budget
-const MIN_BUDGET_PER_BIO_MS  = 5_000;        // stop scheduling bio batches when less than 5 s remains
-
-type BioSummary = {upserted: number; skipped: number};
 
 type IngestResult = {
 	status:          'no-op' | 'updated';
@@ -44,7 +40,6 @@ type IngestResult = {
 	racesCompleted?: number;
 	racesPending?:   number;
 	truncated?:      boolean;
-	bioReports?:     {drivers: BioSummary; teams: BioSummary};
 	error?:          string;
 };
 
@@ -150,28 +145,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 		await pendingClient.end();
 	}
 
-	// --- Wikipedia bios backfill ---
-	let bioReports: IngestResult['bioReports'];
-	if (Date.now() - startedAt + MIN_BUDGET_PER_BIO_MS <= MAX_RUN_MS) {
-		const bioClient = new Client({connectionString});
-		await bioClient.connect();
-		try {
-			const driverBios = await fetchAllDriverBios(bioClient, {limit: 50, onlyMissing: true});
-			const teamBios   = await fetchAllConstructorBios(bioClient, {limit: 20, onlyMissing: true});
-			bioReports = {
-				drivers: {upserted: driverBios.rowsUpserted, skipped: driverBios.skipped},
-				teams:   {upserted: teamBios.rowsUpserted,  skipped: teamBios.skipped},
-			};
-			console.log(`[ingest] bios drivers=${driverBios.rowsUpserted} upserted/${driverBios.skipped} skipped, teams=${teamBios.rowsUpserted}/${teamBios.skipped}`);
-		} catch (err) {
-			console.error('[ingest] bio backfill error:', err);
-		} finally {
-			await bioClient.end();
-		}
-	} else {
-		console.log('[ingest] skipping bio backfill — insufficient time budget');
-	}
-
 	// --- Update ingest_state ---
 	const updateClient = new Client({connectionString});
 	await updateClient.connect();
@@ -187,5 +160,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 	}
 
 	console.log(`[ingest] done. tag=${release.tag} dumpMs=${durationMs} lapRaces=${racesCompleted} pending=${racesPending} truncated=${truncated}`);
-	res.status(200).json({status: 'updated', tag: release.tag, durationMs, lapReports, racesAttempted, racesCompleted, racesPending, truncated, bioReports});
+	res.status(200).json({status: 'updated', tag: release.tag, durationMs, lapReports, racesAttempted, racesCompleted, racesPending, truncated});
 }
