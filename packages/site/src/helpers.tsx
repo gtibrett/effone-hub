@@ -1,4 +1,4 @@
-import {Maybe, Result, Status} from '@/gql/graphql';
+import {Maybe, RaceResult} from '@/gql/graphql';
 import {capitalize} from '@mui/material';
 import {useRouter} from 'next/router';
 
@@ -8,11 +8,11 @@ export function useSlugs<T extends {}>() {
 	return (useRouter().query || {}) as T;
 }
 
-export function getPositionTextOutcome(positionText: Result['positionText'], status: Status['status']) {
+export function getPositionTextOutcome(positionText: RaceResult['positionText'] | null | undefined, reasonRetired: string | null | undefined) {
 	switch (positionText) {
-		// The value of the positionText attribute is either an integer (finishing position), 
+		// The value of the positionText attribute is either an integer (finishing position),
 		case 'R':
-			return `Retired: ${status}`;
+			return `Retired: ${reasonRetired}`;
 		case 'D':
 			return 'Disqualified';
 		case 'E':
@@ -23,9 +23,9 @@ export function getPositionTextOutcome(positionText: Result['positionText'], sta
 			return 'Failed to qualify';
 		case 'N':
 			return 'Not Classified';
-		
+
 		default:
-			return status;
+			return reasonRetired;
 	}
 }
 

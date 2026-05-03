@@ -1,9 +1,8 @@
 import {useTeam} from '@/hooks/data';
-import {Team} from '@/gql/graphql';
 import {SxProps, useTheme} from '@mui/material';
 import useGetTeamColor from './useGetTeamColor';
 
-export default function useTeamHeaderSx(teamId: Team['teamId']): SxProps {
+export default function useTeamHeaderSx(teamId?: string): SxProps {
 	const theme      = useTheme();
 	const {team}     = useTeam(teamId);
 	const background = useGetTeamColor()(team?.colors);
