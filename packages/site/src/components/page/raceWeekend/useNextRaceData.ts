@@ -30,6 +30,7 @@ type NextRaceQueryResult = {
 			sprintRaceTime: string | null;
 			circuit: {
 				id: string;
+				rowId: string;
 				fullName: string;
 				placeName: string | null;
 				countryId: string | null;
@@ -112,6 +113,7 @@ const query = gql`
 				sprintRaceTime
 				circuit {
 					id
+					rowId
 					fullName
 					placeName
 					countryId
@@ -153,7 +155,7 @@ export default function useNextRaceData(season: number) {
 				sprintTime:  node.sprintRaceTime,
 				circuit:     node.circuit ? {
 					id:         node.circuit.id,
-					circuitRef: node.circuit.id,
+					circuitRef: node.circuit.rowId,
 					fullName:   node.circuit.fullName,
 					location:   node.circuit.placeName,
 					country:    node.circuit.countryId,

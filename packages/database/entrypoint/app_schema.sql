@@ -42,22 +42,24 @@ CREATE TABLE IF NOT EXISTS app.team_colors (
 -- Driver bios — OpenAI-generated description + Wikipedia title/extract.
 -- 1:1 with f1db.driver. PK matches f1db.driver.id (varchar slug).
 CREATE TABLE IF NOT EXISTS app.driver_bios (
-  driver_id   varchar(100) PRIMARY KEY,
-  description text,
-  title       text,
-  extract     text,
-  source      text,
-  updated_at  timestamptz NOT NULL DEFAULT now()
+  driver_id     varchar(100) PRIMARY KEY,
+  description   text,
+  title         text,
+  extract       text,
+  thumbnail_url text,
+  source        text,
+  updated_at    timestamptz NOT NULL DEFAULT now()
 );
 
 -- Constructor bios — same shape, 1:1 with f1db.constructor.
 CREATE TABLE IF NOT EXISTS app.constructor_bios (
-  team_id     varchar(100) PRIMARY KEY,
-  description text,
-  title       text,
-  extract     text,
-  source      text,
-  updated_at  timestamptz NOT NULL DEFAULT now()
+  team_id       varchar(100) PRIMARY KEY,
+  description   text,
+  title         text,
+  extract       text,
+  thumbnail_url text,
+  source        text,
+  updated_at    timestamptz NOT NULL DEFAULT now()
 );
 
 -- Manually-curated team lineage edges. F1DB has constructor_chronology; this stays

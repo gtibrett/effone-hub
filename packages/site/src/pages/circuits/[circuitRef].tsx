@@ -109,7 +109,7 @@ export async function getStaticPaths() {
 		query AllCircuitsQuery {
 			circuits {
 				nodes {
-					id
+					rowId
 				}
 			}
 		}
@@ -117,8 +117,8 @@ export async function getStaticPaths() {
 
 	const {data: {circuits}} = await apolloClient.query<{ circuits: { nodes: CircuitT[] } }>({query: query});
 
-	const paths = circuits.nodes.map(({id}) => ({
-		params: {circuitRef: id}
+	const paths = circuits.nodes.map(({rowId}) => ({
+		params: {circuitRef: rowId}
 	}));
 	
 	return {paths, fallback: 'blocking'};

@@ -12,6 +12,7 @@ import {useRouter} from 'next/router';
 
 type TeamProp = {
 	id: string;
+	rowId: string;
 	name?: string | null;
 	countryId?: string | null;
 	colors?: { primaryHex?: string | null } | null;
@@ -134,14 +135,14 @@ export default function Constructor({teamRef, team}: { teamRef: string, team: Te
 							<CardHeader title={`${currentSeason} Season Stats`}/>
 							<CardContent>
 								<Grid container spacing={2}>
-									<DriverPoints constructorId={team.id} season={currentSeason} place={1}/>
-									<DriverPoints constructorId={team.id} season={currentSeason} place={2}/>
+									<DriverPoints constructorId={team.rowId} season={currentSeason} place={1}/>
+									<DriverPoints constructorId={team.rowId} season={currentSeason} place={2}/>
 									<Grid item xs={12}><Typography variant="h4">Podiums</Typography></Grid>
-									<DriverPodiums constructorId={team.id} season={currentSeason} place={1}/>
-									<DriverPodiums constructorId={team.id} season={currentSeason} place={2}/>
+									<DriverPodiums constructorId={team.rowId} season={currentSeason} place={1}/>
+									<DriverPodiums constructorId={team.rowId} season={currentSeason} place={2}/>
 									<Grid item xs={12}><Typography variant="h4">Qualifying Head-to-Head</Typography></Grid>
-									<DriverQualifying constructorId={team.id} season={currentSeason} place={1}/>
-									<DriverQualifying constructorId={team.id} season={currentSeason} place={2}/>
+									<DriverQualifying constructorId={team.rowId} season={currentSeason} place={1}/>
+									<DriverQualifying constructorId={team.rowId} season={currentSeason} place={2}/>
 								</Grid>
 							</CardContent>
 						</Card>
@@ -157,6 +158,7 @@ export const ConstructorDataQuery = gql`
 		teams(condition: {rowId: $constructorRef}) {
 			nodes {
 				id
+				rowId
 				name
 				countryId
 				colors {
@@ -179,10 +181,10 @@ export async function getStaticProps({params: {teamRef}}: { params: { teamRef: s
 }
 
 export async function getStaticPaths() {
-	const {data: {teams}} = await apolloClient.query<{ teams: { nodes: { id: string }[] } }>({query: ConstructorsQuery});
+	const {data: {teams}} = await apolloClient.query<{ teams: { nodes: { rowId: string }[] } }>({query: ConstructorsQuery});
 
 	const paths = teams.nodes.map(team => ({
-		params: {teamRef: team.id}
+		params: {teamRef: team.rowId}
 	}));
 
 	return {paths, fallback: 'blocking'};

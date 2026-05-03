@@ -29,4 +29,10 @@ psql -v ON_ERROR_STOP=1 \
      --dbname "$POSTGRES_DB" \
      -f /dump/app_schema.sql
 
+echo "[init] seeding team colors"
+psql -v ON_ERROR_STOP=1 \
+     --username "$POSTGRES_USER" \
+     --dbname "$POSTGRES_DB" \
+     -f /migrations/2026_team_colors_seed.sql
+
 echo "[init] done"

@@ -32,18 +32,22 @@ function setupApollo() {
 		apolloClient.query({query: lastRaceQuery})
 		            .then(result => result.data.races.nodes.length ? result.data.races.nodes[0].rowId : 0)
 		            .then(lastRaceId => {
+			      const lastRaceIdStr     = String(lastRaceId);
 			      const persistor         = new CachePersistor({
 				      cache,
-				      storage: new LocalStorageWrapper(window.localStorage)
+				      storage:    new LocalStorageWrapper(window.localStorage),
+				      maxSize:    4_000_000, // ~4MB; localStorage caps around 5-10MB and we'd rather pause than throw
+				      trigger:    'write',
+				      debounce:   500
 			      });
 			      const currentLastRaceId = window.localStorage.getItem(LAST_RACE_ID_KEY);
-			      
-			      if (currentLastRaceId === lastRaceId) {
+
+			      if (currentLastRaceId === lastRaceIdStr) {
 				      persistor.restore()
 				               .then(() => resolve({cache, persistor}));
 			      } else {
 				      persistor.purge()
-				               .then(() => window.localStorage.setItem(LAST_RACE_ID_KEY, lastRaceId))
+				               .then(() => window.localStorage.setItem(LAST_RACE_ID_KEY, lastRaceIdStr))
 				               .then(() => resolve({cache, persistor}));
 			      }
 		      })

@@ -66,6 +66,7 @@ const CircuitQuery = gql`
 							driverId
 							team {
 								id
+								rowId
 							}
 							gridPositionNumber
 							positionDisplayOrder

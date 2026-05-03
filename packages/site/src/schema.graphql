@@ -74,17 +74,17 @@ type Query implements Node {
   """Get a single `SeasonEntrantTyreManufacturer`."""
   seasonEntrantTyreManufacturer(year: Int!, entrantId: String!, teamId: String!, engineManufacturerId: String!, tyreManufacturerId: String!): SeasonEntrantTyreManufacturer
 
-  """Get a single `AppConstructorBio`."""
-  appConstructorBio(teamId: String!): AppConstructorBio
-
-  """Get a single `AppDriverBio`."""
-  appDriverBio(driverId: String!): AppDriverBio
-
   """Get a single `AppLapTime`."""
   appLapTime(raceId: Int!, driverId: String!, lap: Int!): AppLapTime
 
   """Get a single `CircuitLayout`."""
   circuitLayout(rowId: String!): CircuitLayout
+
+  """Get a single `AppConstructorBio`."""
+  appConstructorBio(teamId: String!): AppConstructorBio
+
+  """Get a single `AppDriverBio`."""
+  appDriverBio(driverId: String!): AppDriverBio
 
   """Get a single `Country`."""
   country(rowId: String!): Country
@@ -298,22 +298,6 @@ type Query implements Node {
     id: ID!
   ): SeasonEntrantTyreManufacturer
 
-  """Reads a single `AppConstructorBio` using its globally unique `ID`."""
-  appConstructorBioById(
-    """
-    The globally unique `ID` to be used in selecting a single `AppConstructorBio`.
-    """
-    id: ID!
-  ): AppConstructorBio
-
-  """Reads a single `AppDriverBio` using its globally unique `ID`."""
-  appDriverBioById(
-    """
-    The globally unique `ID` to be used in selecting a single `AppDriverBio`.
-    """
-    id: ID!
-  ): AppDriverBio
-
   """Reads a single `AppLapTime` using its globally unique `ID`."""
   appLapTimeById(
     """
@@ -329,6 +313,22 @@ type Query implements Node {
     """
     id: ID!
   ): CircuitLayout
+
+  """Reads a single `AppConstructorBio` using its globally unique `ID`."""
+  appConstructorBioById(
+    """
+    The globally unique `ID` to be used in selecting a single `AppConstructorBio`.
+    """
+    id: ID!
+  ): AppConstructorBio
+
+  """Reads a single `AppDriverBio` using its globally unique `ID`."""
+  appDriverBioById(
+    """
+    The globally unique `ID` to be used in selecting a single `AppDriverBio`.
+    """
+    id: ID!
+  ): AppDriverBio
 
   """Reads a single `Country` using its globally unique `ID`."""
   countryById(
@@ -983,64 +983,6 @@ type Query implements Node {
     orderBy: [SeasonEntrantTyreManufacturerOrderBy!] = [PRIMARY_KEY_ASC]
   ): SeasonEntrantTyreManufacturerConnection
 
-  """Reads and enables pagination through a set of `AppConstructorBio`."""
-  appConstructorBios(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: AppConstructorBioCondition
-
-    """The method to use when ordering `AppConstructorBio`."""
-    orderBy: [AppConstructorBioOrderBy!] = [PRIMARY_KEY_ASC]
-  ): AppConstructorBioConnection
-
-  """Reads and enables pagination through a set of `AppDriverBio`."""
-  appDriverBios(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: AppDriverBioCondition
-
-    """The method to use when ordering `AppDriverBio`."""
-    orderBy: [AppDriverBioOrderBy!] = [PRIMARY_KEY_ASC]
-  ): AppDriverBioConnection
-
   """Reads and enables pagination through a set of `AppLapTime`."""
   appLapTimes(
     """Only read the first `n` values of the set."""
@@ -1098,6 +1040,64 @@ type Query implements Node {
     """The method to use when ordering `CircuitLayout`."""
     orderBy: [CircuitLayoutOrderBy!] = [PRIMARY_KEY_ASC]
   ): CircuitLayoutConnection
+
+  """Reads and enables pagination through a set of `AppConstructorBio`."""
+  appConstructorBios(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AppConstructorBioCondition
+
+    """The method to use when ordering `AppConstructorBio`."""
+    orderBy: [AppConstructorBioOrderBy!] = [PRIMARY_KEY_ASC]
+  ): AppConstructorBioConnection
+
+  """Reads and enables pagination through a set of `AppDriverBio`."""
+  appDriverBios(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AppDriverBioCondition
+
+    """The method to use when ordering `AppDriverBio`."""
+    orderBy: [AppDriverBioOrderBy!] = [PRIMARY_KEY_ASC]
+  ): AppDriverBioConnection
 
   """Reads and enables pagination through a set of `Country`."""
   countries(
@@ -8946,6 +8946,7 @@ type AppConstructorBio implements Node {
   extract: String
   source: String
   updatedAt: Datetime!
+  thumbnailUrl: String
 
   """Reads a single `Team` that is related to this `AppConstructorBio`."""
   team: Team
@@ -9222,6 +9223,7 @@ type AppDriverBio implements Node {
   extract: String
   source: String
   updatedAt: Datetime!
+  thumbnailUrl: String
 
   """Reads a single `Driver` that is related to this `AppDriverBio`."""
   driver: Driver
@@ -11248,22 +11250,6 @@ type Mutation {
     input: CreateSeasonEntrantTyreManufacturerInput!
   ): CreateSeasonEntrantTyreManufacturerPayload
 
-  """Creates a single `AppConstructorBio`."""
-  createAppConstructorBio(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateAppConstructorBioInput!
-  ): CreateAppConstructorBioPayload
-
-  """Creates a single `AppDriverBio`."""
-  createAppDriverBio(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateAppDriverBioInput!
-  ): CreateAppDriverBioPayload
-
   """Creates a single `AppLapTime`."""
   createAppLapTime(
     """
@@ -11279,6 +11265,22 @@ type Mutation {
     """
     input: CreateCircuitLayoutInput!
   ): CreateCircuitLayoutPayload
+
+  """Creates a single `AppConstructorBio`."""
+  createAppConstructorBio(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateAppConstructorBioInput!
+  ): CreateAppConstructorBioPayload
+
+  """Creates a single `AppDriverBio`."""
+  createAppDriverBio(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateAppDriverBioInput!
+  ): CreateAppDriverBioPayload
 
   """Creates a single `Country`."""
   createCountry(
@@ -11873,42 +11875,6 @@ type Mutation {
   ): UpdateSeasonEntrantTyreManufacturerPayload
 
   """
-  Updates a single `AppConstructorBio` using its globally unique id and a patch.
-  """
-  updateAppConstructorBioById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateAppConstructorBioByIdInput!
-  ): UpdateAppConstructorBioPayload
-
-  """Updates a single `AppConstructorBio` using a unique key and a patch."""
-  updateAppConstructorBio(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateAppConstructorBioInput!
-  ): UpdateAppConstructorBioPayload
-
-  """
-  Updates a single `AppDriverBio` using its globally unique id and a patch.
-  """
-  updateAppDriverBioById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateAppDriverBioByIdInput!
-  ): UpdateAppDriverBioPayload
-
-  """Updates a single `AppDriverBio` using a unique key and a patch."""
-  updateAppDriverBio(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateAppDriverBioInput!
-  ): UpdateAppDriverBioPayload
-
-  """
   Updates a single `AppLapTime` using its globally unique id and a patch.
   """
   updateAppLapTimeById(
@@ -11943,6 +11909,42 @@ type Mutation {
     """
     input: UpdateCircuitLayoutInput!
   ): UpdateCircuitLayoutPayload
+
+  """
+  Updates a single `AppConstructorBio` using its globally unique id and a patch.
+  """
+  updateAppConstructorBioById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateAppConstructorBioByIdInput!
+  ): UpdateAppConstructorBioPayload
+
+  """Updates a single `AppConstructorBio` using a unique key and a patch."""
+  updateAppConstructorBio(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateAppConstructorBioInput!
+  ): UpdateAppConstructorBioPayload
+
+  """
+  Updates a single `AppDriverBio` using its globally unique id and a patch.
+  """
+  updateAppDriverBioById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateAppDriverBioByIdInput!
+  ): UpdateAppDriverBioPayload
+
+  """Updates a single `AppDriverBio` using a unique key and a patch."""
+  updateAppDriverBio(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateAppDriverBioInput!
+  ): UpdateAppDriverBioPayload
 
   """Updates a single `Country` using its globally unique id and a patch."""
   updateCountryById(
@@ -12752,38 +12754,6 @@ type Mutation {
     input: DeleteSeasonEntrantTyreManufacturerInput!
   ): DeleteSeasonEntrantTyreManufacturerPayload
 
-  """Deletes a single `AppConstructorBio` using its globally unique id."""
-  deleteAppConstructorBioById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteAppConstructorBioByIdInput!
-  ): DeleteAppConstructorBioPayload
-
-  """Deletes a single `AppConstructorBio` using a unique key."""
-  deleteAppConstructorBio(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteAppConstructorBioInput!
-  ): DeleteAppConstructorBioPayload
-
-  """Deletes a single `AppDriverBio` using its globally unique id."""
-  deleteAppDriverBioById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteAppDriverBioByIdInput!
-  ): DeleteAppDriverBioPayload
-
-  """Deletes a single `AppDriverBio` using a unique key."""
-  deleteAppDriverBio(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteAppDriverBioInput!
-  ): DeleteAppDriverBioPayload
-
   """Deletes a single `AppLapTime` using its globally unique id."""
   deleteAppLapTimeById(
     """
@@ -12815,6 +12785,38 @@ type Mutation {
     """
     input: DeleteCircuitLayoutInput!
   ): DeleteCircuitLayoutPayload
+
+  """Deletes a single `AppConstructorBio` using its globally unique id."""
+  deleteAppConstructorBioById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteAppConstructorBioByIdInput!
+  ): DeleteAppConstructorBioPayload
+
+  """Deletes a single `AppConstructorBio` using a unique key."""
+  deleteAppConstructorBio(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteAppConstructorBioInput!
+  ): DeleteAppConstructorBioPayload
+
+  """Deletes a single `AppDriverBio` using its globally unique id."""
+  deleteAppDriverBioById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteAppDriverBioByIdInput!
+  ): DeleteAppDriverBioPayload
+
+  """Deletes a single `AppDriverBio` using a unique key."""
+  deleteAppDriverBio(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteAppDriverBioInput!
+  ): DeleteAppDriverBioPayload
 
   """Deletes a single `Country` using its globally unique id."""
   deleteCountryById(
@@ -13948,96 +13950,6 @@ input SeasonEntrantTyreManufacturerInput {
   tyreManufacturerId: String!
 }
 
-"""The output of our create `AppConstructorBio` mutation."""
-type CreateAppConstructorBioPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `AppConstructorBio` that was created by this mutation."""
-  appConstructorBio: AppConstructorBio
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `AppConstructorBio`. May be used by Relay 1."""
-  appConstructorBioEdge(
-    """The method to use when ordering `AppConstructorBio`."""
-    orderBy: [AppConstructorBioOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): AppConstructorBioEdge
-}
-
-"""All input for the create `AppConstructorBio` mutation."""
-input CreateAppConstructorBioInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `AppConstructorBio` to be created by this mutation."""
-  appConstructorBio: AppConstructorBioInput!
-}
-
-"""An input for mutations affecting `AppConstructorBio`"""
-input AppConstructorBioInput {
-  teamId: String!
-  description: String
-  title: String
-  extract: String
-  source: String
-  updatedAt: Datetime
-}
-
-"""The output of our create `AppDriverBio` mutation."""
-type CreateAppDriverBioPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `AppDriverBio` that was created by this mutation."""
-  appDriverBio: AppDriverBio
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `AppDriverBio`. May be used by Relay 1."""
-  appDriverBioEdge(
-    """The method to use when ordering `AppDriverBio`."""
-    orderBy: [AppDriverBioOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): AppDriverBioEdge
-}
-
-"""All input for the create `AppDriverBio` mutation."""
-input CreateAppDriverBioInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `AppDriverBio` to be created by this mutation."""
-  appDriverBio: AppDriverBioInput!
-}
-
-"""An input for mutations affecting `AppDriverBio`"""
-input AppDriverBioInput {
-  driverId: String!
-  description: String
-  title: String
-  extract: String
-  source: String
-  updatedAt: Datetime
-}
-
 """The output of our create `AppLapTime` mutation."""
 type CreateAppLapTimePayload {
   """
@@ -14125,6 +14037,98 @@ input CircuitLayoutInput {
   effective: Boolean!
   length: BigFloat!
   turns: Int!
+}
+
+"""The output of our create `AppConstructorBio` mutation."""
+type CreateAppConstructorBioPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `AppConstructorBio` that was created by this mutation."""
+  appConstructorBio: AppConstructorBio
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `AppConstructorBio`. May be used by Relay 1."""
+  appConstructorBioEdge(
+    """The method to use when ordering `AppConstructorBio`."""
+    orderBy: [AppConstructorBioOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): AppConstructorBioEdge
+}
+
+"""All input for the create `AppConstructorBio` mutation."""
+input CreateAppConstructorBioInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `AppConstructorBio` to be created by this mutation."""
+  appConstructorBio: AppConstructorBioInput!
+}
+
+"""An input for mutations affecting `AppConstructorBio`"""
+input AppConstructorBioInput {
+  teamId: String!
+  description: String
+  title: String
+  extract: String
+  source: String
+  updatedAt: Datetime
+  thumbnailUrl: String
+}
+
+"""The output of our create `AppDriverBio` mutation."""
+type CreateAppDriverBioPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `AppDriverBio` that was created by this mutation."""
+  appDriverBio: AppDriverBio
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `AppDriverBio`. May be used by Relay 1."""
+  appDriverBioEdge(
+    """The method to use when ordering `AppDriverBio`."""
+    orderBy: [AppDriverBioOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): AppDriverBioEdge
+}
+
+"""All input for the create `AppDriverBio` mutation."""
+input CreateAppDriverBioInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `AppDriverBio` to be created by this mutation."""
+  appDriverBio: AppDriverBioInput!
+}
+
+"""An input for mutations affecting `AppDriverBio`"""
+input AppDriverBioInput {
+  driverId: String!
+  description: String
+  title: String
+  extract: String
+  source: String
+  updatedAt: Datetime
+  thumbnailUrl: String
 }
 
 """The output of our create `Country` mutation."""
@@ -17222,144 +17226,6 @@ input UpdateSeasonEntrantTyreManufacturerInput {
   patch: SeasonEntrantTyreManufacturerPatch!
 }
 
-"""The output of our update `AppConstructorBio` mutation."""
-type UpdateAppConstructorBioPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `AppConstructorBio` that was updated by this mutation."""
-  appConstructorBio: AppConstructorBio
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `AppConstructorBio`. May be used by Relay 1."""
-  appConstructorBioEdge(
-    """The method to use when ordering `AppConstructorBio`."""
-    orderBy: [AppConstructorBioOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): AppConstructorBioEdge
-}
-
-"""All input for the `updateAppConstructorBioById` mutation."""
-input UpdateAppConstructorBioByIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `AppConstructorBio` to be updated.
-  """
-  id: ID!
-
-  """
-  An object where the defined keys will be set on the `AppConstructorBio` being updated.
-  """
-  patch: AppConstructorBioPatch!
-}
-
-"""
-Represents an update to a `AppConstructorBio`. Fields that are set will be updated.
-"""
-input AppConstructorBioPatch {
-  teamId: String
-  description: String
-  title: String
-  extract: String
-  source: String
-  updatedAt: Datetime
-}
-
-"""All input for the `updateAppConstructorBio` mutation."""
-input UpdateAppConstructorBioInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  teamId: String!
-
-  """
-  An object where the defined keys will be set on the `AppConstructorBio` being updated.
-  """
-  patch: AppConstructorBioPatch!
-}
-
-"""The output of our update `AppDriverBio` mutation."""
-type UpdateAppDriverBioPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `AppDriverBio` that was updated by this mutation."""
-  appDriverBio: AppDriverBio
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `AppDriverBio`. May be used by Relay 1."""
-  appDriverBioEdge(
-    """The method to use when ordering `AppDriverBio`."""
-    orderBy: [AppDriverBioOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): AppDriverBioEdge
-}
-
-"""All input for the `updateAppDriverBioById` mutation."""
-input UpdateAppDriverBioByIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `AppDriverBio` to be updated.
-  """
-  id: ID!
-
-  """
-  An object where the defined keys will be set on the `AppDriverBio` being updated.
-  """
-  patch: AppDriverBioPatch!
-}
-
-"""
-Represents an update to a `AppDriverBio`. Fields that are set will be updated.
-"""
-input AppDriverBioPatch {
-  driverId: String
-  description: String
-  title: String
-  extract: String
-  source: String
-  updatedAt: Datetime
-}
-
-"""All input for the `updateAppDriverBio` mutation."""
-input UpdateAppDriverBioInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  driverId: String!
-
-  """
-  An object where the defined keys will be set on the `AppDriverBio` being updated.
-  """
-  patch: AppDriverBioPatch!
-}
-
 """The output of our update `AppLapTime` mutation."""
 type UpdateAppLapTimePayload {
   """
@@ -17497,6 +17363,146 @@ input UpdateCircuitLayoutInput {
   An object where the defined keys will be set on the `CircuitLayout` being updated.
   """
   patch: CircuitLayoutPatch!
+}
+
+"""The output of our update `AppConstructorBio` mutation."""
+type UpdateAppConstructorBioPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `AppConstructorBio` that was updated by this mutation."""
+  appConstructorBio: AppConstructorBio
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `AppConstructorBio`. May be used by Relay 1."""
+  appConstructorBioEdge(
+    """The method to use when ordering `AppConstructorBio`."""
+    orderBy: [AppConstructorBioOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): AppConstructorBioEdge
+}
+
+"""All input for the `updateAppConstructorBioById` mutation."""
+input UpdateAppConstructorBioByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `AppConstructorBio` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `AppConstructorBio` being updated.
+  """
+  patch: AppConstructorBioPatch!
+}
+
+"""
+Represents an update to a `AppConstructorBio`. Fields that are set will be updated.
+"""
+input AppConstructorBioPatch {
+  teamId: String
+  description: String
+  title: String
+  extract: String
+  source: String
+  updatedAt: Datetime
+  thumbnailUrl: String
+}
+
+"""All input for the `updateAppConstructorBio` mutation."""
+input UpdateAppConstructorBioInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  teamId: String!
+
+  """
+  An object where the defined keys will be set on the `AppConstructorBio` being updated.
+  """
+  patch: AppConstructorBioPatch!
+}
+
+"""The output of our update `AppDriverBio` mutation."""
+type UpdateAppDriverBioPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `AppDriverBio` that was updated by this mutation."""
+  appDriverBio: AppDriverBio
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `AppDriverBio`. May be used by Relay 1."""
+  appDriverBioEdge(
+    """The method to use when ordering `AppDriverBio`."""
+    orderBy: [AppDriverBioOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): AppDriverBioEdge
+}
+
+"""All input for the `updateAppDriverBioById` mutation."""
+input UpdateAppDriverBioByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `AppDriverBio` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `AppDriverBio` being updated.
+  """
+  patch: AppDriverBioPatch!
+}
+
+"""
+Represents an update to a `AppDriverBio`. Fields that are set will be updated.
+"""
+input AppDriverBioPatch {
+  driverId: String
+  description: String
+  title: String
+  extract: String
+  source: String
+  updatedAt: Datetime
+  thumbnailUrl: String
+}
+
+"""All input for the `updateAppDriverBio` mutation."""
+input UpdateAppDriverBioInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  driverId: String!
+
+  """
+  An object where the defined keys will be set on the `AppDriverBio` being updated.
+  """
+  patch: AppDriverBioPatch!
 }
 
 """The output of our update `Country` mutation."""
@@ -20654,102 +20660,6 @@ input DeleteSeasonEntrantTyreManufacturerInput {
   tyreManufacturerId: String!
 }
 
-"""The output of our delete `AppConstructorBio` mutation."""
-type DeleteAppConstructorBioPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `AppConstructorBio` that was deleted by this mutation."""
-  appConstructorBio: AppConstructorBio
-  deletedAppConstructorBioId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `AppConstructorBio`. May be used by Relay 1."""
-  appConstructorBioEdge(
-    """The method to use when ordering `AppConstructorBio`."""
-    orderBy: [AppConstructorBioOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): AppConstructorBioEdge
-}
-
-"""All input for the `deleteAppConstructorBioById` mutation."""
-input DeleteAppConstructorBioByIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `AppConstructorBio` to be deleted.
-  """
-  id: ID!
-}
-
-"""All input for the `deleteAppConstructorBio` mutation."""
-input DeleteAppConstructorBioInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  teamId: String!
-}
-
-"""The output of our delete `AppDriverBio` mutation."""
-type DeleteAppDriverBioPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `AppDriverBio` that was deleted by this mutation."""
-  appDriverBio: AppDriverBio
-  deletedAppDriverBioId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `AppDriverBio`. May be used by Relay 1."""
-  appDriverBioEdge(
-    """The method to use when ordering `AppDriverBio`."""
-    orderBy: [AppDriverBioOrderBy!]! = [PRIMARY_KEY_ASC]
-  ): AppDriverBioEdge
-}
-
-"""All input for the `deleteAppDriverBioById` mutation."""
-input DeleteAppDriverBioByIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `AppDriverBio` to be deleted.
-  """
-  id: ID!
-}
-
-"""All input for the `deleteAppDriverBio` mutation."""
-input DeleteAppDriverBioInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  driverId: String!
-}
-
 """The output of our delete `AppLapTime` mutation."""
 type DeleteAppLapTimePayload {
   """
@@ -20846,6 +20756,102 @@ input DeleteCircuitLayoutInput {
   """
   clientMutationId: String
   rowId: String!
+}
+
+"""The output of our delete `AppConstructorBio` mutation."""
+type DeleteAppConstructorBioPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `AppConstructorBio` that was deleted by this mutation."""
+  appConstructorBio: AppConstructorBio
+  deletedAppConstructorBioId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `AppConstructorBio`. May be used by Relay 1."""
+  appConstructorBioEdge(
+    """The method to use when ordering `AppConstructorBio`."""
+    orderBy: [AppConstructorBioOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): AppConstructorBioEdge
+}
+
+"""All input for the `deleteAppConstructorBioById` mutation."""
+input DeleteAppConstructorBioByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `AppConstructorBio` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteAppConstructorBio` mutation."""
+input DeleteAppConstructorBioInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  teamId: String!
+}
+
+"""The output of our delete `AppDriverBio` mutation."""
+type DeleteAppDriverBioPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `AppDriverBio` that was deleted by this mutation."""
+  appDriverBio: AppDriverBio
+  deletedAppDriverBioId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `AppDriverBio`. May be used by Relay 1."""
+  appDriverBioEdge(
+    """The method to use when ordering `AppDriverBio`."""
+    orderBy: [AppDriverBioOrderBy!]! = [PRIMARY_KEY_ASC]
+  ): AppDriverBioEdge
+}
+
+"""All input for the `deleteAppDriverBioById` mutation."""
+input DeleteAppDriverBioByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `AppDriverBio` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteAppDriverBio` mutation."""
+input DeleteAppDriverBioInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  driverId: String!
 }
 
 """The output of our delete `Country` mutation."""

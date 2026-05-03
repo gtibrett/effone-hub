@@ -63,7 +63,7 @@ export default function Round(props: { season: string, round: string, race: Part
 			id:      'circuit', label: 'Circuit',
 			content: (
 				         <Card>
-					         <CardHeader title={<Link href={`/circuits/${race.circuit?.id}`}>{race.circuit?.fullName}</Link>}/>
+					         <CardHeader title={<Link href={`/circuits/${race.circuit?.rowId}`}>{race.circuit?.fullName}</Link>}/>
 					         <CardMedia><RaceMap points={points} onClick={onClick} height={140} centerOn={{latitude: race.circuit?.latitude, longitude: race.circuit?.longitude}} zoom/></CardMedia>
 					         <CardContent>
 						         <Typography variant="body1">{circuitDescription} <Box component="span" display="block"><OpenAILink/></Box></Typography>
@@ -86,7 +86,7 @@ export default function Round(props: { season: string, round: string, race: Part
 				race.circuit && (<Hidden mdDown>
 						             <Card>
 							             <CardMedia><RaceMap points={points} onClick={onClick} height={140} centerOn={{latitude: race.circuit.latitude, longitude: race.circuit.longitude}} zoom/></CardMedia>
-							             <CardHeader title={<Link href={`/circuits/${race.circuit.id}`}>{race.circuit.fullName}</Link>}/>
+							             <CardHeader title={<Link href={`/circuits/${race.circuit.rowId}`}>{race.circuit.fullName}</Link>}/>
 						             </Card>
 					             </Hidden>
 				             )
@@ -103,7 +103,7 @@ export default function Round(props: { season: string, round: string, race: Part
 							)
 							: (
 								<CardContent>
-									<Typography variant="h5"><Link href={`/circuits/${race.circuit?.id}`}>{race.circuit?.fullName}</Link></Typography>
+									<Typography variant="h5"><Link href={`/circuits/${race.circuit?.rowId}`}>{race.circuit?.fullName}</Link></Typography>
 									<Typography variant="h6">{race.circuit?.placeName}, {race.circuit?.countryId}</Typography>
 									{circuitDescription && (
 										<><Typography variant="body2">{circuitDescription}</Typography>
@@ -146,6 +146,7 @@ const RaceQuery = gql`
 				date
 				circuit {
 					id
+					rowId
 					fullName
 					placeName
 					countryId
