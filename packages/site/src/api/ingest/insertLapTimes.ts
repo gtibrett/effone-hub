@@ -58,7 +58,7 @@ export async function ingestLapTimesForRace(
 			})
 			.join(',');
 		const result = await client.query(
-			`insert into app.lap_times (race_id, driver_id, lap, position, time, time_millis)
+			`insert into app.lap_times (race_id, driver_id, lap, position, time_text, milliseconds)
 			 values ${renumbered}
 			 on conflict (race_id, driver_id, lap) do nothing`,
 			chunkParams
