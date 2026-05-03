@@ -27,3 +27,10 @@ yarn-error.log*
 
 /packages/api/.env
 /packages/api/configs
+
+# Local dev / agent artifacts
+.playwright-mcp/
+SESSION_CONTEXT.md
+broken-*.png
+console-*.txt
+RUNTIME_400_INVENTORY.md
