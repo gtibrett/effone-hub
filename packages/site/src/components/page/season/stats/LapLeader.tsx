@@ -1,7 +1,7 @@
 import {StatCard} from '@/components/app';
 import {DriverId} from '@/types';
 import {gql, useQuery} from '@apollo/client';
-import {AppLapTime, Race, Season} from '@/gql/graphql';
+import {LapTime, Race, Season} from '@/gql/graphql';
 import {SeasonStatProps} from './index';
 
 type Data = {
@@ -9,7 +9,7 @@ type Data = {
 		racesByYear: {
 			nodes: (Pick<Race, 'rowId' | 'round'> & {
 				lapTimes: {
-					nodes: Pick<AppLapTime, 'driverId'>[]
+					nodes: Pick<LapTime, 'driverId' | 'position'>[]
 				}
 			})[]
 		}
@@ -23,9 +23,10 @@ const query = gql`
 				nodes {
 					rowId
 					round
-					lapTimes(condition: {position: 1}) {
+					lapTimes {
 						nodes {
 							driverId
+							position
 						}
 					}
 				}
@@ -39,8 +40,8 @@ export default function LapLeader({season, size}: SeasonStatProps) {
 	const leaders         = new Map<string, number>();
 
 	(data?.season?.racesByYear?.nodes || []).forEach(r => {
-		(r.lapTimes?.nodes || []).forEach((lt: Pick<AppLapTime, 'driverId'>) => {
-			if (lt.driverId) {
+		(r.lapTimes?.nodes || []).forEach((lt: Pick<LapTime, 'driverId' | 'position'>) => {
+			if (lt.driverId && lt.position === 1) {
 				leaders.set(lt.driverId, (leaders.get(lt.driverId) || 0) + 1);
 			}
 		});

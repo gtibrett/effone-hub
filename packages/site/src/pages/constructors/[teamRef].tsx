@@ -13,17 +13,15 @@ import {useRouter} from 'next/router';
 type TeamProp = {
 	id: string;
 	name?: string | null;
-	nationality?: string | null;
-	url?: string | null;
+	countryId?: string | null;
 	colors?: { primaryHex?: string | null } | null;
-	bio?: { extract?: string | null } | null;
 };
 
 const TeamDetails = ({team}: { team: TeamProp }) => {
 	return (
 		<Grid container spacing={4} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
 			<Grid item><Typography variant="h2">{team.name}</Typography></Grid>
-			{team.nationality && <Grid item><Flag nationality={team.nationality} size={48}/></Grid>}
+			{team.countryId && <Grid item><Flag nationality={team.countryId} size={48}/></Grid>}
 		</Grid>
 	);
 };
@@ -103,9 +101,7 @@ export default function Constructor({teamRef, team}: { teamRef: string, team: Te
 		<Page
 			title={<TeamDetails team={team}/>}
 			subheader={<>
-				{team.bio?.extract && <Typography variant="body1">{team.bio.extract + ''}</Typography>}
 				<Divider orientation="horizontal" sx={{my: 1}}/>
-				<WikipediaLink href={team.url}/>
 			</>}
 			headerProps={{
 				sx: {
@@ -158,28 +154,26 @@ export default function Constructor({teamRef, team}: { teamRef: string, team: Te
 
 export const ConstructorDataQuery = gql`
 	query ConstructorPageStaticQuery($constructorRef: String!) {
-		team: constructor(id: $constructorRef) {
-			id
-			name
-			nationality
-			colors {
-				primaryHex
-			}
-			url
-			bio {
-				extract
+		constructors(condition: {rowId: $constructorRef}) {
+			nodes {
+				id
+				name
+				countryId
+				colors {
+					primaryHex
+				}
 			}
 		}
 	}
 `;
 
 export async function getStaticProps({params: {teamRef}}: { params: { teamRef: string } }) {
-	const {data: {team}} = await apolloClient.query({query: ConstructorDataQuery, variables: {constructorRef: teamRef}});
-	
+	const {data: {constructors}} = await apolloClient.query<{ constructors: { nodes: TeamProp[] } }>({query: ConstructorDataQuery, variables: {constructorRef: teamRef}});
+
 	return {
 		props: {
 			teamRef,
-			team:           team || null
+			team: constructors.nodes[0] || null
 		}
 	};
 }
