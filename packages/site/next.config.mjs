@@ -14,9 +14,7 @@ const POSTGRAPHILE_EXTERNALS = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	experimental: {
-		serverComponentsExternalPackages: POSTGRAPHILE_EXTERNALS
-	},
+	serverExternalPackages: POSTGRAPHILE_EXTERNALS,
 	webpack(config, {isServer}) {
 		config.module.rules.push({
 			test  : /\.svg$/i,

@@ -1,5 +1,5 @@
 import {Box, ThemeProvider} from '@mui/material';
-import {FC, useCallback} from 'react';
+import {FC, ReactNode, useCallback} from 'react';
 import {useInvertedTheme} from '../Theme';
 import useNivoTheme from './useNivoTheme';
 
@@ -26,9 +26,9 @@ export default function NivoTooltipFactory(Component: FC<any>): FC<any> {
 			}
 		};
 		
-		const content = Component({...props, theme: nivoTheme});
-		
-		return content && <Box sx={sx}><ThemeProvider theme={theme}>{content}</ThemeProvider></Box>;
+		const content = Component({...props, theme: nivoTheme}) as ReactNode;
+
+		return content ? <Box sx={sx}><ThemeProvider theme={theme}>{content}</ThemeProvider></Box> : null;
 		
 	}, [Component, nivoTheme, theme]);
 }
