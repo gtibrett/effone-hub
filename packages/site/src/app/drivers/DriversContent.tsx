@@ -1,20 +1,19 @@
+'use client';
+
 import {useAppState} from '@/components/app';
 import {DriversFilters, DriversList, DriversListFilters} from '@/components/page/driver';
 import {Page} from '@/components/ui';
-import {setPageTitle} from '@gtibrett/mui-additions';
 import {Card, CardContent, Skeleton} from '@mui/material';
 import {Suspense, useState} from 'react';
 
-export default function Drivers() {
-	setPageTitle('Drivers');
-	
+export default function DriversContent() {
 	const [{currentSeason}]     = useAppState();
 	const [filters, setFilters] = useState<DriversListFilters>({
 		season:      currentSeason,
 		search:      '',
 		nationality: ''
 	});
-	
+
 	return (
 		<Page title="Drivers">
 			<Card>

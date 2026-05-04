@@ -1,24 +1,21 @@
+'use client';
+
 import {CircuitMap, RaceMap, useAppState, useMapCircuitsToMapPoints} from '@/components/app';
 import {History, Season} from '@/components/page/circuits';
 import {FastestLap, LapLeader, MostWins} from '@/components/page/circuits/stats';
 import {OpenAILink, Page} from '@/components/ui';
-import {Circuit as CircuitT} from '@/gql/graphql';
 import {useCircuitByRef} from '@/hooks/data';
-import {apolloClient} from '@/useApolloClient';
-import {gql} from '@apollo/client';
-import {setPageTitle, Tabs, useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
+import {Tabs, useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {Card, CardContent, CardHeader, Divider, Grid, Hidden, Typography} from '@mui/material';
 import {Suspense} from 'react';
 
-export default function Circuit({circuitRef}: { circuitRef: string }) {
+export default function CircuitContent({circuitRef}: {circuitRef: string}) {
 	const mapCircuitsToMapPoints      = useMapCircuitsToMapPoints();
 	const [{currentSeason}]           = useAppState();
 	const {data}                      = useCircuitByRef(circuitRef, currentSeason);
 	const {data: lastSeasonData}      = useCircuitByRef(circuitRef, currentSeason - 1);
 	const {ref, dimensions: {height}} = useComponentDimensionsWithRef();
 	const seasonToShow                = data?.circuit.season?.nodes?.[0]?.raceResults?.nodes?.length ? currentSeason : currentSeason - 1;
-	
-	setPageTitle(`Circuit: ${data?.circuit.fullName}`);
 
 	if (!circuitRef) {
 		throw new Error('Page Not found');
@@ -75,7 +72,7 @@ export default function Circuit({circuitRef}: { circuitRef: string }) {
 							]}/>
 						</Card>
 					</Grid>
-					
+
 					<Grid item xs={12} md={4} lg={3} sx={{order: {xs: 1, md: 2}}}>
 						<Card sx={{height: '100%'}}>
 							<CardHeader title={`${seasonToShow} Season`}/>
@@ -92,34 +89,4 @@ export default function Circuit({circuitRef}: { circuitRef: string }) {
 			</Page>
 		</Suspense>
 	);
-}
-
-export async function getStaticProps(input: { params: { circuitRef: string } }) {
-	const {params: {circuitRef}} = input;
-	
-	return {
-		props: {
-			circuitRef
-		}
-	};
-}
-
-export async function getStaticPaths() {
-	const query = gql`
-		query AllCircuitsQuery {
-			circuits {
-				nodes {
-					rowId
-				}
-			}
-		}
-	`;
-
-	const {data: {circuits}} = await apolloClient.query<{ circuits: { nodes: CircuitT[] } }>({query: query});
-
-	const paths = circuits.nodes.map(({rowId}) => ({
-		params: {circuitRef: rowId}
-	}));
-	
-	return {paths, fallback: 'blocking'};
 }

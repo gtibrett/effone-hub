@@ -14,6 +14,11 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 const documents = {
+    "\n\tquery RaceQuery($season: Int!, $round: Int!) {\n\t\traces(condition: {year: $season, round: $round}) {\n\t\t\tnodes {\n\t\t\t\trowId\n\t\t\t\tyear\n\t\t\t\tround\n\t\t\t\tofficialName\n\t\t\t\tdate\n\t\t\t\tcircuit {\n\t\t\t\t\tid\n\t\t\t\t\trowId\n\t\t\t\t\tfullName\n\t\t\t\t\tplaceName\n\t\t\t\t\tcountryId\n\t\t\t\t\tlatitude\n\t\t\t\t\tlongitude\n\t\t\t\t\tdescription {\n\t\t\t\t\t\tdescription\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n": types.RaceQueryDocument,
+    "\n\tquery AllRacesQuery {\n\t\traces {\n\t\t\tnodes {\n\t\t\t\trowId\n\t\t\t\tyear\n\t\t\t\tround\n\t\t\t}\n\t\t}\n\t}\n": types.AllRacesQueryDocument,
+    "\n\tquery AllCircuitsQuery {\n\t\tcircuits {\n\t\t\tnodes {\n\t\t\t\trowId\n\t\t\t}\n\t\t}\n\t}\n": types.AllCircuitsQueryDocument,
+    "\n\tquery ConstructorPageStaticQuery($constructorRef: String!) {\n\t\tteams(condition: {rowId: $constructorRef}) {\n\t\t\tnodes {\n\t\t\t\tid\n\t\t\t\trowId\n\t\t\t\tname\n\t\t\t\tcountryId\n\t\t\t\tcolors {\n\t\t\t\t\tid\n\t\t\t\t\tprimaryHex\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n": types.ConstructorPageStaticQueryDocument,
+    "\n\tquery CurrentSeasonQuery {\n\t\tseasons(orderBy: YEAR_DESC, first: 1) {\n\t\t\tnodes {\n\t\t\t\tid\n\t\t\t\tyear\n\t\t\t}\n\t\t}\n\t}\n": types.CurrentSeasonQueryDocument,
     "\n\tquery SeasonMenuQuery {\n\t\tseasons(orderBy: YEAR_DESC) {\n\t\t\tnodes {\n\t\t\t\tid\n\t\t\t\tyear\n\t\t\t}\n\t\t}\n\t}\n": types.SeasonMenuQueryDocument,
     "\n\tquery CircuitsListQuery {\n\t\tcircuits(orderBy: FULL_NAME_ASC) {\n\t\t\tnodes {\n\t\t\t\tid\n\t\t\t\trowId\n\t\t\t\tfullName\n\t\t\t\tplaceName\n\t\t\t\tcountryId\n\t\t\t\tlatitude\n\t\t\t\tlongitude\n\t\t\t\ttype\n\t\t\t\tdirection\n\t\t\t\traces(orderBy: YEAR_DESC) {\n\t\t\t\t\tnodes {\n\t\t\t\t\t\tyear\n\t\t\t\t\t\tround\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n": types.CircuitsListQueryDocument,
     "\n\t#graphql\n\tquery ConstructorsQuery {\n\t\tteams (orderBy: NAME_ASC) {\n\t\t\tnodes {\n\t\t\t\tid\n\t\t\t\trowId\n\t\t\t\tname\n\t\t\t\tcountryId\n\t\t\t\tcolors {\n\t\t\t\t\tid\n\t\t\t\t\tprimaryHex\n\t\t\t\t\tsecondaryHex\n\t\t\t\t}\n\t\t\t\tseasons: seasonTeams {\n\t\t\t\t\tnodes {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tyear\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\traceResults {\n\t\t\t\t\tnodes {\n\t\t\t\t\t\tid\n\t\t\t\t\t\traceId\n\t\t\t\t\t\tdriverId\n\t\t\t\t\t\tpositionNumber\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n": types.ConstructorsQueryDocument,
@@ -56,11 +61,6 @@ const documents = {
     "\n\tfragment TeamFields on Team {\n\t\tid\n\t\tname\n\t\tcountryId\n\t\tcolors {\n\t\t\tid\n\t\t\tprimaryHex\n\t\t\tsecondaryHex\n\t\t}\n\t\tbio {\n\t\t\ttitle\n\t\t\textract\n\t\t\tthumbnailUrl\n\t\t\tsourceUrl\n\t\t}\n\t}\n": types.TeamFieldsFragmentDoc,
     "\n\t\n\tquery teamById($rowId: String!) {\n\t\tteam(rowId: $rowId) {\n\t\t\t...TeamFields\n\t\t}\n\t}\n": types.TeamByIdDocument,
     "\n\tquery SeasonsListQuery {\n\t\tseasons(orderBy: YEAR_DESC) {\n\t\t\tnodes {\n\t\t\t\tid\n\t\t\t\tyear\n\t\t\t\tseasonDriverStandingsByYear(first: 1) {\n\t\t\t\t\ttotalCount\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n": types.SeasonsListQueryDocument,
-    "\n\tquery RaceQuery($season: Int!, $round: Int!) {\n\t\traces(condition: {year: $season, round: $round }) {\n\t\t\tnodes {\n\t\t\t\trowId\n\t\t\t\tyear\n\t\t\t\tround\n\t\t\t\tofficialName\n\t\t\t\tdate\n\t\t\t\tcircuit {\n\t\t\t\t\tid\n\t\t\t\t\trowId\n\t\t\t\t\tfullName\n\t\t\t\t\tplaceName\n\t\t\t\t\tcountryId\n\t\t\t\t\tlatitude\n\t\t\t\t\tlongitude\n\t\t\t\t\tdescription {\n\t\t\t\t\t\tdescription\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n": types.RaceQueryDocument,
-    "\n\t\tquery AllRacesQuery {\n\t\t\traces {\n\t\t\t\tnodes {\n\t\t\t\t\trowId\n\t\t\t\t\tyear\n\t\t\t\t\tround\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t": types.AllRacesQueryDocument,
-    "\n\t\tquery AllCircuitsQuery {\n\t\t\tcircuits {\n\t\t\t\tnodes {\n\t\t\t\t\trowId\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t": types.AllCircuitsQueryDocument,
-    "\n\tquery ConstructorPageStaticQuery($constructorRef: String!) {\n\t\tteams(condition: {rowId: $constructorRef}) {\n\t\t\tnodes {\n\t\t\t\tid\n\t\t\t\trowId\n\t\t\t\tname\n\t\t\t\tcountryId\n\t\t\t\tcolors {\n\t\t\t\t\tid\n\t\t\t\t\tprimaryHex\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n": types.ConstructorPageStaticQueryDocument,
-    "query CurrentSeasonQuery {\n\tseasons(orderBy: YEAR_DESC, first: 1) {\n\t\tnodes {\n\t\t\tid\n\t\t\tyear\n\t\t}\n\t}\n}": types.CurrentSeasonQueryDocument,
     "\n\t#graphql\n\tquery lastRaceQuery {\n\t\traces (orderBy: [YEAR_DESC, ROUND_DESC], first: 1) {\n\t\t\tnodes {\n\t\t\t\trowId\n\t\t\t}\n\t\t}\n\t}": types.LastRaceQueryDocument,
 };
 
@@ -78,6 +78,26 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\tquery RaceQuery($season: Int!, $round: Int!) {\n\t\traces(condition: {year: $season, round: $round}) {\n\t\t\tnodes {\n\t\t\t\trowId\n\t\t\t\tyear\n\t\t\t\tround\n\t\t\t\tofficialName\n\t\t\t\tdate\n\t\t\t\tcircuit {\n\t\t\t\t\tid\n\t\t\t\t\trowId\n\t\t\t\t\tfullName\n\t\t\t\t\tplaceName\n\t\t\t\t\tcountryId\n\t\t\t\t\tlatitude\n\t\t\t\t\tlongitude\n\t\t\t\t\tdescription {\n\t\t\t\t\t\tdescription\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery RaceQuery($season: Int!, $round: Int!) {\n\t\traces(condition: {year: $season, round: $round}) {\n\t\t\tnodes {\n\t\t\t\trowId\n\t\t\t\tyear\n\t\t\t\tround\n\t\t\t\tofficialName\n\t\t\t\tdate\n\t\t\t\tcircuit {\n\t\t\t\t\tid\n\t\t\t\t\trowId\n\t\t\t\t\tfullName\n\t\t\t\t\tplaceName\n\t\t\t\t\tcountryId\n\t\t\t\t\tlatitude\n\t\t\t\t\tlongitude\n\t\t\t\t\tdescription {\n\t\t\t\t\t\tdescription\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\tquery AllRacesQuery {\n\t\traces {\n\t\t\tnodes {\n\t\t\t\trowId\n\t\t\t\tyear\n\t\t\t\tround\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery AllRacesQuery {\n\t\traces {\n\t\t\tnodes {\n\t\t\t\trowId\n\t\t\t\tyear\n\t\t\t\tround\n\t\t\t}\n\t\t}\n\t}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\tquery AllCircuitsQuery {\n\t\tcircuits {\n\t\t\tnodes {\n\t\t\t\trowId\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery AllCircuitsQuery {\n\t\tcircuits {\n\t\t\tnodes {\n\t\t\t\trowId\n\t\t\t}\n\t\t}\n\t}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\tquery ConstructorPageStaticQuery($constructorRef: String!) {\n\t\tteams(condition: {rowId: $constructorRef}) {\n\t\t\tnodes {\n\t\t\t\tid\n\t\t\t\trowId\n\t\t\t\tname\n\t\t\t\tcountryId\n\t\t\t\tcolors {\n\t\t\t\t\tid\n\t\t\t\t\tprimaryHex\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery ConstructorPageStaticQuery($constructorRef: String!) {\n\t\tteams(condition: {rowId: $constructorRef}) {\n\t\t\tnodes {\n\t\t\t\tid\n\t\t\t\trowId\n\t\t\t\tname\n\t\t\t\tcountryId\n\t\t\t\tcolors {\n\t\t\t\t\tid\n\t\t\t\t\tprimaryHex\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\tquery CurrentSeasonQuery {\n\t\tseasons(orderBy: YEAR_DESC, first: 1) {\n\t\t\tnodes {\n\t\t\t\tid\n\t\t\t\tyear\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery CurrentSeasonQuery {\n\t\tseasons(orderBy: YEAR_DESC, first: 1) {\n\t\t\tnodes {\n\t\t\t\tid\n\t\t\t\tyear\n\t\t\t}\n\t\t}\n\t}\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -246,26 +266,6 @@ export function graphql(source: "\n\t\n\tquery teamById($rowId: String!) {\n\t\t
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n\tquery SeasonsListQuery {\n\t\tseasons(orderBy: YEAR_DESC) {\n\t\t\tnodes {\n\t\t\t\tid\n\t\t\t\tyear\n\t\t\t\tseasonDriverStandingsByYear(first: 1) {\n\t\t\t\t\ttotalCount\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery SeasonsListQuery {\n\t\tseasons(orderBy: YEAR_DESC) {\n\t\t\tnodes {\n\t\t\t\tid\n\t\t\t\tyear\n\t\t\t\tseasonDriverStandingsByYear(first: 1) {\n\t\t\t\t\ttotalCount\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n\tquery RaceQuery($season: Int!, $round: Int!) {\n\t\traces(condition: {year: $season, round: $round }) {\n\t\t\tnodes {\n\t\t\t\trowId\n\t\t\t\tyear\n\t\t\t\tround\n\t\t\t\tofficialName\n\t\t\t\tdate\n\t\t\t\tcircuit {\n\t\t\t\t\tid\n\t\t\t\t\trowId\n\t\t\t\t\tfullName\n\t\t\t\t\tplaceName\n\t\t\t\t\tcountryId\n\t\t\t\t\tlatitude\n\t\t\t\t\tlongitude\n\t\t\t\t\tdescription {\n\t\t\t\t\t\tdescription\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery RaceQuery($season: Int!, $round: Int!) {\n\t\traces(condition: {year: $season, round: $round }) {\n\t\t\tnodes {\n\t\t\t\trowId\n\t\t\t\tyear\n\t\t\t\tround\n\t\t\t\tofficialName\n\t\t\t\tdate\n\t\t\t\tcircuit {\n\t\t\t\t\tid\n\t\t\t\t\trowId\n\t\t\t\t\tfullName\n\t\t\t\t\tplaceName\n\t\t\t\t\tcountryId\n\t\t\t\t\tlatitude\n\t\t\t\t\tlongitude\n\t\t\t\t\tdescription {\n\t\t\t\t\t\tdescription\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n\t\tquery AllRacesQuery {\n\t\t\traces {\n\t\t\t\tnodes {\n\t\t\t\t\trowId\n\t\t\t\t\tyear\n\t\t\t\t\tround\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t"): (typeof documents)["\n\t\tquery AllRacesQuery {\n\t\t\traces {\n\t\t\t\tnodes {\n\t\t\t\t\trowId\n\t\t\t\t\tyear\n\t\t\t\t\tround\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n\t\tquery AllCircuitsQuery {\n\t\t\tcircuits {\n\t\t\t\tnodes {\n\t\t\t\t\trowId\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t"): (typeof documents)["\n\t\tquery AllCircuitsQuery {\n\t\t\tcircuits {\n\t\t\t\tnodes {\n\t\t\t\t\trowId\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n\tquery ConstructorPageStaticQuery($constructorRef: String!) {\n\t\tteams(condition: {rowId: $constructorRef}) {\n\t\t\tnodes {\n\t\t\t\tid\n\t\t\t\trowId\n\t\t\t\tname\n\t\t\t\tcountryId\n\t\t\t\tcolors {\n\t\t\t\t\tid\n\t\t\t\t\tprimaryHex\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery ConstructorPageStaticQuery($constructorRef: String!) {\n\t\tteams(condition: {rowId: $constructorRef}) {\n\t\t\tnodes {\n\t\t\t\tid\n\t\t\t\trowId\n\t\t\t\tname\n\t\t\t\tcountryId\n\t\t\t\tcolors {\n\t\t\t\t\tid\n\t\t\t\t\tprimaryHex\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "query CurrentSeasonQuery {\n\tseasons(orderBy: YEAR_DESC, first: 1) {\n\t\tnodes {\n\t\t\tid\n\t\t\tyear\n\t\t}\n\t}\n}"): (typeof documents)["query CurrentSeasonQuery {\n\tseasons(orderBy: YEAR_DESC, first: 1) {\n\t\tnodes {\n\t\t\tid\n\t\t\tyear\n\t\t}\n\t}\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
