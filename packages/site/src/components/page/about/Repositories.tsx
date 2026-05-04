@@ -1,3 +1,5 @@
+'use client';
+
 import {OpensInNewWindow} from '@/components/ui';
 import {faGithub} from '@fortawesome/free-brands-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';

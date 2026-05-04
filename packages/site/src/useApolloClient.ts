@@ -1,11 +1,16 @@
-import {ApolloClient, gql, InMemoryCache} from '@apollo/client';
+'use client';
+
+import {ApolloClient, gql, HttpLink, InMemoryCache} from '@apollo/client';
 import {ApolloCache} from '@apollo/client/cache/core/cache';
 import {NormalizedCacheObject} from '@apollo/client/cache/inmemory/types';
 import {CachePersistor, LocalStorageWrapper} from 'apollo3-cache-persist';
 import {useEffect, useState} from 'react';
 
 const cache               = new InMemoryCache();
-export const apolloClient = new ApolloClient({uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL, cache});
+export const apolloClient = new ApolloClient({
+	link: new HttpLink({uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL}),
+	cache
+});
 
 const LAST_RACE_ID_KEY = 'last-race-id';
 const lastRaceQuery    = gql`

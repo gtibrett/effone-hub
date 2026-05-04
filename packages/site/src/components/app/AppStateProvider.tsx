@@ -1,3 +1,5 @@
+'use client';
+
 import {useSeasons} from '@/hooks';
 import {Backdrop} from '@mui/material';
 import {createContext, Dispatch, FC, PropsWithChildren, SetStateAction, useContext, useEffect, useState} from 'react';
