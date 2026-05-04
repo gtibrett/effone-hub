@@ -35,4 +35,16 @@ psql -v ON_ERROR_STOP=1 \
      --dbname "$POSTGRES_DB" \
      -f /migrations/2026_team_colors_seed.sql
 
+echo "[init] seeding circuit descriptions"
+psql -v ON_ERROR_STOP=1 \
+     --username "$POSTGRES_USER" \
+     --dbname "$POSTGRES_DB" \
+     -f /migrations/2026_circuit_descriptions_seed.sql
+
+echo "[init] seeding team history"
+psql -v ON_ERROR_STOP=1 \
+     --username "$POSTGRES_USER" \
+     --dbname "$POSTGRES_DB" \
+     -f /migrations/2026_team_history_seed.sql
+
 echo "[init] done"

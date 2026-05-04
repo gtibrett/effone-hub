@@ -5,6 +5,7 @@ const query = gql`
 	query DriverSeasonQuery($driverId: String!, $season: Int!) {
 		races(condition: {year: $season}, orderBy: ROUND_ASC) {
 			nodes {
+				id
 				rowId
 				round
 				officialName

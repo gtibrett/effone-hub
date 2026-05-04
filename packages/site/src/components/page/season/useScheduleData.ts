@@ -42,11 +42,13 @@ const query = gql`
 		season(year: $season) {
 			racesByYear(orderBy: ROUND_ASC) {
 				nodes {
+					id
 					rowId
 					round
 					date
 					officialName
 					circuit {
+						id
 						latitude
 						longitude
 					}

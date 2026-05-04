@@ -5,6 +5,7 @@ import {QueryResult} from '@apollo/client/react/types/types';
 const CircuitQuery = gql`
 	query CircuitQuery($circuitRef: String!, $showCurrentSeason: Boolean!, $season: Int) {
 		circuit(rowId: $circuitRef) {
+			id
 			rowId
 			fullName
 			placeName
@@ -17,15 +18,18 @@ const CircuitQuery = gql`
 
 			history: races(orderBy: YEAR_DESC) {
 				nodes {
+					id
 					year
 					round
 					date
 					officialName
 					raceResults(condition: {positionNumber: 1}) {
 						nodes {
+							id
 							teamId
 							driverId
 							driver {
+								id
 								firstName
 								lastName
 							}
@@ -34,11 +38,13 @@ const CircuitQuery = gql`
 					}
 					lapTimes(condition: {lap: 1}) {
 						nodes {
+							id
 							driverId
 						}
 					}
 					fastestLaps: lapTimes(first: 1) {
 						nodes {
+							id
 							driverId
 							milliseconds
 						}
@@ -48,6 +54,7 @@ const CircuitQuery = gql`
 
 			season: races(condition: {year: $season}) @include(if: $showCurrentSeason) {
 				nodes {
+					id
 					year
 					round
 					officialName
@@ -63,6 +70,7 @@ const CircuitQuery = gql`
 					time
 					raceResults {
 						nodes {
+							id
 							driverId
 							team {
 								id

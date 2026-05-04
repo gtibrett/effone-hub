@@ -8,11 +8,13 @@ const ConstructorDataQuery = gql`
 			name
 			countryId
 			colors {
+				id
 				primaryHex
 			}
 
 			drivers: seasonEntrantDrivers(orderBy: YEAR_ASC) {
 				nodes {
+					id
 					year
 					driver {
 						id
@@ -20,6 +22,7 @@ const ConstructorDataQuery = gql`
 						lastName
 						driverStandings: seasonDriverStandings(orderBy: YEAR_ASC) {
 							nodes {
+								id
 								year
 								points
 								positionNumber
@@ -31,6 +34,7 @@ const ConstructorDataQuery = gql`
 
 			standings: seasonTeamStandings(orderBy: YEAR_ASC) {
 				nodes {
+					id
 					points
 					positionNumber
 					positionText
@@ -40,6 +44,7 @@ const ConstructorDataQuery = gql`
 
 			antecedents {
 				nodes {
+					id
 					antecedentTeamId
 					startYear
 					endYear
@@ -47,10 +52,12 @@ const ConstructorDataQuery = gql`
 						id
 						name
 						colors {
+							id
 							primaryHex
 						}
 						standings: seasonTeamStandings(orderBy: YEAR_ASC) {
 							nodes {
+								id
 								points
 								positionNumber
 								positionText
@@ -63,12 +70,15 @@ const ConstructorDataQuery = gql`
 
 			raceResults {
 				nodes {
+					id
 					raceId
 					race {
+						id
 						round
 					}
 					driverId
 					driver {
+						id
 						abbreviation
 					}
 					gridPositionNumber
@@ -80,6 +90,7 @@ const ConstructorDataQuery = gql`
 
 		races(condition: { year: $season }, orderBy: ROUND_ASC) {
 			nodes {
+				id
 				rowId
 				round
 				officialName

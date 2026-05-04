@@ -6,6 +6,7 @@ export const SeasonsQuery = gql`
 	query SeasonMenuQuery {
 		seasons(orderBy: YEAR_DESC) {
 			nodes {
+				id
 				year
 			}
 		}

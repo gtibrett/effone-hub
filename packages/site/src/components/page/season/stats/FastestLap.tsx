@@ -23,11 +23,13 @@ export const seasonFastestLapQuery = gql`
 			year
 			racesByYear {
 				nodes {
+					id
 					rowId
 					round
 					officialName
 					fastestLaps(orderBy: TIME_MILLIS_ASC, first: 1) {
 						nodes {
+							id
 							driverId
 							lap
 							time

@@ -12,6 +12,7 @@ const query = gql`
 		race: raceByYearAndRound(year: $season, round: $round) {
 			lapTimes {
 				nodes {
+					id
 					driverId
 					position
 				}

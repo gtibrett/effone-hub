@@ -13,6 +13,7 @@ const lapsQuery = gql`
 		race: raceByYearAndRound(year: $season, round: $round) {
 			lapTimes(orderBy: LAP_ASC) {
 				nodes {
+					id
 					lap
 					position
 					timeText
@@ -22,6 +23,7 @@ const lapsQuery = gql`
 			}
 			raceResults(orderBy: POSITION_DISPLAY_ORDER_ASC) {
 				nodes {
+					id
 					positionDisplayOrder
 					positionNumber
 					driverId
@@ -30,7 +32,9 @@ const lapsQuery = gql`
 						lastName
 					}
 					team {
+						id
 						colors {
+							id
 							primaryHex
 						}
 					}

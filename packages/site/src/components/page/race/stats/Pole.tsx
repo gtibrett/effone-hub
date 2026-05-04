@@ -19,8 +19,10 @@ const query = gql`
 	query racePolesLeaderQuery($season: Int!, $round: Int!) {
 		races (condition: {year: $season, round: $round}) {
 			nodes {
+				id
 				qualifyingResults (condition: {positionNumber: 1}, first: 1) {
 					nodes {
+						id
 						driverId
 					}
 				}

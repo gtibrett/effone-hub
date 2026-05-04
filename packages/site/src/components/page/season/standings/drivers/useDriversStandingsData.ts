@@ -68,6 +68,7 @@ const query = gql`
 		season(year: $season) {
 			seasonDriverStandingsByYear(orderBy: POSITION_NUMBER_ASC) {
 				nodes {
+					id
 					driverId
 					positionNumber
 					points
@@ -75,19 +76,25 @@ const query = gql`
 			}
 			racesByYear(orderBy: ROUND_ASC) {
 				nodes {
+					id
 					round
 					raceDriverStandings(orderBy: POSITION_NUMBER_ASC) {
 						nodes {
+							id
 							driverId
 							positionNumber
 							points
 							driver {
+								id
 								rowId
 								lastName
 								seasonEntrantDrivers(condition: {year: $season}, first: 1) {
 									nodes {
+										id
 										team {
+											id
 											colors {
+												id
 												primaryHex
 											}
 										}

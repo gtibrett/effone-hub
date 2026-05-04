@@ -29,6 +29,7 @@ export default function HomePage({season}: HomePageProps) {
 const CurrentSeasonQuery = gql`query CurrentSeasonQuery {
 	seasons(orderBy: YEAR_DESC, first: 1) {
 		nodes {
+			id
 			year
 		}
 	}

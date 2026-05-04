@@ -14,6 +14,7 @@ const DriverFields = gql`
 		nationalityCountryId
 
 		bio {
+			id
 			description
 			title
 			extract
@@ -22,10 +23,12 @@ const DriverFields = gql`
 
 		seasonEntrantDrivers(orderBy: YEAR_DESC, first: 1) {
 			nodes {
+				id
 				year
 				team {
 					id
 					colors {
+						id
 						primaryHex
 					}
 				}
@@ -34,10 +37,12 @@ const DriverFields = gql`
 
 		teamsByYear: seasonEntrantDrivers(orderBy: YEAR_DESC) {
 			nodes {
+				id
 				year
 				team {
 					id
 					colors {
+						id
 						primaryHex
 					}
 				}

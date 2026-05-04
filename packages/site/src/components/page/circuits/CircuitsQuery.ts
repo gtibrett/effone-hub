@@ -4,6 +4,7 @@ const CircuitQuery = gql`
 	query CircuitsListQuery {
 		circuits(orderBy: FULL_NAME_ASC) {
 			nodes {
+				id
 				rowId
 				fullName
 				placeName

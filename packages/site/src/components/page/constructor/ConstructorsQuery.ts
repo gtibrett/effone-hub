@@ -10,16 +10,19 @@ const ConstructorsQuery = gql`
 				name
 				countryId
 				colors {
+					id
 					primaryHex
 					secondaryHex
 				}
 				seasons: seasonTeams {
 					nodes {
+						id
 						year
 					}
 				}
 				raceResults {
 					nodes {
+						id
 						raceId
 						driverId
 						positionNumber

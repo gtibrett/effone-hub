@@ -48,16 +48,20 @@ const query = gql`
 		season(year: $season) {
 			racesByYear(orderBy: ROUND_ASC) {
 				nodes {
+					id
 					round
 					raceTeamStandings(orderBy: POSITION_NUMBER_ASC) {
 						nodes {
+							id
 							teamId
 							positionNumber
 							points
 							team {
+								id
 								rowId
 								name
 								colors {
+									id
 									primaryHex
 								}
 							}

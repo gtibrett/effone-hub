@@ -14,6 +14,7 @@ const query = gql`
 		race: raceByYearAndRound(year: $season, round: $round) {
 			fastestLaps(first: 1) {
 				nodes {
+					id
 					driverId
 					lap
 					time

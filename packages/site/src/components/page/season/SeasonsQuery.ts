@@ -4,9 +4,11 @@ const SeasonsQuery = gql`
 	query SeasonsQuery {
 		seasons(orderBy: YEAR_DESC) {
 			nodes {
+				id
 				year
 				seasonTeamStandingsByYear(orderBy: POSITION_NUMBER_ASC, first: 1) {
 					nodes {
+						id
 						teamId
 						points
 						positionNumber
@@ -14,6 +16,7 @@ const SeasonsQuery = gql`
 				}
 				seasonDriverStandingsByYear(orderBy: POSITION_NUMBER_ASC, first: 3) {
 					nodes {
+						id
 						driverId
 						points
 						positionNumber

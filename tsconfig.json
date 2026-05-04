@@ -1,14 +1,5 @@
 {
 	"compilerOptions": {},
-	"exclude":         [
-		"node_modules"
-	]
-	"references":      [
-		{
-			"path": "packages/api"
-		},
-		{
-			"path": "packages/loader"
-		}
-	]
+	"exclude":         ["node_modules"],
+	"references":      [{"path": "packages/site"}]
 }

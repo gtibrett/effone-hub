@@ -7,7 +7,10 @@ FROM postgres:17
 COPY ./entrypoint/init.sh                        /docker-entrypoint-initdb.d/00_init.sh
 COPY ./entrypoint/f1db.sql                       /dump/f1db.sql
 COPY ./entrypoint/app_schema.sql                 /dump/app_schema.sql
-COPY ./migrations/apply_team_rename.sql          /migrations/apply_team_rename.sql
+COPY ./migrations/apply_team_rename.sql               /migrations/apply_team_rename.sql
+COPY ./migrations/2026_team_colors_seed.sql           /migrations/2026_team_colors_seed.sql
+COPY ./migrations/2026_circuit_descriptions_seed.sql  /migrations/2026_circuit_descriptions_seed.sql
+COPY ./migrations/2026_team_history_seed.sql          /migrations/2026_team_history_seed.sql
 
 RUN chmod +x /docker-entrypoint-initdb.d/00_init.sh
 

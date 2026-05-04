@@ -8,10 +8,12 @@ const TeamFields = gql`
 		name
 		countryId
 		colors {
+			id
 			primaryHex
 			secondaryHex
 		}
 		bio {
+			id
 			description
 			title
 			extract

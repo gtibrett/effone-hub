@@ -5,17 +5,20 @@ import {CircuitDialogData} from './types';
 const CircuitDataQuery = gql`
 	query CircuitDataQuery($circuitId: String!, $driverId: String!) {
 		circuit(rowId: $circuitId) {
+			id
 			rowId
 			fullName
 			longitude
 			latitude
 			races {
 				nodes {
+					id
 					rowId
 					year
 					date
 					raceResults(condition: {driverId: $driverId}) {
 						nodes {
+							id
 							gridPositionNumber
 							positionDisplayOrder
 							positionText
@@ -23,8 +26,10 @@ const CircuitDataQuery = gql`
 							timeMillis
 							reasonRetired
 							team {
+								id
 								rowId
 								colors {
+									id
 									primaryHex
 								}
 							}
@@ -32,6 +37,7 @@ const CircuitDataQuery = gql`
 					}
 					lapTimes(condition: {driverId: $driverId}) {
 						nodes {
+							id
 							lap
 							milliseconds
 						}
@@ -43,10 +49,12 @@ const CircuitDataQuery = gql`
 			id
 			seasonEntrantDrivers {
 				nodes {
+					id
 					year
 					team {
 						id
 						colors {
+							id
 							primaryHex
 						}
 					}

@@ -13,6 +13,7 @@ const query = gql`
 	query SeasonDriverChampionQuery($season: Int!) {
 		seasonDriverStandings(condition: {year: $season}, orderBy: POSITION_NUMBER_ASC, first: 1) {
 			nodes {
+				id
 				driverId
 			}
 		}

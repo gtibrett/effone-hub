@@ -5,6 +5,7 @@ export const SeasonsListQuery = gql`
 	query SeasonsListQuery {
 		seasons(orderBy: YEAR_DESC) {
 			nodes {
+				id
 				year
 				seasonDriverStandingsByYear(first: 1) {
 					totalCount

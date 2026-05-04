@@ -23,14 +23,17 @@ const query = gql`
 		season(year: $season) {
 			racesByYear {
 				nodes {
+					id
 					raceResults(condition: {teamId: $constructorId}) {
 						nodes {
+							id
 							driverId
 							points
 						}
 					}
 					sprintRaceResults(condition: {teamId: $constructorId}) {
 						nodes {
+							id
 							driverId
 							points
 						}

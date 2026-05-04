@@ -12,6 +12,7 @@ const query = gql`
 		season(year: $season) {
 			seasonTeamStandingsByYear(orderBy: POSITION_NUMBER_ASC, first: 1) {
 				nodes {
+					id
 					teamId
 				}
 			}

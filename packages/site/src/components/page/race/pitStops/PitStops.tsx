@@ -14,6 +14,7 @@ const pitStopsQuery = gql`
 		race: raceByYearAndRound(year: $season, round: $round) {
 			pitStops {
 				nodes {
+					id
 					lap
 					stop
 					time
@@ -24,7 +25,9 @@ const pitStopsQuery = gql`
 						abbreviation
 					}
 					team {
+						id
 						colors {
+							id
 							primaryHex
 						}
 					}

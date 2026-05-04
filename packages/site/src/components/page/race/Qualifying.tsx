@@ -9,6 +9,7 @@ const QualifyingQuery = gql`
 		race: raceByYearAndRound(year: $season, round: $round) {
 			qualifyingResults {
 				nodes {
+					id
 					driverId
 					teamId
 					positionNumber

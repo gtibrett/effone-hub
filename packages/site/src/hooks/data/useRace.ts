@@ -6,8 +6,10 @@ const raceQuery = gql`
 	query raceBySeasonRound($season: Int!, $round: Int!) {
 		races(condition: { year: $season, round: $round }) {
 			nodes {
+				id
 				raceResults {
 					nodes {
+						id
 						driver {
 							id
 							rowId
@@ -27,6 +29,7 @@ const raceQuery = gql`
 				}
 				sprintRaceResults {
 					nodes {
+						id
 						driver {
 							id
 							rowId

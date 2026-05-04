@@ -6,6 +6,7 @@ const query = gql`
 		driver(rowId: $driverId) {
 			standings: seasonDriverStandings(orderBy: YEAR_ASC) {
 				nodes {
+					id
 					year
 					positionNumber
 					positionText
@@ -16,11 +17,14 @@ const query = gql`
 			# for CareerPerformance.tsx
 			raceResults {
 				nodes {
+					id
 					race {
+						id
 						rowId
 						year
 						round
 						circuit {
+							id
 							rowId
 							fullName
 							longitude

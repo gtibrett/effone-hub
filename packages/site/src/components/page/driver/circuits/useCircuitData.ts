@@ -25,11 +25,14 @@ const query = gql`
 		driver(rowId: $driverId) {
 			raceResults {
 				nodes {
+					id
 					race {
+						id
 						rowId
 						year
 						round
 						circuit {
+							id
 							rowId
 							fullName
 							longitude

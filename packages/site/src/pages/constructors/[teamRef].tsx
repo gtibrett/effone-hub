@@ -180,6 +180,7 @@ export const ConstructorDataQuery = gql`
 				name
 				countryId
 				colors {
+					id
 					primaryHex
 				}
 			}
