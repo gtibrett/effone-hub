@@ -39,28 +39,9 @@ CREATE TABLE IF NOT EXISTS app.team_colors (
   logo          text
 );
 
--- Driver bios — OpenAI-generated description + Wikipedia title/extract.
--- 1:1 with f1db.driver. PK matches f1db.driver.id (varchar slug).
-CREATE TABLE IF NOT EXISTS app.driver_bios (
-  driver_id     varchar(100) PRIMARY KEY,
-  description   text,
-  title         text,
-  extract       text,
-  thumbnail_url text,
-  source        text,
-  updated_at    timestamptz NOT NULL DEFAULT now()
-);
-
--- Constructor bios — same shape, 1:1 with f1db.constructor.
-CREATE TABLE IF NOT EXISTS app.constructor_bios (
-  team_id       varchar(100) PRIMARY KEY,
-  description   text,
-  title         text,
-  extract       text,
-  thumbnail_url text,
-  source        text,
-  updated_at    timestamptz NOT NULL DEFAULT now()
-);
+-- Driver/constructor bios are NOT stored in our DB — they resolve at GraphQL
+-- execution time via WikipediaBioPlugin (postgraphile/utils makeExtendSchemaPlugin)
+-- with a per-process LRU cache. See packages/site/src/api/postgraphile/wikipedia/.
 
 -- Manually-curated team lineage edges. F1DB has constructor_chronology; this stays
 -- as an editorial layer for the timeline UI to express things F1DB does not model.

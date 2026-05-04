@@ -37,16 +37,6 @@ const F1dbSmartTags = makeJSONPgSmartTagsPlugin({
 					foreignKey: '(circuit_id) references f1db.circuit (id)|@fieldName circuit|@foreignFieldName description'
 				}
 			},
-			'app.driver_bios': {
-				tags: {
-					foreignKey: '(driver_id) references f1db.driver (id)|@fieldName driver|@foreignFieldName bio'
-				}
-			},
-			'app.constructor_bios': {
-				tags: {
-					foreignKey: '(team_id) references f1db.team (id)|@fieldName team|@foreignFieldName bio'
-				}
-			},
 			'app.team_colors': {
 				tags: {
 					foreignKey: '(team_id) references f1db.team (id)|@fieldName team|@foreignFieldName colors'

@@ -3,6 +3,7 @@ import {PostGraphileAmberPreset} from 'postgraphile/presets/amber';
 import {makePgService} from 'postgraphile/adaptors/pg';
 import {PgSimplifyInflectionPreset} from '@graphile/simplify-inflection';
 import F1dbSmartTags from './src/api/postgraphile/F1dbSmartTags';
+import WikipediaBioPlugin from './src/api/postgraphile/wikipedia/WikipediaBioPlugin';
 
 const POSTGRES_URL    = process.env.POSTGRES_URL;
 const POSTGRES_SCHEMA = process.env.POSTGRES_SCHEMA ?? 'f1db,app';
@@ -15,7 +16,7 @@ const schemas = POSTGRES_SCHEMA.split(',').map(s => s.trim()).filter(Boolean);
 
 const preset: GraphileConfig.Preset = {
 	extends: [PostGraphileAmberPreset, PgSimplifyInflectionPreset],
-	plugins: [F1dbSmartTags],
+	plugins: [F1dbSmartTags, WikipediaBioPlugin],
 	pgServices: [
 		makePgService({
 			connectionString: POSTGRES_URL,

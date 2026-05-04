@@ -14,11 +14,10 @@ const DriverFields = gql`
 		nationalityCountryId
 
 		bio {
-			id
-			description
 			title
 			extract
 			thumbnailUrl
+			sourceUrl
 		}
 
 		seasonEntrantDrivers(orderBy: YEAR_DESC, first: 1) {

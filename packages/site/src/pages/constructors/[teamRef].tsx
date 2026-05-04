@@ -4,7 +4,6 @@ import {DriverPodiums, DriverPoints, DriverQualifying} from '@/components/page/c
 import {Flag, Page, WikipediaLink} from '@/components/ui';
 import {useGetTeamColor} from '@/hooks';
 import {useConstructorData} from '@/hooks/data';
-import useBioRefresh from '@/hooks/useBioRefresh';
 import useTeam from '@/hooks/data/useTeam';
 import {apolloClient} from '@/useApolloClient';
 import {gql} from '@apollo/client';
@@ -79,9 +78,6 @@ export default function Constructor({teamRef, team}: { teamRef: string, team: Te
 	setPageTitle(`Constructor: ${team?.name}`);
 
 	const isInCurrentSeason = typeof data?.team?.standings.nodes.find((s: any) => s.year === currentSeason) !== 'undefined';
-
-	// Must call hooks unconditionally — before any early returns.
-	useBioRefresh('team', team?.rowId, isInCurrentSeason);
 
 	if (!data?.team || loading || isFallback) {
 		return <PageSkeleton/>;

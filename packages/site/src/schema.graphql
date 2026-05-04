@@ -3259,9 +3259,6 @@ type Driver implements Node {
     orderBy: [RaceDriverStandingOrderBy!] = [PRIMARY_KEY_ASC]
   ): RaceDriverStandingConnection!
 
-  """Reads a single `AppDriverBio` that is related to this `Driver`."""
-  bio: AppDriverBio
-
   """Reads and enables pagination through a set of `AppLapTime`."""
   lapTimes(
     """Only read the first `n` values of the set."""
@@ -3555,6 +3552,7 @@ type Driver implements Node {
     """The method to use when ordering `StartingGridPosition`."""
     orderBy: [StartingGridPositionOrderBy!] = [PRIMARY_KEY_ASC]
   ): StartingGridPositionConnection!
+  bio: WikipediaBio
 }
 
 """A calendar date in YYYY-MM-DD format."""
@@ -4081,9 +4079,6 @@ type Team implements Node {
     orderBy: [RaceTeamStandingOrderBy!] = [PRIMARY_KEY_ASC]
   ): RaceTeamStandingConnection!
 
-  """Reads a single `AppConstructorBio` that is related to this `Team`."""
-  bio: AppConstructorBio
-
   """Reads a single `AppTeamColor` that is related to this `Team`."""
   colors: AppTeamColor
 
@@ -4409,6 +4404,7 @@ type Team implements Node {
     """The method to use when ordering `StartingGridPosition`."""
     orderBy: [StartingGridPositionOrderBy!] = [PRIMARY_KEY_ASC]
   ): StartingGridPositionConnection!
+  bio: WikipediaBio
 }
 
 """A connection to a list of `TeamChronology` values."""
@@ -8935,23 +8931,6 @@ enum SeasonTeamOrderBy {
   TEAM_ID_DESC
 }
 
-type AppConstructorBio implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  id: ID!
-  teamId: String!
-  description: String
-  title: String
-  extract: String
-  source: String
-  updatedAt: Datetime!
-  thumbnailUrl: String
-
-  """Reads a single `Team` that is related to this `AppConstructorBio`."""
-  team: Team
-}
-
 type AppTeamColor implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
@@ -9210,23 +9189,6 @@ enum SeasonDriverStandingOrderBy {
   POSITION_TEXT_DESC
   DRIVER_ID_ASC
   DRIVER_ID_DESC
-}
-
-type AppDriverBio implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  id: ID!
-  driverId: String!
-  description: String
-  title: String
-  extract: String
-  source: String
-  updatedAt: Datetime!
-  thumbnailUrl: String
-
-  """Reads a single `Driver` that is related to this `AppDriverBio`."""
-  driver: Driver
 }
 
 """A `Driver` edge in the connection."""
@@ -9651,6 +9613,34 @@ type AppIngestState implements Node {
   key: String!
   value: String
   updatedAt: Datetime!
+}
+
+type AppConstructorBio implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+  teamId: String!
+  description: String
+  title: String
+  extract: String
+  source: String
+  updatedAt: Datetime!
+  thumbnailUrl: String
+}
+
+type AppDriverBio implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+  driverId: String!
+  description: String
+  title: String
+  extract: String
+  source: String
+  updatedAt: Datetime!
+  thumbnailUrl: String
 }
 
 """A connection to a list of `Season` values."""
@@ -22261,4 +22251,11 @@ input DeleteRaceDatumInput {
   raceId: Int!
   type: String!
   positionDisplayOrder: Int!
+}
+
+type WikipediaBio {
+  title: String!
+  extract: String
+  thumbnailUrl: String
+  sourceUrl: String!
 }

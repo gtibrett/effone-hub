@@ -22,15 +22,24 @@ export default function TeamAvatar({teamId, size = 'small'}: TeamAvatarProps) {
 			return <Avatar variant="rounded" sx={sizeSx}><FontAwesomeIcon icon={faIndustry}/></Avatar>;
 		}
 
-		const {name, colors} = team;
-		const primary        = getTeamColor(colors, 'primaryHex', false);
-		const textColor      = theme.palette.getContrastText(primary);
-		
+		const {name, colors, bio} = team;
+		const primary             = getTeamColor(colors, 'primaryHex', false);
+		const textColor           = theme.palette.getContrastText(primary);
+
 		const initials = name?.replace('F1 Team', '')
 		                     .replace(/[ -]/i, '')
 		                     .split('')
 		                     .filter(l => l.toUpperCase() === l);
-		
-		return <Avatar variant="rounded" sx={{...sizeSx, background: primary, color: textColor}}>{initials?.join('')}</Avatar>;
+
+		return (
+			<Avatar
+				variant="rounded"
+				sx={{...sizeSx, background: primary, color: textColor}}
+				src={bio?.thumbnailUrl ?? undefined}
+				alt={name ?? ''}
+			>
+				{initials?.join('')}
+			</Avatar>
+		);
 	}, [team, getTeamColor, theme, sizeSx]);
 }

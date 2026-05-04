@@ -4,7 +4,6 @@ import {Flag, Page} from '@/components/ui';
 import {Driver as DriverT} from '@/gql/graphql';
 import {useGetTeamColor} from '@/hooks';
 import {DriverQuery} from '@/hooks/data/useDriver';
-import useBioRefresh from '@/hooks/useBioRefresh';
 import {apolloClient} from '@/useApolloClient';
 import {setPageTitle, Tabs} from '@gtibrett/mui-additions';
 import {Box, Card, Divider, Grid, Hidden, Typography, useTheme} from '@mui/material';
@@ -36,8 +35,6 @@ export default function Driver({driver}: { driver: DriverT }) {
 	const latestSeasonNode  = driver.seasonEntrantDrivers?.nodes?.[0];
 	const primaryColor      = latestSeasonNode?.team?.colors?.primaryHex;
 	const isCurrentSeason   = latestSeasonNode?.year === currentSeason;
-
-	useBioRefresh('driver', driver.rowId, isCurrentSeason);
 
 	const tabs = [
 		{id: 'career', label: 'Career', content: <Career driverId={driver.rowId}/>},

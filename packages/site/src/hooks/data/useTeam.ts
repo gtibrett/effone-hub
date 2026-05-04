@@ -13,11 +13,10 @@ const TeamFields = gql`
 			secondaryHex
 		}
 		bio {
-			id
-			description
 			title
 			extract
 			thumbnailUrl
+			sourceUrl
 		}
 	}
 `;
