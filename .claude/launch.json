@@ -3,15 +3,15 @@
   "configurations": [
     {
       "name": "site",
-      "runtimeExecutable": "yarn",
-      "runtimeArgs": ["dev:site"],
+      "runtimeExecutable": "/Users/bharris/.nvm/versions/node/v24.15.0/bin/node",
+      "runtimeArgs": ["/usr/local/Cellar/yarn/1.16.0/libexec/bin/yarn.js", "dev:site"],
       "port": 3000,
       "autoPort": false
     },
     {
       "name": "db",
-      "runtimeExecutable": "yarn",
-      "runtimeArgs": ["start:db"],
+      "runtimeExecutable": "/Users/bharris/.nvm/versions/node/v24.15.0/bin/node",
+      "runtimeArgs": ["/usr/local/Cellar/yarn/1.16.0/libexec/bin/yarn.js", "start:db"],
       "port": 5432
     }
   ]
