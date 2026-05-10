@@ -5,8 +5,6 @@ export const metadata: Metadata = {
 	title: 'Past Seasons | effOne Hub'
 };
 
-export const revalidate = 86400;
-
 export default function SeasonsPage() {
 	return <SeasonsContent/>;
 }

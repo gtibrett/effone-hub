@@ -14,6 +14,11 @@ const POSTGRAPHILE_EXTERNALS = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+	// Cache Components (Next 16): explicit `use cache` opt-in for RSC data
+	// fetches. Pages without `use cache` become dynamic by default. See
+	// src/app/lib/cached-data.ts for the cached helpers and
+	// src/pages/api/cron/ingest.ts for the corresponding `updateTag` calls.
+	cacheComponents: true,
 	serverExternalPackages: POSTGRAPHILE_EXTERNALS,
 	webpack(config, {isServer}) {
 		config.module.rules.push({

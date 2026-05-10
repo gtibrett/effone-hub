@@ -5,8 +5,6 @@ export const metadata: Metadata = {
 	title: 'Drivers | effOne Hub'
 };
 
-export const revalidate = 3600;
-
 export default function DriversPage() {
 	return <DriversContent/>;
 }

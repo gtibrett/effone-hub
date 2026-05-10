@@ -1,31 +1,12 @@
-import {Circuit} from '@/gql/graphql';
-import {gql} from '@apollo/client';
 import type {Metadata} from 'next';
-import {getClient} from '../../lib/apollo-rsc';
+import {getCircuitRowIds} from '../../lib/cached-data';
 import CircuitContent from './CircuitContent';
 
 type Params = Promise<{circuitRef: string}>;
 
-export const revalidate = 86400;
-export const dynamicParams = true;
-
-const AllCircuitsQuery = gql`
-	query AllCircuitsQuery {
-		circuits {
-			nodes {
-				rowId
-			}
-		}
-	}
-`;
-
 export async function generateStaticParams(): Promise<{circuitRef: string}[]> {
-	try {
-		const {data: {circuits}} = await getClient().query<{circuits: {nodes: Circuit[]}}>({query: AllCircuitsQuery});
-		return circuits.nodes.map(({rowId}) => ({circuitRef: rowId!}));
-	} catch {
-		return [];
-	}
+	const ids = await getCircuitRowIds();
+	return ids.map(circuitRef => ({circuitRef}));
 }
 
 export async function generateMetadata({params}: {params: Params}): Promise<Metadata> {

@@ -11,6 +11,7 @@ import {ingestLapTimesForRace, LapInsertReport} from '@/api/ingest/insertLapTime
 import {pickRacesNeedingLapTimes} from '@/api/ingest/pickNewRaces';
 import {buildDriverResolver} from '@/api/ingest/resolveDriverId';
 import {NextApiRequest, NextApiResponse} from 'next';
+import {updateTag} from 'next/cache';
 import {Client} from 'pg';
 
 export const config = {
@@ -139,6 +140,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 		);
 	} finally {
 		await updateClient.end();
+	}
+
+	// Invalidate Next 16 cache tags so every cached RSC fetcher re-runs on
+	// next request. Tags must match those registered by src/app/lib/cached-data.ts.
+	for (const tag of ['seasons', 'current-season', 'drivers', 'teams', 'circuits', 'races']) {
+		try {
+			updateTag(tag);
+		} catch (err) {
+			console.warn(`[ingest] updateTag('${tag}') failed:`, err);
+		}
 	}
 
 	console.log(`[ingest] done. tag=${release.tag} dumpMs=${durationMs} lapRaces=${racesCompleted} pending=${racesPending} truncated=${truncated}`);
