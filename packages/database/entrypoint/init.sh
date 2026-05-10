@@ -47,4 +47,10 @@ psql -v ON_ERROR_STOP=1 \
      --dbname "$POSTGRES_DB" \
      -f /migrations/2026_team_history_seed.sql
 
+echo "[init] applying corrections (idempotent UPDATE patches)"
+psql -v ON_ERROR_STOP=1 \
+     --username "$POSTGRES_USER" \
+     --dbname "$POSTGRES_DB" \
+     -f /migrations/2026_corrections.sql
+
 echo "[init] done"

@@ -71,7 +71,7 @@ const ByDriver = (props: ByLinePropsByDriver) => {
 		case 'full':
 			return (
 				<Grid container spacing={1} alignItems="center" sx={{flexWrap: 'nowrap'}}>
-					<Hidden smDown><Grid item><DriverAvatar driverId={id} {...avatarProps}/></Grid></Hidden>
+					<Hidden smDown><Grid item><DriverAvatar driverId={rowId} {...avatarProps}/></Grid></Hidden>
 					<Grid item><Typography><Link href={`/drivers/${rowId}`}>{name}</Link></Typography></Grid>
 					{!noFlag && nationalityCountryId && <Hidden mdDown><Grid item><Typography><Flag nationality={nationalityCountryId} {...flagProps}/></Typography></Grid></Hidden>}
 				</Grid>

@@ -1,4 +1,4 @@
-import {gql, useLazyQuery} from '@apollo/client';
+import {gql, useQuery} from '@apollo/client';
 import {Driver} from '@/gql/graphql';
 import {useMemo} from 'react';
 
@@ -62,14 +62,13 @@ export const DriverQuery = gql`
 export default function useDriver(driverId?: string) {
 	const variables = {id: driverId ?? ''};
 
-	const [loadDriver, {called, loading, data}] = useLazyQuery<{ driver: Driver }>(DriverQuery, {variables});
+	const {loading, data} = useQuery<{driver: Driver}>(DriverQuery, {
+		variables,
+		skip: !driverId
+	});
 
 	return useMemo((): Driver | undefined => {
-		if (!called) {
-			loadDriver();
-		}
-
-		if (!called || loading || !data?.driver) {
+		if (loading || !data?.driver) {
 			return undefined;
 		}
 
@@ -83,5 +82,5 @@ export default function useDriver(driverId?: string) {
 		}
 
 		return driverData;
-	}, [called, data, loadDriver, loading]);
+	}, [data, loading]);
 }

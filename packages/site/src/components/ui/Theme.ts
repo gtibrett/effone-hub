@@ -1,3 +1,5 @@
+'use client';
+
 import type {} from '@mui/x-data-grid/themeAugmentation';
 import {LinkBehavior} from '@gtibrett/mui-additions/next';
 import {alpha, createTheme, useMediaQuery, useTheme} from '@mui/material';

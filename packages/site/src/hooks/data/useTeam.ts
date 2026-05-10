@@ -1,5 +1,5 @@
 import {Team} from '@/gql/graphql';
-import {gql, useLazyQuery} from '@apollo/client';
+import {gql, useQuery} from '@apollo/client';
 import {useMemo} from 'react';
 
 const TeamFields = gql`
@@ -34,13 +34,10 @@ export const TeamQuery = gql`
 export default function useTeam(constructorId?: Team['id']): { team?: Team } {
 	const variables = {rowId: constructorId ?? ''};
 
-	const [loadTeam, {called, data}] = useLazyQuery<{ team: Team | null }>(TeamQuery, {variables});
+	const {data} = useQuery<{team: Team | null}>(TeamQuery, {
+		variables,
+		skip: !constructorId
+	});
 
-	return useMemo(() => {
-		if (!called) {
-			loadTeam();
-		}
-
-		return {team: data?.team ?? undefined};
-	}, [called, data, loadTeam]);
+	return useMemo(() => ({team: data?.team ?? undefined}), [data]);
 }

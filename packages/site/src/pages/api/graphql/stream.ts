@@ -1,6 +1,6 @@
 import postgraphileMiddleware from '@/api/postgraphile/postgraphileMiddleware';
 import runMiddleware from '@/api/runMiddleware';
-import { NextApiRequest, NextApiResponse } from "next";
+import {NextApiRequest, NextApiResponse} from 'next';
 
 // Endpoint needed for graphiql
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -11,6 +11,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 export const config = {
 	api: {
-		bodyParser: false,
-	},
-}
+		bodyParser: false
+	}
+};
