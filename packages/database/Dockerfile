@@ -11,6 +11,7 @@ COPY ./migrations/apply_team_rename.sql               /migrations/apply_team_ren
 COPY ./migrations/2026_team_colors_seed.sql           /migrations/2026_team_colors_seed.sql
 COPY ./migrations/2026_circuit_descriptions_seed.sql  /migrations/2026_circuit_descriptions_seed.sql
 COPY ./migrations/2026_team_history_seed.sql          /migrations/2026_team_history_seed.sql
+COPY ./migrations/2026_corrections.sql                /migrations/2026_corrections.sql
 
 RUN chmod +x /docker-entrypoint-initdb.d/00_init.sh
 
