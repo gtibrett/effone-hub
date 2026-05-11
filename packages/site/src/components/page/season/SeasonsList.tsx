@@ -10,10 +10,14 @@ import {ChampionData, DriverChampionData, isDriverChampion, SeasonData, TeamCham
 
 type PlaceVariant = 'driver' | 'team'
 
-function getAtPlace(variant: PlaceVariant, season: SeasonData, place: number) {
+function getAtPlace(
+	variant: PlaceVariant,
+	season: SeasonData,
+	place: number
+): DriverChampionData | TeamChampionData | undefined {
 	return variant === 'driver'
-	       ? (season.racesByYear?.[0]?.driverStandings?.[place - 1] || undefined) as DriverChampionData
-	       : (season.racesByYear?.[0]?.teamStandings?.[place - 1] || undefined) as TeamChampionData;
+	       ? (season.racesByYear?.[0]?.driverStandings?.[place - 1] || undefined) as DriverChampionData | undefined
+	       : (season.racesByYear?.[0]?.teamStandings?.[place - 1] || undefined) as TeamChampionData | undefined;
 }
 
 type PlaceColumnRendererProps = {

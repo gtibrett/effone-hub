@@ -1,5 +1,5 @@
 import type {Metadata} from 'next';
-import {buildRaceSlugs} from '../../lib/build-pg';
+import {buildRaceName, buildRaceSlugs} from '../../lib/build-pg';
 import {getRace} from '../../lib/cached-data';
 import RoundContent from './RoundContent';
 
@@ -11,7 +11,7 @@ export async function generateStaticParams(): Promise<{season: string; round: st
 
 export async function generateMetadata({params}: {params: Params}): Promise<Metadata> {
 	const {season, round} = await params;
-	const race = await getRace(Number(season), Number(round));
+	const race = await buildRaceName(Number(season), Number(round));
 	return {title: race?.officialName ? `${race.officialName} | effOne Hub` : `Race ${season}/${round} | effOne Hub`};
 }
 

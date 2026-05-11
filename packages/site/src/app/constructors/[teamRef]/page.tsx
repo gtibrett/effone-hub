@@ -1,6 +1,5 @@
 import type {Metadata} from 'next';
-import {buildTeamRowIds} from '../../lib/build-pg';
-import {getTeam} from '../../lib/cached-data';
+import {buildTeamFull, buildTeamName, buildTeamRowIds} from '../../lib/build-pg';
 import ConstructorContent from './ConstructorContent';
 
 type Params = Promise<{teamRef: string}>;
@@ -12,12 +11,12 @@ export async function generateStaticParams(): Promise<{teamRef: string}[]> {
 
 export async function generateMetadata({params}: {params: Params}): Promise<Metadata> {
 	const {teamRef} = await params;
-	const team = await getTeam(teamRef);
+	const team = await buildTeamName(teamRef);
 	return {title: team?.name ? `${team.name} | effOne Hub` : `Constructor: ${teamRef} | effOne Hub`};
 }
 
 export default async function ConstructorPage({params}: {params: Params}) {
 	const {teamRef} = await params;
-	const team = await getTeam(teamRef);
-	return <ConstructorContent teamRef={teamRef} team={team}/>;
+	const team = await buildTeamFull(teamRef);
+	return <ConstructorContent teamRef={teamRef} team={team as any}/>;
 }

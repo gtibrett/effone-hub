@@ -29,9 +29,10 @@ const preset: GraphileConfig.Preset = {
 	grafserv: {
 		graphqlPath: '/api/graphql',
 		eventStreamPath: '/api/graphql/stream',
-		graphiql:     process.env.ENABLE_GRAPHIQL === 'true',
-		graphiqlPath: '/api/graphiql',
-		watch:        process.env.NODE_ENV !== 'production'
+		graphiql:           process.env.ENABLE_GRAPHIQL === 'true',
+		graphiqlPath:       '/api/graphiql',
+		graphiqlStaticPath: '/api/ruru-static/',
+		watch:              process.env.NODE_ENV !== 'production'
 	},
 	schema: {
 		exportSchemaSDLPath: process.env.NODE_ENV === 'production' ? undefined : './src/schema.graphql'
