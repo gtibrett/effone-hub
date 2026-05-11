@@ -14,7 +14,7 @@ export default function CircuitPerformance({data, loading}: CircuitPerformancePr
 	const nivoTheme                  = useNivoTheme();
 	const {ref, dimensions: {width}} = useComponentDimensionsWithRef();
 	const rawResults                 = data?.circuit.races?.nodes?.flatMap(r => r.results);
-	const circuitResults             = rawResults?.map(r => ({
+	const circuitResults             = rawResults?.filter(Boolean).map(r => ({
 		positionOrder: r.positionDisplayOrder ?? undefined,
 		positionText:  r.positionText ?? undefined
 	})) as any;

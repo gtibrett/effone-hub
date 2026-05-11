@@ -14,8 +14,10 @@ import {NextApiRequest, NextApiResponse} from 'next';
 import {updateTag} from 'next/cache';
 import {Client} from 'pg';
 
+// Hobby plan caps maxDuration at 60s. Bump to 300 when on Pro.
+// See vercel.json + DEPLOY.md for the upgrade note.
 export const config = {
-	maxDuration: 300,
+	maxDuration: 60,
 	api:         {bodyParser: false}
 };
 

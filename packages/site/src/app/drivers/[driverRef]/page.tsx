@@ -1,11 +1,12 @@
 import type {Metadata} from 'next';
-import {getDriver, getDriverRowIds} from '../../lib/cached-data';
+import {buildDriverRowIds} from '../../lib/build-pg';
+import {getDriver} from '../../lib/cached-data';
 import DriverContent from './DriverContent';
 
 type Params = Promise<{driverRef: string}>;
 
 export async function generateStaticParams(): Promise<{driverRef: string}[]> {
-	const ids = await getDriverRowIds();
+	const ids = await buildDriverRowIds();
 	return ids.map(driverRef => ({driverRef}));
 }
 

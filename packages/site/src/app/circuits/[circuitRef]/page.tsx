@@ -1,11 +1,11 @@
 import type {Metadata} from 'next';
-import {getCircuitRowIds} from '../../lib/cached-data';
+import {buildCircuitRowIds} from '../../lib/build-pg';
 import CircuitContent from './CircuitContent';
 
 type Params = Promise<{circuitRef: string}>;
 
 export async function generateStaticParams(): Promise<{circuitRef: string}[]> {
-	const ids = await getCircuitRowIds();
+	const ids = await buildCircuitRowIds();
 	return ids.map(circuitRef => ({circuitRef}));
 }
 

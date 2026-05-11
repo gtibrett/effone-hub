@@ -1,0 +1,6 @@
+.next
+node_modules
+**/yarn-error.log
+*.log
+*.tsbuildinfo
+load-neon.mjs

@@ -3,6 +3,9 @@
 	"version": "2.0.0-alpha.0",
 	"license": "MIT",
 	"private": true,
+	"engines": {
+		"node": ">=22.0.0"
+	},
 	"workspaces": [
 		"packages/database",
 		"packages/site"
@@ -16,5 +19,6 @@
 		"dev:site": "yarn workspace @gtibrett/effone-hub-site run dev",
 		"build:site": "yarn workspace @gtibrett/effone-hub-site run build",
 		"start:site": "yarn workspace @gtibrett/effone-hub-site run start"
-	}
+	},
+	"devDependencies": {}
 }

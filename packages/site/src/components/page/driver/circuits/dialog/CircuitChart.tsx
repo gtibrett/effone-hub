@@ -8,7 +8,7 @@ type CircuitChartProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading'
 
 export default function CircuitChart({data}: CircuitChartProps) {
 	const getTeamColor = useGetTeamColor();
-	const races        = (data?.circuit.races?.nodes || []).filter(r => r.results.length);
+	const races        = (data?.circuit.races?.nodes || []).filter(r => r?.results?.length);
 
 	const chartData: DataWithTeamInfo[] = races.map(r => ({
 		teamId:   r.results[0].constructor?.rowId ?? '',

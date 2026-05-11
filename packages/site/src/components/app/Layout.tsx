@@ -3,7 +3,7 @@
 import {useTheme} from '@mui/material/styles';
 import {SkipNav, UkraineButton} from '@gtibrett/mui-additions';
 import {Box, Container, SxProps} from '@mui/material';
-import {PropsWithChildren} from 'react';
+import {PropsWithChildren, Suspense} from 'react';
 import AppStateProvider from './AppStateProvider';
 import ErrorBoundary from './ErrorBoundary';
 import Footer from './footer/Footer';
@@ -17,20 +17,31 @@ export default function Layout({children}: PropsWithChildren) {
 		position: 'relative'
 	};
 
+	// Cache Components requires non-deterministic values like `new Date()` (used
+	// throughout the leaf components for "is this race in the future?" checks)
+	// to be inside a Suspense boundary. Wrap the route children + every other
+	// dynamic surface (Header has menus that read current season; Footer is
+	// static but cheap to wrap) so the prerender accepts them.
 	return (
 		<AppStateProvider>
 			<SkipNav selector="main"/>
 
 			<Box sx={{position: 'fixed', overflow: 'auto', scrollbarColor: theme.palette.mode, top: 0, left: 0, right: 0, bottom: 0, background: theme.palette.background.default}}>
-				<Header/>
+				<Suspense>
+					<Header/>
+				</Suspense>
 
 				<Container maxWidth="xl" component="main" sx={sx} tabIndex={0}>
 					<ErrorBoundary>
-						{children}
+						<Suspense>
+							{children}
+						</Suspense>
 					</ErrorBoundary>
 				</Container>
 
-				<Footer/>
+				<Suspense>
+					<Footer/>
+				</Suspense>
 				<UkraineButton/>
 			</Box>
 		</AppStateProvider>

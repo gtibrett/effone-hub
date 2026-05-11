@@ -2,6 +2,9 @@
 	"name": "@gtibrett/effone-hub-site",
 	"version": "2.0.0-alpha",
 	"private": true,
+	"engines": {
+		"node": ">=22.0.0"
+	},
 	"scripts": {
 		"postinstall": "node ../../scripts/delete-nivo-cjs.js",
 		"postupgrade": "node ../../scripts/delete-nivo-cjs.js",

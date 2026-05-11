@@ -14,7 +14,7 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 		return <Skeleton variant="rectangular" height={400}/>;
 	}
 
-	const races = data?.circuit.races?.nodes?.filter(r => r.results.length);
+	const races = data?.circuit.races?.nodes?.filter(r => r.results?.length);
 
 	if (!races.length) {
 		return <Alert variant="outlined" severity="info">Race Data Not Available</Alert>;

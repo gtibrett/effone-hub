@@ -37,10 +37,11 @@
 --   213 alphatauri    → alphatauri (per comment)
 --   214 alpine        → alpine (per comment)
 --
--- Idempotent: ON CONFLICT (team_id, antecedent_team_id) DO NOTHING.
--- NOTE: Where two source rows collapse to the same (team_id, antecedent_team_id) PK due to
--- int→slug mapping (e.g. both 13→midland and 14→spyker producing different rows), the first
--- inserted row wins and the conflicting row is silently skipped.
+-- Idempotent: ON CONFLICT (team_id, antecedent_team_id, start_year) DO NOTHING.
+-- start_year is part of the PK (see app_schema.sql), so two rows that share
+-- (team_id, antecedent_team_id) but differ in year-range now both insert.
+-- This restores alfa-romeo/sauber 2011-2018 and alpine/renault 2016-2020 which
+-- were previously dropped by the old PK collision.
 
 INSERT INTO app.team_history (team_id, antecedent_team_id, start_year, end_year) VALUES
 
@@ -53,8 +54,7 @@ INSERT INTO app.team_history (team_id, antecedent_team_id, start_year, end_year)
 ('alfa-romeo', 'sauber',    1993, 2005),
 ('alfa-romeo', 'bmw-sauber', 2006, 2010),
 ('alfa-romeo', 'sauber',    2011, 2018),
--- Note: ('alfa-romeo','sauber',2011,2018) conflicts on PK with the 1993-2005 row;
--- ON CONFLICT DO NOTHING means only the first (1993-2005) is stored for this pair.
+-- Both alfa-romeo/sauber rows now coexist (PK includes start_year).
 
 -- aston martin (117) lineage
 ('aston-martin', 'jordan',     1991, 2005),
@@ -82,7 +82,6 @@ INSERT INTO app.team_history (team_id, antecedent_team_id, start_year, end_year)
 ('alpine', 'renault',  2002, 2011),
 ('alpine', 'lotus-f1', 2012, 2015),
 ('alpine', 'renault',  2016, 2020)
--- Note: ('alpine','renault',2016,2020) conflicts on PK with ('alpine','renault',2002,2011);
--- ON CONFLICT DO NOTHING means only the 2002-2011 row is stored for this pair.
+-- Both alpine/renault rows now coexist (PK includes start_year).
 
-ON CONFLICT (team_id, antecedent_team_id) DO NOTHING;
+ON CONFLICT (team_id, antecedent_team_id, start_year) DO NOTHING;

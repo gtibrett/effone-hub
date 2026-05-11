@@ -45,12 +45,17 @@ CREATE TABLE IF NOT EXISTS app.team_colors (
 
 -- Manually-curated team lineage edges. F1DB has constructor_chronology; this stays
 -- as an editorial layer for the timeline UI to express things F1DB does not model.
+-- start_year is part of the PK so multiple year-range entries for the same
+-- (team, antecedent) pair can coexist. Example: alfa-romeo/sauber has both a
+-- 1993-2005 (original Sauber → Sauber-Petronas) and a 2011-2018 (BMW Sauber
+-- rebrand → Sauber → Alfa Romeo) lineage segment. start_year is NOT NULL
+-- (default 0 sentinel for "unknown start") because it now anchors the PK.
 CREATE TABLE IF NOT EXISTS app.team_history (
   team_id            varchar(100) NOT NULL,
   antecedent_team_id varchar(100) NOT NULL,
-  start_year         int,
+  start_year         int          NOT NULL DEFAULT 0,
   end_year           int,
-  PRIMARY KEY (team_id, antecedent_team_id)
+  PRIMARY KEY (team_id, antecedent_team_id, start_year)
 );
 
 INSERT INTO app.ingest_state (key, value)

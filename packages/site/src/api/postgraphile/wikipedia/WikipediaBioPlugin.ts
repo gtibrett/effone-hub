@@ -62,7 +62,18 @@ const teamTitleOverrides: Record<string, string[]> = {
 	'williams':     ['Williams Racing'],
 	'racing-bulls': ['RB (Formula One team)', 'Racing Bulls'],
 	'kick-sauber':  ['Sauber Motorsport', 'Sauber (Formula One)'],
-	'haas':         ['Haas F1 Team']
+	'haas':         ['Haas F1 Team'],
+
+	// 1950s/historic constructors with ambiguous default Wikipedia matches.
+	// Verified candidates as of 2026-05-04 against en.wikipedia.org REST API.
+	'alfa-special': ['Peter de Klerk'],                       // Alfa_Special redirects to the South African driver
+	'afm':          ['Alex von Falkenhausen Motorenbau'],     // German constructor 1948-1956
+	'ats-wheels':   ['ATS Wheels'],                           // covers the F1 era under that title
+	'ags':          ['Automobiles Gonfaronnaises Sportives'], // French constructor 1986-1991
+	// 'balsa' and 'adams' have no Wikipedia article — return [] so the plugin
+	// falls through to "no fallback found" → null bio. Better than mismatching.
+	'balsa':        [],
+	'adams':        []
 };
 
 function driverCandidates(spec: DriverSpec): string[] {

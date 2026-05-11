@@ -30,7 +30,7 @@ type Query implements Node {
   appTeamColor(teamId: String!): AppTeamColor
 
   """Get a single `AppTeamHistory`."""
-  appTeamHistory(teamId: String!, antecedentTeamId: String!): AppTeamHistory
+  appTeamHistory(teamId: String!, antecedentTeamId: String!, startYear: Int!): AppTeamHistory
 
   """Get a single `Chassis`."""
   chassis(rowId: String!): Chassis
@@ -8969,7 +8969,7 @@ type AppTeamHistory implements Node {
   id: ID!
   teamId: String!
   antecedentTeamId: String!
-  startYear: Int
+  startYear: Int!
   endYear: Int
 
   """Reads a single `Team` that is related to this `AppTeamHistory`."""
@@ -8998,6 +8998,9 @@ input AppTeamHistoryCondition {
 
   """Checks for equality with the object’s `antecedentTeamId` field."""
   antecedentTeamId: String
+
+  """Checks for equality with the object’s `startYear` field."""
+  startYear: Int
 }
 
 """Methods to use when ordering `AppTeamHistory`."""
@@ -9009,6 +9012,8 @@ enum AppTeamHistoryOrderBy {
   TEAM_ID_DESC
   ANTECEDENT_TEAM_ID_ASC
   ANTECEDENT_TEAM_ID_DESC
+  START_YEAR_ASC
+  START_YEAR_DESC
 }
 
 """A `SeasonEntrantDriver` edge in the connection."""
@@ -16449,6 +16454,7 @@ input UpdateAppTeamHistoryInput {
   clientMutationId: String
   teamId: String!
   antecedentTeamId: String!
+  startYear: Int!
 
   """
   An object where the defined keys will be set on the `AppTeamHistory` being updated.
@@ -20100,6 +20106,7 @@ input DeleteAppTeamHistoryInput {
   clientMutationId: String
   teamId: String!
   antecedentTeamId: String!
+  startYear: Int!
 }
 
 """The output of our delete `Chassis` mutation."""

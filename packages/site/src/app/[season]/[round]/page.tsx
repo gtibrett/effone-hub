@@ -1,11 +1,12 @@
 import type {Metadata} from 'next';
-import {getAllRaces, getRace} from '../../lib/cached-data';
+import {buildRaceSlugs} from '../../lib/build-pg';
+import {getRace} from '../../lib/cached-data';
 import RoundContent from './RoundContent';
 
 type Params = Promise<{season: string; round: string}>;
 
 export async function generateStaticParams(): Promise<{season: string; round: string}[]> {
-	return await getAllRaces();
+	return await buildRaceSlugs();
 }
 
 export async function generateMetadata({params}: {params: Params}): Promise<Metadata> {
