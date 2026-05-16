@@ -32,11 +32,16 @@ All of these must be set in the Vercel project (Settings → Environment Variabl
 A full F1DB ingest takes about 4-5 minutes (dump apply ≈45s on Neon + lap-times
 backfill 1-3min). Vercel's Hobby plan caps function `maxDuration` at 60s, so the
 ingest no longer runs on Vercel cron. Instead it lives in GitHub Actions
-(`.github/workflows/ingest.yml`) and runs on `ubuntu-latest` (30-min job timeout).
+(`.github/workflows/ingest.yml`) and runs on `ubuntu-latest` (15-min job
+timeout).
+
+F1DB ships ≤1 release per race weekend (~24 races/year), so the workflow is
+**manual-only**. After a race finishes (or whenever a new F1DB release is
+announced), trigger it via GitHub UI → Actions → "F1DB ingest" → Run workflow.
 
 Flow:
 
-1. **GitHub Action** triggers at `0 6 * * *` UTC (or manually via `workflow_dispatch`).
+1. **GitHub Action** triggered manually via `workflow_dispatch`.
 2. Runner installs deps, executes `yarn tsx scripts/run-ingest.ts`. The script:
    - Compares latest F1DB release tag against `app.ingest_state.last_release_tag`.
    - If new: downloads dump, runs `applyDumpAndSwap` against Neon prod.

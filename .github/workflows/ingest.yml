@@ -1,17 +1,12 @@
 name: F1DB ingest
 
-# Runs the full ingest pipeline (dump-and-swap + Jolpica lap-times backfill)
-# from a GitHub Actions runner. Replaces the Vercel cron that hit
-# /api/cron/ingest, which couldn't fit the ~5-minute job inside the 60s
-# Hobby-plan function timeout.
-#
-# After the heavy lifting, the runner POSTs /api/cron/revalidate so
-# Cache Components tags get invalidated on the production deployment.
+# Manual-only trigger. F1DB ships ≤1 release per race weekend (~24/year), so a
+# daily cron was wasteful — a human bumping this from the Actions UI after a
+# race finishes is fine. Sequence: full ingest pipeline (dump-and-swap +
+# Jolpica lap-times backfill) on the runner, then POST /api/cron/revalidate
+# so Cache Components tags get invalidated on the production deployment.
 
 on:
-  schedule:
-    # 06:00 UTC daily — same cadence the Vercel cron used.
-    - cron: '0 6 * * *'
   workflow_dispatch:
     inputs:
       max_lap_races:
@@ -26,7 +21,10 @@ concurrency:
 jobs:
   ingest:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # Real work: dump apply ~45s on Neon + lap-times backfill ~1-3min + setup
+    # ~30s ≈ 5min typical. 15 gives a 3× ceiling for Jolpica slowness without
+    # letting a stuck job idle the whole free-tier minute budget.
+    timeout-minutes: 15
     env:
       # All ${{ ... }} substitutions are bound to env vars (never inlined into
       # `run:` commands) so untrusted workflow_dispatch inputs can't shell-inject.
