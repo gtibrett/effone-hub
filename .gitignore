@@ -30,8 +30,12 @@ yarn-error.log*
 
 # Local dev / agent artifacts
 .playwright-mcp/
-SESSION_CONTEXT.md
 broken-*.png
 console-*.txt
-RUNTIME_400_INVENTORY.md
 .vercel
+
+# Claude
+RUNTIME_400_INVENTORY.md
+SESSION_CONTEXT.md
+/.claude/settings.local.json
+/.claude/plans/PLAN.infer-types.md

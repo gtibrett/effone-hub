@@ -20,5 +20,7 @@
 		"build:site": "yarn workspace @gtibrett/effone-hub-site run build",
 		"start:site": "yarn workspace @gtibrett/effone-hub-site run start"
 	},
-	"devDependencies": {}
+	"devDependencies": {
+		"tsx": "^4.22.0"
+	}
 }
