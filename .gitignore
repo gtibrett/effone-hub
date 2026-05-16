@@ -34,8 +34,6 @@ broken-*.png
 console-*.txt
 .vercel
 
-# Claude
-RUNTIME_400_INVENTORY.md
+# Claude (entire .claude/ dir is per-developer machine state)
+/.claude/
 SESSION_CONTEXT.md
-/.claude/settings.local.json
-/.claude/plans/PLAN.infer-types.md

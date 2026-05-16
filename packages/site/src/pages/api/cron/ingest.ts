@@ -8,7 +8,7 @@
  * Vercel-resident piece of the ingest flow (Cache Components tag
  * invalidation must happen inside a Next request scope).
  *
- * See DEPLOY.md "Cron / Ingest" section for the new topology.
+ * See docs/DEPLOY.md "Cron / Ingest" section for the new topology.
  */
 import {NextApiRequest, NextApiResponse} from 'next';
 import revalidate from './revalidate';
