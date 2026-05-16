@@ -3,12 +3,41 @@
 import {DriverAvatar, useAppState} from '@/components/app';
 import {Career, Circuits, Season} from '@/components/page/driver';
 import {Flag, Page} from '@/components/ui';
-import {Driver as DriverT} from '@/gql/graphql';
 import {useGetTeamColor} from '@/hooks';
 import {Tabs} from '@gtibrett/mui-additions';
 import {Box, Card, Divider, Grid, Hidden, Typography, useTheme} from '@mui/material';
 
-const DriverDetails = ({driver}: {driver: DriverT}) => (
+/**
+ * The subset of `Driver` fields DriverContent reads at the top level.
+ * Nested components (Career, Circuits, Season, DriverAvatar) fetch their own
+ * data client-side via Apollo from `driver.rowId`, so this prop only needs
+ * the header fields plus the latest-team color and the bio thumbnail/extract.
+ *
+ * Both the GraphQL `Driver` type and the pg-backed `BuildDriverRow` (see
+ * `src/app/lib/build-pg.ts`) are structurally assignable to this shape.
+ */
+export type DriverPageProp = {
+	rowId:                string;
+	firstName?:           string | null;
+	lastName?:            string | null;
+	abbreviation?:        string | null;
+	permanentNumber?:     string | null;
+	nationalityCountryId?: string | null;
+	bio?: {
+		thumbnailUrl?: string | null;
+		extract?:      string | null;
+	} | null;
+	seasonEntrantDrivers?: {
+		nodes: Array<{
+			year:   number;
+			team?: {
+				colors?: {primaryHex?: string | null} | null;
+			} | null;
+		}>;
+	} | null;
+};
+
+const DriverDetails = ({driver}: {driver: DriverPageProp}) => (
 	<Grid container spacing={2} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
 		<Grid item><Typography variant="h2">{driver.firstName} {driver.lastName}</Typography></Grid>
 		<Hidden mdDown>
@@ -20,7 +49,7 @@ const DriverDetails = ({driver}: {driver: DriverT}) => (
 	</Grid>
 );
 
-export default function DriverContent({driver}: {driver: DriverT | null}) {
+export default function DriverContent({driver}: {driver: DriverPageProp | null}) {
 	const theme             = useTheme();
 	const getTeamColor      = useGetTeamColor();
 	const [{currentSeason}] = useAppState();

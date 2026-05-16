@@ -14,6 +14,8 @@
  * to runtime cached fetchers in cached-data.ts.
  */
 import {Client} from 'pg';
+import type {DriverPageProp} from '../drivers/[driverRef]/DriverContent';
+import type {TeamProp} from '../constructors/[teamRef]/ConstructorContent';
 
 async function queryRow<T = Record<string, unknown>>(sql: string, params: any[] = []): Promise<T | null> {
 	const connectionString = process.env.POSTGRES_URL;
@@ -116,20 +118,19 @@ export async function buildCircuitName(rowId: string): Promise<{fullName: string
 // Full row fetchers (used by RSC page bodies; mirror DriverContent / ConstructorContent's prop shape)
 // ---------------------------------------------------------------------------
 
-export type BuildDriverRow = {
-	__typename:           'Driver';
-	id:                   string;
-	rowId:                string;
-	firstName:            string;
-	lastName:             string;
-	abbreviation:         string | null;
-	permanentNumber:      string | null;
-	nationalityCountryId: string | null;
-	dateOfBirth:          string | null;
-	bio?:                 null;
-	seasonEntrantDrivers: {nodes: Array<{id: string; year: number; team: {id: string; rowId: string; colors?: {id: string; primaryHex: string | null} | null} | null}>};
-	teamsByYear:          {nodes: Array<{id: string; year: number; team: {id: string; rowId: string; colors?: {id: string; primaryHex: string | null} | null} | null}>};
+/**
+ * Internal extra fields surfaced beyond what DriverContent needs (kept so other
+ * callers can use the full payload if/when needed). The exported return type
+ * intersects this with the structural prop type DriverContent consumes.
+ */
+type DriverExtras = {
+	__typename:  'Driver';
+	id:          string;
+	dateOfBirth: string | null;
+	teamsByYear: {nodes: Array<{id: string; year: number; team: {id: string; rowId: string; colors?: {id: string; primaryHex: string | null} | null} | null}>};
 };
+
+export type BuildDriverRow = DriverPageProp & DriverExtras;
 
 export async function buildDriverFull(rowId: string): Promise<BuildDriverRow | null> {
 	const connectionString = process.env.POSTGRES_URL;
@@ -192,13 +193,8 @@ export async function buildDriverFull(rowId: string): Promise<BuildDriverRow | n
 	}
 }
 
-export type BuildTeamRow = {
+export type BuildTeamRow = TeamProp & {
 	__typename: 'Team';
-	id:         string;
-	rowId:      string;
-	name:       string | null;
-	countryId:  string | null;
-	colors?:    {primaryHex?: string | null} | null;
 };
 
 export async function buildTeamFull(rowId: string): Promise<BuildTeamRow | null> {

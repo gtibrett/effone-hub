@@ -18,5 +18,5 @@ export async function generateMetadata({params}: {params: Params}): Promise<Meta
 export default async function ConstructorPage({params}: {params: Params}) {
 	const {teamRef} = await params;
 	const team = await buildTeamFull(teamRef);
-	return <ConstructorContent teamRef={teamRef} team={team as any}/>;
+	return <ConstructorContent teamRef={teamRef} team={team}/>;
 }

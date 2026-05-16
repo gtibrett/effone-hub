@@ -10,6 +10,11 @@ import useTeam from '@/hooks/data/useTeam';
 import {Tabs} from '@gtibrett/mui-additions';
 import {Box, Card, CardContent, CardHeader, CardMedia, Divider, Grid, Skeleton, Typography, useTheme} from '@mui/material';
 
+/**
+ * The subset of `Team` fields ConstructorContent reads at the top level.
+ * Both the GraphQL `Team` type and the pg-backed `BuildTeamRow` (see
+ * `src/app/lib/build-pg.ts`) are structurally assignable to this shape.
+ */
 export type TeamProp = {
 	id:        string;
 	rowId:     string;
