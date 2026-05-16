@@ -1,0 +1,16 @@
+.next
+node_modules
+packages/database
+packages/api
+seeds-archived
+**/yarn-error.log
+*.log
+.git
+.idea
+.vscode
+.DS_Store
+*.tsbuildinfo
+SESSION_CONTEXT.md
+INGEST_DESIGN.md
+RUNTIME_400_INVENTORY.md
+DEPLOY.md

@@ -1,0 +1,49 @@
+import {gql, useQuery} from '@apollo/client';
+import {DriverPageData} from '../types';
+
+const query = gql`
+	query DriverCareerQuery($driverId: String!) {
+		driver(rowId: $driverId) {
+			standings: seasonDriverStandings(orderBy: YEAR_ASC) {
+				nodes {
+					id
+					year
+					positionNumber
+					positionText
+					points
+				}
+			}
+
+			# for CareerPerformance.tsx
+			raceResults {
+				nodes {
+					id
+					race {
+						id
+						rowId
+						year
+						round
+						circuit {
+							id
+							rowId
+							fullName
+							longitude
+							latitude
+						}
+					}
+					gridPositionNumber
+					positionDisplayOrder
+					points
+					positionText
+					teamId
+					timeMillis
+					reasonRetired
+				}
+			}
+		}
+	}
+`;
+
+export default function useCareerData(driverId?: string) {
+	return useQuery<DriverPageData>(query, {variables: {driverId}});
+}

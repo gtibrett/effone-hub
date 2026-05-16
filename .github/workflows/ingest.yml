@@ -1,0 +1,64 @@
+name: F1DB ingest
+
+# Manual-only trigger. F1DB ships ≤1 release per race weekend (~24/year), so a
+# daily cron was wasteful — a human bumping this from the Actions UI after a
+# race finishes is fine. Sequence: full ingest pipeline (dump-and-swap +
+# Jolpica lap-times backfill) on the runner, then POST /api/cron/revalidate
+# so Cache Components tags get invalidated on the production deployment.
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_lap_races:
+        description: 'Cap on lap-time backfills per run (default 500).'
+        required: false
+        default: '500'
+
+concurrency:
+  group: f1db-ingest
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    # Real work: dump apply ~45s on Neon + lap-times backfill ~1-3min + setup
+    # ~30s ≈ 5min typical. 15 gives a 3× ceiling for Jolpica slowness without
+    # letting a stuck job idle the whole free-tier minute budget.
+    timeout-minutes: 15
+    env:
+      # All ${{ ... }} substitutions are bound to env vars (never inlined into
+      # `run:` commands) so untrusted workflow_dispatch inputs can't shell-inject.
+      POSTGRES_URL:   ${{ secrets.POSTGRES_URL }}
+      CRON_SECRET:    ${{ secrets.CRON_SECRET }}
+      REVALIDATE_URL: ${{ vars.REVALIDATE_URL }}
+      MAX_LAP_RACES:  ${{ inputs.max_lap_races }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Setup yarn cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/yarn
+            **/node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        env:
+          # @gtibrett/* packages live on GitHub Packages; auth via the built-in
+          # GITHUB_TOKEN (read:packages scope is granted via permissions: below).
+          GH_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn install --frozen-lockfile
+
+      - name: Run ingest
+        run: yarn tsx scripts/run-ingest.ts
+
+    permissions:
+      contents: read
+      packages: read
