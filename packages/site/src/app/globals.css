@@ -3,23 +3,54 @@
  * no `.dark` / `.light` class toggling. User's OS preference drives mode.
  *
  * Tokens are stored as fully-formed `color(display-p3 r g b)` literals so
- * consumers and Tailwind's `@theme inline` mapping can `var(--primary)`
- * directly — no `hsl(var(...))` indirection. Display-P3 carries wider
- * gamut on modern displays; browsers gracefully fall back on sRGB-only
- * panels.
+ * consumers and Tailwind's `@theme` mapping can `var(--primary)` directly.
+ * Display-P3 carries wider gamut on modern displays; browsers gracefully
+ * fall back on sRGB-only panels.
  *
- * Palette mirrors the (now-deleted) MUI theme:
- *   Primary   = blueGrey 800 light / 400 dark
- *   Secondary = deepOrange 900 light / 200 dark
+ * Two color scales are exposed as Tailwind utilities (`bg-surface-700`,
+ * `text-flame-200`, etc.):
+ *   surface — cool-slate neutrals (10 steps + 950)
+ *   flame   — coral-orange accent (10 steps + 950)
+ *
+ * Semantic tokens (`--primary`, `--card`, etc.) reference those scales so
+ * mode-switching is just a re-binding, not a rewrite.
  *
  * Team colors are dynamic — set per-scope via inline
  * `style={{'--team-primary': '#xxx', '--team-foreground': '#yyy'}}` on a
- * wrapper, then descendants use the `bg-team-primary` / `text-team-foreground`
- * / `border-team-primary` utilities defined below.
+ * wrapper, then descendants use `bg-team-primary` / `text-team-foreground`
+ * / `border-team-primary` utilities.
  */
 @layer base, components, utilities;
 
 @import "tailwindcss";
+
+@theme {
+	/* surface — cool-slate neutrals */
+	--color-surface-50:  color(display-p3 0.949 0.957 0.965); /* #F2F4F6 */
+	--color-surface-100: color(display-p3 0.867 0.882 0.898); /* #DDE1E5 */
+	--color-surface-200: color(display-p3 0.733 0.761 0.792); /* #BBC2CA */
+	--color-surface-300: color(display-p3 0.584 0.627 0.675); /* #95A0AC */
+	--color-surface-400: color(display-p3 0.427 0.478 0.533); /* #6D7A88 */
+	--color-surface-500: color(display-p3 0.302 0.353 0.408); /* #4D5A68 */
+	--color-surface-600: color(display-p3 0.227 0.271 0.322); /* #3A4552 */
+	--color-surface-700: color(display-p3 0.165 0.200 0.239); /* #2A333D */
+	--color-surface-800: color(display-p3 0.122 0.149 0.180); /* #1F262E — card surface */
+	--color-surface-900: color(display-p3 0.086 0.106 0.133); /* #161B22 — page bg */
+	--color-surface-950: color(display-p3 0.047 0.063 0.082); /* #0C1015 */
+
+	/* flame — coral-orange accent */
+	--color-flame-50:   color(display-p3 0.992 0.949 0.922); /* #FDF2EB */
+	--color-flame-100:  color(display-p3 0.984 0.875 0.804); /* #FBDFCD */
+	--color-flame-200:  color(display-p3 0.973 0.776 0.671); /* #F8C6AB — logo "ONE" peach */
+	--color-flame-300:  color(display-p3 0.949 0.647 0.494); /* #F2A57E */
+	--color-flame-400:  color(display-p3 0.925 0.506 0.329); /* #EC8154 */
+	--color-flame-500:  color(display-p3 0.898 0.369 0.176); /* #E55E2D — race card primary */
+	--color-flame-600:  color(display-p3 0.761 0.290 0.118); /* #C24A1E */
+	--color-flame-700:  color(display-p3 0.596 0.220 0.090); /* #983817 — countdown brick */
+	--color-flame-800:  color(display-p3 0.435 0.157 0.063); /* #6F2810 */
+	--color-flame-900:  color(display-p3 0.275 0.102 0.035); /* #461A09 */
+	--color-flame-950:  color(display-p3 0.149 0.051 0.016); /* #260D04 */
+}
 
 :root {
 	color-scheme: light dark;
@@ -34,46 +65,52 @@
 	--primary-foreground:       color(display-p3 1 1 1);
 	--secondary:                color(display-p3 0.749 0.212 0.047); /* deepOrange 900 #bf360c */
 	--secondary-foreground:     color(display-p3 1 1 1);
-	--muted:                    color(display-p3 0.925 0.937 0.945); /* blueGrey 50  #eceff1 */
+	--muted:                    color(display-p3 0.925 0.937 0.945); /* blueGrey 50 #eceff1 */
 	--muted-foreground:         color(display-p3 0.216 0.278 0.310);
 	--accent:                   color(display-p3 0.216 0.278 0.310);
 	--accent-foreground:        color(display-p3 1 1 1);
-	--destructive:              color(display-p3 0.957 0.263 0.212); /* red 500 */
+	--destructive:              color(display-p3 0.957 0.263 0.212);
 	--destructive-foreground:   color(display-p3 1 1 1);
 	--border:                   color(display-p3 0.565 0.643 0.682); /* blueGrey 300 */
 	--input:                    color(display-p3 0.565 0.643 0.682);
 	--ring:                     color(display-p3 0.216 0.278 0.310);
 
-	/* Dynamic team color slots — defaults fall back to brand primary
-	 * so unstyled team contexts still render readably. Consumers
-	 * override per-scope via inline style on a wrapper. */
 	--team-primary:             var(--primary);
 	--team-foreground:          var(--primary-foreground);
 
 	--radius:                   0.5rem;
 }
 
+/* Dark mode — semantic tokens bind to surface/flame scale steps per the
+ * approved palette:
+ *   bg-surface-900  → page background
+ *   bg-surface-800  → cards
+ *   bg-surface-600  → slate header bands (primary)
+ *   border-surface-700 → dividers/borders
+ *   bg-flame-500    → CTA / featured / accent
+ *   bg-flame-700    → countdown / hover variant
+ *   text-flame-200  → brand peach accent (logo "ONE", map pins) */
 @media (prefers-color-scheme: dark) {
 	:root {
-		--background:             color(display-p3 0.149 0.196 0.220); /* blueGrey 900 #263238 */
-		--foreground:             color(display-p3 1 1 1);
-		--card:                   color(display-p3 0.216 0.278 0.310); /* blueGrey 800 */
-		--card-foreground:        color(display-p3 1 1 1);
-		--popover:                color(display-p3 0.149 0.196 0.220);
-		--popover-foreground:     color(display-p3 1 1 1);
-		--primary:                color(display-p3 0.471 0.565 0.612); /* blueGrey 400 #78909c */
-		--primary-foreground:     color(display-p3 0 0 0);
-		--secondary:              color(display-p3 1 0.671 0.569);     /* deepOrange 200 #ffab91 */
-		--secondary-foreground:   color(display-p3 0 0 0);
-		--muted:                  color(display-p3 0.271 0.353 0.392); /* blueGrey 700 */
-		--muted-foreground:       color(display-p3 0.690 0.745 0.773);
-		--accent:                 color(display-p3 0.471 0.565 0.612);
-		--accent-foreground:      color(display-p3 0 0 0);
-		--destructive:            color(display-p3 0.937 0.325 0.314); /* red 400 */
-		--destructive-foreground: color(display-p3 1 1 1);
-		--border:                 color(display-p3 0.329 0.431 0.478); /* blueGrey 600 */
-		--input:                  color(display-p3 0.329 0.431 0.478);
-		--ring:                   color(display-p3 0.471 0.565 0.612);
+		--background:             var(--color-surface-900);
+		--foreground:             var(--color-surface-50);
+		--card:                   var(--color-surface-800);
+		--card-foreground:        var(--color-surface-50);
+		--popover:                var(--color-surface-800);
+		--popover-foreground:     var(--color-surface-50);
+		--primary:                var(--color-surface-600);
+		--primary-foreground:     var(--color-surface-50);
+		--secondary:              var(--color-flame-500);
+		--secondary-foreground:   var(--color-surface-50);
+		--muted:                  var(--color-surface-700);
+		--muted-foreground:       var(--color-surface-300);
+		--accent:                 var(--color-flame-500);
+		--accent-foreground:      var(--color-surface-50);
+		--destructive:            color(display-p3 0.937 0.325 0.314);
+		--destructive-foreground: var(--color-surface-50);
+		--border:                 var(--color-surface-700);
+		--input:                  var(--color-surface-700);
+		--ring:                   var(--color-flame-500);
 	}
 }
 
@@ -106,8 +143,7 @@
 }
 
 /* Team-color utilities driven by the --team-primary / --team-foreground
- * variables set on a wrapping scope. Use these instead of arbitrary
- * `bg-[var(--team-primary)]` so consumer code reads cleanly. */
+ * variables set on a wrapping scope. */
 @utility bg-team-primary {
 	background-color: var(--team-primary);
 }
