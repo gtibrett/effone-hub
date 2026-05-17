@@ -1,10 +1,11 @@
+import {useTheme} from '@/lib/theme';
 import {useDarkMode} from '@/components/ui';
 import {ToggleGroup, ToggleGroupItem} from '@/components/ui/shadcn/toggle-group';
 import {Circuit} from '@/gql/graphql';
 import {useCircuitByRef} from '@/hooks/data';
 import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Box, Grid, SxProps, useTheme} from '@mui/material';
+import {Box, Grid, SxProps} from '@mui/material';
 import {blue, red, yellow} from '@/lib/muiColors';
 import {Suspense, SVGProps, useState} from 'react';
 import getMapSVG from './circuits/getMapSVG';

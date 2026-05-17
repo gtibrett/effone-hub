@@ -2,7 +2,7 @@ import {Card, Skeleton, Typography} from '@/components/ui';
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
 import {useResultsColors} from '@/hooks';
   
-import {useTheme} from '@mui/material';
+import {useTheme} from '@/lib/theme';
 import {ComputedDatum, ResponsiveSunburst} from '@nivo/sunburst';
 import usePerformanceData from '../usePerformanceData';
 import useCareerData from './useCareerData';

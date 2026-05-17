@@ -1,8 +1,9 @@
+import {useTheme} from '@/lib/theme';
 import {Skeleton} from '@/components/ui';
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
 import {useGetAccessibleColor} from '@/hooks';
 
-import {useMediaQuery, useTheme} from '@mui/material';
+import {useMediaQuery} from '@mui/material';
 import {BarSvgProps, ResponsiveBar} from '@nivo/bar';
 import {PitStopTableRow} from './PitStops';
 import PitStopTooltip from './PitStopTooltip';

@@ -1,6 +1,6 @@
 import {useInvertedTheme} from '@/components/ui';
 import {alpha} from '@/lib/color';
-import {useTheme} from '@mui/material';
+import {useTheme} from '@/lib/theme';
 import {BoxPlotDatum} from '@nivo/boxplot/dist/types/types';
 import {Theme} from '@nivo/core';
 import {useMemo} from 'react';

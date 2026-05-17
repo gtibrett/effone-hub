@@ -1,4 +1,5 @@
-import {SxProps, useTheme} from '@mui/material';
+import {useTheme} from '@/lib/theme';
+import {SxProps} from '@mui/material';
 
 export type AvatarSizes = 'small' | 'medium' | 'large' | 'auto' | number;
 

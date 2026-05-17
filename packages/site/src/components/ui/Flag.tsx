@@ -1,4 +1,5 @@
-import {Avatar, SxProps, useTheme} from '@mui/material';
+import {useTheme} from '@/lib/theme';
+import {Avatar, SxProps} from '@mui/material';
 import {countryCode} from 'emoji-flags';
 import nationalities from 'i18n-nationality';
 

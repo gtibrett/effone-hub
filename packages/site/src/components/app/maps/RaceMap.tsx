@@ -2,7 +2,7 @@ import {NivoTooltipFactory, RequiredByPropTypes, useNivoTheme} from '@/component
 import {Circuit} from '@/gql/graphql';
 import useComponentDimensionsWithRef from '@/hooks/useComponentDimensionsWithRef';
 import {alpha} from '@/lib/color';
-import {useTheme} from '@mui/material';
+import {useTheme} from '@/lib/theme';
 import {GeoMapEventHandler, ResponsiveGeoMap} from '@nivo/geo';
 import {useEffect, useState} from 'react';
 import MapTooltip from './MapTooltip';

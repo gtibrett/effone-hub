@@ -1,3 +1,4 @@
+import {useTheme} from '@/lib/theme';
 import {Link, Card, Typography} from '@/components/ui';
 import {ConstructorAvatar, DriverAvatar, DriverByLine} from '@/components/app';
 import {useGetTeamColor, useLeaderData} from '@/hooks';
@@ -7,7 +8,7 @@ import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Maybe} from '@/gql/graphql';
  
-import {Box, CardProps, Grid, useTheme} from '@mui/material';
+import {Box, CardProps, Grid} from '@mui/material';
 import {ReactNode} from 'react';
 import convertGenericMapToDataWithValueMap from './convertGenericMapToDataWithValueMap';
 import StatCardContent from './StatCardContent';

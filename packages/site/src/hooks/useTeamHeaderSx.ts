@@ -1,5 +1,6 @@
+import {useTheme} from '@/lib/theme';
 import {useTeam} from '@/hooks/data';
-import {SxProps, useTheme} from '@mui/material';
+import {SxProps} from '@mui/material';
 import useGetTeamColor from './useGetTeamColor';
 
 export default function useTeamHeaderSx(teamId?: string): SxProps {

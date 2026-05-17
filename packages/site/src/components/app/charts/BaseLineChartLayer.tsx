@@ -1,4 +1,4 @@
-import {useTheme} from '@mui/material';
+import {useTheme} from '@/lib/theme';
 import {Datum} from '@nivo/line';
 import {AnyScale} from '@nivo/scales';
 import {line} from 'd3-shape';

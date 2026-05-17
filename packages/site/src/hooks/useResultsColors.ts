@@ -1,5 +1,5 @@
 import {useDarkMode} from '@/components/ui';
-import {useTheme} from '@mui/material';
+import {useTheme} from '@/lib/theme';
 import {amber, blueGrey, deepPurple, green, red} from '@/lib/muiColors';
 import {useMemo} from 'react';
 

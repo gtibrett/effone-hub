@@ -1,5 +1,5 @@
 import {getContrastRatio, recomposeColor} from '@/lib/color';
-import {useTheme} from '@mui/material';
+import {useTheme} from '@/lib/theme';
 import {decomposeColor} from '@/lib/color';
 import {useCallback} from 'react';
 

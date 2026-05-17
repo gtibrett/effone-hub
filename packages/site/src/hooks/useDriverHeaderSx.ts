@@ -1,6 +1,7 @@
+import {useTheme} from '@/lib/theme';
 import {useDriver} from '@/hooks/data';
 import {DriverId} from '@/types';
-import {SxProps, useTheme} from '@mui/material';
+import {SxProps} from '@mui/material';
 import useGetTeamColor from './useGetTeamColor';
 
 export function useDriverHeaderSx(driverId: DriverId, year?: 'current' | number): SxProps;

@@ -1,5 +1,7 @@
 'use client';
 
+import {useTheme} from '@/lib/theme';
+
 import {useAppState} from '@/components/app';
 import {Drivers, History, Season} from '@/components/page/constructor';
 import {DriverPodiums, DriverPoints, DriverQualifying} from '@/components/page/constructor/stats';
@@ -8,7 +10,7 @@ import {useGetTeamColor} from '@/hooks';
 import {useConstructorData} from '@/hooks/data';
 import useTeam from '@/hooks/data/useTeam';
     
-import {CardMedia, useTheme} from '@mui/material';
+import {CardMedia} from '@mui/material';
 /**
  * The subset of `Team` fields ConstructorContent reads at the top level.
  * Both the GraphQL `Team` type and the pg-backed `BuildTeamRow` (see

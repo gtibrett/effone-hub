@@ -1,7 +1,8 @@
+import {useTheme} from '@/lib/theme';
 import {Link, Typography} from '@/components/ui';
 
 import {darken, lighten} from '@/lib/color';
-import {AppBar, Toolbar, useTheme} from '@mui/material';
+import {AppBar, Toolbar} from '@mui/material';
 import {blueGrey} from '@/lib/muiColors';
 import NavMenu from './NavMenu';
 
