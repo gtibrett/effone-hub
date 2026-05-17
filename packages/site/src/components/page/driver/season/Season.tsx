@@ -3,9 +3,8 @@ import {PositionChange} from '@/components/page/race';
 import {getPositionTextOutcome, getTimeStringFromDate} from '@/helpers';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {DataTable, Link, Skeleton, Typography} from '@/components/ui';
- 
+
 import {Grid} from '@/components/ui';
-import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 import SeasonChart from './SeasonChart';
 import useSeasonData from './useSeasonData';
@@ -17,7 +16,7 @@ export default function Season({season, driverId}: SeasonProps) {
 	const {data, loading}   = useSeasonData(driverId, season);
 
 	if (loading || !data?.races) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" className="h-[400px]"/>;
 	}
 
 	if (!data.races.nodes.length) {
@@ -61,7 +60,7 @@ export default function Season({season, driverId}: SeasonProps) {
 		},
 		{
 			id:         'change',
-			header:     () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
+			header:     () => <Typography className="sr-only">Position Changes</Typography>,
 			size:       60,
 			accessorFn: (row) => {
 				const result = row.raceResults?.nodes?.[0];

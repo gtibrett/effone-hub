@@ -1,42 +1,30 @@
-import {useTheme} from '@/lib/theme';
 import {Link, Typography} from '@/components/ui';
-
-import {darken, lighten} from '@/lib/color';
 import {AppBar, Toolbar} from '@/components/ui';
+import {darken} from '@/lib/color';
 import {blueGrey} from '@/lib/muiColors';
 import NavMenu from './NavMenu';
 
 export default function Header() {
-	const theme    = useTheme();
-	const lightRed = lighten(theme.palette.secondary.light, .375);
-	
+	// Brand bar is intentionally fixed (mode-independent) — same dark
+	// blueGrey + carbon-fiber overlay in both light and dark. The
+	// `secondary` highlight slice underneath comes from AppBar's
+	// built-in `after:` pseudo-element.
+	const headerBg = darken(blueGrey[900], .25);
+
 	return (
 		<header role="banner">
 			<AppBar
 				component="nav"
-				color="primary"
 				aria-label="main navigation"
-				sx={{
-					background:   darken(blueGrey[900], .25),
-					borderBottom: `4px solid ${theme.palette.secondary.main}`,
-					py:           1,
-					
-					'&:before': {
-						position:        'absolute',
-						top:             0, bottom: 0,
-						left:            0, right: 0,
-						content:         '" "',
-						backgroundImage: `url(/carbon-fiber-texture.png)`,
-						backgroundSize:  'cover',
-						opacity:         .25
-					}
-				}}>
+				className="py-2 relative before:absolute before:inset-0 before:content-[''] before:bg-[url('/carbon-fiber-texture.png')] before:bg-cover before:opacity-25"
+				style={{background: headerBg}}
+			>
 				<Toolbar>
 					<div className="flex flex-row flex-wrap gap-2 items-center w-full">
 						<div>
 							<Link href="/" color="inherit" className="no-underline hover:no-underline [&_*]:font-[Anton] [&_*]:text-[48px]">
 								<Typography component="h1">
-									EFF<Typography component="span" sx={{opacity: 1, px: .5, color: lightRed}}>ONE</Typography>HUB
+									EFF<Typography component="span" className="opacity-100 px-1 text-secondary brightness-150">ONE</Typography>HUB
 								</Typography>
 							</Link>
 						</div>
@@ -45,7 +33,7 @@ export default function Header() {
 					</div>
 				</Toolbar>
 			</AppBar>
-			<Toolbar sx={{my: 2}}/>
+			<Toolbar className="my-4"/>
 		</header>
 	);
 }

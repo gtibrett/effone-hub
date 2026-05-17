@@ -1,19 +1,12 @@
-'use client';
-
 /**
- * Drop-in replacement for the MUI v5/v6 *legacy* `Grid` (container/item).
+ * 12-col CSS-grid wrapper modeled on the legacy MUI Grid v1 (container/item)
+ * surface, but rendered with Tailwind classes only. No `sx`, no inline styles.
  *
- * Why a wrapper instead of pure Tailwind: there are 14 files using `<Grid
- * container>` + `<Grid item xs={...}>` with breakpoint props. Rewriting
- * each callsite to `grid grid-cols-12` + per-breakpoint col-spans is M3
- * scope, not M12. We keep the API surface stable here and let a later
- * sweep flatten the wrappers once the rest of M12 lands.
- *
- * Renders to CSS-grid (not flexbox) so the 12-col model is exact —
- * matches MUI's behavior under the hood for the props this codebase
- * actually uses (xs/sm/md/lg/xl, spacing, alignItems, justifyContent).
+ * `spacing` maps to a discrete `gap-N` Tailwind class so consumers don't see
+ * arbitrary `[Npx]` syntax. Out-of-range values are clamped to the nearest
+ * supported step.
  */
-import {CSSProperties, HTMLAttributes, ReactNode, forwardRef} from 'react';
+import {HTMLAttributes, ReactNode, forwardRef} from 'react';
 import {cn} from '@/lib/utils';
 
 type GridSize = boolean | 'auto' | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
@@ -44,10 +37,14 @@ const SPAN_XL: Record<number, string> = {
 	9:  'xl:col-span-9',  10: 'xl:col-span-10', 11: 'xl:col-span-11', 12: 'xl:col-span-12'
 };
 
+const GAP: Record<number, string> = {
+	0: 'gap-0', 1: 'gap-2', 2: 'gap-4', 3: 'gap-6', 4: 'gap-8',
+	5: 'gap-10', 6: 'gap-12', 8: 'gap-16'
+};
+
 function spanClass(prefix: '' | 'sm' | 'md' | 'lg' | 'xl', size: GridSize | undefined): string {
 	if (size === undefined || size === false) return '';
 	if (size === true || size === 'auto') {
-		// `<Grid item xs>` style — fill remaining. CSS grid `auto` does this.
 		return prefix === '' ? 'flex-1' : '';
 	}
 	const map = prefix === '' ? SPAN_XS
@@ -78,20 +75,15 @@ export type GridProps = HTMLAttributes<HTMLDivElement> & {
 	container?:      boolean;
 	item?:           boolean;
 	spacing?:        number;
-	rowSpacing?:     number;
-	columnSpacing?:  number;
 	direction?:      'row' | 'row-reverse' | 'column' | 'column-reverse';
 	wrap?:           'nowrap' | 'wrap' | 'wrap-reverse';
-	flexWrap?:       'nowrap' | 'wrap' | 'wrap-reverse';
-	alignItems?:     'flex-start' | 'center' | 'flex-end' | 'stretch' | 'baseline';
-	justifyContent?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly';
+	alignItems?:     keyof typeof ALIGN;
+	justifyContent?: keyof typeof JUSTIFY;
 	xs?:             GridSize;
 	sm?:             GridSize;
 	md?:             GridSize;
 	lg?:             GridSize;
 	xl?:             GridSize;
-	zeroMinWidth?:   boolean;
-	sx?:             unknown;
 	children?:       ReactNode;
 };
 
@@ -100,22 +92,12 @@ const Grid = forwardRef<HTMLDivElement, GridProps>(function Grid(
 		container,
 		item,
 		spacing,
-		rowSpacing,
-		columnSpacing,
 		direction,
 		wrap,
-		flexWrap,
 		alignItems,
 		justifyContent,
-		xs,
-		sm,
-		md,
-		lg,
-		xl,
-		zeroMinWidth: _zmw,
-		sx: _sx,
+		xs, sm, md, lg, xl,
 		className,
-		style,
 		children,
 		...rest
 	},
@@ -124,13 +106,13 @@ const Grid = forwardRef<HTMLDivElement, GridProps>(function Grid(
 	const isContainer = container;
 	const isItem      = item || (!container && (xs !== undefined || sm !== undefined || md !== undefined || lg !== undefined || xl !== undefined));
 
-	const effectiveWrap = flexWrap ?? wrap;
 	const containerCls = isContainer ? cn(
 		'grid grid-cols-12',
 		direction === 'column' || direction === 'column-reverse' ? 'flex flex-col' : '',
-		effectiveWrap === 'nowrap' ? 'flex-nowrap' : '',
-		alignItems    ? ALIGN[alignItems]      ?? '' : '',
-		justifyContent? JUSTIFY[justifyContent] ?? '' : ''
+		wrap === 'nowrap' ? 'flex-nowrap' : '',
+		alignItems     ? ALIGN[alignItems]      ?? '' : '',
+		justifyContent ? JUSTIFY[justifyContent] ?? '' : '',
+		spacing !== undefined ? GAP[spacing] ?? 'gap-4' : ''
 	) : '';
 
 	const itemCls = isItem ? cn(
@@ -141,19 +123,8 @@ const Grid = forwardRef<HTMLDivElement, GridProps>(function Grid(
 		spanClass('xl', xl)
 	) : '';
 
-	const gridStyle: CSSProperties = {...style};
-	if (isContainer && spacing !== undefined) {
-		gridStyle.gap = `${spacing * 8}px`;
-	}
-	if (isContainer && rowSpacing !== undefined) {
-		gridStyle.rowGap = `${rowSpacing * 8}px`;
-	}
-	if (isContainer && columnSpacing !== undefined) {
-		gridStyle.columnGap = `${columnSpacing * 8}px`;
-	}
-
 	return (
-		<div ref={ref} className={cn(containerCls, itemCls, className)} style={gridStyle} {...rest}>
+		<div ref={ref} className={cn(containerCls, itemCls, className)} {...rest}>
 			{children}
 		</div>
 	);

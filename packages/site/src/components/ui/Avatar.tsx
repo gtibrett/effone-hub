@@ -1,45 +1,37 @@
-'use client';
-
 /**
- * Drop-in for `@mui/material/Avatar`. Renders an img-or-fallback box
- * with the rounded/circular variant shapes. Accepts MUI's `sx` (read
- * for width/height + bgcolor only — we map known keys into inline
- * style) so callsites passing `sx={useAvatarSize(...)}` keep working.
+ * Avatar — img-or-fallback box with a fixed-size scale.
+ *
+ * `size` accepts the legacy named scales the codebase still uses. Numbers
+ * are no longer supported through this prop; callers that need a custom
+ * pixel size pass `className="w-[80px] h-[80px]"` instead. Team-colored
+ * avatars wrap themselves in a `bg-team-primary text-team-foreground`
+ * scope and inject the CSS vars via inline `style` on the wrapping
+ * element (NOT on Avatar itself).
  */
-import {CSSProperties, HTMLAttributes, ReactNode, forwardRef, useState} from 'react';
+import {HTMLAttributes, ReactNode, forwardRef, useState} from 'react';
 import {cn} from '@/lib/utils';
 
-type Sx = {
-	width?:           CSSProperties['width'];
-	height?:          CSSProperties['height'];
-	bgcolor?:         string;
-	backgroundColor?: string;
-	color?:           string;
-	[k: string]:      unknown;
+const SIZE: Record<string, string> = {
+	xs:     'w-6 h-6 text-xs',
+	sm:     'w-8 h-8 text-sm',
+	md:     'w-10 h-10 text-base',
+	lg:     'w-16 h-16 text-lg',
+	xl:     'w-32 h-32 text-2xl',
+	small:  'w-8 h-8 text-sm',
+	medium: 'w-16 h-16 text-base',
+	large:  'w-32 h-32 text-2xl'
 };
 
 export type AvatarProps = Omit<HTMLAttributes<HTMLDivElement>, 'children'> & {
-	variant?: 'circular' | 'rounded' | 'square';
-	src?:     string;
-	alt?:     string;
-	sx?:      Sx | unknown;
+	variant?:  'circular' | 'rounded' | 'square';
+	size?:     keyof typeof SIZE;
+	src?:      string;
+	alt?:      string;
 	children?: ReactNode;
 };
 
-function sxToStyle(sx: unknown): CSSProperties {
-	if (!sx || typeof sx !== 'object') return {};
-	const s = sx as Sx;
-	const out: CSSProperties = {};
-	if (s.width  !== undefined) out.width  = s.width;
-	if (s.height !== undefined) out.height = s.height;
-	if (s.bgcolor !== undefined) out.backgroundColor = s.bgcolor;
-	if (s.backgroundColor !== undefined) out.backgroundColor = s.backgroundColor;
-	if (s.color !== undefined) out.color = s.color;
-	return out;
-}
-
 const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
-	{variant = 'circular', src, alt, sx, className, style, children, ...rest},
+	{variant = 'circular', size, src, alt, className, children, ...rest},
 	ref
 ) {
 	const [imgFailed, setImgFailed] = useState(false);
@@ -52,12 +44,11 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
 		<div
 			ref={ref}
 			className={cn(
-				'inline-flex items-center justify-center overflow-hidden bg-muted text-foreground/80',
-				'w-10 h-10',
+				'inline-flex items-center justify-center overflow-hidden bg-muted text-muted-foreground',
+				size ? SIZE[size] : 'w-10 h-10',
 				shape,
 				className
 			)}
-			style={{...sxToStyle(sx), ...style}}
 			{...rest}
 		>
 			{src && !imgFailed

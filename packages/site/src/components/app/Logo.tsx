@@ -1,6 +1,4 @@
 import {Link} from '@/components/ui';
-import {lighten} from '@/lib/color';
-import {useTheme} from '@/lib/theme';
 import {ComponentProps} from 'react';
 
 type LogoProps = {
@@ -10,18 +8,20 @@ type LogoProps = {
 };
 
 export default function Logo({href, variant, size}: LogoProps) {
-	const theme = useTheme();
-
-	const color = (() => {
+	// The three variants map onto the brand secondary stack. We expose them
+	// as Tailwind utility classes that read the live `--secondary` token,
+	// modulated with `brightness()` so light/dark variants stay in step with
+	// the OS color scheme without a JS-time color read.
+	const colorClass = (() => {
 		switch (variant) {
 			case 'light':
-				return lighten(theme.palette.secondary.light, .375);
+				return 'text-secondary brightness-150';
 			case 'main':
-				return theme.palette.secondary.main;
+				return 'text-secondary';
 			case 'dark':
-				return theme.palette.secondary.dark;
+				return 'text-secondary brightness-75';
 		}
-		return undefined;
+		return '';
 	})();
 
 	return (
@@ -32,7 +32,7 @@ export default function Logo({href, variant, size}: LogoProps) {
 			style={{['--logo-size' as string]: `${size}px`}}
 		>
 			<h1 className="m-0 text-[length:var(--logo-size)] leading-none">
-				EFF<span className="px-1" style={{color}}>ONE</span>HUB
+				EFF<span className={`px-1 ${colorClass}`}>ONE</span>HUB
 			</h1>
 		</Link>
 	);

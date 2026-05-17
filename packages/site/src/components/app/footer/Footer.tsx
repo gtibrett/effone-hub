@@ -1,27 +1,16 @@
-import {useTheme} from '@/lib/theme';
 import {AppBar, Toolbar} from '@/components/ui';
 import Disclaimer from './Disclaimer';
 
 export default function Footer() {
-	const theme = useTheme();
-	
 	return (
 		<>
 			<Toolbar/>
 			<AppBar
-				position="relative"
+				position="fixed"
 				component="footer"
-				color="secondary"
-				className="!bg-secondary text-secondary-foreground py-2 after:hidden"
-				sx={{
-					zIndex:   theme.zIndex.fab - 1,
-					position: 'fixed',
-					p:        0,
-					bottom:   0,
-					top:      'auto',
-					opacity:  .8
-				}}>
-				<Toolbar sx={{minHeight: 'unset !important', py: 1}}>
+				className="!bg-secondary text-secondary-foreground py-2 after:hidden !top-auto !bottom-0 !p-0 opacity-80 z-40"
+			>
+				<Toolbar className="!min-h-0 py-1">
 					<Disclaimer/>
 				</Toolbar>
 			</AppBar>

@@ -20,7 +20,7 @@ const findFinalStandings = (year: number, standings: SeasonDriverStanding[]) => 
 
 export default function Drivers({data, loading}: DriversProps) {
 	if (loading) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" className="h-[400px]"/>;
 	}
 	const years: RowData[] = [];
 

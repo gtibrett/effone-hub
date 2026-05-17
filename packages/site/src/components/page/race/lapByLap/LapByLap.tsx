@@ -43,7 +43,7 @@ function LapByLap({season, round}: LapByLapProps) {
 	const {loading, totalLaps} = lapByLapData;
 	const height               = data.length * 20;
 	
-	let content = <Skeleton variant="rectangular" sx={{width: '100%'}} height="100%"/>;
+	let content = <Skeleton variant="rectangular" className="w-full h-full"/>;
 	if (!loading && lapByLapData.data?.length) {
 		content = (
 			// @ts-ignore

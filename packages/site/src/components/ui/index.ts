@@ -49,4 +49,4 @@ export type {MenuProps, MenuItemProps} from './Menu';
 export {default as Tooltip} from './Tooltip';
 export type {TooltipProps} from './Tooltip';
 
-export {useEffTheme, useDarkMode, useInvertedTheme, useFallbackColor} from './Theme';
+export {default as useDarkMode} from '@/lib/useDarkMode';

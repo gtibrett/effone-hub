@@ -1,13 +1,16 @@
-import {CSSProperties} from 'react';
-import {useTheme} from '@/lib/theme';
+import {getContrastText} from '@/lib/color';
 import {useTeam} from '@/hooks/data';
 import useGetTeamColor from './useGetTeamColor';
 
-export default function useTeamHeaderSx(teamId?: string): CSSProperties {
-	const theme      = useTheme();
-	const {team}     = useTeam(teamId);
-	const background = useGetTeamColor()(team?.colors);
-	const color      = theme.palette.getContrastText(background);
+export type TeamHeaderColors = {
+	primary:    string;
+	foreground: string;
+};
 
-	return {background, color};
+export default function useTeamHeaderSx(teamId?: string): TeamHeaderColors {
+	const {team}     = useTeam(teamId);
+	const primary    = useGetTeamColor()(team?.colors);
+	const foreground = getContrastText(primary);
+
+	return {primary, foreground};
 }

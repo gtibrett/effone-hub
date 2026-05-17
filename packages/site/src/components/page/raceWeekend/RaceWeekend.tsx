@@ -1,9 +1,12 @@
-import {useEffTheme, Card, CardContent, CardHeader, Typography} from '@/components/ui';
+'use client';
+
+import {Card, CardContent, CardHeader, Typography} from '@/components/ui';
 import {getDateWithTime} from '@/helpers';
-   
+
 import {alpha} from '@/lib/color';
+import {useCssTokens} from '@/lib/cssTokens';
 import {CardActions} from '@/components/ui';
-import {ThemeProvider} from '@/lib/theme';
+import type {CSSProperties} from 'react';
 import NextRaceCountdown from './NextRaceCountdown';
 import NextRaceSchedule from './NextRaceSchedule';
 import useNextRaceData from './useNextRaceData';
@@ -11,57 +14,51 @@ import useNextRaceData from './useNextRaceData';
 type RaceWeekendProps = { season: number };
 
 export default function RaceWeekend({season}: RaceWeekendProps) {
-	const {data}     = useNextRaceData(season);
-	const race       = data?.race;
-	const darkTheme  = useEffTheme('dark');
-	const lightTheme = useEffTheme('light');
-	
+	const {data} = useNextRaceData(season);
+	const race   = data?.race;
+	const tokens = useCssTokens();
+
 	if (!race) {
 		return null;
-	} else {
-		const sx       = {
-			background:      lightTheme.palette.secondary.main,
-			backgroundImage: `url(/carbon-fiber-texture.png)`,
-			position:        'relative',
-			
-			'&:before': {
-				content:    '" "',
-				position:   'absolute',
-				left:       0,
-				top:        0,
-				height:     '100%',
-				width:      '100%',
-				zIndex:     1,
-				background: alpha(lightTheme.palette.secondary.main, .5)
-			},
-			
-			'& > *': {
-				zIndex:   2,
-				position: 'relative'
-			}
-		};
-		const raceDate = new Date(`${race.date}T${race.time}`);
-		
-		return (
-			<div className="col-span-12">
-				<ThemeProvider theme={darkTheme}>
-					<Card sx={sx} id="next-race-weekend">
-						<CardHeader
-							title={race.name}
-							titleTypographyProps={{fontSize: 30}}
-							subheader={getDateWithTime(raceDate)}
-							subheaderTypographyProps={{fontSize: 18}}
-							action={<ThemeProvider theme={lightTheme}><NextRaceCountdown variant="dark" race={race}/></ThemeProvider>}
-						/>
-						<CardContent>
-							<Typography variant="body1" component="p">{race.name}</Typography>
-						</CardContent>
-						<CardActions sx={{p: 0, mx: 1, mb: 1}}>
-							<NextRaceSchedule race={race}/>
-						</CardActions>
-					</Card>
-				</ThemeProvider>
-			</div>
-		);
 	}
-};
+
+	const raceDate = new Date(`${race.date}T${race.time}`);
+
+	const cardStyle: CSSProperties = {
+		background:      tokens.secondary,
+		backgroundImage: `url(/carbon-fiber-texture.png)`,
+		position:        'relative'
+	};
+
+	const overlayStyle: CSSProperties = {
+		content:    '" "',
+		position:   'absolute',
+		left:       0,
+		top:        0,
+		height:     '100%',
+		width:      '100%',
+		zIndex:     1,
+		background: alpha(tokens.secondary, 0.5)
+	};
+
+	return (
+		<div className="col-span-12">
+			<Card id="next-race-weekend" style={cardStyle} className="text-secondary-foreground">
+				<div style={overlayStyle}/>
+				<div className="relative z-[2]">
+					<CardHeader
+						title={<span className="text-[30px]">{race.name}</span>}
+						subheader={<span className="text-[18px]">{getDateWithTime(raceDate)}</span>}
+						action={<NextRaceCountdown variant="dark" race={race}/>}
+					/>
+					<CardContent>
+						<Typography variant="body1" component="p">{race.name}</Typography>
+					</CardContent>
+					<CardActions className="p-0 mx-2 mb-2">
+						<NextRaceSchedule race={race}/>
+					</CardActions>
+				</div>
+			</Card>
+		</div>
+	);
+}

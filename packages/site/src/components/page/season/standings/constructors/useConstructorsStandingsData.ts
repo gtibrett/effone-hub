@@ -1,4 +1,4 @@
-import {useFallbackColor} from '@/components/ui';
+import {useCssTokens} from '@/lib/cssTokens';
 import {useGetAccessibleColor} from '@/hooks';
 import { gql } from '@apollo/client';
 import { useSuspenseQuery } from "@apollo/client/react";
@@ -35,7 +35,7 @@ type ConstructorStandingsQueryData = {
 
 const useMapConstructorToEntity = () => {
 	const getAccessibleColor = useGetAccessibleColor();
-	const fallbackColor      = useFallbackColor();
+	const fallbackColor      = useCssTokens().primary;
 
 	return useCallback((constructor: ConstructorNode): Entity => ({
 		id:    constructor.rowId,

@@ -1,8 +1,7 @@
 import {DriverByLine, RaceMap, useMapSeasonRacesToMapPoints} from '@/components/app';
 import {Circuit, Race, Season} from '@/gql/graphql';
 import {DataTable, Link, Card, CardHeader, Skeleton} from '@/components/ui';
-  
-import {Box} from '@/components/ui';
+
 import type {ColumnDef} from '@tanstack/react-table';
 import useScheduleData from './useScheduleData';
 
@@ -17,8 +16,8 @@ type ScheduleProps = {
 export const ScheduleSkeleton = () => (
 	<Card id="season" variant="outlined">
 		<CardHeader title="Schedule"/>
-		<Box sx={{px: 2}}><Skeleton variant="rectangular" height={300}/></Box>
-		<Skeleton variant="rectangular" height={300}/>
+		<div className="px-4"><Skeleton variant="rectangular" className="h-[300px]"/></div>
+		<Skeleton variant="rectangular" className="h-[300px]"/>
 	</Card>
 );
 
@@ -77,7 +76,7 @@ export default function Schedule({season}: ScheduleProps) {
 	return (
 		<Card id="season" variant="outlined">
 			<CardHeader title="Schedule"/>
-			<Box sx={{px: 2}}><RaceMap points={points} onClick={onClick} highlightNext/></Box>
+			<div className="px-4"><RaceMap points={points} onClick={onClick} highlightNext/></div>
 			<DataTable<Row>
 				className="mt-2"
 				rows={races as Row[]}

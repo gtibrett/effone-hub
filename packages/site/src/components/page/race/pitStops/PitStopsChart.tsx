@@ -1,4 +1,4 @@
-import {useTheme} from '@/lib/theme';
+import {useCssTokens} from '@/lib/cssTokens';
 import {Skeleton} from '@/components/ui';
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
 import {useGetAccessibleColor} from '@/hooks';
@@ -21,12 +21,12 @@ export type PitStopSerie = {
 
 export default function PitStopsChart({maxStops, pitStops}: PitStopsChartProps) {
 	const nivoTheme          = useNivoTheme();
-	const theme              = useTheme();
-	const isSmall            = useMediaQuery(theme.breakpoints.down('sm'));
+	const tokens             = useCssTokens();
+	const isSmall            = useMediaQuery('(max-width: 639px)');
 	const getAccessibleColor = useGetAccessibleColor();
-	
+
 	if (!pitStops) {
-		return <Skeleton variant="rectangular" height={isSmall ? 400 : 150}/>;
+		return <Skeleton variant="rectangular" style={{height: isSmall ? 400 : 150}}/>;
 	}
 	
 	if (!pitStops.length) {
@@ -38,7 +38,7 @@ export default function PitStopsChart({maxStops, pitStops}: PitStopsChartProps) 
 		const stop: PitStopSerie = {
 			driverId: p.driverId,
 			code:     p.code || '',
-			color:    getAccessibleColor(p.color || theme.palette.primary.main)
+			color:    getAccessibleColor(p.color || tokens.primary)
 		};
 		
 		p.stops.forEach((s) => {

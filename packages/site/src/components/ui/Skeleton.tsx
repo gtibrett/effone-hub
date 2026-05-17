@@ -1,36 +1,37 @@
 'use client';
 
 /**
- * Drop-in replacement for `@mui/material/Skeleton` rendering the shadcn
- * Skeleton primitive. Maps the legacy variant + height/width props onto
- * Tailwind classes/inline style so existing consumers compile unchanged.
+ * Skeleton — shadcn primitive with variant-driven shape classes. No `sx`,
+ * no width/height props. Consumers size via Tailwind className (`w-32 h-8`,
+ * `h-[400px]`, etc.). Dynamic measurements wrap Skeleton in a div that
+ * carries the computed `style` instead.
  */
+import {HTMLAttributes, forwardRef} from 'react';
 import {Skeleton as ShadcnSkeleton} from '@/components/ui/shadcn/skeleton';
 import {cn} from '@/lib/utils';
-import type {CSSProperties} from 'react';
 
-type SkeletonVariant = 'text' | 'rectangular' | 'circular' | 'rounded';
-
-export type SkeletonProps = {
-	variant?:   SkeletonVariant;
-	width?:     number | string;
-	height?:    number | string;
-	className?: string;
-	style?:     CSSProperties;
-	sx?:        unknown; // legacy MUI sx — accepted but ignored
-};
-
-const VARIANT_CLASS: Record<SkeletonVariant, string> = {
+const VARIANT: Record<string, string> = {
 	text:        'h-[1em] rounded',
 	rectangular: 'rounded-none',
-	circular:    'rounded-full',
-	rounded:     'rounded-md'
+	rounded:     'rounded-md',
+	circular:    'rounded-full'
 };
 
-export default function Skeleton({variant = 'text', width, height, className, style, sx: _sx}: SkeletonProps) {
-	const inlineStyle: CSSProperties = {...style};
-	if (width !== undefined) inlineStyle.width = typeof width === 'number' ? `${width}px` : width;
-	if (height !== undefined) inlineStyle.height = typeof height === 'number' ? `${height}px` : height;
+export type SkeletonProps = HTMLAttributes<HTMLDivElement> & {
+	variant?: keyof typeof VARIANT;
+};
 
-	return <ShadcnSkeleton className={cn(VARIANT_CLASS[variant], className)} style={inlineStyle}/>;
-}
+const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(function Skeleton(
+	{variant = 'text', className, ...rest},
+	ref
+) {
+	return (
+		<ShadcnSkeleton
+			ref={ref}
+			className={cn(VARIANT[variant], className)}
+			{...rest}
+		/>
+	);
+});
+
+export default Skeleton;

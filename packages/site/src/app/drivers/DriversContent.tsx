@@ -18,7 +18,7 @@ export default function DriversContent() {
 		<Page title="Drivers">
 			<Card>
 				<DriversFilters filters={filters} setFilters={setFilters}/>
-				<Suspense fallback={<Skeleton variant="rectangular" height="65vh"/>}>
+				<Suspense fallback={<Skeleton variant="rectangular" className="h-[65vh]"/>}>
 					<CardContent>
 						<DriversList filters={filters}/>
 					</CardContent>

@@ -115,7 +115,7 @@ export default function RoundContent({season: seasonStr, round: roundStr, race}:
 				</div>
 
 				<div className="col-span-12 md:col-span-4 lg:col-span-3 order-1 md:order-2">
-					<Card sx={{height: '100%'}}>
+					<Card className="h-full">
 						<CardContent>
 							<div className="grid grid-cols-12 gap-4">
 								<CardHeader title={`${seasonToShow} Season`}/>

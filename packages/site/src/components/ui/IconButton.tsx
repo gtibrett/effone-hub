@@ -4,13 +4,6 @@ import {ComponentProps, forwardRef} from 'react';
 import {Button as ShadcnButton} from './shadcn/button';
 import {cn} from '@/lib/utils';
 
-export type IconButtonProps = ComponentProps<'button'> & {
-	size?:     'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg';
-	color?:    string;
-	edge?:     'start' | 'end' | false;
-	sx?:       unknown;
-};
-
 const SIZE_MAP: Record<string, ComponentProps<typeof ShadcnButton>['size']> = {
 	small:  'icon-sm',
 	medium: 'icon',
@@ -20,11 +13,16 @@ const SIZE_MAP: Record<string, ComponentProps<typeof ShadcnButton>['size']> = {
 	lg:     'icon-lg'
 };
 
+export type IconButtonProps = ComponentProps<'button'> & {
+	size?: keyof typeof SIZE_MAP;
+	edge?: 'start' | 'end' | false;
+};
+
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
-	{size = 'medium', color: _color, edge, sx: _sx, className, children, ...rest},
+	{size = 'medium', edge, className, children, ...rest},
 	ref
 ) {
-	const s = SIZE_MAP[size] ?? 'icon';
+	const s = SIZE_MAP[size as string] ?? 'icon';
 	return (
 		<ShadcnButton
 			ref={ref}

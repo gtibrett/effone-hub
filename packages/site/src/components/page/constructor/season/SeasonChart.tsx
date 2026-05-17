@@ -14,7 +14,7 @@ export default function SeasonChart({data, loading}: SeasonChartProps) {
 	const getTeamColor = useGetTeamColor();
 
 	if (loading || !data) {
-		return <Skeleton variant="rectangular" height={132}/>;
+		return <Skeleton variant="rectangular" className="h-[132px]"/>;
 	}
 
 	const colors    = [

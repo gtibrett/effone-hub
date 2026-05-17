@@ -1,31 +1,32 @@
 /**
- * Tailwind v4 entrypoint. The cascade-layer declaration must come BEFORE
- * `@import "tailwindcss"` so MUI's CSS layer (declared via
- * AppRouterCacheProvider({enableCssLayer: true})) is anchored beneath
- * Tailwind utilities. Order = priority: later layers win.
+ * Tailwind v4 entrypoint. Pure prefers-color-scheme media-query strategy:
+ * no `.dark` / `.light` class toggling, no boot script. The user's OS
+ * preference is the only source of truth.
+ *
+ * Token map mirrors the (now-deleted) MUI theme:
+ *   Primary = blueGrey 800 light / 400 dark
+ *   Secondary = deepOrange 900 light / 200 dark
+ *
+ * Two layers:
+ *   1. `:root` (+ `@media prefers-color-scheme: dark`) hold HSL triplets
+ *      shadcn-style so utilities can modulate alpha (e.g. `bg-primary/80`
+ *      → `hsl(var(--primary) / 0.8)`).
+ *   2. `@theme inline` re-exports as `--color-*` so Tailwind v4 emits
+ *      proper utility classes.
+ *
+ * Dynamic team colors live in `--team-primary` / `--team-fg`. Consumers
+ * inject them via inline `style={{'--team-primary': '#xxxxxx', '--team-fg': '#yyyyyy'}}`
+ * on a scoped wrapper, then descendants use `bg-team-primary` /
+ * `text-team-fg` / `border-team-primary` utilities — see the
+ * `@utility` rules below.
  */
-@layer mui, base, components, utilities;
+@layer base, components, utilities;
 
 @import "tailwindcss";
 
-/* -----------------------------------------------------------------------
- * Brand tokens — mirrors src/components/ui/Theme.ts (the live MUI theme).
- * Primary: MUI blueGrey 800 (light) / 400 (dark).
- * Secondary: MUI deepOrange 900 (light) / 200 (dark).
- *
- * Two-layer pattern:
- *   1. `:root` (+ `@media prefers-color-scheme: dark` and `.dark` override
- *      class) hold raw HSL triplets in shadcn convention so consumers can
- *      modulate via alpha (e.g. `bg-primary/80` → `hsl(var(--primary) / 0.8)`).
- *   2. `@theme inline` re-exports them as `--color-*` so Tailwind v4 emits
- *      `bg-primary`, `text-primary`, etc.
- *
- * Keep MUI's ThemeProvider untouched — both systems read from the same hex
- * baselines but live in parallel until M12.
- * --------------------------------------------------------------------- */
-
 :root {
-	/* MUI blueGrey 200 / 800 / 50 / 800 — light surface */
+	color-scheme: light dark;
+
 	--background:               210 17% 82%; /* blueGrey 200 */
 	--foreground:               0 0% 0%;
 	--card:                     0 0% 100%;
@@ -46,21 +47,21 @@
 	--input:                    210 17% 70%;
 	--ring:                     200 18% 26%;
 
-	/* F1 team color slots — set per-scope via inline style on a wrapper.
-	 * `bg-[var(--team-primary)]` is the consumer shape. Falls back to the
-	 * brand primary when not set. */
+	/* Dynamic team color slots — set per-scope on a wrapper via inline
+	 * `style={{'--team-primary': '#5fcfbe', '--team-fg': '#000'}}`.
+	 * Defaults fall back to brand primary so unstyled team contexts
+	 * still render readably. */
 	--team-primary:             hsl(var(--primary));
-	--team-secondary:           hsl(var(--secondary));
-	--team-primary-accessible:  hsl(var(--primary));
+	--team-foreground:          hsl(var(--primary-foreground));
 
 	--radius:                   0.5rem;
 }
 
 @media (prefers-color-scheme: dark) {
-	:root:not(.light) {
-		--background:             200 18% 33%; /* blueGrey 800 #37474f */
+	:root {
+		--background:             200 18% 18%; /* blueGrey 900 #263238 */
 		--foreground:             0 0% 100%;
-		--card:                   200 18% 18%; /* blueGrey 900 */
+		--card:                   200 18% 24%; /* blueGrey 800 */
 		--card-foreground:        0 0% 100%;
 		--popover:                200 18% 18%;
 		--popover-foreground:     0 0% 100%;
@@ -78,30 +79,6 @@
 		--input:                  200 18% 50%;
 		--ring:                   204 15% 65%;
 	}
-}
-
-/* Explicit overrides via class — mirrors useEffTheme(overrideMode) so the
- * user-selectable mode wins over prefers-color-scheme. */
-.dark {
-	--background:             200 18% 33%;
-	--foreground:             0 0% 100%;
-	--card:                   200 18% 18%;
-	--card-foreground:        0 0% 100%;
-	--popover:                200 18% 18%;
-	--popover-foreground:     0 0% 100%;
-	--primary:                204 15% 65%;
-	--primary-foreground:     0 0% 0%;
-	--secondary:              14 100% 78%;
-	--secondary-foreground:   0 0% 0%;
-	--muted:                  200 18% 25%;
-	--muted-foreground:       204 15% 80%;
-	--accent:                 204 15% 65%;
-	--accent-foreground:      0 0% 0%;
-	--destructive:            0 70% 50%;
-	--destructive-foreground: 0 0% 100%;
-	--border:                 200 18% 50%;
-	--input:                  200 18% 50%;
-	--ring:                   204 15% 65%;
 }
 
 @theme inline {
@@ -130,4 +107,23 @@
 	--radius-sm: calc(var(--radius) - 4px);
 
 	--font-sans: 'Titillium Web', sans-serif;
+}
+
+/* Team-color utilities — driven by the `--team-primary` / `--team-foreground`
+ * variables set on a wrapping scope. Use these instead of arbitrary
+ * `bg-[var(--team-primary)]` so consumer code reads cleanly. */
+@utility bg-team-primary {
+	background-color: var(--team-primary);
+}
+@utility text-team-primary {
+	color: var(--team-primary);
+}
+@utility text-team-foreground {
+	color: var(--team-foreground);
+}
+@utility border-team-primary {
+	border-color: var(--team-primary);
+}
+@utility ring-team-primary {
+	--tw-ring-color: var(--team-primary);
 }

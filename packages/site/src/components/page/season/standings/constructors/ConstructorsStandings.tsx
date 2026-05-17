@@ -35,7 +35,7 @@ export default function ConstructorsStandings({season}: ConstructorsStandingsPro
 	];
 	
 	return (
-		<Suspense fallback={<Skeleton variant="rectangular" height={height + 182}/>}>
+		<Suspense fallback={<Skeleton variant="rectangular" style={{height: height + 182}}/>}>
 			<ChartSwitcher title="Constructor's Standings"
 				charts={charts} size={height}
 				subheader={<ConstructorChampion season={season}/>}

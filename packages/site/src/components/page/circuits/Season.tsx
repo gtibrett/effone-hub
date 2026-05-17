@@ -2,16 +2,15 @@ import {ConstructorByLine, DriverByLine} from '@/components/app';
 import {getPositionTextOutcome} from '@/helpers';
 import {CircuitDataProps} from '@/hooks/data';
 import {DataTable, Skeleton, Typography} from '@/components/ui';
- 
+
 import {Grid} from '@/components/ui';
-import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 import PositionChange from '../race/PositionChange';
 import NextRaceCountdown from '../raceWeekend/NextRaceCountdown';
 
 export default function Season({data, loading}: CircuitDataProps) {
 	if (loading) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" className="h-[400px]"/>;
 	}
 
 	if (!data) {
@@ -41,7 +40,7 @@ export default function Season({data, loading}: CircuitDataProps) {
 		},
 		{
 			id:         'change',
-			header:     () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
+			header:     () => <Typography className="sr-only">Position Changes</Typography>,
 			size:       60,
 			accessorFn: (row) => {
 				const {gridPositionNumber, positionDisplayOrder} = row;
@@ -77,7 +76,7 @@ export default function Season({data, loading}: CircuitDataProps) {
 			enableSorting: false,
 			cell:          ({row}) => {
 				return (
-					<Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
+					<Grid container alignItems="center" justifyContent="space-between" wrap="nowrap" spacing={1}>
 						<Grid item><>{row.original.reasonRetired ? row.original.reasonRetired : getPositionTextOutcome(String(row.original.positionDisplayOrder), undefined)}</>
 						</Grid>
 					</Grid>

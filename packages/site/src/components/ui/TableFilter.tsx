@@ -1,29 +1,27 @@
-import {useTheme} from '@/lib/theme';
-import {Typography} from '@/components/ui';
+import {Button, CardActions, Grid, Tooltip, Typography} from '@/components/ui';
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-
-import {alpha} from '@/lib/color';
-import {Button, CardActions, Grid, Tooltip} from '@/components/ui';
-import {visuallyHidden} from '@/lib/visuallyHidden';
 import {ChangeEvent, Dispatch, ReactNode, SetStateAction, SyntheticEvent} from 'react';
 
 type TableFilterProps = {
 	handleSearch: (e: SyntheticEvent) => void;
-	children: ReactNode | ReactNode[];
+	children:     ReactNode | ReactNode[];
 }
 
 export default function TableFilter({handleSearch, children}: TableFilterProps) {
-	const theme = useTheme();
-	
 	return (
 		<form onSubmit={handleSearch}>
-			<CardActions sx={{p: 2, borderBottom: `4px solid ${theme.palette.secondary.main}`, background: alpha(theme.palette.background.default, .125)}}>
+			<CardActions className="p-4 border-b-4 border-secondary bg-muted/50">
 				<Grid container spacing={1}>
-					{Array.isArray(children) ? children.map((c, i) => <Grid key={i} item xs>{c}</Grid>) : <Grid item xs>{children}</Grid>}
+					{Array.isArray(children)
+						? children.map((c, i) => <Grid key={i} item xs>{c}</Grid>)
+						: <Grid item xs>{children}</Grid>}
 					<Grid item>
-						<Tooltip title="Search" arrow placement="bottom">
-							<Button color="secondary" type="submit" variant="contained" onClick={handleSearch}><FontAwesomeIcon icon={faMagnifyingGlass} style={{fontSize: 26}}/><Typography sx={visuallyHidden}>Search</Typography></Button>
+						<Tooltip title="Search" placement="bottom">
+							<Button type="submit" variant="contained" className="bg-secondary text-secondary-foreground hover:bg-secondary/90" onClick={handleSearch}>
+								<FontAwesomeIcon icon={faMagnifyingGlass} className="text-2xl"/>
+								<Typography variant="caption" className="sr-only">Search</Typography>
+							</Button>
 						</Tooltip>
 					</Grid>
 				</Grid>
@@ -33,25 +31,19 @@ export default function TableFilter({handleSearch, children}: TableFilterProps) 
 }
 
 export type ListFiltersProps<T> = {
-	filters: T;
+	filters:    T;
 	setFilters: Dispatch<SetStateAction<T>>;
 }
 
 export function setNumberFilter<T>(setFilters: Dispatch<SetStateAction<T>>, key: keyof T) {
 	return (value: number) => {
-		setFilters((cur: T) => ({
-			...cur,
-			[key]: value
-		}) as T);
+		setFilters((cur: T) => ({...cur, [key]: value}) as T);
 	};
 }
 
 export function setStringFilter<T>(setFilters: Dispatch<SetStateAction<T>>, key: keyof T) {
 	return (ev: ChangeEvent<HTMLInputElement>) => {
-		setFilters((cur: T) => ({
-			...cur,
-			[key]: (ev.target.value || '' as string)
-		}) as T);
+		setFilters((cur: T) => ({...cur, [key]: (ev.target.value || '' as string)}) as T);
 	};
 }
 
@@ -62,22 +54,18 @@ export function filterByNumber<T extends object>(data: T[], query: number, compa
 export function filterByNumber<T extends object>(data: T[], query: number, fieldsOrComparator: (keyof T)[] | FilterComparator<number, T>) {
 	if (typeof fieldsOrComparator === 'function') {
 		return data.filter(d => fieldsOrComparator(query, d));
-	} else {
-		if (typeof fieldsOrComparator === 'undefined') {
-			throw new Error('Fields are required');
-		} else {
-			return data.filter(d => {
-				for (const field of fieldsOrComparator) {
-					if (Object.prototype.hasOwnProperty.call(d, field)) {
-						if (Number(d[field]) === query) {
-							return true;
-						}
-					}
-				}
-				return false;
-			});
-		}
 	}
+	if (typeof fieldsOrComparator === 'undefined') {
+		throw new Error('Fields are required');
+	}
+	return data.filter(d => {
+		for (const field of fieldsOrComparator) {
+			if (Object.prototype.hasOwnProperty.call(d, field)) {
+				if (Number(d[field]) === query) return true;
+			}
+		}
+		return false;
+	});
 }
 
 export function filterByFreeformText<T extends object>(data: T[], query: string, fields: (keyof T)[]): T[];
@@ -85,21 +73,16 @@ export function filterByFreeformText<T extends object>(data: T[], query: string,
 export function filterByFreeformText<T extends object>(data: T[], query: string, fieldsOrComparator: (keyof T)[] | FilterComparator<string, T>) {
 	if (typeof fieldsOrComparator === 'function') {
 		return data.filter(d => fieldsOrComparator(query, d));
-	} else {
-		if (typeof fieldsOrComparator === 'undefined') {
-			throw new Error('Fields are required');
-		} else {
-			const tokens = query.toLowerCase().split(' ');
-			
-			return data.filter(d => {
-				const textToSearch = fieldsOrComparator.reduce((txt, field) => `${txt} ${d[field]}`, '');
-				for (const token of tokens) {
-					if (textToSearch.toLowerCase().includes(token)) {
-						return true;
-					}
-				}
-				return false;
-			});
-		}
 	}
+	if (typeof fieldsOrComparator === 'undefined') {
+		throw new Error('Fields are required');
+	}
+	const tokens = query.toLowerCase().split(' ');
+	return data.filter(d => {
+		const textToSearch = fieldsOrComparator.reduce((txt, field) => `${txt} ${d[field]}`, '');
+		for (const token of tokens) {
+			if (textToSearch.toLowerCase().includes(token)) return true;
+		}
+		return false;
+	});
 }

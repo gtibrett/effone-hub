@@ -7,7 +7,6 @@ import {Driver} from '@/gql/graphql';
 import {useSuspenseQuery} from '@apollo/client/react';
 
 import {Grid} from '@/components/ui';
-import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 
 type DriversTableProps = {
@@ -21,7 +20,7 @@ export default function DriversList({filters}: DriversTableProps) {
 	const columns: ColumnDef<Driver, any>[] = [
 		{
 			id:            'avatar',
-			header:        () => <Typography sx={visuallyHidden}>Photo</Typography>,
+			header:        () => <Typography className="sr-only">Photo</Typography>,
 			cell:          ({row}) => <DriverAvatar driverId={row.original.id}/>,
 			size:          50,
 			enableSorting: false

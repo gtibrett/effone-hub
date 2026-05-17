@@ -1,20 +1,22 @@
 import {PropertiesTable, PropertiesTableRow, Card, CardHeader} from '@/components/ui';
 import {useTeamHeaderSx} from '@/hooks';
 import {useTeam} from '@/hooks/data';
- 
+
 import {PointTooltipProps} from '@nivo/line';
+import type {CSSProperties} from 'react';
 
 export default function CareerTooltip({point}: PointTooltipProps) {
 	const {serieId: teamId, data} = point;
-	
+
 	// @ts-ignore
 	const {points, wins, position, grid} = data; // extra added to make tooltip better
 	const {team}                         = useTeam(String(teamId));
-	const headerSx                       = useTeamHeaderSx(String(teamId));
-	
+	const hc                             = useTeamHeaderSx(String(teamId));
+
 	return (
-		<Card sx={{p: 0}}>
-			<CardHeader style={headerSx} title={point.data.xFormatted} subheader={team?.name}/>
+		<div style={{'--team-primary': hc.primary, '--team-foreground': hc.foreground} as CSSProperties}>
+		<Card className="p-0">
+			<CardHeader className="bg-team-primary text-team-foreground" title={point.data.xFormatted} subheader={team?.name}/>
 			<PropertiesTable>
 				{grid && <PropertiesTableRow header="Qualifying" align="right">{grid}</PropertiesTableRow>}
 				{position && <PropertiesTableRow header="Position" align="right">{position}</PropertiesTableRow>}
@@ -22,5 +24,6 @@ export default function CareerTooltip({point}: PointTooltipProps) {
 				{typeof wins !== 'undefined' && <PropertiesTableRow header="Wins" align="right">{wins}</PropertiesTableRow>}
 			</PropertiesTable>
 		</Card>
+		</div>
 	);
 }

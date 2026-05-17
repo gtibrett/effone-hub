@@ -1,22 +1,21 @@
 'use client';
 
 /**
- * Drop-in for `@mui/material` List family. Renders semantic ul/li with
- * the small typographic + spacing defaults the about-page consumers
- * expect. ListItemText.primary/secondary become stacked text blocks.
+ * List family — semantic `<ul>` + `<li>` with Tailwind utility classes.
+ * No `sx`. The `<ul>` is reset to `list-none` so default browser markers
+ * don't show.
  */
 import {HTMLAttributes, ReactNode, forwardRef} from 'react';
 import {cn} from '@/lib/utils';
 
 export type ListProps = HTMLAttributes<HTMLUListElement> & {
-	dense?:        boolean;
+	dense?:          boolean;
 	disablePadding?: boolean;
-	subheader?:    ReactNode;
-	sx?:           unknown;
+	subheader?:      ReactNode;
 };
 
 const List = forwardRef<HTMLUListElement, ListProps>(function List(
-	{dense, disablePadding, subheader, sx: _sx, className, children, ...rest},
+	{dense: _dense, disablePadding, subheader, className, children, ...rest},
 	ref
 ) {
 	return (
@@ -37,12 +36,11 @@ export default List;
 
 export type ListItemProps = HTMLAttributes<HTMLLIElement> & {
 	disablePadding?: boolean;
-	dense?:        boolean;
-	sx?:           unknown;
+	dense?:          boolean;
 };
 
 export const ListItem = forwardRef<HTMLLIElement, ListItemProps>(function ListItem(
-	{disablePadding, dense, sx: _sx, className, children, ...rest},
+	{disablePadding, dense, className, children, ...rest},
 	ref
 ) {
 	return (
@@ -60,10 +58,10 @@ export const ListItem = forwardRef<HTMLLIElement, ListItemProps>(function ListIt
 	);
 });
 
-export type ListItemIconProps = HTMLAttributes<HTMLSpanElement> & {sx?: unknown};
+export type ListItemIconProps = HTMLAttributes<HTMLSpanElement>;
 
 export const ListItemIcon = forwardRef<HTMLSpanElement, ListItemIconProps>(function ListItemIcon(
-	{sx: _sx, className, children, ...rest},
+	{className, children, ...rest},
 	ref
 ) {
 	return (
@@ -76,11 +74,10 @@ export const ListItemIcon = forwardRef<HTMLSpanElement, ListItemIconProps>(funct
 export type ListItemTextProps = HTMLAttributes<HTMLDivElement> & {
 	primary?:   ReactNode;
 	secondary?: ReactNode;
-	sx?:        unknown;
 };
 
 export const ListItemText = forwardRef<HTMLDivElement, ListItemTextProps>(function ListItemText(
-	{primary, secondary, sx: _sx, className, children, ...rest},
+	{primary, secondary, className, children, ...rest},
 	ref
 ) {
 	return (
@@ -93,12 +90,11 @@ export const ListItemText = forwardRef<HTMLDivElement, ListItemTextProps>(functi
 });
 
 export type ListSubheaderProps = HTMLAttributes<HTMLDivElement> & {
-	sx?: unknown;
 	disableSticky?: boolean;
 };
 
 export const ListSubheader = forwardRef<HTMLDivElement, ListSubheaderProps>(function ListSubheader(
-	{sx: _sx, disableSticky, className, children, ...rest},
+	{disableSticky, className, children, ...rest},
 	ref
 ) {
 	return (

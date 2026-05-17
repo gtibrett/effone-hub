@@ -1,4 +1,3 @@
-import {useTheme} from '@/lib/theme';
 import {Link} from '@/components/ui';
 import {useAppState} from '@/components/app';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +16,7 @@ type NavRoute = {
 export const useNavLinks = (pathname: string) => {
 	const [{currentSeason}] = useAppState();
 	const firstSegment      = pathname.split('/').filter(s => s.length)[0];
-	
+
 	const navLinks: NavRoute[] = [
 		{
 			path:   `/${currentSeason}`,
@@ -50,19 +49,20 @@ export const useNavLinks = (pathname: string) => {
 			active: firstSegment === 'about'
 		}
 	];
-	
+
 	return navLinks;
 };
 
 export default function NavMenu() {
 	const router                  = useRouter();
-	const theme                   = useTheme();
-	const isMobile                = useMediaQuery(theme.breakpoints.down('md'));
+	// Mirrors the old `theme.breakpoints.down('md')` (MUI's md breakpoint
+	// was 900px; `.down(...)` returns `< 899.95`).
+	const isMobile                = useMediaQuery('(max-width: 899.95px)');
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 	const open                    = Boolean(anchorEl);
 	const pathname                = usePathname() || '';
 	const navLinks                = useNavLinks(pathname);
-	
+
 	// Replaces the old MUI navLinkSx — Tailwind classes hit the same
 	// states (hover/focus/active) and lean on the shadcn `secondary`
 	// token wired up in M2 to match the lighten(secondary.light) brand
@@ -74,20 +74,20 @@ export default function NavMenu() {
 		'focus:text-secondary focus:border-secondary',
 		'aria-[current=page]:bg-secondary aria-[current=page]:text-secondary-foreground'
 	].join(' ');
-	
+
 	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
-	
+
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
-	
+
 	const handleLink = (url: string) => () => {
 		router.push(url);
 		handleClose();
 	};
-	
+
 	if (isMobile) {
 		return (
 			<div>
@@ -99,7 +99,7 @@ export default function NavMenu() {
 					aria-expanded={open ? 'true' : undefined}
 					onClick={handleClick}
 				>
-					<FontAwesomeIcon icon={faBars} color={theme.palette.common.white}/>
+					<FontAwesomeIcon icon={faBars} color="#fff"/>
 				</IconButton>
 				<Menu
 					hideBackdrop

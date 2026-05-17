@@ -1,4 +1,4 @@
-import {useTheme} from '@/lib/theme';
+import {useCssTokens} from '@/lib/cssTokens';
 import {usePerformanceData} from '@/components/page/driver';
 import {useNivoTheme} from '@/components/ui/nivo';
 import {useGetAccessibleColor} from '@/hooks';
@@ -11,7 +11,7 @@ import {CircuitDialogData} from './types';
 type CircuitPerformanceProps = SimpleApolloResult<CircuitDialogData>;
 
 export default function CircuitPerformance({data, loading}: CircuitPerformanceProps) {
-	const theme                      = useTheme();
+	const tokens                     = useCssTokens();
 	const nivoTheme                  = useNivoTheme();
 	const {ref, dimensions: {width}} = useComponentDimensionsWithRef();
 	const rawResults                 = data?.circuit.races?.nodes?.flatMap(r => r.results);
@@ -45,10 +45,10 @@ export default function CircuitPerformance({data, loading}: CircuitPerformancePr
 		}
 	];
 
-	const color = getAccessibleColor(theme.palette.primary.main);
+	const color = getAccessibleColor(tokens.primary);
 
 	return (
-		<Paper variant="outlined" ref={ref} sx={{height: width, width, p: 0}}>
+		<Paper variant="outlined" ref={ref} className="p-0" style={{height: width, width}}>
 			<ResponsiveRadar
 				theme={nivoTheme}
 				data={chartData}

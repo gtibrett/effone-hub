@@ -6,7 +6,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
   
 import {List, ListItem, ListItemIcon, ListItemText} from '@/components/ui';
 const Repositories = () => (
-	<Card sx={{height: '100%'}}>
+	<Card className="h-full">
 		<CardHeader title="Repositories"/>
 		<CardContent>
 			<List>

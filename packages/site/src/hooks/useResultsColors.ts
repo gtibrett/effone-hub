@@ -1,5 +1,5 @@
-import {useDarkMode} from '@/components/ui';
-import {useTheme} from '@/lib/theme';
+import useDarkMode from '@/lib/useDarkMode';
+import {getContrastText} from '@/lib/color';
 import {amber, blueGrey, deepPurple, green, red} from '@/lib/muiColors';
 import {useMemo} from 'react';
 
@@ -9,7 +9,6 @@ type ResultsColor = {
 }
 
 export default function useResultsColors(): { [key: string]: ResultsColor } {
-	const theme           = useTheme();
 	const prefersDarkMode = useDarkMode();
 
 	// useMemo so the returned object is reference-stable — Nivo's bar/legend
@@ -31,10 +30,10 @@ export default function useResultsColors(): { [key: string]: ResultsColor } {
 			             {
 				             [key]: {
 					             background,
-					             color: theme.palette.getContrastText(background)
+					             color: getContrastText(background)
 				             }
 			             }
 		             ))
 		             .reduce((cur, item) => ({...cur, ...item}), {});
-	}, [theme, prefersDarkMode]);
+	}, [prefersDarkMode]);
 }

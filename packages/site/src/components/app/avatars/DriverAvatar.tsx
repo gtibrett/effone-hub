@@ -12,23 +12,23 @@ export type DriverAvatarProps = {
 }
 
 function DriverAvatar({driverId, size = 'small'}: DriverAvatarProps) {
-	const sx     = useAvatarSize(size);
-	const driver = useDriver(driverId);
+	const sizeClass = useAvatarSize(size);
+	const driver    = useDriver(driverId);
 
 	return useMemo(() => {
 		if (!driver) {
-			return <Avatar variant="rounded" style={sx}><FontAwesomeIcon icon={faUser}/></Avatar>;
+			return <Avatar variant="rounded" className={sizeClass}><FontAwesomeIcon icon={faUser}/></Avatar>;
 		}
 
 		const {firstName, lastName, bio} = driver;
 		const alt = `${firstName ?? ''} ${lastName ?? ''}`.trim();
 
 		return (
-			<Avatar variant="rounded" style={sx} src={bio?.thumbnailUrl ?? undefined} alt={alt}>
+			<Avatar variant="rounded" className={sizeClass} src={bio?.thumbnailUrl ?? undefined} alt={alt}>
 				{firstName?.[0]}{lastName?.[0]}
 			</Avatar>
 		);
-	}, [sx, driver]);
+	}, [sizeClass, driver]);
 }
 
 export default DriverAvatar;

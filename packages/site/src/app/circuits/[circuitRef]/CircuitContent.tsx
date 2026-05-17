@@ -47,7 +47,7 @@ export default function CircuitContent({circuitRef}: {circuitRef: string}) {
 				)}
 				action={(
 					<div className="hidden md:block">
-						<Card sx={{height: '100%'}} ref={ref}>
+						<Card className="h-full" ref={ref}>
 							<RaceMap points={points} onClick={onClick} height={height} centerOn={circuit} zoom/>
 						</Card>
 					</div>
@@ -75,7 +75,7 @@ export default function CircuitContent({circuitRef}: {circuitRef: string}) {
 					</div>
 
 					<div className="col-span-12 md:col-span-4 lg:col-span-3 order-1 md:order-2">
-						<Card sx={{height: '100%'}}>
+						<Card className="h-full">
 							<CardHeader title={`${seasonToShow} Season`}/>
 							<CardContent>
 								<div className="grid grid-cols-12 gap-4">

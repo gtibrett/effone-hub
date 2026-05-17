@@ -2,28 +2,28 @@ import {Skeleton, Typography, type TypographyProps} from '@/components/ui';
 
 import {Grid, Paper} from '@/components/ui';
 import type {GridProps, PaperProps} from '@/components/ui';
-import {CSSProperties, PropsWithChildren, ReactNode, RefObject, Suspense} from 'react';
+import {PropsWithChildren, ReactNode, RefObject, Suspense} from 'react';
+import {cn} from '@/lib/utils';
 
 type Skeletons = {
-	title?: ReactNode;
+	title?:     ReactNode;
 	subheader?: ReactNode;
-	extra?: ReactNode;
-	action?: ReactNode;
+	extra?:     ReactNode;
+	action?:    ReactNode;
 }
 
 type PageProps = PropsWithChildren<{
-	title: ReactNode;
-	subheader?: ReactNode;
-	extra?: ReactNode;
-	action?: ReactNode;
-	actionProps?: GridProps;
-	
-	headerRef?: ((instance: HTMLDivElement | null) => void) | RefObject<HTMLDivElement> | null;
-	headerProps?: PaperProps
-	style?: CSSProperties;
-	titleProps?: TypographyProps;
+	title:           ReactNode;
+	subheader?:      ReactNode;
+	extra?:          ReactNode;
+	action?:         ReactNode;
+	actionProps?:    GridProps;
+
+	headerRef?:      ((instance: HTMLDivElement | null) => void) | RefObject<HTMLDivElement> | null;
+	headerProps?:    PaperProps;
+	titleProps?:     TypographyProps;
 	subheaderProps?: TypographyProps;
-	skeletons?: Skeletons;
+	skeletons?:      Skeletons;
 }>
 
 const DefaultSkeletons: Skeletons = {
@@ -33,38 +33,33 @@ const DefaultSkeletons: Skeletons = {
 	action:    <Skeleton variant="text"/>
 };
 
-type HasSkeleton<T> = T & {
-	skeleton: ReactNode
-}
+type HasSkeleton<T> = T & {skeleton: ReactNode}
 
-const PageTitle = ({title, skeleton, titleProps = {}}: HasSkeleton<Pick<PageProps, 'title' | 'titleProps'>>) => {
-	return typeof title === 'string'
+const PageTitle = ({title, skeleton, titleProps = {}}: HasSkeleton<Pick<PageProps, 'title' | 'titleProps'>>) =>
+	typeof title === 'string'
 		? <Typography variant="h2" className="my-1" {...titleProps}>{title}</Typography>
 		: <Suspense fallback={skeleton}>{title}</Suspense>;
-};
-const PageSubheader = ({subheader, skeleton, subheaderProps = {}}: HasSkeleton<Pick<PageProps, 'subheader' | 'subheaderProps'>>) => {
-	return typeof subheader === 'string'
+
+const PageSubheader = ({subheader, skeleton, subheaderProps = {}}: HasSkeleton<Pick<PageProps, 'subheader' | 'subheaderProps'>>) =>
+	typeof subheader === 'string'
 		? <Typography variant="subtitle1" component="h2" {...subheaderProps}>{subheader}</Typography>
 		: <Suspense fallback={skeleton}>{subheader}</Suspense>;
-};
 
 export default function Page(props: PageProps) {
-	const {title, titleProps}                                   = props;
-	const {subheader, subheaderProps}                           = props;
-	const {action, actionProps = {}}                            = props;
-	const {extra, headerProps = {}, headerRef, children, style} = props;
-	const skeletons                                             = {...DefaultSkeletons, ...props.skeletons};
-	const {style: headerStyle, className: headerClassName, ...headerRest} = headerProps;
+	const {title, titleProps}                            = props;
+	const {subheader, subheaderProps}                    = props;
+	const {action, actionProps = {}}                     = props;
+	const {extra, headerProps = {}, headerRef, children} = props;
+	const skeletons                                      = {...DefaultSkeletons, ...props.skeletons};
+	const {className: headerClassName, ...headerRest}    = headerProps;
 
 	return (
 		<Grid container spacing={2} alignItems="stretch">
 			<Grid item xs={12}>
 				<Paper
 					ref={headerRef}
-					elevation={0}
-					className={['p-4 h-full bg-primary text-primary-foreground', headerClassName].filter(Boolean).join(' ')}
+					className={cn('p-4 h-full bg-primary text-primary-foreground relative overflow-hidden', headerClassName)}
 					{...headerRest}
-					style={{...headerStyle, ...style}}
 				>
 					<Grid container spacing={2} alignItems="stretch">
 						<Grid item xs>
@@ -79,9 +74,7 @@ export default function Page(props: PageProps) {
 								)}
 								{extra && (
 									<Grid item xs={12}>
-										<Suspense fallback={skeletons.extra}>
-											{extra}
-										</Suspense>
+										<Suspense fallback={skeletons.extra}>{extra}</Suspense>
 									</Grid>
 								)}
 							</Grid>

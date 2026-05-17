@@ -17,7 +17,7 @@ export default function CircuitsContent() {
 		<Page title="Circuits">
 			<Card>
 				<CircuitsFilters filters={filters} setFilters={setFilters}/>
-				<Suspense fallback={<Skeleton variant="rectangular" height="65vh"/>}>
+				<Suspense fallback={<Skeleton variant="rectangular" className="h-[65vh]"/>}>
 					<CardContent>
 						<CircuitsList filters={filters}/>
 					</CardContent>

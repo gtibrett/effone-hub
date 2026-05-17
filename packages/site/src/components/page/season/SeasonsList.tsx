@@ -3,7 +3,6 @@ import SeasonsQuery from '@/components/page/season/SeasonsQuery';
 import {DataTable, Link, Skeleton} from '@/components/ui';
 import {useSuspenseQuery} from '@apollo/client/react';
 
-import {Box} from '@/components/ui';
 import type {ColumnDef} from '@tanstack/react-table';
 import {memo, Suspense} from 'react';
 import {ChampionData, DriverChampionData, isDriverChampion, SeasonData, TeamChampionData} from './types';
@@ -32,7 +31,7 @@ const PlaceColumnRenderer = memo(function PlaceColumnRenderer({data}: PlaceColum
 	const key                   = isDriverChampion(data) ? data.driverId : data.teamId;
 
 	return (
-		<Box sx={{mt: 1.5}}>
+		<div className="mt-3">
 			<StatCard<ChampionData, ChampionData>
 				variant={variant}
 				noGrid
@@ -42,7 +41,7 @@ const PlaceColumnRenderer = memo(function PlaceColumnRenderer({data}: PlaceColum
 				data={new Map([[key as string, {...data, value: data.points}]])}
 				extra={<StatCardStat<ChampionData> label="Wins" data={{...data, value: 1}} format={({wins}) => wins}/>}
 			/>
-		</Box>
+		</div>
 	);
 });
 
@@ -84,7 +83,7 @@ export default function SeasonsList() {
 	];
 
 	return (
-		<Suspense fallback={<Skeleton variant="rectangular" height="60vh"/>}>
+		<Suspense fallback={<Skeleton variant="rectangular" className="h-[60vh]"/>}>
 			<DataTable<SeasonData>
 				rows={seasons.nodes}
 				columns={columns}

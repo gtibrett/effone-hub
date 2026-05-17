@@ -15,7 +15,7 @@ const SuspendedTable = ({rows = 10, cols = 1, rowSkeleton}: SuspendedTableProps)
 		<div className="p-2">
 			<div className="grid gap-4" style={{gridTemplateColumns: `repeat(${totalCols}, minmax(0, 1fr))`}}>
 				{fakeData.map((_, i) => <div key={i}>
-					{rowSkeleton || <Skeleton variant="text" height="1.5em"/>}
+					{rowSkeleton || <Skeleton variant="text" className="h-[1.5em]"/>}
 				</div>)}
 			</div>
 		</div>

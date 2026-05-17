@@ -17,7 +17,7 @@ export default function Season({season}: SeasonProps) {
 	return (
 		<Page
 			title={`${season.year} Season`}
-			headerProps={{sx: {minWidth: 480}}}
+			headerProps={{className: 'min-w-[480px]'}}
 		>
 			<div className="grid grid-cols-12 gap-4 items-stretch">
 				<div className="col-span-12 lg:col-span-8">

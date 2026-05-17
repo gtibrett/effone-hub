@@ -1,4 +1,4 @@
-import {useFallbackColor} from '@/components/ui';
+import {useCssTokens} from '@/lib/cssTokens';
 import {useGetAccessibleColor} from '@/hooks';
 import {DriverId} from '@/types';
 import { gql } from '@apollo/client';
@@ -71,7 +71,7 @@ export type LapByLapData = {
 	}[]
 }
 export const useLapByLapData = (season: number, round: number): LapByLapData => {
-	const fallbackColor   = useFallbackColor();
+	const fallbackColor      = useCssTokens().primary;
 	const {data, loading} = useQuery<LapTimeData>(lapsQuery, {variables: {season, round}});
 
 	return useMemo<LapByLapData>(() => {

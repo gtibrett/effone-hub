@@ -1,15 +1,10 @@
 'use client';
 
 /**
- * Drop-in replacement for `@mui/material/Typography` matching the variants
- * + `component` override the rest of the codebase already passes.
- *
- * Mapping mirrors the old `useEffTheme` typography scale:
- *   h1 = 48px, h2 = 24px, h3 = 20px, h4 = 16px
- *
- * Doesn't try to replicate every MUI option — `gutterBottom`, `paragraph`,
- * `noWrap`, `align` cover the most common consumer needs. `sx` is dropped
- * (consumers using sx-heavy Typography were rewritten in M3/M11).
+ * Typography — semantic-HTML wrapper with a small variant→class map.
+ * No `sx`, no `fontWeight`/`fontSize`/`color` props. Consumers wanting
+ * non-default sizing/coloring pass `className`. Color tokens come from
+ * Tailwind (`text-muted-foreground`, `text-secondary`, etc.).
  */
 import {ElementType, HTMLAttributes, ReactNode, forwardRef} from 'react';
 import {cn} from '@/lib/utils';
@@ -62,47 +57,24 @@ const ALIGN_CLASS = {
 	inherit: ''
 } as const;
 
-export type TypographyProps = Omit<HTMLAttributes<HTMLElement>, 'color'> & {
+export type TypographyProps = HTMLAttributes<HTMLElement> & {
 	variant?:      TypographyVariant;
 	component?:    ElementType;
-	color?:        'inherit' | 'primary' | 'secondary' | 'textPrimary' | 'textSecondary' | 'error' | (string & {});
 	align?:        keyof typeof ALIGN_CLASS;
 	gutterBottom?: boolean;
 	paragraph?:    boolean;
 	noWrap?:       boolean;
-	// Legacy MUI sx/fontWeight props — accepted for compat. fontWeight applies
-	// inline; sx is ignored. Drop in a follow-up sweep that converts each
-	// callsite to className.
-	sx?:           unknown;
-	fontWeight?:   string | number;
-	fontSize?:     string | number;
 	children?:     ReactNode;
-};
-
-const COLOR_CLASS: Record<string, string> = {
-	inherit:           '',
-	primary:           'text-primary',
-	secondary:         'text-secondary',
-	textPrimary:       'text-foreground',
-	textSecondary:     'text-muted-foreground',
-	'text.primary':    'text-foreground',
-	'text.secondary':  'text-muted-foreground',
-	error:             'text-destructive'
 };
 
 const Typography = forwardRef<HTMLElement, TypographyProps>(function Typography(
 	{
 		variant = 'body1',
 		component,
-		color = 'inherit',
 		align = 'inherit',
 		gutterBottom,
 		paragraph,
 		noWrap,
-		sx: _sx,
-		fontWeight,
-		fontSize,
-		style,
 		className,
 		children,
 		...rest
@@ -110,20 +82,19 @@ const Typography = forwardRef<HTMLElement, TypographyProps>(function Typography(
 	ref
 ) {
 	const Tag = (component ?? VARIANT_DEFAULT_TAG[variant]) as ElementType;
-	const cls = cn(
-		VARIANT_CLASS[variant],
-		COLOR_CLASS[color as string] ?? '',
-		ALIGN_CLASS[align],
-		gutterBottom && 'mb-2',
-		paragraph && 'mb-4',
-		noWrap && 'overflow-hidden text-ellipsis whitespace-nowrap',
-		className
-	);
-	const mergedStyle = (fontWeight !== undefined || fontSize !== undefined)
-		? {fontWeight, fontSize, ...style}
-		: style;
 	return (
-		<Tag ref={ref as never} className={cls} style={mergedStyle} {...rest}>
+		<Tag
+			ref={ref as never}
+			className={cn(
+				VARIANT_CLASS[variant],
+				ALIGN_CLASS[align],
+				gutterBottom && 'mb-2',
+				paragraph && 'mb-4',
+				noWrap && 'overflow-hidden text-ellipsis whitespace-nowrap',
+				className
+			)}
+			{...rest}
+		>
 			{children}
 		</Tag>
 	);

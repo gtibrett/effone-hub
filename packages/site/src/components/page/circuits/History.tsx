@@ -7,7 +7,7 @@ import type {ColumnDef} from '@tanstack/react-table';
 
 export default function History({data, loading}: CircuitDataProps) {
 	if (loading) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" className="h-[400px]"/>;
 	}
 
 	if (!data?.circuit.history.nodes.length) {

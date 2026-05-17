@@ -89,7 +89,7 @@ export default function PitStops({season, round}: PitStopsProps) {
 	const mapTableData    = useMapTableData();
 
 	if (loading) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" className="h-[400px]"/>;
 	}
 
 	const nodes = data?.race?.pitStops?.nodes ?? [];

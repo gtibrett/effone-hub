@@ -1,4 +1,4 @@
-import {useTheme} from '@/lib/theme';
+import {useCssTokens} from '@/lib/cssTokens';
 import {Datum} from '@nivo/line';
 import {AnyScale} from '@nivo/scales';
 import {line} from 'd3-shape';
@@ -9,8 +9,8 @@ type CareerChartLineLayerProps = {
 }
 
 export default function BaseLineChartLayer(series: any) {
-	const theme = useTheme();
-	
+	const tokens = useCssTokens();
+
 	return function LineLayer({xScale, yScale}: CareerChartLineLayerProps) {
 		const lineGenerator = line()
 			.x((d: Datum) => {
@@ -19,12 +19,12 @@ export default function BaseLineChartLayer(series: any) {
 			.y((d: Datum) => {
 				return yScale(Number(d.y));
 			});
-		
+
 		return (
 			<>
 				<path
 					d={lineGenerator(series.data) || undefined}
-					stroke={theme.palette.divider}
+					stroke={tokens.border}
 					fill="transparent"
 					strokeWidth={2}
 				/>

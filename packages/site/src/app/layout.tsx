@@ -26,7 +26,7 @@ export const viewport: Viewport = {
 export default function RootLayout({children}: PropsWithChildren) {
 	return (
 		<html lang="en">
-			<body>
+			<body className="bg-background text-foreground antialiased">
 				<Providers>{children}</Providers>
 				{process.env.NEXT_PUBLIC_GA_TRACKING_ID && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_TRACKING_ID}/>}
 			</body>

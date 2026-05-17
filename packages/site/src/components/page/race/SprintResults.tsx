@@ -3,9 +3,8 @@ import {getPositionTextOutcome} from '@/helpers';
 import {SprintRaceResult} from '@/gql/graphql';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {DataTable, Skeleton, Typography} from '@/components/ui';
- 
+
 import {Grid} from '@/components/ui';
-import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 import PositionChange from './PositionChange';
 
@@ -13,7 +12,7 @@ export default function SprintResults({results}: {
 	results: SprintRaceResult[]
 }) {
 	if (!results) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" className="h-[400px]"/>;
 	}
 
 	if (!results.length) {
@@ -32,7 +31,7 @@ export default function SprintResults({results}: {
 		},
 		{
 			id:         'change',
-			header:     () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
+			header:     () => <Typography className="sr-only">Position Changes</Typography>,
 			size:       60,
 			accessorFn: (row) => {
 				const {gridPositionNumber, positionNumber} = row;
@@ -65,7 +64,7 @@ export default function SprintResults({results}: {
 			cell:          ({row}) => {
 				const time = row.original.time;
 				return (
-					<Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
+					<Grid container alignItems="center" justifyContent="space-between" wrap="nowrap" spacing={1}>
 						<Grid item>{time ? time : getPositionTextOutcome(row.original.positionText, row.original.reasonRetired)}</Grid>
 					</Grid>
 				);

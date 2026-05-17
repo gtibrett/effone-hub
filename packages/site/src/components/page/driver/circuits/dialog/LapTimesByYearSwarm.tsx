@@ -14,7 +14,7 @@ export default function LapTimesByYearSwarm({data, loading}: LapTimesChartProps)
 	const mapLapTimeDataToSwarmChart = useMapLapTimeDataToSwarmChart();
 	
 	if (!data || loading) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" className="h-[400px]"/>;
 	}
 	
 	const chartData = mapLapTimeDataToSwarmChart(data).filter(d => d.deviations < 3);

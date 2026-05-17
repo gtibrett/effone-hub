@@ -21,7 +21,7 @@ export default function Career({driverId}: CareerProps) {
 	const [active, setActive]                      = useState<number | undefined>();
 
 	if (loading || !careerStandings) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" className="h-[400px]"/>;
 	}
 
 	if (!careerStandings.length) {

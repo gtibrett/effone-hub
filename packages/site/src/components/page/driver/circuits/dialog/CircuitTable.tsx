@@ -3,9 +3,8 @@ import {getPositionTextOutcome, getTimeStringFromDate} from '@/helpers';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {DataTable, Link, Skeleton, Typography} from '@/components/ui';
- 
+
 import {Box} from '@/components/ui';
-import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 import {CircuitDialogData} from './types';
 
@@ -13,7 +12,7 @@ type CircuitTableProps = SimpleApolloResult<CircuitDialogData>;
 
 export default function CircuitTable({data, loading}: CircuitTableProps) {
 	if (!data?.circuit.races?.nodes || loading) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" className="h-[400px]"/>;
 	}
 
 	const races = data?.circuit.races?.nodes?.filter((r) => r.results?.length);
@@ -47,7 +46,7 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 		},
 		{
 			id:         'change',
-			header:     () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
+			header:     () => <Typography className="sr-only">Position Changes</Typography>,
 			size:       60,
 			accessorFn: (row) => {
 				const {gridPositionNumber, positionDisplayOrder} = row.results[0] || {};
@@ -87,7 +86,7 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 	];
 
 	return (
-		<Box height={400}>
+		<Box className="h-[400px]">
 			<DataTable<RaceRow>
 				rows={races}
 				columns={columns}

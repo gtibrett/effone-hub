@@ -30,7 +30,7 @@ export default function ChartSwitcher({title, subheader, charts, initial, action
 					<ChartSwitcherCharts charts={charts} active={active}/>
 				</div>
 			</CardContent>
-			{actions && <CardActions sx={{justifyContent: 'flex-end'}}>{actions}</CardActions>}
+			{actions && <CardActions className="justify-end">{actions}</CardActions>}
 		</Card>
 	);
 }

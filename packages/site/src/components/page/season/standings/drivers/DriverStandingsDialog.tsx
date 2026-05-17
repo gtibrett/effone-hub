@@ -42,7 +42,7 @@ export default function DriverStandingsDialog({season, open, setOpen}: DriverSta
 		{
 			id:     'code',
 			header: 'Driver',
-			cell:   ({row}) => <DriverByLine id={row.original.driver?.rowId} avatarProps={{size: 24}} flagProps={{size: 16}}/>
+			cell:   ({row}) => <DriverByLine id={row.original.driver?.rowId} avatarProps={{size: 'small'}} flagProps={{size: 'xs'}}/>
 		},
 		{
 			accessorKey: 'points',
@@ -66,7 +66,7 @@ export default function DriverStandingsDialog({season, open, setOpen}: DriverSta
 					</Grid>
 				</Grid>
 				<Grid item xs={12} lg={7}>
-					<Card sx={{height: dimensions.height - 14}}>
+					<Card style={{height: dimensions.height - 14}}>
 						<DataTable<Row>
 							rows={rest as Row[]}
 							columns={columns}

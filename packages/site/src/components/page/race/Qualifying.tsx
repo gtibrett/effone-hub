@@ -34,7 +34,7 @@ export default function Qualifying({season, round}: QualifyingProps) {
 	const {data, loading} = useQuery<{ race: Pick<Race, 'qualifyingResults'> }>(QualifyingQuery, {variables: {season, round}});
 
 	if (loading) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" className="h-[400px]"/>;
 	}
 
 	const rows = (data?.race?.qualifyingResults?.nodes ?? []).filter((r): r is QualifyingResult => r != null);

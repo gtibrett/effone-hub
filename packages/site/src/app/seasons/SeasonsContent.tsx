@@ -8,7 +8,7 @@ import {Suspense} from 'react';
 export default function SeasonsContent() {
 	return (
 		<Page title="Past Seasons">
-			<Suspense fallback={<Skeleton variant="rectangular" height="65vh"/>}>
+			<Suspense fallback={<Skeleton variant="rectangular" className="h-[65vh]"/>}>
 				<Card>
 					<SeasonsList/>
 				</Card>

@@ -7,7 +7,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
    
 import {List, ListItem, ListItemIcon, ListItemText} from '@/components/ui';
 const Data = () => (
-	<Card sx={{height: '100%'}}>
+	<Card className="h-full">
 		<CardHeader title="Data"/>
 		<CardContent>
 			<List>
@@ -40,7 +40,7 @@ const Data = () => (
 					/>
 				</ListItem>
 			</List>
-			<Typography variant="caption" color="text.secondary" sx={{display: 'block', mt: 1}}>
+			<Typography variant="caption" className="block mt-2 text-muted-foreground">
 				Ergast API was the original data source through 2024. F1DB and Jolpica-F1 are the active sources as of the 2025 season.
 			</Typography>
 		</CardContent>

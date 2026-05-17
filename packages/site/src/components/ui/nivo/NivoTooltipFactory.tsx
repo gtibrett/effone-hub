@@ -1,35 +1,25 @@
-import {Box} from '@/components/ui';
-import {ThemeProvider} from '@/lib/theme';
 import {FC, ReactNode, useCallback} from 'react';
-import {useInvertedTheme} from '../Theme';
+import {useCssTokens} from '@/lib/cssTokens';
 import useNivoTheme from './useNivoTheme';
 
 export default function NivoTooltipFactory(Component: FC<any>): FC<any> {
 	const nivoTheme = useNivoTheme();
-	const theme     = useInvertedTheme();
-	
+	const tokens    = useCssTokens();
+
 	return useCallback((props: any) => {
-		const sx = {
-			...nivoTheme.tooltip?.container,
+		const style: React.CSSProperties = {
 			minWidth:     200,
-			borderRadius: theme.spacing(.5),
+			borderRadius: '4px',
 			position:     'relative',
 			overflow:     'hidden',
-			p:            0,
+			padding:      0,
 			opacity:      .9,
-			
-			'& .MuiCard-root': {
-				border: 0
-			},
-			
-			'& .MuiTypography-root': {
-				color: theme.palette.getContrastText(theme.palette.background.paper)
-			}
+			background:   tokens.popover,
+			color:        tokens.popoverForeground
 		};
-		
+
 		const content = Component({...props, theme: nivoTheme}) as ReactNode;
 
-		return content ? <Box sx={sx}><ThemeProvider theme={theme}>{content}</ThemeProvider></Box> : null;
-		
-	}, [Component, nivoTheme, theme]);
+		return content ? <div className="nivo-tooltip" style={style}>{content}</div> : null;
+	}, [Component, nivoTheme, tokens.popover, tokens.popoverForeground]);
 }

@@ -17,7 +17,7 @@ export default function ConstructorsContent() {
 		<Page title="Constructors">
 			<Card>
 				<ConstructorsFilters filters={filters} setFilters={setFilters}/>
-				<Suspense fallback={<Skeleton variant="rectangular" height="45vh"/>}>
+				<Suspense fallback={<Skeleton variant="rectangular" className="h-[45vh]"/>}>
 					<CardContent>
 						<ConstructorsList filters={filters}/>
 					</CardContent>

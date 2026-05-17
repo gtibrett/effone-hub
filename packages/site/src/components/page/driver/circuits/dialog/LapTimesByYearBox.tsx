@@ -19,7 +19,7 @@ export default function LapTimesByYearBox({data}: LapTimesChartProps) {
 	const getColorConfig = ({group}: any) => colorsByYear[group];
 	
 	if (!data) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" className="h-[400px]"/>;
 	}
 	
 	const chartData = mapLapTimeDataToBoxChart(data);
@@ -29,7 +29,7 @@ export default function LapTimesByYearBox({data}: LapTimesChartProps) {
 	}
 	
 	return (
-		<Card variant="outlined" sx={{height: '60vh', width: '100%'}} aria-hidden>
+		<Card variant="outlined" className="h-[60vh] w-full" aria-hidden>
 			<ResponsiveBoxPlot
 				theme={nivoTheme}
 				data={chartData}

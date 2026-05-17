@@ -1,16 +1,5 @@
-'use client';
-
 import {ElementType, HTMLAttributes, ReactNode, forwardRef} from 'react';
 import {cn} from '@/lib/utils';
-
-export type ContainerProps = HTMLAttributes<HTMLDivElement> & {
-	maxWidth?: false | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-	fixed?:    boolean;
-	disableGutters?: boolean;
-	component?: ElementType;
-	sx?:       unknown;
-	children?: ReactNode;
-};
 
 const MAX_WIDTH = {
 	xs: 'max-w-screen-sm',
@@ -20,8 +9,15 @@ const MAX_WIDTH = {
 	xl: 'max-w-screen-2xl'
 } as const;
 
+export type ContainerProps = HTMLAttributes<HTMLDivElement> & {
+	maxWidth?:       false | keyof typeof MAX_WIDTH;
+	disableGutters?: boolean;
+	component?:      ElementType;
+	children?:       ReactNode;
+};
+
 const Container = forwardRef<HTMLDivElement, ContainerProps>(function Container(
-	{maxWidth = 'lg', fixed: _f, disableGutters, component, sx: _sx, className, children, ...rest},
+	{maxWidth = 'lg', disableGutters, component, className, children, ...rest},
 	ref
 ) {
 	const Tag = (component ?? 'div') as ElementType;

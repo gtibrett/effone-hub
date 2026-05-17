@@ -50,7 +50,7 @@ export default function LapByLapTable({season, round}: LapByLapProps) {
 	}
 
 	return (
-		<Box height={800}>
+		<Box className="h-[800px]">
 			<DataTable<LapByLapTableRow>
 				rows={flatData}
 				columns={columns}

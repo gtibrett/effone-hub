@@ -59,7 +59,7 @@ export default function CircuitDialog({driverId, circuitId, onClose}: CircuitPro
 				<div className="col-span-3">
 					<div className="grid grid-cols-12 gap-2">
 						<div className="col-span-12">
-							<Card sx={{mb: 2}}>
+							<Card className="mb-4">
 								<RaceMap points={points} onClick={onClick} height={200} centerOn={{latitude: circuit.latitude, longitude: circuit.longitude}} zoom/>
 							</Card>
 						</div>

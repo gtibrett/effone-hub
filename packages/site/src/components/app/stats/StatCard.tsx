@@ -1,4 +1,5 @@
-import {useTheme} from '@/lib/theme';
+import {useCssTokens} from '@/lib/cssTokens';
+import {lighten} from '@/lib/color';
 import {Link, Card, Typography} from '@/components/ui';
 import {ConstructorAvatar, DriverAvatar, DriverByLine} from '@/components/app';
 import {useGetTeamColor, useLeaderData} from '@/hooks';
@@ -90,7 +91,7 @@ const TeamVariant = <T extends DataWithValue>({size, label, data, format, extra}
 };
 
 const IconVariant = <T extends DataWithValue>({size, label, data, format, extra, icon = faSquare}: IconStatCardProps<T, T>) => {
-	const theme     = useTheme();
+	const tokens    = useCssTokens();
 	const [, value] = useLeaderData<T>(data);
 
 	return (
@@ -98,8 +99,8 @@ const IconVariant = <T extends DataWithValue>({size, label, data, format, extra,
 			size={size}
 			avatar={
 				<Box
-					mt={1}
-					style={{fontSize: 48, lineHeight: 1, color: theme.palette.primary.light}}
+					className="mt-2"
+					style={{fontSize: 48, lineHeight: 1, color: lighten(tokens.primary, 0.2)}}
 				>
 					<FontAwesomeIcon icon={icon} width={64}/>
 				</Box>
@@ -113,7 +114,7 @@ const IconVariant = <T extends DataWithValue>({size, label, data, format, extra,
 };
 
 export default function StatCard<T extends StatCardData = DataWithValue, F extends DataWithValue = DataWithValue>(props: StatCardProps<T, F>) {
-	const theme                                                  = useTheme();
+	const tokens                                                 = useCssTokens();
 	const {variant, size, noGrid, cardProps = {}, loading, data} = props;
 	const normalizedData                                         = convertGenericMapToDataWithValueMap<T, F>(data) as Map<string, F>;
 
@@ -146,7 +147,7 @@ export default function StatCard<T extends StatCardData = DataWithValue, F exten
 					className="rounded-md p-0 overflow-hidden"
 					style={{
 						height: 66,
-						border: `1px solid ${theme.palette.background.default}`
+						border: `1px solid ${tokens.background}`
 					}}
 					{...cardProps}
 				>

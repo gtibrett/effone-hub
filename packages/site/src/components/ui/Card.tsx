@@ -1,10 +1,14 @@
 'use client';
 
 /**
- * Drop-in replacement for `@mui/material/Card` + `CardHeader` +
- * `CardContent` rendering shadcn's Card primitives. Preserves the
- * `title`/`subheader`/`action`/`avatar` props on CardHeader because
- * many consumers pass them positionally.
+ * Card family — passthroughs to shadcn's Card primitives with the legacy
+ * MUI `title/subheader/action/avatar` slots on CardHeader. No `sx`, no
+ * inline color overrides. Team-colored card headers wrap a parent with
+ * the `--team-primary`/`--team-foreground` CSS variables set, then
+ * descendants use `bg-team-primary text-team-foreground` utilities.
+ *
+ * A titled CardHeader paints the slate primary band so page chrome reads
+ * consistently across surfaces.
  */
 import {
 	Card as ShadcnCard,
@@ -19,59 +23,50 @@ import {forwardRef, type HTMLAttributes, type ReactNode} from 'react';
 import {cn} from '@/lib/utils';
 
 export type CardProps = HTMLAttributes<HTMLDivElement> & {
-	variant?:   'outlined' | 'elevation';
-	elevation?: number;
-	sx?:        unknown; // accepted for legacy MUI callsites; ignored (drop sx in follow-up)
+	variant?: 'outlined' | 'elevation';
 };
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
-	{variant = 'outlined', elevation: _elevation, sx: _sx, className, ...rest},
+	{variant = 'outlined', className, ...rest},
 	ref
 ) {
-	// shadcn Card already ships with a border + shadow appropriate for both
-	// MUI variants; we mostly use Card as a structural wrapper. variant is
-	// accepted so existing consumers compile but it's a visual no-op here.
-	return <ShadcnCard ref={ref} className={cn(className)} {...rest}/>;
+	return <ShadcnCard ref={ref} className={cn(variant === 'outlined' && 'border', className)} {...rest}/>;
 });
 
 export type CardHeaderProps = Omit<HTMLAttributes<HTMLDivElement>, 'title'> & {
-	title?:                     ReactNode;
-	subheader?:                 ReactNode;
-	action?:                    ReactNode;
-	avatar?:                    ReactNode;
-	sx?:                        unknown;
-	titleTypographyProps?:      unknown;
-	subheaderTypographyProps?:  unknown;
+	title?:     ReactNode;
+	subheader?: ReactNode;
+	action?:    ReactNode;
+	avatar?:    ReactNode;
 };
 
 export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(function CardHeader(
-	{title, subheader, action, avatar, sx: _sx, titleTypographyProps: _ttp, subheaderTypographyProps: _stp, className, children, style, ...rest},
+	{title, subheader, action, avatar, className, children, ...rest},
 	ref
 ) {
-	if (children && !title && !subheader && !action && !avatar) {
+	const hasTitleSlot = title !== undefined && title !== null && title !== false && title !== '';
+
+	if (children && !hasTitleSlot && !subheader && !action && !avatar) {
 		return (
-			<ShadcnCardHeader ref={ref} className={className} style={style} {...rest}>
+			<ShadcnCardHeader ref={ref} className={className} {...rest}>
 				{children}
 			</ShadcnCardHeader>
 		);
 	}
-
-	const hasTitle = title !== null && title !== undefined && title !== false && title !== '';
 
 	return (
 		<ShadcnCardHeader
 			ref={ref}
 			className={cn(
 				'flex flex-row items-center gap-3',
-				hasTitle && 'bg-primary text-primary-foreground',
+				hasTitleSlot && 'bg-primary text-primary-foreground',
 				className
 			)}
 			{...rest}
-			style={style}
 		>
 			{avatar}
 			<div className="flex-1">
-				{title ? <ShadcnCardTitle className="text-xl">{title}</ShadcnCardTitle> : null}
+				{hasTitleSlot ? <ShadcnCardTitle className="text-xl">{title}</ShadcnCardTitle> : null}
 				{subheader ? <ShadcnCardDescription>{subheader}</ShadcnCardDescription> : null}
 				{children}
 			</div>
@@ -80,19 +75,19 @@ export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(function C
 	);
 });
 
-export type CardContentProps = HTMLAttributes<HTMLDivElement> & {sx?: unknown};
+export type CardContentProps = HTMLAttributes<HTMLDivElement>;
 
 export const CardContent = forwardRef<HTMLDivElement, CardContentProps>(function CardContent(
-	{sx: _sx, className, ...rest},
+	{className, ...rest},
 	ref
 ) {
 	return <ShadcnCardContent ref={ref} className={className} {...rest}/>;
 });
 
-export type CardActionsProps = HTMLAttributes<HTMLDivElement> & {sx?: unknown};
+export type CardActionsProps = HTMLAttributes<HTMLDivElement>;
 
 export const CardActions = forwardRef<HTMLDivElement, CardActionsProps>(function CardActions(
-	{sx: _sx, className, ...rest},
+	{className, ...rest},
 	ref
 ) {
 	return <ShadcnCardFooter ref={ref} className={cn('flex items-center gap-2', className)} {...rest}/>;

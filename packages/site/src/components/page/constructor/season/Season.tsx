@@ -10,14 +10,14 @@ import {PropsWithChildren} from 'react';
 import {ConstructorPageData} from '../types';
 import SeasonChart from './SeasonChart';
 
-const CellValueWrapper = ({align = 'center', children}: PropsWithChildren<Pick<TypographyProps, 'align'>>) => <Typography paragraph align={align} sx={{mb: 0, mt: .5}}>{children}</Typography>;
+const CellValueWrapper = ({align = 'center', children}: PropsWithChildren<Pick<TypographyProps, 'align'>>) => <Typography align={align} className="mb-0 mt-1">{children}</Typography>;
 
 type SeasonProps = SimpleApolloResult<ConstructorPageData> & { season: number };
 
 export default function Season({data, loading, season}: SeasonProps) {
 
 	if (loading || !data) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" className="h-[400px]"/>;
 	}
 
 	const races   = data.races.nodes;

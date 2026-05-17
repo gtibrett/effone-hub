@@ -24,11 +24,11 @@ type ByLinePropsByDriver = BaseByLineProps & {
 const DriverSkeleton = ({variant = 'full', avatarProps = {}}: BaseByLineProps) => {
 	switch (variant) {
 		case 'code':
-			return <Skeleton variant="text" width="3em"/>;
+			return <Skeleton variant="text" className="w-[3em]"/>;
 		case 'name':
 		case 'link':
 			return <Skeleton variant="text"/>;
-		
+
 		case 'full':
 			return (
 				<div className="flex flex-row flex-nowrap gap-2 items-center">
@@ -48,10 +48,10 @@ const ById = ({id, ...props}: ByLinePropsById) => {
 };
 
 const ByDriver = (props: ByLinePropsByDriver) => {
-	const {driver, variant = 'full', noFlag, avatarProps = {}, flagProps = {size: 16}} = props;
-	
+	const {driver, variant = 'full', noFlag, avatarProps = {}, flagProps = {size: 'xs'}} = props;
+
 	if (!driver) {
-		return <DriverSkeleton variant={variant} avatarProps={avatarProps} flagProps={flagProps}/>;
+		return <DriverSkeleton variant={variant} avatarProps={avatarProps}/>;
 	}
 	
 	const {id, rowId, firstName, lastName, nationalityCountryId, abbreviation} = driver;

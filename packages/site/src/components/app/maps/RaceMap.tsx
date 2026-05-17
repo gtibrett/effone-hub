@@ -1,8 +1,9 @@
 import {NivoTooltipFactory, RequiredByPropTypes, useNivoTheme} from '@/components/ui/nivo';
 import {Circuit} from '@/gql/graphql';
 import useComponentDimensionsWithRef from '@/hooks/useComponentDimensionsWithRef';
-import {alpha} from '@/lib/color';
-import {useTheme} from '@/lib/theme';
+import {alpha, darken, lighten} from '@/lib/color';
+import {useCssTokens} from '@/lib/cssTokens';
+import useDarkMode from '@/lib/useDarkMode';
 import {GeoMapEventHandler, ResponsiveGeoMap} from '@nivo/geo';
 import {useEffect, useState} from 'react';
 import MapTooltip from './MapTooltip';
@@ -49,15 +50,16 @@ const calculateYTranslation = (lat: number, scale: number = 1) => {
 
 export default function RaceMap(props: RaceMapProps) {
 	const {points, onClick, height = 300, width = 'auto', centerOn = {longitude: 0, latitude: 0}, zoom = false, highlightNext = false} = props;
-	
+
 	const nivoTheme                           = useNivoTheme();
-	const theme                               = useTheme();
+	const tokens                              = useCssTokens();
+	const dark                                = useDarkMode();
 	const land                                = useLand();
 	const {ref, dimensions, node}             = useComponentDimensionsWithRef();
 	const [lastDimensions, setLastDimensions] = useState(dimensions);
 	const pointFeatures                       = mapPointsToFeatures(points);
 	const [translation, setTranslation]       = useState<Translation>([.5, .5]);
-	
+
 	useEffect(() => {
 		if (node && (dimensions.width !== lastDimensions.width || dimensions.height !== lastDimensions.height)) {
 			setTimeout(() => {
@@ -66,22 +68,28 @@ export default function RaceMap(props: RaceMapProps) {
 					const {width, height} = g.getBoundingClientRect();
 					const xScale          = ((width / 2) / dimensions.width);
 					const yScale          = ((height / 2) / dimensions.height);
-					
+
 					setTranslation([calculateXTranslation(Number(centerOn?.longitude), xScale), calculateYTranslation(Number(centerOn?.latitude), yScale)]);
 				}
-				
+
 				setLastDimensions(dimensions);
 			}, 200);
 		}
 	}, [centerOn, node, dimensions, lastDimensions]);
-	
+
+	// `secondary` no longer exposes light/dark sub-shades, so we derive
+	// them on the fly from the live token (matches the legacy MUI
+	// secondary.dark/light variants closely enough for the highlight ring).
+	const secondaryDark  = darken(tokens.secondary, .25);
+	const secondaryLight = lighten(tokens.secondary, .25);
+
 	// PropTypes vs TS mismatches
 	return (
 		<div ref={ref} className="relative" aria-hidden>
 			<div style={{height, width}}>
 				<ResponsiveGeoMap
 					{...RequiredByPropTypes.GeoMap}
-					
+
 					theme={nivoTheme}
 					features={[land, ...pointFeatures]}
 					margin={{top: 0, right: 0, bottom: 0, left: 0}}
@@ -91,10 +99,10 @@ export default function RaceMap(props: RaceMapProps) {
 					// @ts-ignore
 					borderColor={(feature: any) => {
 						if (feature?.geometry?.type === 'Point') {
-							const nextColor = theme.palette.mode === 'light' ? theme.palette.secondary.dark : theme.palette.secondary.light;
-							return highlightNext && feature.properties.next ? nextColor : theme.palette.background.paper;
+							const nextColor = dark ? secondaryLight : secondaryDark;
+							return highlightNext && feature.properties.next ? nextColor : tokens.card;
 						} else {
-							return theme.palette.primary.main;
+							return tokens.primary;
 						}
 					}}
 					borderWidth={(feature: any) => {
@@ -106,9 +114,9 @@ export default function RaceMap(props: RaceMapProps) {
 					}}
 					fillColor={(feature: any) => {
 						if (feature?.geometry?.type === 'Point') {
-							return highlightNext && feature.properties.next ? theme.palette.background.paper : theme.palette.secondary.main;
+							return highlightNext && feature.properties.next ? tokens.card : tokens.secondary;
 						} else {
-							return alpha(theme.palette.primary.light, .25);
+							return alpha(lighten(tokens.primary, .25), .25);
 						}
 					}}
 					tooltip={NivoTooltipFactory(MapTooltip)}

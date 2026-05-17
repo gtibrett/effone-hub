@@ -3,14 +3,6 @@
 import {ElementType, HTMLAttributes, ReactNode, forwardRef} from 'react';
 import {cn} from '@/lib/utils';
 
-export type AppBarProps = HTMLAttributes<HTMLElement> & {
-	position?: 'fixed' | 'absolute' | 'sticky' | 'static' | 'relative';
-	color?:    string;
-	component?: ElementType;
-	sx?:       unknown;
-	children?: ReactNode;
-};
-
 const POSITION: Record<string, string> = {
 	fixed:    'fixed top-0 left-0 right-0',
 	absolute: 'absolute top-0 left-0 right-0',
@@ -19,8 +11,14 @@ const POSITION: Record<string, string> = {
 	relative: 'relative'
 };
 
+export type AppBarProps = HTMLAttributes<HTMLElement> & {
+	position?:  keyof typeof POSITION;
+	component?: ElementType;
+	children?:  ReactNode;
+};
+
 const AppBar = forwardRef<HTMLElement, AppBarProps>(function AppBar(
-	{position = 'fixed', color: _c, component, sx: _sx, className, children, ...rest},
+	{position = 'fixed', component, className, children, ...rest},
 	ref
 ) {
 	const Tag = (component ?? 'header') as ElementType;
@@ -28,8 +26,8 @@ const AppBar = forwardRef<HTMLElement, AppBarProps>(function AppBar(
 		<Tag
 			ref={ref as never}
 			className={cn(
-				'w-full bg-primary text-primary-foreground shadow z-10',
-				'after:content-[""] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-1 after:bg-secondary relative',
+				'w-full bg-primary text-primary-foreground shadow z-10 relative',
+				'after:content-[""] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-1 after:bg-secondary',
 				POSITION[position] ?? '',
 				className
 			)}
@@ -43,13 +41,12 @@ const AppBar = forwardRef<HTMLElement, AppBarProps>(function AppBar(
 export default AppBar;
 
 export type ToolbarProps = HTMLAttributes<HTMLDivElement> & {
-	variant?: 'regular' | 'dense';
+	variant?:        'regular' | 'dense';
 	disableGutters?: boolean;
-	sx?:      unknown;
 };
 
 export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(function Toolbar(
-	{variant = 'regular', disableGutters, sx: _sx, className, children, ...rest},
+	{variant = 'regular', disableGutters, className, children, ...rest},
 	ref
 ) {
 	return (

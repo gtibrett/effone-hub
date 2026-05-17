@@ -11,7 +11,7 @@ export type HistoryProps = SimpleApolloResult<ConstructorPageData>;
 
 export default function History({data, loading}: HistoryProps) {
 	if (loading) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" className="h-[400px]"/>;
 	}
 	const standings = data?.team?.standings.nodes.map((s) => ({...s, name: data?.team.name})) || [];
 

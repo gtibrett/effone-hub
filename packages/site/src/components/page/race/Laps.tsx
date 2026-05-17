@@ -14,7 +14,7 @@ export default function Laps({season, round}: LapByLapProps) {
 	const {loading, data} = useLapByLapData(season, round);
 	
 	if (loading) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" className="h-[400px]"/>;
 	}
 	
 	if (!data?.length) {

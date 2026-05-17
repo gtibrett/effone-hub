@@ -46,9 +46,9 @@ const DriverDetails = ({driver, portrait}: DriverDetailsProps) => (
 		<div className="flex flex-row flex-wrap gap-4 items-center">
 			<div><Typography variant="h2">{driver.firstName} {driver.lastName}</Typography></div>
 			<div className="hidden md:contents">
-				{driver.nationalityCountryId && <div><Flag nationality={driver.nationalityCountryId} size={48}/></div>}
+				{driver.nationalityCountryId && <div><Flag nationality={driver.nationalityCountryId} className="w-12 h-12 text-2xl"/></div>}
 				<div className="flex-1"/>
-				<div><Typography variant="h2" sx={{fontWeight: 'bold'}}>{driver.abbreviation}</Typography></div>
+				<div><Typography variant="h2" className="font-bold">{driver.abbreviation}</Typography></div>
 				<div style={{fontFamily: 'Racing Sans One', fontSize: '1.1em'}}>{driver.permanentNumber}</div>
 			</div>
 		</div>
@@ -100,7 +100,7 @@ export default function DriverContent({driver}: {driver: DriverPageProp | null})
 			}}
 		>
 			{bio?.extract && (
-				<Card sx={{mb: 2, p: 2}}>
+				<Card className="mb-4 p-4">
 					<Typography variant="body1">{bio.extract}</Typography>
 				</Card>
 			)}

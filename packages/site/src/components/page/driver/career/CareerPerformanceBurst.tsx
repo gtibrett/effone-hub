@@ -1,8 +1,7 @@
 import {Card, Skeleton, Typography} from '@/components/ui';
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
 import {useResultsColors} from '@/hooks';
-  
-import {useTheme} from '@/lib/theme';
+import {useCssTokens} from '@/lib/cssTokens';
 import {ComputedDatum, ResponsiveSunburst} from '@nivo/sunburst';
 import usePerformanceData from '../usePerformanceData';
 import useCareerData from './useCareerData';
@@ -30,13 +29,13 @@ export default function CareerPerformanceBurst({driverId, size}: {
 	size: number
 }) {
 	const nivoTheme       = useNivoTheme();
-	const theme           = useTheme();
+	const tokens          = useCssTokens();
 	const {data, loading} = useCareerData(driverId);
 	const performanceData = usePerformanceData(data?.driver.raceResults?.nodes as any);
 	const colors          = useResultsColors();
-	
+
 	if (loading) {
-		return <Skeleton variant="rectangular" height={size} width="100%"/>;
+		return <Skeleton variant="rectangular" className="w-full" style={{height: size}}/>;
 	}
 	
 	if (!performanceData) {
@@ -93,7 +92,7 @@ export default function CareerPerformanceBurst({driverId, size}: {
 	};
 	
 	return (
-		<Card variant="outlined" aria-hidden sx={{height: size, width: size}}>
+		<Card variant="outlined" aria-hidden style={{height: size, width: size}}>
 			<ResponsiveSunburst<BurstDatum>
 				theme={nivoTheme}
 				data={chartData}
@@ -101,11 +100,11 @@ export default function CareerPerformanceBurst({driverId, size}: {
 				id="id"
 				value="value"
 				cornerRadius={10}
-				borderColor={theme.palette.background.paper}
+				borderColor={tokens.card}
 				borderWidth={2}
 				inheritColorFromParent={false}
 				colors={(datum) => {
-					return colors[datum.id].background || theme.palette.primary.main;
+					return colors[datum.id].background || tokens.primary;
 				}}
 				enableArcLabels={false}
 				// @ts-ignore

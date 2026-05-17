@@ -5,10 +5,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Race, RaceResult} from '@/gql/graphql';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {DataTable, Skeleton, Typography} from '@/components/ui';
- 
+
 import {Grid, Tooltip} from '@/components/ui';
 import {purple} from '@/lib/muiColors';
-import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 import Podium from './Podium';
 import PositionChange from './PositionChange';
@@ -19,7 +18,7 @@ export default function Results({results}: { results: Race['raceResults'] }) {
 	const nodes = results?.nodes;
 
 	if (!nodes) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" className="h-[400px]"/>;
 	}
 
 	if (!nodes.length) {
@@ -41,7 +40,7 @@ export default function Results({results}: { results: Race['raceResults'] }) {
 		},
 		{
 			id:         'change',
-			header:     () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
+			header:     () => <Typography className="sr-only">Position Changes</Typography>,
 			size:       60,
 			accessorFn: (row) => {
 				const {gridPositionNumber, positionDisplayOrder} = row;
@@ -74,7 +73,7 @@ export default function Results({results}: { results: Race['raceResults'] }) {
 			cell:          ({row}) => {
 				const time = row.original.time;
 				return (
-					<Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
+					<Grid container alignItems="center" justifyContent="space-between" wrap="nowrap" spacing={1}>
 						<Grid item>{time ? time : getPositionTextOutcome(row.original.positionText, row.original.reasonRetired)}</Grid>
 						{row.original.fastestLap && (
 							<Grid item>
@@ -91,7 +90,7 @@ export default function Results({results}: { results: Race['raceResults'] }) {
 
 	return (
 		<>
-			<Grid container spacing={2} justifyContent="space-evenly" sx={{mb: 2}}>
+			<Grid container spacing={2} justifyContent="space-evenly" className="mb-4">
 				<Podium results={rows}/>
 			</Grid>
 			<DataTable<Row>
