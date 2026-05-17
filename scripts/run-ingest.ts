@@ -72,29 +72,42 @@ async function main(): Promise<void> {
 		console.log(`[ingest] release ${release.tag} already loaded — skipping dump apply`);
 	}
 
-	const lapClient = new Client({connectionString});
-	await lapClient.connect();
+	// Single long-lived pg Client across many Jolpica round-trips drops
+	// silently on Neon when the socket sits idle between fetches. Wrap
+	// every race in a connect/end pair (and fail-soft on errors) so a
+	// dead socket only kills the one iteration, not the whole run.
+	const lapClientOpts = {connectionString, keepAlive: true};
 	const lapReports: LapInsertReport[] = [];
+
+	const bootstrapClient = new Client(lapClientOpts);
+	await bootstrapClient.connect();
+	let races;
+	let resolve;
 	try {
-		const races   = await pickRacesNeedingLapTimes(lapClient, 2025, MAX_RACES);
-		const resolve = await buildDriverResolver(lapClient);
-		for (let i = 0; i < races.length; i++) {
-			const race = races[i];
-			try {
-				const report = await ingestLapTimesForRace(lapClient, resolve, race);
-				lapReports.push(report);
-				console.log(`[ingest] laps race ${race.raceId} (${race.year}/${race.round}): ${report.rowsInserted} inserted`);
-			} catch (err) {
-				const msg = err instanceof Error ? err.message : String(err);
-				if (msg.includes('Jolpica 429') || msg.includes('429')) {
-					console.log(`[ingest] Jolpica rate-limited at race ${i + 1}/${races.length}, stopping early`);
-					break;
-				}
-				console.error(`[ingest] lap fetch failed for race ${race.raceId}:`, err);
-			}
-		}
+		races   = await pickRacesNeedingLapTimes(bootstrapClient, 2025, MAX_RACES);
+		resolve = await buildDriverResolver(bootstrapClient);
 	} finally {
-		await lapClient.end();
+		await bootstrapClient.end();
+	}
+
+	for (let i = 0; i < races.length; i++) {
+		const race = races[i];
+		const lapClient = new Client(lapClientOpts);
+		try {
+			await lapClient.connect();
+			const report = await ingestLapTimesForRace(lapClient, resolve, race);
+			lapReports.push(report);
+			console.log(`[ingest] laps race ${race.raceId} (${race.year}/${race.round}): ${report.rowsInserted} inserted`);
+		} catch (err) {
+			const msg = err instanceof Error ? err.message : String(err);
+			if (msg.includes('Jolpica 429') || msg.includes('429')) {
+				console.log(`[ingest] Jolpica rate-limited at race ${i + 1}/${races.length}, stopping early`);
+				break;
+			}
+			console.error(`[ingest] lap fetch failed for race ${race.raceId}:`, err);
+		} finally {
+			await lapClient.end().catch(() => {});
+		}
 	}
 
 	if (dumpApplied) {
