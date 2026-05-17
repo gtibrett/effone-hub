@@ -1,9 +1,10 @@
 import {ConstructorByLine, DriverByLine} from '@/components/app';
 import {getPositionTextOutcome} from '@/helpers';
 import {CircuitDataProps} from '@/hooks/data';
+import {DataTable} from '@/components/ui';
 import {Grid, Skeleton, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
-import {DataGrid} from '@mui/x-data-grid';
+import type {ColumnDef} from '@tanstack/react-table';
 import PositionChange from '../race/PositionChange';
 import NextRaceCountdown from '../raceWeekend/NextRaceCountdown';
 
@@ -11,11 +12,11 @@ export default function Season({data, loading}: CircuitDataProps) {
 	if (loading) {
 		return <Skeleton variant="rectangular" height={400}/>;
 	}
-	
+
 	if (!data) {
 		return null;
 	}
-	
+
 	if (data.circuit.season.nodes.length) {
 		if (!data.circuit.season.nodes[0].raceResults.nodes.length) {
 			return <>
@@ -26,86 +27,76 @@ export default function Season({data, loading}: CircuitDataProps) {
 	}
 
 	const results = (data.circuit.season.nodes[0].raceResults.nodes).filter(Boolean) as NonNullable<typeof data.circuit.season.nodes[0]['raceResults']['nodes'][number]>[];
-	
+	type Row = (typeof results)[number];
+	const numCell = (v: unknown) => <div className="text-center">{v as any}</div>;
+	const numHeader = (label: string) => () => <div className="text-center w-full">{label}</div>;
+
+	const columns: ColumnDef<Row, any>[] = [
+		{
+			accessorKey: 'positionDisplayOrder',
+			header:      numHeader('P'),
+			size:        60,
+			cell:        ({getValue}) => numCell(getValue())
+		},
+		{
+			id:         'change',
+			header:     () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
+			size:       60,
+			accessorFn: (row) => {
+				const {gridPositionNumber, positionDisplayOrder} = row;
+				if (!gridPositionNumber || !positionDisplayOrder) {
+					return 0;
+				}
+				return Number(gridPositionNumber) - Number(positionDisplayOrder);
+			},
+			cell:       ({row}) => (
+				<div className="text-center">
+					<PositionChange gridPositionNumber={Number(row.original.gridPositionNumber)} positionDisplayOrder={Number(row.original.positionDisplayOrder)}/>
+				</div>
+			)
+		},
+		{
+			id:     'Driver',
+			header: 'Driver',
+			cell:   ({row}) => row.original.driverId ? <DriverByLine id={row.original.driverId}/> : ''
+		},
+		{
+			id:     'Constructor',
+			header: 'Constructor',
+			cell:   ({row}) => row.original.team?.rowId ? <ConstructorByLine id={row.original.team.rowId}/> : ''
+		},
+		{
+			accessorKey: 'points',
+			header:      numHeader('Points'),
+			cell:        ({getValue}) => numCell(getValue())
+		},
+		{
+			accessorKey:   'reasonRetired',
+			header:        'Status',
+			enableSorting: false,
+			cell:          ({row}) => {
+				return (
+					<Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
+						<Grid item><>{row.original.reasonRetired ? row.original.reasonRetired : getPositionTextOutcome(String(row.original.positionDisplayOrder), undefined)}</>
+						</Grid>
+					</Grid>
+				);
+			}
+		}
+	];
+
 	return (
-		<DataGrid
+		<DataTable<Row>
 			rows={results}
+			columns={columns}
 			autoHeight
 			density="compact"
-			getRowId={r => r.driverId || ''}
+			getRowId={(r: Row) => r.driverId || ''}
 			initialState={{
 				sorting: {
 					sortModel: [{field: 'positionDisplayOrder', sort: 'asc'}]
 				}
 			}}
-			columns={
-				[
-					{
-						field:       'positionDisplayOrder',
-						headerName:  'P',
-						width:       60,
-						headerAlign: 'center',
-						align:       'center',
-						type:        'number'
-					},
-					{
-						field:        'change',
-						renderHeader: () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
-						renderCell:   ({row}) => (
-							<PositionChange gridPositionNumber={Number(row.gridPositionNumber)} positionDisplayOrder={Number(row.positionDisplayOrder)}/>
-						),
-						valueGetter:  (value, row) => {
-							const {gridPositionNumber, positionDisplayOrder} = row;
-							if (!gridPositionNumber || !positionDisplayOrder) {
-								return 0;
-							}
-
-							return Number(gridPositionNumber) - Number(positionDisplayOrder);
-						},
-						width:        60,
-						headerAlign:  'center',
-						align:        'center'
-					},
-					{
-						field:      'Driver',
-						headerName: 'Driver',
-						flex:       1,
-						renderCell: ({row}) => row.driverId ? <DriverByLine id={row.driverId}/> : '',
-						minWidth:   200
-					},
-					{
-						field:      'Constructor',
-						headerName: 'Constructor',
-						flex:       1,
-						renderCell: ({row}) => row.team?.rowId ? <ConstructorByLine id={row.team.rowId}/> : '',
-						minWidth:   150
-					},
-					{
-						field:       'points',
-						headerName:  'Points',
-						type:        'number',
-						headerAlign: 'center',
-						align:       'center'
-					},
-					{
-						field:       'reasonRetired',
-						headerName:  'Status',
-						sortable:    false,
-						headerAlign: 'left',
-						align:       'left',
-						flex:        .5,
-						renderCell:  ({row}) => {
-							return (
-								<Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
-									<Grid item><>{row.reasonRetired ? row.reasonRetired : getPositionTextOutcome(String(row.positionDisplayOrder), undefined)}</>
-									</Grid>
-								</Grid>
-							);
-						},
-						minWidth:    110
-					}
-				]
-			}
 		/>
 	);
 }
