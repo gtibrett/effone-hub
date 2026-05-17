@@ -1,6 +1,6 @@
 'use client';
 
-import {ApolloNextAppProvider} from '@apollo/experimental-nextjs-app-support';
+import {ApolloNextAppProvider} from '@apollo/client-integration-nextjs';
 import {PropsWithChildren} from 'react';
 import {makeClient} from './lib/apollo-make-client';
 

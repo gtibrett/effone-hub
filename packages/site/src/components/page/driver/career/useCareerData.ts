@@ -1,4 +1,5 @@
-import {gql, useQuery} from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useQuery } from "@apollo/client/react";
 import {DriverPageData} from '../types';
 
 const query = gql`
@@ -32,6 +33,7 @@ const query = gql`
 						}
 					}
 					gridPositionNumber
+					positionNumber
 					positionDisplayOrder
 					points
 					positionText

@@ -1,6 +1,7 @@
 import {useFallbackColor} from '@/components/ui';
 import {useGetAccessibleColor} from '@/hooks';
-import {gql, useSuspenseQuery} from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useSuspenseQuery } from "@apollo/client/react";
 import {useCallback} from 'react';
 import {Entity, RaceStandingsWithEntities, StandingWithEntity} from '../charts';
 

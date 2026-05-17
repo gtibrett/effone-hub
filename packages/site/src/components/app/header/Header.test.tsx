@@ -13,12 +13,12 @@ describe('Header.tsx', () => {
 	test('Hamburger Nav Test', async () => {
 		resizeScreenSize(500);
 		render(<Header/>);
-		
-		const hamburgerButton = screen.getByText('toggle navigation menu');
+
+		const hamburgerButton = screen.getByRole('button', {name: /toggle navigation menu/i});
 		expect(hamburgerButton).toBeInTheDocument();
-		
+
 		await act(() => {
-			hamburgerButton.closest('button')?.click();
+			hamburgerButton.click();
 		});
 		
 		const constructorMenuRegex = /constructors/i;

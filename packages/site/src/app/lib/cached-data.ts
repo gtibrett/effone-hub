@@ -110,7 +110,7 @@ export async function getCurrentSeason(): Promise<{year: number}> {
 	cacheTag('seasons', 'current-season');
 	try {
 		const {data} = await getClient().query<{seasons: {nodes: {year: number}[]}}>({query: CurrentSeasonQuery});
-		const [current] = data.seasons.nodes;
+		const [current] = data?.seasons.nodes ?? [];
 		if (current) return current;
 	} catch {
 		// fall through
@@ -123,8 +123,8 @@ export async function getPastSeasonYears(): Promise<string[]> {
 	cacheLife('days');
 	cacheTag('seasons');
 	try {
-		const {data: {seasons}} = await getClient().query<{seasons: {nodes: {year: number}[]}}>({query: PastSeasonsQuery});
-		return seasons.nodes.map(s => s.year.toString());
+		const {data} = await getClient().query<{seasons: {nodes: {year: number}[]}}>({query: PastSeasonsQuery});
+		return data?.seasons.nodes.map(s => s.year.toString()) ?? [];
 	} catch {
 		return [];
 	}
@@ -139,7 +139,7 @@ export async function getSeason(year: number): Promise<{year: number}> {
 			query:     SingleSeasonQuery,
 			variables: {season: year}
 		});
-		if (data.season) return data.season;
+		if (data?.season) return data.season;
 	} catch {
 		// fall through
 	}
@@ -155,8 +155,8 @@ export async function getDriverRowIds(): Promise<string[]> {
 	cacheLife('days');
 	cacheTag('drivers');
 	try {
-		const {data: {drivers}} = await getClient().query<{drivers: {nodes: DriverT[]}}>({query: DriversQuery});
-		return drivers.nodes.map(d => d.rowId!).filter(Boolean);
+		const {data} = await getClient().query<{drivers: {nodes: DriverT[]}}>({query: DriversQuery});
+		return data?.drivers.nodes.map(d => d.rowId!).filter(Boolean) ?? [];
 	} catch {
 		return [];
 	}
@@ -168,7 +168,7 @@ export async function getDriver(rowId: string): Promise<DriverT | null> {
 	cacheTag('drivers', `driver:${rowId}`);
 	try {
 		const {data} = await getClient().query<{driver: DriverT}>({query: DriverQuery, variables: {id: rowId}});
-		return data.driver ?? null;
+		return data?.driver ?? null;
 	} catch {
 		return null;
 	}
@@ -183,8 +183,8 @@ export async function getTeamRowIds(): Promise<string[]> {
 	cacheLife('days');
 	cacheTag('teams');
 	try {
-		const {data: {teams}} = await getClient().query<{teams: {nodes: {rowId: string}[]}}>({query: ConstructorsQuery});
-		return teams.nodes.map(t => t.rowId).filter(Boolean);
+		const {data} = await getClient().query<{teams: {nodes: {rowId: string}[]}}>({query: ConstructorsQuery});
+		return data?.teams.nodes.map(t => t.rowId).filter(Boolean) ?? [];
 	} catch {
 		return [];
 	}
@@ -199,8 +199,8 @@ export async function getCircuitRowIds(): Promise<string[]> {
 	cacheLife('days');
 	cacheTag('circuits');
 	try {
-		const {data: {circuits}} = await getClient().query<{circuits: {nodes: Circuit[]}}>({query: AllCircuitsQuery});
-		return circuits.nodes.map(c => c.rowId!).filter(Boolean);
+		const {data} = await getClient().query<{circuits: {nodes: Circuit[]}}>({query: AllCircuitsQuery});
+		return data?.circuits.nodes.map(c => c.rowId!).filter(Boolean) ?? [];
 	} catch {
 		return [];
 	}
@@ -215,10 +215,10 @@ export async function getAllRaces(): Promise<{season: string; round: string}[]> 
 	cacheLife('days');
 	cacheTag('races');
 	try {
-		const {data: {races}} = await getClient().query<{races: {nodes: Race[]}}>({query: AllRacesQuery});
-		return races.nodes
+		const {data} = await getClient().query<{races: {nodes: Race[]}}>({query: AllRacesQuery});
+		return data?.races.nodes
 			.filter(r => r.year != null && r.round != null)
-			.map(r => ({season: String(r.year), round: String(r.round)}));
+			.map(r => ({season: String(r.year), round: String(r.round)})) ?? [];
 	} catch {
 		return [];
 	}
@@ -229,11 +229,11 @@ export async function getRace(season: number, round: number): Promise<Partial<Ra
 	cacheLife('days');
 	cacheTag('races', `race:${season}:${round}`);
 	try {
-		const {data: {races}} = await getClient().query<{races: {nodes: Race[]}}>({
+		const {data} = await getClient().query<{races: {nodes: Race[]}}>({
 			query:     RaceLookupQuery,
 			variables: {season, round}
 		});
-		return races.nodes[0] ?? {};
+		return data?.races.nodes[0] ?? {};
 	} catch {
 		return {};
 	}
@@ -244,11 +244,11 @@ export async function getTeam(rowId: string): Promise<TeamRecord | null> {
 	cacheLife('days');
 	cacheTag('teams', `team:${rowId}`);
 	try {
-		const {data: {teams}} = await getClient().query<{teams: {nodes: TeamRecord[]}}>({
+		const {data} = await getClient().query<{teams: {nodes: TeamRecord[]}}>({
 			query:     ConstructorDataQuery,
 			variables: {constructorRef: rowId}
 		});
-		return teams.nodes[0] ?? null;
+		return data?.teams.nodes[0] ?? null;
 	} catch {
 		return null;
 	}

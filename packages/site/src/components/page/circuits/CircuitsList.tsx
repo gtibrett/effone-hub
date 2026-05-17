@@ -2,7 +2,7 @@ import CircuitQuery from '@/components/page/circuits/CircuitsQuery';
 import {useCircuitsList} from '@/components/page/circuits/index';
 import {CircuitsListFilters} from '@/components/page/circuits/types';
 import {Circuit} from '@/gql/graphql';
-import {useSuspenseQuery} from '@apollo/client';
+import { useSuspenseQuery } from "@apollo/client/react";
 import {Link} from '@gtibrett/mui-additions';
 import {DataGrid} from '@mui/x-data-grid';
 

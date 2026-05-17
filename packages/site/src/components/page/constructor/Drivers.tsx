@@ -1,12 +1,12 @@
 import {DriverByLine} from '@/components/app';
-import {QueryResult} from '@apollo/client/react/types/types';
+import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {SeasonDriverStanding} from '@/gql/graphql';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import {ConstructorPageData, DriverByYear} from './types';
 
-type DriversProps = Pick<QueryResult<ConstructorPageData>, 'data' | 'loading'>;
+type DriversProps = SimpleApolloResult<ConstructorPageData>;
 
 type RowData = {
 	year: DriverByYear['year'];

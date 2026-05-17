@@ -1,5 +1,6 @@
-import {gql, useQuery} from '@apollo/client';
-import {QueryResult} from '@apollo/client/react/types/types';
+import { gql } from '@apollo/client';
+import { useQuery } from "@apollo/client/react";
+import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {Circuit} from '@/gql/graphql';
 import {DriverPageData} from '../types';
 
@@ -52,7 +53,7 @@ const query = gql`
 	}
 `;
 
-export default function useCircuitData(driverId?: string, season?: number): Pick<QueryResult<CircuitWithResults[]>, 'data' | 'loading'> {
+export default function useCircuitData(driverId?: string, season?: number): SimpleApolloResult<CircuitWithResults[]> {
 	const result                                 = useQuery<DriverPageData>(query, {variables: {driverId, season}});
 	const {data, loading}                        = result;
 	const resultsByCircuit: CircuitWithResults[] = [];

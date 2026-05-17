@@ -2,11 +2,11 @@ import {ChartSwitcher, ChartSwitcherChart, LineChartByTeam, LineChartByTeamProps
 import {DriverPageData} from '@/components/page/driver';
 import {useGetTeamColor} from '@/hooks';
 import {useDriver} from '@/hooks/data';
-import {QueryResult} from '@apollo/client/react/types/types';
+import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import CareerBreakdownChart from '../career/CareerBreakdownChart';
 import CareerTooltip from '../career/CareerTooltip';
 
-type SeasonChartProps = Pick<QueryResult<DriverPageData>, 'data' | 'loading'> & {
+type SeasonChartProps = SimpleApolloResult<DriverPageData> & {
 	driverId: string | undefined
 	season?: number
 };

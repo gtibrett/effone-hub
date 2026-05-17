@@ -20,7 +20,10 @@ export default function CareerBreakdownChart({driverId, season}: CareerBreakdown
 	const nivoTheme      = useNivoTheme();
 	const colors         = useResultsColors();
 	const chartData      = (useBreakdownData(driverId) || []).filter(s => !season || s.year === season);
-	const keys           = breakdownMetrics.reverse();
+	// Reverse on a copy — `breakdownMetrics` is a module-level array, and
+	// mutating it here re-orders the legend/keys across every render of any
+	// component that imports it. Surfaces as bar fills swapping on hover.
+	const keys           = [...breakdownMetrics].reverse();
 	const isSingleSeason = chartData?.length === 1;
 	
 	return (

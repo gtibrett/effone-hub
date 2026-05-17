@@ -16,7 +16,7 @@ Array.prototype.distinct = function () {
 };
 
 
-// eslint-disable-next-line no-extend-native
+ 
 Array.prototype.removeDuplicates = function (comparator = (a, b) => a === b) {
 	return this.reduce((prev, cur) => {
 		if (!prev.find((val: typeof this[number]) => comparator(val, cur))) {

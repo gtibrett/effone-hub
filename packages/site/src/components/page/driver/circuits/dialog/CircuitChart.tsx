@@ -1,10 +1,10 @@
 import {ChartSwitcher, ChartSwitcherChart, DataWithTeamInfo, LineChartByTeam, LineChartByTeamProps} from '@/components/app';
 import {useGetTeamColor} from '@/hooks';
-import {QueryResult} from '@apollo/client/react/types/types';
+import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import CareerTooltip from '@/components/page/driver/career/CareerTooltip';
 import {CircuitDialogData} from './types';
 
-type CircuitChartProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading'>;
+type CircuitChartProps = SimpleApolloResult<CircuitDialogData>;
 
 export default function CircuitChart({data}: CircuitChartProps) {
 	const getTeamColor = useGetTeamColor();

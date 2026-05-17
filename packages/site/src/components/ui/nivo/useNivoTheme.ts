@@ -2,6 +2,7 @@ import {useInvertedTheme} from '@/components/ui';
 import {alpha, useTheme} from '@mui/material';
 import {BoxPlotDatum} from '@nivo/boxplot/dist/types/types';
 import {Theme} from '@nivo/core';
+import {useMemo} from 'react';
 
 type NivoTheme = Theme & {
 	translation: BoxPlotDatum;
@@ -10,8 +11,13 @@ type NivoTheme = Theme & {
 export default function useNivoTheme(): NivoTheme {
 	const theme         = useTheme();
 	const invertedTheme = useInvertedTheme();
-	
-	return {
+
+	// useMemo is load-bearing: the returned object is passed to <ResponsiveBar
+	// theme={...}/> and is also a dep of NivoTooltipFactory's useCallback.
+	// Without memoization, a fresh object identity per render flows into Nivo's
+	// internal memoization and re-mounts the tooltip on every parent render
+	// (e.g. on hover, when bar charts emit state updates).
+	return useMemo(() => ({
 		background:  alpha(theme.palette.background.default, .25),
 		text:        {
 			color:      theme.palette.text.primary,
@@ -118,5 +124,5 @@ export default function useNivoTheme(): NivoTheme {
 			tableCell:      {},
 			tableCellValue: {}
 		}
-	};
+	}), [theme, invertedTheme]);
 }
