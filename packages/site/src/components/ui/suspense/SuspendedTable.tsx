@@ -1,4 +1,4 @@
-import {Box, Grid, Skeleton} from '@mui/material';
+import {Skeleton} from '@mui/material';
 import {ReactNode} from 'react';
 
 type SuspendedTableProps = {
@@ -7,16 +7,17 @@ type SuspendedTableProps = {
 	rowSkeleton?: ReactNode
 }
 const SuspendedTable = ({rows = 10, cols = 1, rowSkeleton}: SuspendedTableProps) => {
-	const fakeData: string[] = (new Array(rows * (!!rowSkeleton ? 1 : cols))).fill('');
-	
+	const totalCols          = !!rowSkeleton ? 1 : cols;
+	const fakeData: string[] = (new Array(rows * totalCols)).fill('');
+
 	return (
-		<Box sx={{p: 1}}>
-			<Grid container spacing={2} columns={!!rowSkeleton ? 1 : cols}>
-				{fakeData.map((_, i) => <Grid item xs={1} key={i}>
+		<div className="p-2">
+			<div className="grid gap-4" style={{gridTemplateColumns: `repeat(${totalCols}, minmax(0, 1fr))`}}>
+				{fakeData.map((_, i) => <div key={i}>
 					{rowSkeleton || <Skeleton variant="text" height="1.5em"/>}
-				</Grid>)}
-			</Grid>
-		</Box>
+				</div>)}
+			</div>
+		</div>
 	);
 };
 
