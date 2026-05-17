@@ -1,7 +1,7 @@
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
 import {DriverId} from '@/types';
 import {Maybe} from '@/gql/graphql';
-import {Box, Skeleton} from '@mui/material';
+import {Skeleton} from '@mui/material';
 import {ResponsiveBump} from '@nivo/bump';
 import LapByLapTooltip from './LapByLapTooltip';
 import useLapByLapChartData, {useLapByLapData} from './useLapByLapChartData';
@@ -85,9 +85,9 @@ function LapByLap({season, round}: LapByLapProps) {
 	}
 	
 	return (
-		<Box sx={{height, width: '100%'}} aria-hidden>
+		<div className="w-full" style={{height}} aria-hidden>
 			{content}
-		</Box>
+		</div>
 	);
 }
 

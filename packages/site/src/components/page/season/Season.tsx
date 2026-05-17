@@ -5,7 +5,7 @@ import {DriverStandings, TeamStandings} from '@/components/page/season/standings
 import {DNFs, FastestLap, FastestLaps, LapLeader, Poles, PositionsGained, SprintWins, Wins} from '@/components/page/season/stats';
 import {Page} from '@/components/ui';
 import {Season as SeasonT} from '@/gql/graphql';
-import {Card, CardContent, CardHeader, Grid, Hidden} from '@mui/material';
+import {Card, CardContent, CardHeader} from '@mui/material';
 import {Suspense} from 'react';
 
 type SeasonProps = {
@@ -19,49 +19,49 @@ export default function Season({season}: SeasonProps) {
 			title={`${season.year} Season`}
 			headerProps={{sx: {minWidth: 480}}}
 		>
-			<Grid container spacing={2} alignItems="stretch">
-				<Grid item xs={12} lg={8}>
-					<Grid container spacing={2} alignItems="stretch">
+			<div className="grid grid-cols-12 gap-4 items-stretch">
+				<div className="col-span-12 lg:col-span-8">
+					<div className="grid grid-cols-12 gap-4 items-stretch">
 						<Suspense><RaceWeekend season={season.year}/></Suspense>
-						<Grid item xs={12}>
+						<div className="col-span-12">
 							<Suspense fallback={<ScheduleSkeleton/>}>
 								<Schedule season={season.year}/>
 							</Suspense>
-						</Grid>
-					</Grid>
-				</Grid>
-				<Grid item xs={12} lg={4}>
-					<Grid container spacing={2}>
-						<Grid item xs={12}>
+						</div>
+					</div>
+				</div>
+				<div className="col-span-12 lg:col-span-4">
+					<div className="grid grid-cols-12 gap-4">
+						<div className="col-span-12">
 							<DriverStandings season={season.year}/>
-						</Grid>
-						<Grid item xs={12}>
+						</div>
+						<div className="col-span-12">
 							<TeamStandings season={season.year}/>
-						</Grid>
-						
-						<Grid item xs={12}>
+						</div>
+
+						<div className="col-span-12">
 							<Card>
 								<CardHeader title="Season Stats"/>
 								<CardContent>
-									<Grid container spacing={2}>
+									<div className="grid grid-cols-12 gap-4">
 										<Wins size="small" season={season.year}/>
 										<SprintWins size="small" season={season.year}/>
-										<Hidden lgUp><Grid item xs={12}/></Hidden>
+										<div className="block lg:hidden col-span-12"/>
 										<Poles size="small" season={season.year}/>
 										<FastestLaps season={season.year}/>
-										<Hidden lgUp><Grid item xs={12}/></Hidden>
+										<div className="block lg:hidden col-span-12"/>
 										<FastestLap season={season.year}/>
 										<LapLeader size="small" season={season.year}/>
-										<Hidden lgUp><Grid item xs={12}/></Hidden>
+										<div className="block lg:hidden col-span-12"/>
 										<PositionsGained size="small" season={season.year}/>
 										<DNFs size="small" season={season.year}/>
-									</Grid>
+									</div>
 								</CardContent>
 							</Card>
-						</Grid>
-					</Grid>
-				</Grid>
-			</Grid>
+						</div>
+					</div>
+				</div>
+			</div>
 		</Page>
 	);
 }
