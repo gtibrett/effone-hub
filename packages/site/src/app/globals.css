@@ -1,0 +1,12 @@
+/**
+ * Tailwind v4 entrypoint. The cascade-layer declaration must come BEFORE
+ * `@import "tailwindcss"` so MUI's CSS layer (declared via
+ * AppRouterCacheProvider({enableCssLayer: true})) is anchored beneath
+ * Tailwind utilities. Order = priority: later layers win.
+ */
+@layer mui, base, components, utilities;
+
+@import "tailwindcss";
+
+/* Theme tokens land here in M2 — keeping this file minimal for the M1
+ * coexistence smoke test. */
