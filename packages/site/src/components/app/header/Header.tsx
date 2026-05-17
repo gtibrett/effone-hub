@@ -1,5 +1,5 @@
 import {Link} from '@/components/ui';
-import {AppBar, darken, Grid, lighten, Toolbar, Typography, useTheme} from '@mui/material';
+import {AppBar, darken, lighten, Toolbar, Typography, useTheme} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
 import NavMenu from './NavMenu';
 
@@ -29,17 +29,17 @@ export default function Header() {
 					}
 				}}>
 				<Toolbar>
-					<Grid container spacing={1} alignItems="center">
-						<Grid item>
+					<div className="flex flex-row flex-wrap gap-2 items-center w-full">
+						<div>
 							<Link href="/" color="inherit" className="no-underline hover:no-underline [&_*]:font-[Anton] [&_*]:text-[48px]">
 								<Typography component="h1">
 									EFF<Typography component="span" sx={{opacity: 1, px: .5, color: lightRed}}>ONE</Typography>HUB
 								</Typography>
 							</Link>
-						</Grid>
-						<Grid item xs/>
+						</div>
+						<div className="flex-1"/>
 						<NavMenu/>
-					</Grid>
+					</div>
 				</Toolbar>
 			</AppBar>
 			<Toolbar sx={{my: 2}}/>
