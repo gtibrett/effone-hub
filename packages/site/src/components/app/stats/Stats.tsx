@@ -1,10 +1,9 @@
-import {Grid} from '@mui/material';
 import {PropsWithChildren} from 'react';
 
 export default function Stats({children}: PropsWithChildren) {
 	return (
-		<Grid container spacing={2} sx={{py: 0}} justifyContent="stretch" flexWrap={{xs: 'wrap', lg: 'nowrap'}}>
+		<div className="flex flex-row flex-wrap lg:flex-nowrap gap-4 justify-stretch py-0">
 			{children}
-		</Grid>
+		</div>
 	);
 };

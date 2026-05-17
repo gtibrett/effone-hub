@@ -1,6 +1,6 @@
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
 import {useResultsColors} from '@/hooks';
-import {Box, Card, Skeleton, Typography, useTheme} from '@mui/material';
+import {Card, Skeleton, Typography, useTheme} from '@mui/material';
 import {ComputedDatum, ResponsiveSunburst} from '@nivo/sunburst';
 import usePerformanceData from '../usePerformanceData';
 import useCareerData from './useCareerData';
@@ -9,9 +9,9 @@ const CareerPerformanceTooltip = (datum: ComputedDatum<BurstDatum>) => {
 	const {label} = datum.data;
 	
 	return (
-		<Box py={1} px={2}>
+		<div className="py-2 px-4">
 			<Typography>{label}</Typography>
-		</Box>
+		</div>
 	);
 };
 
