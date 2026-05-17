@@ -44,7 +44,18 @@ export function makeClient() {
 	});
 
 	return new ApolloClient({
-		cache: new InMemoryCache(),
-		link:  httpLink
+		cache:          new InMemoryCache(),
+		link:           httpLink,
+		defaultOptions: {
+			// v4 flipped watchQuery's notifyOnNetworkStatusChange default to
+			// true, which emits an extra "loading" render on every
+			// refetch/poll/fetchMore. Combined with shared cache reads across
+			// sibling components on the driver page (Career + Stats both watch
+			// `driver(rowId)`), the extra render leaks back through cache
+			// subscribers and re-fires the underlying queries — observable as
+			// a constant /api/graphql loop on /drivers/{id}'s Career tab.
+			// Restoring the v3 default ends the loop.
+			watchQuery: {notifyOnNetworkStatusChange: false}
+		}
 	});
 }
