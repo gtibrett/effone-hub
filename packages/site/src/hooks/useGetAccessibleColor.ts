@@ -1,5 +1,6 @@
-import {getContrastRatio, recomposeColor, useTheme} from '@mui/material';
-import {decomposeColor} from '@mui/system/colorManipulator';
+import {getContrastRatio, recomposeColor} from '@/lib/color';
+import {useTheme} from '@mui/material';
+import {decomposeColor} from '@/lib/color';
 import {useCallback} from 'react';
 
 const isBlackOrWhite = (color: string) => {

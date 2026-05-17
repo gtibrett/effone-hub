@@ -1,5 +1,6 @@
 import {Link} from '@/components/ui';
-import {lighten, useTheme} from '@mui/material';
+import {lighten} from '@/lib/color';
+import {useTheme} from '@mui/material';
 import {ComponentProps} from 'react';
 
 type LogoProps = {

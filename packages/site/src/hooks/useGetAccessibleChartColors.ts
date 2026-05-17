@@ -1,6 +1,6 @@
 import {useDarkMode} from '@/components/ui';
 import {useGetAccessibleColor} from '@/hooks';
-import {blueGrey} from '@mui/material/colors';
+import {blueGrey} from '@/lib/muiColors';
 import {useCallback} from 'react';
 
 const blueGreys = new Map<number, string>();

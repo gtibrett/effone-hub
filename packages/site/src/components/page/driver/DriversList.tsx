@@ -7,7 +7,7 @@ import {Driver} from '@/gql/graphql';
 import {useSuspenseQuery} from '@apollo/client/react';
 
 import {Grid} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
+import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 
 type DriversTableProps = {

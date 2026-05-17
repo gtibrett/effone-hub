@@ -5,7 +5,7 @@ import {useCircuitByRef} from '@/hooks/data';
 import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Box, Grid, SxProps, useTheme} from '@mui/material';
-import {blue, red, yellow} from '@mui/material/colors';
+import {blue, red, yellow} from '@/lib/muiColors';
 import {Suspense, SVGProps, useState} from 'react';
 import getMapSVG from './circuits/getMapSVG';
 

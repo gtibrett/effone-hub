@@ -1,5 +1,6 @@
 import {useGetAccessibleChartColors} from '@/hooks';
-import {alpha, useTheme} from '@mui/material';
+import {alpha} from '@/lib/color';
+import {useTheme} from '@mui/material';
 import {Serie} from '@nivo/line';
 import {useCallback} from 'react';
 import {DataWithTeamInfo, MutableSerie, SerieWithTeamAndData} from './types';

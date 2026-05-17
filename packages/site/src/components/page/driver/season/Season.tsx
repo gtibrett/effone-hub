@@ -5,7 +5,7 @@ import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {DataTable, Link, Skeleton, Typography} from '@/components/ui';
  
 import {Grid} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
+import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 import SeasonChart from './SeasonChart';
 import useSeasonData from './useSeasonData';

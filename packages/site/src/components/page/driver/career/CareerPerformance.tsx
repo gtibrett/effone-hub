@@ -3,7 +3,7 @@ import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 
 import {Paper} from '@mui/material';
-import {blueGrey, deepPurple, green, red} from '@mui/material/colors';
+import {blueGrey, deepPurple, green, red} from '@/lib/muiColors';
 import {PieTooltipProps, ResponsivePie} from '@nivo/pie';
 import {DriverPageData} from '../types';
 import usePerformanceData from '../usePerformanceData';

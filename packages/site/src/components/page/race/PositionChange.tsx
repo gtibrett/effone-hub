@@ -3,7 +3,7 @@ import {faArrowDown, faArrowUp} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {RaceResult} from '@/gql/graphql';
 
-import {green, red} from '@mui/material/colors';
+import {green, red} from '@/lib/muiColors';
 
 export default function PositionChange({gridPositionNumber, positionDisplayOrder}: Pick<RaceResult, 'gridPositionNumber' | 'positionDisplayOrder'>) {
 	if (!gridPositionNumber || !positionDisplayOrder) {

@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Maybe} from '@/gql/graphql';
 
 import {LinkProps} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
+import {visuallyHidden} from '@/lib/visuallyHidden';
 
 type WikipediaLinkProps = {
 	href: Maybe<LinkProps['href']> | undefined;

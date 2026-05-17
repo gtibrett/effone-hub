@@ -1,8 +1,9 @@
 'use client';
 
 import LinkBehavior from './LinkBehavior';
-import {alpha, createTheme, useMediaQuery, useTheme} from '@mui/material';
-import {blueGrey, deepOrange} from '@mui/material/colors';
+import {alpha} from '@/lib/color';
+import {createTheme, useMediaQuery, useTheme} from '@mui/material';
+import {blueGrey, deepOrange} from '@/lib/muiColors';
 import {useMemo} from 'react';
 
 const primary   = blueGrey;

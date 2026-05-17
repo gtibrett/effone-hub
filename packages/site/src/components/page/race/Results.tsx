@@ -7,8 +7,8 @@ import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {DataTable, Skeleton, Typography} from '@/components/ui';
  
 import {Grid, Tooltip} from '@mui/material';
-import {purple} from '@mui/material/colors';
-import {visuallyHidden} from '@mui/utils';
+import {purple} from '@/lib/muiColors';
+import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 import Podium from './Podium';
 import PositionChange from './PositionChange';

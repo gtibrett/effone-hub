@@ -5,7 +5,7 @@ import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {DataTable, Skeleton, Typography} from '@/components/ui';
  
 import {Grid} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
+import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 import PositionChange from './PositionChange';
 

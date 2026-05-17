@@ -1,5 +1,5 @@
 import {Maybe, RaceResult} from '@/gql/graphql';
-import {capitalize} from '@mui/material';
+import {capitalize} from '@/lib/color';
 import {useRouter} from 'next/router';
 
 export const noop = () => null;

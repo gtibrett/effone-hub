@@ -4,7 +4,7 @@ import {CircuitDataProps} from '@/hooks/data';
 import {DataTable, Skeleton, Typography} from '@/components/ui';
  
 import {Grid} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
+import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 import PositionChange from '../race/PositionChange';
 import NextRaceCountdown from '../raceWeekend/NextRaceCountdown';
