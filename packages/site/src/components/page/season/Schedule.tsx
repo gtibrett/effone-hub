@@ -1,6 +1,6 @@
+import {Link} from '@/components/ui';
 import {DriverByLine, RaceMap, useMapSeasonRacesToMapPoints} from '@/components/app';
 import {Circuit, Race, Season} from '@/gql/graphql';
-import {Link} from '@gtibrett/mui-additions';
 import {Box, Card, CardHeader, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import useScheduleData from './useScheduleData';

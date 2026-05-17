@@ -3,10 +3,10 @@
 import {RaceMap, useMapSeasonRacesToMapPoints} from '@/components/app';
 import {Laps, PitStops, Qualifying, Results, SprintResults} from '@/components/page/race';
 import {FastestLap, LapLeader, Pole, PositionsGained} from '@/components/page/race/stats';
-import {OpenAILink, Page} from '@/components/ui';
+import {OpenAILink, Page, Link} from '@/components/ui';
 import {Race} from '@/gql/graphql';
 import useRace from '@/hooks/data/useRace';
-import {Link, TabContent, Tabs} from '@gtibrett/mui-additions';
+import {TabContent, Tabs} from '@gtibrett/mui-additions';
 import {Box, Card, CardContent, CardHeader, CardMedia, Grid, Hidden, Typography} from '@mui/material';
 
 type Props = {

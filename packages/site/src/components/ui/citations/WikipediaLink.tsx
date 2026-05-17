@@ -1,7 +1,7 @@
+import {Link} from '@/components/ui';
 import {faWikipediaW} from '@fortawesome/free-brands-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Maybe} from '@/gql/graphql';
-import {Link} from '@gtibrett/mui-additions';
 import {LinkProps, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 

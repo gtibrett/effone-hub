@@ -1,6 +1,6 @@
+import {Link} from '@/components/ui';
 import {faRobot} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Link} from '@gtibrett/mui-additions';
 import {Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 

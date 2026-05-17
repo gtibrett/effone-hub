@@ -1,7 +1,7 @@
+import {Link} from '@/components/ui';
 import {DriverByLine} from '@/components/app';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {SeasonDriverStanding} from '@/gql/graphql';
-import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import {ConstructorPageData, DriverByYear} from './types';

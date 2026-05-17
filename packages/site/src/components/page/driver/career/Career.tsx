@@ -1,5 +1,5 @@
+import {Link} from '@/components/ui';
 import {ConstructorByLine} from '@/components/app';
-import {Link} from '@gtibrett/mui-additions';
 import useComponentDimensionsWithRef from '@/hooks/useComponentDimensionsWithRef';
 import {Alert, Grid, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';

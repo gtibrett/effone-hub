@@ -1,7 +1,7 @@
+import {Link} from '@/components/ui';
 import {useTeam} from '@/hooks/data';
 import {TeamId} from '@/types';
 import {Team} from '@/gql/graphql';
-import {Link} from '@gtibrett/mui-additions';
 import {Skeleton} from '@mui/material';
 import {ReactNode} from 'react';
 

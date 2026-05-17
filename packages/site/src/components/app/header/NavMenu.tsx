@@ -1,7 +1,7 @@
+import {Link} from '@gtibrett/mui-additions';
 import {useAppState} from '@/components/app';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Link} from '@gtibrett/mui-additions';
 import {Grid, Hidden, IconButton, lighten, Menu, MenuItem, SxProps, useTheme} from '@mui/material';
 import {usePathname, useRouter} from 'next/navigation';
 import {MouseEvent, useState} from 'react';

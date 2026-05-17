@@ -1,8 +1,7 @@
-import {Flag, FlagProps} from '@/components/ui';
+import {Flag, FlagProps, Link} from '@/components/ui';
 import {useDriver} from '@/hooks/data';
 import {DriverId} from '@/types';
 import {Driver} from '@/gql/graphql';
-import {Link} from '@gtibrett/mui-additions';
 import {Grid, Hidden, Skeleton, Typography} from '@mui/material';
 import {memo} from 'react';
 import {DriverAvatar, DriverAvatarProps} from '../avatars';
@@ -62,7 +61,7 @@ const ByDriver = (props: ByLinePropsByDriver) => {
 		case 'code':
 			return <>{abbreviation}</>;
 		case 'code-link':
-			return <Link sx={{fontWeight: 'bold'}} href={`/drivers/${rowId}`}>{abbreviation}</Link>;
+			return <Link className="font-bold" href={`/drivers/${rowId}`}>{abbreviation}</Link>;
 		case 'name':
 			return <>{name}</>;
 		case 'link':
