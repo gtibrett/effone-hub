@@ -36,28 +36,26 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        # Reads packageManager field from root package.json to pin the
+        # exact pnpm version used locally + CI.
+        uses: pnpm/action-setup@v4
+
       - name: Setup Node 22
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-
-      - name: Setup yarn cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/yarn
-            **/node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+          cache: 'pnpm'
 
       - name: Install dependencies
         env:
           # @gtibrett/* packages live on GitHub Packages; auth via the built-in
           # GITHUB_TOKEN (read:packages scope is granted via permissions: below).
           GH_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Run ingest
-        run: yarn tsx scripts/run-ingest.ts
+        run: pnpm exec tsx scripts/run-ingest.ts
 
     permissions:
       contents: read

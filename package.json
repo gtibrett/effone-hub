@@ -6,19 +6,14 @@
 	"engines": {
 		"node": ">=22.0.0"
 	},
-	"workspaces": [
-		"packages/database",
-		"packages/site"
-	],
+	"packageManager": "pnpm@11.1.2",
 	"scripts": {
-		"postinstall": "node ./scripts/delete-nivo-cjs.js",
-		"postupgrade": "node ./scripts/delete-nivo-cjs.js",
-		"start:db": "yarn workspace @gtibrett/effone-hub-graph-db run start",
-		"stop:db": "yarn workspace @gtibrett/effone-hub-graph-db run stop",
-		"build": "yarn workspace @gtibrett/effone-hub-site run build",
-		"dev:site": "yarn workspace @gtibrett/effone-hub-site run dev",
-		"build:site": "yarn workspace @gtibrett/effone-hub-site run build",
-		"start:site": "yarn workspace @gtibrett/effone-hub-site run start"
+		"start:db": "pnpm --filter @gtibrett/effone-hub-graph-db start",
+		"stop:db": "pnpm --filter @gtibrett/effone-hub-graph-db stop",
+		"build": "pnpm --filter @gtibrett/effone-hub-site build",
+		"dev:site": "pnpm --filter @gtibrett/effone-hub-site dev",
+		"build:site": "pnpm --filter @gtibrett/effone-hub-site build",
+		"start:site": "pnpm --filter @gtibrett/effone-hub-site start"
 	},
 	"devDependencies": {
 		"tsx": "^4.22.0"
