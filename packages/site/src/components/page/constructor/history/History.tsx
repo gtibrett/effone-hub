@@ -1,7 +1,8 @@
+import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {Link} from '@/components/ui';
 import {ChartSwitcher, ChartSwitcherChart} from '@/components/app';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
-import {Alert, Skeleton} from '@mui/material';
+import {Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import {ConstructorPageData} from '../types';
 import HistoryChart from './HistoryChart';
@@ -21,7 +22,7 @@ export default function History({data, loading}: HistoryProps) {
 	});
 	
 	if (!standings.length) {
-		return <Alert variant="outlined" severity="info">Career Data Not Available</Alert>;
+		return <Alert><AlertDescription>Career Data Not Available</AlertDescription></Alert>;
 	}
 	
 	const charts: ChartSwitcherChart[] = [

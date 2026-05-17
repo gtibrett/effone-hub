@@ -1,7 +1,7 @@
-import {useEffTheme} from '@/components/ui';
+import {Alert, AlertTitle} from '@/components/ui/shadcn/alert';
 import {faFlag} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Alert, Card, Container, Typography} from '@mui/material';
+import {Card, Container} from '@mui/material';
 import {Component, ComponentProps, ErrorInfo} from 'react';
 
 type ErrorBoundaryState = {
@@ -10,16 +10,12 @@ type ErrorBoundaryState = {
 }
 
 export function ErrorCard({message}: { message?: string }) {
-	const theme = useEffTheme('dark');
-	
-	const background = theme.palette.error.dark;
-	const color      = theme.palette.getContrastText(background);
-	
 	return (
 		<Container maxWidth="md">
 			<Card>
-				<Alert sx={{py: 2, px: 4}} severity="error" variant="filled" icon={<FontAwesomeIcon icon={faFlag} color={color} size="2x"/>}>
-					<Typography variant="h2">{message}</Typography>
+				<Alert variant="destructive" className="py-4 px-8">
+					<FontAwesomeIcon icon={faFlag} size="2x"/>
+					<AlertTitle className="text-2xl">{message}</AlertTitle>
 				</Alert>
 			</Card>
 		</Container>

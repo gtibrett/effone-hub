@@ -1,7 +1,8 @@
+import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {Link} from '@/components/ui';
 import {ConstructorByLine} from '@/components/app';
 import useComponentDimensionsWithRef from '@/hooks/useComponentDimensionsWithRef';
-import {Alert, Grid, Skeleton} from '@mui/material';
+import {Grid, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import {useState} from 'react';
 import SeasonDialog from '../season/SeasonDialog';
@@ -23,7 +24,7 @@ export default function Career({driverId}: CareerProps) {
 	}
 
 	if (!careerStandings.length) {
-		return <Alert variant="outlined" severity="info">Career Data Not Available</Alert>;
+		return <Alert><AlertDescription>Career Data Not Available</AlertDescription></Alert>;
 	}
 
 	data?.driver.raceResults?.nodes?.forEach(r => r.race?.year && (racesByYear[r.race?.year] = (racesByYear[r.race?.year] || 0) + 1));

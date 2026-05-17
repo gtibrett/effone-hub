@@ -1,8 +1,9 @@
+import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {Link} from '@/components/ui';
 import {PositionChange} from '@/components/page/race';
 import {getPositionTextOutcome, getTimeStringFromDate} from '@/helpers';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
-import {Alert, Box, Skeleton, Typography} from '@mui/material';
+import {Box, Skeleton, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';
 import {CircuitDialogData} from './types';
@@ -17,7 +18,7 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 	const races = data?.circuit.races?.nodes?.filter(r => r.results?.length);
 
 	if (!races.length) {
-		return <Alert variant="outlined" severity="info">Race Data Not Available</Alert>;
+		return <Alert><AlertDescription>Race Data Not Available</AlertDescription></Alert>;
 	}
 
 	return (

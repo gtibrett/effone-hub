@@ -1,7 +1,8 @@
+import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {Link} from '@/components/ui';
 import {DriverByLine} from '@/components/app';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
-import {Alert, Grid, Skeleton, Typography, TypographyProps} from '@mui/material';
+import {Grid, Skeleton, Typography, TypographyProps} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import {PropsWithChildren} from 'react';
 import {ConstructorPageData} from '../types';
@@ -21,7 +22,7 @@ export default function Season({data, loading, season}: SeasonProps) {
 	const results = data.team.raceResults.nodes;
 	
 	if (!races?.length) {
-		return <Alert variant="outlined" severity="info">Season Data Not Available</Alert>;
+		return <Alert><AlertDescription>Season Data Not Available</AlertDescription></Alert>;
 	}
 	
 	return (

@@ -1,8 +1,9 @@
+import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {Link} from '@/components/ui';
 import {DriverByLine} from '@/components/app';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {SeasonDriverStanding} from '@/gql/graphql';
-import {Alert, Skeleton} from '@mui/material';
+import {Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import {ConstructorPageData, DriverByYear} from './types';
 
@@ -39,7 +40,7 @@ export default function Drivers({data, loading}: DriversProps) {
 	});
 	
 	if (!years.length) {
-		return <Alert variant="outlined" severity="info">Career Data Not Available</Alert>;
+		return <Alert><AlertDescription>Career Data Not Available</AlertDescription></Alert>;
 	}
 	
 	return (

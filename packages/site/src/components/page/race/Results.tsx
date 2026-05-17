@@ -1,9 +1,10 @@
+import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {ConstructorByLine, DriverByLine} from '@/components/app';
 import {getPositionTextOutcome} from '@/helpers';
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Race, RaceResult} from '@/gql/graphql';
-import {Alert, Grid, Skeleton, Tooltip, Typography} from '@mui/material';
+import {Grid, Skeleton, Tooltip, Typography} from '@mui/material';
 import {purple} from '@mui/material/colors';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';
@@ -18,7 +19,7 @@ export default function Results({results}: { results: Race['raceResults'] }) {
 	}
 
 	if (!nodes.length) {
-		return <Alert variant="outlined" severity="info">Race Data Not Available</Alert>;
+		return <Alert><AlertDescription>Race Data Not Available</AlertDescription></Alert>;
 	}
 
 	const rows = (nodes as Array<RaceResult | null>).filter((r): r is RaceResult => r != null).map((row: RaceResult) => ({

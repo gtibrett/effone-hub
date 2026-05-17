@@ -1,7 +1,8 @@
+import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
 import {getTimeStringFromDate} from '@/helpers';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
-import {Alert, alpha, Card, Skeleton} from '@mui/material';
+import {alpha, Card, Skeleton} from '@mui/material';
 import {ResponsiveBoxPlot} from '@nivo/boxplot';
 import LapTimesByYearTooltip from './LapTimesByYearTooltip';
 import {mapLapTimeDataToBoxChart} from './mapLapTimeDataToSwarmChart';
@@ -22,7 +23,7 @@ export default function LapTimesByYearBox({data}: LapTimesChartProps) {
 	const chartData = mapLapTimeDataToBoxChart(data);
 	
 	if (!chartData.length) {
-		return <Alert variant="outlined" severity="info">Lap Time Data Not Available</Alert>;
+		return <Alert><AlertDescription>Lap Time Data Not Available</AlertDescription></Alert>;
 	}
 	
 	return (

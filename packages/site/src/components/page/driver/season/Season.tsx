@@ -1,8 +1,9 @@
+import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {Link} from '@/components/ui';
 import {useAppState} from '@/components/app';
 import {PositionChange} from '@/components/page/race';
 import {getPositionTextOutcome, getTimeStringFromDate} from '@/helpers';
-import {Alert, Grid, Skeleton, Typography} from '@mui/material';
+import {Grid, Skeleton, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';
 import SeasonChart from './SeasonChart';
@@ -19,7 +20,7 @@ export default function Season({season, driverId}: SeasonProps) {
 	}
 
 	if (!data.races.nodes.length) {
-		return <Alert variant="outlined" severity="info">Season Data Not Available</Alert>;
+		return <Alert><AlertDescription>Season Data Not Available</AlertDescription></Alert>;
 	}
 
 	return (

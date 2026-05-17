@@ -1,6 +1,7 @@
+import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {useNivoTheme} from '@/components/ui/nivo';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
-import {Alert, Box, Skeleton} from '@mui/material';
+import {Box, Skeleton} from '@mui/material';
 import {ResponsiveSwarmPlot} from '@nivo/swarmplot';
 import {SwarmData, useMapLapTimeDataToSwarmChart} from './mapLapTimeDataToSwarmChart';
 import {CircuitDialogData} from './types';
@@ -18,7 +19,7 @@ export default function LapTimesByYearSwarm({data, loading}: LapTimesChartProps)
 	const chartData = mapLapTimeDataToSwarmChart(data).filter(d => d.deviations < 3);
 	
 	if (!chartData.length) {
-		return <Alert variant="outlined" severity="info">Lap Time Data Not Available</Alert>;
+		return <Alert><AlertDescription>Lap Time Data Not Available</AlertDescription></Alert>;
 	}
 	
 	function findUniqueYears(value: SwarmData, index: number, self: SwarmData[]) {

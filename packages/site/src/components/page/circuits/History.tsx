@@ -1,7 +1,8 @@
+import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {Link} from '@/components/ui';
 import {DriverByLine} from '@/components/app';
 import {CircuitDataProps} from '@/hooks/data';
-import {Alert, Skeleton} from '@mui/material';
+import {Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 
 export default function History({data, loading}: CircuitDataProps) {
@@ -10,7 +11,7 @@ export default function History({data, loading}: CircuitDataProps) {
 	}
 
 	if (!data?.circuit.history.nodes.length) {
-		return <Alert variant="outlined" severity="info">Race Data Not Available</Alert>;
+		return <Alert><AlertDescription>Race Data Not Available</AlertDescription></Alert>;
 	}
 
 	return (

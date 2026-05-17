@@ -1,4 +1,5 @@
-import {Alert, Skeleton} from '@mui/material';
+import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
+import {Skeleton} from '@mui/material';
 import LapByLap from './lapByLap/LapByLap';
 import {useLapByLapData} from './lapByLap/useLapByLapChartData';
 import LapTimesTable from './lapTimes/LapTimesTable';
@@ -16,7 +17,7 @@ export default function Laps({season, round}: LapByLapProps) {
 	}
 	
 	if (!data?.length) {
-		return <Alert variant="outlined" severity="info">Lap Data Not Available</Alert>;
+		return <Alert><AlertDescription>Lap Data Not Available</AlertDescription></Alert>;
 	}
 	
 	return (

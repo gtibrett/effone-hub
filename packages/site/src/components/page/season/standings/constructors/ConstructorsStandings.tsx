@@ -1,5 +1,6 @@
+import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {ChartSwitcher, ChartSwitcherChart} from '@/components/app';
-import {Alert, Button, Skeleton} from '@mui/material';
+import {Button, Skeleton} from '@mui/material';
 import {Suspense, useState} from 'react';
 import {ConstructorChampion} from '../../stats';
 import {PointsChart, PositionsChart} from '../charts';
@@ -15,7 +16,7 @@ export default function ConstructorsStandings({season}: ConstructorsStandingsPro
 	const height            = Math.max(...chartData.map(s => s.standings.length), 10) * 24;
 	
 	if (!data?.season?.racesByYear?.nodes?.length) {
-		return <Alert variant="outlined" severity="info">Constructor Standings Data Not Available</Alert>;
+		return <Alert><AlertDescription>Constructor Standings Data Not Available</AlertDescription></Alert>;
 	}
 	
 	const charts: ChartSwitcherChart[] = [

@@ -1,10 +1,11 @@
+import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {DriverByLine} from '@/components/app';
 import {getTimeStringFromDate} from '@/helpers';
 import {useGetTeamColor} from '@/hooks';
 import { gql } from '@apollo/client';
 import { useQuery } from "@apollo/client/react";
 import {Driver, PitStop, Race} from '@/gql/graphql';
-import {Alert, Skeleton} from '@mui/material';
+import {Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useCallback} from 'react';
 import PitStopsChart from './PitStopsChart';
@@ -92,7 +93,7 @@ export default function PitStops({season, round}: PitStopsProps) {
 
 	const nodes = data?.race?.pitStops?.nodes ?? [];
 	if (!nodes.length) {
-		return <Alert variant="outlined" severity="info">Pit Stop Data Not Available</Alert>;
+		return <Alert><AlertDescription>Pit Stop Data Not Available</AlertDescription></Alert>;
 	}
 
 	const {tableData, maxStops} = mapTableData(nodes);

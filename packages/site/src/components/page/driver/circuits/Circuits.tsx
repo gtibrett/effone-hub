@@ -1,7 +1,8 @@
+import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {RaceMap, useMapCircuitsToMapPoints} from '@/components/app';
 import {getTimeStringFromDate} from '@/helpers';
 import {DriverId} from '@/types';
-import {Alert, Card, Grid, Link} from '@mui/material';
+import {Card, Grid, Link} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import {useState} from 'react';
 import CircuitDialog from './dialog/CircuitDialog';
@@ -15,7 +16,7 @@ export default function Circuits({driverId}: CircuitsProps) {
 	const [active, setActive]    = useState<CircuitWithResults['rowId'] | undefined>();
 	
 	if (!data?.length) {
-		return <Alert variant="outlined" severity="info">Circuit Data Not Available</Alert>;
+		return <Alert><AlertDescription>Circuit Data Not Available</AlertDescription></Alert>;
 	}
 	
 	const {points, onClick} = mapCircuitsToMapPoints(data || []);
