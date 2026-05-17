@@ -6,7 +6,7 @@ import {FastestLap, LapLeader, Pole, PositionsGained} from '@/components/page/ra
 import {OpenAILink, Page, Link, Tabs, type TabContent} from '@/components/ui';
 import {Race} from '@/gql/graphql';
 import useRace from '@/hooks/data/useRace';
-import {Box, Card, CardContent, CardHeader, CardMedia, Grid, Hidden, Typography} from '@mui/material';
+import {Card, CardContent, CardHeader, CardMedia, Typography} from '@mui/material';
 
 type Props = {
 	season: string;
@@ -61,7 +61,7 @@ export default function RoundContent({season: seasonStr, round: roundStr, race}:
 					<CardHeader title={<Link href={`/circuits/${race.circuit?.rowId}`}>{race.circuit?.fullName}</Link>}/>
 					<CardMedia><RaceMap points={points} onClick={onClick} height={140} centerOn={{latitude: race.circuit?.latitude, longitude: race.circuit?.longitude}} zoom/></CardMedia>
 					<CardContent>
-						<Typography variant="body1">{circuitDescription} <Box component="span" display="block"><OpenAILink/></Box></Typography>
+						<Typography variant="body1">{circuitDescription} <span className="block"><OpenAILink/></span></Typography>
 					</CardContent>
 				</Card>
 			)
@@ -79,18 +79,18 @@ export default function RoundContent({season: seasonStr, round: roundStr, race}:
 			extra={null}
 			action={
 				race.circuit && (
-					<Hidden mdDown>
+					<div className="hidden md:block">
 						<Card>
 							<CardMedia><RaceMap points={points} onClick={onClick} height={140} centerOn={{latitude: race.circuit.latitude, longitude: race.circuit.longitude}} zoom/></CardMedia>
 							<CardHeader title={<Link href={`/circuits/${race.circuit.rowId}`}>{race.circuit.fullName}</Link>}/>
 						</Card>
-					</Hidden>
+					</div>
 				)
 			}
 			actionProps={{xs: 0, md: 3}}
 		>
-			<Grid container spacing={2}>
-				<Grid item xs={12} md={8} lg={9} order={{xs: 2, md: 1}}>
+			<div className="grid grid-cols-12 gap-4">
+				<div className="col-span-12 md:col-span-8 lg:col-span-9 order-2 md:order-1">
 					<Card>
 						{
 							hasResults
@@ -102,30 +102,30 @@ export default function RoundContent({season: seasonStr, round: roundStr, race}:
 										{circuitDescription && (
 											<>
 												<Typography variant="body2">{circuitDescription}</Typography>
-												<Box textAlign="right" display="block"><OpenAILink/></Box>
+												<div className="block text-right"><OpenAILink/></div>
 											</>
 										)}
 									</CardContent>
 								)
 						}
 					</Card>
-				</Grid>
+				</div>
 
-				<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>
+				<div className="col-span-12 md:col-span-4 lg:col-span-3 order-1 md:order-2">
 					<Card sx={{height: '100%'}}>
 						<CardContent>
-							<Grid container spacing={2}>
+							<div className="grid grid-cols-12 gap-4">
 								<CardHeader title={`${seasonToShow} Season`}/>
 								<Pole season={seasonToShow} round={round} size="small"/>
 								<FastestLap season={seasonToShow} round={round} size="small"/>
-								<Hidden lgUp><Grid item xs={12}/></Hidden>
+								<div className="block lg:hidden col-span-12"/>
 								<LapLeader season={seasonToShow} round={round} size="small"/>
 								<PositionsGained season={seasonToShow} round={round} size="small"/>
-							</Grid>
+							</div>
 						</CardContent>
 					</Card>
-				</Grid>
-			</Grid>
+				</div>
+			</div>
 		</Page>
 	);
 }
