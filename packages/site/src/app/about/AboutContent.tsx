@@ -3,7 +3,7 @@
 import {Data, Dependencies, Mission, Repositories} from '@/components/page/about';
 import {Page} from '@/components/ui';
 import {Button as ShadcnButton} from '@/components/ui/shadcn/button';
-import {Button as MuiButton, Grid} from '@mui/material';
+import {Button as MuiButton} from '@mui/material';
 
 export default function AboutContent() {
 	return (
@@ -15,27 +15,27 @@ export default function AboutContent() {
 				<ShadcnButton>shadcn Button</ShadcnButton>
 				<MuiButton variant="contained">MUI Button</MuiButton>
 			</div>
-			<Grid container spacing={2}>
-				<Grid item xs={12} md={9}>
-					<Grid container spacing={2} alignItems="strech">
-						<Grid item xs={12}>
+			<div className="grid grid-cols-12 gap-4">
+				<div className="col-span-12 md:col-span-9">
+					<div className="grid grid-cols-12 gap-4 items-stretch">
+						<div className="col-span-12">
 							<Mission/>
-						</Grid>
+						</div>
 
-						<Grid item xs={12} md={6}>
+						<div className="col-span-12 md:col-span-6">
 							<Data/>
-						</Grid>
+						</div>
 
-						<Grid item xs={12} md={6}>
+						<div className="col-span-12 md:col-span-6">
 							<Repositories/>
-						</Grid>
-					</Grid>
-				</Grid>
+						</div>
+					</div>
+				</div>
 
-				<Grid item xs={12} md={3}>
+				<div className="col-span-12 md:col-span-3">
 					<Dependencies/>
-				</Grid>
-			</Grid>
+				</div>
+			</div>
 		</Page>
 	);
 }
