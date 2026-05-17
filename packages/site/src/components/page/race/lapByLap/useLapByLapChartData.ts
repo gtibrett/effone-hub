@@ -47,7 +47,7 @@ const lapsQuery = gql`
 
 type LapTimeRow = Pick<AppLapTime, 'lap' | 'position' | 'driverId' | 'timeText' | 'milliseconds'>;
 
-type RaceResultRow = Pick<RaceResult, 'positionDisplayOrder' | 'positionNumber'> & {
+type RaceResultRow = Pick<RaceResult, 'positionDisplayOrder' | 'positionNumber' | 'driverId'> & {
 	driver: Pick<Driver, 'id' | 'lastName'> | null;
 	team: { colors: { primaryHex: Maybe<string> } | null } | null;
 };
@@ -88,12 +88,17 @@ export const useLapByLapData = (season: number, round: number): LapByLapData => 
 
 		return {
 			loading,
+			// lap_times.driver_id holds the F1DB slug (e.g. "kimi-antonelli"),
+			// which matches race_results.driver_id but NOT the GraphQL Node id
+			// (`driver { id }` is Base64-encoded). Pre-F1DB the two happened to
+			// be equal; post-migration they diverged and the filter silently
+			// produced empty laps for every driver.
 			data:      results.map(r => ({
-				driverId: r.driver?.id,
+				driverId: r.driverId ?? undefined,
 				name:     r.driver?.lastName,
 				color:    r.team?.colors?.primaryHex || fallbackColor,
 				position: r.positionNumber ?? r.positionDisplayOrder,
-				laps:     lapTimes.filter(lt => lt.driverId === r.driver?.id)
+				laps:     lapTimes.filter(lt => lt.driverId === r.driverId)
 			})),
 			totalLaps: Math.max(...lapTimes.map(lt => lt.lap ?? 0))
 		};
