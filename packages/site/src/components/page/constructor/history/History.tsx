@@ -1,9 +1,9 @@
-import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
-import {Link} from '@/components/ui';
 import {ChartSwitcher, ChartSwitcherChart} from '@/components/app';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
+import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
+import {DataTable, Link} from '@/components/ui';
 import {Skeleton} from '@mui/material';
-import {DataGrid} from '@mui/x-data-grid';
+import type {ColumnDef} from '@tanstack/react-table';
 import {ConstructorPageData} from '../types';
 import HistoryChart from './HistoryChart';
 
@@ -13,18 +13,22 @@ export default function History({data, loading}: HistoryProps) {
 	if (loading) {
 		return <Skeleton variant="rectangular" height={400}/>;
 	}
-	const standings = data?.team?.standings.nodes.map(s => ({...s, name: data?.team.name})) || [];
+	const standings = data?.team?.standings.nodes.map((s) => ({...s, name: data?.team.name})) || [];
 
 	data?.team.antecedents.nodes.forEach(({antecedentTeam, startYear, endYear}) => {
 		antecedentTeam.standings
-		              .filter(s => s.year && s.year >= (startYear ?? 0) && (!endYear || s.year <= endYear))
-		              .forEach(s => standings.push({...s, name: antecedentTeam.name}));
+		              .filter((s) => s.year && s.year >= (startYear ?? 0) && (!endYear || s.year <= endYear))
+		              .forEach((s) => standings.push({...s, name: antecedentTeam.name}));
 	});
-	
+
 	if (!standings.length) {
 		return <Alert><AlertDescription>Career Data Not Available</AlertDescription></Alert>;
 	}
-	
+
+	type Row = (typeof standings)[number];
+	const numCell = (v: unknown) => <div className="text-center">{v as any}</div>;
+	const numHeader = (label: string) => () => <div className="text-center w-full">{label}</div>;
+
 	const charts: ChartSwitcherChart[] = [
 		{
 			id:    'position',
@@ -37,55 +41,44 @@ export default function History({data, loading}: HistoryProps) {
 			chart: <HistoryChart data={data} loading={loading} dataKey="points" dataMaxKey="maxPoints"/>
 		}
 	];
-	
+
+	const columns: ColumnDef<Row, any>[] = [
+		{
+			accessorKey: 'year',
+			header:      numHeader('Season'),
+			size:        100,
+			cell:        ({row}) => <div className="text-center"><Link href={`/seasons/${row.original.year}`}>{row.original.year}</Link></div>
+		},
+		{
+			accessorKey: 'name',
+			header:      'Name'
+		},
+		{
+			accessorKey: 'positionNumber',
+			header:      numHeader('Position'),
+			cell:        ({getValue}) => numCell(getValue())
+		},
+		{
+			accessorKey: 'points',
+			header:      numHeader('Points'),
+			cell:        ({getValue}) => numCell(getValue())
+		}
+	];
+
 	return (
 		<>
 			<ChartSwitcher title="Constructor Timeline" size={250} charts={charts}/>
-			
-			<DataGrid
+			<DataTable<Row>
 				rows={standings}
+				columns={columns}
 				autoHeight
 				density="compact"
-				getRowId={(r) => `${r.year}-${r.name}` || ''}
+				getRowId={(r: Row) => `${r.year}-${r.name}` || ''}
 				initialState={{
 					sorting: {
 						sortModel: [{field: 'year', sort: 'desc'}]
 					}
 				}}
-				columns={
-					[
-						{
-							field:       'year',
-							headerName:  'Season',
-							headerAlign: 'center',
-							align:       'center',
-							width:       100,
-							renderCell:  ({row}) => <Link href={`/seasons/${row.year}`}>{row.year}</Link>
-						},
-						{
-							field:      'name',
-							headerName: 'Name',
-							flex:       1
-						},
-						{
-							field:       'positionNumber',
-							headerName:  'Position',
-							type:        'number',
-							headerAlign: 'center',
-							align:       'center',
-							flex:        .5
-						},
-						{
-							field:       'points',
-							headerName:  'Points',
-							type:        'number',
-							headerAlign: 'center',
-							align:       'center',
-							flex:        .5
-						}
-					
-					]
-				}
 			/>
 		</>
 	);
