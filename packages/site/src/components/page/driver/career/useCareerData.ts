@@ -33,6 +33,7 @@ const query = gql`
 						}
 					}
 					gridPositionNumber
+					positionNumber
 					positionDisplayOrder
 					points
 					positionText
