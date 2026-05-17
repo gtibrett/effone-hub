@@ -2,7 +2,7 @@ import {Link} from '@/components/ui';
 import {useAppState} from '@/components/app';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {IconButton, Menu, MenuItem, useTheme} from '@mui/material';
+import {IconButton, Menu, MenuItem, useMediaQuery, useTheme} from '@mui/material';
 import {usePathname, useRouter} from 'next/navigation';
 import {MouseEvent, useState} from 'react';
 
@@ -55,6 +55,7 @@ export const useNavLinks = (pathname: string) => {
 export default function NavMenu() {
 	const router                  = useRouter();
 	const theme                   = useTheme();
+	const isMobile                = useMediaQuery(theme.breakpoints.down('md'));
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 	const open                    = Boolean(anchorEl);
 	const pathname                = usePathname() || '';
@@ -85,18 +86,8 @@ export default function NavMenu() {
 		handleClose();
 	};
 	
-	return <>
-		<div className="hidden md:contents">
-			{navLinks.map(({path, label, active}, i) => {
-					return (
-						<div key={i}>
-							<Link color="inherit" className={`${navLinkClass} ${active ? 'bg-secondary text-secondary-foreground' : ''}`} href={path}>{label}</Link>
-						</div>
-					);
-				}
-			)}
-		</div>
-		<div className="md:hidden">
+	if (isMobile) {
+		return (
 			<div>
 				<IconButton
 					id="hamburger-button"
@@ -124,6 +115,17 @@ export default function NavMenu() {
 					)}
 				</Menu>
 			</div>
-		</div>
+		);
+	}
+
+	return <>
+		{navLinks.map(({path, label, active}, i) => {
+				return (
+					<div key={i}>
+						<Link color="inherit" className={`${navLinkClass} ${active ? 'bg-secondary text-secondary-foreground' : ''}`} href={path}>{label}</Link>
+					</div>
+				);
+			}
+		)}
 	</>;
 }
