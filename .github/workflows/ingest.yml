@@ -21,10 +21,13 @@ concurrency:
 jobs:
   ingest:
     runs-on: ubuntu-latest
-    # Real work: dump apply ~45s on Neon + lap-times backfill ~1-3min + setup
-    # ~30s ≈ 5min typical. 15 gives a 3× ceiling for Jolpica slowness without
-    # letting a stuck job idle the whole free-tier minute budget.
-    timeout-minutes: 15
+    # Real work: dump apply ~45s on Neon + lap-times backfill + setup. Lap
+    # backfill is now governed by Jolpica's 500/hour sustained rate cap (see
+    # packages/site/src/api/ingest/fetchJolpicaLaps.ts) — a saturated run that
+    # hits the hourly window then sleeps must be allowed to complete or it
+    # leaves rows half-ingested. 60 min lets us sleep up to one full Jolpica
+    # hour after burst exhaustion while still bounded for free-tier safety.
+    timeout-minutes: 60
     env:
       # All ${{ ... }} substitutions are bound to env vars (never inlined into
       # `run:` commands) so untrusted workflow_dispatch inputs can't shell-inject.
