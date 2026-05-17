@@ -83,10 +83,13 @@ describe('nivo.ts', () => {
 	});
 	
 	describe('NivoTooltip.tsx', () => {
-		// NivoTooltipFactory calls hooks (useNivoTheme, useInvertedTheme) at its top level,
-		// so it must be invoked inside a component during render — not at test top level.
+		// NivoTooltipFactory calls hooks (useNivoTheme, useInvertedTheme) at its
+		// top level, so it must be invoked inside a component during render —
+		// not at test top level. The inner Component reference is module-stable
+		// to keep react-hooks/static-components happy.
+		const TooltipBody = () => <div>tooltip content</div>;
 		const NivoTooltipHost = () => {
-			const NivoTooltippedContent = NivoTooltipFactory(() => <div>tooltip content</div>);
+			const NivoTooltippedContent = NivoTooltipFactory(TooltipBody);
 			return <NivoTooltippedContent/>;
 		};
 

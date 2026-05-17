@@ -10,12 +10,11 @@ type SeasonChartProps = SimpleApolloResult<ConstructorPageData> & { season: numb
 export default function SeasonChart({data, loading}: SeasonChartProps) {
 	const nivoTheme    = useNivoTheme();
 	const getTeamColor = useGetTeamColor();
-	let maxPosition    = 20;
-	
+
 	if (loading || !data) {
 		return <Skeleton variant="rectangular" height={132}/>;
 	}
-	
+
 	const colors    = [
 		getTeamColor(data.team.colors, 'primaryHex', false),
 		getTeamColor(data.team.colors, 'secondaryHex', false),
@@ -32,17 +31,20 @@ export default function SeasonChart({data, loading}: SeasonChartProps) {
 		          .removeDuplicates()
 		          .map(id => ({
 			          id,
-			          data: blankData.map(d => {
-				          const point = {
-					          x: d.x,
-					          y: raceResults.find(rs => String(rs.driver?.abbreviation) === id && rs.race?.round === d.x)?.positionNumber || null
-				          };
-				          
-				          maxPosition = Math.max(maxPosition, point.y || 0);
-				          
-				          return point;
-			          })
+			          data: blankData.map(d => ({
+				          x: d.x,
+				          y: raceResults.find(rs => String(rs.driver?.abbreviation) === id && rs.race?.round === d.x)?.positionNumber || null
+			          }))
 		          }));
+
+	// Compute maxPosition from the populated series rather than mutating a
+	// `let` inside the .map() — react-hooks/immutability flags the mutation
+	// and Nivo only needs the final value to set the y-scale. Nivo's DatumValue
+	// is number | string | null; the only y values we set are number | null.
+	const maxPosition = Math.max(
+		20,
+		...drivers.flatMap(d => d.data.map(p => (typeof p.y === 'number' ? p.y : 0)))
+	);
 	
 	return (
 		<Box sx={{height: 132, width: '100%'}} aria-hidden>

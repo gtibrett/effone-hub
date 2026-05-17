@@ -3,7 +3,7 @@
 	"version": "2.0.0-alpha",
 	"private": true,
 	"engines": {
-		"node": ">=22.0.0"
+		"node": "^24.0.0"
 	},
 	"packageManager": "pnpm@11.1.2",
 	"scripts": {
@@ -14,7 +14,7 @@
 		"build": "next build --webpack",
 		"start": "next start",
 		"test": "jest --coverage --verbose",
-		"lint": "next lint",
+		"lint": "eslint .",
 		"codegen": "graphql-codegen --config codegen.ts"
 	},
 	"devDependencies": {
