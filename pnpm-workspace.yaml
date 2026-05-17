@@ -5,3 +5,12 @@ allowBuilds:
   esbuild: true
   sharp: true
   unrs-resolver: true
+# Audit-patch overrides (build-time only). graphql-codegen v5 transitively
+# depends on lodash 4.17.23 and postcss <8.4.31 which carry advisories
+# GHSA-r5fr-rjxr-66jc and GHSA-7fh5-64p2-3v2j respectively. graphql-codegen
+# v7 is the upstream fix path but its client-preset v6 stopped emitting
+# schema entity types this codebase relies on — see D4 commit. Pin here
+# until Track B / a future codegen refactor.
+overrides:
+  lodash: ^4.18.0
+  postcss: ^8.5.10
