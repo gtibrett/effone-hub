@@ -1,10 +1,9 @@
-import {Link} from '@/components/ui';
 import {StatCard, StatCardStat} from '@/components/app';
 import SeasonsQuery from '@/components/page/season/SeasonsQuery';
-import { useSuspenseQuery } from "@apollo/client/react";
+import {DataTable, Link} from '@/components/ui';
+import {useSuspenseQuery} from '@apollo/client/react';
 import {Box, Skeleton} from '@mui/material';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {GridRenderCellParams} from '@mui/x-data-grid/models/params/gridCellParams';
+import type {ColumnDef} from '@tanstack/react-table';
 import {memo, Suspense} from 'react';
 import {ChampionData, DriverChampionData, isDriverChampion, SeasonData, TeamChampionData} from './types';
 
@@ -27,7 +26,7 @@ const PlaceColumnRenderer = memo(function PlaceColumnRenderer({data}: PlaceColum
 	if (!data || typeof data === 'undefined') {
 		return '--';
 	}
-	
+
 	const variant: PlaceVariant = isDriverChampion(data) ? 'driver' : 'team';
 	const key                   = isDriverChampion(data) ? data.driverId : data.teamId;
 
@@ -46,60 +45,51 @@ const PlaceColumnRenderer = memo(function PlaceColumnRenderer({data}: PlaceColum
 	);
 });
 
-const renderPlaceFactory = (place: number, variant: PlaceVariant = 'driver'): GridColDef<SeasonData>['renderCell'] => (
-	function renderPlace({row}: GridRenderCellParams) {
-		const data = variant === 'driver' ? getAtPlace('driver', row, place) : getAtPlace('team', row, place);
-		return <PlaceColumnRenderer data={data}/>;
-	}
-);
-
+const renderPlace = (row: SeasonData, place: number, variant: PlaceVariant = 'driver') => {
+	const data = variant === 'driver' ? getAtPlace('driver', row, place) : getAtPlace('team', row, place);
+	return <PlaceColumnRenderer data={data}/>;
+};
 
 export default function SeasonsList() {
 	const {data: {seasons}} = useSuspenseQuery<{ seasons: { nodes: SeasonData[] } }>(SeasonsQuery);
 
+	const columns: ColumnDef<SeasonData, any>[] = [
+		{
+			accessorKey: 'year',
+			header:      'Season',
+			size:        100,
+			cell:        ({row}) => <Link href={`/${row.original.year}`}>{row.original.year}</Link>
+		},
+		{
+			id:     'winner',
+			header: 'Driver Champion',
+			cell:   ({row}) => renderPlace(row.original, 1)
+		},
+		{
+			id:     'runnerup',
+			header: 'Runner-Up',
+			cell:   ({row}) => renderPlace(row.original, 2)
+		},
+		{
+			id:     'third',
+			header: 'Third Place',
+			cell:   ({row}) => renderPlace(row.original, 3)
+		},
+		{
+			id:     'team',
+			header: 'Constructor Champion',
+			cell:   ({row}) => renderPlace(row.original, 1, 'team')
+		}
+	];
+
 	return (
 		<Suspense fallback={<Skeleton variant="rectangular" height="60vh"/>}>
-			<DataGrid
+			<DataTable<SeasonData>
 				rows={seasons.nodes}
+				columns={columns}
 				autoHeight
-				getRowId={r => r.year}
+				getRowId={(r: SeasonData) => r.year}
 				rowHeight={90}
-				columns={
-					[
-						{
-							field:      'year',
-							headerName: 'Season',
-							width:      100,
-							flex:       1,
-							renderCell: ({row}) => <Link href={`/${row.year}`}>{row.year}</Link>
-						},
-						{
-							field:      'winner',
-							headerName: 'Driver Champion',
-							flex:       1,
-							
-							renderCell: renderPlaceFactory(1)
-						},
-						{
-							field:      'runnerup',
-							headerName: 'Runner-Up',
-							flex:       1,
-							renderCell: renderPlaceFactory(2)
-						},
-						{
-							field:      'third',
-							headerName: 'Third Place',
-							flex:       1,
-							renderCell: renderPlaceFactory(3)
-						},
-						{
-							field:      'team',
-							headerName: 'Constructor Champion',
-							flex:       1,
-							renderCell: renderPlaceFactory(1, 'team')
-						}
-					]
-				}
 				initialState={{
 					sorting: {
 						sortModel: [{field: 'year', sort: 'desc'}]

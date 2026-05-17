@@ -2,21 +2,12 @@ import {DriverByLine} from '@/components/app';
 import {Place} from '@/components/page/race';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Dialog} from '@/components/ui';
+import {DataTable, Dialog} from '@/components/ui';
 import useComponentDimensionsWithRef from '@/hooks/useComponentDimensionsWithRef';
 import {Card, Grid} from '@mui/material';
-import {DataGrid} from '@mui/x-data-grid';
+import type {ColumnDef} from '@tanstack/react-table';
 import {Dispatch, SetStateAction} from 'react';
 import useDriverStandingsData from './useDriversStandingsData';
-
-const sx = {
-	'& > .MuiDataGrid-main':                  {
-		overflowX: 'hidden'
-	},
-	'& > div > .MuiDataGrid-footerContainer': {
-		display: 'none'
-	}
-};
 
 type DriverStandingsDialogProps = {
 	season: number;
@@ -27,16 +18,38 @@ type DriverStandingsDialogProps = {
 export default function DriverStandingsDialog({season, open, setOpen}: DriverStandingsDialogProps) {
 	const {ref, dimensions} = useComponentDimensionsWithRef();
 	const {data}            = useDriverStandingsData(season);
-	const races             = data?.season?.racesByYear?.nodes?.filter(r => r.raceDriverStandings.nodes.length);
+	const races             = data?.season?.racesByYear?.nodes?.filter((r) => r.raceDriverStandings.nodes.length);
 	const standings         = races?.at(-1)?.raceDriverStandings?.nodes;
 	const onClose           = () => setOpen(false);
-	
+
 	if (!standings?.length) {
 		return null;
 	}
-	
+
 	const [p1, p2, p3, ...rest] = standings;
-	
+	type Row = (typeof rest)[number];
+	const numCell = (v: unknown) => <div className="text-center">{v as any}</div>;
+	const numHeader = (label: string) => () => <div className="text-center w-full">{label}</div>;
+
+	const columns: ColumnDef<Row, any>[] = [
+		{
+			accessorKey: 'position',
+			header:      numHeader('P'),
+			size:        16,
+			cell:        ({getValue}) => numCell(getValue())
+		},
+		{
+			id:     'code',
+			header: 'Driver',
+			cell:   ({row}) => <DriverByLine id={row.original.driver?.rowId} avatarProps={{size: 24}} flagProps={{size: 16}}/>
+		},
+		{
+			accessorKey: 'points',
+			header:      numHeader('Points'),
+			cell:        ({getValue}) => numCell(getValue())
+		}
+	];
+
 	return (
 		<Dialog
 			open={open} onClose={onClose} maxWidth="lg" fullWidth
@@ -53,41 +66,17 @@ export default function DriverStandingsDialog({season, open, setOpen}: DriverSta
 				</Grid>
 				<Grid item xs={12} lg={7}>
 					<Card sx={{height: dimensions.height - 14}}>
-						<DataGrid
-							sx={sx}
-							rows={rest}
+						<DataTable<Row>
+							rows={rest as Row[]}
+							columns={columns}
 							density="compact"
-							getRowId={r => r.driver?.rowId || r.driverId || ''}
+							getRowId={(r: Row) => r.driver?.rowId || r.driverId || ''}
 							hideFooter
 							initialState={{
 								sorting: {
 									sortModel: [{field: 'position', sort: 'asc'}]
 								}
 							}}
-							columns={
-								[
-									{
-										field:       'position',
-										headerName:  'P',
-										headerAlign: 'center',
-										type:        'number',
-										align:       'center',
-										width:       16
-									},
-									{
-										field:      'code',
-										headerName: 'Driver',
-										flex:       1,
-										renderCell: ({row}) => <DriverByLine id={row.driver?.rowId} avatarProps={{size: 24}} flagProps={{size: 16}}/>,
-										minWidth:   200
-									},
-									{
-										field:      'points',
-										headerName: 'Points',
-										type:       'number'
-									}
-								]
-							}
 						/>
 					</Card>
 				</Grid>
