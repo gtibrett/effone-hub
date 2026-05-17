@@ -2,9 +2,10 @@ import {PositionChange} from '@/components/page/race';
 import {getPositionTextOutcome, getTimeStringFromDate} from '@/helpers';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
-import {DataTable, Link} from '@/components/ui';
-import {Box, Skeleton, Typography} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
+import {DataTable, Link, Skeleton, Typography} from '@/components/ui';
+ 
+import {Box} from '@/components/ui';
+import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 import {CircuitDialogData} from './types';
 

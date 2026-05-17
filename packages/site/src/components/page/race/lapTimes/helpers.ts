@@ -1,4 +1,4 @@
-import {green, purple, yellow} from '@mui/material/colors';
+import {green, purple, yellow} from '@/lib/muiColors';
 
 export const getColorWithAlt = (lapTime: number, personalBest: number, fastestLapTime: number | undefined) => {
 	if (lapTime === fastestLapTime) {

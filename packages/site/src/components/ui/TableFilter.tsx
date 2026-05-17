@@ -1,7 +1,11 @@
+import {useTheme} from '@/lib/theme';
+import {Typography} from '@/components/ui';
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {alpha, Button, CardActions, Grid, Tooltip, Typography, useTheme} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
+
+import {alpha} from '@/lib/color';
+import {Button, CardActions, Grid, Tooltip} from '@/components/ui';
+import {visuallyHidden} from '@/lib/visuallyHidden';
 import {ChangeEvent, Dispatch, ReactNode, SetStateAction, SyntheticEvent} from 'react';
 
 type TableFilterProps = {

@@ -2,10 +2,10 @@
 
 import {DriverAvatar, useAppState} from '@/components/app';
 import {Career, Circuits, Season} from '@/components/page/driver';
-import {Flag, Page, Tabs} from '@/components/ui';
+import {Flag, Page, Tabs, Card, Typography} from '@/components/ui';
 import {useGetTeamColor} from '@/hooks';
-import {Card, Typography, useTheme} from '@mui/material';
-
+ 
+import {useTheme} from '@/lib/theme';
 /**
  * The subset of `Driver` fields DriverContent reads at the top level.
  * Nested components (Career, Circuits, Season, DriverAvatar) fetch their own

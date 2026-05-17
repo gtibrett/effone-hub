@@ -1,5 +1,5 @@
 import {NivoTooltipFactory, RequiredByPropTypes, useNivoTheme} from '@/components/ui/nivo';
-import {alpha} from '@mui/material';
+import {alpha} from '@/lib/color';
 import {Point, ResponsiveLine} from '@nivo/line';
 import {useState} from 'react';
 import {ChartProps} from './types';

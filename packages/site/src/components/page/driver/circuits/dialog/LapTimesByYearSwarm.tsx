@@ -1,7 +1,8 @@
+import {Skeleton} from '@/components/ui';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {useNivoTheme} from '@/components/ui/nivo';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
-import {Skeleton} from '@mui/material';
+
 import {ResponsiveSwarmPlot} from '@nivo/swarmplot';
 import {SwarmData, useMapLapTimeDataToSwarmChart} from './mapLapTimeDataToSwarmChart';
 import {CircuitDialogData} from './types';

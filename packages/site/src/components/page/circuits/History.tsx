@@ -1,8 +1,8 @@
 import {DriverByLine} from '@/components/app';
 import {CircuitDataProps} from '@/hooks/data';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
-import {DataTable, Link} from '@/components/ui';
-import {Skeleton} from '@mui/material';
+import {DataTable, Link, Skeleton} from '@/components/ui';
+
 import type {ColumnDef} from '@tanstack/react-table';
 
 export default function History({data, loading}: CircuitDataProps) {

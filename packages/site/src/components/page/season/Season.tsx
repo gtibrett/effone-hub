@@ -3,9 +3,9 @@ import {Schedule} from '@/components/page/season/index';
 import {ScheduleSkeleton} from '@/components/page/season/Schedule';
 import {DriverStandings, TeamStandings} from '@/components/page/season/standings';
 import {DNFs, FastestLap, FastestLaps, LapLeader, Poles, PositionsGained, SprintWins, Wins} from '@/components/page/season/stats';
-import {Page} from '@/components/ui';
+import {Page, Card, CardContent, CardHeader} from '@/components/ui';
 import {Season as SeasonT} from '@/gql/graphql';
-import {Card, CardContent, CardHeader} from '@mui/material';
+  
 import {Suspense} from 'react';
 
 type SeasonProps = {

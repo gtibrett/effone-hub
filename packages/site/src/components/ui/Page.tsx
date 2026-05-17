@@ -1,4 +1,7 @@
-import {Grid, GridProps, Paper, PaperProps, Skeleton, Typography, TypographyProps} from '@mui/material';
+import {Skeleton, Typography, type TypographyProps} from '@/components/ui';
+
+import {Grid, Paper} from '@/components/ui';
+import type {GridProps, PaperProps} from '@/components/ui';
 import {PropsWithChildren, ReactNode, RefObject, Suspense} from 'react';
 
 type Skeletons = {
@@ -33,15 +36,15 @@ type HasSkeleton<T> = T & {
 	skeleton: ReactNode
 }
 
-const PageTitle     = ({title, skeleton, titleProps = {}}: HasSkeleton<Pick<PageProps, 'title' | 'titleProps'>>) => {
-	const {sx = {}, ...other} = titleProps;
-	
-	return typeof title === 'string' ? <Typography variant="h2" sx={{my: .5, ...sx}} {...other}>{title}</Typography> : <Suspense fallback={skeleton}>{title}</Suspense>;
+const PageTitle = ({title, skeleton, titleProps = {}}: HasSkeleton<Pick<PageProps, 'title' | 'titleProps'>>) => {
+	return typeof title === 'string'
+		? <Typography variant="h2" className="my-1" {...titleProps}>{title}</Typography>
+		: <Suspense fallback={skeleton}>{title}</Suspense>;
 };
 const PageSubheader = ({subheader, skeleton, subheaderProps = {}}: HasSkeleton<Pick<PageProps, 'subheader' | 'subheaderProps'>>) => {
-	const {sx = {}, ...other} = subheaderProps;
-	
-	return typeof subheader === 'string' ? <Typography variant="subtitle1" component="h2" sx={sx} {...other}>{subheader}</Typography> : <Suspense fallback={skeleton}>{subheader}</Suspense>;
+	return typeof subheader === 'string'
+		? <Typography variant="subtitle1" component="h2" {...subheaderProps}>{subheader}</Typography>
+		: <Suspense fallback={skeleton}>{subheader}</Suspense>;
 };
 
 export default function Page(props: PageProps) {
@@ -50,12 +53,11 @@ export default function Page(props: PageProps) {
 	const {action, actionProps = {}}                     = props;
 	const {extra, headerProps = {}, headerRef, children} = props;
 	const skeletons                                      = {...DefaultSkeletons, ...props.skeletons};
-	const {sx = {}, ...other}                            = headerProps;
-	
+
 	return (
 		<Grid container spacing={2} alignItems="stretch">
 			<Grid item xs={12}>
-				<Paper ref={headerRef} elevation={0} sx={{p: 2, height: '100%', ...sx}} {...other}>
+				<Paper ref={headerRef} elevation={0} className="p-4 h-full" {...headerProps}>
 					<Grid container spacing={2} alignItems="stretch">
 						<Grid item xs>
 							<Grid container spacing={2}>

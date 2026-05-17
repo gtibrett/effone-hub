@@ -1,5 +1,5 @@
 import {ChartSwitcher, ChartSwitcherChart} from '@/components/app';
-import {Button} from '@mui/material';
+import {Button} from '@/components/ui';
 import {memo, useState} from 'react';
 import {DriverChampion} from '../../stats';
 import {PointsChart, PositionsChart} from '../charts';

@@ -1,5 +1,5 @@
 import {useGetAccessibleColor} from '@/hooks';
-import {useTheme} from '@mui/material';
+import {useTheme} from '@/lib/theme';
 import {useMemo} from 'react';
 import {ChartMode, RaceStandingsWithEntities, StandingsChartSerie} from './types';
 

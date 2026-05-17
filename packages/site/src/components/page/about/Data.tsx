@@ -1,11 +1,11 @@
 'use client';
 
-import {OpensInNewWindow, Link} from '@/components/ui';
+import {OpensInNewWindow, Link, Card, CardContent, CardHeader, Typography} from '@/components/ui';
 import {faWikipediaW} from '@fortawesome/free-brands-svg-icons';
 import {faClock, faFlagCheckered, faRobot} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Card, CardContent, CardHeader, List, ListItem, ListItemIcon, ListItemText, Typography} from '@mui/material';
-
+   
+import {List, ListItem, ListItemIcon, ListItemText} from '@/components/ui';
 const Data = () => (
 	<Card sx={{height: '100%'}}>
 		<CardHeader title="Data"/>

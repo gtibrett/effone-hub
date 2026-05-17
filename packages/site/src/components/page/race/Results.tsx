@@ -4,10 +4,11 @@ import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Race, RaceResult} from '@/gql/graphql';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
-import {DataTable} from '@/components/ui';
-import {Grid, Skeleton, Tooltip, Typography} from '@mui/material';
-import {purple} from '@mui/material/colors';
-import {visuallyHidden} from '@mui/utils';
+import {DataTable, Skeleton, Typography} from '@/components/ui';
+ 
+import {Grid, Tooltip} from '@/components/ui';
+import {purple} from '@/lib/muiColors';
+import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 import Podium from './Podium';
 import PositionChange from './PositionChange';

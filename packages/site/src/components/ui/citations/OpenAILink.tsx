@@ -1,8 +1,8 @@
-import {Link} from '@/components/ui';
+import {Link, Typography} from '@/components/ui';
 import {faRobot} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Typography} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
+
+import {visuallyHidden} from '@/lib/visuallyHidden';
 
 export default function OpenAILink() {
 	

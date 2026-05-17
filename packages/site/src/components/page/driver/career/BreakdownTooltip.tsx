@@ -1,9 +1,9 @@
 import {DriverAvatar, DriverByLine} from '@/components/app';
-import {PropertiesTable, PropertiesTableRow, PropertiesTableRowProps} from '@/components/ui';
+import {PropertiesTable, PropertiesTableRow, PropertiesTableRowProps, Card, CardHeader} from '@/components/ui';
 import {BarTooltipProps} from '@nivo/bar';
 import {capitalizeCamelCase} from '@/helpers';
 import {useDriverHeaderSx} from '@/hooks';
-import {Card, CardHeader} from '@mui/material';
+ 
 import {breakdownMetrics} from './CareerBreakdownChart';
 import {BreakdownDatum} from './useBreakdownData';
 
@@ -26,7 +26,7 @@ export default function BreakdownTooltip({data}: BarTooltipProps<BreakdownDatum>
 	
 	return (
 		<Card sx={{p: 0}}>
-			<CardHeader sx={headerSx}
+			<CardHeader style={headerSx}
 				avatar={<DriverAvatar driverId={driverId} size={42}/>}
 				title={<DriverByLine id={driverId} variant="name"/>}
 				subheader={year}

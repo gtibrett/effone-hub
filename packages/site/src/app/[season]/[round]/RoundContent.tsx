@@ -3,11 +3,11 @@
 import {RaceMap, useMapSeasonRacesToMapPoints} from '@/components/app';
 import {Laps, PitStops, Qualifying, Results, SprintResults} from '@/components/page/race';
 import {FastestLap, LapLeader, Pole, PositionsGained} from '@/components/page/race/stats';
-import {OpenAILink, Page, Link, Tabs, type TabContent} from '@/components/ui';
+import {OpenAILink, Page, Link, Tabs, type TabContent, Card, CardContent, CardHeader, Typography} from '@/components/ui';
 import {Race} from '@/gql/graphql';
 import useRace from '@/hooks/data/useRace';
-import {Card, CardContent, CardHeader, CardMedia, Typography} from '@mui/material';
-
+   
+import {CardMedia} from '@/components/ui';
 type Props = {
 	season: string;
 	round:  string;

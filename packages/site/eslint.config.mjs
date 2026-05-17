@@ -25,7 +25,12 @@ export default [
 			// `useSyncExternalStore` everywhere, which is heavier than the
 			// pattern it would replace. Disabled until we move off the
 			// `'use client'` gates entirely.
-			'react-hooks/set-state-in-effect': 'off'
+			'react-hooks/set-state-in-effect': 'off',
+			// TanStack Table column defs use inline cell renderers (arrow
+			// functions returning JSX). Each is technically a "component",
+			// but the rule's expected fix (display-name) is incompatible
+			// with the columnHelper pattern. Off across the board.
+			'react/display-name': 'off'
 		}
 	},
 	{

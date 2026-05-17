@@ -1,5 +1,6 @@
+import {Skeleton} from '@/components/ui';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
-import {Skeleton} from '@mui/material';
+
 import LapByLap from './lapByLap/LapByLap';
 import {useLapByLapData} from './lapByLap/useLapByLapChartData';
 import LapTimesTable from './lapTimes/LapTimesTable';

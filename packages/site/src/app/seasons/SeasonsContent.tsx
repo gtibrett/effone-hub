@@ -1,8 +1,8 @@
 'use client';
 
 import {SeasonsList} from '@/components/page/season';
-import {Page} from '@/components/ui';
-import {Card, Skeleton} from '@mui/material';
+import {Page, Card, Skeleton} from '@/components/ui';
+ 
 import {Suspense} from 'react';
 
 export default function SeasonsContent() {

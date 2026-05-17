@@ -1,25 +1,20 @@
-import {SxProps, useTheme} from '@mui/material';
+import {CSSProperties} from 'react';
 
 export type AvatarSizes = 'small' | 'medium' | 'large' | 'auto' | number;
 
-export default function useAvatarSize(size: AvatarSizes): SxProps {
-	const theme = useTheme();
-	
+export default function useAvatarSize(size: AvatarSizes): CSSProperties {
 	switch (size) {
 		case 'small':
-			return {width: theme.spacing(4), height: theme.spacing(4)};
-		
+			return {width: 32, height: 32};
 		case 'medium':
-			return {width: theme.spacing(8), height: theme.spacing(8)};
-		
+			return {width: 64, height: 64};
 		case 'large':
-			return {width: theme.spacing(16), height: theme.spacing(16)};
-		
+			return {width: 128, height: 128};
 		default:
 			if (typeof size === 'number') {
 				return {width: size, height: size};
 			}
 	}
-	
+
 	return {width: '100%', height: '100%'};
 }

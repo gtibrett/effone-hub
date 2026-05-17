@@ -1,9 +1,10 @@
+import {Typography} from '@/components/ui';
 import {DataWithValue, StatCard} from '@/components/app';
 import {getTimeStringFromDate} from '@/helpers';
 import { gql } from '@apollo/client';
 import { useQuery } from "@apollo/client/react";
 import {FastestLap as FastestLapNode, Race} from '@/gql/graphql';
-import {Typography} from '@mui/material';
+
 import {RaceStatProps} from './types';
 
 type FastestLapQueryData = {

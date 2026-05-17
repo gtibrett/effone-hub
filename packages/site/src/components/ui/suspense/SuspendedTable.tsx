@@ -1,4 +1,5 @@
-import {Skeleton} from '@mui/material';
+import {Skeleton} from '@/components/ui';
+
 import {ReactNode} from 'react';
 
 type SuspendedTableProps = {

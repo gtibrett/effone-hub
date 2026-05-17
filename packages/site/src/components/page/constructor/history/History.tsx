@@ -1,8 +1,8 @@
 import {ChartSwitcher, ChartSwitcherChart} from '@/components/app';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
-import {DataTable, Link} from '@/components/ui';
-import {Skeleton} from '@mui/material';
+import {DataTable, Link, Skeleton} from '@/components/ui';
+
 import type {ColumnDef} from '@tanstack/react-table';
 import {ConstructorPageData} from '../types';
 import HistoryChart from './HistoryChart';

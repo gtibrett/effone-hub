@@ -2,8 +2,8 @@ import {DriverByLine, RaceMap, useMapCircuitsToMapPoints} from '@/components/app
 import {DriverId} from '@/types';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Dialog, Tabs} from '@/components/ui';
-import {Card, Typography} from '@mui/material';
+import {Dialog, Tabs, Card, Typography} from '@/components/ui';
+ 
 import CircuitChart from './CircuitChart';
 import CircuitPerformance from './CircuitPerformance';
 import CircuitTable from './CircuitTable';

@@ -2,8 +2,8 @@
 
 import {useAppState} from '@/components/app';
 import {DriversFilters, DriversList, DriversListFilters} from '@/components/page/driver';
-import {Page} from '@/components/ui';
-import {Card, CardContent, Skeleton} from '@mui/material';
+import {Page, Card, CardContent, Skeleton} from '@/components/ui';
+  
 import {Suspense, useState} from 'react';
 
 export default function DriversContent() {

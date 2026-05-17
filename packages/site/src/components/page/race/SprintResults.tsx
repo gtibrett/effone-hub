@@ -2,9 +2,10 @@ import {ConstructorByLine, DriverByLine} from '@/components/app';
 import {getPositionTextOutcome} from '@/helpers';
 import {SprintRaceResult} from '@/gql/graphql';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
-import {DataTable} from '@/components/ui';
-import {Grid, Skeleton, Typography} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
+import {DataTable, Skeleton, Typography} from '@/components/ui';
+ 
+import {Grid} from '@/components/ui';
+import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 import PositionChange from './PositionChange';
 

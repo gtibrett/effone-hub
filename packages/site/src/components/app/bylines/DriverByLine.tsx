@@ -1,8 +1,8 @@
-import {Flag, FlagProps, Link} from '@/components/ui';
+import {Flag, FlagProps, Link, Skeleton, Typography} from '@/components/ui';
 import {useDriver} from '@/hooks/data';
 import {DriverId} from '@/types';
 import {Driver} from '@/gql/graphql';
-import {Skeleton, Typography} from '@mui/material';
+ 
 import {memo} from 'react';
 import {DriverAvatar, DriverAvatarProps} from '../avatars';
 

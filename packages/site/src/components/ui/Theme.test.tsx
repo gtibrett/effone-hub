@@ -1,5 +1,5 @@
 import {setDarkMode} from '@/jest';
-import {ThemeProvider} from '@mui/material';
+import {ThemeProvider} from '@/lib/theme';
 import {renderHook} from '@testing-library/react';
 import {PropsWithChildren} from 'react';
 import {useDarkMode, useEffTheme, useInvertedTheme} from './Theme';

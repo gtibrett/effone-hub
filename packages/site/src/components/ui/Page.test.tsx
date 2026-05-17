@@ -1,4 +1,5 @@
-import {Typography} from '@mui/material';
+import {Typography} from '@/components/ui';
+
 import {render, screen} from '@testing-library/react';
 import axe from 'axe-core';
 import Page from './Page';

@@ -1,10 +1,10 @@
 'use client';
 
-import {OpensInNewWindow, Link} from '@/components/ui';
+import {OpensInNewWindow, Link, Card, CardContent, CardHeader} from '@/components/ui';
 import {faGithub} from '@fortawesome/free-brands-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Card, CardContent, CardHeader, List, ListItem, ListItemIcon, ListItemText} from '@mui/material';
-
+  
+import {List, ListItem, ListItemIcon, ListItemText} from '@/components/ui';
 const Repositories = () => (
 	<Card sx={{height: '100%'}}>
 		<CardHeader title="Repositories"/>

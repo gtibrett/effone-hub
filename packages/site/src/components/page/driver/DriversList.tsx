@@ -2,11 +2,12 @@ import {DriverAvatar, DriverByLine} from '@/components/app';
 import DriversQuery from '@/components/page/driver/DriversQuery';
 import {useDriversList} from '@/components/page/driver/index';
 import {DriversListFilters} from '@/components/page/driver/types';
-import {DataTable, Flag} from '@/components/ui';
+import {DataTable, Flag, Typography} from '@/components/ui';
 import {Driver} from '@/gql/graphql';
 import {useSuspenseQuery} from '@apollo/client/react';
-import {Grid, Typography} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
+
+import {Grid} from '@/components/ui';
+import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 
 type DriversTableProps = {

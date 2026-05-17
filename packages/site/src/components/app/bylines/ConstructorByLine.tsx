@@ -1,8 +1,8 @@
-import {Link} from '@/components/ui';
+import {Link, Skeleton} from '@/components/ui';
 import {useTeam} from '@/hooks/data';
 import {TeamId} from '@/types';
 import {Team} from '@/gql/graphql';
-import {Skeleton} from '@mui/material';
+
 import {ReactNode} from 'react';
 
 type BaseByLineProps = {

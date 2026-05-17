@@ -1,6 +1,6 @@
-import {PropertiesTable, PropertiesTableRow} from '@/components/ui';
+import {PropertiesTable, PropertiesTableRow, Card, CardHeader} from '@/components/ui';
 import {useTeamHeaderSx} from '@/hooks';
-import {Card, CardHeader} from '@mui/material';
+ 
 import {PointTooltipProps, PositionsChartTooltipProps} from '../charts';
 
 export function ConstructorStandingsPositionTooltip({serie}: PositionsChartTooltipProps) {
@@ -9,7 +9,7 @@ export function ConstructorStandingsPositionTooltip({serie}: PositionsChartToolt
 	
 	return (
 		<Card sx={{p: 0}}>
-			<CardHeader sx={headerSx} title={name}/>
+			<CardHeader style={headerSx} title={name}/>
 		</Card>
 	);
 }
@@ -22,7 +22,7 @@ export function ConstructorStandingsPointsTooltip({point}: PointTooltipProps) {
 	
 	return (
 		<Card sx={{p: 0}}>
-			<CardHeader sx={headerSx} title={name}/>
+			<CardHeader style={headerSx} title={name}/>
 			<PropertiesTable>
 				<PropertiesTableRow header="Round" align="right">{`${x}`}</PropertiesTableRow>
 				<PropertiesTableRow header="Position" align="right">{position}</PropertiesTableRow>

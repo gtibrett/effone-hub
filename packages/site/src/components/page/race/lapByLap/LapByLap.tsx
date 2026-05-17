@@ -1,7 +1,8 @@
+import {Skeleton} from '@/components/ui';
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
 import {DriverId} from '@/types';
 import {Maybe} from '@/gql/graphql';
-import {Skeleton} from '@mui/material';
+
 import {ResponsiveBump} from '@nivo/bump';
 import LapByLapTooltip from './LapByLapTooltip';
 import useLapByLapChartData, {useLapByLapData} from './useLapByLapChartData';

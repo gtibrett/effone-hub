@@ -1,6 +1,6 @@
 import {useDarkMode} from '@/components/ui';
-import {useTheme} from '@mui/material';
-import {amber, blueGrey, deepPurple, green, red} from '@mui/material/colors';
+import {useTheme} from '@/lib/theme';
+import {amber, blueGrey, deepPurple, green, red} from '@/lib/muiColors';
 import {useMemo} from 'react';
 
 type ResultsColor = {

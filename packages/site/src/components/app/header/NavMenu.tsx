@@ -1,8 +1,10 @@
+import {useTheme} from '@/lib/theme';
 import {Link} from '@/components/ui';
 import {useAppState} from '@/components/app';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {IconButton, Menu, MenuItem, useMediaQuery, useTheme} from '@mui/material';
+import {IconButton, Menu, MenuItem} from '@/components/ui';
+import useMediaQuery from '@/hooks/useMediaQuery';
 import {usePathname, useRouter} from 'next/navigation';
 import {MouseEvent, useState} from 'react';
 

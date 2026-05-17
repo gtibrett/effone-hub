@@ -1,6 +1,9 @@
-import {Link} from '@/components/ui';
-import {AppBar, darken, lighten, Toolbar, Typography, useTheme} from '@mui/material';
-import {blueGrey} from '@mui/material/colors';
+import {useTheme} from '@/lib/theme';
+import {Link, Typography} from '@/components/ui';
+
+import {darken, lighten} from '@/lib/color';
+import {AppBar, Toolbar} from '@/components/ui';
+import {blueGrey} from '@/lib/muiColors';
 import NavMenu from './NavMenu';
 
 export default function Header() {

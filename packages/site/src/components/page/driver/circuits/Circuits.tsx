@@ -2,8 +2,9 @@ import {RaceMap, useMapCircuitsToMapPoints} from '@/components/app';
 import {getTimeStringFromDate} from '@/helpers';
 import {DriverId} from '@/types';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
-import {DataTable} from '@/components/ui';
-import {Card, Grid, Link} from '@mui/material';
+import {DataTable, Card} from '@/components/ui';
+
+import {Grid, Link} from '@/components/ui';
 import type {ColumnDef} from '@tanstack/react-table';
 import {useState} from 'react';
 import CircuitDialog from './dialog/CircuitDialog';

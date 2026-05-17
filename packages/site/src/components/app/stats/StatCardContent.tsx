@@ -1,16 +1,20 @@
-import {alpha, Badge, BadgeOrigin, Box, CardHeader, CardHeaderProps, Grid, Typography, useTheme} from '@mui/material';
 import {ReactNode} from 'react';
+import {alpha} from '@/lib/color';
+import {useTheme} from '@/lib/theme';
+import {CardHeader, Typography} from '@/components/ui';
+import Grid from '@/components/ui/Grid';
 import {StatCardBaseProps} from './StatCard';
 import {DataWithValue, StatFormatter} from './types';
 
-type StateCardContentProps<T extends DataWithValue> = Pick<CardHeaderProps, 'avatar'> & {
-	size: StatCardBaseProps<T>['size'];
-	label?: ReactNode;
-	title: ReactNode;
-	data: T;
-	color?: string;
+type StateCardContentProps<T extends DataWithValue> = {
+	avatar?: ReactNode;
+	size:    StatCardBaseProps<T>['size'];
+	label?:  ReactNode;
+	title:   ReactNode;
+	data:    T;
+	color?:  string;
 	format?: StatFormatter<T>;
-	extra?: StatFormatter<T> | ReactNode;
+	extra?:  StatFormatter<T> | ReactNode;
 }
 
 export const StatCardStat = <T extends DataWithValue>({label, data, format}: Pick<StateCardContentProps<T>, 'label' | 'data' | 'format'>) => (
@@ -22,74 +26,54 @@ export const StatCardStat = <T extends DataWithValue>({label, data, format}: Pic
 
 export default function StatCardContent<T extends DataWithValue>({size, avatar, title, label, data, color, format, extra}: StateCardContentProps<T>) {
 	const theme = useTheme();
-	
-	switch (size) {
-		case 'small':
-			const badgeAlignment: BadgeOrigin = {
-				vertical:   'bottom',
-				horizontal: 'right'
-			};
-			
-			const sx = {
-				py: 0,
-				pl: 0,
-				
-				'& > .MuiCardHeader-avatar': {
-					borderRight: `${theme.spacing(.125)} solid ${theme.palette.background.default}`,
-					
-					'&  .MuiAvatar-root': {
-						borderRadius: 0,
-						marginTop:    -1,
-						marginBottom: 1,
-						
-						'& > img': {
-							marginTop: 1
-						}
-					}
-				},
-				
-				'& .MuiBadge-badge': {
-					bottom:         10,
-					right:          '50%',
-					width:          '100%',
-					borderTop:      `1px solid ${theme.palette.background.default}`,
-					background:     alpha(color || theme.palette.background.paper, .9),
-					borderRadius:   0,
-					justifyContent: 'center',
-					
-					'&, & *': {
-						color: theme.palette.getContrastText(color || theme.palette.background.paper)
-					}
+
+	if (size === 'small') {
+		const badgeBg = alpha(color || theme.palette.background.paper, .9);
+		const badgeFg = theme.palette.getContrastText(color || theme.palette.background.paper);
+		const dividerColor = theme.palette.background.default;
+
+		return (
+			<CardHeader
+				className="!py-0 !pl-0"
+				avatar={
+					<div
+						className="relative"
+						style={{borderRight: `1px solid ${dividerColor}`}}
+					>
+						{avatar}
+						<div
+							className="absolute left-0 right-0 bottom-2 flex justify-center text-xs px-1 leading-tight"
+							style={{
+								background: badgeBg,
+								color:      badgeFg,
+								borderTop:  `1px solid ${dividerColor}`
+							}}
+						>
+							{title}
+						</div>
+					</div>
 				}
-			};
-			
-			return (
-				<CardHeader
-					sx={sx}
-					avatar={<Badge sx={sx} badgeContent={title} anchorOrigin={badgeAlignment}>{avatar}</Badge>}
-					subheader={(
-						<>
-							<StatCardStat<T> label={label} data={data} format={format}/>
-							{extra && <Box mt={0}>{(typeof extra === 'function' ? extra(data) : extra)}</Box>}
-						</>
-					)}
-				/>
-			);
-		
-		case 'regular':
-		default:
-			return (
-				<CardHeader
-					avatar={avatar}
-					title={title}
-					titleTypographyProps={{noWrap: true}}
-					subheader={(
-						<>
-							<StatCardStat<T> label={label} data={data} format={format}/>
-							{extra && <Box mt={.5}>{(typeof extra === 'function' ? extra(data) : extra)}</Box>}
-						</>
-					)}
-				/>
-			);
+				subheader={(
+					<>
+						<StatCardStat<T> label={label} data={data} format={format}/>
+						{extra && <div>{(typeof extra === 'function' ? extra(data) : extra)}</div>}
+					</>
+				)}
+			/>
+		);
 	}
+
+	return (
+		<CardHeader
+			avatar={avatar}
+			title={title}
+			titleTypographyProps={{noWrap: true}}
+			subheader={(
+				<>
+					<StatCardStat<T> label={label} data={data} format={format}/>
+					{extra && <div className="mt-1">{(typeof extra === 'function' ? extra(data) : extra)}</div>}
+				</>
+			)}
+		/>
+	);
 }

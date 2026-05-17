@@ -2,9 +2,10 @@ import {DriverByLine} from '@/components/app';
 import {Place} from '@/components/page/race';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {DataTable, Dialog} from '@/components/ui';
+import {DataTable, Dialog, Card} from '@/components/ui';
 import useComponentDimensionsWithRef from '@/hooks/useComponentDimensionsWithRef';
-import {Card, Grid} from '@mui/material';
+
+import {Grid} from '@/components/ui';
 import type {ColumnDef} from '@tanstack/react-table';
 import {Dispatch, SetStateAction} from 'react';
 import useDriverStandingsData from './useDriversStandingsData';

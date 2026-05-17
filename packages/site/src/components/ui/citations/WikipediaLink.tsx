@@ -1,9 +1,10 @@
-import {Link} from '@/components/ui';
+import {Link, Typography} from '@/components/ui';
 import {faWikipediaW} from '@fortawesome/free-brands-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Maybe} from '@/gql/graphql';
-import {LinkProps, Typography} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
+
+import type {LinkProps} from '@/components/ui';
+import {visuallyHidden} from '@/lib/visuallyHidden';
 
 type WikipediaLinkProps = {
 	href: Maybe<LinkProps['href']> | undefined;

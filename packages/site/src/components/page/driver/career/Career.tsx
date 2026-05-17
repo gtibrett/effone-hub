@@ -1,8 +1,9 @@
 import {ConstructorByLine} from '@/components/app';
 import useComponentDimensionsWithRef from '@/hooks/useComponentDimensionsWithRef';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
-import {DataTable, Link} from '@/components/ui';
-import {Grid, Skeleton} from '@mui/material';
+import {DataTable, Link, Skeleton} from '@/components/ui';
+
+import {Grid} from '@/components/ui';
 import type {ColumnDef} from '@tanstack/react-table';
 import {useState} from 'react';
 import SeasonDialog from '../season/SeasonDialog';

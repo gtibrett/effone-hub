@@ -1,8 +1,7 @@
 'use client';
 
-import {OpensInNewWindow, Link} from '@/components/ui';
-import {Card, CardContent, CardHeader, Typography} from '@mui/material';
-
+import {OpensInNewWindow, Link, Card, CardContent, CardHeader, Typography} from '@/components/ui';
+   
 const Mission = () => (
 	<Card>
 		<CardHeader title="Mission"/>

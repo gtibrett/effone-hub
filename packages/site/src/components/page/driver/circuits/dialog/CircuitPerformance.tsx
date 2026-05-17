@@ -1,9 +1,10 @@
+import {useTheme} from '@/lib/theme';
 import {usePerformanceData} from '@/components/page/driver';
 import {useNivoTheme} from '@/components/ui/nivo';
 import {useGetAccessibleColor} from '@/hooks';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import useComponentDimensionsWithRef from '@/hooks/useComponentDimensionsWithRef';
-import {Paper, useTheme} from '@mui/material';
+import {Paper} from '@/components/ui';
 import {ResponsiveRadar} from '@nivo/radar';
 import {CircuitDialogData} from './types';
 
