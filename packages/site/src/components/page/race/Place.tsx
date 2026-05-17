@@ -1,11 +1,11 @@
-import {Link} from '@/components/ui';
+import {Link, Card, CardHeader, Typography} from '@/components/ui';
 import {DriverAvatar} from '@/components/app';
 import {useDriver} from '@/hooks/data';
 import {DriverId} from '@/types';
 import {faAsterisk} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Card, CardHeader, SxProps, Typography} from '@mui/material';
-
+  
+import {SxProps} from '@mui/material';
 type PlaceProps = {
 	driverId?: DriverId;
 	place?: number | string;

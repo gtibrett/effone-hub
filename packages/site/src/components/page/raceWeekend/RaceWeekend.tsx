@@ -1,6 +1,7 @@
-import {useEffTheme} from '@/components/ui';
+import {useEffTheme, Card, CardContent, CardHeader, Typography} from '@/components/ui';
 import {getDateWithTime} from '@/helpers';
-import {alpha, Card, CardActions, CardContent, CardHeader, ThemeProvider, Typography} from '@mui/material';
+   
+import {alpha, CardActions, ThemeProvider} from '@mui/material';
 import NextRaceCountdown from './NextRaceCountdown';
 import NextRaceSchedule from './NextRaceSchedule';
 import useNextRaceData from './useNextRaceData';

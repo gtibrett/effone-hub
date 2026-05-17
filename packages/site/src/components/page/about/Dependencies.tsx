@@ -1,7 +1,8 @@
 'use client';
 
-import {OpensInNewWindow, Link} from '@/components/ui';
-import {Card, CardContent, CardHeader, List, ListItem, ListItemText, ListSubheader} from '@mui/material';
+import {OpensInNewWindow, Link, Card, CardContent, CardHeader} from '@/components/ui';
+  
+import {List, ListItem, ListItemText, ListSubheader} from '@mui/material';
 import {Fragment} from 'react';
 
 type DependencyCategory = {

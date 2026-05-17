@@ -2,8 +2,9 @@ import {useAppState} from '@/components/app';
 import {PositionChange} from '@/components/page/race';
 import {getPositionTextOutcome, getTimeStringFromDate} from '@/helpers';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
-import {DataTable, Link} from '@/components/ui';
-import {Grid, Skeleton, Typography} from '@mui/material';
+import {DataTable, Link, Skeleton, Typography} from '@/components/ui';
+ 
+import {Grid} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import type {ColumnDef} from '@tanstack/react-table';
 import SeasonChart from './SeasonChart';

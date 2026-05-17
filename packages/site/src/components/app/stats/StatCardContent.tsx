@@ -1,4 +1,6 @@
-import {alpha, Badge, BadgeOrigin, Box, CardHeader, CardHeaderProps, Grid, Typography, useTheme} from '@mui/material';
+import {CardHeader, Typography} from '@/components/ui';
+ 
+import {alpha, Badge, BadgeOrigin, Box, CardHeaderProps, Grid, useTheme} from '@mui/material';
 import {ReactNode} from 'react';
 import {StatCardBaseProps} from './StatCard';
 import {DataWithValue, StatFormatter} from './types';

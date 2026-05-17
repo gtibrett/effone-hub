@@ -1,5 +1,6 @@
-import {Link} from '@/components/ui';
-import {AppBar, darken, lighten, Toolbar, Typography, useTheme} from '@mui/material';
+import {Link, Typography} from '@/components/ui';
+
+import {AppBar, darken, lighten, Toolbar, useTheme} from '@mui/material';
 import {blueGrey} from '@mui/material/colors';
 import NavMenu from './NavMenu';
 

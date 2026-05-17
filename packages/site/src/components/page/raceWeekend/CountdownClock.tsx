@@ -1,4 +1,5 @@
-import {Typography} from '@mui/material';
+import {Typography} from '@/components/ui';
+
 import {useEffect, useState} from 'react';
 
 const DAY  = 24 * 60 * 60;

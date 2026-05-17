@@ -1,8 +1,9 @@
 import {ConstructorByLine, DriverByLine} from '@/components/app';
 import {getPositionTextOutcome} from '@/helpers';
 import {CircuitDataProps} from '@/hooks/data';
-import {DataTable} from '@/components/ui';
-import {Grid, Skeleton, Typography} from '@mui/material';
+import {DataTable, Skeleton, Typography} from '@/components/ui';
+ 
+import {Grid} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import type {ColumnDef} from '@tanstack/react-table';
 import PositionChange from '../race/PositionChange';

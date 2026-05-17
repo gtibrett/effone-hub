@@ -1,8 +1,8 @@
 import {DriverAvatar, DriverByLine} from '@/components/app';
-import {PropertiesTable, PropertiesTableRow} from '@/components/ui';
+import {PropertiesTable, PropertiesTableRow, Card, CardHeader} from '@/components/ui';
 import {getTimeStringFromDate} from '@/helpers';
 import {useDriverHeaderSx} from '@/hooks';
-import {Card, CardHeader} from '@mui/material';
+ 
 import {BarTooltipProps} from '@nivo/bar';
 import {PitStopSerie} from './PitStopsChart';
 

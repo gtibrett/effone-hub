@@ -1,8 +1,9 @@
-import {Link} from '@/components/ui';
+import {Link, Typography} from '@/components/ui';
 import {faWikipediaW} from '@fortawesome/free-brands-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Maybe} from '@/gql/graphql';
-import {LinkProps, Typography} from '@mui/material';
+
+import {LinkProps} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 
 type WikipediaLinkProps = {

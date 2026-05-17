@@ -1,8 +1,10 @@
+import {Card, Skeleton} from '@/components/ui';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
 import {getTimeStringFromDate} from '@/helpers';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
-import {alpha, Card, Skeleton} from '@mui/material';
+ 
+import {alpha} from '@mui/material';
 import {ResponsiveBoxPlot} from '@nivo/boxplot';
 import LapTimesByYearTooltip from './LapTimesByYearTooltip';
 import {mapLapTimeDataToBoxChart} from './mapLapTimeDataToSwarmChart';

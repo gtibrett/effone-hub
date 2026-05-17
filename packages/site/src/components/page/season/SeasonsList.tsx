@@ -1,8 +1,9 @@
 import {StatCard, StatCardStat} from '@/components/app';
 import SeasonsQuery from '@/components/page/season/SeasonsQuery';
-import {DataTable, Link} from '@/components/ui';
+import {DataTable, Link, Skeleton} from '@/components/ui';
 import {useSuspenseQuery} from '@apollo/client/react';
-import {Box, Skeleton} from '@mui/material';
+
+import {Box} from '@mui/material';
 import type {ColumnDef} from '@tanstack/react-table';
 import {memo, Suspense} from 'react';
 import {ChampionData, DriverChampionData, isDriverChampion, SeasonData, TeamChampionData} from './types';

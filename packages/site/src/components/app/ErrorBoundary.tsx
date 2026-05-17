@@ -1,7 +1,8 @@
+import {Card} from '@/components/ui';
 import {Alert, AlertTitle} from '@/components/ui/shadcn/alert';
 import {faFlag} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Card} from '@mui/material';
+
 import {Component, ComponentProps, ErrorInfo} from 'react';
 
 type ErrorBoundaryState = {

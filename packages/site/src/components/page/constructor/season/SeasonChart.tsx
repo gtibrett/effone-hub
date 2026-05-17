@@ -1,7 +1,9 @@
+import {Skeleton} from '@/components/ui';
 import {RequiredByPropTypes, useNivoTheme} from '@/components/ui/nivo';
 import {useGetTeamColor} from '@/hooks';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
-import {alpha, Skeleton} from '@mui/material';
+
+import {alpha} from '@mui/material';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
 import {ConstructorPageData} from '../types';
 

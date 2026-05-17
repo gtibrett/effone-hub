@@ -1,7 +1,8 @@
+import {Typography} from '@/components/ui';
 import {faArrowDown, faArrowUp} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {RaceResult} from '@/gql/graphql';
-import {Typography} from '@mui/material';
+
 import {green, red} from '@mui/material/colors';
 
 export default function PositionChange({gridPositionNumber, positionDisplayOrder}: Pick<RaceResult, 'gridPositionNumber' | 'positionDisplayOrder'>) {

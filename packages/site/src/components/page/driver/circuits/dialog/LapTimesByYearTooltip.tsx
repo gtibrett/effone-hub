@@ -1,6 +1,6 @@
-import {PropertiesTable, PropertiesTableRow} from '@/components/ui';
+import {PropertiesTable, PropertiesTableRow, Card, CardHeader} from '@/components/ui';
 import {getTimeStringFromDate} from '@/helpers';
-import {Card, CardHeader} from '@mui/material';
+ 
 import {ComputedBoxPlotSummary} from '@nivo/boxplot/dist/types/types';
 
 type LapTimesByYearTooltipProps = Pick<ComputedBoxPlotSummary,

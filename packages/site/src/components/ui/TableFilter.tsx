@@ -1,6 +1,8 @@
+import {Typography} from '@/components/ui';
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {alpha, Button, CardActions, Grid, Tooltip, Typography, useTheme} from '@mui/material';
+
+import {alpha, Button, CardActions, Grid, Tooltip, useTheme} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import {ChangeEvent, Dispatch, ReactNode, SetStateAction, SyntheticEvent} from 'react';
 

@@ -1,4 +1,6 @@
-import {Card, CardActions, CardActionsProps, CardContent, CardHeader, CardHeaderProps} from '@mui/material';
+import {Card, CardContent, CardHeader} from '@/components/ui';
+  
+import {CardActions, CardActionsProps, CardHeaderProps} from '@mui/material';
 import ChartSwitcherCharts from './ChartSwitcherCharts';
 import ChartSwitcherToggle from './ChartSwitcherToggle';
 import {ActiveChart, ChartSwitcherChart} from './types';

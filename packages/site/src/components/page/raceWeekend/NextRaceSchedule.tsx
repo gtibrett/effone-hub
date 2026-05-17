@@ -1,5 +1,7 @@
+import {Card} from '@/components/ui';
 import {getDateWithTime} from '@/helpers';
-import {Card, Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material';
+
+import {Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material';
 import useRaceScheduleEvents, {ScheduleEvent} from './useRaceScheduleEvents';
 import {NextRace} from './useNextRaceData';
 

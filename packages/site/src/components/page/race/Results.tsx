@@ -4,8 +4,9 @@ import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Race, RaceResult} from '@/gql/graphql';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
-import {DataTable} from '@/components/ui';
-import {Grid, Skeleton, Tooltip, Typography} from '@mui/material';
+import {DataTable, Skeleton, Typography} from '@/components/ui';
+ 
+import {Grid, Tooltip} from '@mui/material';
 import {purple} from '@mui/material/colors';
 import {visuallyHidden} from '@mui/utils';
 import type {ColumnDef} from '@tanstack/react-table';

@@ -3,8 +3,8 @@ import {gql} from '@apollo/client';
 import {useQuery} from '@apollo/client/react';
 import {QualifyingResult, Race} from '@/gql/graphql';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
-import {DataTable} from '@/components/ui';
-import {Skeleton} from '@mui/material';
+import {DataTable, Skeleton} from '@/components/ui';
+
 import type {ColumnDef} from '@tanstack/react-table';
 
 const QualifyingQuery = gql`

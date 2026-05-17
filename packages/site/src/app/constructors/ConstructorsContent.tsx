@@ -2,8 +2,8 @@
 
 import {useAppState} from '@/components/app';
 import {ConstructorsFilters, ConstructorsList, ConstructorsListFilters} from '@/components/page/constructor';
-import {Page} from '@/components/ui';
-import {Card, CardContent, Skeleton} from '@mui/material';
+import {Page, Card, CardContent, Skeleton} from '@/components/ui';
+  
 import {Suspense, useState} from 'react';
 
 export default function ConstructorsContent() {

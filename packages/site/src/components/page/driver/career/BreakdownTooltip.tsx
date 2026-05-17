@@ -1,9 +1,9 @@
 import {DriverAvatar, DriverByLine} from '@/components/app';
-import {PropertiesTable, PropertiesTableRow, PropertiesTableRowProps} from '@/components/ui';
+import {PropertiesTable, PropertiesTableRow, PropertiesTableRowProps, Card, CardHeader} from '@/components/ui';
 import {BarTooltipProps} from '@nivo/bar';
 import {capitalizeCamelCase} from '@/helpers';
 import {useDriverHeaderSx} from '@/hooks';
-import {Card, CardHeader} from '@mui/material';
+ 
 import {breakdownMetrics} from './CareerBreakdownChart';
 import {BreakdownDatum} from './useBreakdownData';
 

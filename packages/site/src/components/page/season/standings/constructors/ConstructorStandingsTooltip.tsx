@@ -1,6 +1,6 @@
-import {PropertiesTable, PropertiesTableRow} from '@/components/ui';
+import {PropertiesTable, PropertiesTableRow, Card, CardHeader} from '@/components/ui';
 import {useTeamHeaderSx} from '@/hooks';
-import {Card, CardHeader} from '@mui/material';
+ 
 import {PointTooltipProps, PositionsChartTooltipProps} from '../charts';
 
 export function ConstructorStandingsPositionTooltip({serie}: PositionsChartTooltipProps) {

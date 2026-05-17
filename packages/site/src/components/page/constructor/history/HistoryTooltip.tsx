@@ -1,6 +1,6 @@
-import {PropertiesTable, PropertiesTableRow} from '@/components/ui';
+import {PropertiesTable, PropertiesTableRow, Card, CardHeader} from '@/components/ui';
 import {useTeamHeaderSx} from '@/hooks';
-import {Card, CardHeader} from '@mui/material';
+ 
 import {PointTooltipProps} from '@nivo/line';
 
 export default function HistoryTooltip(props: PointTooltipProps) {

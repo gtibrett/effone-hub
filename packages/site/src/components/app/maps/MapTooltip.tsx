@@ -1,4 +1,4 @@
-import {Typography} from '@mui/material';
+import {Typography} from '@/components/ui';
 
 type MapTooltipProps = {
 	feature: any;
