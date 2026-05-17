@@ -12,7 +12,7 @@ export default function PitStopTooltip(props: BarTooltipProps<PitStopSerie>) {
 	
 	return (
 		<Card sx={{p: 0}}>
-			<CardHeader sx={headerSx}
+			<CardHeader style={headerSx}
 				avatar={<DriverAvatar driverId={driverId} size={42}/>}
 				title={<DriverByLine id={driverId} variant="name"/>}
 				subheader={<PropertiesTable>

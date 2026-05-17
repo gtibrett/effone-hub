@@ -4,7 +4,7 @@ import {useNivoTheme} from '@/components/ui/nivo';
 import {useGetAccessibleColor} from '@/hooks';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import useComponentDimensionsWithRef from '@/hooks/useComponentDimensionsWithRef';
-import {Paper} from '@mui/material';
+import {Paper} from '@/components/ui';
 import {ResponsiveRadar} from '@nivo/radar';
 import {CircuitDialogData} from './types';
 

@@ -3,7 +3,7 @@ import {getPositionTextOutcome} from '@/helpers';
 import {CircuitDataProps} from '@/hooks/data';
 import {DataTable, Skeleton, Typography} from '@/components/ui';
  
-import {Grid} from '@mui/material';
+import {Grid} from '@/components/ui';
 import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 import PositionChange from '../race/PositionChange';

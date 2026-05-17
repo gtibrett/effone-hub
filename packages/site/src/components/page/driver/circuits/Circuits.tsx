@@ -4,7 +4,7 @@ import {DriverId} from '@/types';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {DataTable, Card} from '@/components/ui';
 
-import {Grid, Link} from '@mui/material';
+import {Grid, Link} from '@/components/ui';
 import type {ColumnDef} from '@tanstack/react-table';
 import {useState} from 'react';
 import CircuitDialog from './dialog/CircuitDialog';

@@ -1,9 +1,14 @@
 'use client';
 
 import {useSeasons} from '@/hooks';
-import {Backdrop} from '@mui/material';
 import {createContext, Dispatch, FC, PropsWithChildren, SetStateAction, useContext, useEffect, useState} from 'react';
 import {ErrorCard} from './ErrorBoundary';
+
+const Backdrop: FC<PropsWithChildren> = ({children}) => (
+	<div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+		{children}
+	</div>
+);
 
 type AppStateType = {
 	currentSeason: number;
@@ -41,7 +46,7 @@ const AppStateProvider: FC<PropsWithChildren> = ({children}) => {
 	}, [seasons, state.ready, state]);
 	
 	if (!state || !state.ready || !state.currentSeason) {
-		return <Backdrop open>{error ? <ErrorCard message="Could not connect to the data API"/> : null}</Backdrop>;
+		return <Backdrop>{error ? <ErrorCard message="Could not connect to the data API"/> : null}</Backdrop>;
 	}
 	
 	return <Context.Provider value={[state, setState]}>{children}</Context.Provider>;

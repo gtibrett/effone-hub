@@ -2,7 +2,7 @@
 
 import {OpensInNewWindow, Link, Card, CardContent, CardHeader} from '@/components/ui';
   
-import {List, ListItem, ListItemText, ListSubheader} from '@mui/material';
+import {List, ListItem, ListItemText, ListSubheader} from '@/components/ui';
 import {Fragment} from 'react';
 
 type DependencyCategory = {

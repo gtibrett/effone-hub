@@ -1,4 +1,5 @@
-import {Box, ThemeProvider} from '@mui/material';
+import {Box} from '@/components/ui';
+import {ThemeProvider} from '@/lib/theme';
 import {FC, ReactNode, useCallback} from 'react';
 import {useInvertedTheme} from '../Theme';
 import useNivoTheme from './useNivoTheme';

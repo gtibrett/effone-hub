@@ -1,6 +1,7 @@
 import {Skeleton, Typography, type TypographyProps} from '@/components/ui';
 
-import {Grid, GridProps, Paper, PaperProps} from '@mui/material';
+import {Grid, Paper} from '@/components/ui';
+import type {GridProps, PaperProps} from '@/components/ui';
 import {PropsWithChildren, ReactNode, RefObject, Suspense} from 'react';
 
 type Skeletons = {
@@ -52,12 +53,11 @@ export default function Page(props: PageProps) {
 	const {action, actionProps = {}}                     = props;
 	const {extra, headerProps = {}, headerRef, children} = props;
 	const skeletons                                      = {...DefaultSkeletons, ...props.skeletons};
-	const {sx = {}, ...other}                            = headerProps;
-	
+
 	return (
 		<Grid container spacing={2} alignItems="stretch">
 			<Grid item xs={12}>
-				<Paper ref={headerRef} elevation={0} sx={{p: 2, height: '100%', ...sx}} {...other}>
+				<Paper ref={headerRef} elevation={0} className="p-4 h-full" {...headerProps}>
 					<Grid container spacing={2} alignItems="stretch">
 						<Grid item xs>
 							<Grid container spacing={2}>

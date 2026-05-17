@@ -7,7 +7,7 @@ import {OpenAILink, Page, Link, Tabs, type TabContent, Card, CardContent, CardHe
 import {Race} from '@/gql/graphql';
 import useRace from '@/hooks/data/useRace';
    
-import {CardMedia} from '@mui/material';
+import {CardMedia} from '@/components/ui';
 type Props = {
 	season: string;
 	round:  string;

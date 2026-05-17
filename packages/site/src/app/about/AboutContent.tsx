@@ -3,7 +3,7 @@
 import {Data, Dependencies, Mission, Repositories} from '@/components/page/about';
 import {Page} from '@/components/ui';
 import {Button as ShadcnButton} from '@/components/ui/shadcn/button';
-import {Button as MuiButton} from '@mui/material';
+import {Button as MuiButton} from '@/components/ui';
 
 export default function AboutContent() {
 	return (

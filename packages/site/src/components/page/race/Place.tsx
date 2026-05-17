@@ -5,7 +5,7 @@ import {DriverId} from '@/types';
 import {faAsterisk} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
   
-import {SxProps} from '@mui/material';
+import type {SxProps} from '@/lib/theme';
 type PlaceProps = {
 	driverId?: DriverId;
 	place?: number | string;

@@ -6,7 +6,7 @@ import {Race, RaceResult} from '@/gql/graphql';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {DataTable, Skeleton, Typography} from '@/components/ui';
  
-import {Grid, Tooltip} from '@mui/material';
+import {Grid, Tooltip} from '@/components/ui';
 import {purple} from '@/lib/muiColors';
 import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';

@@ -3,7 +3,7 @@ import useComponentDimensionsWithRef from '@/hooks/useComponentDimensionsWithRef
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {DataTable, Link, Skeleton} from '@/components/ui';
 
-import {Grid} from '@mui/material';
+import {Grid} from '@/components/ui';
 import type {ColumnDef} from '@tanstack/react-table';
 import {useState} from 'react';
 import SeasonDialog from '../season/SeasonDialog';

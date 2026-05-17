@@ -4,7 +4,7 @@ import {AvatarSizes, useAvatarSize, useGetTeamColor} from '@/hooks';
 import {useTeam} from '@/hooks/data';
 import {faIndustry} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Avatar} from '@mui/material';
+import {Avatar} from '@/components/ui';
 import {useMemo} from 'react';
 
 export type TeamAvatarProps = {
@@ -20,7 +20,7 @@ export default function TeamAvatar({teamId, size = 'small'}: TeamAvatarProps) {
 
 	return useMemo(() => {
 		if (!team) {
-			return <Avatar variant="rounded" sx={sizeSx}><FontAwesomeIcon icon={faIndustry}/></Avatar>;
+			return <Avatar variant="rounded" style={sizeSx}><FontAwesomeIcon icon={faIndustry}/></Avatar>;
 		}
 
 		const {name, colors, bio} = team;
@@ -35,7 +35,7 @@ export default function TeamAvatar({teamId, size = 'small'}: TeamAvatarProps) {
 		return (
 			<Avatar
 				variant="rounded"
-				sx={{...sizeSx, background: primary, color: textColor}}
+				style={{...sizeSx, background: primary, color: textColor}}
 				src={bio?.thumbnailUrl ?? undefined}
 				alt={name ?? ''}
 			>

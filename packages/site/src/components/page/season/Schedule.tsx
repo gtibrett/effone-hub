@@ -2,7 +2,7 @@ import {DriverByLine, RaceMap, useMapSeasonRacesToMapPoints} from '@/components/
 import {Circuit, Race, Season} from '@/gql/graphql';
 import {DataTable, Link, Card, CardHeader, Skeleton} from '@/components/ui';
   
-import {Box} from '@mui/material';
+import {Box} from '@/components/ui';
 import type {ColumnDef} from '@tanstack/react-table';
 import useScheduleData from './useScheduleData';
 

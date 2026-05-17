@@ -2,7 +2,7 @@ import {Skeleton} from '@/components/ui';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {ChartSwitcher, ChartSwitcherChart} from '@/components/app';
 
-import {Button} from '@mui/material';
+import {Button} from '@/components/ui';
 import {Suspense, useState} from 'react';
 import {ConstructorChampion} from '../../stats';
 import {PointsChart, PositionsChart} from '../charts';

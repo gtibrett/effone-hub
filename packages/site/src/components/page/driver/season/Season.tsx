@@ -4,7 +4,7 @@ import {getPositionTextOutcome, getTimeStringFromDate} from '@/helpers';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {DataTable, Link, Skeleton, Typography} from '@/components/ui';
  
-import {Grid} from '@mui/material';
+import {Grid} from '@/components/ui';
 import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 import SeasonChart from './SeasonChart';

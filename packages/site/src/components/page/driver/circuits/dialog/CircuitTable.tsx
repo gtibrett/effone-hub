@@ -4,7 +4,7 @@ import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {DataTable, Link, Skeleton, Typography} from '@/components/ui';
  
-import {Box} from '@mui/material';
+import {Box} from '@/components/ui';
 import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 import {CircuitDialogData} from './types';

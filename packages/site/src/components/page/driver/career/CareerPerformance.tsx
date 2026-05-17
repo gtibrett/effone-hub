@@ -2,7 +2,7 @@ import {useDarkMode, Typography} from '@/components/ui';
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 
-import {Paper} from '@mui/material';
+import {Paper} from '@/components/ui';
 import {blueGrey, deepPurple, green, red} from '@/lib/muiColors';
 import {PieTooltipProps, ResponsivePie} from '@nivo/pie';
 import {DriverPageData} from '../types';

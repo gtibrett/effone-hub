@@ -8,7 +8,8 @@ import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Maybe} from '@/gql/graphql';
  
-import {Box, CardProps, Grid} from '@mui/material';
+import {Box, Grid} from '@/components/ui';
+import type {CardProps} from '@/components/ui';
 import {ReactNode} from 'react';
 import convertGenericMapToDataWithValueMap from './convertGenericMapToDataWithValueMap';
 import StatCardContent from './StatCardContent';
@@ -91,21 +92,18 @@ const TeamVariant = <T extends DataWithValue>({size, label, data, format, extra}
 const IconVariant = <T extends DataWithValue>({size, label, data, format, extra, icon = faSquare}: IconStatCardProps<T, T>) => {
 	const theme     = useTheme();
 	const [, value] = useLeaderData<T>(data);
-	
-	const sx = {
-		fontSize:   48,
-		lineHeight: 1,
-		mt:         1,
-		'& path':   {
-			fill:   'transparent',
-			stroke: theme.palette.primary.light, strokeWidth: 10
-		}
-	};
-	
+
 	return (
 		<StatCardContent<T>
 			size={size}
-			avatar={<Box sx={sx}><FontAwesomeIcon icon={icon} width={64}/></Box>}
+			avatar={
+				<Box
+					mt={1}
+					style={{fontSize: 48, lineHeight: 1, color: theme.palette.primary.light}}
+				>
+					<FontAwesomeIcon icon={icon} width={64}/>
+				</Box>
+			}
 			title={<Typography noWrap>{label}</Typography>}
 			data={value}
 			format={format}
@@ -117,56 +115,55 @@ const IconVariant = <T extends DataWithValue>({size, label, data, format, extra,
 export default function StatCard<T extends StatCardData = DataWithValue, F extends DataWithValue = DataWithValue>(props: StatCardProps<T, F>) {
 	const theme                                                  = useTheme();
 	const {variant, size, noGrid, cardProps = {}, loading, data} = props;
-	const {sx = {}, ...otherCardProps}                           = cardProps;
 	const normalizedData                                         = convertGenericMapToDataWithValueMap<T, F>(data) as Map<string, F>;
-	
+
 	if (loading || !data.size) {
 		return null;
 	}
-	
+
 	let content: ReactNode;
 	switch (variant) {
 		case 'icon':
 			content = <IconVariant {...props} data={normalizedData}/>;
 			break;
-		
+
 		case 'team':
 			content = <TeamVariant {...props} data={normalizedData}/>;
 			break;
-		
+
 		case 'driver':
 		default:
 			content = <DriverVariant {...props} data={normalizedData}/>;
 			break;
 	}
-	
+
 	let card: ReactNode;
 	switch (size) {
 		case 'small':
-			const circularSx = {
-				height:       66,
-				borderRadius: 2,
-				p:            0,
-				overflow:     'hidden',
-				border:       `${theme.spacing(.125)} solid ${theme.palette.background.default}`
-			};
-			
 			card = (
-				<Card variant="elevation" sx={{...circularSx, ...sx}} {...otherCardProps}>
+				<Card
+					variant="elevation"
+					className="rounded-md p-0 overflow-hidden"
+					style={{
+						height: 66,
+						border: `1px solid ${theme.palette.background.default}`
+					}}
+					{...cardProps}
+				>
 					{content}
 				</Card>
 			);
 			break;
-		
+
 		case 'regular':
 		default:
 			card = (
-				<Card variant="elevation" sx={{height: '100%', ...sx}} {...otherCardProps}>
+				<Card variant="elevation" className="h-full" {...cardProps}>
 					{content}
 				</Card>
 			);
 			break;
 	}
-	
+
 	return noGrid ? card : <Grid item xs>{card}</Grid>;
 }

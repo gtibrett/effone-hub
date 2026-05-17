@@ -9,7 +9,7 @@ export function ConstructorStandingsPositionTooltip({serie}: PositionsChartToolt
 	
 	return (
 		<Card sx={{p: 0}}>
-			<CardHeader sx={headerSx} title={name}/>
+			<CardHeader style={headerSx} title={name}/>
 		</Card>
 	);
 }
@@ -22,7 +22,7 @@ export function ConstructorStandingsPointsTooltip({point}: PointTooltipProps) {
 	
 	return (
 		<Card sx={{p: 0}}>
-			<CardHeader sx={headerSx} title={name}/>
+			<CardHeader style={headerSx} title={name}/>
 			<PropertiesTable>
 				<PropertiesTableRow header="Round" align="right">{`${x}`}</PropertiesTableRow>
 				<PropertiesTableRow header="Position" align="right">{position}</PropertiesTableRow>

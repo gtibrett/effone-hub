@@ -1,6 +1,6 @@
 import {DriverByLine} from '@/components/app';
 import {DataTable} from '@/components/ui';
-import {Box} from '@mui/material';
+import {Box} from '@/components/ui';
 import type {ColumnDef} from '@tanstack/react-table';
 import {LapByLapProps, LapChartSeries} from './LapByLap';
 import useLapByLapChartData, {useLapByLapData} from './useLapByLapChartData';

@@ -18,6 +18,7 @@
  * we can replace each callsite with a CSS-class or direct CSS-var
  * read, this hook deletes.
  */
+import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {getContrastText, lighten as lightenFn, darken as darkenFn, alpha} from './color';
 import {blueGrey, deepOrange} from './muiColors';
@@ -151,6 +152,7 @@ function readMode(): 'light' | 'dark' {
 }
 
 export function useTheme(): Theme {
+	const ctx             = useContext(ThemeContext);
 	const [mode, setMode] = useState<'light' | 'dark'>(() => readMode());
 
 	useEffect(() => {
@@ -167,8 +169,42 @@ export function useTheme(): Theme {
 		};
 	}, []);
 
+	if (ctx) return ctx;
 	return defaultTheme(mode);
 }
 
 export {alpha, lightenFn as lighten, darkenFn as darken};
 export type {Theme, Palette};
+
+/**
+ * MUI-shaped re-exports so legacy callsites compile during the M12
+ * sweep. `ThemeProvider`/`CssBaseline` are no-ops — global tokens come
+ * from `globals.css`. `createTheme` is identity, returning whatever
+ * object you pass through (useful in tests that handed a partial theme
+ * to a single `ThemeProvider`).
+ */
+import type {ReactNode} from 'react';
+import {createContext, createElement, useContext} from 'react';
+
+export type PaletteColor = Palette['primary'];
+
+export type SxProps = Record<string, unknown> | unknown;
+
+// Optional React context that ThemeProvider can populate so consumers
+// of useTheme see whatever theme a parent explicitly passed (used by
+// tests that wrap subtrees in a forced light/dark theme). When no
+// provider is present we fall through to the dynamic mode reader.
+const ThemeContext = createContext<Theme | null>(null);
+
+export function useThemeContext(): Theme | null {
+	return useContext(ThemeContext);
+}
+
+export const ThemeProvider: React.FC<{theme?: Theme; children?: ReactNode}> = ({theme, children}) =>
+	createElement(ThemeContext.Provider, {value: theme ?? null}, children);
+
+export const CssBaseline: React.FC = () => null;
+
+export function createTheme<T = unknown>(input?: T): T {
+	return input as T;
+}

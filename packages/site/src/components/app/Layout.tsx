@@ -2,7 +2,8 @@
 
 import {SkipNav, UkraineButton} from '@/components/ui';
 import {useTheme} from '@/lib/theme';
-import {Box, Container, SxProps} from '@mui/material';
+import {Box, Container} from '@/components/ui';
+import type {SxProps} from '@/lib/theme';
 import {PropsWithChildren, Suspense} from 'react';
 import AppStateProvider from './AppStateProvider';
 import ErrorBoundary from './ErrorBoundary';

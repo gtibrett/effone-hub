@@ -14,7 +14,7 @@ export default function CareerTooltip({point}: PointTooltipProps) {
 	
 	return (
 		<Card sx={{p: 0}}>
-			<CardHeader sx={headerSx} title={point.data.xFormatted} subheader={team?.name}/>
+			<CardHeader style={headerSx} title={point.data.xFormatted} subheader={team?.name}/>
 			<PropertiesTable>
 				{grid && <PropertiesTableRow header="Qualifying" align="right">{grid}</PropertiesTableRow>}
 				{position && <PropertiesTableRow header="Position" align="right">{position}</PropertiesTableRow>}

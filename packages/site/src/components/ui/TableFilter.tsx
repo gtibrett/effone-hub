@@ -4,7 +4,7 @@ import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 import {alpha} from '@/lib/color';
-import {Button, CardActions, Grid, Tooltip} from '@mui/material';
+import {Button, CardActions, Grid, Tooltip} from '@/components/ui';
 import {visuallyHidden} from '@/lib/visuallyHidden';
 import {ChangeEvent, Dispatch, ReactNode, SetStateAction, SyntheticEvent} from 'react';
 

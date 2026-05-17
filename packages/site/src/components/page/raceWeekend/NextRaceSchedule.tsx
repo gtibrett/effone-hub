@@ -1,7 +1,7 @@
 import {Card} from '@/components/ui';
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/components/ui/shadcn/table';
 import {getDateWithTime} from '@/helpers';
 
-import {Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material';
 import useRaceScheduleEvents, {ScheduleEvent} from './useRaceScheduleEvents';
 import {NextRace} from './useNextRaceData';
 
@@ -11,23 +11,30 @@ const ScheduleCell = ({date, time, asDate}: Pick<ScheduleEvent, 'date' | 'time' 
 
 export default function NextRaceSchedule({race}: { race: NextRace }) {
 	const scheduleEvents = useRaceScheduleEvents(race);
-	
+
 	return (
-		<Card sx={{width: '100%'}}>
-			<Table size="small" sx={{width: '100%'}}>
-				<TableHead>
+		<Card className="w-full">
+			<Table className="w-full">
+				<TableHeader>
 					<TableRow>
-						{scheduleEvents.map(({label}) => <TableCell width={`${100 / scheduleEvents.length}%`} key={label} component="th" scope="col" variant="head">{label}</TableCell>)}
+						{scheduleEvents.map(({label}) => (
+							<TableHead
+								key={label}
+								scope="col"
+								style={{width: `${100 / scheduleEvents.length}%`}}
+							>
+								{label}
+							</TableHead>
+						))}
 					</TableRow>
-				</TableHead>
-				<TableBody sx={{'& tr:last-child .MuiTableCell-root': {borderBottom: 0}}}>
+				</TableHeader>
+				<TableBody>
 					<TableRow>
 						{scheduleEvents.map(({label, date, time, asDate}) => (
-								<TableCell component="td" variant="body" key={label}>
-									<ScheduleCell date={date} time={time} asDate={asDate}/>
-								</TableCell>
-							)
-						)}
+							<TableCell key={label}>
+								<ScheduleCell date={date} time={time} asDate={asDate}/>
+							</TableCell>
+						))}
 					</TableRow>
 				</TableBody>
 			</Table>

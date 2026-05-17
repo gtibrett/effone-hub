@@ -26,7 +26,7 @@ export default function BreakdownTooltip({data}: BarTooltipProps<BreakdownDatum>
 	
 	return (
 		<Card sx={{p: 0}}>
-			<CardHeader sx={headerSx}
+			<CardHeader style={headerSx}
 				avatar={<DriverAvatar driverId={driverId} size={42}/>}
 				title={<DriverByLine id={driverId} variant="name"/>}
 				subheader={year}

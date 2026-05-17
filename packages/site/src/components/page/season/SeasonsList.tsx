@@ -3,7 +3,7 @@ import SeasonsQuery from '@/components/page/season/SeasonsQuery';
 import {DataTable, Link, Skeleton} from '@/components/ui';
 import {useSuspenseQuery} from '@apollo/client/react';
 
-import {Box} from '@mui/material';
+import {Box} from '@/components/ui';
 import type {ColumnDef} from '@tanstack/react-table';
 import {memo, Suspense} from 'react';
 import {ChampionData, DriverChampionData, isDriverChampion, SeasonData, TeamChampionData} from './types';

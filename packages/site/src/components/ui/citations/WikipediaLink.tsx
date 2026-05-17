@@ -3,7 +3,7 @@ import {faWikipediaW} from '@fortawesome/free-brands-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Maybe} from '@/gql/graphql';
 
-import {LinkProps} from '@mui/material';
+import type {LinkProps} from '@/components/ui';
 import {visuallyHidden} from '@/lib/visuallyHidden';
 
 type WikipediaLinkProps = {

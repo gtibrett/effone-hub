@@ -5,7 +5,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {DataTable, Dialog, Card} from '@/components/ui';
 import useComponentDimensionsWithRef from '@/hooks/useComponentDimensionsWithRef';
 
-import {Grid} from '@mui/material';
+import {Grid} from '@/components/ui';
 import type {ColumnDef} from '@tanstack/react-table';
 import {Dispatch, SetStateAction} from 'react';
 import useDriverStandingsData from './useDriversStandingsData';

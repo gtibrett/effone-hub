@@ -3,7 +3,8 @@ import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {DataTable, Link, Skeleton, Typography} from '@/components/ui';
  
-import {Grid, TypographyProps} from '@mui/material';
+import {Grid} from '@/components/ui';
+import type {TypographyProps} from '@/components/ui';
 import type {ColumnDef} from '@tanstack/react-table';
 import {PropsWithChildren} from 'react';
 import {ConstructorPageData} from '../types';

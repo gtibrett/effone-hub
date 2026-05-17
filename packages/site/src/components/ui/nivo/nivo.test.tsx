@@ -1,5 +1,6 @@
 import {useGetAccessibleChartColors} from '@/hooks';
-import {createTheme, Theme, ThemeProvider, useTheme} from '@mui/material';
+import {createTheme, ThemeProvider, useTheme} from '@/lib/theme';
+import type {Theme} from '@/lib/theme';
 import {render, screen} from '@testing-library/react';
 import axe from 'axe-core';
 import {PropsWithChildren} from 'react';
@@ -14,9 +15,14 @@ const TestAppContainer = ({mode, children}: PropsWithChildren<{ mode: Theme['pal
 
 describe('nivo.ts', () => {
 	test('useNivoTheme hook', async () => {
-		const theme         = createTheme();
-		const TestComponent = () => {
+		// Read the runtime theme without mutating outer scope (react-hooks/immutability).
+		// Strategy: render twice — first capture render, then assertion render — both
+		// see the same useTheme() return value because the test stays in jsdom-driven
+		// light mode.
+		const TestComponent = ({onTheme}: {onTheme?: (t: Theme) => void}) => {
+			const theme = useTheme();
 			const nivoTheme = useNivoTheme();
+			if (onTheme) onTheme(theme);
 			return (
 				<>
 					<div data-testid="textColor">{nivoTheme.text?.color}</div>
@@ -24,15 +30,13 @@ describe('nivo.ts', () => {
 				</>
 			);
 		};
-		
-		render(
-			<ThemeProvider theme={theme}>
-				<TestComponent/>
-			</ThemeProvider>
-		);
-		
-		expect(screen.getByTestId('textColor')).toHaveTextContent(theme.palette.text.primary);
-		expect(screen.getByTestId('axisText')).toHaveTextContent(theme.palette.text.secondary);
+
+		const ref: {theme?: Theme} = {};
+		render(<TestComponent onTheme={(t) => Object.assign(ref, {theme: t})}/>);
+
+		expect(ref.theme).toBeDefined();
+		expect(screen.getByTestId('textColor')).toHaveTextContent(ref.theme!.palette.text.primary);
+		expect(screen.getByTestId('axisText')).toHaveTextContent(ref.theme!.palette.text.secondary);
 	});
 	
 	describe('useGetChartColorsByConstructor hook', () => {

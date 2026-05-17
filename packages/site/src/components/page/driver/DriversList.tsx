@@ -6,7 +6,7 @@ import {DataTable, Flag, Typography} from '@/components/ui';
 import {Driver} from '@/gql/graphql';
 import {useSuspenseQuery} from '@apollo/client/react';
 
-import {Grid} from '@mui/material';
+import {Grid} from '@/components/ui';
 import {visuallyHidden} from '@/lib/visuallyHidden';
 import type {ColumnDef} from '@tanstack/react-table';
 

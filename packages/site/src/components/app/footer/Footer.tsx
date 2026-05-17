@@ -1,5 +1,5 @@
 import {useTheme} from '@/lib/theme';
-import {AppBar, Toolbar} from '@mui/material';
+import {AppBar, Toolbar} from '@/components/ui';
 import Disclaimer from './Disclaimer';
 
 export default function Footer() {

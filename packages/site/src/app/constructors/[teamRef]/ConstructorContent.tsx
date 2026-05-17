@@ -10,7 +10,7 @@ import {useGetTeamColor} from '@/hooks';
 import {useConstructorData} from '@/hooks/data';
 import useTeam from '@/hooks/data/useTeam';
     
-import {CardMedia} from '@mui/material';
+import {CardMedia} from '@/components/ui';
 /**
  * The subset of `Team` fields ConstructorContent reads at the top level.
  * Both the GraphQL `Team` type and the pg-backed `BuildTeamRow` (see
