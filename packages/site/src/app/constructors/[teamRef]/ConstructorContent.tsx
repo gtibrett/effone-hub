@@ -3,11 +3,10 @@
 import {useAppState} from '@/components/app';
 import {Drivers, History, Season} from '@/components/page/constructor';
 import {DriverPodiums, DriverPoints, DriverQualifying} from '@/components/page/constructor/stats';
-import {Flag, Page} from '@/components/ui';
+import {Flag, Page, Tabs} from '@/components/ui';
 import {useGetTeamColor} from '@/hooks';
 import {useConstructorData} from '@/hooks/data';
 import useTeam from '@/hooks/data/useTeam';
-import {Tabs} from '@gtibrett/mui-additions';
 import {Box, Card, CardContent, CardHeader, CardMedia, Divider, Grid, Skeleton, Typography, useTheme} from '@mui/material';
 
 /**

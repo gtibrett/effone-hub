@@ -1,7 +1,7 @@
 import {ConstructorByLine} from '@/components/app';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Dialog} from '@gtibrett/mui-additions';
+import {Dialog} from '@/components/ui';
 import {DataGrid} from '@mui/x-data-grid';
 import {Dispatch, SetStateAction} from 'react';
 import useConstructorStandingsData from './useConstructorsStandingsData';

@@ -5,7 +5,7 @@ import {History, Season} from '@/components/page/circuits';
 import {FastestLap, LapLeader, MostWins} from '@/components/page/circuits/stats';
 import {OpenAILink, Page} from '@/components/ui';
 import {useCircuitByRef} from '@/hooks/data';
-import {Tabs} from '@gtibrett/mui-additions';
+import {Tabs} from '@/components/ui';
 import useComponentDimensionsWithRef from '@/hooks/useComponentDimensionsWithRef';
 import {Card, CardContent, CardHeader, Divider, Grid, Hidden, Typography} from '@mui/material';
 import {Suspense} from 'react';

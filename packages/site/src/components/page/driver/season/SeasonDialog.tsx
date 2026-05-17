@@ -2,7 +2,7 @@ import {DriverByLine} from '@/components/app';
 import {DriverId} from '@/types';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Dialog} from '@gtibrett/mui-additions';
+import {Dialog} from '@/components/ui';
 import {Typography} from '@mui/material';
 import Season from './Season';
 
