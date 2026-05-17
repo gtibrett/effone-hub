@@ -1,6 +1,7 @@
 import {DriverByLine} from '@/components/app';
+import {DataTable} from '@/components/ui';
 import {Box} from '@mui/material';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import type {ColumnDef} from '@tanstack/react-table';
 import {LapByLapProps, LapChartSeries} from './LapByLap';
 import useLapByLapChartData, {useLapByLapData} from './useLapByLapChartData';
 
@@ -16,7 +17,7 @@ export default function LapByLapTable({season, round}: LapByLapProps) {
 	const lapByLapData                 = useLapByLapData(season, round);
 	const {totalLaps}                  = lapByLapData;
 	const data                         = useLapByLapChartData(lapByLapData);
-	
+
 	data.forEach((serie) => {
 		flatData.push({
 			driverId: serie.id,
@@ -25,38 +26,36 @@ export default function LapByLapTable({season, round}: LapByLapProps) {
 			)))
 		});
 	});
-	
-	const columns: GridColDef<LapByLapTableRow>[] = [
+
+	const numCell = (v: unknown) => <div className="text-center">{v as any}</div>;
+	const numHeader = (label: string) => () => <div className="text-center w-full">{label}</div>;
+
+	const columns: ColumnDef<LapByLapTableRow, any>[] = [
 		{
-			field:      'driverId',
-			headerName: 'Driver',
-			flex:       1,
-			renderCell: ({value}) => (
-				<DriverByLine id={value} variant="full"/>
-			),
-			minWidth:   240
+			accessorKey: 'driverId',
+			header:      'Driver',
+			cell:        ({getValue}) => <DriverByLine id={getValue<string>()} variant="full"/>
 		}
 	];
-	
+
 	for (let i = 1; i <= (totalLaps || 0); i++) {
-		columns.push(
-			{
-				field:       `lap_${i}`,
-				headerName:  String(i),
-				type:        'number',
-				align:       'center',
-				headerAlign: 'center',
-				width:       32,
-				valueGetter: (value, row, column) => {
-					return row.laps[column.field];
-				}
-			}
-		);
+		const field = `lap_${i}`;
+		columns.push({
+			id:         field,
+			header:     numHeader(String(i)),
+			size:       32,
+			accessorFn: (row) => row.laps[field],
+			cell:       ({getValue}) => numCell(getValue() ?? '')
+		});
 	}
-	
+
 	return (
 		<Box height={800}>
-			<DataGrid columns={columns} rows={flatData} getRowId={r => r.driverId ?? ''}/>
+			<DataTable<LapByLapTableRow>
+				rows={flatData}
+				columns={columns}
+				getRowId={(r: LapByLapTableRow) => r.driverId ?? ''}
+			/>
 		</Box>
 	);
 }
