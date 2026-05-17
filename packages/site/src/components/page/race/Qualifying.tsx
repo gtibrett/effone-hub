@@ -1,10 +1,11 @@
 import {ConstructorByLine, DriverByLine} from '@/components/app';
-import { gql } from '@apollo/client';
-import { useQuery } from "@apollo/client/react";
+import {gql} from '@apollo/client';
+import {useQuery} from '@apollo/client/react';
 import {QualifyingResult, Race} from '@/gql/graphql';
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
+import {DataTable} from '@/components/ui';
 import {Skeleton} from '@mui/material';
-import {DataGrid} from '@mui/x-data-grid';
+import type {ColumnDef} from '@tanstack/react-table';
 
 const QualifyingQuery = gql`
 	query qualifyingQuery($season: Int!, $round: Int!) {
@@ -42,64 +43,55 @@ export default function Qualifying({season, round}: QualifyingProps) {
 		return <Alert><AlertDescription>Qualifying Data Not Available</AlertDescription></Alert>;
 	}
 
+	const numCell = (v: unknown) => <div className="text-center">{v as any}</div>;
+	const numHeader = (label: string) => () => <div className="text-center w-full">{label}</div>;
+
+	const columns: ColumnDef<QualifyingResult, any>[] = [
+		{
+			accessorKey: 'positionNumber',
+			header:      numHeader('P'),
+			size:        60,
+			cell:        ({getValue}) => numCell(getValue())
+		},
+		{
+			id:     'Driver',
+			header: 'Driver',
+			cell:   ({row}) => row.original.driverId ? <DriverByLine id={row.original.driverId}/> : ''
+		},
+		{
+			id:     'Constructor',
+			header: 'Constructor',
+			cell:   ({row}) => row.original.teamId ? <ConstructorByLine id={row.original.teamId}/> : ''
+		},
+		{
+			accessorKey: 'q1',
+			header:      numHeader('Q1'),
+			cell:        ({getValue}) => numCell(getValue())
+		},
+		{
+			accessorKey: 'q2',
+			header:      numHeader('Q2'),
+			cell:        ({getValue}) => numCell(getValue())
+		},
+		{
+			accessorKey: 'q3',
+			header:      numHeader('Q3'),
+			cell:        ({getValue}) => numCell(getValue())
+		}
+	];
+
 	return (
-		<DataGrid
+		<DataTable<QualifyingResult>
 			rows={rows}
+			columns={columns}
 			autoHeight
 			density="compact"
-			getRowId={r => `${r.driverId ?? 'x'}-${r.positionNumber ?? 0}`}
+			getRowId={(r: QualifyingResult) => `${r.driverId ?? 'x'}-${r.positionNumber ?? 0}`}
 			initialState={{
 				sorting: {
 					sortModel: [{field: 'positionNumber', sort: 'asc'}]
 				}
 			}}
-			columns={
-				[
-					{
-						field:       'positionNumber',
-						headerName:  'P',
-						width:       60,
-						headerAlign: 'center',
-						align:       'center',
-						type:        'number'
-					},
-					{
-						field:      'Driver',
-						headerName: 'Driver',
-						flex:       1,
-						renderCell: ({row}) => row.driverId ? <DriverByLine id={row.driverId}/> : '',
-						minWidth:   200
-					},
-					{
-						field:      'Constructor',
-						headerName: 'Constructor',
-						flex:       1,
-						renderCell: ({row}) => row.teamId ? <ConstructorByLine id={row.teamId}/> : '',
-						minWidth:   150
-					},
-					{
-						field:       'q1',
-						headerName:  'Q1',
-						headerAlign: 'center',
-						align:       'center',
-						type:        'string'
-					},
-					{
-						field:       'q2',
-						headerName:  'Q2',
-						headerAlign: 'center',
-						align:       'center',
-						type:        'string'
-					},
-					{
-						field:       'q3',
-						headerName:  'Q3',
-						headerAlign: 'center',
-						align:       'center',
-						type:        'string'
-					}
-				]
-			}
 		/>
 	);
 }

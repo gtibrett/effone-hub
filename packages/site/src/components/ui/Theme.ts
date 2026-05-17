@@ -1,6 +1,5 @@
 'use client';
 
-import type {} from '@mui/x-data-grid/themeAugmentation';
 import LinkBehavior from './LinkBehavior';
 import {alpha, createTheme, useMediaQuery, useTheme} from '@mui/material';
 import {blueGrey, deepOrange} from '@mui/material/colors';
@@ -79,27 +78,6 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 					defaultProps: {
 						titleTypographyProps: {
 							variant: 'h3'
-						}
-					}
-				},
-				MuiDataGrid: {
-					defaultProps: {
-							slotProps: {
-								loadingOverlay: {
-									//@ts-ignore
-									variant:       'linear-progress',
-									noRowsVariant: 'skeleton'
-								}
-							}
-					},
-					styleOverrides: {
-						root: {
-							border: 0,
-							// overflow:                'auto',
-							// '& > .MuiDataGrid-main': {
-							// 	overflow: 'unset'
-							// },
-							'--DataGrid-containerBackground': background.paper
 						}
 					}
 				},

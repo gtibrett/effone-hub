@@ -1,12 +1,13 @@
-import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {DriverByLine} from '@/components/app';
 import {getTimeStringFromDate} from '@/helpers';
 import {useGetTeamColor} from '@/hooks';
-import { gql } from '@apollo/client';
-import { useQuery } from "@apollo/client/react";
+import {gql} from '@apollo/client';
+import {useQuery} from '@apollo/client/react';
 import {Driver, PitStop, Race} from '@/gql/graphql';
+import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
+import {DataTable} from '@/components/ui';
 import {Skeleton} from '@mui/material';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import type {ColumnDef} from '@tanstack/react-table';
 import {useCallback} from 'react';
 import PitStopsChart from './PitStopsChart';
 
@@ -57,11 +58,11 @@ const useMapTableData = () => {
 	return useCallback((pitStops: PitStop[]) => {
 		const tableData: PitStopTableRow[] = [];
 
-		pitStops.forEach(p => {
+		pitStops.forEach((p) => {
 			if (!p.driver) {
 				return;
 			}
-			let index = tableData.findIndex(driver => driver.driverId === p.driver?.id);
+			let index = tableData.findIndex((driver) => driver.driverId === p.driver?.id);
 			if (index === -1) {
 				const primaryHex = p.team?.colors?.primaryHex;
 				tableData.push({
@@ -79,7 +80,7 @@ const useMapTableData = () => {
 			});
 		});
 
-		return {tableData, maxStops: Math.max(0, ...tableData.map(d => d.stops.length))};
+		return {tableData, maxStops: Math.max(0, ...tableData.map((d) => d.stops.length))};
 	}, [getTeamColor]);
 };
 
@@ -98,53 +99,44 @@ export default function PitStops({season, round}: PitStopsProps) {
 
 	const {tableData, maxStops} = mapTableData(nodes);
 
-	const columns: GridColDef<PitStopTableRow>[] = [
+	const numCell = (v: unknown) => <div className="text-center">{v as any}</div>;
+	const numHeader = (label: string) => () => <div className="text-center w-full">{label}</div>;
+
+	const columns: ColumnDef<PitStopTableRow, any>[] = [
 		{
-			field:      'Driver',
-			headerName: 'Driver',
-			flex:       1,
-			renderCell: ({row}) => <DriverByLine id={row.driverId}/>,
-			minWidth:   200
+			id:     'Driver',
+			header: 'Driver',
+			cell:   ({row}) => <DriverByLine id={row.original.driverId}/>
 		},
 		{
-			field:       'stop',
-			headerName:  'Stops',
-			flex:        .5,
-			headerAlign: 'center',
-			align:       'center',
-			type:        'number',
-			valueGetter: (value, row) => row.stops.length
+			id:         'stop',
+			header:     numHeader('Stops'),
+			accessorFn: (row) => row.stops.length,
+			cell:       ({getValue}) => numCell(getValue())
 		},
-		...(new Array(maxStops)).fill(null).map((v, i) => {
-			return {
-				field:       `stop-${i}`,
-				headerName:  `Stop ${i + 1}`,
-				flex:        .5,
-				headerAlign: 'center',
-				align:       'center',
-				type:        'number',
-				valueGetter: (value, row) => {
-					const stopTime = row.stops.find(r => r.stop === i + 1)?.timeMillis;
-
-					if (stopTime) {
-						return getTimeStringFromDate(new Date(stopTime));
-					}
-
-					return '--';
+		...(new Array(maxStops)).fill(null).map((_v, i): ColumnDef<PitStopTableRow, any> => ({
+			id:         `stop-${i}`,
+			header:     numHeader(`Stop ${i + 1}`),
+			accessorFn: (row) => {
+				const stopTime = row.stops.find((r) => r.stop === i + 1)?.timeMillis;
+				if (stopTime) {
+					return getTimeStringFromDate(new Date(stopTime));
 				}
-			} as GridColDef<PitStopTableRow>;
-		})
+				return '--';
+			},
+			cell:       ({getValue}) => numCell(getValue())
+		}))
 	];
 
 	return (
 		<>
 			<PitStopsChart maxStops={maxStops} pitStops={tableData}/>
-			<DataGrid
+			<DataTable<PitStopTableRow>
 				rows={tableData}
-				getRowId={row => row.driverId || ''}
+				columns={columns}
+				getRowId={(row: PitStopTableRow) => row.driverId || ''}
 				autoHeight
 				density="compact"
-				columns={columns}
 			/>
 		</>
 	);

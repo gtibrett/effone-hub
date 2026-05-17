@@ -1,10 +1,10 @@
-import {Link} from '@/components/ui';
 import CircuitQuery from '@/components/page/circuits/CircuitsQuery';
 import {useCircuitsList} from '@/components/page/circuits/index';
 import {CircuitsListFilters} from '@/components/page/circuits/types';
+import {DataTable, Link} from '@/components/ui';
 import {Circuit} from '@/gql/graphql';
-import { useSuspenseQuery } from "@apollo/client/react";
-import {DataGrid} from '@mui/x-data-grid';
+import {useSuspenseQuery} from '@apollo/client/react';
+import type {ColumnDef} from '@tanstack/react-table';
 
 type CircuitsListProps = {
 	filters: CircuitsListFilters
@@ -14,39 +14,37 @@ export default function CircuitsList({filters}: CircuitsListProps) {
 	const {data: {circuits}} = useSuspenseQuery<{ circuits: { nodes: Circuit[] } }>(CircuitQuery);
 	const filteredCircuits   = useCircuitsList(circuits.nodes, filters);
 
-	return <DataGrid
-		rows={filteredCircuits}
-		autoHeight
-		density="compact"
-		getRowId={c => c.rowId}
-		columns={
-			[
-				{
-					field:      'name',
-					headerName: 'Circuit',
-					flex:       1,
-					renderCell: ({row}) => <Link href={`/circuits/${row.rowId}`}>{row.name}</Link>
-				},
-				{
-					field:      'country',
-					headerName: 'Location',
-					flex:       .75,
-					renderCell: ({row}) => `${row.placeName}, ${row.country}`
-				},
-				{
-					field:       'races',
-					headerName:  'Races',
-					headerAlign: 'right',
-					align:       'right',
-					flex:        .25,
-					valueGetter: (value, row) => row.races.nodes.length
-				}
-			]
+	const columns: ColumnDef<Circuit, any>[] = [
+		{
+			accessorKey: 'name',
+			header:      'Circuit',
+			cell:        ({row}) => <Link href={`/circuits/${row.original.rowId}`}>{row.original.name}</Link>
+		},
+		{
+			accessorKey: 'country',
+			header:      'Location',
+			cell:        ({row}) => `${row.original.placeName}, ${row.original.country}`
+		},
+		{
+			id:         'races',
+			header:     () => <div className="text-right w-full">Races</div>,
+			accessorFn: (row) => row.races.nodes.length,
+			cell:       ({getValue}) => <div className="text-right">{getValue<number>()}</div>
 		}
-		initialState={{
-			sorting: {
-				sortModel: [{field: 'circuitName', sort: 'asc'}]
-			}
-		}}
-	/>;
+	];
+
+	return (
+		<DataTable<Circuit>
+			rows={filteredCircuits}
+			columns={columns}
+			autoHeight
+			density="compact"
+			getRowId={(c: Circuit) => c.rowId}
+			initialState={{
+				sorting: {
+					sortModel: [{field: 'circuitName', sort: 'asc'}]
+				}
+			}}
+		/>
+	);
 }

@@ -1,8 +1,8 @@
-import {Link} from '@/components/ui';
 import {DriverByLine, RaceMap, useMapSeasonRacesToMapPoints} from '@/components/app';
 import {Circuit, Race, Season} from '@/gql/graphql';
+import {DataTable, Link} from '@/components/ui';
 import {Box, Card, CardHeader, Skeleton} from '@mui/material';
-import {DataGrid} from '@mui/x-data-grid';
+import type {ColumnDef} from '@tanstack/react-table';
 import useScheduleData from './useScheduleData';
 
 type RaceWithCircuit = Omit<Race, 'circuit'> & {
@@ -25,78 +25,70 @@ export default function Schedule({season}: ScheduleProps) {
 	const {data}                   = useScheduleData(season);
 	const mapSeasonRacesToFeatures = useMapSeasonRacesToMapPoints();
 	const races                    = data?.races;
-	
+
 	const {points, onClick} = mapSeasonRacesToFeatures(season, races.map(
 		({name, round, circuit, results}) => ({officialName: name, round, latitude: circuit?.lat, longitude: circuit?.lng, hasResults: (results?.length ?? 0) > 0}))
 	);
-	
+
+	type Row = (typeof races)[number];
+
+	const columns: ColumnDef<Row, any>[] = [
+		{
+			id:            'date',
+			header:        () => <div className="text-center w-full">Date</div>,
+			accessorFn:    (row) => row.date ? new Date(row.date) : undefined,
+			enableSorting: false,
+			cell:          ({getValue}) => {
+				const value = getValue<Date | undefined>();
+				return <div className="text-center">{value ? value.toLocaleDateString() : ''}</div>;
+			}
+		},
+		{
+			accessorKey:   'name',
+			header:        'Race',
+			enableSorting: false,
+			cell:          ({row}) => <Link href={`/${season}/${row.original.round}#${row.original.name}`}>{row.original.name}</Link>
+		},
+		{
+			id:            'winner',
+			header:        'Winner',
+			enableSorting: false,
+			cell:          ({row}) => {
+				if (!row.original.results?.length) {
+					return '--';
+				}
+				return <DriverByLine id={row.original.results?.[0]?.driverId}/>;
+			}
+		},
+		{
+			id:            'sprint-winner',
+			header:        'Sprint Winner',
+			enableSorting: false,
+			cell:          ({row}) => {
+				if (!row.original.sprintResults?.length) {
+					return '--';
+				}
+				return <DriverByLine id={row.original.sprintResults?.[0]?.driverId}/>;
+			}
+		}
+	];
+
 	return (
 		<Card id="season" variant="outlined">
 			<CardHeader title="Schedule"/>
 			<Box sx={{px: 2}}><RaceMap points={points} onClick={onClick} highlightNext/></Box>
-			<DataGrid
-				sx={{mt: 2}}
-				rows={races}
+			<DataTable<Row>
+				className="mt-2"
+				rows={races as Row[]}
+				columns={columns}
 				autoHeight
 				density="compact"
-				getRowId={(row) => row.round || ''}
+				getRowId={(row: Row) => row.round || ''}
 				initialState={{
 					sorting: {
 						sortModel: [{field: 'date', sort: 'asc'}]
 					}
 				}}
-				columns={
-					[
-						{
-							field:       'date',
-							headerName:  'Date',
-							headerAlign: 'center',
-							type:        'date',
-							align:       'center',
-							valueGetter: (value) => (new Date(value)),
-							renderCell:  ({value}) => value.toLocaleDateString(),
-							minWidth:    100,
-							sortable:    false
-						},
-						{
-							field:      'name',
-							headerName: 'Race',
-							flex:       1,
-							renderCell: ({row, value}) => <Link
-								href={`/${season}/${row.round}#${row.name}`}>{value}</Link>,
-							minWidth:   200,
-							sortable:   false
-						},
-						{
-							field:      'winner',
-							headerName: 'Winner',
-							flex:       1,
-							renderCell: ({row}) => {
-								if (!row.results?.length) {
-									return '--';
-								}
-								
-								return <DriverByLine id={row.results?.[0]?.driverId}/>;
-							},
-							minWidth:   200,
-							sortable:   false
-						},
-						{
-							field:      'sprint-winner',
-							headerName: 'Sprint Winner',
-							flex:       1,
-							renderCell: ({row}) => {
-								if (!row.sprintResults?.length) {
-									return '--';
-								}
-								
-								return <DriverByLine id={row.sprintResults?.[0]?.driverId}/>;
-							},
-							minWidth:   200,
-							sortable:   false
-						}
-					]
-				}
 			/>
 		</Card>
 	);
