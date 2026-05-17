@@ -109,12 +109,13 @@ export default function NavMenu() {
 				<div>
 					<IconButton
 						id="hamburger-button"
+						aria-label="toggle navigation menu"
 						aria-controls={open ? 'hamburger-menu' : undefined}
 						aria-haspopup="true"
 						aria-expanded={open ? 'true' : undefined}
 						onClick={handleClick}
 					>
-						<FontAwesomeIcon icon={faBars} title="toggle navigation menu" color={theme.palette.common.white}/>
+						<FontAwesomeIcon icon={faBars} color={theme.palette.common.white}/>
 					</IconButton>
 					<Menu
 						hideBackdrop
