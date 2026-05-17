@@ -2,7 +2,7 @@ import {usePerformanceData} from '@/components/page/driver';
 import {useNivoTheme} from '@/components/ui/nivo';
 import {useGetAccessibleColor} from '@/hooks';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
-import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
+import useComponentDimensionsWithRef from '@/hooks/useComponentDimensionsWithRef';
 import {Paper, useTheme} from '@mui/material';
 import {ResponsiveRadar} from '@nivo/radar';
 import {CircuitDialogData} from './types';

@@ -1,5 +1,6 @@
 import {ConstructorByLine} from '@/components/app';
-import {Link, useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
+import {Link} from '@gtibrett/mui-additions';
+import useComponentDimensionsWithRef from '@/hooks/useComponentDimensionsWithRef';
 import {Alert, Grid, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import {useState} from 'react';
