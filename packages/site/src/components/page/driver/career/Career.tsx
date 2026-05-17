@@ -1,9 +1,9 @@
-import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
-import {Link} from '@/components/ui';
 import {ConstructorByLine} from '@/components/app';
 import useComponentDimensionsWithRef from '@/hooks/useComponentDimensionsWithRef';
+import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
+import {DataTable, Link} from '@/components/ui';
 import {Grid, Skeleton} from '@mui/material';
-import {DataGrid} from '@mui/x-data-grid';
+import type {ColumnDef} from '@tanstack/react-table';
 import {useState} from 'react';
 import SeasonDialog from '../season/SeasonDialog';
 import Stats from '../stats';
@@ -27,8 +27,46 @@ export default function Career({driverId}: CareerProps) {
 		return <Alert><AlertDescription>Career Data Not Available</AlertDescription></Alert>;
 	}
 
-	data?.driver.raceResults?.nodes?.forEach(r => r.race?.year && (racesByYear[r.race?.year] = (racesByYear[r.race?.year] || 0) + 1));
-	
+	data?.driver.raceResults?.nodes?.forEach((r) => r.race?.year && (racesByYear[r.race?.year] = (racesByYear[r.race?.year] || 0) + 1));
+
+	type Row = NonNullable<NonNullable<typeof careerStandings>[number]>;
+	const numericHeader = (label: string) => () => <div className="text-center w-full">{label}</div>;
+	const numericCell = (value: unknown) => <div className="text-center">{value as any}</div>;
+
+	const columns: ColumnDef<Row, any>[] = [
+		{
+			accessorKey: 'year',
+			header:      numericHeader('Season'),
+			size:        100,
+			cell:        ({row}) => (
+				<div className="text-center">
+					<Link href="#" color="secondary" onClick={() => setActive(row.original.year ?? undefined)}>{row.original.year}</Link>
+				</div>
+			)
+		},
+		{
+			accessorKey: 'races',
+			header:      numericHeader('Races'),
+			cell:        ({getValue}) => numericCell(getValue())
+		},
+		{
+			accessorKey: 'positionNumber',
+			header:      numericHeader('Position'),
+			cell:        ({getValue}) => numericCell(getValue())
+		},
+		{
+			accessorKey: 'points',
+			header:      numericHeader('Points'),
+			cell:        ({getValue}) => numericCell(getValue())
+		},
+		{
+			id:            'team',
+			header:        'Constructor',
+			enableSorting: false,
+			cell:          ({row}) => <ConstructorByLine id={row.original.team?.id} variant="link"/>
+		}
+	];
+
 	return (
 		<>
 			<Grid container spacing={2} alignItems="center" justifyContent="space-around">
@@ -39,8 +77,9 @@ export default function Career({driverId}: CareerProps) {
 				</Grid>
 				<Grid item xs={12}>
 					<SeasonDialog season={active} driverId={driverId} onClose={() => setActive(undefined)}/>
-					<DataGrid
-						rows={careerStandings}
+					<DataTable<Row>
+						rows={careerStandings as Row[]}
+						columns={columns}
 						autoHeight
 						density="compact"
 						getRowId={(r) => r.year || ''}
@@ -49,56 +88,6 @@ export default function Career({driverId}: CareerProps) {
 								sortModel: [{field: 'year', sort: 'desc'}]
 							}
 						}}
-						columns={
-							[
-								{
-									field:       'year',
-									headerName:  'Season',
-									headerAlign: 'center',
-									align:       'center',
-									width:       100,
-									renderCell:  ({row}) => <Link href="#" color="secondary" onClick={() => setActive(row.year)}>{row.year}</Link>
-								},
-								{
-									field:       'races',
-									headerName:  'Races',
-									type:        'number',
-									headerAlign: 'center',
-									align:       'center',
-									flex:        1,
-									minWidth:    100
-								},
-								{
-									field:       'positionNumber',
-									headerName:  'Position',
-									type:        'number',
-									headerAlign: 'center',
-									align:       'center',
-									flex:        1,
-									minWidth:    100
-								},
-								{
-									field:       'points',
-									headerName:  'Points',
-									type:        'number',
-									headerAlign: 'center',
-									align:       'center',
-									flex:        1,
-									minWidth:    100
-								},
-								{
-									field:      'team',
-									headerName: 'Constructor',
-									filterable: false,
-									renderCell: ({row}) => (
-										<ConstructorByLine id={row.team?.id} variant="link"/>
-									),
-									flex:       1,
-									minWidth:   150
-								}
-							
-							]
-						}
 					/>
 				</Grid>
 			</Grid>
