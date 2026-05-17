@@ -1,7 +1,7 @@
 import {NivoTooltipFactory, RequiredByPropTypes, useNivoTheme} from '@/components/ui/nivo';
 import {Circuit} from '@/gql/graphql';
 import useComponentDimensionsWithRef from '@/hooks/useComponentDimensionsWithRef';
-import {alpha, Box, useTheme} from '@mui/material';
+import {alpha, useTheme} from '@mui/material';
 import {GeoMapEventHandler, ResponsiveGeoMap} from '@nivo/geo';
 import {useEffect, useState} from 'react';
 import MapTooltip from './MapTooltip';
@@ -76,8 +76,8 @@ export default function RaceMap(props: RaceMapProps) {
 	
 	// PropTypes vs TS mismatches
 	return (
-		<Box ref={ref} sx={{position: 'relative'}} aria-hidden>
-			<Box sx={{height, width}}>
+		<div ref={ref} className="relative" aria-hidden>
+			<div style={{height, width}}>
 				<ResponsiveGeoMap
 					{...RequiredByPropTypes.GeoMap}
 					
@@ -113,7 +113,7 @@ export default function RaceMap(props: RaceMapProps) {
 					tooltip={NivoTooltipFactory(MapTooltip)}
 					onClick={onClick}
 				/>
-			</Box>
-		</Box>
+			</div>
+		</div>
 	);
 }

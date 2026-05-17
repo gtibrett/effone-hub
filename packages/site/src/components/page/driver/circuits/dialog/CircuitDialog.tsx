@@ -3,7 +3,7 @@ import {DriverId} from '@/types';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Dialog, Tabs} from '@/components/ui';
-import {Card, Grid, Typography} from '@mui/material';
+import {Card, Typography} from '@mui/material';
 import CircuitChart from './CircuitChart';
 import CircuitPerformance from './CircuitPerformance';
 import CircuitTable from './CircuitTable';
@@ -36,8 +36,8 @@ export default function CircuitDialog({driverId, circuitId, onClose}: CircuitPro
 					<Typography paragraph variant="subtitle1"><DriverByLine id={driverId} variant="name"/></Typography>
 				</>
 			}>
-			<Grid container spacing={2}>
-				<Grid item xs={9}>
+			<div className="grid grid-cols-12 gap-4">
+				<div className="col-span-9">
 					<Tabs active="results" tabs={[
 						{
 							id:      'results',
@@ -55,18 +55,18 @@ export default function CircuitDialog({driverId, circuitId, onClose}: CircuitPro
 							content: <LapTimesByYearBox data={data} loading={loading}/>
 						}
 					]}/>
-				</Grid>
-				<Grid item xs={3}>
-					<Grid container spacing={1}>
-						<Grid item xs={12}>
+				</div>
+				<div className="col-span-3">
+					<div className="grid grid-cols-12 gap-2">
+						<div className="col-span-12">
 							<Card sx={{mb: 2}}>
 								<RaceMap points={points} onClick={onClick} height={200} centerOn={{latitude: circuit.latitude, longitude: circuit.longitude}} zoom/>
 							</Card>
-						</Grid>
-						<Grid item xs={12}><CircuitPerformance data={data} loading={loading}/></Grid>
-					</Grid>
-				</Grid>
-			</Grid>
+						</div>
+						<div className="col-span-12"><CircuitPerformance data={data} loading={loading}/></div>
+					</div>
+				</div>
+			</div>
 		</Dialog>
 	);
 }

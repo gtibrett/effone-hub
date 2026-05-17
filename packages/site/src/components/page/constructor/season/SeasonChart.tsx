@@ -1,7 +1,7 @@
 import {RequiredByPropTypes, useNivoTheme} from '@/components/ui/nivo';
 import {useGetTeamColor} from '@/hooks';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
-import {alpha, Box, Skeleton} from '@mui/material';
+import {alpha, Skeleton} from '@mui/material';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
 import {ConstructorPageData} from '../types';
 
@@ -47,7 +47,7 @@ export default function SeasonChart({data, loading}: SeasonChartProps) {
 	);
 	
 	return (
-		<Box sx={{height: 132, width: '100%'}} aria-hidden>
+		<div className="w-full h-[132px]" aria-hidden>
 			<ResponsiveLine
 				{...RequiredByPropTypes.Line}
 				theme={nivoTheme}
@@ -89,6 +89,6 @@ export default function SeasonChart({data, loading}: SeasonChartProps) {
 					}
 				]}
 			/>
-		</Box>
+		</div>
 	);
 }

@@ -4,7 +4,7 @@ import {DriverAvatar, useAppState} from '@/components/app';
 import {Career, Circuits, Season} from '@/components/page/driver';
 import {Flag, Page, Tabs} from '@/components/ui';
 import {useGetTeamColor} from '@/hooks';
-import {Box, Card, Divider, Grid, Hidden, Typography, useTheme} from '@mui/material';
+import {Card, Typography, useTheme} from '@mui/material';
 
 /**
  * The subset of `Driver` fields DriverContent reads at the top level.
@@ -37,15 +37,15 @@ export type DriverPageProp = {
 };
 
 const DriverDetails = ({driver}: {driver: DriverPageProp}) => (
-	<Grid container spacing={2} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
-		<Grid item><Typography variant="h2">{driver.firstName} {driver.lastName}</Typography></Grid>
-		<Hidden mdDown>
-			{driver.nationalityCountryId && <Grid item><Flag nationality={driver.nationalityCountryId} size={48}/></Grid>}
-			<Grid item xs/>
-			<Grid item><Typography variant="h2" sx={{fontWeight: 'bold'}}>{driver.abbreviation}</Typography></Grid>
-			<Grid item sx={{fontFamily: 'Racing Sans One', fontSize: '1.1em'}}>{driver.permanentNumber}</Grid>
-		</Hidden>
-	</Grid>
+	<div className="flex flex-row flex-wrap gap-4 items-center text-[1.5em] font-bold">
+		<div><Typography variant="h2">{driver.firstName} {driver.lastName}</Typography></div>
+		<div className="hidden md:contents">
+			{driver.nationalityCountryId && <div><Flag nationality={driver.nationalityCountryId} size={48}/></div>}
+			<div className="flex-1"/>
+			<div><Typography variant="h2" sx={{fontWeight: 'bold'}}>{driver.abbreviation}</Typography></div>
+			<div style={{fontFamily: 'Racing Sans One', fontSize: '1.1em'}}>{driver.permanentNumber}</div>
+		</div>
+	</div>
 );
 
 export default function DriverContent({driver}: {driver: DriverPageProp | null}) {
@@ -77,11 +77,11 @@ export default function DriverContent({driver}: {driver: DriverPageProp | null})
 			title={<DriverDetails driver={driver}/>}
 			action={
 				bio?.thumbnailUrl
-					? <Box component="img" src={bio.thumbnailUrl} alt={`${driver.firstName} ${driver.lastName}`} sx={{width: 200, height: 200, objectFit: 'cover', borderRadius: 1}}/>
+					? <img src={bio.thumbnailUrl} alt={`${driver.firstName} ${driver.lastName}`} className="w-[200px] h-[200px] object-cover rounded-sm"/>
 					: <DriverAvatar driverId={driver.rowId} size={200}/>
 			}
 			actionProps={{xs: 'auto'}}
-			subheader={<><Divider orientation="horizontal" sx={{my: 1}}/></>}
+			subheader={<><div className="border-t my-2"/></>}
 			headerProps={{
 				sx: {
 					position:   'relative',

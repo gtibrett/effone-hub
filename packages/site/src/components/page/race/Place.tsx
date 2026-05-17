@@ -4,7 +4,7 @@ import {useDriver} from '@/hooks/data';
 import {DriverId} from '@/types';
 import {faAsterisk} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Card, CardHeader, Divider, SxProps, Typography} from '@mui/material';
+import {Card, CardHeader, SxProps, Typography} from '@mui/material';
 
 type PlaceProps = {
 	driverId?: DriverId;
@@ -32,8 +32,8 @@ export default function Place({driverId, place, points, wins, asterisk = false, 
 				title={<Typography noWrap><Link href={`/drivers/${rowId}`}>{name}</Link> {asterisk && <FontAwesomeIcon icon={faAsterisk} title="We all know what really happened"/>}</Typography>}
 				subheader={<>
 					{place ? `P${place} ` : ''}
-					{points ? <Typography variant="caption"><Divider orientation="vertical"/> {points} pts</Typography> : ''}
-					{typeof wins === 'number' ? <Typography variant="caption"><Divider orientation="vertical"/> {wins} wins</Typography> : ''}
+					{points ? <Typography variant="caption"><span className="inline-block border-l mx-2 h-3 align-middle"/> {points} pts</Typography> : ''}
+					{typeof wins === 'number' ? <Typography variant="caption"><span className="inline-block border-l mx-2 h-3 align-middle"/> {wins} wins</Typography> : ''}
 				</>}
 			/>
 		</Card>

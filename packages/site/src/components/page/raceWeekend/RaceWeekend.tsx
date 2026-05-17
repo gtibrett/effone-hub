@@ -1,6 +1,6 @@
 import {useEffTheme} from '@/components/ui';
 import {getDateWithTime} from '@/helpers';
-import {alpha, Card, CardActions, CardContent, CardHeader, Grid, ThemeProvider, Typography} from '@mui/material';
+import {alpha, Card, CardActions, CardContent, CardHeader, ThemeProvider, Typography} from '@mui/material';
 import NextRaceCountdown from './NextRaceCountdown';
 import NextRaceSchedule from './NextRaceSchedule';
 import useNextRaceData from './useNextRaceData';
@@ -40,7 +40,7 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 		const raceDate = new Date(`${race.date}T${race.time}`);
 		
 		return (
-			<Grid item xs={12} md={12}>
+			<div className="col-span-12">
 				<ThemeProvider theme={darkTheme}>
 					<Card sx={sx} id="next-race-weekend">
 						<CardHeader
@@ -58,7 +58,7 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 						</CardActions>
 					</Card>
 				</ThemeProvider>
-			</Grid>
+			</div>
 		);
 	}
 };

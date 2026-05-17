@@ -7,7 +7,7 @@ import {Flag, Page, Tabs} from '@/components/ui';
 import {useGetTeamColor} from '@/hooks';
 import {useConstructorData} from '@/hooks/data';
 import useTeam from '@/hooks/data/useTeam';
-import {Box, Card, CardContent, CardHeader, CardMedia, Divider, Grid, Skeleton, Typography, useTheme} from '@mui/material';
+import {Card, CardContent, CardHeader, CardMedia, Skeleton, Typography, useTheme} from '@mui/material';
 
 /**
  * The subset of `Team` fields ConstructorContent reads at the top level.
@@ -23,22 +23,22 @@ export type TeamProp = {
 };
 
 const TeamDetails = ({team}: {team: TeamProp}) => (
-	<Grid container spacing={4} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
-		<Grid item><Typography variant="h2">{team.name}</Typography></Grid>
-		{team.countryId && <Grid item><Flag nationality={team.countryId} size={48}/></Grid>}
-	</Grid>
+	<div className="flex flex-row flex-wrap gap-8 items-center text-[1.5em] font-bold">
+		<div><Typography variant="h2">{team.name}</Typography></div>
+		{team.countryId && <div><Flag nationality={team.countryId} size={48}/></div>}
+	</div>
 );
 
 const PageSkeleton = () => (
 	<Page title="Loading">
-		<Grid container spacing={2}>
-			<Grid item xs={12} md={8} lg={9} order={{xs: 2, md: 1}}>
+		<div className="grid grid-cols-12 gap-4">
+			<div className="col-span-12 md:col-span-8 lg:col-span-9 order-2 md:order-1">
 				<Card variant="outlined">
 					<Skeleton variant="rectangular" height={600}/>
 				</Card>
-			</Grid>
+			</div>
 
-			<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>
+			<div className="col-span-12 md:col-span-4 lg:col-span-3 order-1 md:order-2">
 				<Card variant="outlined">
 					<CardMedia>
 						<Skeleton variant="rectangular" sx={{height: {xs: 24, md: 48}}}/>
@@ -50,12 +50,12 @@ const PageSkeleton = () => (
 							<Skeleton variant="text"/>
 							<Skeleton variant="text"/>
 						</Typography>
-						<Divider orientation="horizontal" sx={{my: 1}}/>
+						<div className="border-t my-2"/>
 						<Skeleton variant="text"/>
 					</CardContent>
 				</Card>
-			</Grid>
-		</Grid>
+			</div>
+		</div>
 	</Page>
 );
 
@@ -100,7 +100,7 @@ export default function ConstructorContent({teamRef, team}: Props) {
 	return (
 		<Page
 			title={<TeamDetails team={team}/>}
-			subheader={<><Divider orientation="horizontal" sx={{my: 1}}/></>}
+			subheader={<><div className="border-t my-2"/></>}
 			headerProps={{
 				sx: {
 					position:   'relative',
@@ -118,44 +118,44 @@ export default function ConstructorContent({teamRef, team}: Props) {
 				}
 			}}
 		>
-			<Grid container spacing={2}>
-				<Grid item xs={12} md={isInCurrentSeason ? 8 : 12} lg={isInCurrentSeason ? 9 : 12} order={{xs: 2, md: 1}}>
+			<div className="grid grid-cols-12 gap-4">
+				<div className={`col-span-12 ${isInCurrentSeason ? 'md:col-span-8 lg:col-span-9' : 'md:col-span-12 lg:col-span-12'} order-2 md:order-1`}>
 					{bio?.extract && (
 						<Card variant="outlined" sx={{mb: 2, p: 2}}>
 							{bio.thumbnailUrl && (
-								<Box component="img" src={bio.thumbnailUrl} alt={team.name ?? ''} sx={{float: 'right', ml: 2, mb: 1, width: 120, height: 120, objectFit: 'cover', borderRadius: 1}}/>
+								<img src={bio.thumbnailUrl} alt={team.name ?? ''} className="float-right ml-4 mb-2 w-[120px] h-[120px] object-cover rounded-sm"/>
 							)}
 							<Typography variant="body1">{bio.extract}</Typography>
-							<Box sx={{clear: 'both'}}/>
+							<div className="clear-both"/>
 						</Card>
 					)}
 					<Card variant="outlined">
 						<Tabs active="history" tabs={tabs}/>
 					</Card>
-				</Grid>
+				</div>
 
 				{
 					isInCurrentSeason && (
-						<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>
+						<div className="col-span-12 md:col-span-4 lg:col-span-3 order-1 md:order-2">
 							<Card variant="outlined">
 								<CardHeader title={`${currentSeason} Season Stats`}/>
 								<CardContent>
-									<Grid container spacing={2}>
+									<div className="grid grid-cols-12 gap-4">
 										<DriverPoints constructorId={team.rowId} season={currentSeason} place={1}/>
 										<DriverPoints constructorId={team.rowId} season={currentSeason} place={2}/>
-										<Grid item xs={12}><Typography variant="h4">Podiums</Typography></Grid>
+										<div className="col-span-12"><Typography variant="h4">Podiums</Typography></div>
 										<DriverPodiums constructorId={team.rowId} season={currentSeason} place={1}/>
 										<DriverPodiums constructorId={team.rowId} season={currentSeason} place={2}/>
-										<Grid item xs={12}><Typography variant="h4">Qualifying Head-to-Head</Typography></Grid>
+										<div className="col-span-12"><Typography variant="h4">Qualifying Head-to-Head</Typography></div>
 										<DriverQualifying constructorId={team.rowId} season={currentSeason} place={1}/>
 										<DriverQualifying constructorId={team.rowId} season={currentSeason} place={2}/>
-									</Grid>
+									</div>
 								</CardContent>
 							</Card>
-						</Grid>
+						</div>
 					)
 				}
-			</Grid>
+			</div>
 		</Page>
 	);
 }

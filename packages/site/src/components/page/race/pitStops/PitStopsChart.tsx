@@ -1,6 +1,6 @@
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
 import {useGetAccessibleColor} from '@/hooks';
-import {Box, Skeleton, useMediaQuery, useTheme} from '@mui/material';
+import {Skeleton, useMediaQuery, useTheme} from '@mui/material';
 import {BarSvgProps, ResponsiveBar} from '@nivo/bar';
 import {PitStopTableRow} from './PitStops';
 import PitStopTooltip from './PitStopTooltip';
@@ -69,7 +69,7 @@ export default function PitStopsChart({maxStops, pitStops}: PitStopsChartProps) 
 	}
 	
 	return (
-		<Box sx={{height: isSmall ? 400 : 150, mb: 2}} aria-hidden>
+		<div className="mb-4" style={{height: isSmall ? 400 : 150}} aria-hidden>
 			<ResponsiveBar
 				theme={nivoTheme}
 				indexBy="code"
@@ -84,6 +84,6 @@ export default function PitStopsChart({maxStops, pitStops}: PitStopsChartProps) 
 				{...layoutProps}
 				margin={{top: 16, right: 16, bottom: 32, left: 16, ...layoutProps.margin}}
 			/>
-		</Box>
+		</div>
 	);
 }

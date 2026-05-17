@@ -1,7 +1,7 @@
 import {Alert, AlertTitle} from '@/components/ui/shadcn/alert';
 import {faFlag} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Card, Container} from '@mui/material';
+import {Card} from '@mui/material';
 import {Component, ComponentProps, ErrorInfo} from 'react';
 
 type ErrorBoundaryState = {
@@ -11,14 +11,14 @@ type ErrorBoundaryState = {
 
 export function ErrorCard({message}: { message?: string }) {
 	return (
-		<Container maxWidth="md">
+		<div className="mx-auto max-w-3xl px-4">
 			<Card>
 				<Alert variant="destructive" className="py-4 px-8">
 					<FontAwesomeIcon icon={faFlag} size="2x"/>
 					<AlertTitle className="text-2xl">{message}</AlertTitle>
 				</Alert>
 			</Card>
-		</Container>
+		</div>
 	);
 }
 

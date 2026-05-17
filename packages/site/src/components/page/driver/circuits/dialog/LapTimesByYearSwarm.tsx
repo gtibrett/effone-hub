@@ -1,7 +1,7 @@
 import {Alert, AlertDescription} from '@/components/ui/shadcn/alert';
 import {useNivoTheme} from '@/components/ui/nivo';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
-import {Box, Skeleton} from '@mui/material';
+import {Skeleton} from '@mui/material';
 import {ResponsiveSwarmPlot} from '@nivo/swarmplot';
 import {SwarmData, useMapLapTimeDataToSwarmChart} from './mapLapTimeDataToSwarmChart';
 import {CircuitDialogData} from './types';
@@ -31,7 +31,7 @@ export default function LapTimesByYearSwarm({data, loading}: LapTimesChartProps)
 	const max   = Math.max(...chartData.map(d => d.milliseconds));
 	
 	return (
-		<Box sx={{height: '60vh', width: '100%'}} aria-hidden>
+		<div className="w-full h-[60vh]" aria-hidden>
 			<ResponsiveSwarmPlot
 				theme={nivoTheme}
 				data={chartData}
@@ -73,6 +73,6 @@ export default function LapTimesByYearSwarm({data, loading}: LapTimesChartProps)
 					tickValues:   0
 				}}
 			/>
-		</Box>
+		</div>
 	);
 }

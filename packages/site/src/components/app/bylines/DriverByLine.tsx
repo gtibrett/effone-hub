@@ -2,7 +2,7 @@ import {Flag, FlagProps, Link} from '@/components/ui';
 import {useDriver} from '@/hooks/data';
 import {DriverId} from '@/types';
 import {Driver} from '@/gql/graphql';
-import {Grid, Hidden, Skeleton, Typography} from '@mui/material';
+import {Skeleton, Typography} from '@mui/material';
 import {memo} from 'react';
 import {DriverAvatar, DriverAvatarProps} from '../avatars';
 
@@ -31,13 +31,13 @@ const DriverSkeleton = ({variant = 'full', avatarProps = {}}: BaseByLineProps) =
 		
 		case 'full':
 			return (
-				<Grid container spacing={1} alignItems="center" sx={{flexWrap: 'nowrap'}}>
-					<Hidden smDown><Grid item><DriverAvatar driverId={undefined} {...avatarProps}/></Grid></Hidden>
-					<Grid item><Typography><Skeleton/></Typography></Grid>
-				</Grid>
+				<div className="flex flex-row flex-nowrap gap-2 items-center">
+					<div className="hidden sm:block"><DriverAvatar driverId={undefined} {...avatarProps}/></div>
+					<div><Typography><Skeleton/></Typography></div>
+				</div>
 			);
 	}
-	
+
 	return null;
 };
 
@@ -69,11 +69,11 @@ const ByDriver = (props: ByLinePropsByDriver) => {
 
 		case 'full':
 			return (
-				<Grid container spacing={1} alignItems="center" sx={{flexWrap: 'nowrap'}}>
-					<Hidden smDown><Grid item><DriverAvatar driverId={rowId} {...avatarProps}/></Grid></Hidden>
-					<Grid item><Typography><Link href={`/drivers/${rowId}`}>{name}</Link></Typography></Grid>
-					{!noFlag && nationalityCountryId && <Hidden mdDown><Grid item><Typography><Flag nationality={nationalityCountryId} {...flagProps}/></Typography></Grid></Hidden>}
-				</Grid>
+				<div className="flex flex-row flex-nowrap gap-2 items-center">
+					<div className="hidden sm:block"><DriverAvatar driverId={rowId} {...avatarProps}/></div>
+					<div><Typography><Link href={`/drivers/${rowId}`}>{name}</Link></Typography></div>
+					{!noFlag && nationalityCountryId && <div className="hidden md:block"><Typography><Flag nationality={nationalityCountryId} {...flagProps}/></Typography></div>}
+				</div>
 			);
 	}
 	
