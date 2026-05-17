@@ -83,21 +83,30 @@ describe('nivo.ts', () => {
 	});
 	
 	describe('NivoTooltip.tsx', () => {
-		test('Render', async () => {
+		// NivoTooltipFactory calls hooks (useNivoTheme, useInvertedTheme) at its top level,
+		// so it must be invoked inside a component during render — not at test top level.
+		const NivoTooltipHost = () => {
 			const NivoTooltippedContent = NivoTooltipFactory(() => <div>tooltip content</div>);
+			return <NivoTooltippedContent/>;
+		};
+
+		test('Render', async () => {
 			render(
-				<NivoTooltippedContent/>
+				<TestAppContainer mode="light">
+					<NivoTooltipHost/>
+				</TestAppContainer>
 			);
-			
+
 			expect(screen.getByText('tooltip content')).toBeInTheDocument();
 		});
-		
+
 		test('a11y check', async () => {
-			const NivoTooltippedContent = NivoTooltipFactory(() => <div>tooltip content</div>);
-			const {container}           = render(
-				<NivoTooltippedContent/>
+			const {container} = render(
+				<TestAppContainer mode="light">
+					<NivoTooltipHost/>
+				</TestAppContainer>
 			);
-			
+
 			const results = await axe.run(container);
 			expect(results.violations.length).toBe(0);
 		});
