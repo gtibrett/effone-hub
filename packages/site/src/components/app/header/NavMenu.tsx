@@ -1,8 +1,8 @@
-import {Link} from '@gtibrett/mui-additions';
+import {Link} from '@/components/ui';
 import {useAppState} from '@/components/app';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Grid, Hidden, IconButton, lighten, Menu, MenuItem, SxProps, useTheme} from '@mui/material';
+import {Grid, Hidden, IconButton, Menu, MenuItem, useTheme} from '@mui/material';
 import {usePathname, useRouter} from 'next/navigation';
 import {MouseEvent, useState} from 'react';
 
@@ -60,25 +60,17 @@ export default function NavMenu() {
 	const pathname                = usePathname() || '';
 	const navLinks                = useNavLinks(pathname);
 	
-	const navLinkSx: SxProps = {
-		fontFamily:           "'Titillium Web', sans-serif",
-		fontWeight:           'bold',
-		textDecoration:       'none',
-		py:                   1,
-		px:                   1.5,
-		mx:                   .5,
-		border:               '1px solid transparent',
-		borderRadius:         1,
-		'&:hover, &:focus':   {
-			color:       lighten(theme.palette.secondary.light, .375),
-			borderColor: lighten(theme.palette.secondary.light, .375)
-		},
-		'&:active, &.active': {
-			color:       theme.palette.getContrastText(theme.palette.secondary.main),
-			background:  theme.palette.secondary.main,
-			borderColor: 'transparent !important'
-		}
-	};
+	// Replaces the old MUI navLinkSx — Tailwind classes hit the same
+	// states (hover/focus/active) and lean on the shadcn `secondary`
+	// token wired up in M2 to match the lighten(secondary.light) brand
+	// stack.
+	const navLinkClass = [
+		'inline-block font-bold no-underline rounded-md',
+		'px-3 py-2 mx-1 border border-transparent',
+		'hover:text-secondary hover:border-secondary hover:no-underline',
+		'focus:text-secondary focus:border-secondary',
+		'aria-[current=page]:bg-secondary aria-[current=page]:text-secondary-foreground'
+	].join(' ');
 	
 	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -98,7 +90,7 @@ export default function NavMenu() {
 			{navLinks.map(({path, label, active}, i) => {
 					return (
 						<Grid item key={i}>
-							<Link color="inherit" sx={navLinkSx} className={active ? 'active' : ''} href={path}>{label}</Link>
+							<Link color="inherit" className={`${navLinkClass} ${active ? 'bg-secondary text-secondary-foreground' : ''}`} href={path}>{label}</Link>
 						</Grid>
 					);
 				}

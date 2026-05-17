@@ -62,7 +62,6 @@
 		"@fortawesome/react-fontawesome": "^3",
 		"@graphile/simplify-inflection": "^8.0.0",
 		"@graphql-typed-document-node/core": "^3.2.0",
-		"@gtibrett/mui-additions": "^0.7.0-alpha.1718858125",
 		"@mui/material": "^6",
 		"@mui/material-nextjs": "^6",
 		"@mui/system": "^6",

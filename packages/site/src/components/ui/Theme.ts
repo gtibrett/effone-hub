@@ -1,7 +1,7 @@
 'use client';
 
 import type {} from '@mui/x-data-grid/themeAugmentation';
-import {LinkBehavior} from '@gtibrett/mui-additions/next';
+import LinkBehavior from './LinkBehavior';
 import {alpha, createTheme, useMediaQuery, useTheme} from '@mui/material';
 import {blueGrey, deepOrange} from '@mui/material/colors';
 import {useMemo} from 'react';
