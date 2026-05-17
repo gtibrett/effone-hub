@@ -1,23 +1,32 @@
-import {ToggleButton, ToggleButtonGroup} from '@mui/material';
-import {Dispatch, SetStateAction, SyntheticEvent, useCallback} from 'react';
+'use client';
+
+import {ToggleGroup, ToggleGroupItem} from '@/components/ui/shadcn/toggle-group';
+import {Dispatch, SetStateAction} from 'react';
 import {ChartSwitcherChart} from './types';
 
 type ChartSwitcherToggleProps = {
-	charts: ChartSwitcherChart[];
-	active: string | number;
+	charts:    ChartSwitcherChart[];
+	active:    string | number;
 	setActive: Dispatch<SetStateAction<string | number>>;
 };
 
 export default function ChartSwitcherToggle({charts, active, setActive}: ChartSwitcherToggleProps) {
-	const handleActiveChange = useCallback((event: SyntheticEvent<HTMLElement>, newMode: string | number) => {
-		event.currentTarget.blur();
-		setActive(newMode);
-		return false;
-	}, [setActive]);
-	
+	// shadcn ToggleGroup wraps Radix ToggleGroup. Its `type="single" onValueChange`
+	// fires whenever the selected item changes; in `exclusive` mode the value can
+	// be `""` if the user deselects everything, so we ignore that branch to keep
+	// parity with the MUI ToggleButtonGroup exclusive behaviour.
 	return (
-		<ToggleButtonGroup size="small" value={active} onChange={handleActiveChange} exclusive>
-			{charts.map(({id, label}) => <ToggleButton key={id} value={id}>{label}</ToggleButton>)}
-		</ToggleButtonGroup>
+		<ToggleGroup
+			type="single"
+			size="sm"
+			value={String(active)}
+			onValueChange={(value) => {
+				if (value) setActive(value);
+			}}
+		>
+			{charts.map(({id, label}) => (
+				<ToggleGroupItem key={id} value={String(id)}>{label}</ToggleGroupItem>
+			))}
+		</ToggleGroup>
 	);
 }

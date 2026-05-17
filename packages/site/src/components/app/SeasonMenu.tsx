@@ -1,7 +1,10 @@
-import { gql } from '@apollo/client';
-import { useQuery } from "@apollo/client/react";
+'use client';
+
+import {Label} from '@/components/ui/shadcn/label';
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/shadcn/select';
 import {Season} from '@/gql/graphql';
-import {alpha, FormControl, InputLabel, MenuItem, Select, useTheme} from '@mui/material';
+import {gql} from '@apollo/client';
+import {useQuery} from '@apollo/client/react';
 
 export const SeasonsQuery = gql`
 	query SeasonMenuQuery {
@@ -14,92 +17,62 @@ export const SeasonsQuery = gql`
 	}
 `;
 
-const useSelectSx = () => {
-	const theme = useTheme();
-
-	return {
-		m:            0,
-		minWidth:     120,
-		borderRadius: 1,
-		border:       `1px solid ${theme.palette.text.primary}`,
-		'&:hover':    {
-			backgroundColor: alpha(theme.palette.divider, 0.05)
-		},
-
-		'& > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
-			border: 0
-		}
-	};
+type SeasonMenuProps = {
+	id:         string;
+	variant?:   'normal' | 'simple';
+	season:     number;
+	setSeason:  (season: number) => void;
+	required?:  boolean;
 };
 
-type SeasonMenuProps = {
-	id: string;
-	variant?: 'normal' | 'simple',
-	season: number;
-	setSeason: (season: number) => void;
-	required?: boolean;
-}
-
 export default function SeasonMenu({variant = 'simple', id, season, setSeason, required = true}: SeasonMenuProps) {
-	const sx              = useSelectSx();
-	const {data, loading} = useQuery<{ seasons: { nodes: Pick<Season, 'year'>[] } }>(SeasonsQuery);
-
-	const seasons = (data?.seasons.nodes ?? [{year: (new Date()).getFullYear()}]).map(s => s.year);
+	const {data, loading} = useQuery<{seasons: {nodes: Pick<Season, 'year'>[]}}>(SeasonsQuery);
+	const seasons = (data?.seasons.nodes ?? [{year: new Date().getFullYear()}]).map(s => s.year);
 
 	if (!seasons.length || loading) {
 		return null;
 	}
 
-	const seasonOptions = seasons.map(year => <MenuItem key={year} value={year}>{year}</MenuItem>);
+	const ANY_VALUE = '__any__';
+	const value     = season === -1 ? ANY_VALUE : String(season);
+	const handle    = (next: string) => setSeason(next === ANY_VALUE ? -1 : Number(next));
 
-	switch (variant) {
-		case 'simple':
-			return (
-				<FormControl fullWidth sx={sx} size="small">
-					<Select
-						inputProps={{'aria-label': 'Season'}}
-						sx={{color: 'inherit', p: 0, border: 0}}
-						id={id}
-						value={season}
-						label="Season"
-						onChange={(ev) => setSeason(ev.target.value as number)}
-					>
-						{!required && <MenuItem value={-1}>Any</MenuItem>}
-						{seasonOptions}
-					</Select>
-				</FormControl>
-			);
+	const trigger = (
+		<SelectTrigger
+			id={id}
+			aria-label="Season"
+			size={variant === 'simple' ? 'sm' : 'default'}
+			className="w-full min-w-[120px]"
+		>
+			<SelectValue placeholder="Season"/>
+		</SelectTrigger>
+	);
 
-		case 'normal':
-			return (
-				<FormControl fullWidth size="small" variant="outlined">
-					<InputLabel id={`${id}-label`}>Season</InputLabel>
-					<Select
-						label="Season"
-						labelId={`${id}-label`}
-						id={id}
-						value={season}
-						onChange={(ev) => setSeason(ev.target.value as number)}
-					>
-						{!required && <MenuItem value={-1}>Any</MenuItem>}
-						{seasonOptions}
-					</Select>
-				</FormControl>
-			);
+	const items = (
+		<SelectContent>
+			{!required && <SelectItem value={ANY_VALUE}>Any</SelectItem>}
+			{seasons.map(year => (
+				<SelectItem key={year} value={String(year)}>{year}</SelectItem>
+			))}
+		</SelectContent>
+	);
+
+	if (variant === 'normal') {
+		return (
+			<div className="flex w-full flex-col gap-1">
+				<Label htmlFor={id}>Season</Label>
+				<Select value={value} onValueChange={handle}>
+					{trigger}
+					{items}
+				</Select>
+			</div>
+		);
 	}
 
 	return (
-		<FormControl fullWidth sx={variant === 'simple' ? sx : undefined} size="small">
-			<Select
-				inputProps={{'aria-label': 'Season'}}
-				sx={variant === 'simple' ? {color: 'inherit', p: 0, border: 0} : undefined}
-				id={id}
-				value={season}
-				label="Season"
-				onChange={(ev) => setSeason(ev.target.value as number)}
-			>
-				{seasonOptions}
-			</Select>
-		</FormControl>
+		<Select value={value} onValueChange={handle}>
+			{trigger}
+			{items}
+		</Select>
 	);
 }

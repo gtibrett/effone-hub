@@ -1,11 +1,12 @@
 import {useDarkMode} from '@/components/ui';
+import {ToggleGroup, ToggleGroupItem} from '@/components/ui/shadcn/toggle-group';
 import {Circuit} from '@/gql/graphql';
 import {useCircuitByRef} from '@/hooks/data';
 import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Box, Grid, SxProps, ToggleButton, ToggleButtonGroup, useTheme} from '@mui/material';
+import {Box, Grid, SxProps, useTheme} from '@mui/material';
 import {blue, red, yellow} from '@mui/material/colors';
-import {Suspense, SVGProps, SyntheticEvent, useState} from 'react';
+import {Suspense, SVGProps, useState} from 'react';
 import getMapSVG from './circuits/getMapSVG';
 
 type CircuitMapProps = SVGProps<any> & {
@@ -75,21 +76,21 @@ export default function CircuitMap({variant = 'interactive', circuitRef, height,
 		return <Suspense><Box sx={sx}>{mapSVG}</Box></Suspense>;
 	}
 	
-	const handleChange = (event: SyntheticEvent<HTMLElement>, sector: string) => {
-		event.currentTarget.blur();
-		setSector(sector);
-		return false;
-	};
-	
 	return (
 		<Suspense>
 			<Grid container spacing={2} justifyContent="flex-end">
 				<Grid item>
-					<ToggleButtonGroup size="small" value={sector} onChange={handleChange} exclusive aria-hidden>
-						<ToggleButton value="1"><FontAwesomeIcon icon={faSquareFull} color={sector1}/>&nbsp;Sector 1</ToggleButton>
-						<ToggleButton value="2"><FontAwesomeIcon icon={faSquareFull} color={sector2}/>&nbsp;Sector 2</ToggleButton>
-						<ToggleButton value="3"><FontAwesomeIcon icon={faSquareFull} color={sector3}/>&nbsp;Sector 3</ToggleButton>
-					</ToggleButtonGroup>
+					<ToggleGroup
+						type="single"
+						size="sm"
+						value={sector ?? ''}
+						onValueChange={(value) => setSector(value || undefined)}
+						aria-hidden
+					>
+						<ToggleGroupItem value="1"><FontAwesomeIcon icon={faSquareFull} color={sector1}/>&nbsp;Sector 1</ToggleGroupItem>
+						<ToggleGroupItem value="2"><FontAwesomeIcon icon={faSquareFull} color={sector2}/>&nbsp;Sector 2</ToggleGroupItem>
+						<ToggleGroupItem value="3"><FontAwesomeIcon icon={faSquareFull} color={sector3}/>&nbsp;Sector 3</ToggleGroupItem>
+					</ToggleGroup>
 				</Grid>
 				<Grid item xs={12} sx={sx}>{mapSVG}</Grid>
 			</Grid>
