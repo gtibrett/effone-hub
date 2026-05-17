@@ -1,6 +1,8 @@
 import {StatCard} from '@/components/app';
 import {DriverId} from '@/types';
-import {gql, useQuery} from '@apollo/client';
+import { gql } from '@apollo/client';
+
+import { useQuery } from "@apollo/client/react";
 
 type ResultNode = {
 	driverId: string | null;

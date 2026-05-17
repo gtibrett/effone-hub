@@ -1,5 +1,6 @@
 import {Team} from '@/gql/graphql';
-import {gql, useQuery} from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useQuery } from "@apollo/client/react";
 import {useMemo} from 'react';
 
 const TeamFields = gql`

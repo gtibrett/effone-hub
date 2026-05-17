@@ -1,12 +1,12 @@
 import {ChartSwitcher, ChartSwitcherChart} from '@/components/app';
-import {QueryResult} from '@apollo/client/react/types/types';
+import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import {ConstructorPageData} from '../types';
 import HistoryChart from './HistoryChart';
 
-export type HistoryProps = Pick<QueryResult<ConstructorPageData>, 'data' | 'loading'>;
+export type HistoryProps = SimpleApolloResult<ConstructorPageData>;
 
 export default function History({data, loading}: HistoryProps) {
 	if (loading) {

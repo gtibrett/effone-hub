@@ -1,5 +1,6 @@
 import {ConstructorByLine, DriverByLine} from '@/components/app';
-import {gql, useQuery} from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useQuery } from "@apollo/client/react";
 import {QualifyingResult, Race} from '@/gql/graphql';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';

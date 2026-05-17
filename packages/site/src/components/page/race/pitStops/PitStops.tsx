@@ -1,7 +1,8 @@
 import {DriverByLine} from '@/components/app';
 import {getTimeStringFromDate} from '@/helpers';
 import {useGetTeamColor} from '@/hooks';
-import {gql, useQuery} from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useQuery } from "@apollo/client/react";
 import {Driver, PitStop, Race} from '@/gql/graphql';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';

@@ -4,7 +4,7 @@ import {useDriversList} from '@/components/page/driver/index';
 import {DriversListFilters} from '@/components/page/driver/types';
 import {Flag} from '@/components/ui';
 import {Driver} from '@/gql/graphql';
-import {useSuspenseQuery} from '@apollo/client';
+import { useSuspenseQuery } from "@apollo/client/react";
 import {Grid, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';

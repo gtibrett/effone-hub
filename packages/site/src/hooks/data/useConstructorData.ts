@@ -1,5 +1,7 @@
 import {ConstructorPageData} from '@/components/page/constructor/types';
-import {gql, useQuery} from '@apollo/client';
+import { gql } from '@apollo/client';
+
+import { useQuery } from "@apollo/client/react";
 
 const ConstructorDataQuery = gql`
 	query ConstructorDataQuery($constructorRef: String!, $season: Int!) {

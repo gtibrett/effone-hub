@@ -2,7 +2,7 @@ import '@/polyfills';
 import {ConstructorByLine} from '@/components/app';
 import {ConstructorsListFilters, ConstructorsQuery, useConstructorsList} from '@/components/page/constructor/index';
 import {useGetTeamColor} from '@/hooks';
-import {useSuspenseQuery} from '@apollo/client';
+import { useSuspenseQuery } from "@apollo/client/react";
 import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {DataGrid} from '@mui/x-data-grid';

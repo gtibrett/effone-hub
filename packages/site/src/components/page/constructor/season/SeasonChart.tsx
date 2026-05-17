@@ -1,11 +1,11 @@
 import {RequiredByPropTypes, useNivoTheme} from '@/components/ui/nivo';
 import {useGetTeamColor} from '@/hooks';
-import {QueryResult} from '@apollo/client/react/types/types';
+import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {alpha, Box, Skeleton} from '@mui/material';
 import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
 import {ConstructorPageData} from '../types';
 
-type SeasonChartProps = Pick<QueryResult<ConstructorPageData>, 'data' | 'loading'> & { season: number };
+type SeasonChartProps = SimpleApolloResult<ConstructorPageData> & { season: number };
 
 export default function SeasonChart({data, loading}: SeasonChartProps) {
 	const nivoTheme    = useNivoTheme();

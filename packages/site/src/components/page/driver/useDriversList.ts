@@ -1,6 +1,6 @@
 import {filterByFreeformText, filterByNumber} from '@/components/ui';
 import {Driver} from '@/gql/graphql';
-import {useSuspenseQuery} from '@apollo/client';
+import { useSuspenseQuery } from "@apollo/client/react";
 import {useMemo} from 'react';
 import DriversQuery from './DriversQuery';
 import {DriversListFilters} from './types';

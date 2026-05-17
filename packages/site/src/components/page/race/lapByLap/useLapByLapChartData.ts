@@ -1,7 +1,8 @@
 import {useFallbackColor} from '@/components/ui';
 import {useGetAccessibleColor} from '@/hooks';
 import {DriverId} from '@/types';
-import {gql, useQuery} from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useQuery } from "@apollo/client/react";
 import {AppLapTime, Driver, RaceResult} from '@/gql/graphql';
 import {Maybe} from '@/gql/graphql';
 import {useMemo} from 'react';

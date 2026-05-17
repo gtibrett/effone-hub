@@ -1,13 +1,13 @@
 import {usePerformanceData} from '@/components/page/driver';
 import {useNivoTheme} from '@/components/ui/nivo';
 import {useGetAccessibleColor} from '@/hooks';
-import {QueryResult} from '@apollo/client/react/types/types';
+import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {Paper, useTheme} from '@mui/material';
 import {ResponsiveRadar} from '@nivo/radar';
 import {CircuitDialogData} from './types';
 
-type CircuitPerformanceProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading'>;
+type CircuitPerformanceProps = SimpleApolloResult<CircuitDialogData>;
 
 export default function CircuitPerformance({data, loading}: CircuitPerformanceProps) {
 	const theme                      = useTheme();

@@ -1,5 +1,5 @@
-import {ApolloLink, HttpLink} from '@apollo/client';
-import {ApolloClient, InMemoryCache, SSRMultipartLink} from '@apollo/experimental-nextjs-app-support';
+import {HttpLink} from '@apollo/client';
+import {ApolloClient, InMemoryCache} from '@apollo/client-integration-nextjs';
 
 /**
  * Resolve the GraphQL endpoint URI. Browser side, relative `/api/graphql`
@@ -36,8 +36,8 @@ export function makeClient() {
 	};
 
 	const httpLink = new HttpLink({
-		uri:         resolveUri(),
-		fetch:       customFetch,
+		uri:          resolveUri(),
+		fetch:        customFetch,
 		fetchOptions: {
 			cache: 'force-cache'
 		}
@@ -45,11 +45,6 @@ export function makeClient() {
 
 	return new ApolloClient({
 		cache: new InMemoryCache(),
-		link:  typeof window === 'undefined'
-			? ApolloLink.from([
-				new SSRMultipartLink({stripDefer: true}),
-				httpLink
-			])
-			: httpLink
+		link:  httpLink
 	});
 }

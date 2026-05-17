@@ -1,13 +1,13 @@
 import {useDarkMode} from '@/components/ui';
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
-import {QueryResult} from '@apollo/client/react/types/types';
+import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {Paper, Typography} from '@mui/material';
 import {blueGrey, deepPurple, green, red} from '@mui/material/colors';
 import {PieTooltipProps, ResponsivePie} from '@nivo/pie';
 import {DriverPageData} from '../types';
 import usePerformanceData from '../usePerformanceData';
 
-type CareerPerformanceProps = Pick<QueryResult<DriverPageData>, 'data' | 'loading'>;
+type CareerPerformanceProps = SimpleApolloResult<DriverPageData>;
 
 const CareerPerformanceTooltip = ({datum}: PieTooltipProps<any>) => {
 	return <Typography>{datum.label}</Typography>;

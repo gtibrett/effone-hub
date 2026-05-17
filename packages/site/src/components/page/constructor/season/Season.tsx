@@ -1,5 +1,5 @@
 import {DriverByLine} from '@/components/app';
-import {QueryResult} from '@apollo/client/react/types/types';
+import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Grid, Skeleton, Typography, TypographyProps} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
@@ -9,7 +9,7 @@ import SeasonChart from './SeasonChart';
 
 const CellValueWrapper = ({align = 'center', children}: PropsWithChildren<Pick<TypographyProps, 'align'>>) => <Typography paragraph align={align} sx={{mb: 0, mt: .5}}>{children}</Typography>;
 
-type SeasonProps = Pick<QueryResult<ConstructorPageData>, 'data' | 'loading'> & { season: number };
+type SeasonProps = SimpleApolloResult<ConstructorPageData> & { season: number };
 
 export default function Season({data, loading, season}: SeasonProps) {
 	

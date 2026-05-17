@@ -1,11 +1,11 @@
 import {useNivoTheme} from '@/components/ui/nivo';
-import {QueryResult} from '@apollo/client/react/types/types';
+import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {Alert, Box, Skeleton} from '@mui/material';
 import {ResponsiveSwarmPlot} from '@nivo/swarmplot';
 import {SwarmData, useMapLapTimeDataToSwarmChart} from './mapLapTimeDataToSwarmChart';
 import {CircuitDialogData} from './types';
 
-type LapTimesChartProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading'>;
+type LapTimesChartProps = SimpleApolloResult<CircuitDialogData>;
 
 export default function LapTimesByYearSwarm({data, loading}: LapTimesChartProps) {
 	const nivoTheme                  = useNivoTheme();

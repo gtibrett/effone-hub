@@ -1,13 +1,13 @@
 import {PositionChange} from '@/components/page/race';
 import {getPositionTextOutcome, getTimeStringFromDate} from '@/helpers';
-import {QueryResult} from '@apollo/client/react/types/types';
+import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Box, Skeleton, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';
 import {CircuitDialogData} from './types';
 
-type CircuitTableProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading'>;
+type CircuitTableProps = SimpleApolloResult<CircuitDialogData>;
 
 export default function CircuitTable({data, loading}: CircuitTableProps) {
 	if (!data?.circuit.races?.nodes || loading) {

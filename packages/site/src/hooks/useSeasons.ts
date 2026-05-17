@@ -1,4 +1,6 @@
-import {ApolloError, gql, useQuery} from '@apollo/client';
+import { gql } from '@apollo/client';
+import { ApolloError } from "@apollo/client/v4-migration";
+import { useQuery } from "@apollo/client/react";
 import {useMemo} from 'react';
 
 export const SeasonsListQuery = gql`

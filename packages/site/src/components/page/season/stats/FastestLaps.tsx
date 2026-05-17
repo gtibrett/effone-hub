@@ -1,5 +1,5 @@
 import {StatCard} from '@/components/app';
-import {useQuery} from '@apollo/client';
+import { useQuery } from "@apollo/client/react";
 import {FastestLap, Race} from '@/gql/graphql';
 import {FastestLapQueryData, seasonFastestLapQuery} from './FastestLap';
 import {SeasonStatProps} from './types';

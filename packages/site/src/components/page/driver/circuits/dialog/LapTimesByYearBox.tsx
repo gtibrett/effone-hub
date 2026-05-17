@@ -1,6 +1,6 @@
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
 import {getTimeStringFromDate} from '@/helpers';
-import {QueryResult} from '@apollo/client/react/types/types';
+import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {Alert, alpha, Card, Skeleton} from '@mui/material';
 import {ResponsiveBoxPlot} from '@nivo/boxplot';
 import LapTimesByYearTooltip from './LapTimesByYearTooltip';
@@ -8,7 +8,7 @@ import {mapLapTimeDataToBoxChart} from './mapLapTimeDataToSwarmChart';
 import {CircuitDialogData} from './types';
 import useGetTeamColorsByYear from './useGetTeamColorsByYear';
 
-type LapTimesChartProps = Pick<QueryResult<CircuitDialogData>, 'data' | 'loading'>;
+type LapTimesChartProps = SimpleApolloResult<CircuitDialogData>;
 
 export default function LapTimesByYearBox({data}: LapTimesChartProps) {
 	const nivoTheme      = useNivoTheme();
