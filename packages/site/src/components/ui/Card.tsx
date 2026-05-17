@@ -45,19 +45,30 @@ export type CardHeaderProps = Omit<HTMLAttributes<HTMLDivElement>, 'title'> & {
 };
 
 export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(function CardHeader(
-	{title, subheader, action, avatar, sx: _sx, titleTypographyProps: _ttp, subheaderTypographyProps: _stp, className, children, ...rest},
+	{title, subheader, action, avatar, sx: _sx, titleTypographyProps: _ttp, subheaderTypographyProps: _stp, className, children, style, ...rest},
 	ref
 ) {
 	if (children && !title && !subheader && !action && !avatar) {
 		return (
-			<ShadcnCardHeader ref={ref} className={className} {...rest}>
+			<ShadcnCardHeader ref={ref} className={className} style={style} {...rest}>
 				{children}
 			</ShadcnCardHeader>
 		);
 	}
 
+	const hasTitle = title !== null && title !== undefined && title !== false && title !== '';
+
 	return (
-		<ShadcnCardHeader ref={ref} className={cn(className, 'flex flex-row items-center gap-3')} {...rest}>
+		<ShadcnCardHeader
+			ref={ref}
+			className={cn(
+				'flex flex-row items-center gap-3',
+				hasTitle && 'bg-primary text-primary-foreground',
+				className
+			)}
+			{...rest}
+			style={style}
+		>
 			{avatar}
 			<div className="flex-1">
 				{title ? <ShadcnCardTitle className="text-xl">{title}</ShadcnCardTitle> : null}

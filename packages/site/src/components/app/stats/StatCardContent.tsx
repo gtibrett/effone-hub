@@ -1,6 +1,4 @@
 import {ReactNode} from 'react';
-import {alpha} from '@/lib/color';
-import {useTheme} from '@/lib/theme';
 import {CardHeader, Typography} from '@/components/ui';
 import Grid from '@/components/ui/Grid';
 import {StatCardBaseProps} from './StatCard';
@@ -24,42 +22,24 @@ export const StatCardStat = <T extends DataWithValue>({label, data, format}: Pic
 	</Grid>
 );
 
-export default function StatCardContent<T extends DataWithValue>({size, avatar, title, label, data, color, format, extra}: StateCardContentProps<T>) {
-	const theme = useTheme();
-
+export default function StatCardContent<T extends DataWithValue>({size, avatar, label, title, data, color, format, extra}: StateCardContentProps<T>) {
 	if (size === 'small') {
-		const badgeBg = alpha(color || theme.palette.background.paper, .9);
-		const badgeFg = theme.palette.getContrastText(color || theme.palette.background.paper);
-		const dividerColor = theme.palette.background.default;
+		const value = format ? format(data) : (typeof data.value !== 'undefined' ? data.value : '--');
 
 		return (
-			<CardHeader
-				className="!py-0 !pl-0"
-				avatar={
-					<div
-						className="relative"
-						style={{borderRight: `1px solid ${dividerColor}`}}
-					>
-						{avatar}
-						<div
-							className="absolute left-0 right-0 bottom-2 flex justify-center text-xs px-1 leading-tight"
-							style={{
-								background: badgeBg,
-								color:      badgeFg,
-								borderTop:  `1px solid ${dividerColor}`
-							}}
-						>
-							{title}
-						</div>
-					</div>
-				}
-				subheader={(
-					<>
-						<StatCardStat<T> label={label} data={data} format={format}/>
-						{extra && <div>{(typeof extra === 'function' ? extra(data) : extra)}</div>}
-					</>
-				)}
-			/>
+			<div className="flex items-center gap-3 h-full px-3 py-2">
+				<div
+					className="w-12 h-12 shrink-0 flex items-center justify-center overflow-hidden rounded"
+					style={color ? {borderLeft: `4px solid ${color}`} : undefined}
+				>
+					{avatar}
+				</div>
+				<div className="flex-1 min-w-0 flex flex-col justify-center">
+					<span className="text-xs text-muted-foreground truncate leading-tight">{label ?? title}</span>
+					<span className="text-base font-bold truncate leading-tight">{value}</span>
+					{extra && <span className="text-xs truncate leading-tight">{typeof extra === 'function' ? extra(data) : extra}</span>}
+				</div>
+			</div>
 		);
 	}
 

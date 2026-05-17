@@ -74,7 +74,7 @@ export default function Career({driverId}: CareerProps) {
 				<Stats driverId={driverId}/>
 				<Grid item xs={12}/>
 				<Grid item xs={12}>
-					<CareerChart driverId={driverId} size={200}/>
+					<CareerChart driverId={driverId} size={400}/>
 				</Grid>
 				<Grid item xs={12}>
 					<SeasonDialog season={active} driverId={driverId} onClose={() => setActive(undefined)}/>

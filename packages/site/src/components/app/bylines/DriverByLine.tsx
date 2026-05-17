@@ -33,7 +33,7 @@ const DriverSkeleton = ({variant = 'full', avatarProps = {}}: BaseByLineProps) =
 			return (
 				<div className="flex flex-row flex-nowrap gap-2 items-center">
 					<div className="hidden sm:block"><DriverAvatar driverId={undefined} {...avatarProps}/></div>
-					<div><Typography><Skeleton/></Typography></div>
+					<div><Typography component="span"><Skeleton/></Typography></div>
 				</div>
 			);
 	}

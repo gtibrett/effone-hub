@@ -4,8 +4,7 @@ import {DriverAvatar, useAppState} from '@/components/app';
 import {Career, Circuits, Season} from '@/components/page/driver';
 import {Flag, Page, Tabs, Card, Typography} from '@/components/ui';
 import {useGetTeamColor} from '@/hooks';
- 
-import {useTheme} from '@/lib/theme';
+import type {ReactNode} from 'react';
 /**
  * The subset of `Driver` fields DriverContent reads at the top level.
  * Nested components (Career, Circuits, Season, DriverAvatar) fetch their own
@@ -36,20 +35,27 @@ export type DriverPageProp = {
 	} | null;
 };
 
-const DriverDetails = ({driver}: {driver: DriverPageProp}) => (
-	<div className="flex flex-row flex-wrap gap-4 items-center text-[1.5em] font-bold">
-		<div><Typography variant="h2">{driver.firstName} {driver.lastName}</Typography></div>
-		<div className="hidden md:contents">
-			{driver.nationalityCountryId && <div><Flag nationality={driver.nationalityCountryId} size={48}/></div>}
-			<div className="flex-1"/>
-			<div><Typography variant="h2" sx={{fontWeight: 'bold'}}>{driver.abbreviation}</Typography></div>
-			<div style={{fontFamily: 'Racing Sans One', fontSize: '1.1em'}}>{driver.permanentNumber}</div>
+type DriverDetailsProps = {
+	driver:    DriverPageProp;
+	portrait?: ReactNode;
+};
+
+const DriverDetails = ({driver, portrait}: DriverDetailsProps) => (
+	<div className="text-[1.5em] font-bold">
+		{portrait}
+		<div className="flex flex-row flex-wrap gap-4 items-center">
+			<div><Typography variant="h2">{driver.firstName} {driver.lastName}</Typography></div>
+			<div className="hidden md:contents">
+				{driver.nationalityCountryId && <div><Flag nationality={driver.nationalityCountryId} size={48}/></div>}
+				<div className="flex-1"/>
+				<div><Typography variant="h2" sx={{fontWeight: 'bold'}}>{driver.abbreviation}</Typography></div>
+				<div style={{fontFamily: 'Racing Sans One', fontSize: '1.1em'}}>{driver.permanentNumber}</div>
+			</div>
 		</div>
 	</div>
 );
 
 export default function DriverContent({driver}: {driver: DriverPageProp | null}) {
-	const theme             = useTheme();
 	const getTeamColor      = useGetTeamColor();
 	const [{currentSeason}] = useAppState();
 
@@ -58,7 +64,7 @@ export default function DriverContent({driver}: {driver: DriverPageProp | null})
 	}
 
 	const latestSeasonNode = driver.seasonEntrantDrivers?.nodes?.[0];
-	const primaryColor     = latestSeasonNode?.team?.colors?.primaryHex;
+	const teamStripeColor  = getTeamColor(latestSeasonNode?.team?.colors, 'primaryHex', false);
 	const isCurrentSeason  = latestSeasonNode?.year === currentSeason;
 
 	const tabs = [
@@ -72,31 +78,25 @@ export default function DriverContent({driver}: {driver: DriverPageProp | null})
 
 	const bio = driver.bio;
 
+	const portrait = bio?.thumbnailUrl
+		? <img src={bio.thumbnailUrl} alt={`${driver.firstName} ${driver.lastName}`} className="float-right ml-4 mb-2 w-[120px] h-[120px] object-cover rounded-sm"/>
+		: <div className="float-right ml-4 mb-2"><DriverAvatar driverId={driver.rowId} size={120}/></div>;
+
 	return (
 		<Page
-			title={<DriverDetails driver={driver}/>}
-			action={
-				bio?.thumbnailUrl
-					? <img src={bio.thumbnailUrl} alt={`${driver.firstName} ${driver.lastName}`} className="w-[200px] h-[200px] object-cover rounded-sm"/>
-					: <DriverAvatar driverId={driver.rowId} size={200}/>
+			title={
+				<>
+					<div
+						aria-hidden
+						className="absolute top-0 left-0 right-0 h-1.5"
+						style={{background: teamStripeColor}}
+					/>
+					<DriverDetails driver={driver} portrait={portrait}/>
+				</>
 			}
-			actionProps={{xs: 'auto'}}
 			subheader={<><div className="border-t my-2"/></>}
 			headerProps={{
-				sx: {
-					position:   'relative',
-					pt:         3,
-					'&:before': {
-						position:   'absolute',
-						left:       0,
-						top:        0,
-						bottom:     'auto',
-						width:      '100%',
-						height:     theme.spacing(2),
-						content:    '" "',
-						background: primaryColor ?? 'transparent'
-					}
-				}
+				className: 'relative overflow-hidden pt-6'
 			}}
 		>
 			{bio?.extract && (

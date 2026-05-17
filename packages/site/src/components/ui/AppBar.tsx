@@ -29,6 +29,7 @@ const AppBar = forwardRef<HTMLElement, AppBarProps>(function AppBar(
 			ref={ref as never}
 			className={cn(
 				'w-full bg-primary text-primary-foreground shadow z-10',
+				'after:content-[""] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-1 after:bg-secondary relative',
 				POSITION[position] ?? '',
 				className
 			)}

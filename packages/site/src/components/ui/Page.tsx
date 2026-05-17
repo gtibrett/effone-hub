@@ -2,7 +2,7 @@ import {Skeleton, Typography, type TypographyProps} from '@/components/ui';
 
 import {Grid, Paper} from '@/components/ui';
 import type {GridProps, PaperProps} from '@/components/ui';
-import {PropsWithChildren, ReactNode, RefObject, Suspense} from 'react';
+import {CSSProperties, PropsWithChildren, ReactNode, RefObject, Suspense} from 'react';
 
 type Skeletons = {
 	title?: ReactNode;
@@ -20,6 +20,7 @@ type PageProps = PropsWithChildren<{
 	
 	headerRef?: ((instance: HTMLDivElement | null) => void) | RefObject<HTMLDivElement> | null;
 	headerProps?: PaperProps
+	style?: CSSProperties;
 	titleProps?: TypographyProps;
 	subheaderProps?: TypographyProps;
 	skeletons?: Skeletons;
@@ -48,16 +49,23 @@ const PageSubheader = ({subheader, skeleton, subheaderProps = {}}: HasSkeleton<P
 };
 
 export default function Page(props: PageProps) {
-	const {title, titleProps}                            = props;
-	const {subheader, subheaderProps}                    = props;
-	const {action, actionProps = {}}                     = props;
-	const {extra, headerProps = {}, headerRef, children} = props;
-	const skeletons                                      = {...DefaultSkeletons, ...props.skeletons};
+	const {title, titleProps}                                   = props;
+	const {subheader, subheaderProps}                           = props;
+	const {action, actionProps = {}}                            = props;
+	const {extra, headerProps = {}, headerRef, children, style} = props;
+	const skeletons                                             = {...DefaultSkeletons, ...props.skeletons};
+	const {style: headerStyle, className: headerClassName, ...headerRest} = headerProps;
 
 	return (
 		<Grid container spacing={2} alignItems="stretch">
 			<Grid item xs={12}>
-				<Paper ref={headerRef} elevation={0} className="p-4 h-full" {...headerProps}>
+				<Paper
+					ref={headerRef}
+					elevation={0}
+					className={['p-4 h-full bg-primary text-primary-foreground', headerClassName].filter(Boolean).join(' ')}
+					{...headerRest}
+					style={{...headerStyle, ...style}}
+				>
 					<Grid container spacing={2} alignItems="stretch">
 						<Grid item xs>
 							<Grid container spacing={2}>

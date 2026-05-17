@@ -24,7 +24,7 @@ const List = forwardRef<HTMLUListElement, ListProps>(function List(
 			{subheader}
 			<ul
 				ref={ref}
-				className={cn('flex flex-col', !disablePadding && 'py-2', className)}
+				className={cn('flex flex-col list-none pl-0', !disablePadding && 'py-2', className)}
 				{...rest}
 			>
 				{children}

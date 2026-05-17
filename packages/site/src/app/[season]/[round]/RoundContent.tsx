@@ -77,9 +77,12 @@ export default function RoundContent({season: seasonStr, round: roundStr, race}:
 			title={race.officialName}
 			subheader={<Typography>Round {race.round}, {race.date ? (new Date(race.date)).toLocaleDateString() : ''}</Typography>}
 			extra={null}
+			headerProps={{
+				className: '[&>div>div:first-child]:col-span-12 [&>div>div:first-child]:min-w-0 md:[&>div>div:first-child]:col-span-9'
+			}}
 			action={
 				race.circuit && (
-					<div className="hidden md:block">
+					<div className="hidden md:block w-48 shrink-0">
 						<Card>
 							<CardMedia><RaceMap points={points} onClick={onClick} height={140} centerOn={{latitude: race.circuit.latitude, longitude: race.circuit.longitude}} zoom/></CardMedia>
 							<CardHeader title={<Link href={`/circuits/${race.circuit.rowId}`}>{race.circuit.fullName}</Link>}/>

@@ -12,6 +12,7 @@ export default function Footer() {
 				position="relative"
 				component="footer"
 				color="secondary"
+				className="!bg-secondary text-secondary-foreground py-2 after:hidden"
 				sx={{
 					zIndex:   theme.zIndex.fab - 1,
 					position: 'fixed',
