@@ -15,4 +15,6 @@ export {default as UkraineButton} from './UkraineButton';
 export {default as OpensInNewWindow} from './OpensInNewWindow';
 export {default as Page} from './Page';
 export {default as TableFilter, filterByFreeformText, setStringFilter, filterByNumber, setNumberFilter} from './TableFilter';
+export {default as DataTable} from './DataTable';
+export type {DataTableProps, DataTableInitialState, DataTableSortEntry, DataTableDensity} from './DataTable';
 export {useEffTheme, useDarkMode, useInvertedTheme, useFallbackColor} from './Theme';

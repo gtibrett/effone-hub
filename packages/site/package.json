@@ -81,6 +81,7 @@
 		"@nivo/sunburst": "^0.87.0",
 		"@nivo/swarmplot": "^0.87.0",
 		"@tailwindcss/postcss": "^4.3.0",
+		"@tanstack/react-table": "^8.21.3",
 		"adm-zip": "^0.5.17",
 		"animate.css": "^4.1.1",
 		"class-variance-authority": "^0.7.1",
