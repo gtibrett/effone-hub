@@ -7,7 +7,7 @@ import {OpenAILink, Page} from '@/components/ui';
 import {useCircuitByRef} from '@/hooks/data';
 import {Tabs} from '@/components/ui';
 import useComponentDimensionsWithRef from '@/hooks/useComponentDimensionsWithRef';
-import {Card, CardContent, CardHeader, Divider, Grid, Hidden, Typography} from '@mui/material';
+import {Card, CardContent, CardHeader, Typography} from '@mui/material';
 import {Suspense} from 'react';
 
 export default function CircuitContent({circuitRef}: {circuitRef: string}) {
@@ -39,23 +39,23 @@ export default function CircuitContent({circuitRef}: {circuitRef: string}) {
 						{circuit.description?.description && (
 							<>
 								<Typography variant="body1">{circuit.description.description}</Typography>
-								<Divider orientation="horizontal" sx={{my: 1}}/>
+								<div className="border-t my-2"/>
 								<OpenAILink/>
 							</>
 						)}
 					</>
 				)}
 				action={(
-					<Hidden mdDown>
+					<div className="hidden md:block">
 						<Card sx={{height: '100%'}} ref={ref}>
 							<RaceMap points={points} onClick={onClick} height={height} centerOn={circuit} zoom/>
 						</Card>
-					</Hidden>
+					</div>
 				)}
 				actionProps={{xs: 0, md: 4, lg: 3}}
 			>
-				<Grid container spacing={2}>
-					<Grid item xs={12} md={8} lg={9} sx={{order: {xs: 2, md: 1}}}>
+				<div className="grid grid-cols-12 gap-4">
+					<div className="col-span-12 md:col-span-8 lg:col-span-9 order-2 md:order-1">
 						<Card>
 							<Tabs active="history" tabs={[
 								{
@@ -72,21 +72,21 @@ export default function CircuitContent({circuitRef}: {circuitRef: string}) {
 								}
 							]}/>
 						</Card>
-					</Grid>
+					</div>
 
-					<Grid item xs={12} md={4} lg={3} sx={{order: {xs: 1, md: 2}}}>
+					<div className="col-span-12 md:col-span-4 lg:col-span-3 order-1 md:order-2">
 						<Card sx={{height: '100%'}}>
 							<CardHeader title={`${seasonToShow} Season`}/>
 							<CardContent>
-								<Grid container spacing={2}>
+								<div className="grid grid-cols-12 gap-4">
 									<LapLeader data={seasonToShow === currentSeason ? data : lastSeasonData} loading={false}/>
 									<MostWins data={seasonToShow === currentSeason ? data : lastSeasonData} loading={false}/>
 									<FastestLap data={seasonToShow === currentSeason ? data : lastSeasonData} loading={false}/>
-								</Grid>
+								</div>
 							</CardContent>
 						</Card>
-					</Grid>
-				</Grid>
+					</div>
+				</div>
 			</Page>
 		</Suspense>
 	);
