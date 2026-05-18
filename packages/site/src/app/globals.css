@@ -92,13 +92,13 @@
  *   text-flame-200  → brand peach accent (logo "ONE", map pins) */
 @media (prefers-color-scheme: dark) {
 	:root {
-		--background:             var(--color-surface-900);
+		--background:             var(--color-surface-600);
 		--foreground:             var(--color-surface-50);
 		--card:                   var(--color-surface-800);
 		--card-foreground:        var(--color-surface-50);
 		--popover:                var(--color-surface-800);
 		--popover-foreground:     var(--color-surface-50);
-		--primary:                var(--color-surface-600);
+		--primary:                var(--color-surface-900);
 		--primary-foreground:     var(--color-surface-50);
 		--secondary:              var(--color-flame-500);
 		--secondary-foreground:   var(--color-surface-50);
