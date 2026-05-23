@@ -28,7 +28,7 @@ export default function Logo({href, variant, size}: LogoProps) {
 		<Link
 			href={href}
 			color="inherit"
-			className="no-underline hover:no-underline [&_*]:font-[Anton]"
+			className="no-underline hover:no-underline [&_*]:font-anton"
 			style={{['--logo-size' as string]: `${size}px`}}
 		>
 			<h1 className="m-0 text-[length:var(--logo-size)] leading-none">
