@@ -1,4 +1,4 @@
-import {decomposeColor, getContrastText, oklchToRgbString, resolveColorString} from '@/lib/color-utils';
+import {decomposeColor, getContrastRatio, getContrastText, getLuminance, oklchToRgbString, resolveColorString} from '@/lib/color-utils';
 import {tokens} from '@/lib/tokens';
 
 describe('color-utils', () => {
@@ -56,6 +56,38 @@ describe('color-utils', () => {
 			expect(() => decomposeColor('#37474f')).not.toThrow();
 			expect(() => decomposeColor('rgb(120, 144, 156)')).not.toThrow();
 			expect(() => decomposeColor('rgba(120, 144, 156, 0.5)')).not.toThrow();
+		});
+	});
+
+	describe('getContrastRatio (wrapped)', () => {
+		test('does NOT throw on var(--color-*) input on either side', () => {
+			// Regression: fixContrast in useGetAccessibleColor.ts hits this
+			// with cssVar.primary.main as the foreground (team-color fallback).
+			expect(() => getContrastRatio('var(--color-primary)', '#ffffff')).not.toThrow();
+			expect(() => getContrastRatio('#000000', 'var(--color-background-paper)')).not.toThrow();
+			expect(() => getContrastRatio('var(--color-primary)', 'var(--color-background-paper)')).not.toThrow();
+		});
+
+		test('does NOT throw on oklch input on either side', () => {
+			expect(() => getContrastRatio('oklch(0.25 0.020 244)', '#ffffff')).not.toThrow();
+			expect(() => getContrastRatio('#000000', 'oklch(0.95 0.005 236)')).not.toThrow();
+		});
+
+		test('returns sensible values (white/black ≈ 21)', () => {
+			expect(getContrastRatio('#ffffff', '#000000')).toBeCloseTo(21, 0);
+			expect(getContrastRatio('#000000', '#ffffff')).toBeCloseTo(21, 0);
+		});
+	});
+
+	describe('getLuminance (wrapped)', () => {
+		test('does NOT throw on var() or oklch', () => {
+			expect(() => getLuminance('var(--color-primary)')).not.toThrow();
+			expect(() => getLuminance('oklch(0.5 0.1 240)')).not.toThrow();
+		});
+
+		test('returns 0 for black and 1 for white', () => {
+			expect(getLuminance('#000000')).toBe(0);
+			expect(getLuminance('#ffffff')).toBe(1);
 		});
 	});
 

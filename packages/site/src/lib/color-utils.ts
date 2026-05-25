@@ -16,10 +16,20 @@
 
 import {
 	decomposeColor as muiDecomposeColor,
-	getContrastRatio
+	getContrastRatio as muiGetContrastRatio,
+	getLuminance as muiGetLuminance
 } from '@mui/system/colorManipulator';
 import type {ColorObject} from '@mui/system/colorManipulator';
 import {tokens, type ColorScheme} from './tokens';
+
+// Internal normalizer — single chokepoint so every wrapped helper handles
+// the same extended format set (var(--color-*) and oklch()).
+function normalizeColorInput(color: string, scheme: ColorScheme): string {
+	let out = color;
+	if (out.startsWith('var(')) out = resolveColorString(out, scheme);
+	if (out.startsWith('oklch')) out = oklchToRgbString(out);
+	return out;
+}
 
 // ---------------------------------------------------------------------------
 // CSS var resolution
@@ -132,10 +142,31 @@ export function oklchToRgbString(color: string): string {
  * already supports.
  */
 export function decomposeColor(color: string, scheme: ColorScheme = 'light'): ColorObject {
-	let normalized = color;
-	if (normalized.startsWith('var(')) normalized = resolveColorString(normalized, scheme);
-	if (normalized.startsWith('oklch')) normalized = oklchToRgbString(normalized);
-	return muiDecomposeColor(normalized);
+	return muiDecomposeColor(normalizeColorInput(color, scheme));
+}
+
+/**
+ * Wrapped getLuminance — accepts oklch() and var(--color-*) in addition
+ * to MUI's native formats.
+ */
+export function getLuminance(color: string, scheme: ColorScheme = 'light'): number {
+	return muiGetLuminance(normalizeColorInput(color, scheme));
+}
+
+/**
+ * Wrapped getContrastRatio — normalizes both inputs before deferring to
+ * MUI. THIS is the function that fixContrast in useGetAccessibleColor
+ * calls hot-path, so it MUST handle var() / oklch.
+ */
+export function getContrastRatio(
+	foreground: string,
+	background: string,
+	scheme: ColorScheme = 'light'
+): number {
+	return muiGetContrastRatio(
+		normalizeColorInput(foreground, scheme),
+		normalizeColorInput(background, scheme)
+	);
 }
 
 /**
@@ -147,10 +178,7 @@ export function getContrastText(
 	contrastThreshold: number = 3,
 	scheme: ColorScheme = 'light'
 ): string {
-	const normalized = oklchToRgbString(resolveColorString(background, scheme));
-	const black      = 'rgb(0, 0, 0)';
-	const white      = 'rgb(255, 255, 255)';
-	return getContrastRatio(normalized, black) >= contrastThreshold ? black : white;
+	const black = 'rgb(0, 0, 0)';
+	const white = 'rgb(255, 255, 255)';
+	return getContrastRatio(background, black, scheme) >= contrastThreshold ? black : white;
 }
-
-export {getContrastRatio};
