@@ -87,7 +87,14 @@ export default function SprintResults({results}: {
 						renderCell:  ({row}) => {
 							const time = row.time;
 							return (
-                                <Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
+                                <Grid
+                                    container
+                                    spacing={1}
+                                    sx={{
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        flexWrap: "nowrap"
+                                    }}>
                                     <Grid>{time ? time : getPositionTextOutcome(row.positionText, row.reasonRetired)}</Grid>
                                 </Grid>
                             );

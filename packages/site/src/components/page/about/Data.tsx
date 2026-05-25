@@ -41,7 +41,13 @@ const Data = () => (
 					/>
 				</ListItem>
 			</List>
-			<Typography variant="caption" color="text.secondary" sx={{display: 'block', mt: 1}}>
+			<Typography
+                variant="caption"
+                sx={{
+                    color: "text.secondary",
+                    display: 'block',
+                    mt: 1
+                }}>
 				Ergast API was the original data source through 2024. F1DB and Jolpica-F1 are the active sources as of the 2025 season.
 			</Typography>
 		</CardContent>

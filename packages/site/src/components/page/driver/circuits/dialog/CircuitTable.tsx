@@ -21,8 +21,10 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 	}
 
 	return (
-		<Box height={400}>
-			<DataGrid
+        <Box sx={{
+            height: 400
+        }}>
+            <DataGrid
 				rows={races}
 				density="compact"
 				getRowId={(row) => row.date || ''}
@@ -115,6 +117,6 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 					]
 				}
 			/>
-		</Box>
-	);
+        </Box>
+    );
 }

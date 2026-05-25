@@ -7,7 +7,7 @@ import {PropsWithChildren} from 'react';
 import {ConstructorPageData} from '../types';
 import SeasonChart from './SeasonChart';
 
-const CellValueWrapper = ({align = 'center', children}: PropsWithChildren<Pick<TypographyProps, 'align'>>) => <Typography paragraph align={align} sx={{mb: 0, mt: .5}}>{children}</Typography>;
+const CellValueWrapper = ({align = 'center', children}: PropsWithChildren<Pick<TypographyProps, 'align'>>) => <Typography align={align} sx={{mb: 0, mt: .5}}>{children}</Typography>;
 
 type SeasonProps = SimpleApolloResult<ConstructorPageData> & { season: number };
 
@@ -100,7 +100,9 @@ export default function Season({data, loading, season}: SeasonProps) {
 							align:       'center',
 							renderCell:  ({row}) => {
 								return (
-                                    <Grid container spacing={0} justifyContent="center">
+                                    <Grid container spacing={0} sx={{
+                                        justifyContent: "center"
+                                    }}>
                                         {results.filter(r => r.raceId === row.rowId).map(result => <Grid key={result.driverId ?? ''} size={12}><Typography align="center">{result.points}</Typography></Grid>)}
                                     </Grid>
                                 );

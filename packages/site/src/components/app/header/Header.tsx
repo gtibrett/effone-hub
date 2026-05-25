@@ -29,7 +29,9 @@ export default function Header() {
 					}
 				}}>
 				<Toolbar>
-					<Grid container spacing={1} alignItems="center">
+					<Grid container spacing={1} sx={{
+                        alignItems: "center"
+                    }}>
 						<Grid>
 							<Link href="/" color="inherit" sx={{textDecoration: 'none', '& *': {fontFamily: 'Anton !important', fontSize: '48px !important'}}}>
 								<Typography component="h1">

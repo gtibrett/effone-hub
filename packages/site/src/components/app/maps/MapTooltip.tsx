@@ -10,8 +10,12 @@ export default function MapTooltip({feature}: MapTooltipProps) {
 	}
 	
 	return (
-		<Box py={1} px={2}>
-			<Typography>{feature.properties.name}</Typography>
-		</Box>
-	);
+        <Box
+            sx={{
+                py: 1,
+                px: 2
+            }}>
+            <Typography>{feature.properties.name}</Typography>
+        </Box>
+    );
 }

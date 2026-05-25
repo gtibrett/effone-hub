@@ -13,9 +13,11 @@ export default function CircuitsFilters({filters, setFilters}: ListFiltersProps<
 	};
 	
 	return (
-		<TableFilter handleSearch={handleSearch}>
-			<TextField fullWidth size="small" InputLabelProps={{shrink: true}} id="circuits-search-filter" label="Circuit" variant="outlined" value={localFilters.search} onChange={setStringFilter<CircuitsListFilters>(setLocalFilters, 'search')}/>
-			<SeasonMenu required={false} variant="normal" id="circuits-season-filter" season={localFilters.season} setSeason={setNumberFilter<CircuitsListFilters>(setLocalFilters, 'season')}/>
-		</TableFilter>
-	);
+        <TableFilter handleSearch={handleSearch}>
+            <TextField fullWidth size="small" id="circuits-search-filter" label="Circuit" variant="outlined" value={localFilters.search} onChange={setStringFilter<CircuitsListFilters>(setLocalFilters, 'search')} slotProps={{
+                inputLabel: {shrink: true}
+            }}/>
+            <SeasonMenu required={false} variant="normal" id="circuits-season-filter" season={localFilters.season} setSeason={setNumberFilter<CircuitsListFilters>(setLocalFilters, 'season')}/>
+        </TableFilter>
+    );
 }

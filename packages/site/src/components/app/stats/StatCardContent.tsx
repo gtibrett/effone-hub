@@ -14,9 +14,18 @@ type StateCardContentProps<T extends DataWithValue> = Pick<CardHeaderProps, 'ava
 }
 
 export const StatCardStat = <T extends DataWithValue>({label, data, format}: Pick<StateCardContentProps<T>, 'label' | 'data' | 'format'>) => (
-	<Grid container spacing={1} wrap="nowrap" alignItems="center" justifyContent="space-between">
-		{label && <Grid><Typography noWrap paragraph={false}>{label}</Typography></Grid>}
-		<Grid><Typography fontWeight="bold" noWrap paragraph={false}>{format ? format(data) : (typeof data.value !== 'undefined' ? data.value : '--')}</Typography></Grid>
+	<Grid
+        container
+        spacing={1}
+        wrap="nowrap"
+        sx={{
+            alignItems: "center",
+            justifyContent: "space-between"
+        }}>
+		{label && <Grid><Typography noWrap>{label}</Typography></Grid>}
+		<Grid><Typography noWrap sx={{
+            fontWeight: "bold"
+        }}>{format ? format(data) : (typeof data.value !== 'undefined' ? data.value : '--')}</Typography></Grid>
 	</Grid>
 );
 
@@ -64,32 +73,38 @@ export default function StatCardContent<T extends DataWithValue>({size, avatar, 
 			};
 			
 			return (
-				<CardHeader
+                <CardHeader
 					sx={sx}
 					avatar={<Badge sx={sx} badgeContent={title} anchorOrigin={badgeAlignment}>{avatar}</Badge>}
 					subheader={(
 						<>
 							<StatCardStat<T> label={label} data={data} format={format}/>
-							{extra && <Box mt={0}>{(typeof extra === 'function' ? extra(data) : extra)}</Box>}
+							{extra && <Box sx={{
+                                mt: 0
+                            }}>{(typeof extra === 'function' ? extra(data) : extra)}</Box>}
 						</>
 					)}
 				/>
-			);
+            );
 		
 		case 'regular':
 		default:
 			return (
-				<CardHeader
+                <CardHeader
 					avatar={avatar}
 					title={title}
-					titleTypographyProps={{noWrap: true}}
 					subheader={(
 						<>
 							<StatCardStat<T> label={label} data={data} format={format}/>
-							{extra && <Box mt={.5}>{(typeof extra === 'function' ? extra(data) : extra)}</Box>}
+							{extra && <Box sx={{
+                                mt: .5
+                            }}>{(typeof extra === 'function' ? extra(data) : extra)}</Box>}
 						</>
 					)}
+					slotProps={{
+                        title: {noWrap: true}
+                    }}
 				/>
-			);
+            );
 	}
 }

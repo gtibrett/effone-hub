@@ -83,7 +83,9 @@ export default function CircuitMap({variant = 'interactive', circuitRef, height,
 	
 	return (
         <Suspense>
-            <Grid container spacing={2} justifyContent="flex-end">
+            <Grid container spacing={2} sx={{
+                justifyContent: "flex-end"
+            }}>
 				<Grid>
 					<ToggleButtonGroup size="small" value={sector} onChange={handleChange} exclusive aria-hidden>
 						<ToggleButton value="1"><FontAwesomeIcon icon={faSquareFull} color={sector1}/>&nbsp;Sector 1</ToggleButton>

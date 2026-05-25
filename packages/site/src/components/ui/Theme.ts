@@ -77,9 +77,11 @@ export const useEffTheme = (overrideMode?: 'light' | 'dark') => {
 				},
 				MuiCardHeader:   {
 					defaultProps: {
-						titleTypographyProps: {
-							variant: 'h3'
-						}
+						slotProps: {
+                            title: {
+                                variant: 'h3'
+                            }
+                        }
 					}
 				},
 				MuiDataGrid: {

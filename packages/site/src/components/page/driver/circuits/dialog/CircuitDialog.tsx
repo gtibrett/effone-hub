@@ -33,7 +33,9 @@ export default function CircuitDialog({driverId, circuitId, onClose}: CircuitPro
 			title={
 				<>
 					{circuit.fullName}
-					<Typography paragraph variant="subtitle1"><DriverByLine id={driverId} variant="name"/></Typography>
+					<Typography variant="subtitle1" sx={{
+                        marginBottom: "16px"
+                    }}><DriverByLine id={driverId} variant="name"/></Typography>
 				</>
 			}>
             <Grid container spacing={2}>

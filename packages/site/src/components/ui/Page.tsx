@@ -53,10 +53,14 @@ export default function Page(props: PageProps) {
 	const {sx = {}, ...other}                            = headerProps;
 	
 	return (
-        <Grid container spacing={2} alignItems="stretch">
+        <Grid container spacing={2} sx={{
+            alignItems: "stretch"
+        }}>
             <Grid size={12}>
 				<Paper ref={headerRef} elevation={0} sx={{p: 2, height: '100%', ...sx}} {...other}>
-					<Grid container spacing={2} alignItems="stretch">
+					<Grid container spacing={2} sx={{
+                        alignItems: "stretch"
+                    }}>
 						<Grid size="grow">
 							<Grid container spacing={2}>
 								<Grid size={12}>

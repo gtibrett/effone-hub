@@ -62,7 +62,9 @@ export default function RoundContent({season: seasonStr, round: roundStr, race}:
 					<CardHeader title={<Link href={`/circuits/${race.circuit?.rowId}`}>{race.circuit?.fullName}</Link>}/>
 					<CardMedia><RaceMap points={points} onClick={onClick} height={140} centerOn={{latitude: race.circuit?.latitude, longitude: race.circuit?.longitude}} zoom/></CardMedia>
 					<CardContent>
-						<Typography variant="body1">{circuitDescription} <Box component="span" display="block"><OpenAILink/></Box></Typography>
+						<Typography variant="body1">{circuitDescription} <Box component="span" sx={{
+                            display: "block"
+                        }}><OpenAILink/></Box></Typography>
 					</CardContent>
 				</Card>
 			)
@@ -90,11 +92,13 @@ export default function RoundContent({season: seasonStr, round: roundStr, race}:
 		>
             <Grid container spacing={2}>
 				<Grid
-                    order={{xs: 2, md: 1}}
                     size={{
                         xs: 12,
                         md: 8,
                         lg: 9
+                    }}
+                    sx={{
+                        order: {xs: 2, md: 1}
                     }}>
 					<Card>
 						{
@@ -107,7 +111,11 @@ export default function RoundContent({season: seasonStr, round: roundStr, race}:
 										{circuitDescription && (
 											<>
 												<Typography variant="body2">{circuitDescription}</Typography>
-												<Box textAlign="right" display="block"><OpenAILink/></Box>
+												<Box
+                                                    sx={{
+                                                        textAlign: "right",
+                                                        display: "block"
+                                                    }}><OpenAILink/></Box>
 											</>
 										)}
 									</CardContent>
@@ -117,11 +125,13 @@ export default function RoundContent({season: seasonStr, round: roundStr, race}:
 				</Grid>
 
 				<Grid
-                    order={{xs: 1, md: 2}}
                     size={{
                         xs: 12,
                         md: 4,
                         lg: 3
+                    }}
+                    sx={{
+                        order: {xs: 1, md: 2}
                     }}>
 					<Card sx={{height: '100%'}}>
 						<CardContent>

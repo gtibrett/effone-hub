@@ -19,13 +19,17 @@ export default function Season({season}: SeasonProps) {
 			title={`${season.year} Season`}
 			headerProps={{sx: {minWidth: 480}}}
 		>
-            <Grid container spacing={2} alignItems="stretch">
+            <Grid container spacing={2} sx={{
+                alignItems: "stretch"
+            }}>
 				<Grid
                     size={{
                         xs: 12,
                         lg: 8
                     }}>
-					<Grid container spacing={2} alignItems="stretch">
+					<Grid container spacing={2} sx={{
+                        alignItems: "stretch"
+                    }}>
 						<Suspense><RaceWeekend season={season.year}/></Suspense>
 						<Grid size={12}>
 							<Suspense fallback={<ScheduleSkeleton/>}>

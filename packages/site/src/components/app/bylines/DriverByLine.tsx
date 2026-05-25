@@ -32,7 +32,13 @@ const DriverSkeleton = ({variant = 'full', avatarProps = {}}: BaseByLineProps) =
 		
 		case 'full':
 			return (
-                <Grid container spacing={1} alignItems="center" sx={{flexWrap: 'nowrap'}}>
+                <Grid
+                    container
+                    spacing={1}
+                    sx={{
+                        alignItems: "center",
+                        flexWrap: 'nowrap'
+                    }}>
                     <Grid sx={{display: {xs: 'none', sm: 'block'}}}><DriverAvatar driverId={undefined} {...avatarProps}/></Grid>
                     <Grid><Typography><Skeleton/></Typography></Grid>
                 </Grid>
@@ -70,7 +76,13 @@ const ByDriver = (props: ByLinePropsByDriver) => {
 
 		case 'full':
 			return (
-                <Grid container spacing={1} alignItems="center" sx={{flexWrap: 'nowrap'}}>
+                <Grid
+                    container
+                    spacing={1}
+                    sx={{
+                        alignItems: "center",
+                        flexWrap: 'nowrap'
+                    }}>
                     <Grid sx={{display: {xs: 'none', sm: 'block'}}}><DriverAvatar driverId={rowId} {...avatarProps}/></Grid>
                     <Grid><Typography><Link href={`/drivers/${rowId}`}>{name}</Link></Typography></Grid>
                     {!noFlag && nationalityCountryId && <Grid sx={{display: {xs: 'none', md: 'block'}}}><Typography><Flag nationality={nationalityCountryId} {...flagProps}/></Typography></Grid>}

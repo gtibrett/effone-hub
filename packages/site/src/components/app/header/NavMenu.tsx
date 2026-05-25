@@ -123,8 +123,10 @@ export default function NavMenu() {
                             anchorEl={anchorEl}
                             open={open}
                             onClose={handleClose}
-                            MenuListProps={{
-                                'aria-labelledby': 'hamburger-button'
+                            slotProps={{
+                                list: {
+                                    'aria-labelledby': 'hamburger-button'
+                                }
                             }}
                         >
                             {navLinks.map(({path, label, active}) => {

@@ -38,7 +38,14 @@ export type DriverPageProp = {
 };
 
 const DriverDetails = ({driver}: {driver: DriverPageProp}) => (
-	<Grid container spacing={2} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
+	<Grid
+        container
+        spacing={2}
+        sx={{
+            alignItems: "center",
+            fontSize: '1.5em',
+            fontWeight: 'bold'
+        }}>
 		<Grid><Typography variant="h2">{driver.firstName} {driver.lastName}</Typography></Grid>
 		<Box sx={{display: {xs: 'none', md: 'contents'}}}>
 			{driver.nationalityCountryId && <Grid><Flag nationality={driver.nationalityCountryId} size={48}/></Grid>}

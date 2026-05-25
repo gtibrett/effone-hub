@@ -8,8 +8,14 @@ type ChartSwitcherProps = {
 
 export default function ChartSwitcherCharts({active, charts}: ChartSwitcherProps) {
 	return (
-		<>
-			{charts.map(({id, chart}) => <Box key={id} height="100%" width="100%" sx={{display: id === active ? 'block' : 'none'}}>{chart}</Box>)}
-		</>
-	);
+        <>
+            {charts.map(({id, chart}) => <Box
+                key={id}
+                sx={{
+                    height: "100%",
+                    width: "100%",
+                    display: id === active ? 'block' : 'none'
+                }}>{chart}</Box>)}
+        </>
+    );
 }

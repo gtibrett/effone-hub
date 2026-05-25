@@ -9,10 +9,14 @@ const CareerPerformanceTooltip = (datum: ComputedDatum<BurstDatum>) => {
 	const {label} = datum.data;
 	
 	return (
-		<Box py={1} px={2}>
-			<Typography>{label}</Typography>
-		</Box>
-	);
+        <Box
+            sx={{
+                py: 1,
+                px: 2
+            }}>
+            <Typography>{label}</Typography>
+        </Box>
+    );
 };
 
 type BurstDatum = {

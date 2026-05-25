@@ -26,9 +26,9 @@ export default function CountdownClock({timeTo, size}: CountdownClockProps) {
 	const secondsTo = (countDown - DAY * daysTo - HOUR * hoursTo - MIN * minsTo);
 	
 	return (
-		<Typography variant={size === 'large' ? 'h5' : 'body2'} component="p" paragraph={false}>
-			{daysTo ? <span>{daysTo} days, </span> : ''}
-			<span>{hoursTo}:{leadingZero(minsTo)}:{leadingZero(secondsTo)}</span>
-		</Typography>
-	);
+        <Typography variant={size === 'large' ? 'h5' : 'body2'} component="p">
+            {daysTo ? <span>{daysTo} days, </span> : ''}
+            <span>{hoursTo}:{leadingZero(minsTo)}:{leadingZero(secondsTo)}</span>
+        </Typography>
+    );
 }

@@ -24,7 +24,14 @@ export type TeamProp = {
 };
 
 const TeamDetails = ({team}: {team: TeamProp}) => (
-	<Grid container spacing={4} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
+	<Grid
+        container
+        spacing={4}
+        sx={{
+            alignItems: "center",
+            fontSize: '1.5em',
+            fontWeight: 'bold'
+        }}>
 		<Grid><Typography variant="h2">{team.name}</Typography></Grid>
 		{team.countryId && <Grid><Flag nationality={team.countryId} size={48}/></Grid>}
 	</Grid>
@@ -34,11 +41,13 @@ const PageSkeleton = () => (
 	<Page title="Loading">
 		<Grid container spacing={2}>
 			<Grid
-                order={{xs: 2, md: 1}}
                 size={{
                     xs: 12,
                     md: 8,
                     lg: 9
+                }}
+                sx={{
+                    order: {xs: 2, md: 1}
                 }}>
 				<Card variant="outlined">
 					<Skeleton variant="rectangular" height={600}/>
@@ -46,11 +55,13 @@ const PageSkeleton = () => (
 			</Grid>
 
 			<Grid
-                order={{xs: 1, md: 2}}
                 size={{
                     xs: 12,
                     md: 4,
                     lg: 3
+                }}
+                sx={{
+                    order: {xs: 1, md: 2}
                 }}>
 				<Card variant="outlined">
 					<CardMedia>
@@ -133,11 +144,13 @@ export default function ConstructorContent({teamRef, team}: Props) {
 		>
             <Grid container spacing={2}>
 				<Grid
-                    order={{xs: 2, md: 1}}
                     size={{
                         xs: 12,
                         md: isInCurrentSeason ? 8 : 12,
                         lg: isInCurrentSeason ? 9 : 12
+                    }}
+                    sx={{
+                        order: {xs: 2, md: 1}
                     }}>
 					{bio?.extract && (
 						<Card variant="outlined" sx={{mb: 2, p: 2}}>
@@ -156,11 +169,13 @@ export default function ConstructorContent({teamRef, team}: Props) {
 				{
 					isInCurrentSeason && (
 						<Grid
-                            order={{xs: 1, md: 2}}
                             size={{
                                 xs: 12,
                                 md: 4,
                                 lg: 3
+                            }}
+                            sx={{
+                                order: {xs: 1, md: 2}
                             }}>
 							<Card variant="outlined">
 								<CardHeader title={`${currentSeason} Season Stats`}/>

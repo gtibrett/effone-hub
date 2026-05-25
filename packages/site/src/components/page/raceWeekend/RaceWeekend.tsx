@@ -48,12 +48,13 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
                 <ThemeProvider theme={darkTheme}>
 					<Card sx={sx} id="next-race-weekend">
 						<CardHeader
-							title={race.name}
-							titleTypographyProps={{fontSize: 30}}
-							subheader={getDateWithTime(raceDate)}
-							subheaderTypographyProps={{fontSize: 18}}
-							action={<ThemeProvider theme={lightTheme}><NextRaceCountdown variant="dark" race={race}/></ThemeProvider>}
-						/>
+                            title={race.name}
+                            subheader={getDateWithTime(raceDate)}
+                            action={<ThemeProvider theme={lightTheme}><NextRaceCountdown variant="dark" race={race}/></ThemeProvider>}
+                            slotProps={{
+                                title: {fontSize: 30},
+                                subheader: {fontSize: 18}
+                            }} />
 						<CardContent>
 							<Typography variant="body1" component="p">{race.name}</Typography>
 						</CardContent>

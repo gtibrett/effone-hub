@@ -96,7 +96,14 @@ export default function Season({data, loading}: CircuitDataProps) {
 						flex:        .5,
 						renderCell:  ({row}) => {
 							return (
-                                <Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
+                                <Grid
+                                    container
+                                    spacing={1}
+                                    sx={{
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        flexWrap: "nowrap"
+                                    }}>
                                     <Grid><>{row.reasonRetired ? row.reasonRetired : getPositionTextOutcome(String(row.positionDisplayOrder), undefined)}</>
 									</Grid>
                                 </Grid>

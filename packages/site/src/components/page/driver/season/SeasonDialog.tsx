@@ -14,15 +14,17 @@ type SeasonDialogProps = {
 
 export default function SeasonDialog({driverId, season, onClose}: SeasonDialogProps) {
 	return (
-		<Dialog
+        <Dialog
 			open={!!season} closeIcon={<FontAwesomeIcon fixedWidth icon={faTimes}/>} onClose={onClose} maxWidth="lg" fullWidth
 			title={
 				<>
 					{season} Season
-					<Typography paragraph variant="subtitle1"><DriverByLine id={driverId} variant="name"/></Typography>
+					<Typography variant="subtitle1" sx={{
+                        marginBottom: "16px"
+                    }}><DriverByLine id={driverId} variant="name"/></Typography>
 				</>
 			}>
-			{season && <Season season={season} driverId={driverId || ''}/>}
-		</Dialog>
-	);
+            {season && <Season season={season} driverId={driverId || ''}/>}
+        </Dialog>
+    );
 }

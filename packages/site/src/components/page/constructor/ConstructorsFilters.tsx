@@ -13,9 +13,11 @@ export default function ConstructorsFilters({filters, setFilters}: ListFiltersPr
 	};
 	
 	return (
-		<TableFilter handleSearch={handleSearch}>
-			<TextField fullWidth size="small" InputLabelProps={{shrink: true}} id="constructors-search-filter" label="Constructor" variant="outlined" value={localFilters.search} onChange={setStringFilter<ConstructorsListFilters>(setLocalFilters, 'search')}/>
-			<SeasonMenu required={false} variant="normal" id="constructors-season-filter" season={localFilters.season} setSeason={setNumberFilter<ConstructorsListFilters>(setLocalFilters, 'season')}/>
-		</TableFilter>
-	);
+        <TableFilter handleSearch={handleSearch}>
+            <TextField fullWidth size="small" id="constructors-search-filter" label="Constructor" variant="outlined" value={localFilters.search} onChange={setStringFilter<ConstructorsListFilters>(setLocalFilters, 'search')} slotProps={{
+                inputLabel: {shrink: true}
+            }}/>
+            <SeasonMenu required={false} variant="normal" id="constructors-season-filter" season={localFilters.season} setSeason={setNumberFilter<ConstructorsListFilters>(setLocalFilters, 'season')}/>
+        </TableFilter>
+    );
 }
