@@ -4,19 +4,16 @@ import {useDarkMode, useEffTheme, useFallbackColor, useInvertedTheme} from './Th
 
 describe('Theme.ts', () => {
 	describe('useEffTheme', () => {
-		test('exposes cssVariables config', () => {
+		test('palette references Tailwind CSS vars', () => {
 			const {result} = renderHook(() => useEffTheme());
-			const theme    = result.current as any;
-			// Under cssVariables mode the prefix is set
-			expect(theme.cssVarPrefix).toBe('mui');
-			// colorSchemes contain both light + dark palettes
-			expect(theme.colorSchemes.light.palette.primary.main).toBe('#37474f');
-			expect(theme.colorSchemes.dark.palette.primary.main).toBe('#78909c');
-			expect(theme.colorSchemes.light.palette.secondary.main).toBe('#bf360c');
-			expect(theme.colorSchemes.dark.palette.secondary.main).toBe('#ffab91');
+			const theme    = result.current;
+			expect(theme.palette.primary.main).toBe('var(--color-primary)');
+			expect(theme.palette.secondary.main).toBe('var(--color-secondary)');
+			expect(theme.palette.background.default).toBe('var(--color-background)');
+			expect(theme.palette.divider).toBe('var(--color-divider)');
 		});
 
-		test('returns stable reference across renders (no re-memoization)', () => {
+		test('returns stable reference across renders', () => {
 			const {result, rerender} = renderHook(() => useEffTheme());
 			const first              = result.current;
 			rerender();
@@ -44,9 +41,8 @@ describe('Theme.ts', () => {
 		expect(dark.current).toBe(true);
 	});
 
-	test('useFallbackColor returns a usable color string', () => {
+	test('useFallbackColor returns the primary CSS var', () => {
 		const {result} = renderHook(() => useFallbackColor());
-		// Either CSS var string (cssVars mode) or a hex
-		expect(result.current).toMatch(/^(var\(--mui-|#)/);
+		expect(result.current).toBe('var(--color-primary)');
 	});
 });

@@ -1,8 +1,8 @@
-import {useDarkMode} from '@/components/ui';
 import {NivoTooltipFactory, RequiredByPropTypes, useNivoTheme} from '@/components/ui/nivo';
 import {Circuit} from '@/gql/graphql';
 import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
-import {alpha, Box, useTheme} from '@mui/material';
+import {alpha} from '@/components/ui/colors';
+import {Box, useTheme} from '@mui/material';
 import {GeoMapEventHandler, ResponsiveGeoMap} from '@nivo/geo';
 import {useEffect, useState} from 'react';
 import MapTooltip from './MapTooltip';
@@ -52,7 +52,8 @@ export default function RaceMap(props: RaceMapProps) {
 	
 	const nivoTheme                           = useNivoTheme();
 	const theme                               = useTheme();
-	const darkMode                            = useDarkMode();
+	// All theme.palette.X values are `var(--color-X)` strings — SVG accepts
+	// them and the OS color-scheme media query flips them at paint time.
 	const land                                = useLand();
 	const {ref, dimensions, node}             = useComponentDimensionsWithRef();
 	const [lastDimensions, setLastDimensions] = useState(dimensions);
@@ -92,8 +93,7 @@ export default function RaceMap(props: RaceMapProps) {
 					// @ts-ignore
 					borderColor={(feature: any) => {
 						if (feature?.geometry?.type === 'Point') {
-							const nextColor = darkMode ? theme.palette.secondary.light : theme.palette.secondary.dark;
-							return highlightNext && feature.properties.next ? nextColor : theme.palette.background.paper;
+							return highlightNext && feature.properties.next ? theme.palette.secondary.dark : theme.palette.background.paper;
 						} else {
 							return theme.palette.primary.main;
 						}

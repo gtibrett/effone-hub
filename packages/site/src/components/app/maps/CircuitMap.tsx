@@ -26,18 +26,20 @@ const useSectorColors = () => {
 const useSx = (variant: CircuitMapProps['variant'], sector: string | undefined): SxProps => {
 	const theme                       = useTheme();
 	const {sector1, sector2, sector3} = useSectorColors();
+	// theme.palette.text.primary is `var(--color-text-primary)` — auto-flips.
+	const textPrimary                 = theme.palette.text.primary;
 	return {
 		'& > svg': {
 			p:        1.5,
 			overflow: 'visible'
 		},
-		
+
 		'& svg > path': {
 			strokeWidth: 8
 		},
-		
+
 		'& svg  .st0': {
-			stroke:      theme.palette.text.primary,
+			stroke:      textPrimary,
 			strokeWidth: 15 / (variant === 'simple' ? 1.75 : 1)
 		},
 		

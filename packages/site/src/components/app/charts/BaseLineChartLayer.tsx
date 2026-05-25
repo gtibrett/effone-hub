@@ -9,8 +9,10 @@ type CareerChartLineLayerProps = {
 }
 
 export default function BaseLineChartLayer(series: any) {
-	const theme = useTheme();
-	
+	const theme  = useTheme();
+	// theme.palette.divider is `var(--color-divider)` — flips with the OS scheme.
+	const stroke = theme.palette.divider;
+
 	return function LineLayer({xScale, yScale}: CareerChartLineLayerProps) {
 		const lineGenerator = line()
 			.x((d: Datum) => {
@@ -19,12 +21,12 @@ export default function BaseLineChartLayer(series: any) {
 			.y((d: Datum) => {
 				return yScale(Number(d.y));
 			});
-		
+
 		return (
 			<>
 				<path
 					d={lineGenerator(series.data) || undefined}
-					stroke={theme.palette.divider}
+					stroke={stroke}
 					fill="transparent"
 					strokeWidth={2}
 				/>

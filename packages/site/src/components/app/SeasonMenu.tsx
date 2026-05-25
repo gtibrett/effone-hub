@@ -1,7 +1,8 @@
+import {alpha} from '@/components/ui/colors';
 import { gql } from '@apollo/client';
 import { useQuery } from "@apollo/client/react";
 import {Season} from '@/gql/graphql';
-import {alpha, FormControl, InputLabel, MenuItem, Select, useTheme} from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, useTheme} from '@mui/material';
 
 export const SeasonsQuery = gql`
 	query SeasonMenuQuery {

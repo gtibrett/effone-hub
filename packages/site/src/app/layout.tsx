@@ -1,3 +1,4 @@
+import './globals.css';
 import '@fontsource/anton';
 import '@fontsource/roboto';
 import '@fontsource/roboto-mono';

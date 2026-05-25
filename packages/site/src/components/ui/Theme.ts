@@ -2,39 +2,53 @@
 
 import type {} from '@mui/x-data-grid/themeAugmentation';
 import {LinkBehavior} from '@gtibrett/mui-additions/next';
-import {alpha, createTheme, useMediaQuery, useTheme} from '@mui/material';
-import {blueGrey, deepOrange} from '@mui/material/colors';
+import {createTheme, useMediaQuery} from '@mui/material';
+import {tokens} from '@/lib/tokens';
 import {useMemo} from 'react';
 
-const primary   = blueGrey;
-const secondary = deepOrange;
 const {spacing} = createTheme({spacing: 8});
 
-// Build once at module load — under cssVariables mode the theme object is
-// stable across light/dark switches (CSS vars handle the flip).
+// Single MUI theme — palette values reference Tailwind CSS vars defined in
+// `src/app/globals.css`. Mode switching happens entirely in CSS via the
+// `prefers-color-scheme` media query (which flips the `--brand-*` vars
+// the `--color-*` aliases point at). No `cssVariables: true`, no
+// `colorSchemes`, no `applyStyles` — Tailwind is the driver.
+//
+// `palette.mode` is left at the default ('light'). MUI's runtime never
+// resolves colors from it at paint time because every value is a CSS var
+// that the browser swaps per the OS scheme.
 const effTheme = createTheme({
-	cssVariables: {
-		cssVarPrefix:        'mui',
-		colorSchemeSelector: 'media'   // OS-only — driven by (prefers-color-scheme)
-	},
-	defaultColorScheme: 'light',
-	colorSchemes: {
-		light: {
-			palette: {
-				contrastThreshold: 4.5,
-				primary:           {main: primary[800]},
-				secondary:         {main: secondary[900]},
-				background:        {paper: '#fff', default: primary[200]}
-			}
+	palette: {
+		contrastThreshold: 4.5,
+		primary:    {
+			main:         'var(--color-primary)',
+			light:        'var(--color-primary-light)',
+			dark:         'var(--color-primary-dark)',
+			contrastText: 'var(--color-primary-contrast)'
 		},
-		dark:  {
-			palette: {
-				contrastThreshold: 4.5,
-				primary:           {main: primary[400]},
-				secondary:         {main: secondary[200]},
-				background:        {paper: primary[900], default: primary[800]}
-			}
-		}
+		secondary:  {
+			main:         'var(--color-secondary)',
+			light:        'var(--color-secondary-light)',
+			dark:         'var(--color-secondary-dark)',
+			contrastText: 'var(--color-secondary-contrast)'
+		},
+		background: {
+			default: 'var(--color-background)',
+			paper:   'var(--color-background-paper)'
+		},
+		text:       {
+			primary:   'var(--color-text-primary)',
+			secondary: 'var(--color-text-secondary)',
+			disabled:  'var(--color-text-disabled)'
+		},
+		divider:    'var(--color-divider)',
+		// Augmented set (light/dark/contrastText all explicit) — without these
+		// MUI's createPalette calls lighten()/darken() on `main` to derive
+		// variants, which fails on var() strings.
+		success:    {main: 'var(--color-success)', light: 'var(--color-success)', dark: 'var(--color-success)', contrastText: '#ffffff'},
+		warning:    {main: 'var(--color-warning)', light: 'var(--color-warning)', dark: 'var(--color-warning)', contrastText: '#000000'},
+		error:      {main: 'var(--color-error)',   light: 'var(--color-error)',   dark: 'var(--color-error)',   contrastText: '#ffffff'},
+		info:       {main: 'var(--color-info)',    light: 'var(--color-info)',    dark: 'var(--color-info)',    contrastText: '#ffffff'}
 	},
 	spacing:    8,
 	typography: {
@@ -72,29 +86,24 @@ const effTheme = createTheme({
 				}
 			},
 			styleOverrides: {
-				root: ({theme}) => ({
+				root: {
 					border:                           0,
-					'--DataGrid-containerBackground': theme.vars.palette.background.paper
-				})
+					'--DataGrid-containerBackground': 'var(--color-background-paper)'
+				}
 			}
 		},
 		MuiDialog:       {
 			styleOverrides: {
-				paper: ({theme}) => ({
-					background: theme.vars.palette.background.paper
-				})
+				paper: {background: 'var(--color-background-paper)'}
 			}
 		},
 		MuiBackdrop:     {
 			styleOverrides: {
-				root: ({theme}) => ({
-					background:     alpha(primary[900], .75),
+				root: {
+					background:     'color-mix(in srgb, var(--color-primary-dark), transparent 25%)',
 					backdropFilter: `blur(5px) grayscale(100%)`,
-					zIndex:         100000,
-					...theme.applyStyles('dark', {
-						background: alpha(primary[100], .5)
-					})
-				})
+					zIndex:         100000
+				}
 			}
 		},
 		MuiLink:         {
@@ -105,118 +114,88 @@ const effTheme = createTheme({
 		},
 		MuiMenuItem:     {
 			styleOverrides: {
-				root: ({theme}) => ({
+				root: {
 					'&.Mui-selected': {
-						backgroundColor: `${secondary[900]} !important`,
-						color:           '#fff',
-						...theme.applyStyles('dark', {
-							backgroundColor: `${secondary[400]} !important`,
-							color:           '#000'
-						})
+						backgroundColor: 'var(--color-secondary) !important',
+						color:           'var(--color-secondary-contrast)'
 					}
-				})
+				}
 			}
 		},
 		MuiTab:          {
 			styleOverrides: {
-				root: ({theme}) => ({
+				root: {
 					'&.Mui-selected': {
-						color:      '#000',
-						fontWeight: 'bold',
-						...theme.applyStyles('dark', {color: '#fff'})
+						color:      'var(--color-text-primary)',
+						fontWeight: 'bold'
 					}
-				})
+				}
 			}
 		},
 		MuiToggleButton: {
 			styleOverrides: {
-				root: ({theme}) => ({
+				root: {
 					padding:     spacing(.25, 1),
-					borderColor: secondary[900],
-					color:       secondary[900],
+					borderColor: 'var(--color-secondary)',
+					color:       'var(--color-secondary)',
 
 					'&.Mui-selected':   {
-						backgroundColor: secondary[900],
-						color:           '#fff'
+						backgroundColor: 'var(--color-secondary)',
+						color:           'var(--color-secondary-contrast)'
 					},
 					'&:hover, &:focus': {
-						backgroundColor: `${primary[900]} !important`,
-						color:           '#fff'
-					},
-
-					...theme.applyStyles('dark', {
-						borderColor: secondary[400],
-						color:       secondary[400],
-
-						'&.Mui-selected':   {
-							backgroundColor: secondary[400],
-							color:           '#000'
-						},
-						'&:hover, &:focus': {
-							backgroundColor: `${primary[400]} !important`,
-							color:           '#000'
-						}
-					})
-				})
+						backgroundColor: 'var(--color-primary) !important',
+						color:           'var(--color-primary-contrast)'
+					}
+				}
 			}
 		}
 	}
 });
 
 /**
- * Returns the stable app theme. Under cssVariables mode the theme object does
- * not change across light/dark mode flips — CSS handles the switch.
- *
- * `overrideMode` is no longer honored (legacy signature kept for back-compat
- * during the migration). Tests should read `theme.colorSchemes.{light|dark}`
- * directly.
+ * Returns the stable app theme. Mode flipping is CSS-only (Tailwind
+ * `--color-*` vars in `globals.css`); the theme object itself is constant.
  */
 export const useEffTheme = (_overrideMode?: 'light' | 'dark') => {
 	return useMemo(() => effTheme, []);
 };
 
 /**
- * Returns a flat (non-cssVars) theme with the OPPOSITE mode from OS preference.
- * Used by Nivo chart tooltips which render inside a portal that doesn't
- * inherit color-scheme CSS, so we need a JS-resolved palette they can read.
+ * Flat MUI theme with the OPPOSITE mode's concrete tokens. Used by Nivo
+ * chart tooltips which render in a portal that doesn't reliably inherit
+ * the OS color scheme — concrete hex values force the desired look.
  */
 export const useInvertedTheme = () => {
 	const prefersDark = useMediaQuery('(prefers-color-scheme: dark)');
-	// Invert: if user prefers dark, we want a light theme for the tooltip
+	// Invert: when user prefers dark, tooltip uses light theme.
 	const invertedMode = prefersDark ? 'light' : 'dark';
+	const t            = tokens[invertedMode];
 
 	return useMemo(() => createTheme({
 		spacing:    8,
 		palette:    {
 			mode:              invertedMode,
 			contrastThreshold: 4.5,
-			primary:           {main: primary[invertedMode === 'dark' ? 400 : 800]},
-			secondary:         {main: secondary[invertedMode === 'dark' ? 200 : 900]},
-			background:        {
-				paper:   invertedMode === 'dark' ? primary[900] : '#fff',
-				default: invertedMode === 'dark' ? primary[800] : primary[200]
-			}
+			primary:           t.primary,
+			secondary:         t.secondary,
+			background:        t.background,
+			text:              t.text,
+			divider:           t.divider
 		},
-		typography: {
-			fontFamily: "'Titillium Web', sans-serif"
-		}
-	}), [invertedMode]);
+		typography: {fontFamily: "'Titillium Web', sans-serif"}
+	}), [invertedMode, t]);
 };
 
 /**
- * Read OS dark-mode preference. Rerenders the calling component on mode flip
- * (only use in chart/map islands that need to recompute SVG colors in JS).
- * For CSS-renderable values, prefer sx + theme.applyStyles('dark', {...})
- * which is fully CSS-driven and rerender-free.
+ * Reads OS dark-mode preference. Re-renders the calling component on flip.
+ * Use only in chart/map islands that need JS-side color decisions; CSS-
+ * renderable values should reference the `--color-*` vars directly.
  */
 export const useDarkMode      = () => useMediaQuery('(prefers-color-scheme: dark)');
 
 /**
- * Fallback color used when team color is not available. Under cssVars this
- * returns a CSS var string (e.g. `var(--mui-palette-primary-main)`), which is
- * valid as a CSS color value in SVG fills, CSS backgrounds, etc.
+ * Fallback color (CSS var) used when team color is unavailable. Renders
+ * correctly in MUI sx, inline style, and SVG fill/stroke contexts.
  */
-export const useFallbackColor = () => {
-	const theme = useTheme();
-	return theme.vars?.palette.primary.main ?? theme.palette.primary.main;
-};
+export const useFallbackColor = () => 'var(--color-primary)';

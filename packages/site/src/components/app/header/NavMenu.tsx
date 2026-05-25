@@ -2,7 +2,8 @@ import {useAppState} from '@/components/app';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link} from '@gtibrett/mui-additions';
-import {Box, Grid, IconButton, lighten, Menu, MenuItem, SxProps, useTheme} from '@mui/material';
+import {Box, Grid, IconButton, Menu, MenuItem, SxProps, useTheme} from '@mui/material';
+import {lighten} from '@/components/ui/colors';
 import {usePathname, useRouter} from 'next/navigation';
 import {MouseEvent, useState} from 'react';
 
@@ -70,12 +71,12 @@ export default function NavMenu() {
 		border:               '1px solid transparent',
 		borderRadius:         1,
 		'&:hover, &:focus':   {
-			color:       lighten(theme.palette.secondary.light, .375),
-			borderColor: lighten(theme.palette.secondary.light, .375)
+			color:       lighten('var(--color-secondary-light)', .375),
+			borderColor: lighten('var(--color-secondary-light)', .375)
 		},
 		'&:active, &.active': {
-			color:       theme.palette.getContrastText(theme.palette.secondary.main),
-			background:  theme.palette.secondary.main,
+			color:       'var(--color-secondary-contrast)',
+			background:  'var(--color-secondary-light)',
 			borderColor: 'transparent !important'
 		}
 	};

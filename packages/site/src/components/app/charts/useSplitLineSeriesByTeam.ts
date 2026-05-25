@@ -1,5 +1,6 @@
+import {alpha} from '@/components/ui/colors';
 import {useGetAccessibleChartColors} from '@/hooks';
-import {alpha, useTheme} from '@mui/material';
+import { useTheme} from '@mui/material';
 import {Serie} from '@nivo/line';
 import {useCallback} from 'react';
 import {DataWithTeamInfo, MutableSerie, SerieWithTeamAndData} from './types';
@@ -7,7 +8,9 @@ import {DataWithTeamInfo, MutableSerie, SerieWithTeamAndData} from './types';
 export default function useSplitSeriesByTeam() {
 	const theme                    = useTheme();
 	const getAccessibleChartColors = useGetAccessibleChartColors();
-	
+	// theme.palette.X values are `var(--color-X)` strings — Nivo SVG fills
+	// accept them and the OS scheme flips them at paint.
+
 	return useCallback((xKey: keyof SerieWithTeamAndData['rawData'], data: DataWithTeamInfo[]): [Serie[], Serie] => {
 		const xKeys = (data.map((rawData) => rawData[xKey]) || []).removeDuplicates();
 		const teams = (data.map(({teamId, color}) => ({teamId, color})) || []).removeDuplicates((a, b) => a.teamId === b.teamId);

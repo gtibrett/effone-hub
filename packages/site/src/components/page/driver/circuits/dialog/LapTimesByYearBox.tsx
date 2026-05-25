@@ -1,7 +1,8 @@
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
 import {getTimeStringFromDate} from '@/helpers';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
-import {Alert, alpha, Card, Skeleton} from '@mui/material';
+import {alpha} from '@/components/ui/colors';
+import {Alert, Card, Skeleton} from '@mui/material';
 import {ResponsiveBoxPlot} from '@nivo/boxplot';
 import LapTimesByYearTooltip from './LapTimesByYearTooltip';
 import {mapLapTimeDataToBoxChart} from './mapLapTimeDataToSwarmChart';

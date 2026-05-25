@@ -1,6 +1,6 @@
 import {useDarkMode} from '@/components/ui';
 import {useGetAccessibleColor} from '@/hooks';
-import {blueGrey} from '@mui/material/colors';
+import {blueGrey} from '@/components/ui/colors';
 
 const blueGreys = new Map<number, string>();
 Object.entries(blueGrey).forEach(([key, color]) => {

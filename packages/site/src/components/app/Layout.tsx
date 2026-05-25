@@ -23,17 +23,18 @@ export default function Layout({children}: PropsWithChildren) {
 		<AppStateProvider>
 			<SkipNav selector="main"/>
 
-			<Box sx={(theme) => ({
+			<Box sx={{
 				position:       'fixed',
 				overflow:       'auto',
 				top:            0,
 				left:           0,
 				right:          0,
 				bottom:         0,
-				background:     theme.vars?.palette.background.default ?? theme.palette.background.default,
-				scrollbarColor: 'light',
-				...theme.applyStyles('dark', {scrollbarColor: 'dark'})
-			})}>
+				background:     'var(--color-background)',
+				// `color-scheme: light/dark` is set on :root in globals.css per the
+				// OS scheme — UA picks the right native scrollbar palette.
+				scrollbarColor: 'auto'
+			}}>
 				<Suspense>
 					<Header/>
 				</Suspense>

@@ -1,5 +1,6 @@
 import {Link} from '@gtibrett/mui-additions';
-import {lighten, LinkProps, Typography, useTheme} from '@mui/material';
+import {LinkProps, Typography, useTheme} from '@mui/material';
+import {lighten} from '@/components/ui/colors';
 
 type LogoProps = {
 	href: LinkProps['href']

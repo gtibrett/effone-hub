@@ -1,6 +1,7 @@
 import {useDarkMode} from '@/components/ui';
 import {useTheme} from '@mui/material';
-import {amber, blueGrey, deepPurple, green, red} from '@mui/material/colors';
+import {amber, deepPurple, green, red} from '@mui/material/colors';
+import {blueGrey} from '@/components/ui/colors';
 
 type ResultsColor = {
 	background: string;
