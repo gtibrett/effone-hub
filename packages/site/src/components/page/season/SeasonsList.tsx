@@ -3,8 +3,7 @@ import SeasonsQuery from '@/components/page/season/SeasonsQuery';
 import { useSuspenseQuery } from "@apollo/client/react";
 import {Link} from '@gtibrett/mui-additions';
 import {Box, Skeleton} from '@mui/material';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {GridRenderCellParams} from '@mui/x-data-grid/models/params/gridCellParams';
+import {DataGrid, GridColDef, GridRenderCellParams} from '@mui/x-data-grid';
 import {memo, Suspense} from 'react';
 import {ChampionData, DriverChampionData, isDriverChampion, SeasonData, TeamChampionData} from './types';
 

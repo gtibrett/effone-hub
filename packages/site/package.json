@@ -67,7 +67,7 @@
 		"@mui/material-nextjs": "^9",
 		"@mui/system": "^9",
 		"@mui/utils": "^9",
-		"@mui/x-data-grid": "^7",
+		"@mui/x-data-grid": "^9",
 		"@next/third-parties": "^16.0.0",
 		"@nivo/axes": "^0.87.0",
 		"@nivo/bar": "^0.87.0",
