@@ -3,7 +3,7 @@
 import {Layout} from '@/components/app';
 import {useEffTheme} from '@/components/ui';
 import {config} from '@fortawesome/fontawesome-svg-core';
-import {AppRouterCacheProvider} from '@mui/material-nextjs/v15-appRouter';
+import {AppRouterCacheProvider} from '@mui/material-nextjs/v16-appRouter';
 import {CssBaseline, ThemeProvider} from '@mui/material';
 import {PropsWithChildren, Suspense} from 'react';
 import ApolloWrapper from './ApolloWrapper';
