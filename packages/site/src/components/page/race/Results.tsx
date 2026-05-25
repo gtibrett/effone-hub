@@ -10,7 +10,7 @@ import {DataGrid} from '@mui/x-data-grid';
 import Podium from './Podium';
 import PositionChange from './PositionChange';
 
-export default function Results({results}: { results: Race['raceResults'] }) {
+export default function Results({results}: { results?: Race['raceResults'] | null }) {
 	const nodes = results?.nodes;
 
 	if (!nodes) {

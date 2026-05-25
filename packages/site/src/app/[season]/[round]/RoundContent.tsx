@@ -10,16 +10,23 @@ import {Link, TabContent, Tabs} from '@gtibrett/mui-additions';
 import {Box, Card, CardContent, CardHeader, CardMedia, Grid, Typography} from '@mui/material';
 
 type Props = {
-	season: string;
-	round:  string;
-	race:   Partial<Race>;
+	season:             string;
+	round:              string;
+	race:               Partial<Race>;
+	/**
+	 * Server-prefetched race data (results + sprint results) for past races.
+	 * When supplied, RoundContent skips its client-side useRace call entirely
+	 * — the past-race tree renders without an Apollo round-trip on hydration.
+	 */
+	prefetchedRaceData?: Race | null;
 };
 
-export default function RoundContent({season: seasonStr, round: roundStr, race}: Props) {
+type RenderProps = Props & {raceData: Race | null | undefined};
+
+function RoundContentRender({season: seasonStr, round: roundStr, race, raceData}: RenderProps) {
 	const season                   = Number(seasonStr);
 	const round                    = Number(roundStr);
 	const mapSeasonRacesToFeatures = useMapSeasonRacesToMapPoints();
-	const raceData                 = useRace(season, round);
 	const results                  = raceData?.raceResults;
 	const sprintResults            = (raceData?.sprintRaceResults?.nodes ?? []).filter((r): r is NonNullable<typeof r> => r != null);
 
@@ -149,4 +156,24 @@ export default function RoundContent({season: seasonStr, round: roundStr, race}:
 			</Grid>
         </Page>
     );
+}
+
+/**
+ * Wrapper that runs the client-side useRace suspense query. Used only when
+ * prefetchedRaceData is not supplied (live/upcoming races).
+ */
+function RoundContentClientFetch(props: Props) {
+	const raceData = useRace(Number(props.season), Number(props.round));
+	return <RoundContentRender {...props} raceData={raceData}/>;
+}
+
+export default function RoundContent(props: Props) {
+	// Past races: render from server-prefetched data, no Apollo round-trip on
+	// the client. Hooks can't be called conditionally, so the data-fetching
+	// path lives in a separate component reached only by the live/upcoming
+	// branch.
+	if (props.prefetchedRaceData) {
+		return <RoundContentRender {...props} raceData={props.prefetchedRaceData}/>;
+	}
+	return <RoundContentClientFetch {...props}/>;
 }

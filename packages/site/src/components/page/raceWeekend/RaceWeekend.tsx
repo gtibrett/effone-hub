@@ -1,6 +1,6 @@
 import {useEffTheme} from '@/components/ui';
 import {getDateWithTime} from '@/helpers';
-import {alpha, Card, CardActions, CardContent, CardHeader, Grid, ThemeProvider, Typography} from '@mui/material';
+import {Card, CardActions, CardContent, CardHeader, Grid, ThemeProvider, Typography} from '@mui/material';
 import NextRaceCountdown from './NextRaceCountdown';
 import NextRaceSchedule from './NextRaceSchedule';
 import useNextRaceData from './useNextRaceData';
@@ -29,7 +29,8 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 				height:     '100%',
 				width:      '100%',
 				zIndex:     1,
-				background: alpha(lightTheme.palette.secondary.main, .5)
+				background: lightTheme.palette.secondary.main,
+				opacity:    .5
 			},
 			
 			'& > *': {
@@ -40,21 +41,21 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 		const raceDate = new Date(`${race.date}T${race.time}`);
 		
 		return (
-            <Grid
-                size={{
-                    xs: 12,
-                    md: 12
-                }}>
-                <ThemeProvider theme={darkTheme}>
+			<Grid
+				size={{
+					xs: 12,
+					md: 12
+				}}>
+				<ThemeProvider theme={darkTheme}>
 					<Card sx={sx} id="next-race-weekend">
 						<CardHeader
-                            title={race.name}
-                            subheader={getDateWithTime(raceDate)}
-                            action={<ThemeProvider theme={lightTheme}><NextRaceCountdown variant="dark" race={race}/></ThemeProvider>}
-                            slotProps={{
-                                title: {fontSize: 30},
-                                subheader: {fontSize: 18}
-                            }} />
+							title={race.name}
+							subheader={getDateWithTime(raceDate)}
+							action={<ThemeProvider theme={lightTheme}><NextRaceCountdown variant="dark" race={race}/></ThemeProvider>}
+							slotProps={{
+								title:     {fontSize: 30},
+								subheader: {fontSize: 18}
+							}}/>
 						<CardContent>
 							<Typography variant="body1" component="p">{race.name}</Typography>
 						</CardContent>
@@ -63,7 +64,7 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 						</CardActions>
 					</Card>
 				</ThemeProvider>
-            </Grid>
-        );
+			</Grid>
+		);
 	}
 };
