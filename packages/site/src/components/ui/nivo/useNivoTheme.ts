@@ -1,5 +1,6 @@
 import {useInvertedTheme} from '@/components/ui';
 import {alpha} from '@/components/ui/colors';
+import {cssVar} from '@/lib/tokens';
 import {useTheme} from '@mui/material';
 import {BoxPlotDatum} from '@nivo/boxplot/dist/types/types';
 import {Theme} from '@nivo/core';
@@ -9,9 +10,9 @@ type NivoTheme = Theme & {
 	translation: BoxPlotDatum;
 }
 
-// Tailwind-driven theme: `theme.palette.X` returns `var(--color-X)` strings.
-// Passing those into Nivo's SVG fill/stroke props lets the OS color-scheme
-// media query flip chart colors at paint with no React work.
+// Use `cssVar.X` (Tailwind CSS var strings) so Nivo SVG fill/stroke attrs
+// flip with the OS color scheme at paint time, no React work. Reading
+// `theme.palette.X` would give a concrete light-scheme hex (frozen).
 export default function useNivoTheme(): NivoTheme {
 	const theme         = useTheme();
 	const invertedTheme = useInvertedTheme();
@@ -21,75 +22,75 @@ export default function useNivoTheme(): NivoTheme {
 	// Without memoization, a fresh object identity per render flows into Nivo's
 	// internal memoization and re-mounts the tooltip on every parent render.
 	return useMemo(() => ({
-		background:  alpha(theme.palette.background.default, .25),
+		background:  alpha(cssVar.background.default, .25),
 		text:        {
-			color:      theme.palette.text.primary,
+			color:      cssVar.text.primary,
 			fontSize:   theme.typography.caption.fontSize,
 			fontFamily: "'Titillium Web', sans-serif"
 		},
 		translation: {},
 		axis:        {
-			domain: {line: {stroke: theme.palette.divider, strokeWidth: 1}},
+			domain: {line: {stroke: cssVar.divider, strokeWidth: 1}},
 			legend: {
 				text: {
 					fontSize: theme.typography.caption.fontSize,
-					fill:     theme.palette.text.secondary
+					fill:     cssVar.text.secondary
 				}
 			},
 			ticks:  {
-				line: {stroke: theme.palette.divider, strokeWidth: 1},
+				line: {stroke: cssVar.divider, strokeWidth: 1},
 				text: {
 					fontSize: theme.typography.caption.fontSize,
-					fill:     theme.palette.text.secondary
+					fill:     cssVar.text.secondary
 				}
 			}
 		},
-		grid:        {line: {stroke: theme.palette.divider, strokeWidth: 1}},
+		grid:        {line: {stroke: cssVar.divider, strokeWidth: 1}},
 		legends:     {
 			title: {
 				text: {
 					fontSize: theme.typography.caption.fontSize,
-					fill:     theme.palette.text.secondary
+					fill:     cssVar.text.secondary
 				}
 			},
 			text:  {
 				fontSize: theme.typography.caption.fontSize,
-				fill:     theme.palette.text.secondary
+				fill:     cssVar.text.secondary
 			},
 			ticks: {
 				line: {},
 				text: {
 					fontSize: theme.typography.caption.fontSize,
-					fill:     theme.palette.text.secondary
+					fill:     cssVar.text.secondary
 				}
 			}
 		},
 		annotations: {
 			text:    {
 				fontSize:       theme.typography.caption.fontSize,
-				fill:           theme.palette.text.secondary,
+				fill:           cssVar.text.secondary,
 				outlineWidth:   2,
-				outlineColor:   theme.palette.background.paper,
+				outlineColor:   cssVar.background.paper,
 				outlineOpacity: 1
 			},
 			link:    {
-				stroke:         theme.palette.text.primary,
+				stroke:         cssVar.text.primary,
 				strokeWidth:    1,
 				outlineWidth:   2,
-				outlineColor:   theme.palette.background.paper,
+				outlineColor:   cssVar.background.paper,
 				outlineOpacity: 1
 			},
 			outline: {
-				stroke:         theme.palette.text.primary,
+				stroke:         cssVar.text.primary,
 				strokeWidth:    2,
 				outlineWidth:   2,
-				outlineColor:   theme.palette.background.paper,
+				outlineColor:   cssVar.background.paper,
 				outlineOpacity: 1
 			},
 			symbol:  {
-				fill:           theme.palette.text.primary,
+				fill:           cssVar.text.primary,
 				outlineWidth:   2,
-				outlineColor:   theme.palette.background.paper,
+				outlineColor:   cssVar.background.paper,
 				outlineOpacity: 1
 			}
 		},

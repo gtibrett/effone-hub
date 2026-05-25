@@ -1,4 +1,4 @@
-import {useTheme} from '@mui/material';
+import {cssVar} from '@/lib/tokens';
 import {Datum} from '@nivo/line';
 import {AnyScale} from '@nivo/scales';
 import {line} from 'd3-shape';
@@ -9,9 +9,8 @@ type CareerChartLineLayerProps = {
 }
 
 export default function BaseLineChartLayer(series: any) {
-	const theme  = useTheme();
-	// theme.palette.divider is `var(--color-divider)` — flips with the OS scheme.
-	const stroke = theme.palette.divider;
+	// var(--color-divider) — flips with OS scheme at paint.
+	const stroke = cssVar.divider;
 
 	return function LineLayer({xScale, yScale}: CareerChartLineLayerProps) {
 		const lineGenerator = line()

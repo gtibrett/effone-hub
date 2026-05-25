@@ -1,8 +1,11 @@
 import {Link} from '@gtibrett/mui-additions';
 import {AppBar, Grid, Toolbar, Typography} from '@mui/material';
-import {blueGrey, darken, secondary} from '@/components/ui/colors';
 import NavMenu from './NavMenu';
 
+// Background mixes the primary-dark token with 25% black via color-mix
+// so the AppBar still tracks the OS scheme. The carbon-fiber texture
+// stays as a `:before` overlay (Tailwind has no clean pseudo-bg-image
+// utility, so this stays in sx).
 export default function Header() {
 	return (
         <header role="banner">
@@ -10,11 +13,8 @@ export default function Header() {
 				component="nav"
 				color="primary"
 				aria-label="main navigation"
+				className="py-2 border-b-4 border-secondary-light bg-[color-mix(in_oklch,_var(--color-primary-dark),_black_25%)]"
 				sx={{
-					background:   darken(blueGrey[900], .25),
-					borderBottom: `4px solid ${secondary[400]}`,
-					py:           1,
-					
 					'&:before': {
 						position:        'absolute',
 						top:             0, bottom: 0,
@@ -26,14 +26,11 @@ export default function Header() {
 					}
 				}}>
 				<Toolbar>
-					<Grid container spacing={1} sx={{
-                        alignItems: "center",
-						width: '100%',
-                    }}>
+					<Grid container spacing={1} className="items-center w-full">
 						<Grid>
 							<Link href="/" color="inherit" sx={{textDecoration: 'none', '& *': {fontFamily: 'Anton !important', fontSize: '48px !important'}}}>
 								<Typography component="h1">
-									EFF<Typography component="span" sx={{opacity: 1, px: .5, color: secondary[400]}}>ONE</Typography>HUB
+									EFF<Typography component="span" className="opacity-100 px-1 text-secondary-light">ONE</Typography>HUB
 								</Typography>
 							</Link>
 						</Grid>
@@ -42,7 +39,7 @@ export default function Header() {
 					</Grid>
 				</Toolbar>
 			</AppBar>
-            <Toolbar sx={{my: 2}}/>
+            <Toolbar className="my-4"/>
         </header>
     );
 }

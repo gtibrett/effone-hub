@@ -1,15 +1,13 @@
 import {alpha} from '@/components/ui/colors';
 import {useGetAccessibleChartColors} from '@/hooks';
-import { useTheme} from '@mui/material';
+import {cssVar} from '@/lib/tokens';
 import {Serie} from '@nivo/line';
 import {useCallback} from 'react';
 import {DataWithTeamInfo, MutableSerie, SerieWithTeamAndData} from './types';
 
 export default function useSplitSeriesByTeam() {
-	const theme                    = useTheme();
 	const getAccessibleChartColors = useGetAccessibleChartColors();
-	// theme.palette.X values are `var(--color-X)` strings — Nivo SVG fills
-	// accept them and the OS scheme flips them at paint.
+	// cssVar.X strings flip with OS scheme at paint.
 
 	return useCallback((xKey: keyof SerieWithTeamAndData['rawData'], data: DataWithTeamInfo[]): [Serie[], Serie] => {
 		const xKeys = (data.map((rawData) => rawData[xKey]) || []).removeDuplicates();
@@ -18,7 +16,7 @@ export default function useSplitSeriesByTeam() {
 		const seriesByTeam: MutableSerie[] = teams.map(({teamId, color}) => (
 			{
 				id:    teamId,
-				color: getAccessibleChartColors(color || theme.palette.primary.main)[0],
+				color: getAccessibleChartColors(color || cssVar.primary.main)[0],
 				data:  xKeys.map(val => (
 					{
 						[xKey]: val
@@ -29,7 +27,7 @@ export default function useSplitSeriesByTeam() {
 		
 		const baseSerie: MutableSerie = {
 			id:    -1,
-			color: alpha(theme.palette.divider, .1),
+			color: alpha(cssVar.divider, .1),
 			data:  xKeys.map(val => (
 				{
 					[xKey]: val
@@ -55,5 +53,5 @@ export default function useSplitSeriesByTeam() {
 		});
 		
 		return [seriesByTeam, baseSerie];
-	}, [getAccessibleChartColors, theme.palette.divider, theme.palette.primary.main]);
+	}, [getAccessibleChartColors]);
 }

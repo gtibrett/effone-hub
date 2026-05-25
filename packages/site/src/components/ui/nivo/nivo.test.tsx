@@ -30,15 +30,18 @@ describe('nivo.ts', () => {
 				</>
 			);
 		};
-		
+
 		render(
 			<ThemeProvider theme={theme}>
 				<TestComponent/>
 			</ThemeProvider>
 		);
-		
-		expect(screen.getByTestId('textColor')).toHaveTextContent(theme.palette.text.primary);
-		expect(screen.getByTestId('axisText')).toHaveTextContent(theme.palette.text.secondary);
+
+		// useNivoTheme returns Tailwind cssVar strings so Nivo SVG attrs flip
+		// with the OS scheme at paint. Compare against the var() literals,
+		// not against any MUI palette JS resolution.
+		expect(screen.getByTestId('textColor')).toHaveTextContent('var(--color-text-primary)');
+		expect(screen.getByTestId('axisText')).toHaveTextContent('var(--color-text-secondary)');
 	});
 	
 	describe('useGetChartColorsByConstructor hook', () => {

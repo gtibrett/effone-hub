@@ -1,9 +1,10 @@
 import {useDarkMode} from '@/components/ui';
 import {Circuit} from '@/gql/graphql';
 import {useCircuitByRef} from '@/hooks/data';
+import {cssVar} from '@/lib/tokens';
 import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Box, Grid, SxProps, ToggleButton, ToggleButtonGroup, useTheme} from '@mui/material';
+import {Box, Grid, SxProps, ToggleButton, ToggleButtonGroup} from '@mui/material';
 import {blue, red, yellow} from '@mui/material/colors';
 import {Suspense, SVGProps, SyntheticEvent, useState} from 'react';
 import getMapSVG from './circuits/getMapSVG';
@@ -24,10 +25,9 @@ const useSectorColors = () => {
 };
 
 const useSx = (variant: CircuitMapProps['variant'], sector: string | undefined): SxProps => {
-	const theme                       = useTheme();
 	const {sector1, sector2, sector3} = useSectorColors();
-	// theme.palette.text.primary is `var(--color-text-primary)` — auto-flips.
-	const textPrimary                 = theme.palette.text.primary;
+	// var(--color-text-primary) flips with OS scheme at paint.
+	const textPrimary                 = cssVar.text.primary;
 	return {
 		'& > svg': {
 			p:        1.5,

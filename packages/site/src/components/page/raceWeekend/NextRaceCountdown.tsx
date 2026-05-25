@@ -1,7 +1,7 @@
 import '@/polyfills';
 import {Card, SxProps, useTheme} from '@mui/material';
 import {PaletteColor} from '@mui/material/styles';
-import {getContrastText} from '@/lib/color-utils';
+import {getContrastText, getCssContrast, SUPPORTS_CONTRAST_COLOR} from '@/lib/useContrastText';
 import CountdownClock from './CountdownClock';
 import useRaceScheduleEvents from './useRaceScheduleEvents';
 import {NextRace} from './useNextRaceData';
@@ -21,11 +21,14 @@ export default function NextRaceCountdown({race, variant}: NextRaceCountdownProp
 
 	const [nextEvent] = scheduleEvents;
 
+	// Nested `'& *'` cascade — emit both fallback + @supports CSS-only
+	// override inside the same selector.
 	const sx: SxProps = {
 		py:       2, px: 2,
 		background,
 		'&, & *': {
-			color: `${getContrastText(background)} !important`
+			color:                          `${getContrastText(background)} !important`,
+			[SUPPORTS_CONTRAST_COLOR]:      {color: `${getCssContrast(background)} !important`}
 		}
 	};
 	

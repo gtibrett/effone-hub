@@ -1,7 +1,6 @@
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {alpha} from '@/components/ui/colors';
-import {Button, CardActions, Grid, Tooltip, Typography, useTheme} from '@mui/material';
+import {Button, CardActions, Grid, Tooltip, Typography} from '@mui/material';
 import {visuallyHidden} from '@mui/utils';
 import {ChangeEvent, Dispatch, ReactNode, SetStateAction, SyntheticEvent} from 'react';
 
@@ -11,11 +10,9 @@ type TableFilterProps = {
 }
 
 export default function TableFilter({handleSearch, children}: TableFilterProps) {
-	const theme = useTheme();
-	
 	return (
         <form onSubmit={handleSearch}>
-            <CardActions sx={{p: 2, borderBottom: `4px solid ${theme.palette.secondary.main}`, background: alpha(theme.palette.background.default, .125)}}>
+            <CardActions className="p-2 border-b-4 border-secondary bg-background/15">
 				<Grid container spacing={1}>
 					{Array.isArray(children) ? children.map((c, i) => <Grid key={i} size="grow">{c}</Grid>) : <Grid size="grow">{children}</Grid>}
 					<Grid>

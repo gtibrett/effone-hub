@@ -1,8 +1,7 @@
-import {alpha} from '@/components/ui/colors';
 import { gql } from '@apollo/client';
 import { useQuery } from "@apollo/client/react";
 import {Season} from '@/gql/graphql';
-import { FormControl, InputLabel, MenuItem, Select, useTheme} from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select} from '@mui/material';
 
 export const SeasonsQuery = gql`
 	query SeasonMenuQuery {
@@ -15,22 +14,14 @@ export const SeasonsQuery = gql`
 	}
 `;
 
-const useSelectSx = () => {
-	const theme = useTheme();
-
-	return {
-		m:            0,
-		minWidth:     120,
-		borderRadius: 1,
-		border:       `1px solid ${theme.palette.text.primary}`,
-		'&:hover':    {
-			backgroundColor: alpha(theme.palette.divider, 0.05)
-		},
-
-		'& > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
-			border: 0
-		}
-	};
+// Tailwind-only: border + hover-bg flip with OS scheme via the
+// text-primary / divider tokens defined in globals.css. The
+// notchedOutline override stays in sx (deep MUI selector).
+const SELECT_CLASS = 'min-w-30 rounded border border-text-primary hover:bg-divider/5';
+const SELECT_SX    = {
+	'& > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
+		border: 0
+	}
 };
 
 type SeasonMenuProps = {
@@ -42,7 +33,6 @@ type SeasonMenuProps = {
 }
 
 export default function SeasonMenu({variant = 'simple', id, season, setSeason, required = true}: SeasonMenuProps) {
-	const sx              = useSelectSx();
 	const {data, loading} = useQuery<{ seasons: { nodes: Pick<Season, 'year'>[] } }>(SeasonsQuery);
 
 	const seasons = (data?.seasons.nodes ?? [{year: (new Date()).getFullYear()}]).map(s => s.year);
@@ -56,10 +46,10 @@ export default function SeasonMenu({variant = 'simple', id, season, setSeason, r
 	switch (variant) {
 		case 'simple':
 			return (
-				<FormControl fullWidth sx={sx} size="small">
+				<FormControl fullWidth className={SELECT_CLASS} sx={SELECT_SX} size="small">
 					<Select
 						inputProps={{'aria-label': 'Season'}}
-						sx={{color: 'inherit', p: 0, border: 0}}
+						className="text-inherit p-0 border-0"
 						id={id}
 						value={season}
 						label="Season"
@@ -90,10 +80,9 @@ export default function SeasonMenu({variant = 'simple', id, season, setSeason, r
 	}
 
 	return (
-		<FormControl fullWidth sx={variant === 'simple' ? sx : undefined} size="small">
+		<FormControl fullWidth size="small">
 			<Select
 				inputProps={{'aria-label': 'Season'}}
-				sx={variant === 'simple' ? {color: 'inherit', p: 0, border: 0} : undefined}
 				id={id}
 				value={season}
 				label="Season"

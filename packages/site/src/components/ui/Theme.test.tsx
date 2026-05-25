@@ -1,16 +1,30 @@
 import {setDarkMode} from '@/jest';
+import {alpha, darken, lighten} from '@mui/material';
 import {renderHook} from '@testing-library/react';
 import {useDarkMode, useEffTheme, useFallbackColor, useInvertedTheme} from './Theme';
 
 describe('Theme.ts', () => {
 	describe('useEffTheme', () => {
-		test('palette references Tailwind CSS vars', () => {
+		test('palette holds CONCRETE sRGB-parseable values (not var() strings)', () => {
+			// Regression guard for the SkipNav/MUI-internals crash:
+			// MUI's decomposeColor (called transitively by alpha/lighten/darken)
+			// throws on var(--color-*). If anyone reverts to var() palette
+			// values, this test fails fast — and the assertions below confirm
+			// that MUI's own helpers can still operate on the palette.
 			const {result} = renderHook(() => useEffTheme());
-			const theme    = result.current;
-			expect(theme.palette.primary.main).toBe('var(--color-primary)');
-			expect(theme.palette.secondary.main).toBe('var(--color-secondary)');
-			expect(theme.palette.background.default).toBe('var(--color-background)');
-			expect(theme.palette.divider).toBe('var(--color-divider)');
+			const palette  = result.current.palette;
+
+			expect(palette.primary.main).not.toMatch(/^var\(/);
+			expect(palette.secondary.main).not.toMatch(/^var\(/);
+			expect(palette.background.paper).not.toMatch(/^var\(/);
+			expect(palette.background.default).not.toMatch(/^var\(/);
+			expect(palette.divider).not.toMatch(/^var\(/);
+
+			// And MUI's color helpers must not throw on any palette value.
+			expect(() => alpha(palette.background.paper, .5)).not.toThrow();
+			expect(() => alpha(palette.primary.main, .5)).not.toThrow();
+			expect(() => darken(palette.primary.main, .25)).not.toThrow();
+			expect(() => lighten(palette.primary.main, .25)).not.toThrow();
 		});
 
 		test('returns stable reference across renders', () => {

@@ -2,7 +2,8 @@ import {NivoTooltipFactory, RequiredByPropTypes, useNivoTheme} from '@/component
 import {Circuit} from '@/gql/graphql';
 import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {alpha} from '@/components/ui/colors';
-import {Box, useTheme} from '@mui/material';
+import {cssVar} from '@/lib/tokens';
+import {Box} from '@mui/material';
 import {GeoMapEventHandler, ResponsiveGeoMap} from '@nivo/geo';
 import {useEffect, useState} from 'react';
 import MapTooltip from './MapTooltip';
@@ -51,9 +52,7 @@ export default function RaceMap(props: RaceMapProps) {
 	const {points, onClick, height = 300, width = 'auto', centerOn = {longitude: 0, latitude: 0}, zoom = false, highlightNext = false} = props;
 	
 	const nivoTheme                           = useNivoTheme();
-	const theme                               = useTheme();
-	// All theme.palette.X values are `var(--color-X)` strings — SVG accepts
-	// them and the OS color-scheme media query flips them at paint time.
+	// cssVar.X strings flip with the OS scheme via globals.css media query.
 	const land                                = useLand();
 	const {ref, dimensions, node}             = useComponentDimensionsWithRef();
 	const [lastDimensions, setLastDimensions] = useState(dimensions);
@@ -93,9 +92,9 @@ export default function RaceMap(props: RaceMapProps) {
 					// @ts-ignore
 					borderColor={(feature: any) => {
 						if (feature?.geometry?.type === 'Point') {
-							return highlightNext && feature.properties.next ? theme.palette.secondary.dark : theme.palette.background.paper;
+							return highlightNext && feature.properties.next ? cssVar.secondary.dark : cssVar.background.paper;
 						} else {
-							return theme.palette.primary.main;
+							return cssVar.primary.main;
 						}
 					}}
 					borderWidth={(feature: any) => {
@@ -107,9 +106,9 @@ export default function RaceMap(props: RaceMapProps) {
 					}}
 					fillColor={(feature: any) => {
 						if (feature?.geometry?.type === 'Point') {
-							return highlightNext && feature.properties.next ? theme.palette.background.paper : theme.palette.secondary.main;
+							return highlightNext && feature.properties.next ? cssVar.background.paper : cssVar.secondary.main;
 						} else {
-							return alpha(theme.palette.primary.light, .25);
+							return alpha(cssVar.primary.light, .25);
 						}
 					}}
 					tooltip={NivoTooltipFactory(MapTooltip)}

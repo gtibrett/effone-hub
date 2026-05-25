@@ -8,47 +8,33 @@ import {useMemo} from 'react';
 
 const {spacing} = createTheme({spacing: 8});
 
-// Single MUI theme — palette values reference Tailwind CSS vars defined in
-// `src/app/globals.css`. Mode switching happens entirely in CSS via the
-// `prefers-color-scheme` media query (which flips the `--brand-*` vars
-// the `--color-*` aliases point at). No `cssVariables: true`, no
-// `colorSchemes`, no `applyStyles` — Tailwind is the driver.
+// MUI palette uses CONCRETE sRGB hex values (light scheme) — not CSS vars.
 //
-// `palette.mode` is left at the default ('light'). MUI's runtime never
-// resolves colors from it at paint time because every value is a CSS var
-// that the browser swaps per the OS scheme.
+// Reasoning: MUI internals and third-party components (e.g. SkipNav from
+// @gtibrett/mui-additions) call `alpha()` / `darken()` / `lighten()` on
+// theme.palette.X values, which feed `decomposeColor` — and decomposeColor
+// only understands hex/rgb/hsl/color(), not var() strings. Putting var()
+// strings in the palette makes every such caller throw at runtime.
+//
+// Mode-flipping for our own consumers is opt-in via CSS vars from
+// `@/lib/tokens` (e.g. `cssVar.primary.main`) or via Tailwind utilities
+// (`bg-primary`). Component styleOverrides below use var(--color-*) inline
+// so they land in CSS and flip naturally via the prefers-color-scheme
+// media query in globals.css.
+const lightTokens = tokens.light;
+
 const effTheme = createTheme({
 	palette: {
 		contrastThreshold: 4.5,
-		primary:    {
-			main:         'var(--color-primary)',
-			light:        'var(--color-primary-light)',
-			dark:         'var(--color-primary-dark)',
-			contrastText: 'var(--color-primary-contrast)'
-		},
-		secondary:  {
-			main:         'var(--color-secondary)',
-			light:        'var(--color-secondary-light)',
-			dark:         'var(--color-secondary-dark)',
-			contrastText: 'var(--color-secondary-contrast)'
-		},
-		background: {
-			default: 'var(--color-background)',
-			paper:   'var(--color-background-paper)'
-		},
-		text:       {
-			primary:   'var(--color-text-primary)',
-			secondary: 'var(--color-text-secondary)',
-			disabled:  'var(--color-text-disabled)'
-		},
-		divider:    'var(--color-divider)',
-		// Augmented set (light/dark/contrastText all explicit) — without these
-		// MUI's createPalette calls lighten()/darken() on `main` to derive
-		// variants, which fails on var() strings.
-		success:    {main: 'var(--color-success)', light: 'var(--color-success)', dark: 'var(--color-success)', contrastText: '#ffffff'},
-		warning:    {main: 'var(--color-warning)', light: 'var(--color-warning)', dark: 'var(--color-warning)', contrastText: '#000000'},
-		error:      {main: 'var(--color-error)',   light: 'var(--color-error)',   dark: 'var(--color-error)',   contrastText: '#ffffff'},
-		info:       {main: 'var(--color-info)',    light: 'var(--color-info)',    dark: 'var(--color-info)',    contrastText: '#ffffff'}
+		primary:           lightTokens.primary,
+		secondary:         lightTokens.secondary,
+		background:        lightTokens.background,
+		text:              lightTokens.text,
+		divider:           lightTokens.divider,
+		success:           {main: lightTokens.success, light: lightTokens.success, dark: lightTokens.success, contrastText: '#ffffff'},
+		warning:           {main: lightTokens.warning, light: lightTokens.warning, dark: lightTokens.warning, contrastText: '#000000'},
+		error:             {main: lightTokens.error,   light: lightTokens.error,   dark: lightTokens.error,   contrastText: '#ffffff'},
+		info:              {main: lightTokens.info,    light: lightTokens.info,    dark: lightTokens.info,    contrastText: '#ffffff'}
 	},
 	spacing:    8,
 	typography: {
@@ -86,6 +72,7 @@ const effTheme = createTheme({
 				}
 			},
 			styleOverrides: {
+				// var() lands in CSS — flips with the OS scheme.
 				root: {
 					border:                           0,
 					'--DataGrid-containerBackground': 'var(--color-background-paper)'
@@ -154,8 +141,11 @@ const effTheme = createTheme({
 });
 
 /**
- * Returns the stable app theme. Mode flipping is CSS-only (Tailwind
- * `--color-*` vars in `globals.css`); the theme object itself is constant.
+ * Returns the stable app theme. Mode flipping for components that consume
+ * `theme.palette.X` does NOT happen — those reads always resolve to the
+ * light-scheme sRGB hex (see palette setup above). Mode-aware consumers
+ * should import `cssVar` from `@/lib/tokens` and use `var(--color-*)`
+ * strings directly.
  */
 export const useEffTheme = (_overrideMode?: 'light' | 'dark') => {
 	return useMemo(() => effTheme, []);
@@ -167,7 +157,7 @@ export const useEffTheme = (_overrideMode?: 'light' | 'dark') => {
  * the OS color scheme — concrete hex values force the desired look.
  */
 export const useInvertedTheme = () => {
-	const prefersDark = useMediaQuery('(prefers-color-scheme: dark)');
+	const prefersDark  = useMediaQuery('(prefers-color-scheme: dark)');
 	// Invert: when user prefers dark, tooltip uses light theme.
 	const invertedMode = prefersDark ? 'light' : 'dark';
 	const t            = tokens[invertedMode];

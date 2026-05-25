@@ -1,6 +1,7 @@
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
 import {useResultsColors} from '@/hooks';
-import {Box, Card, Skeleton, Typography, useTheme} from '@mui/material';
+import {cssVar} from '@/lib/tokens';
+import {Box, Card, Skeleton, Typography} from '@mui/material';
 import {ComputedDatum, ResponsiveSunburst} from '@nivo/sunburst';
 import usePerformanceData from '../usePerformanceData';
 import useCareerData from './useCareerData';
@@ -32,7 +33,6 @@ export default function CareerPerformanceBurst({driverId, size}: {
 	size: number
 }) {
 	const nivoTheme       = useNivoTheme();
-	const theme           = useTheme();
 	const {data, loading} = useCareerData(driverId);
 	const performanceData = usePerformanceData(data?.driver.raceResults?.nodes as any);
 	const colors          = useResultsColors();
@@ -103,11 +103,11 @@ export default function CareerPerformanceBurst({driverId, size}: {
 				id="id"
 				value="value"
 				cornerRadius={10}
-				borderColor={theme.palette.background.paper}
+				borderColor={cssVar.background.paper}
 				borderWidth={2}
 				inheritColorFromParent={false}
 				colors={(datum) => {
-					return colors[datum.id].background || theme.palette.primary.main;
+					return colors[datum.id].background || cssVar.primary.main;
 				}}
 				enableArcLabels={false}
 				// @ts-ignore
