@@ -46,7 +46,7 @@ function LapByLap({season, round}: LapByLapProps) {
 	if (!loading && lapByLapData.data?.length) {
 		content = (
 			// @ts-ignore
-			<ResponsiveBump
+			(<ResponsiveBump
 				theme={nivoTheme}
 				data={data.map(s => ({...s, id: String(s.id)}))}
 				colors={({color}) => color || 'transparent'}
@@ -80,7 +80,7 @@ function LapByLap({season, round}: LapByLapProps) {
 				margin={{top: 16, right: 120, bottom: 42, left: 24}}
 				pointTooltip={NivoTooltipFactory(LapByLapTooltip)}
 				lineTooltip={NivoTooltipFactory(LapByLapTooltip)}
-			/>
+			/>)
 		);
 	}
 	

@@ -23,12 +23,11 @@ export default function Season({season, driverId}: SeasonProps) {
 	}
 
 	return (
-		<Grid container spacing={2}>
-			<Grid item xs={12}>
+        <Grid container spacing={2}>
+            <Grid size={12}>
 				<SeasonChart season={season} driverId={driverId} data={data} loading={loading}/>
 			</Grid>
-
-			<Grid item xs={12}>
+            <Grid size={12}>
 				<DataGrid
 					rows={data.races.nodes}
 					autoHeight
@@ -130,6 +129,6 @@ export default function Season({season, driverId}: SeasonProps) {
 					}
 				/>
 			</Grid>
-		</Grid>
-	);
+        </Grid>
+    );
 }

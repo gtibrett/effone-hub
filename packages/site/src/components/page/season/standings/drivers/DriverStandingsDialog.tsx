@@ -37,20 +37,28 @@ export default function DriverStandingsDialog({season, open, setOpen}: DriverSta
 	const [p1, p2, p3, ...rest] = standings;
 	
 	return (
-		<Dialog
+        <Dialog
 			open={open} onClose={onClose} maxWidth="lg" fullWidth
 			title={`${season} Driver Standings`}
 			closeIcon={<FontAwesomeIcon fixedWidth icon={faTimes}/>}
 		>
-			<Grid container spacing={2}>
-				<Grid item xs={12} lg={5}>
+            <Grid container spacing={2}>
+				<Grid
+                    size={{
+                        xs: 12,
+                        lg: 5
+                    }}>
 					<Grid container spacing={2} ref={ref}>
-						<Grid item xs={12}><Place driverId={p1.driver?.rowId} place={1} points={p1.points || undefined} asterisk={season === 2021}/></Grid>
-						<Grid item xs={12}><Place driverId={p2.driver?.rowId} place={2} points={p2.points || undefined}/></Grid>
-						<Grid item xs={12}><Place driverId={p3.driver?.rowId} place={3} points={p3.points || undefined}/></Grid>
+						<Grid size={12}><Place driverId={p1.driver?.rowId} place={1} points={p1.points || undefined} asterisk={season === 2021}/></Grid>
+						<Grid size={12}><Place driverId={p2.driver?.rowId} place={2} points={p2.points || undefined}/></Grid>
+						<Grid size={12}><Place driverId={p3.driver?.rowId} place={3} points={p3.points || undefined}/></Grid>
 					</Grid>
 				</Grid>
-				<Grid item xs={12} lg={7}>
+				<Grid
+                    size={{
+                        xs: 12,
+                        lg: 7
+                    }}>
 					<Card sx={{height: dimensions.height - 14}}>
 						<DataGrid
 							sx={sx}
@@ -91,6 +99,6 @@ export default function DriverStandingsDialog({season, open, setOpen}: DriverSta
 					</Card>
 				</Grid>
 			</Grid>
-		</Dialog>
-	);
+        </Dialog>
+    );
 }

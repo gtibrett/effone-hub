@@ -53,22 +53,22 @@ export default function Page(props: PageProps) {
 	const {sx = {}, ...other}                            = headerProps;
 	
 	return (
-		<Grid container spacing={2} alignItems="stretch">
-			<Grid item xs={12}>
+        <Grid container spacing={2} alignItems="stretch">
+            <Grid size={12}>
 				<Paper ref={headerRef} elevation={0} sx={{p: 2, height: '100%', ...sx}} {...other}>
 					<Grid container spacing={2} alignItems="stretch">
-						<Grid item xs>
+						<Grid size="grow">
 							<Grid container spacing={2}>
-								<Grid item xs={12}>
+								<Grid size={12}>
 									<PageTitle title={title} titleProps={titleProps} skeleton={skeletons.title}/>
 								</Grid>
 								{subheader && (
-									<Grid item xs={12}>
+									<Grid size={12}>
 										<PageSubheader subheader={subheader} subheaderProps={subheaderProps} skeleton={skeletons.subheader}/>
 									</Grid>
 								)}
 								{extra && (
-									<Grid item xs={12}>
+									<Grid size={12}>
 										<Suspense fallback={skeletons.extra}>
 											{extra}
 										</Suspense>
@@ -76,11 +76,11 @@ export default function Page(props: PageProps) {
 								)}
 							</Grid>
 						</Grid>
-						{action && <Grid item {...actionProps}><Suspense fallback={skeletons.action}>{action}</Suspense></Grid>}
+						{action && <Grid {...actionProps}><Suspense fallback={skeletons.action}>{action}</Suspense></Grid>}
 					</Grid>
 				</Paper>
 			</Grid>
-			{children && <Grid item xs={12}>{children}</Grid>}
-		</Grid>
-	);
+            {children && <Grid size={12}>{children}</Grid>}
+        </Grid>
+    );
 }

@@ -82,17 +82,17 @@ export default function CircuitMap({variant = 'interactive', circuitRef, height,
 	};
 	
 	return (
-		<Suspense>
-			<Grid container spacing={2} justifyContent="flex-end">
-				<Grid item>
+        <Suspense>
+            <Grid container spacing={2} justifyContent="flex-end">
+				<Grid>
 					<ToggleButtonGroup size="small" value={sector} onChange={handleChange} exclusive aria-hidden>
 						<ToggleButton value="1"><FontAwesomeIcon icon={faSquareFull} color={sector1}/>&nbsp;Sector 1</ToggleButton>
 						<ToggleButton value="2"><FontAwesomeIcon icon={faSquareFull} color={sector2}/>&nbsp;Sector 2</ToggleButton>
 						<ToggleButton value="3"><FontAwesomeIcon icon={faSquareFull} color={sector3}/>&nbsp;Sector 3</ToggleButton>
 					</ToggleButtonGroup>
 				</Grid>
-				<Grid item xs={12} sx={sx}>{mapSVG}</Grid>
+				<Grid sx={sx} size={12}>{mapSVG}</Grid>
 			</Grid>
-		</Suspense>
-	);
+        </Suspense>
+    );
 };

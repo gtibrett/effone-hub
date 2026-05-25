@@ -28,14 +28,14 @@ export default function Career({driverId}: CareerProps) {
 	data?.driver.raceResults?.nodes?.forEach(r => r.race?.year && (racesByYear[r.race?.year] = (racesByYear[r.race?.year] || 0) + 1));
 	
 	return (
-		<>
-			<Grid container spacing={2} alignItems="center" justifyContent="space-around">
+        <>
+            <Grid container spacing={2} alignItems="center" justifyContent="space-around">
 				<Stats driverId={driverId}/>
-				<Grid item xs={12}/>
-				<Grid item xs={12}>
+				<Grid size={12} />
+				<Grid size={12}>
 					<CareerChart driverId={driverId} size={200}/>
 				</Grid>
-				<Grid item xs={12}>
+				<Grid size={12}>
 					<SeasonDialog season={active} driverId={driverId} onClose={() => setActive(undefined)}/>
 					<DataGrid
 						rows={careerStandings}
@@ -100,6 +100,6 @@ export default function Career({driverId}: CareerProps) {
 					/>
 				</Grid>
 			</Grid>
-		</>
-	);
+        </>
+    );
 }

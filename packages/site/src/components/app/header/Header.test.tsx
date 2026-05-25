@@ -1,5 +1,5 @@
 import {resizeScreenSize} from '@/jest';
-import {act, render, screen} from '@testing-library/react';
+import {act, render, screen, within} from '@testing-library/react';
 import axe from 'axe-core';
 import Header from './Header';
 
@@ -22,7 +22,8 @@ describe('Header.tsx', () => {
 		});
 		
 		const constructorMenuRegex = /constructors/i;
-		const constructorMenuItem  = screen.getByText(constructorMenuRegex);
+		const menu                 = screen.getByRole('menu', {name: /toggle navigation menu/i});
+		const constructorMenuItem  = within(menu).getByText(constructorMenuRegex);
 		
 		expect(constructorMenuItem).toBeInTheDocument();
 		

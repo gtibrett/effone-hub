@@ -18,7 +18,7 @@ export default function SprintResults({results}: {
 	}
 	
 	return (
-		<DataGrid
+        <DataGrid
 			rows={results}
 			autoHeight
 			density="compact"
@@ -87,15 +87,15 @@ export default function SprintResults({results}: {
 						renderCell:  ({row}) => {
 							const time = row.time;
 							return (
-								<Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
-									<Grid item>{time ? time : getPositionTextOutcome(row.positionText, row.reasonRetired)}</Grid>
-								</Grid>
-							);
+                                <Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
+                                    <Grid>{time ? time : getPositionTextOutcome(row.positionText, row.reasonRetired)}</Grid>
+                                </Grid>
+                            );
 						},
 						minWidth:    110
 					}
 				]
 			}
 		/>
-	);
+    );
 }

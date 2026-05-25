@@ -28,7 +28,7 @@ export default function CircuitDialog({driverId, circuitId, onClose}: CircuitPro
 	const {points, onClick} = mapCircuitsToMapPoints([circuit]);
 
 	return (
-		<Dialog
+        <Dialog
 			open={!!circuitId} closeIcon={<FontAwesomeIcon fixedWidth icon={faTimes}/>} onClose={onClose} maxWidth="lg" fullWidth
 			title={
 				<>
@@ -36,8 +36,8 @@ export default function CircuitDialog({driverId, circuitId, onClose}: CircuitPro
 					<Typography paragraph variant="subtitle1"><DriverByLine id={driverId} variant="name"/></Typography>
 				</>
 			}>
-			<Grid container spacing={2}>
-				<Grid item xs={9}>
+            <Grid container spacing={2}>
+				<Grid size={9}>
 					<Tabs active="results" tabs={[
 						{
 							id:      'results',
@@ -56,17 +56,17 @@ export default function CircuitDialog({driverId, circuitId, onClose}: CircuitPro
 						}
 					]}/>
 				</Grid>
-				<Grid item xs={3}>
+				<Grid size={3}>
 					<Grid container spacing={1}>
-						<Grid item xs={12}>
+						<Grid size={12}>
 							<Card sx={{mb: 2}}>
 								<RaceMap points={points} onClick={onClick} height={200} centerOn={{latitude: circuit.latitude, longitude: circuit.longitude}} zoom/>
 							</Card>
 						</Grid>
-						<Grid item xs={12}><CircuitPerformance data={data} loading={loading}/></Grid>
+						<Grid size={12}><CircuitPerformance data={data} loading={loading}/></Grid>
 					</Grid>
 				</Grid>
 			</Grid>
-		</Dialog>
-	);
+        </Dialog>
+    );
 }

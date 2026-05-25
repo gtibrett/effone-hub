@@ -6,7 +6,7 @@ import {FastestLap, LapLeader, MostWins} from '@/components/page/circuits/stats'
 import {OpenAILink, Page} from '@/components/ui';
 import {useCircuitByRef} from '@/hooks/data';
 import {Tabs, useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
-import {Card, CardContent, CardHeader, Divider, Grid, Hidden, Typography} from '@mui/material';
+import {Card, CardContent, CardHeader, Divider, Grid, Typography} from '@mui/material';
 import {Suspense} from 'react';
 
 export default function CircuitContent({circuitRef}: {circuitRef: string}) {
@@ -29,8 +29,8 @@ export default function CircuitContent({circuitRef}: {circuitRef: string}) {
 	const {points, onClick} = mapCircuitsToMapPoints([circuit]);
 
 	return (
-		<Suspense>
-			<Page
+        <Suspense>
+            <Page
 				title={circuit.fullName}
 				subheader={(
 					<>
@@ -45,16 +45,20 @@ export default function CircuitContent({circuitRef}: {circuitRef: string}) {
 					</>
 				)}
 				action={(
-					<Hidden mdDown>
-						<Card sx={{height: '100%'}} ref={ref}>
-							<RaceMap points={points} onClick={onClick} height={height} centerOn={circuit} zoom/>
-						</Card>
-					</Hidden>
+					<Card sx={{display: {xs: 'none', md: 'block'}, height: '100%'}} ref={ref}>
+						<RaceMap points={points} onClick={onClick} height={height} centerOn={circuit} zoom/>
+					</Card>
 				)}
-				actionProps={{xs: 0, md: 4, lg: 3}}
+				actionProps={{size: {xs: 0, md: 4, lg: 3}}}
 			>
 				<Grid container spacing={2}>
-					<Grid item xs={12} md={8} lg={9} sx={{order: {xs: 2, md: 1}}}>
+					<Grid
+                        sx={{order: {xs: 2, md: 1}}}
+                        size={{
+                            xs: 12,
+                            md: 8,
+                            lg: 9
+                        }}>
 						<Card>
 							<Tabs active="history" tabs={[
 								{
@@ -73,7 +77,13 @@ export default function CircuitContent({circuitRef}: {circuitRef: string}) {
 						</Card>
 					</Grid>
 
-					<Grid item xs={12} md={4} lg={3} sx={{order: {xs: 1, md: 2}}}>
+					<Grid
+                        sx={{order: {xs: 1, md: 2}}}
+                        size={{
+                            xs: 12,
+                            md: 4,
+                            lg: 3
+                        }}>
 						<Card sx={{height: '100%'}}>
 							<CardHeader title={`${seasonToShow} Season`}/>
 							<CardContent>
@@ -87,6 +97,6 @@ export default function CircuitContent({circuitRef}: {circuitRef: string}) {
 					</Grid>
 				</Grid>
 			</Page>
-		</Suspense>
-	);
+        </Suspense>
+    );
 }

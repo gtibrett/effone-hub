@@ -27,11 +27,11 @@ export default function Results({results}: { results: Race['raceResults'] }) {
 	}));
 	
 	return (
-		<>
-			<Grid container spacing={2} justifyContent="space-evenly" sx={{mb: 2}}>
+        <>
+            <Grid container spacing={2} justifyContent="space-evenly" sx={{mb: 2}}>
 				<Podium results={(nodes as Array<RaceResult | null>).filter((r): r is RaceResult => r != null)}/>
 			</Grid>
-			<DataGrid
+            <DataGrid
 				rows={rows}
 				autoHeight
 				density="compact"
@@ -100,23 +100,23 @@ export default function Results({results}: { results: Race['raceResults'] }) {
 							renderCell:  ({row}) => {
 								const time = row.time;
 								return (
-									<Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
-										<Grid item>{time ? time : getPositionTextOutcome(row.positionText, row.reasonRetired)}</Grid>
-										{row.fastestLap && (
-											<Grid item>
+                                    <Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
+                                        <Grid>{time ? time : getPositionTextOutcome(row.positionText, row.reasonRetired)}</Grid>
+                                        {row.fastestLap && (
+											<Grid>
 												<Tooltip title="Fastest Lap">
 													<FontAwesomeIcon icon={faSquare} color={purple[400]}/>
 												</Tooltip>
 											</Grid>
 										)}
-									</Grid>
-								);
+                                    </Grid>
+                                );
 							},
 							minWidth:    110
 						}
 					]
 				}
 			/>
-		</>
-	);
+        </>
+    );
 }

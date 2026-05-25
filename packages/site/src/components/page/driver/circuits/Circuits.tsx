@@ -21,13 +21,13 @@ export default function Circuits({driverId}: CircuitsProps) {
 	const {points, onClick} = mapCircuitsToMapPoints(data || []);
 	
 	return (
-		<Grid container spacing={2}>
-			<Grid item xs={12}>
+        <Grid container spacing={2}>
+            <Grid size={12}>
 				<Card>
 					<RaceMap points={points} onClick={onClick} height={250}/>
 				</Card>
 			</Grid>
-			<Grid item xs={12}>
+            <Grid size={12}>
 				<CircuitDialog driverId={driverId} circuitId={active} onClose={() => setActive(undefined)}/>
 				<DataGrid
 					sx={{mt: 2}}
@@ -93,6 +93,6 @@ export default function Circuits({driverId}: CircuitsProps) {
 					}
 				/>
 			</Grid>
-		</Grid>
-	);
+        </Grid>
+    );
 }

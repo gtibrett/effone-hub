@@ -166,5 +166,5 @@ export default function StatCard<T extends StatCardData = DataWithValue, F exten
 			break;
 	}
 	
-	return noGrid ? card : <Grid item xs>{card}</Grid>;
+	return noGrid ? card : <Grid size="grow">{card}</Grid>;
 }

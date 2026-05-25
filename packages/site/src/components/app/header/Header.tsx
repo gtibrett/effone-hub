@@ -8,8 +8,8 @@ export default function Header() {
 	const lightRed = lighten(theme.palette.secondary.light, .375);
 	
 	return (
-		<header role="banner">
-			<AppBar
+        <header role="banner">
+            <AppBar
 				component="nav"
 				color="primary"
 				aria-label="main navigation"
@@ -30,19 +30,19 @@ export default function Header() {
 				}}>
 				<Toolbar>
 					<Grid container spacing={1} alignItems="center">
-						<Grid item>
+						<Grid>
 							<Link href="/" color="inherit" sx={{textDecoration: 'none', '& *': {fontFamily: 'Anton !important', fontSize: '48px !important'}}}>
 								<Typography component="h1">
 									EFF<Typography component="span" sx={{opacity: 1, px: .5, color: lightRed}}>ONE</Typography>HUB
 								</Typography>
 							</Link>
 						</Grid>
-						<Grid item xs/>
+						<Grid size="grow" />
 						<NavMenu/>
 					</Grid>
 				</Toolbar>
 			</AppBar>
-			<Toolbar sx={{my: 2}}/>
-		</header>
-	);
+            <Toolbar sx={{my: 2}}/>
+        </header>
+    );
 }

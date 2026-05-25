@@ -28,7 +28,7 @@ export default function Season({data, loading}: CircuitDataProps) {
 	const results = (data.circuit.season.nodes[0].raceResults.nodes).filter(Boolean) as NonNullable<typeof data.circuit.season.nodes[0]['raceResults']['nodes'][number]>[];
 	
 	return (
-		<DataGrid
+        <DataGrid
 			rows={results}
 			autoHeight
 			density="compact"
@@ -96,16 +96,16 @@ export default function Season({data, loading}: CircuitDataProps) {
 						flex:        .5,
 						renderCell:  ({row}) => {
 							return (
-								<Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
-									<Grid item><>{row.reasonRetired ? row.reasonRetired : getPositionTextOutcome(String(row.positionDisplayOrder), undefined)}</>
+                                <Grid container alignItems="center" justifyContent="space-between" flexWrap="nowrap" spacing={1}>
+                                    <Grid><>{row.reasonRetired ? row.reasonRetired : getPositionTextOutcome(String(row.positionDisplayOrder), undefined)}</>
 									</Grid>
-								</Grid>
-							);
+                                </Grid>
+                            );
 						},
 						minWidth:    110
 					}
 				]
 			}
 		/>
-	);
+    );
 }

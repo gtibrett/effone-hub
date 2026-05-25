@@ -25,21 +25,33 @@ export type TeamProp = {
 
 const TeamDetails = ({team}: {team: TeamProp}) => (
 	<Grid container spacing={4} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
-		<Grid item><Typography variant="h2">{team.name}</Typography></Grid>
-		{team.countryId && <Grid item><Flag nationality={team.countryId} size={48}/></Grid>}
+		<Grid><Typography variant="h2">{team.name}</Typography></Grid>
+		{team.countryId && <Grid><Flag nationality={team.countryId} size={48}/></Grid>}
 	</Grid>
 );
 
 const PageSkeleton = () => (
 	<Page title="Loading">
 		<Grid container spacing={2}>
-			<Grid item xs={12} md={8} lg={9} order={{xs: 2, md: 1}}>
+			<Grid
+                order={{xs: 2, md: 1}}
+                size={{
+                    xs: 12,
+                    md: 8,
+                    lg: 9
+                }}>
 				<Card variant="outlined">
 					<Skeleton variant="rectangular" height={600}/>
 				</Card>
 			</Grid>
 
-			<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>
+			<Grid
+                order={{xs: 1, md: 2}}
+                size={{
+                    xs: 12,
+                    md: 4,
+                    lg: 3
+                }}>
 				<Card variant="outlined">
 					<CardMedia>
 						<Skeleton variant="rectangular" sx={{height: {xs: 24, md: 48}}}/>
@@ -99,7 +111,7 @@ export default function ConstructorContent({teamRef, team}: Props) {
 	const bio = teamWithBio?.bio;
 
 	return (
-		<Page
+        <Page
 			title={<TeamDetails team={team}/>}
 			subheader={<><Divider orientation="horizontal" sx={{my: 1}}/></>}
 			headerProps={{
@@ -119,8 +131,14 @@ export default function ConstructorContent({teamRef, team}: Props) {
 				}
 			}}
 		>
-			<Grid container spacing={2}>
-				<Grid item xs={12} md={isInCurrentSeason ? 8 : 12} lg={isInCurrentSeason ? 9 : 12} order={{xs: 2, md: 1}}>
+            <Grid container spacing={2}>
+				<Grid
+                    order={{xs: 2, md: 1}}
+                    size={{
+                        xs: 12,
+                        md: isInCurrentSeason ? 8 : 12,
+                        lg: isInCurrentSeason ? 9 : 12
+                    }}>
 					{bio?.extract && (
 						<Card variant="outlined" sx={{mb: 2, p: 2}}>
 							{bio.thumbnailUrl && (
@@ -137,17 +155,23 @@ export default function ConstructorContent({teamRef, team}: Props) {
 
 				{
 					isInCurrentSeason && (
-						<Grid item xs={12} md={4} lg={3} order={{xs: 1, md: 2}}>
+						<Grid
+                            order={{xs: 1, md: 2}}
+                            size={{
+                                xs: 12,
+                                md: 4,
+                                lg: 3
+                            }}>
 							<Card variant="outlined">
 								<CardHeader title={`${currentSeason} Season Stats`}/>
 								<CardContent>
 									<Grid container spacing={2}>
 										<DriverPoints constructorId={team.rowId} season={currentSeason} place={1}/>
 										<DriverPoints constructorId={team.rowId} season={currentSeason} place={2}/>
-										<Grid item xs={12}><Typography variant="h4">Podiums</Typography></Grid>
+										<Grid size={12}><Typography variant="h4">Podiums</Typography></Grid>
 										<DriverPodiums constructorId={team.rowId} season={currentSeason} place={1}/>
 										<DriverPodiums constructorId={team.rowId} season={currentSeason} place={2}/>
-										<Grid item xs={12}><Typography variant="h4">Qualifying Head-to-Head</Typography></Grid>
+										<Grid size={12}><Typography variant="h4">Qualifying Head-to-Head</Typography></Grid>
 										<DriverQualifying constructorId={team.rowId} season={currentSeason} place={1}/>
 										<DriverQualifying constructorId={team.rowId} season={currentSeason} place={2}/>
 									</Grid>
@@ -157,6 +181,6 @@ export default function ConstructorContent({teamRef, team}: Props) {
 					)
 				}
 			</Grid>
-		</Page>
-	);
+        </Page>
+    );
 }

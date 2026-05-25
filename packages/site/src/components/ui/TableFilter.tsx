@@ -13,19 +13,19 @@ export default function TableFilter({handleSearch, children}: TableFilterProps) 
 	const theme = useTheme();
 	
 	return (
-		<form onSubmit={handleSearch}>
-			<CardActions sx={{p: 2, borderBottom: `4px solid ${theme.palette.secondary.main}`, background: alpha(theme.palette.background.default, .125)}}>
+        <form onSubmit={handleSearch}>
+            <CardActions sx={{p: 2, borderBottom: `4px solid ${theme.palette.secondary.main}`, background: alpha(theme.palette.background.default, .125)}}>
 				<Grid container spacing={1}>
-					{Array.isArray(children) ? children.map((c, i) => <Grid key={i} item xs>{c}</Grid>) : <Grid item xs>{children}</Grid>}
-					<Grid item>
+					{Array.isArray(children) ? children.map((c, i) => <Grid key={i} size="grow">{c}</Grid>) : <Grid size="grow">{children}</Grid>}
+					<Grid>
 						<Tooltip title="Search" arrow placement="bottom">
 							<Button color="secondary" type="submit" variant="contained" onClick={handleSearch}><FontAwesomeIcon icon={faMagnifyingGlass} style={{fontSize: 26}}/><Typography sx={visuallyHidden}>Search</Typography></Button>
 						</Tooltip>
 					</Grid>
 				</Grid>
 			</CardActions>
-		</form>
-	);
+        </form>
+    );
 }
 
 export type ListFiltersProps<T> = {
@@ -35,19 +35,19 @@ export type ListFiltersProps<T> = {
 
 export function setNumberFilter<T>(setFilters: Dispatch<SetStateAction<T>>, key: keyof T) {
 	return (value: number) => {
-		setFilters((cur: T) => ({
-			...cur,
-			[key]: value
-		}) as T);
+		setFilters((cur: T) => (({
+            ...cur,
+            [key]: value
+        }) as T));
 	};
 }
 
 export function setStringFilter<T>(setFilters: Dispatch<SetStateAction<T>>, key: keyof T) {
 	return (ev: ChangeEvent<HTMLInputElement>) => {
-		setFilters((cur: T) => ({
-			...cur,
-			[key]: (ev.target.value || '' as string)
-		}) as T);
+		setFilters((cur: T) => (({
+            ...cur,
+            [key]: (ev.target.value || '' as string)
+        }) as T));
 	};
 }
 

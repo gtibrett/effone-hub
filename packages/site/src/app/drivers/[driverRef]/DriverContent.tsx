@@ -5,7 +5,7 @@ import {Career, Circuits, Season} from '@/components/page/driver';
 import {Flag, Page} from '@/components/ui';
 import {useGetTeamColor} from '@/hooks';
 import {Tabs} from '@gtibrett/mui-additions';
-import {Box, Card, Divider, Grid, Hidden, Typography, useTheme} from '@mui/material';
+import {Box, Card, Divider, Grid, Typography, useTheme} from '@mui/material';
 
 /**
  * The subset of `Driver` fields DriverContent reads at the top level.
@@ -39,13 +39,13 @@ export type DriverPageProp = {
 
 const DriverDetails = ({driver}: {driver: DriverPageProp}) => (
 	<Grid container spacing={2} sx={{fontSize: '1.5em', fontWeight: 'bold'}} alignItems="center">
-		<Grid item><Typography variant="h2">{driver.firstName} {driver.lastName}</Typography></Grid>
-		<Hidden mdDown>
-			{driver.nationalityCountryId && <Grid item><Flag nationality={driver.nationalityCountryId} size={48}/></Grid>}
-			<Grid item xs/>
-			<Grid item><Typography variant="h2" sx={{fontWeight: 'bold'}}>{driver.abbreviation}</Typography></Grid>
-			<Grid item sx={{fontFamily: 'Racing Sans One', fontSize: '1.1em'}}>{driver.permanentNumber}</Grid>
-		</Hidden>
+		<Grid><Typography variant="h2">{driver.firstName} {driver.lastName}</Typography></Grid>
+		<Box sx={{display: {xs: 'none', md: 'contents'}}}>
+			{driver.nationalityCountryId && <Grid><Flag nationality={driver.nationalityCountryId} size={48}/></Grid>}
+			<Grid size="grow" />
+			<Grid><Typography variant="h2" sx={{fontWeight: 'bold'}}>{driver.abbreviation}</Typography></Grid>
+			<Grid sx={{fontFamily: 'Racing Sans One', fontSize: '1.1em'}}>{driver.permanentNumber}</Grid>
+		</Box>
 	</Grid>
 );
 
@@ -81,7 +81,7 @@ export default function DriverContent({driver}: {driver: DriverPageProp | null})
 					? <Box component="img" src={bio.thumbnailUrl} alt={`${driver.firstName} ${driver.lastName}`} sx={{width: 200, height: 200, objectFit: 'cover', borderRadius: 1}}/>
 					: <DriverAvatar driverId={driver.rowId} size={200}/>
 			}
-			actionProps={{xs: 'auto'}}
+			actionProps={{size: 'auto'}}
 			subheader={<><Divider orientation="horizontal" sx={{my: 1}}/></>}
 			headerProps={{
 				sx: {

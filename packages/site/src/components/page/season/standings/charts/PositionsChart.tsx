@@ -12,8 +12,8 @@ export default function PositionsChart({data, TooltipComponent}: ChartProps) {
 	}
 	
 	return (
-		// @ts-ignore
-		<ResponsiveBump
+        // @ts-ignore
+        <ResponsiveBump
 			theme={nivoTheme}
 			data={chartData}
 			colors={({color}) => color || 'transparent'}
@@ -47,5 +47,5 @@ export default function PositionsChart({data, TooltipComponent}: ChartProps) {
 			pointTooltip={NivoTooltipFactory(TooltipComponent)}
 			lineTooltip={NivoTooltipFactory(TooltipComponent)}
 		/>
-	);
+    );
 }

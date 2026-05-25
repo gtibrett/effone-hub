@@ -25,9 +25,9 @@ export default function Season({data, loading, season}: SeasonProps) {
 	}
 	
 	return (
-		<>
-			<SeasonChart data={data} loading={loading} season={season}/>
-			<DataGrid
+        <>
+            <SeasonChart data={data} loading={loading} season={season}/>
+            <DataGrid
 				rows={races}
 				rowHeight={100}
 				autoHeight
@@ -99,14 +99,16 @@ export default function Season({data, loading, season}: SeasonProps) {
 							headerAlign: 'center',
 							align:       'center',
 							renderCell:  ({row}) => {
-								return <Grid container spacing={0} justifyContent="center">
-									{results.filter(r => r.raceId === row.rowId).map(result => <Grid item xs={12} key={result.driverId ?? ''}><Typography align="center">{result.points}</Typography></Grid>)}
-								</Grid>;
+								return (
+                                    <Grid container spacing={0} justifyContent="center">
+                                        {results.filter(r => r.raceId === row.rowId).map(result => <Grid key={result.driverId ?? ''} size={12}><Typography align="center">{result.points}</Typography></Grid>)}
+                                    </Grid>
+                                );
 							}
 						}
 					]
 				}
 			/>
-		</>
-	);
+        </>
+    );
 }

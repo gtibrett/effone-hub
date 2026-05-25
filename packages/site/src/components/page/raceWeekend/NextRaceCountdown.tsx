@@ -1,6 +1,6 @@
 import '@/polyfills';
 import {Card, SxProps, useTheme} from '@mui/material';
-import {PaletteColor} from '@mui/material/styles/createPalette';
+import {PaletteColor} from '@mui/material/styles';
 import CountdownClock from './CountdownClock';
 import useRaceScheduleEvents from './useRaceScheduleEvents';
 import {NextRace} from './useNextRaceData';

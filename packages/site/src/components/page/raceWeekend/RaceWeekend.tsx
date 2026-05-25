@@ -40,8 +40,12 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 		const raceDate = new Date(`${race.date}T${race.time}`);
 		
 		return (
-			<Grid item xs={12} md={12}>
-				<ThemeProvider theme={darkTheme}>
+            <Grid
+                size={{
+                    xs: 12,
+                    md: 12
+                }}>
+                <ThemeProvider theme={darkTheme}>
 					<Card sx={sx} id="next-race-weekend">
 						<CardHeader
 							title={race.name}
@@ -58,7 +62,7 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 						</CardActions>
 					</Card>
 				</ThemeProvider>
-			</Grid>
-		);
+            </Grid>
+        );
 	}
 };

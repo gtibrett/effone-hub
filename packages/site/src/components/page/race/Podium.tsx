@@ -12,15 +12,15 @@ export default function Podium({results}: {
 	const [p1, p2, p3] = results;
 	
 	return (
-		<>
-			{
+        <>
+            {
 				[p1, p2, p3].map((p, i) => p.driver && (
-						<Grid item key={p.driver.rowId}>
+						<Grid key={p.driver.rowId}>
 							<Place driverId={p.driver.rowId} place={i + 1} sx={{height: '100%'}}/>
 						</Grid>
 					)
 				)
 			}
-		</>
-	);
+        </>
+    );
 };

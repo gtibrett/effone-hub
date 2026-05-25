@@ -2,7 +2,7 @@ import {useAppState} from '@/components/app';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link} from '@gtibrett/mui-additions';
-import {Grid, Hidden, IconButton, lighten, Menu, MenuItem, SxProps, useTheme} from '@mui/material';
+import {Box, Grid, IconButton, lighten, Menu, MenuItem, SxProps, useTheme} from '@mui/material';
 import {usePathname, useRouter} from 'next/navigation';
 import {MouseEvent, useState} from 'react';
 
@@ -93,47 +93,47 @@ export default function NavMenu() {
 		handleClose();
 	};
 	
-	return <>
-		<Hidden mdDown>
-			{navLinks.map(({path, label, active}, i) => {
-					return (
-						<Grid item key={i}>
-							<Link color="inherit" sx={navLinkSx} className={active ? 'active' : ''} href={path}>{label}</Link>
-						</Grid>
-					);
-				}
-			)}
-		</Hidden>
-		<Hidden mdUp>
-			<Grid item>
-				<div>
-					<IconButton
-						id="hamburger-button"
-						aria-label="toggle navigation menu"
-						aria-controls={open ? 'hamburger-menu' : undefined}
-						aria-haspopup="true"
-						aria-expanded={open ? 'true' : undefined}
-						onClick={handleClick}
-					>
-						<FontAwesomeIcon icon={faBars} color={theme.palette.common.white}/>
-					</IconButton>
-					<Menu
-						hideBackdrop
-						id="hamburger-menu"
-						anchorEl={anchorEl}
-						open={open}
-						onClose={handleClose}
-						MenuListProps={{
-							'aria-labelledby': 'hamburger-button'
-						}}
-					>
-						{navLinks.map(({path, label, active}) => {
-								return <MenuItem selected={active} key={String(path)} onClick={handleLink(String(path))}>{label}</MenuItem>;
-							}
-						)}
-					</Menu>
-				</div>
-			</Grid>
-		</Hidden>
-	</>;
+	return (
+        <>
+            <Box sx={{display: {xs: 'none', md: 'contents'}}}>
+                {navLinks.map(({path, label, active}, i) => {
+                        return (
+                            <Grid key={i}>
+                                <Link color="inherit" sx={navLinkSx} className={active ? 'active' : ''} href={path}>{label}</Link>
+                            </Grid>
+                        );
+                    }
+                )}
+            </Box>
+            <Grid sx={{display: {xs: 'block', md: 'none'}}}>
+                <div>
+                        <IconButton
+                            id="hamburger-button"
+                            aria-label="toggle navigation menu"
+                            aria-controls={open ? 'hamburger-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                            onClick={handleClick}
+                        >
+                            <FontAwesomeIcon icon={faBars} color={theme.palette.common.white}/>
+                        </IconButton>
+                        <Menu
+                            hideBackdrop
+                            id="hamburger-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            MenuListProps={{
+                                'aria-labelledby': 'hamburger-button'
+                            }}
+                        >
+                            {navLinks.map(({path, label, active}) => {
+                                    return <MenuItem selected={active} key={String(path)} onClick={handleLink(String(path))}>{label}</MenuItem>;
+                                }
+                            )}
+                        </Menu>
+                </div>
+            </Grid>
+        </>
+    );
 }

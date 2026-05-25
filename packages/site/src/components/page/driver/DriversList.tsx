@@ -18,7 +18,7 @@ export default function DriversList({filters}: DriversTableProps) {
 	const filteredDrivers   = useDriversList(drivers.nodes, filters);
 	
 	return (
-		<DataGrid
+        <DataGrid
 			rows={filteredDrivers}
 			autoHeight
 			density="compact"
@@ -46,8 +46,8 @@ export default function DriversList({filters}: DriversTableProps) {
 						flex:       1,
 						renderCell: ({value}) => (
 							<Grid container spacing={1}>
-								<Grid item><Flag nationality={value}/></Grid>
-								<Grid item>{value}</Grid>
+								<Grid><Flag nationality={value}/></Grid>
+								<Grid>{value}</Grid>
 							</Grid>
 						)
 					},
@@ -94,5 +94,5 @@ export default function DriversList({filters}: DriversTableProps) {
 				}
 			}}
 		/>
-	);
+    );
 }
