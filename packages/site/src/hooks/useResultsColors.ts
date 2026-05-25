@@ -1,5 +1,5 @@
 import {useDarkMode} from '@/components/ui';
-import {useTheme} from '@mui/material';
+import {getContrastText} from '@/lib/color-utils';
 import {amber, deepPurple, green, red} from '@mui/material/colors';
 import {blueGrey} from '@/components/ui/colors';
 
@@ -9,7 +9,6 @@ type ResultsColor = {
 }
 
 export default function useResultsColors(): { [key: string]: ResultsColor } {
-	const theme           = useTheme();
 	const prefersDarkMode = useDarkMode();
 	
 	const backgrounds = {
@@ -27,7 +26,7 @@ export default function useResultsColors(): { [key: string]: ResultsColor } {
 		             {
 			             [key]: {
 				             background,
-				             color: theme.palette.getContrastText(background)
+				             color: getContrastText(background)
 			             }
 		             }
 	             ))

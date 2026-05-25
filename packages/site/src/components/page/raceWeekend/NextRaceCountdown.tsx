@@ -1,6 +1,7 @@
 import '@/polyfills';
 import {Card, SxProps, useTheme} from '@mui/material';
 import {PaletteColor} from '@mui/material/styles';
+import {getContrastText} from '@/lib/color-utils';
 import CountdownClock from './CountdownClock';
 import useRaceScheduleEvents from './useRaceScheduleEvents';
 import {NextRace} from './useNextRaceData';
@@ -14,17 +15,17 @@ export default function NextRaceCountdown({race, variant}: NextRaceCountdownProp
 	const theme          = useTheme();
 	const scheduleEvents = useRaceScheduleEvents(race);
 	const background     = theme.palette.secondary[variant];
-	
+
 	scheduleEvents.sortByAttribute('timeTo');
 	scheduleEvents.reverse();
-	
+
 	const [nextEvent] = scheduleEvents;
-	
+
 	const sx: SxProps = {
 		py:       2, px: 2,
 		background,
 		'&, & *': {
-			color: `${theme.palette.getContrastText(background)} !important`
+			color: `${getContrastText(background)} !important`
 		}
 	};
 	

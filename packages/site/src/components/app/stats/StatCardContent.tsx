@@ -1,4 +1,5 @@
 import {alpha} from '@/components/ui/colors';
+import {getContrastText} from '@/lib/color-utils';
 import {Badge, BadgeOrigin, Box, CardHeader, CardHeaderProps, Grid, Typography, useTheme} from '@mui/material';
 import {ReactNode} from 'react';
 import {StatCardBaseProps} from './StatCard';
@@ -68,7 +69,7 @@ export default function StatCardContent<T extends DataWithValue>({size, avatar, 
 					justifyContent: 'center',
 					
 					'&, & *': {
-						color: theme.palette.getContrastText(color || theme.palette.background.paper)
+						color: getContrastText(color || theme.palette.background.paper)
 					}
 				}
 			};

@@ -1,44 +1,8 @@
 import {useDarkMode} from '@/components/ui';
+import {decomposeColor, getContrastRatio} from '@/lib/color-utils';
 import {tokens} from '@/lib/tokens';
-import {getContrastRatio, recomposeColor} from '@mui/material';
-import {decomposeColor} from '@mui/system/colorManipulator';
+import {recomposeColor} from '@mui/system/colorManipulator';
 import {useCallback, useMemo} from 'react';
-
-/**
- * Resolves a CSS-var palette reference like `var(--color-primary-light)` to
- * its concrete hex/rgb for the active scheme. Returns the input untouched
- * if it isn't a recognized var() reference, so literal hex inputs (team
- * colors, etc.) pass through.
- *
- * Required because JS color math (decomposeColor, getContrastRatio) can't
- * operate on CSS var strings — it needs the resolved bytes.
- */
-const VAR_RE      = /^var\(--color-([a-z-]+)\)/i;
-const PATH_LOOKUP: Record<string, (t: any) => string | undefined> = {
-	'primary':            (t) => t.primary.main,
-	'primary-light':      (t) => t.primary.light,
-	'primary-dark':       (t) => t.primary.dark,
-	'primary-contrast':   (t) => t.primary.contrastText,
-	'secondary':          (t) => t.secondary.main,
-	'secondary-light':    (t) => t.secondary.light,
-	'secondary-dark':     (t) => t.secondary.dark,
-	'secondary-contrast': (t) => t.secondary.contrastText,
-	'background':         (t) => t.background.default,
-	'background-paper':   (t) => t.background.paper,
-	'text-primary':       (t) => t.text.primary,
-	'text-secondary':     (t) => t.text.secondary,
-	'text-disabled':      (t) => t.text.disabled,
-	'divider':            (t) => t.divider
-};
-
-const resolveColorString = (color: string, scheme: any): string => {
-	const match = color.match(VAR_RE);
-	if (!match) return color;
-
-	const resolver = PATH_LOOKUP[match[1].toLowerCase()];
-	const resolved = resolver?.(scheme);
-	return resolved ?? color;
-};
 
 const isBlackOrWhite = (color: string) => {
 	const {values: [r, g, b]} = decomposeColor(color);
@@ -96,17 +60,14 @@ const fixContrast = (foreground: string, background: string, threshold: number =
 
 export default function useGetAccessibleColor() {
 	const darkMode = useDarkMode();
-	// Pick the active scheme's concrete tokens — Tailwind CSS vars can't be
-	// read by JS without getComputedStyle (which fails on the server).
 	const scheme   = useMemo(() => (darkMode ? tokens.dark : tokens.light), [darkMode]);
 
 	return useCallback((color: string, force: boolean = false) => {
 		if (color) {
-			const resolved = resolveColorString(color, scheme);
-			return force ? resolved : fixContrast(resolved, scheme.background.paper);
+			return force ? color : fixContrast(color, scheme.background.paper);
 		}
 
 		const fallback = darkMode ? scheme.primary.light : scheme.primary.dark;
-		return fixContrast(resolveColorString(fallback, scheme), scheme.background.paper);
+		return fixContrast(fallback, scheme.background.paper);
 	}, [scheme, darkMode]);
 }

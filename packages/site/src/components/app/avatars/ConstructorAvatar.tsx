@@ -3,7 +3,8 @@ import {AvatarSizes, useAvatarSize, useGetTeamColor} from '@/hooks';
 import {useTeam} from '@/hooks/data';
 import {faIndustry} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Avatar, useTheme} from '@mui/material';
+import {Avatar} from '@mui/material';
+import {getContrastText} from '@/lib/color-utils';
 import {useMemo} from 'react';
 
 export type TeamAvatarProps = {
@@ -12,7 +13,6 @@ export type TeamAvatarProps = {
 }
 
 export default function TeamAvatar({teamId, size = 'small'}: TeamAvatarProps) {
-	const theme        = useTheme();
 	const sizeSx       = useAvatarSize(size);
 	const {team}       = useTeam(teamId);
 	const getTeamColor = useGetTeamColor();
@@ -24,7 +24,7 @@ export default function TeamAvatar({teamId, size = 'small'}: TeamAvatarProps) {
 
 		const {name, colors, bio} = team;
 		const primary             = getTeamColor(colors, 'primaryHex', false);
-		const textColor           = theme.palette.getContrastText(primary);
+		const textColor           = getContrastText(primary);
 
 		const initials = name?.replace('F1 Team', '')
 		                     .replace(/[ -]/i, '')
@@ -41,5 +41,5 @@ export default function TeamAvatar({teamId, size = 'small'}: TeamAvatarProps) {
 				{initials?.join('')}
 			</Avatar>
 		);
-	}, [team, getTeamColor, theme, sizeSx]);
+	}, [team, getTeamColor, sizeSx]);
 }

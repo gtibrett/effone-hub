@@ -1,13 +1,13 @@
 import {useDriver} from '@/hooks/data';
+import {getContrastText} from '@/lib/color-utils';
 import {DriverId} from '@/types';
-import {SxProps, useTheme} from '@mui/material';
+import {SxProps} from '@mui/material';
 import useGetTeamColor from './useGetTeamColor';
 
 export function useDriverHeaderSx(driverId: DriverId, year?: 'current' | number): SxProps;
 export function useDriverHeaderSx(driverId: DriverId, color: string): SxProps;
 
 export default function useDriverHeaderSx(driverId: DriverId, yearOrColor: any = 'current'): SxProps {
-	const theme        = useTheme();
 	const driver       = useDriver(driverId ?? undefined);
 	const getTeamColor = useGetTeamColor();
 	
@@ -21,7 +21,7 @@ export default function useDriverHeaderSx(driverId: DriverId, yearOrColor: any =
 		background = yearOrColor;
 	}
 	
-	const color = theme.palette.getContrastText(background);
+	const color = getContrastText(background);
 	
 	return {
 		background, color,
