@@ -1,14 +1,20 @@
+import {setDarkMode} from '@/jest';
 import {useGetAccessibleChartColors} from '@/hooks';
 import {createTheme, Theme, ThemeProvider, useTheme} from '@mui/material';
 import {render, screen} from '@testing-library/react';
 import axe from 'axe-core';
 import {PropsWithChildren} from 'react';
 import {NivoTooltipFactory, useNivoTheme} from './index';
-import {useEffTheme} from '../Theme';
 
+// Tests for chart-color logic use a flat (non-cssVars) theme so that
+// `theme.palette.text.primary` resolves to the mode-specific concrete value
+// at JS-read time (under cssVars it would freeze to the default scheme).
+// The hooks under test (useDarkMode, useGetAccessibleColor) read OS
+// preference via matchMedia, mocked here by setDarkMode().
 const TestAppContainer = ({mode, children}: PropsWithChildren<{ mode: Theme['palette']['mode'] }>) => {
-	const theme = useEffTheme(mode);
-	
+	setDarkMode(mode === 'dark');
+	const theme = createTheme({palette: {mode}});
+
 	return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 };
 

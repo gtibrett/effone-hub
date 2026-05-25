@@ -1,3 +1,4 @@
+import {useDarkMode} from '@/components/ui';
 import {NivoTooltipFactory, RequiredByPropTypes, useNivoTheme} from '@/components/ui/nivo';
 import {Circuit} from '@/gql/graphql';
 import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
@@ -51,6 +52,7 @@ export default function RaceMap(props: RaceMapProps) {
 	
 	const nivoTheme                           = useNivoTheme();
 	const theme                               = useTheme();
+	const darkMode                            = useDarkMode();
 	const land                                = useLand();
 	const {ref, dimensions, node}             = useComponentDimensionsWithRef();
 	const [lastDimensions, setLastDimensions] = useState(dimensions);
@@ -90,7 +92,7 @@ export default function RaceMap(props: RaceMapProps) {
 					// @ts-ignore
 					borderColor={(feature: any) => {
 						if (feature?.geometry?.type === 'Point') {
-							const nextColor = theme.palette.mode === 'light' ? theme.palette.secondary.dark : theme.palette.secondary.light;
+							const nextColor = darkMode ? theme.palette.secondary.light : theme.palette.secondary.dark;
 							return highlightNext && feature.properties.next ? nextColor : theme.palette.background.paper;
 						} else {
 							return theme.palette.primary.main;

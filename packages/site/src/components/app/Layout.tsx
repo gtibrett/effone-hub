@@ -1,6 +1,5 @@
 'use client';
 
-import {useTheme} from '@mui/material/styles';
 import {SkipNav, UkraineButton} from '@gtibrett/mui-additions';
 import {Box, Container, SxProps} from '@mui/material';
 import {PropsWithChildren, Suspense} from 'react';
@@ -10,8 +9,6 @@ import Footer from './footer/Footer';
 import Header from './header/Header';
 
 export default function Layout({children}: PropsWithChildren) {
-	const theme = useTheme();
-
 	const sx: SxProps = {
 		py:       2,
 		position: 'relative'
@@ -26,7 +23,17 @@ export default function Layout({children}: PropsWithChildren) {
 		<AppStateProvider>
 			<SkipNav selector="main"/>
 
-			<Box sx={{position: 'fixed', overflow: 'auto', scrollbarColor: theme.palette.mode, top: 0, left: 0, right: 0, bottom: 0, background: theme.palette.background.default}}>
+			<Box sx={(theme) => ({
+				position:       'fixed',
+				overflow:       'auto',
+				top:            0,
+				left:           0,
+				right:          0,
+				bottom:         0,
+				background:     theme.vars?.palette.background.default ?? theme.palette.background.default,
+				scrollbarColor: 'light',
+				...theme.applyStyles('dark', {scrollbarColor: 'dark'})
+			})}>
 				<Suspense>
 					<Header/>
 				</Suspense>

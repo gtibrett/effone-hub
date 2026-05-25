@@ -1,5 +1,7 @@
+import {useDarkMode} from '@/components/ui';
 import {getContrastRatio, recomposeColor, useTheme} from '@mui/material';
 import {decomposeColor} from '@mui/system/colorManipulator';
+import {blueGrey} from '@mui/material/colors';
 import {useCallback} from 'react';
 
 const isBlackOrWhite = (color: string) => {
@@ -57,13 +59,17 @@ const fixContrast = (foreground: string, background: string, threshold: number =
 };
 
 export default function useGetAccessibleColor() {
-	const theme = useTheme();
-	
+	const theme    = useTheme();
+	const darkMode = useDarkMode();
+	// JS color math requires a concrete hex — under cssVars `theme.palette.X`
+	// freezes to the default (light) scheme, so pick the right hex by mode.
+	const backgroundPaper = darkMode ? blueGrey[900] : '#fff';
+
 	return useCallback((color: string, force: boolean = false) => {
 		if (color) {
-			return force ? color : fixContrast(color, theme.palette.background.paper);
+			return force ? color : fixContrast(color, backgroundPaper);
 		}
-		
-		return fixContrast(theme.palette.mode === 'dark' ? theme.palette.primary.light : theme.palette.primary.dark, theme.palette.background.paper);
-	}, [theme]);
+
+		return fixContrast(darkMode ? theme.palette.primary.light : theme.palette.primary.dark, backgroundPaper);
+	}, [theme, darkMode, backgroundPaper]);
 }
