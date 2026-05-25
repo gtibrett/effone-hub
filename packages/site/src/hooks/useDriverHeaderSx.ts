@@ -1,5 +1,5 @@
 import {useDriver} from '@/hooks/data';
-import {getContrastText, getCssContrast, SUPPORTS_CONTRAST_COLOR} from '@/lib/useContrastText';
+import {getCssContrast} from '@/lib/useContrastText';
 import {DriverId} from '@/types';
 import {SxProps} from '@mui/material';
 import useGetTeamColor from './useGetTeamColor';
@@ -21,14 +21,13 @@ export default function useDriverHeaderSx(driverId: DriverId, yearOrColor: any =
 		background = yearOrColor;
 	}
 
-	const color           = getContrastText(background);
-	const cssOnlyContrast = {[SUPPORTS_CONTRAST_COLOR]: {color: getCssContrast(background)}};
+	const color = getCssContrast(background);
 
 	return {
-		background, color, ...cssOnlyContrast,
+		background, color,
 
 		'& .MuiTypography-root, & .MuiTableCell-root': {
-			background, color, ...cssOnlyContrast
+			background, color
 		}
 	};
 }

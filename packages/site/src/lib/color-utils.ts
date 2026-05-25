@@ -1,78 +1,16 @@
 /**
- * Color math wrappers that extend MUI's decomposeColor / getContrastText to
- * understand OKLCH and CSS var() references in addition to MUI's native
- * formats (hex, rgb(), rgba(), hsl(), hsla(), color()).
+ * OKLCH → sRGB conversion. Standalone — kept for code that needs to
+ * convert an oklch literal to a rgb()/rgba() string at runtime (e.g.
+ * canvas APIs that don't parse oklch). No JS contrast math here; all
+ * contrast picking goes through CSS `contrast-color()` via
+ * `@/lib/useContrastText`.
  *
- * Why: the Tailwind-driven theme stores palette values as `var(--color-*)`
- * strings and the underlying paint colors are OKLCH. MUI's color helpers
- * only parse sRGB-shaped formats and would throw on either.
- *
- * Layered API:
- *   - resolveColorString(c): peels `var(--color-*)` -> concrete hex via tokens
- *   - oklchToRgbString(c):   peels `oklch(L C H)` -> `rgb(r, g, b)`
- *   - decomposeColor(c):     normalizes c via the above, then defers to MUI
- *   - getContrastText(c):    normalizes c, defers to MUI's helper
+ * Reference: Björn Ottosson — https://bottosson.github.io/posts/oklab/
  */
-
-import {
-	decomposeColor as muiDecomposeColor,
-	getContrastRatio as muiGetContrastRatio,
-	getLuminance as muiGetLuminance
-} from '@mui/system/colorManipulator';
-import type {ColorObject} from '@mui/system/colorManipulator';
-import {tokens, type ColorScheme} from './tokens';
-
-// Internal normalizer — single chokepoint so every wrapped helper handles
-// the same extended format set (var(--color-*) and oklch()).
-function normalizeColorInput(color: string, scheme: ColorScheme): string {
-	let out = color;
-	if (out.startsWith('var(')) out = resolveColorString(out, scheme);
-	if (out.startsWith('oklch')) out = oklchToRgbString(out);
-	return out;
-}
-
-// ---------------------------------------------------------------------------
-// CSS var resolution
-// ---------------------------------------------------------------------------
-
-const VAR_RE       = /^var\(--color-([a-z-]+)\)/i;
-const TOKEN_LOOKUP: Record<string, (t: typeof tokens.light) => string | undefined> = {
-	'primary':            (t) => t.primary.main,
-	'primary-light':      (t) => t.primary.light,
-	'primary-dark':       (t) => t.primary.dark,
-	'primary-contrast':   (t) => t.primary.contrastText,
-	'secondary':          (t) => t.secondary.main,
-	'secondary-light':    (t) => t.secondary.light,
-	'secondary-dark':     (t) => t.secondary.dark,
-	'secondary-contrast': (t) => t.secondary.contrastText,
-	'background':         (t) => t.background.default,
-	'background-paper':   (t) => t.background.paper,
-	'text-primary':       (t) => t.text.primary,
-	'text-secondary':     (t) => t.text.secondary,
-	'text-disabled':      (t) => t.text.disabled,
-	'divider':            (t) => t.divider,
-	'success':            (t) => t.success,
-	'warning':            (t) => t.warning,
-	'error':              (t) => t.error,
-	'info':               (t) => t.info
-};
-
-export function resolveColorString(color: string, scheme: ColorScheme = 'light'): string {
-	const match = color.match(VAR_RE);
-	if (!match) return color;
-	const resolver = TOKEN_LOOKUP[match[1].toLowerCase()];
-	return resolver?.(tokens[scheme]) ?? color;
-}
-
-// ---------------------------------------------------------------------------
-// OKLCH -> sRGB
-// ---------------------------------------------------------------------------
-// Reference: Björn Ottosson - https://bottosson.github.io/posts/oklab/
 
 const OKLCH_RE = /^oklch\(\s*([0-9.+\-%]+)\s+([0-9.+\-]+)\s+([0-9.+\-]+)(?:deg)?\s*(?:\/\s*([0-9.+\-%]+))?\s*\)\s*$/i;
 
 function parseLightness(raw: string): number {
-	// `oklch(70% 0.1 30)` and `oklch(0.7 0.1 30)` both valid.
 	return raw.endsWith('%') ? parseFloat(raw) / 100 : parseFloat(raw);
 }
 
@@ -93,9 +31,7 @@ function linearToSrgb(x: number): number {
 
 /**
  * Convert an OKLCH color string to a CSS-parseable `rgb(...)` /
- * `rgba(...)` string. Returns the input unchanged if not an oklch literal.
- * Clamps out-of-gamut channels into [0, 1] sRGB (lossy but safe — matches
- * what browsers do when painting out-of-gamut oklch into an sRGB context).
+ * `rgba(...)` string. Returns input unchanged if not an oklch literal.
  */
 export function oklchToRgbString(color: string): string {
 	const m = color.match(OKLCH_RE);
@@ -110,7 +46,6 @@ export function oklchToRgbString(color: string): string {
 	const a    = C * Math.cos(hRad);
 	const b    = C * Math.sin(hRad);
 
-	// OKLab -> linear sRGB
 	const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
 	const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
 	const s_ = L - 0.0894841775 * a - 1.2914855480 * b;
@@ -123,62 +58,11 @@ export function oklchToRgbString(color: string): string {
 	const lg = -1.2684380046 * lc + 2.6097574011 * mc - 0.3413193965 * sc;
 	const lb = -0.0041960863 * lc - 0.7034186147 * mc + 1.7076147010 * sc;
 
-	const r = Math.round(clamp01(linearToSrgb(lr)) * 255);
-	const g = Math.round(clamp01(linearToSrgb(lg)) * 255);
+	const r  = Math.round(clamp01(linearToSrgb(lr)) * 255);
+	const g  = Math.round(clamp01(linearToSrgb(lg)) * 255);
 	const b8 = Math.round(clamp01(linearToSrgb(lb)) * 255);
 
 	return alpha < 1
 		? `rgba(${r}, ${g}, ${b8}, ${alpha})`
 		: `rgb(${r}, ${g}, ${b8})`;
-}
-
-// ---------------------------------------------------------------------------
-// Wrapped MUI helpers
-// ---------------------------------------------------------------------------
-
-/**
- * Normalize a color string to a MUI-parseable form, then call MUI's
- * decomposeColor. Handles: oklch(), var(--color-*), plus everything MUI
- * already supports.
- */
-export function decomposeColor(color: string, scheme: ColorScheme = 'light'): ColorObject {
-	return muiDecomposeColor(normalizeColorInput(color, scheme));
-}
-
-/**
- * Wrapped getLuminance — accepts oklch() and var(--color-*) in addition
- * to MUI's native formats.
- */
-export function getLuminance(color: string, scheme: ColorScheme = 'light'): number {
-	return muiGetLuminance(normalizeColorInput(color, scheme));
-}
-
-/**
- * Wrapped getContrastRatio — normalizes both inputs before deferring to
- * MUI. THIS is the function that fixContrast in useGetAccessibleColor
- * calls hot-path, so it MUST handle var() / oklch.
- */
-export function getContrastRatio(
-	foreground: string,
-	background: string,
-	scheme: ColorScheme = 'light'
-): number {
-	return muiGetContrastRatio(
-		normalizeColorInput(foreground, scheme),
-		normalizeColorInput(background, scheme)
-	);
-}
-
-/**
- * Wrapped getContrastText — picks black or white text for max contrast
- * against `background`. Accepts the extended set of color formats above.
- */
-export function getContrastText(
-	background: string,
-	contrastThreshold: number = 3,
-	scheme: ColorScheme = 'light'
-): string {
-	const black = 'rgb(0, 0, 0)';
-	const white = 'rgb(255, 255, 255)';
-	return getContrastRatio(background, black, scheme) >= contrastThreshold ? black : white;
 }

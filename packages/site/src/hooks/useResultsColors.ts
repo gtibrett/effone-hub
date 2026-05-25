@@ -1,5 +1,5 @@
 import {useDarkMode} from '@/components/ui';
-import {getContrastText} from '@/lib/useContrastText';
+import {getCssContrast} from '@/lib/useContrastText';
 import {amber, deepPurple, green, red} from '@mui/material/colors';
 import {blueGrey} from '@/components/ui/colors';
 
@@ -8,12 +8,6 @@ type ResultsColor = {
 	color: string;
 }
 
-/**
- * Stats-card color map. Returns concrete strings so consumers can spread
- * them into either an sx prop OR a JS color sink (Nivo `colors`, SVG
- * `color` attr). For sx callers that want the CSS-only `contrast-color()`
- * upgrade, layer `useContrastText` on top per-element.
- */
 export default function useResultsColors(): { [key: string]: ResultsColor } {
 	const prefersDarkMode = useDarkMode();
 
@@ -32,7 +26,7 @@ export default function useResultsColors(): { [key: string]: ResultsColor } {
 		             {
 			             [key]: {
 				             background,
-				             color: getContrastText(background)
+				             color: getCssContrast(background)
 			             }
 		             }
 	             ))

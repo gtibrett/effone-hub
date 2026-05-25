@@ -74,7 +74,9 @@ describe('nivo.ts', () => {
 			expect(screen.getByTestId('unknown')).toHaveTextContent('rgba(0, 0, 0, 0.87)');
 			expect(screen.getByTestId('mercedes')).toHaveTextContent(/#5fcfbe/i);
 			expect(screen.getByTestId('mclaren')).toHaveTextContent(/#ef8833/i);
-			expect(screen.getByTestId('a11y')).toHaveTextContent('rgb(223, 120, 35)');
+			// useGetAccessibleColor is identity now (no JS contrast shifting);
+			// chart line colors pass through as-is.
+			expect(screen.getByTestId('a11y')).toHaveTextContent(/#ef8833/i);
 		});
 		
 		test('dark mode', async () => {
