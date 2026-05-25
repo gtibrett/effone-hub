@@ -29,7 +29,7 @@ export default function StatCardContent<T extends DataWithValue>({size, avatar, 
 		return (
 			<div className="flex items-center gap-3 h-full px-3 py-2">
 				<div
-					className="w-12 h-12 shrink-0 flex items-center justify-center overflow-hidden rounded"
+					className="w-12 h-12 flex items-center justify-center overflow-hidden rounded"
 					style={color ? {borderLeft: `4px solid ${color}`} : undefined}
 				>
 					{avatar}

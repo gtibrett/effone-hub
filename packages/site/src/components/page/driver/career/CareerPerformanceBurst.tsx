@@ -92,7 +92,7 @@ export default function CareerPerformanceBurst({driverId, size}: {
 	};
 	
 	return (
-		<Card variant="outlined" aria-hidden style={{height: size, width: size}}>
+		<Card  aria-hidden style={{height: size, width: size}}>
 			<ResponsiveSunburst<BurstDatum>
 				theme={nivoTheme}
 				data={chartData}

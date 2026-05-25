@@ -26,21 +26,6 @@ importers:
       '@apollo/client-integration-nextjs':
         specifier: ^0.14
         version: 0.14.5(@apollo/client@4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.1))(graphql@16.14.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(rxjs@7.8.2))(@types/react@19.2.14)(graphql@16.14.0)(next@16.2.6(@babel/core@7.29.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(rxjs@7.8.2)
-      '@fontsource/anton':
-        specifier: ^5
-        version: 5.2.7
-      '@fontsource/racing-sans-one':
-        specifier: ^5
-        version: 5.2.7
-      '@fontsource/roboto':
-        specifier: ^5
-        version: 5.2.10
-      '@fontsource/roboto-mono':
-        specifier: ^5
-        version: 5.2.9
-      '@fontsource/titillium-web':
-        specifier: ^5
-        version: 5.2.8
       '@fortawesome/fontawesome-svg-core':
         specifier: ^7
         version: 7.2.0
@@ -1229,21 +1214,6 @@ packages:
 
   '@floating-ui/utils@0.2.11':
     resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
-
-  '@fontsource/anton@5.2.7':
-    resolution: {integrity: sha512-fiPl7Kx0HC50Ws2uRkNC+QLVK8xPFUB9E+IxFdSA6tbNTZWe7HOq8IxYqkERIzsIBvYj6nrU+7uNMUM9vNLxig==}
-
-  '@fontsource/racing-sans-one@5.2.7':
-    resolution: {integrity: sha512-YWnTyQPFC5mxKUDLJUYCxyxO1LQkOu/ZVGo1SB+SGNyfHOhBcjutZcupCVFJ+W9ttoSMxozEruFMyRooeHMlog==}
-
-  '@fontsource/roboto-mono@5.2.9':
-    resolution: {integrity: sha512-iIeSyrRGoM15uIWqXslW1K9UFnUYfnCFNrNoWjXE0huO1L+hM0Jst0KNLuRc7P21xPpGL0bZouzYSX0Em9eyWg==}
-
-  '@fontsource/roboto@5.2.10':
-    resolution: {integrity: sha512-8HlA5FtSfz//oFSr2eL7GFXAiE7eIkcGOtx7tjsLKq+as702x9+GU7K95iDeWFapHC4M2hv9RrpXKRTGGBI8Zg==}
-
-  '@fontsource/titillium-web@5.2.8':
-    resolution: {integrity: sha512-DNhXS1ib/de+LwbJiEmKgB9WAGK6MZfG9qFbJbz1JoY1f4KCt9HDK7lSUtqJPxdK47D2o0vqdWcg5SD+yphWOw==}
 
   '@fortawesome/fontawesome-common-types@7.2.0':
     resolution: {integrity: sha512-IpR0bER9FY25p+e7BmFH25MZKEwFHTfRAfhOyJubgiDnoJNsSvJ7nigLraHtp4VOG/cy8D7uiV0dLkHOne5Fhw==}
@@ -7926,16 +7896,6 @@ snapshots:
       tabbable: 6.4.0
 
   '@floating-ui/utils@0.2.11': {}
-
-  '@fontsource/anton@5.2.7': {}
-
-  '@fontsource/racing-sans-one@5.2.7': {}
-
-  '@fontsource/roboto-mono@5.2.9': {}
-
-  '@fontsource/roboto@5.2.10': {}
-
-  '@fontsource/titillium-web@5.2.8': {}
 
   '@fortawesome/fontawesome-common-types@7.2.0': {}
 

@@ -4,6 +4,7 @@ import {DriverAvatar, useAppState} from '@/components/app';
 import {Career, Circuits, Season} from '@/components/page/driver';
 import {Flag, Page, Tabs, Card, Typography} from '@/components/ui';
 import {useGetTeamColor} from '@/hooks';
+import Image from 'next/image';
 import type {ReactNode} from 'react';
 /**
  * The subset of `Driver` fields DriverContent reads at the top level.
@@ -49,7 +50,7 @@ const DriverDetails = ({driver, portrait}: DriverDetailsProps) => (
 				{driver.nationalityCountryId && <div><Flag nationality={driver.nationalityCountryId} className="w-12 h-12 text-2xl"/></div>}
 				<div className="flex-1"/>
 				<div><Typography variant="h2" className="font-bold">{driver.abbreviation}</Typography></div>
-				<div style={{fontFamily: 'Racing Sans One', fontSize: '1.1em'}}>{driver.permanentNumber}</div>
+				<div className="font-racing-sans-one text-[1.1em]">{driver.permanentNumber}</div>
 			</div>
 		</div>
 	</div>
@@ -79,8 +80,8 @@ export default function DriverContent({driver}: {driver: DriverPageProp | null})
 	const bio = driver.bio;
 
 	const portrait = bio?.thumbnailUrl
-		? <img src={bio.thumbnailUrl} alt={`${driver.firstName} ${driver.lastName}`} className="float-right ml-4 mb-2 w-[120px] h-[120px] object-cover rounded-sm"/>
-		: <div className="float-right ml-4 mb-2"><DriverAvatar driverId={driver.rowId} size={120}/></div>;
+		? <Image width={128} src={bio.thumbnailUrl} alt={`${driver.firstName} ${driver.lastName}`} className="aspect-square float-right ml-4 mb-2 object-cover rounded-sm"/>
+		: <div className="float-right ml-4 mb-2"><DriverAvatar driverId={driver.rowId} size="large"/></div>;
 
 	return (
 		<Page

@@ -41,7 +41,7 @@ export default function ConstructorsStandings({season}: ConstructorsStandingsPro
 				subheader={<ConstructorChampion season={season}/>}
 				actions={
 					<>
-						<Button variant="outlined" size="small" onClick={() => setOpen(true)}>show full standings</Button>
+						<Button  size="small" onClick={() => setOpen(true)}>show full standings</Button>
 						<ConstructorStandingsDialog season={season} open={open} setOpen={setOpen}/>
 					</>
 				}/>

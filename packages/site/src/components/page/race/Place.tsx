@@ -29,7 +29,7 @@ export default function Place({driverId, place, points, wins, asterisk = false, 
 	return (
 		<Card className={className ?? 'h-full'}>
 			<CardHeader
-				avatar={<DriverAvatar driverId={driverId} size={64}/>}
+				avatar={<DriverAvatar driverId={driverId} size="medium"/>}
 				title={<Typography noWrap><Link href={`/drivers/${rowId}`}>{name}</Link> {asterisk && <FontAwesomeIcon icon={faAsterisk} title="We all know what really happened"/>}</Typography>}
 				subheader={<>
 					{place ? `P${place} ` : ''}

@@ -57,7 +57,7 @@ export default function CareerPerformance({data}: CareerPerformanceProps) {
 	];
 	
 	return (
-		<Paper variant="outlined" className="h-[132px] p-2" aria-hidden>
+		<Paper  className="h-[132px] p-2" aria-hidden>
 			<ResponsivePie
 				enableArcLinkLabels={false}
 				enableArcLabels={false}

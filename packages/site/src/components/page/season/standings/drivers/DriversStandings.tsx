@@ -14,7 +14,7 @@ const DriversStandingsActions = ({season}: DriversStandingsProps) => {
 	
 	return (
 		<>
-			<Button variant="outlined" size="small" onClick={() => setOpen(true)}>show full standings</Button>
+			<Button  size="small" onClick={() => setOpen(true)}>show full standings</Button>
 			<DriverStandingsDialog season={season} open={open} setOpen={setOpen}/>
 		</>
 	);

@@ -10,34 +10,26 @@
  * A titled CardHeader paints the slate primary band so page chrome reads
  * consistently across surfaces.
  */
-import {
-	Card as ShadcnCard,
-	CardAction as ShadcnCardAction,
-	CardContent as ShadcnCardContent,
-	CardDescription as ShadcnCardDescription,
-	CardFooter as ShadcnCardFooter,
-	CardHeader as ShadcnCardHeader,
-	CardTitle as ShadcnCardTitle
-} from '@/components/ui/shadcn/card';
-import {forwardRef, type HTMLAttributes, type ReactNode} from 'react';
+import {Card as ShadcnCard, CardAction as ShadcnCardAction, CardContent as ShadcnCardContent, CardDescription as ShadcnCardDescription, CardFooter as ShadcnCardFooter, CardHeader as ShadcnCardHeader, CardTitle as ShadcnCardTitle} from '@/components/ui/shadcn/card';
 import {cn} from '@/lib/utils';
+import {forwardRef, type HTMLAttributes, type ReactNode} from 'react';
 
 export type CardProps = HTMLAttributes<HTMLDivElement> & {
 	variant?: 'outlined' | 'elevation';
 };
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
-	{variant = 'outlined', className, ...rest},
+	{variant = 'elevation', className, ...rest},
 	ref
 ) {
 	return <ShadcnCard ref={ref} className={cn(variant === 'outlined' && 'border', className)} {...rest}/>;
 });
 
 export type CardHeaderProps = Omit<HTMLAttributes<HTMLDivElement>, 'title'> & {
-	title?:     ReactNode;
+	title?: ReactNode;
 	subheader?: ReactNode;
-	action?:    ReactNode;
-	avatar?:    ReactNode;
+	action?: ReactNode;
+	avatar?: ReactNode;
 };
 
 export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(function CardHeader(
@@ -45,7 +37,7 @@ export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(function C
 	ref
 ) {
 	const hasTitleSlot = title !== undefined && title !== null && title !== false && title !== '';
-
+	
 	if (children && !hasTitleSlot && !subheader && !action && !avatar) {
 		return (
 			<ShadcnCardHeader ref={ref} className={className} {...rest}>
@@ -53,13 +45,13 @@ export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(function C
 			</ShadcnCardHeader>
 		);
 	}
-
+	
 	return (
 		<ShadcnCardHeader
 			ref={ref}
 			className={cn(
 				'flex flex-row items-center gap-3',
-				hasTitleSlot && 'bg-primary text-primary-foreground',
+				hasTitleSlot && 'text-primary-foreground',
 				className
 			)}
 			{...rest}

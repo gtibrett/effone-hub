@@ -14,7 +14,7 @@ type ScheduleProps = {
 };
 
 export const ScheduleSkeleton = () => (
-	<Card id="season" variant="outlined">
+	<Card id="season" >
 		<CardHeader title="Schedule"/>
 		<div className="px-4"><Skeleton variant="rectangular" className="h-[300px]"/></div>
 		<Skeleton variant="rectangular" className="h-[300px]"/>
@@ -74,7 +74,7 @@ export default function Schedule({season}: ScheduleProps) {
 	];
 
 	return (
-		<Card id="season" variant="outlined">
+		<Card id="season" >
 			<CardHeader title="Schedule"/>
 			<div className="px-4"><RaceMap points={points} onClick={onClick} highlightNext/></div>
 			<DataTable<Row>

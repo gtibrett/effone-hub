@@ -33,13 +33,13 @@ const PageSkeleton = () => (
 	<Page title="Loading">
 		<div className="grid grid-cols-12 gap-4">
 			<div className="col-span-12 md:col-span-8 lg:col-span-9 order-2 md:order-1">
-				<Card variant="outlined">
+				<Card >
 					<Skeleton variant="rectangular" className="h-[600px]"/>
 				</Card>
 			</div>
 
 			<div className="col-span-12 md:col-span-4 lg:col-span-3 order-1 md:order-2">
-				<Card variant="outlined">
+				<Card >
 					<CardMedia>
 						<Skeleton variant="rectangular" className="h-6 md:h-12"/>
 					</CardMedia>
@@ -118,7 +118,7 @@ export default function ConstructorContent({teamRef, team}: Props) {
 			<div className="grid grid-cols-12 gap-4">
 				<div className={`col-span-12 ${isInCurrentSeason ? 'md:col-span-8 lg:col-span-9' : 'md:col-span-12 lg:col-span-12'} order-2 md:order-1`}>
 					{bio?.extract && (
-						<Card variant="outlined" className="mb-4 p-4">
+						<Card  className="mb-4 p-4">
 							{bio.thumbnailUrl && (
 								<img src={bio.thumbnailUrl} alt={team.name ?? ''} className="float-right ml-4 mb-2 w-[120px] h-[120px] object-cover rounded-sm"/>
 							)}
@@ -126,7 +126,7 @@ export default function ConstructorContent({teamRef, team}: Props) {
 							<div className="clear-both"/>
 						</Card>
 					)}
-					<Card variant="outlined">
+					<Card >
 						<Tabs active="history" tabs={tabs}/>
 					</Card>
 				</div>
@@ -134,7 +134,7 @@ export default function ConstructorContent({teamRef, team}: Props) {
 				{
 					isInCurrentSeason && (
 						<div className="col-span-12 md:col-span-4 lg:col-span-3 order-1 md:order-2">
-							<Card variant="outlined">
+							<Card >
 								<CardHeader title={`${currentSeason} Season Stats`}/>
 								<CardContent>
 									<div className="grid grid-cols-12 gap-4">

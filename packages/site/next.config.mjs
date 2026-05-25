@@ -20,6 +20,13 @@ const nextConfig = {
 	// src/pages/api/cron/ingest.ts for the corresponding `updateTag` calls.
 	cacheComponents: true,
 	serverExternalPackages: POSTGRAPHILE_EXTERNALS,
+	
+	images: {
+		remotePatterns: [
+			new URL('https://upload.wikimedia.org/**')
+		]
+	},
+	
 	webpack(config, {isServer}) {
 		config.module.rules.push({
 			test  : /\.svg$/i,

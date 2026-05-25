@@ -8,18 +8,19 @@
  * scope and inject the CSS vars via inline `style` on the wrapping
  * element (NOT on Avatar itself).
  */
+import Image from 'next/image';
 import {HTMLAttributes, ReactNode, forwardRef, useState} from 'react';
 import {cn} from '@/lib/utils';
 
 const SIZE: Record<string, string> = {
-	xs:     'w-6 h-6 text-xs',
-	sm:     'w-8 h-8 text-sm',
-	md:     'w-10 h-10 text-base',
-	lg:     'w-16 h-16 text-lg',
-	xl:     'w-32 h-32 text-2xl',
-	small:  'w-8 h-8 text-sm',
-	medium: 'w-16 h-16 text-base',
-	large:  'w-32 h-32 text-2xl'
+	xs:     'size-6 text-xs',
+	sm:     'size-8 text-sm',
+	md:     'size-10 text-base',
+	lg:     'size-16 text-lg',
+	xl:     'size-32 text-2xl',
+	small:  'size-8 text-sm',
+	medium: 'size-16 text-base',
+	large:  'size-32 text-2xl'
 };
 
 export type AvatarProps = Omit<HTMLAttributes<HTMLDivElement>, 'children'> & {
@@ -44,15 +45,15 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
 		<div
 			ref={ref}
 			className={cn(
-				'inline-flex items-center justify-center overflow-hidden bg-muted text-muted-foreground',
-				size ? SIZE[size] : 'w-10 h-10',
+				'inline-flex items-center justify-center overflow-hidden bg-muted text-muted-foreground relative',
+				size ? SIZE[size] : 'size-10',
 				shape,
 				className
 			)}
 			{...rest}
 		>
 			{src && !imgFailed
-				? <img src={src} alt={alt ?? ''} className="w-full h-full object-cover" onError={() => setImgFailed(true)}/>
+				? <Image fill src={src} alt={alt ?? ''} className="w-full h-full object-cover" onError={() => setImgFailed(true)}/>
 				: children
 			}
 		</div>

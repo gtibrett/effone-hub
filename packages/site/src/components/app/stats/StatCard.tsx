@@ -56,7 +56,7 @@ const DriverVariant = <T extends DataWithValue>({size, label, data, format, extr
 	return (
 		<StatCardContent<T>
 			size={size}
-			avatar={<DriverAvatar driverId={driverId} size={64}/>}
+			avatar={<DriverAvatar driverId={driverId} size='medium'/>}
 			title={<DriverByLine id={driverId} variant={size === 'small' ? 'code-link' : 'link'}/>}
 			label={label}
 			color={getTeamColor(driver?.seasonEntrantDrivers?.nodes?.[0]?.team?.colors, 'primaryHex', false)}
@@ -80,7 +80,7 @@ const TeamVariant = <T extends DataWithValue>({size, label, data, format, extra}
 	return (
 		<StatCardContent<T>
 			size={size}
-			avatar={<ConstructorAvatar teamId={teamId} size={64}/>}
+			avatar={<ConstructorAvatar teamId={teamId} size="medium"/>}
 			title={<Link href={`/constructors/${constructorRef}`}>{name}</Link>}
 			label={label}
 			data={value}

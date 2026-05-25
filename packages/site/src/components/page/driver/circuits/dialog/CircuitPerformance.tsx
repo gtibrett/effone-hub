@@ -48,7 +48,7 @@ export default function CircuitPerformance({data, loading}: CircuitPerformancePr
 	const color = getAccessibleColor(tokens.primary);
 
 	return (
-		<Paper variant="outlined" ref={ref} className="p-0" style={{height: width, width}}>
+		<Paper  ref={ref} className="p-0" style={{height: width, width}}>
 			<ResponsiveRadar
 				theme={nivoTheme}
 				data={chartData}
