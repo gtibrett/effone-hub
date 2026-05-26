@@ -20,6 +20,59 @@
 @layer theme, base, mui, components, utilities;
 @import "tailwindcss";
 
+/*
+ * Full shade scales for primary (blueGrey), secondary (red), and
+ * tertiary (blue). Sourced from src/components/ui/colors.ts — keep in
+ * sync. Plain `@theme` (not inline) so Tailwind emits `--color-X-N` at
+ * :root and `bg-primary-950`, `border-tertiary-300`, etc. all resolve.
+ */
+@theme {
+	/* primary = blueGrey */
+	--color-primary-50:  oklch(0.951 0.005 236);
+	--color-primary-100: oklch(0.864 0.014 230);
+	--color-primary-200: oklch(0.780 0.020 232);
+	--color-primary-300: oklch(0.675 0.027 234);
+	--color-primary-400: oklch(0.600 0.033 236);
+	--color-primary-500: oklch(0.530 0.039 240);
+	--color-primary-600: oklch(0.470 0.038 242);
+	--color-primary-700: oklch(0.400 0.034 244);
+	--color-primary-800: oklch(0.330 0.027 244);
+	--color-primary-900: oklch(0.250 0.020 244);
+	--color-primary-950: oklch(0.200 0.018 244);
+
+	/* secondary = red */
+	--color-secondary-50:  oklch(0.968 0.014 17.52);
+	--color-secondary-100: oklch(0.934 0.029 17.73);
+	--color-secondary-200: oklch(0.87 0.061 18.41);
+	--color-secondary-300: oklch(0.797 0.103 19.6);
+	--color-secondary-400: oklch(0.733 0.145 21.23);
+	--color-secondary-500: oklch(0.669 0.194 23.65);
+	--color-secondary-600: oklch(0.604 0.226 27.02);
+	--color-secondary-700: oklch(0.529 0.198 27.16);
+	--color-secondary-800: oklch(0.398 0.149 27.08);
+	--color-secondary-900: oklch(0.271 0.102 26.81);
+	--color-secondary-950: oklch(0.207 0.077 27.3);
+
+	/* tertiary = blue */
+	--color-tertiary-50:  oklch(0.957 0.019 266.01);
+	--color-tertiary-100: oklch(0.914 0.037 265.15);
+	--color-tertiary-200: oklch(0.829 0.077 264.37);
+	--color-tertiary-300: oklch(0.735 0.124 259.15);
+	--color-tertiary-400: oklch(0.649 0.17 253.56);
+	--color-tertiary-500: oklch(0.562 0.147 253.39);
+	--color-tertiary-600: oklch(0.475 0.125 253.46);
+	--color-tertiary-700: oklch(0.398 0.104 253.1);
+	--color-tertiary-800: oklch(0.311 0.081 253.43);
+	--color-tertiary-900: oklch(0.225 0.058 253.41);
+	--color-tertiary-950: oklch(0.177 0.048 253.48);
+}
+
+/*
+ * Semantic alias layer — Tailwind reads the MUI palette CSS variables.
+ * Bare `bg-primary` / `text-text-primary` resolve through MUI's
+ * scheme-aware vars; bare `bg-tertiary` falls through to the 500 shade
+ * (no MUI tertiary palette exists).
+ */
 @theme inline {
 	--color-primary:           var(--mui-palette-primary-main);
 	--color-primary-light:     var(--mui-palette-primary-light);
@@ -30,6 +83,8 @@
 	--color-secondary-light:     var(--mui-palette-secondary-light);
 	--color-secondary-dark:      var(--mui-palette-secondary-dark);
 	--color-secondary-contrast:  var(--mui-palette-secondary-contrastText);
+
+	--color-tertiary:          var(--color-tertiary-500);
 
 	--color-background:        var(--mui-palette-background-default);
 	--color-background-paper:  var(--mui-palette-background-paper);

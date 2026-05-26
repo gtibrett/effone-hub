@@ -27,30 +27,30 @@ const {spacing} = createTheme({spacing: 8});
 const lightPalette = {
 	mode:              'light' as const,
 	contrastThreshold: 4.5,
-	primary:    {main: blueGrey[800], light: blueGrey[600], dark: blueGrey[900], contrastText: '#ffffff'},
-	secondary:  {main: red[900],      light: red[700],      dark: red[950],      contrastText: '#ffffff'},
-	background: {default: blueGrey[200], paper: '#ffffff'},
-	text:       {primary: 'rgba(0, 0, 0, 0.87)', secondary: 'rgba(0, 0, 0, 0.6)', disabled: 'rgba(0, 0, 0, 0.38)'},
-	divider:    'rgba(0, 0, 0, 0.12)',
-	success:    {main: '#2e7d32', contrastText: '#ffffff'},
-	warning:    {main: '#ed6c02', contrastText: '#000000'},
-	error:      {main: '#d32f2f', contrastText: '#ffffff'},
-	info:       {main: '#0288d1', contrastText: '#ffffff'}
+	primary:           {main: blueGrey[800], light: blueGrey[600], dark: blueGrey[900], contrastText: '#F4F4F6'},
+	secondary:         {main: red[900], light: red[700], dark: red[950], contrastText: '#F4F4F6'},
+	background:        {default: blueGrey[200], paper: '#F4F4F6'},
+	text:              {primary: 'rgba(0, 0, 0, 0.87)', secondary: 'rgba(0, 0, 0, 0.6)', disabled: 'rgba(0, 0, 0, 0.38)'},
+	divider:           'rgba(0, 0, 0, 0.12)',
+	success:           {main: '#2e7d32', contrastText: '#F4F4F6'},
+	warning:           {main: '#ed6c02', contrastText: '#000'},
+	error:             {main: '#d32f2f', contrastText: '#F4F4F6'},
+	info:              {main: '#0288d1', contrastText: '#F4F4F6'}
 };
 
 // Dark palette — lighter shades against dark backgrounds.
 const darkPalette = {
 	mode:              'dark' as const,
 	contrastThreshold: 4.5,
-	primary:    {main: blueGrey[400], light: blueGrey[300], dark: blueGrey[500], contrastText: '#ffffff'},
-	secondary:  {main: red[300],      light: red[200],      dark: red[500],      contrastText: '#000000'},
-	background: {default: blueGrey[800], paper: blueGrey[900]},
-	text:       {primary: '#ffffff', secondary: 'rgba(255, 255, 255, 0.7)', disabled: 'rgba(255, 255, 255, 0.5)'},
-	divider:    'rgba(255, 255, 255, 0.12)',
-	success:    {main: '#66bb6a', contrastText: '#000000'},
-	warning:    {main: '#ffa726', contrastText: '#000000'},
-	error:      {main: '#f44336', contrastText: '#ffffff'},
-	info:       {main: '#29b6f6', contrastText: '#000000'}
+	primary:           {main: blueGrey[400], light: blueGrey[300], dark: blueGrey[500], contrastText: '#F4F4F6'},
+	secondary:         {main: red[300], light: red[200], dark: red[500], contrastText: '#000'},
+	background:        {default: blueGrey[800], paper: blueGrey[900]},
+	text:              {primary: '#F4F4F6', secondary: 'rgba(255, 255, 255, 0.7)', disabled: 'rgba(255, 255, 255, 0.5)'},
+	divider:           'rgba(255, 255, 255, 0.12)',
+	success:           {main: '#66bb6a', contrastText: '#000'},
+	warning:           {main: '#ffa726', contrastText: '#000'},
+	error:             {main: '#f44336', contrastText: '#F4F4F6'},
+	info:              {main: '#29b6f6', contrastText: '#000000'}
 };
 
 const effTheme = createTheme({
@@ -151,7 +151,7 @@ const effTheme = createTheme({
 					padding:     spacing(.25, 1),
 					borderColor: 'var(--mui-palette-secondary-main)',
 					color:       'var(--mui-palette-secondary-main)',
-
+					
 					'&.Mui-selected':   {
 						backgroundColor: 'var(--mui-palette-secondary-main)',
 						color:           'var(--mui-palette-secondary-contrastText)'
@@ -180,9 +180,9 @@ export const useEffTheme = (_overrideMode?: 'light' | 'dark') => effTheme;
  * tokens. Hook re-renders when the OS preference flips.
  */
 export const useInvertedTheme = () => {
-	const prefersDark  = useMediaQuery('(prefers-color-scheme: dark)');
-	const palette      = prefersDark ? lightPalette : darkPalette;
-
+	const prefersDark = useMediaQuery('(prefers-color-scheme: dark)');
+	const palette     = prefersDark ? lightPalette : darkPalette;
+	
 	return useMemo(() => createTheme({
 		spacing:    8,
 		palette,

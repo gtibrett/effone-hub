@@ -24,7 +24,7 @@ describe('color-mix helpers (src/components/ui/colors.ts)', () => {
 	});
 
 	test('helpers accept var()/oklch/hex uniformly (the whole point of the rewrite)', () => {
-		const inputs = ['#fff', 'var(--color-primary)', 'oklch(0.6 0.033 236)', 'rgb(120, 144, 156)'];
+		const inputs = ['#F4F4F6', 'var(--color-primary)', 'oklch(0.6 0.033 236)', 'rgb(120, 144, 156)'];
 		for (const input of inputs) {
 			expect(() => alpha(input, 0.5)).not.toThrow();
 			expect(() => lighten(input, 0.25)).not.toThrow();

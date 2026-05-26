@@ -1,5 +1,4 @@
-import {Link} from '@mui/material';
-import {AppBar, Grid, Toolbar, Typography} from '@mui/material';
+import {AppBar, Grid, Link, Toolbar, Typography} from '@mui/material';
 import NavMenu from './NavMenu';
 
 // Background mixes the primary-dark token with 25% black via color-mix
@@ -7,27 +6,27 @@ import NavMenu from './NavMenu';
 // a `:before` overlay implemented via Tailwind v4 arbitrary variants.
 export default function Header() {
 	return (
-        <header role="banner">
-            <AppBar
+		<header role="banner">
+			<AppBar
 				component="nav"
 				color="primary"
 				aria-label="main navigation"
-				className="py-2 border-b-4 border-secondary-light bg-[color-mix(in_oklch,_var(--color-primary-dark),_black_25%)] before:absolute before:inset-0 before:content-[''] before:bg-[url(/carbon-fiber-texture.png)] before:bg-cover before:opacity-25">
+				className="py-2 border-b-4 border-secondary-light bg-primary-950 before:absolute before:inset-0 before:content-[''] before:bg-[url(/carbon-fiber-texture.png)] before:bg-cover before:opacity-25">
 				<Toolbar>
 					<Grid container spacing={1} className="items-center w-full">
 						<Grid>
-							<Link href="/" color="inherit" className="no-underline [&_*]:!font-['Anton'] [&_*]:!text-[48px]">
+							<Link href="/" color="inherit" className="no-underline **:font-['Anton']! **:text-[48px]!">
 								<Typography component="h1">
 									EFF<Typography component="span" className="opacity-100 px-1 text-secondary-light">ONE</Typography>HUB
 								</Typography>
 							</Link>
 						</Grid>
-						<Grid size="grow" />
+						<Grid size="grow"/>
 						<NavMenu/>
 					</Grid>
 				</Toolbar>
 			</AppBar>
-            <Toolbar className="my-4"/>
-        </header>
-    );
+			<Toolbar className="my-4"/>
+		</header>
+	);
 }

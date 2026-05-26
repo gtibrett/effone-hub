@@ -6,6 +6,8 @@ import '@fontsource/racing-sans-one';
 import '@fontsource/titillium-web';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 
+import { Anton, Roboto, Roboto_Mono, Racing_Sans_One, Titillium_Web } from 'next/font/google';
+
 import {GoogleAnalytics} from '@next/third-parties/google';
 import type {Metadata, Viewport} from 'next';
 import {PropsWithChildren} from 'react';
