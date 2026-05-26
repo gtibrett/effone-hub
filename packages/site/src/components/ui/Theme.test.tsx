@@ -1,4 +1,4 @@
-import { alpha, darken, lighten } from '@mui/material';
+import { useTheme } from '@mui/material';
 import { renderHook } from '@testing-library/react';
 
 import { setDarkMode } from '@/jest';
@@ -9,7 +9,7 @@ describe('Theme.ts', () => {
 	describe('useEffTheme', () => {
 		test('exposes theme.vars CSS-var strings so components paint via vars', () => {
 			// theme.vars holds `var(--mui-palette-*)` strings — MUI internals prefer them, drives dark-mode flip.
-			const { result } = renderHook(() => useEffTheme());
+			const { result } = renderHook(() => useTheme());
 			const vars = (result.current as any).vars;
 			expect(vars).toBeDefined();
 			expect(vars.palette.primary.main).toMatch(/^var\(--mui-palette-primary-main/);
@@ -17,14 +17,14 @@ describe('Theme.ts', () => {
 		});
 
 		test('emits both light and dark colorSchemes', () => {
-			const { result } = renderHook(() => useEffTheme());
+			const { result } = renderHook(() => useTheme());
 			const schemes = (result.current as any).colorSchemes;
 			expect(schemes?.light).toBeDefined();
 			expect(schemes?.dark).toBeDefined();
 		});
 
 		test('returns stable reference across renders', () => {
-			const { result, rerender } = renderHook(() => useEffTheme());
+			const { result, rerender } = renderHook(() => useTheme());
 			const first = result.current;
 			rerender();
 			expect(result.current).toBe(first);

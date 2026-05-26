@@ -1,15 +1,4 @@
-export function alpha(color: string, percentage: number) {
-	return `color-mix(in srgb, ${color}, transparent ${percentage * 100}%)`;
-}
-
-// color-mix accepts oklch/var()/hex/rgb — MUI's lighten/darken only parse named formats.
-export function lighten(color: string, percentage: number) {
-	return `color-mix(in oklch, ${color}, white ${percentage * 100}%)`;
-}
-
-export function darken(color: string, percentage: number) {
-	return `color-mix(in oklch, ${color}, black ${percentage * 100}%)`;
-}
+// https://coolors.co/ef233c-f4f4f6-1f262e-faf33e-009ddc
 
 // OKLCH for perceptual uniformity. sRGB hex fallbacks in `src/lib/tokens.ts` for JS color math.
 export const blueGrey = {
@@ -27,33 +16,60 @@ export const blueGrey = {
 };
 
 export const red = {
-	50: 'oklch(0.968 0.014 17.52)',
-	100: 'oklch(0.934 0.029 17.73)',
-	200: 'oklch(0.87 0.061 18.41)',
-	300: 'oklch(0.797 0.103 19.6)',
-	400: 'oklch(0.733 0.145 21.23)',
-	500: 'oklch(0.669 0.194 23.65)',
-	600: 'oklch(0.604 0.226 27.02)',
-	700: 'oklch(0.529 0.198 27.16)',
-	800: 'oklch(0.398 0.149 27.08)',
-	900: 'oklch(0.271 0.102 26.81)',
-	950: 'oklch(0.207 0.077 27.3)'
+	50: 'oklch(0.96 0.018 17.57)',
+	100: 'oklch(0.918 0.039 14.02)',
+	200: 'oklch(0.845 0.078 15.89)',
+	300: 'oklch(0.766 0.127 17.46)',
+	400: 'oklch(0.686 0.187 19.32)',
+	500: 'oklch(0.612 0.231 22.61)',
+	600: 'oklch(0.516 0.194 22.56)',
+	700: 'oklch(0.424 0.16 22.53)',
+	800: 'oklch(0.335 0.127 22.49)',
+	900: 'oklch(0.234 0.089 22.84)',
+	950: 'oklch(0.187 0.069 23.49)'
 };
 
 export const blue = {
-	50: 'oklch(0.957 0.019 266.01)',
-	100: 'oklch(0.914 0.037 265.15)',
-	200: 'oklch(0.829 0.077 264.37)',
-	300: 'oklch(0.735 0.124 259.15)',
-	400: 'oklch(0.649 0.17 253.56)',
-	500: 'oklch(0.562 0.147 253.39)',
-	600: 'oklch(0.475 0.125 253.46)',
-	700: 'oklch(0.398 0.104 253.1)',
-	800: 'oklch(0.311 0.081 253.43)',
-	900: 'oklch(0.225 0.058 253.41)',
-	950: 'oklch(0.177 0.048 253.48)'
+	50: 'oklch(0.966 0.017 247.99)',
+	100: 'oklch(0.931 0.035 246.87)',
+	200: 'oklch(0.86 0.074 244.48)',
+	300: 'oklch(0.797 0.113 241.15)',
+	400: 'oklch(0.726 0.157 236.39)',
+	500: 'oklch(0.658 0.142 236.06)',
+	600: 'oklch(0.555 0.12 236.14)',
+	700: 'oklch(0.453 0.098 236.45)',
+	800: 'oklch(0.341 0.074 236.41)',
+	900: 'oklch(0.239 0.052 236.52)',
+	950: 'oklch(0.185 0.04 236.26)'
 };
 
-export const primary = blueGrey;
+const yellow = {
+	50: 'oklch(0.99 0.029 102.64)',
+	100: 'oklch(0.99 0.029 102.64)',
+	200: 'oklch(0.981 0.063 104.58)',
+	300: 'oklch(0.96 0.145 106.3)',
+	400: 'oklch(0.952 0.188 107.21)',
+	500: 'oklch(0.941 0.186 107.18)',
+	600: 'oklch(0.779 0.154 106.97)',
+	700: 'oklch(0.618 0.122 107.25)',
+	800: 'oklch(0.463 0.092 107.09)',
+	900: 'oklch(0.301 0.06 108.16)',
+	950: 'oklch(0.214 0.042 105.12)'
+};
+
+export const primary = blue;
 export const secondary = red;
-export const tertiary = blue;
+export const tertiary = yellow;
+
+export function alpha(color: string, percentage: number) {
+	return `color-mix(in srgb, ${color}, transparent ${percentage * 100}%)`;
+}
+
+// color-mix accepts oklch/var()/hex/rgb — MUI's lighten/darken only parse named formats.
+export function lighten(color: string, percentage: number) {
+	return `color-mix(in oklch, ${color}, white ${percentage * 100}%)`;
+}
+
+export function darken(color: string, percentage: number) {
+	return `color-mix(in oklch, ${color}, black ${percentage * 100}%)`;
+}

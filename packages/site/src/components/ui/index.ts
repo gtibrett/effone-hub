@@ -16,4 +16,4 @@ export {
 } from './TableFilter';
 export type { TabContent } from './Tabs';
 export { default as Tabs } from './Tabs';
-export { useDarkMode, useEffTheme, useFallbackColor, useInvertedTheme } from './Theme';
+export { useDarkMode, useDarkTheme, useFallbackColor, useInvertedTheme } from './Theme';

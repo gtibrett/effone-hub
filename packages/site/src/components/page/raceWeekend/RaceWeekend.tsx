@@ -8,7 +8,7 @@ import {
 	Typography
 } from '@mui/material';
 
-import { CarbonFiberOverlay, useEffTheme } from '@/components/ui';
+import { CarbonFiberOverlay, useDarkTheme } from '@/components/ui';
 import { getDateWithTime } from '@/helpers';
 
 import NextRaceCountdown from './NextRaceCountdown';
@@ -18,10 +18,9 @@ import useNextRaceData from './useNextRaceData';
 type RaceWeekendProps = { season: number };
 
 export default function RaceWeekend({ season }: RaceWeekendProps) {
+	const darkTheme = useDarkTheme();
 	const { data } = useNextRaceData(season);
 	const race = data?.race;
-	const darkTheme = useEffTheme('dark');
-	const lightTheme = useEffTheme('light');
 
 	if (!race) {
 		return null;
@@ -29,26 +28,22 @@ export default function RaceWeekend({ season }: RaceWeekendProps) {
 		const raceDate = new Date(`${race.date}T${race.time}`);
 
 		return (
-			<Grid
-				size={{
-					xs: 12,
-					md: 12
-				}}
-			>
-				<ThemeProvider theme={darkTheme}>
-					<Card id="next-race-weekend" className="relative bg-secondary-dark">
+			<ThemeProvider theme={darkTheme}>
+				<Grid
+					size={{
+						xs: 12,
+						md: 12
+					}}
+				>
+					<Card id="next-race-weekend" className="relative bg-secondary-dark text-white">
 						<CarbonFiberOverlay />
 						<CardHeader
 							title={race.name}
 							subheader={getDateWithTime(raceDate)}
-							action={
-								<ThemeProvider theme={lightTheme}>
-									<NextRaceCountdown variant="dark" race={race} />
-								</ThemeProvider>
-							}
+							action={<NextRaceCountdown variant="dark" race={race} />}
 							slotProps={{
 								title: { fontSize: 30 },
-								subheader: { fontSize: 18 }
+								subheader: { fontSize: 18, color: 'var(--color-white)' }
 							}}
 						/>
 						<CardContent>
@@ -60,8 +55,8 @@ export default function RaceWeekend({ season }: RaceWeekendProps) {
 							<NextRaceSchedule race={race} />
 						</CardActions>
 					</Card>
-				</ThemeProvider>
-			</Grid>
+				</Grid>
+			</ThemeProvider>
 		);
 	}
 }

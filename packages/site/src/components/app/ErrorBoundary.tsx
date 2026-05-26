@@ -1,9 +1,7 @@
 import { Component, ComponentProps, ErrorInfo } from 'react';
 import { faFlag } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Alert, Card, Container, Typography } from '@mui/material';
-
-import { useEffTheme } from '@/components/ui';
+import { Alert, Card, Container, Typography, useTheme } from '@mui/material';
 
 type ErrorBoundaryState = {
 	hasError: boolean;
@@ -11,7 +9,7 @@ type ErrorBoundaryState = {
 };
 
 export function ErrorCard({ message }: { message?: string }) {
-	const theme = useEffTheme('dark');
+	const theme = useTheme();
 
 	const background = theme.palette.error.dark;
 	const color = `contrast-color(${background} vs white, black)`;

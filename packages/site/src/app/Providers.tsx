@@ -6,15 +6,13 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 
 import { Layout } from '@/components/app';
-import { useEffTheme } from '@/components/ui';
+import { effTheme } from '@/components/ui/Theme';
 
 import ApolloWrapper from './ApolloWrapper';
 
 config.autoAddCss = false;
 
 export default function Providers({ children }: PropsWithChildren) {
-	const theme = useEffTheme();
-
 	// Wrap the whole Layout tree in Suspense so Cache Components accepts the
 	// `new Date()` reads scattered across the client components (race-weekend
 	// "is this in the future?" checks, AppStateProvider's currentYear fallback,
@@ -22,7 +20,7 @@ export default function Providers({ children }: PropsWithChildren) {
 	return (
 		<AppRouterCacheProvider options={{ enableCssLayer: true }}>
 			<ApolloWrapper>
-				<ThemeProvider theme={theme}>
+				<ThemeProvider theme={effTheme}>
 					<CssBaseline />
 					<Suspense>
 						<Layout>{children}</Layout>

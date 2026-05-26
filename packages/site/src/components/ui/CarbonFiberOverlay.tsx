@@ -10,7 +10,7 @@ export const CarbonFiberOverlay = ({ className }: PropsWithClassName) => {
 		<Image
 			fill
 			src={carbonFiberTexture}
-			className={twMerge('object-cover opacity-50 mix-blend-luminosity z-0', className)}
+			className={twMerge('object-cover opacity-35 mix-blend-luminosity z-0', className)}
 			alt=""
 		/>
 	);

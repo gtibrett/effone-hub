@@ -1,12 +1,9 @@
 'use client';
 
-//@formatter:off
-import type {} from '@mui/x-data-grid/themeAugmentation';
-//@formatter:on
-
 import { useMemo } from 'react';
 import { default as NextLink } from 'next/link';
 import { createTheme, ThemeOptions, useMediaQuery } from '@mui/material';
+import type {} from '@mui/x-data-grid/themeAugmentation';
 
 /**
  * Source of truth for design tokens. `cssVariables.nativeColor: true` keeps OKLCH literals
@@ -23,13 +20,8 @@ const black = 'oklch(0.200 0.018 244)';
 const lightPalette: ThemeOptions['palette'] = {
 	mode: 'light',
 	contrastThreshold: 4.5,
-	primary: {
-		main: blueGrey[800],
-		light: blueGrey[600],
-		dark: blueGrey[900],
-		contrastText: white
-	},
-	secondary: { main: red[900], light: red[700], dark: red[950], contrastText: white },
+	primary: { main: blue[500], light: blue[300], dark: blue[700], contrastText: white },
+	secondary: { main: red[500], light: red[300], dark: red[700], contrastText: black },
 	background: { default: blueGrey[200], paper: white },
 	text: {
 		primary: 'oklch(0 0 0 / 0.87)',
@@ -46,7 +38,7 @@ const lightPalette: ThemeOptions['palette'] = {
 const darkPalette: ThemeOptions['palette'] = {
 	mode: 'dark',
 	contrastThreshold: 4.5,
-	primary: { main: blue[700], light: blue[300], dark: blue[700], contrastText: white },
+	primary: { main: blue[500], light: blue[300], dark: blue[700], contrastText: white },
 	secondary: { main: red[500], light: red[300], dark: red[700], contrastText: black },
 	background: { default: blueGrey[800], paper: blueGrey[900] },
 	text: {
@@ -61,7 +53,7 @@ const darkPalette: ThemeOptions['palette'] = {
 	info: { main: '#29b6f6', contrastText: black }
 };
 
-const effTheme = createTheme({
+export const effTheme = createTheme({
 	colorSchemes: {
 		light: { palette: lightPalette },
 		dark: { palette: darkPalette }
@@ -175,9 +167,6 @@ const effTheme = createTheme({
 	}
 });
 
-/** Returns the app theme. Mode flips via cssVariables + colorSchemes — palette reads resolve through CSS vars. */
-export const useEffTheme = (_overrideMode?: 'light' | 'dark') => effTheme;
-
 /**
  * FROZEN-opposite-scheme theme for Nivo tooltips. Portal-rendered tooltips don't inherit
  * cssVar scoping, so they get a flat theme built from concrete OPPOSITE-scheme OKLCH tokens.
@@ -189,13 +178,16 @@ export const useInvertedTheme = () => {
 	return useMemo(
 		() =>
 			createTheme({
-				spacing: 8,
-				palette,
-				typography: { fontFamily: 'var(--font-titillium), sans-serif' }
+				palette
 			}),
 		[palette]
 	);
 };
+
+export const useDarkTheme = () =>
+	createTheme(effTheme, {
+		palette: darkPalette
+	});
 
 /** Reads OS dark-mode preference. Use only in chart/map islands needing JS-side scheme branching. */
 export const useDarkMode = () => useMediaQuery('(prefers-color-scheme: dark)');

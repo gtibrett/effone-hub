@@ -63,10 +63,10 @@ export default function NavMenu() {
 	const navLinkClass = [
 		"font-['Titillium_Web',sans-serif] font-bold no-underline",
 		'py-2 px-3 mx-1 border border-transparent rounded',
-		'hover:text-[color-mix(in_oklch,_var(--color-secondary-light),_white_37.5%)] hover:border-[color-mix(in_oklch,_var(--color-secondary-light),_white_37.5%)]',
-		'focus:text-[color-mix(in_oklch,_var(--color-secondary-light),_white_37.5%)] focus:border-[color-mix(in_oklch,_var(--color-secondary-light),_white_37.5%)]',
-		'active:text-secondary-contrast active:bg-secondary-light active:!border-transparent',
-		'[&.active]:text-secondary-contrast [&.active]:bg-secondary-light [&.active]:!border-transparent'
+		'hover:text-[color-mix(in_oklch,_var(--color-primary-light),_white_37.5%)] hover:border-[color-mix(in_oklch,_var(--color-primary-light),_white_37.5%)]',
+		'focus:text-[color-mix(in_oklch,_var(--color-primary-light),_white_37.5%)] focus:border-[color-mix(in_oklch,_var(--color-primary-light),_white_37.5%)]',
+		'active:text-primary active:bg-primary active:!border-transparent',
+		'[&.active]:text-black [&.active]:bg-primary [&.active]:!border-transparent'
 	].join(' ');
 
 	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
