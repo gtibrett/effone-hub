@@ -14,7 +14,10 @@
 		"build": "next build --webpack",
 		"start": "next start",
 		"test": "jest --coverage --verbose",
-		"lint": "eslint .",
+		"lint": "biome check src",
+		"lint:fix": "biome check --write src",
+		"format": "biome format src",
+		"format:fix": "biome format --write src",
 		"codegen": "graphql-codegen --config codegen.ts"
 	},
 	"devDependencies": {

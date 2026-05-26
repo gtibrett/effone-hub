@@ -13,9 +13,25 @@
 		"build": "pnpm --filter @gtibrett/effone-hub-site build",
 		"dev:site": "pnpm --filter @gtibrett/effone-hub-site dev",
 		"build:site": "pnpm --filter @gtibrett/effone-hub-site build",
-		"start:site": "pnpm --filter @gtibrett/effone-hub-site start"
+		"start:site": "pnpm --filter @gtibrett/effone-hub-site start",
+		"lint": "biome check",
+		"lint:fix": "biome check --write",
+		"format": "biome format",
+		"format:fix": "biome format --write",
+		"prepare": "husky"
+	},
+	"lint-staged": {
+		"packages/site/src/**/*.{js,jsx,ts,tsx,json,css}": [
+			"biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
+		],
+		"packages/site/{next.config.mjs,postcss.config.mjs,tsconfig.json}": [
+			"biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
+		]
 	},
 	"devDependencies": {
+		"@biomejs/biome": "^2.4.15",
+		"husky": "^9.1.7",
+		"lint-staged": "^17.0.5",
 		"tsx": "^4.22.0"
 	}
 }
