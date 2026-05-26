@@ -32,11 +32,11 @@ const lightPalette: ThemeOptions['palette'] = {
 	secondary: { main: red[900], light: red[700], dark: red[950], contrastText: white },
 	background: { default: blueGrey[200], paper: white },
 	text: {
-		primary: 'rgba(0, 0, 0, 0.87)',
-		secondary: 'rgba(0, 0, 0, 0.6)',
-		disabled: 'rgba(0, 0, 0, 0.38)'
+		primary: 'oklch(0 0 0 / 0.87)',
+		secondary: 'oklch(0 0 0 / 0.6)',
+		disabled: 'oklch(0 0 0 / 0.38)'
 	},
-	divider: 'rgba(0, 0, 0, 0.12)',
+	divider: 'oklch(0 0 0 / 0.12)',
 	success: { main: '#2e7d32', contrastText: white },
 	warning: { main: '#ed6c02', contrastText: black },
 	error: { main: '#d32f2f', contrastText: white },
@@ -46,15 +46,15 @@ const lightPalette: ThemeOptions['palette'] = {
 const darkPalette: ThemeOptions['palette'] = {
 	mode: 'dark',
 	contrastThreshold: 4.5,
-	primary: { main: blue[400], light: blue[300], dark: blue[500], contrastText: white },
+	primary: { main: blue[700], light: blue[300], dark: blue[700], contrastText: white },
 	secondary: { main: red[500], light: red[300], dark: red[700], contrastText: black },
 	background: { default: blueGrey[800], paper: blueGrey[900] },
 	text: {
 		primary: white,
-		secondary: 'rgba(255, 255, 255, 0.7)',
-		disabled: 'rgba(255, 255, 255, 0.5)'
+		secondary: 'oklch(1 0 0 / 0.7)',
+		disabled: 'oklch(1 0 0 / 0.5)'
 	},
-	divider: 'rgba(255, 255, 255, 0.12)',
+	divider: 'oklch(1 0 0 / 0.12)',
 	success: { main: '#66bb6a', contrastText: black },
 	warning: { main: '#ffa726', contrastText: black },
 	error: { main: '#f44336', contrastText: white },
