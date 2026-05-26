@@ -3,8 +3,8 @@ export default function getCanonicalId(url: string | undefined): CanonicalId | u
 	if (typeof url === 'undefined') {
 		return undefined;
 	}
-	const urlParts    = url.split('/');
+	const urlParts = url.split('/');
 	const canonicalId = urlParts.pop();
-	
+
 	return canonicalId ? decodeURI(canonicalId) : undefined;
 }

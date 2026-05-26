@@ -1,5 +1,6 @@
-import {Client} from 'pg';
-import {applyTeamRename} from './applyTeamRename';
+import { Client } from 'pg';
+
+import { applyTeamRename } from './applyTeamRename';
 
 /**
  * Apply the F1DB dump (one giant SQL string with 47 statements) to a fresh
@@ -14,8 +15,11 @@ import {applyTeamRename} from './applyTeamRename';
  *
  * Returns the elapsed wall-clock time.
  */
-export async function applyDumpAndSwap(connectionString: string, sql: string): Promise<{durationMs: number}> {
-	const client = new Client({connectionString});
+export async function applyDumpAndSwap(
+	connectionString: string,
+	sql: string
+): Promise<{ durationMs: number }> {
+	const client = new Client({ connectionString });
 	await client.connect();
 	const startedAt = Date.now();
 	try {
@@ -78,7 +82,7 @@ export async function applyDumpAndSwap(connectionString: string, sql: string): P
 		`);
 
 		await client.query('commit');
-		return {durationMs: Date.now() - startedAt};
+		return { durationMs: Date.now() - startedAt };
 	} catch (err) {
 		await client.query('rollback').catch(() => {});
 		throw err;

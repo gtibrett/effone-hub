@@ -1,17 +1,17 @@
-import {gql, makeExtendSchemaPlugin} from 'postgraphile/utils';
-import {loadOne} from 'postgraphile/grafast';
+import { loadOne } from 'postgraphile/grafast';
+import { gql, makeExtendSchemaPlugin } from 'postgraphile/utils';
 
 type Bio = {
-	title:        string;
-	extract:      string | null;
+	title: string;
+	extract: string | null;
 	thumbnailUrl: string | null;
-	sourceUrl:    string;
+	sourceUrl: string;
 };
 
-type DriverSpec = {id: string; firstName: string; lastName: string};
-type TeamSpec   = {id: string; name: string};
+type DriverSpec = { id: string; firstName: string; lastName: string };
+type TeamSpec = { id: string; name: string };
 
-const WIKI_BASE  = 'https://en.wikipedia.org/api/rest_v1/page/summary';
+const WIKI_BASE = 'https://en.wikipedia.org/api/rest_v1/page/summary';
 const USER_AGENT = 'effone-hub/1.0 (https://effone-hub.vercel.app; gtibrett@gmail.com)';
 
 // Tiny per-process TTL+max-size cache. Lives for the life of the Node process,
@@ -19,7 +19,7 @@ const USER_AGENT = 'effone-hub/1.0 (https://effone-hub.vercel.app; gtibrett@gmai
 const CACHE_MAX = 5_000;
 const CACHE_TTL = 24 * 60 * 60 * 1000;
 
-type Entry = {value: Bio | null; expiresAt: number};
+type Entry = { value: Bio | null; expiresAt: number };
 const cache = new Map<string, Entry>();
 
 function cacheGet(key: string): Bio | null | undefined {
@@ -35,7 +35,7 @@ function cacheGet(key: string): Bio | null | undefined {
 }
 
 function cacheSet(key: string, value: Bio | null): void {
-	cache.set(key, {value, expiresAt: Date.now() + CACHE_TTL});
+	cache.set(key, { value, expiresAt: Date.now() + CACHE_TTL });
 	while (cache.size > CACHE_MAX) {
 		const firstKey = cache.keys().next().value;
 		if (firstKey === undefined) break;
@@ -44,36 +44,36 @@ function cacheSet(key: string, value: Bio | null): void {
 }
 
 const driverTitleOverrides: Record<string, string[]> = {
-	'oscar-piastri':     ['Oscar Piastri'],
-	'lance-stroll':      ['Lance Stroll'],
-	'liam-lawson':       ['Liam Lawson'],
-	'kimi-antonelli':    ['Andrea Kimi Antonelli', 'Kimi Antonelli'],
+	'oscar-piastri': ['Oscar Piastri'],
+	'lance-stroll': ['Lance Stroll'],
+	'liam-lawson': ['Liam Lawson'],
+	'kimi-antonelli': ['Andrea Kimi Antonelli', 'Kimi Antonelli'],
 	'gabriel-bortoleto': ['Gabriel Bortoleto'],
-	'isack-hadjar':      ['Isack Hadjar']
+	'isack-hadjar': ['Isack Hadjar']
 };
 
 const teamTitleOverrides: Record<string, string[]> = {
-	'red-bull':     ['Red Bull Racing'],
-	'mclaren':      ['McLaren'],
-	'ferrari':      ['Scuderia Ferrari'],
-	'mercedes':     ['Mercedes-AMG Petronas F1 Team', 'Mercedes-Benz in Formula One'],
+	'red-bull': ['Red Bull Racing'],
+	mclaren: ['McLaren'],
+	ferrari: ['Scuderia Ferrari'],
+	mercedes: ['Mercedes-AMG Petronas F1 Team', 'Mercedes-Benz in Formula One'],
 	'aston-martin': ['Aston Martin in Formula One'],
-	'alpine':       ['Alpine F1 Team'],
-	'williams':     ['Williams Racing'],
+	alpine: ['Alpine F1 Team'],
+	williams: ['Williams Racing'],
 	'racing-bulls': ['RB (Formula One team)', 'Racing Bulls'],
-	'kick-sauber':  ['Sauber Motorsport', 'Sauber (Formula One)'],
-	'haas':         ['Haas F1 Team'],
+	'kick-sauber': ['Sauber Motorsport', 'Sauber (Formula One)'],
+	haas: ['Haas F1 Team'],
 
 	// 1950s/historic constructors with ambiguous default Wikipedia matches.
 	// Verified candidates as of 2026-05-04 against en.wikipedia.org REST API.
-	'alfa-special': ['Peter de Klerk'],                       // Alfa_Special redirects to the South African driver
-	'afm':          ['Alex von Falkenhausen Motorenbau'],     // German constructor 1948-1956
-	'ats-wheels':   ['ATS Wheels'],                           // covers the F1 era under that title
-	'ags':          ['Automobiles Gonfaronnaises Sportives'], // French constructor 1986-1991
+	'alfa-special': ['Peter de Klerk'], // Alfa_Special redirects to the South African driver
+	afm: ['Alex von Falkenhausen Motorenbau'], // German constructor 1948-1956
+	'ats-wheels': ['ATS Wheels'], // covers the F1 era under that title
+	ags: ['Automobiles Gonfaronnaises Sportives'], // French constructor 1986-1991
 	// 'balsa' and 'adams' have no Wikipedia article — return [] so the plugin
 	// falls through to "no fallback found" → null bio. Better than mismatching.
-	'balsa':        [],
-	'adams':        []
+	balsa: [],
+	adams: []
 };
 
 function driverCandidates(spec: DriverSpec): string[] {
@@ -91,7 +91,9 @@ async function fetchSummary(title: string): Promise<Bio | null> {
 	const url = `${WIKI_BASE}/${encodeURIComponent(title.replace(/\s+/g, '_'))}`;
 	let res: Response;
 	try {
-		res = await fetch(url, {headers: {'User-Agent': USER_AGENT, Accept: 'application/json'}});
+		res = await fetch(url, {
+			headers: { 'User-Agent': USER_AGENT, Accept: 'application/json' }
+		});
 	} catch {
 		return null;
 	}
@@ -104,10 +106,12 @@ async function fetchSummary(title: string): Promise<Bio | null> {
 	}
 	if (data.type === 'disambiguation') return null;
 	return {
-		title:        data.title ?? title,
-		extract:      data.extract ?? null,
+		title: data.title ?? title,
+		extract: data.extract ?? null,
 		thumbnailUrl: data.thumbnail?.source ?? null,
-		sourceUrl:    data.content_urls?.desktop?.page ?? `https://en.wikipedia.org/wiki/${encodeURIComponent(title)}`
+		sourceUrl:
+			data.content_urls?.desktop?.page ??
+			`https://en.wikipedia.org/wiki/${encodeURIComponent(title)}`
 	};
 }
 
@@ -127,30 +131,38 @@ async function resolveOne(cacheKey: string, candidates: string[]): Promise<Bio |
 
 async function loadDriverBios(specs: readonly any[]): Promise<ReadonlyArray<Bio | null>> {
 	const dedup = new Map<string, Promise<Bio | null>>();
-	return Promise.all(specs.map(s => {
-		const spec: DriverSpec = {id: String(s.id), firstName: String(s.firstName ?? ''), lastName: String(s.lastName ?? '')};
-		const key = `driver:${spec.id}`;
-		let p = dedup.get(key);
-		if (!p) {
-			p = resolveOne(key, driverCandidates(spec));
-			dedup.set(key, p);
-		}
-		return p;
-	}));
+	return Promise.all(
+		specs.map(s => {
+			const spec: DriverSpec = {
+				id: String(s.id),
+				firstName: String(s.firstName ?? ''),
+				lastName: String(s.lastName ?? '')
+			};
+			const key = `driver:${spec.id}`;
+			let p = dedup.get(key);
+			if (!p) {
+				p = resolveOne(key, driverCandidates(spec));
+				dedup.set(key, p);
+			}
+			return p;
+		})
+	);
 }
 
 async function loadTeamBios(specs: readonly any[]): Promise<ReadonlyArray<Bio | null>> {
 	const dedup = new Map<string, Promise<Bio | null>>();
-	return Promise.all(specs.map(s => {
-		const spec: TeamSpec = {id: String(s.id), name: String(s.name ?? '')};
-		const key = `team:${spec.id}`;
-		let p = dedup.get(key);
-		if (!p) {
-			p = resolveOne(key, teamCandidates(spec));
-			dedup.set(key, p);
-		}
-		return p;
-	}));
+	return Promise.all(
+		specs.map(s => {
+			const spec: TeamSpec = { id: String(s.id), name: String(s.name ?? '') };
+			const key = `team:${spec.id}`;
+			let p = dedup.get(key);
+			if (!p) {
+				p = resolveOne(key, teamCandidates(spec));
+				dedup.set(key, p);
+			}
+			return p;
+		})
+	);
 }
 
 const WikipediaBioPlugin = makeExtendSchemaPlugin({
@@ -169,9 +181,9 @@ const WikipediaBioPlugin = makeExtendSchemaPlugin({
 			bio($driver: any) {
 				return loadOne(
 					{
-						id:        $driver.get('id'),
+						id: $driver.get('id'),
 						firstName: $driver.get('first_name'),
-						lastName:  $driver.get('last_name')
+						lastName: $driver.get('last_name')
 					},
 					loadDriverBios
 				);
@@ -181,7 +193,7 @@ const WikipediaBioPlugin = makeExtendSchemaPlugin({
 			bio($team: any) {
 				return loadOne(
 					{
-						id:   $team.get('id'),
+						id: $team.get('id'),
 						name: $team.get('name')
 					},
 					loadTeamBios

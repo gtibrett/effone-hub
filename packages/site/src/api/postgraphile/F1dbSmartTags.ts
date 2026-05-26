@@ -1,4 +1,4 @@
-import {makeJSONPgSmartTagsPlugin} from 'postgraphile/utils';
+import { makeJSONPgSmartTagsPlugin } from 'postgraphile/utils';
 
 /**
  * Cross-schema relations between `app.*` and `f1db.*`.
@@ -12,7 +12,7 @@ import {makeJSONPgSmartTagsPlugin} from 'postgraphile/utils';
  */
 const F1dbSmartTags = makeJSONPgSmartTagsPlugin({
 	version: 1,
-	config:  {
+	config: {
 		class: {
 			// NOTE: f1db.constructor* tables are renamed to f1db.team* by init.sh
 			// (see entrypoint/init.sh). This is required because PostGraphile
@@ -34,12 +34,14 @@ const F1dbSmartTags = makeJSONPgSmartTagsPlugin({
 			},
 			'app.circuit_descriptions': {
 				tags: {
-					foreignKey: '(circuit_id) references f1db.circuit (id)|@fieldName circuit|@foreignFieldName description'
+					foreignKey:
+						'(circuit_id) references f1db.circuit (id)|@fieldName circuit|@foreignFieldName description'
 				}
 			},
 			'app.team_colors': {
 				tags: {
-					foreignKey: '(team_id) references f1db.team (id)|@fieldName team|@foreignFieldName colors'
+					foreignKey:
+						'(team_id) references f1db.team (id)|@fieldName team|@foreignFieldName colors'
 				}
 			},
 			'app.team_history': {
