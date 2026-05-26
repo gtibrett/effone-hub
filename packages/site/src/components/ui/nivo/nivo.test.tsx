@@ -39,8 +39,8 @@ describe('nivo.ts', () => {
 		// useNivoTheme returns Tailwind cssVar strings so Nivo SVG attrs flip
 		// with the OS scheme at paint. Compare against the var() literals,
 		// not against any MUI palette JS resolution.
-		expect(screen.getByTestId('textColor')).toHaveTextContent('var(--color-text-primary)');
-		expect(screen.getByTestId('axisText')).toHaveTextContent('var(--color-text-secondary)');
+		expect(screen.getByTestId('textColor')).toHaveTextContent('var(--mui-palette-text-primary)');
+		expect(screen.getByTestId('axisText')).toHaveTextContent('var(--mui-palette-text-secondary)');
 	});
 	
 describe('NivoTooltip.tsx', () => {

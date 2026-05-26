@@ -1,75 +1,56 @@
 /*
- * Tailwind v4 + MUI token bridge.
+ * Tailwind v4 reads MUI's palette CSS variables as its design tokens.
  *
- * Source of truth for design-system paint colors. Tailwind utilities
- * (bg-primary, text-secondary, etc.) and the MUI theme (`Theme.ts`) both
- * consume the `--color-*` vars below. Light/dark switching is OS-driven by
- * the `prefers-color-scheme` media query — flips happen in pure CSS with
- * no React re-render.
+ * Ownership: MUI is the single source of truth for palette and surface
+ * colors. createTheme in src/components/ui/Theme.ts emits
+ * `--mui-palette-*` vars for both light and dark schemes; the browser
+ * picks via @media (prefers-color-scheme). The `@theme inline` block
+ * below aliases the MUI vars into Tailwind's `--color-*` so
+ * `bg-primary`, `text-secondary`, `border-divider`, etc. work natively.
  *
- * @theme inline maps each utility token to an internal `--brand-*` var so
- * the override block below can swap brand vars without breaking @theme's
- * compile-time tokenization.
+ * Chart-bucket and circuit-map sector colors are NOT part of the MUI
+ * palette; they live as standalone `--results-*` / `--map-sector-*`
+ * vars with their own light/dark variants.
  *
- * Color shades MUST stay in sync with `src/components/ui/colors.ts` (OKLCH
- * wide-gamut) and `src/lib/tokens.ts` (sRGB hex mirror for JS color math).
+ * Layer order: `mui` before `utilities` so Tailwind utilities can
+ * override MUI styles without `!important`. MUI's layer mode is enabled
+ * via `enableCssLayer: true` on AppRouterCacheProvider.
  */
 
+@layer theme, base, mui, components, utilities;
 @import "tailwindcss";
 
 @theme inline {
-	--color-primary:           var(--brand-primary);
-	--color-primary-light:     var(--brand-primary-light);
-	--color-primary-dark:      var(--brand-primary-dark);
-	--color-primary-contrast:  var(--brand-primary-contrast);
+	--color-primary:           var(--mui-palette-primary-main);
+	--color-primary-light:     var(--mui-palette-primary-light);
+	--color-primary-dark:      var(--mui-palette-primary-dark);
+	--color-primary-contrast:  var(--mui-palette-primary-contrastText);
 
-	--color-secondary:           var(--brand-secondary);
-	--color-secondary-light:     var(--brand-secondary-light);
-	--color-secondary-dark:      var(--brand-secondary-dark);
-	--color-secondary-contrast:  var(--brand-secondary-contrast);
+	--color-secondary:           var(--mui-palette-secondary-main);
+	--color-secondary-light:     var(--mui-palette-secondary-light);
+	--color-secondary-dark:      var(--mui-palette-secondary-dark);
+	--color-secondary-contrast:  var(--mui-palette-secondary-contrastText);
 
-	--color-background:        var(--brand-background);
-	--color-background-paper:  var(--brand-background-paper);
+	--color-background:        var(--mui-palette-background-default);
+	--color-background-paper:  var(--mui-palette-background-paper);
 
-	--color-text-primary:      var(--brand-text-primary);
-	--color-text-secondary:    var(--brand-text-secondary);
-	--color-text-disabled:     var(--brand-text-disabled);
+	--color-text-primary:      var(--mui-palette-text-primary);
+	--color-text-secondary:    var(--mui-palette-text-secondary);
+	--color-text-disabled:     var(--mui-palette-text-disabled);
 
-	--color-divider:           var(--brand-divider);
+	--color-divider:           var(--mui-palette-divider);
 
-	--color-success:           var(--brand-success);
-	--color-warning:           var(--brand-warning);
-	--color-error:             var(--brand-error);
-	--color-info:              var(--brand-info);
+	--color-success:           var(--mui-palette-success-main);
+	--color-warning:           var(--mui-palette-warning-main);
+	--color-error:             var(--mui-palette-error-main);
+	--color-info:              var(--mui-palette-info-main);
 }
 
-/* Light scheme — defaults. Shades: blueGrey 800/600/900, ruby 900/700/950. */
+/*
+ * Chart bucket colors (driver career, season stats). Tuned for white
+ * bg in light mode; lighter shades in dark mode.
+ */
 :root {
-	--brand-primary:           oklch(0.330 0.027 244);
-	--brand-primary-light:     oklch(0.470 0.038 242);
-	--brand-primary-dark:      oklch(0.250 0.020 244);
-	--brand-primary-contrast:  #ffffff;
-
-	--brand-secondary:           oklch(0.180 0.060 35);
-	--brand-secondary-light:     oklch(0.360 0.130 32);
-	--brand-secondary-dark:      oklch(0.130 0.045 35);
-	--brand-secondary-contrast:  #ffffff;
-
-	--brand-background:        oklch(0.780 0.020 232);
-	--brand-background-paper:  #ffffff;
-
-	--brand-text-primary:      rgba(0, 0, 0, 0.87);
-	--brand-text-secondary:    rgba(0, 0, 0, 0.6);
-	--brand-text-disabled:     rgba(0, 0, 0, 0.38);
-
-	--brand-divider:           rgba(0, 0, 0, 0.12);
-
-	--brand-success:           #2e7d32;
-	--brand-warning:           #ed6c02;
-	--brand-error:             #d32f2f;
-	--brand-info:              #0288d1;
-
-	/* Chart bucket colors (driver career, season stats). Tuned for white bg. */
 	--results-appearances:    #455a64; /* blueGrey 700 */
 	--results-wins:           #512da8; /* deepPurple 700 */
 	--results-podiums:        #4caf50; /* green 500 */
@@ -82,38 +63,11 @@
 	--map-sector-1:           #f44336; /* red 500 */
 	--map-sector-2:           #2196f3; /* blue 500 */
 	--map-sector-3:           #ffeb3b; /* yellow 500 */
-
-	color-scheme: light;
 }
 
-/* Dark scheme — auto-applied via OS preference. Shades: blueGrey 400/300/500, ruby 300/200/500. */
 @media (prefers-color-scheme: dark) {
 	:root {
-		--brand-primary:           oklch(0.600 0.033 236);
-		--brand-primary-light:     oklch(0.675 0.027 234);
-		--brand-primary-dark:      oklch(0.530 0.039 240);
-		--brand-primary-contrast:  #ffffff;
-
-		--brand-secondary:           oklch(0.700 0.140 24);
-		--brand-secondary-light:     oklch(0.790 0.090 22);
-		--brand-secondary-dark:      oklch(0.550 0.215 31);
-		--brand-secondary-contrast:  #000000;
-
-		--brand-background:        oklch(0.330 0.027 244);
-		--brand-background-paper:  oklch(0.250 0.020 244);
-
-		--brand-text-primary:      #ffffff;
-		--brand-text-secondary:    rgba(255, 255, 255, 0.7);
-		--brand-text-disabled:     rgba(255, 255, 255, 0.5);
-
-		--brand-divider:           rgba(255, 255, 255, 0.12);
-
-		--brand-success:           #66bb6a;
-		--brand-warning:           #ffa726;
-		--brand-error:             #f44336;
-		--brand-info:              #29b6f6;
-
-		/* Chart bucket colors — lighter shades for dark bg. */
+		/* Lighter shades for dark bg. */
 		--results-appearances:    #607d8b; /* blueGrey 500 */
 		--results-wins:           #b39ddb; /* deepPurple 200 */
 		--results-podiums:        #a5d6a7; /* green 200 */
@@ -122,11 +76,8 @@
 		--results-out-of-points:  #cfd8dc; /* blueGrey 100 */
 		--results-dnfs:           #ef9a9a; /* red 200 */
 
-		/* Circuit map sector overlays — darker shades for dark bg. */
 		--map-sector-1:           #c62828; /* red 800 */
 		--map-sector-2:           #1565c0; /* blue 800 */
 		--map-sector-3:           #f9a825; /* yellow 800 */
-
-		color-scheme: dark;
 	}
 }

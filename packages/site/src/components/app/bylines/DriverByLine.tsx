@@ -2,7 +2,7 @@ import {Flag, FlagProps} from '@/components/ui';
 import {useDriver} from '@/hooks/data';
 import {DriverId} from '@/types';
 import {Driver} from '@/gql/graphql';
-import {Link} from '@gtibrett/mui-additions';
+import {Link} from '@mui/material';
 import {Grid, Skeleton, Typography} from '@mui/material';
 import {memo} from 'react';
 import {DriverAvatar, DriverAvatarProps} from '../avatars';

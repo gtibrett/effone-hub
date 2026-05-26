@@ -1,6 +1,6 @@
 import {DriverByLine} from '@/components/app';
 import {CircuitDataProps} from '@/hooks/data';
-import {Link} from '@gtibrett/mui-additions';
+import {Link} from '@mui/material';
 import {Alert, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 

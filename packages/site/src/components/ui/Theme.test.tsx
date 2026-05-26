@@ -23,14 +23,9 @@ describe('Theme.ts', () => {
 			expect(schemes?.dark).toBeDefined();
 		});
 
-		test('MUI color helpers (alpha/darken/lighten) work on palette values', () => {
-			const {result} = renderHook(() => useEffTheme());
-			const palette  = result.current.palette;
-			expect(() => alpha(palette.background.paper, .5)).not.toThrow();
-			expect(() => alpha(palette.primary.main, .5)).not.toThrow();
-			expect(() => darken(palette.primary.main, .25)).not.toThrow();
-			expect(() => lighten(palette.primary.main, .25)).not.toThrow();
-		});
+		// MUI's alpha/darken/lighten don't parse oklch — we no longer call
+		// them on palette values. The CSS @theme inline + color-mix() in
+		// component styleOverrides handle alpha/darken at paint time.
 
 		test('returns stable reference across renders', () => {
 			const {result, rerender} = renderHook(() => useEffTheme());
@@ -60,8 +55,8 @@ describe('Theme.ts', () => {
 		expect(dark.current).toBe(true);
 	});
 
-	test('useFallbackColor returns the primary CSS var', () => {
+	test('useFallbackColor returns the MUI palette primary var', () => {
 		const {result} = renderHook(() => useFallbackColor());
-		expect(result.current).toBe('var(--color-primary)');
+		expect(result.current).toBe('var(--mui-palette-primary-main)');
 	});
 });

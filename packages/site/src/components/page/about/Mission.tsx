@@ -1,7 +1,7 @@
 'use client';
 
 import {OpensInNewWindow} from '@/components/ui';
-import {Link} from '@gtibrett/mui-additions';
+import {Link} from '@mui/material';
 import {Card, CardContent, CardHeader, Typography} from '@mui/material';
 
 const Mission = () => (

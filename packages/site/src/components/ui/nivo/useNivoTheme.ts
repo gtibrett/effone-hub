@@ -105,7 +105,10 @@ export default function useNivoTheme(): NivoTheme {
 
 			container:      {
 				background: invertedTheme.palette.background.paper,
-				color:      invertedTheme.palette.getContrastText(invertedTheme.palette.background.paper),
+				// `palette.getContrastText` would call MUI's decomposeColor on
+				// the oklch background — unsupported. Defer the contrast pick
+				// to CSS instead.
+				color:      `contrast-color(${invertedTheme.palette.background.paper} vs white, black)`,
 				fontSize:   invertedTheme.typography.caption.fontSize
 			},
 			basic:          {},

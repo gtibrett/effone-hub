@@ -1,4 +1,4 @@
-import {Link} from '@gtibrett/mui-additions';
+import {Link} from '@mui/material';
 import {LinkProps, Typography, useTheme} from '@mui/material';
 import {CSSProperties} from 'react';
 import {lighten} from '@/components/ui/colors';

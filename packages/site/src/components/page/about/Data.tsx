@@ -4,7 +4,7 @@ import {OpensInNewWindow} from '@/components/ui';
 import {faWikipediaW} from '@fortawesome/free-brands-svg-icons';
 import {faClock, faFlagCheckered, faRobot} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Link} from '@gtibrett/mui-additions';
+import {Link} from '@mui/material';
 import {Card, CardContent, CardHeader, List, ListItem, ListItemIcon, ListItemText, Typography} from '@mui/material';
 
 const Data = () => (

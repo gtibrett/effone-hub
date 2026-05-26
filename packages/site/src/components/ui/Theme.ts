@@ -1,53 +1,77 @@
 'use client';
 
+/**
+ * MUI is the single source of truth for design tokens. createTheme with
+ * `cssVariables: {nativeColor: true, colorSchemeSelector: 'media'}` emits
+ * `--mui-palette-*` CSS vars for both light and dark schemes, picked by
+ * the browser via @media (prefers-color-scheme). Tailwind v4 (globals.css
+ * @theme inline) reads those vars into utility tokens (`bg-primary`,
+ * `text-secondary`, ...) for parity.
+ *
+ * `nativeColor: true` keeps the OKLCH color literals from `colors.ts`
+ * verbatim in the emitted vars — no decomposeColor normalization. Pair
+ * with no JS color math on palette values (we removed all of it in an
+ * earlier phase). MUI internal styles needing alpha/darken/lighten emit
+ * `color-mix()` expressions, not JS.
+ */
+
+import {blueGrey, red} from '@/components/ui/colors';
 import type {} from '@mui/x-data-grid/themeAugmentation';
-import {LinkBehavior} from '@gtibrett/mui-additions/next';
 import {createTheme, useMediaQuery} from '@mui/material';
-import {tokens, type SchemeTokens} from '@/lib/tokens';
+import {default as NextLink} from 'next/link';
 import {useMemo} from 'react';
 
 const {spacing} = createTheme({spacing: 8});
 
-// Build a MUI Palette object from one of our SchemeTokens. The single-string
-// status colors (success/warning/error/info) expand into PaletteColor shape so
-// MUI's createTheme can derive the helper variants.
-const buildPalette = (t: SchemeTokens, mode: 'light' | 'dark') => ({
-	mode,
+// Light palette — darker shades against white backgrounds.
+const lightPalette = {
+	mode:              'light' as const,
 	contrastThreshold: 4.5,
-	primary:    t.primary,
-	secondary:  t.secondary,
-	background: t.background,
-	text:       t.text,
-	divider:    t.divider,
-	success:    {main: t.success, contrastText: mode === 'light' ? '#ffffff' : '#000000'},
-	warning:    {main: t.warning, contrastText: '#000000'},
-	error:      {main: t.error,   contrastText: '#ffffff'},
-	info:       {main: t.info,    contrastText: '#ffffff'}
-});
+	primary:    {main: blueGrey[800], light: blueGrey[600], dark: blueGrey[900], contrastText: '#ffffff'},
+	secondary:  {main: red[900],      light: red[700],      dark: red[950],      contrastText: '#ffffff'},
+	background: {default: blueGrey[200], paper: '#ffffff'},
+	text:       {primary: 'rgba(0, 0, 0, 0.87)', secondary: 'rgba(0, 0, 0, 0.6)', disabled: 'rgba(0, 0, 0, 0.38)'},
+	divider:    'rgba(0, 0, 0, 0.12)',
+	success:    {main: '#2e7d32', contrastText: '#ffffff'},
+	warning:    {main: '#ed6c02', contrastText: '#000000'},
+	error:      {main: '#d32f2f', contrastText: '#ffffff'},
+	info:       {main: '#0288d1', contrastText: '#ffffff'}
+};
 
-// MUI v9 cssVariables + colorSchemes: theme emits CSS vars for both schemes
-// and picks at runtime via the `prefers-color-scheme` media query (matches
-// our globals.css strategy). Every MUI component reading `theme.palette.X`
-// now resolves through a var that flips with the OS — Card/Paper/Typography
-// dark-mode rendering is correct without per-component overrides.
+// Dark palette — lighter shades against dark backgrounds.
+const darkPalette = {
+	mode:              'dark' as const,
+	contrastThreshold: 4.5,
+	primary:    {main: blueGrey[400], light: blueGrey[300], dark: blueGrey[500], contrastText: '#ffffff'},
+	secondary:  {main: red[300],      light: red[200],      dark: red[500],      contrastText: '#000000'},
+	background: {default: blueGrey[800], paper: blueGrey[900]},
+	text:       {primary: '#ffffff', secondary: 'rgba(255, 255, 255, 0.7)', disabled: 'rgba(255, 255, 255, 0.5)'},
+	divider:    'rgba(255, 255, 255, 0.12)',
+	success:    {main: '#66bb6a', contrastText: '#000000'},
+	warning:    {main: '#ffa726', contrastText: '#000000'},
+	error:      {main: '#f44336', contrastText: '#ffffff'},
+	info:       {main: '#29b6f6', contrastText: '#000000'}
+};
+
 const effTheme = createTheme({
 	colorSchemes: {
-		light: {palette: buildPalette(tokens.light, 'light')},
-		dark:  {palette: buildPalette(tokens.dark,  'dark')}
+		light: {palette: lightPalette},
+		dark:  {palette: darkPalette}
 	},
 	cssVariables: {
+		nativeColor:         true,
 		colorSchemeSelector: 'media',
 		cssVarPrefix:        'mui'
 	},
-	spacing:    8,
-	typography: {
+	spacing:      8,
+	typography:   {
 		fontFamily: "'Titillium Web', sans-serif",
 		h1:         {fontSize: 48},
 		h2:         {fontSize: 24},
 		h3:         {fontSize: 20},
 		h4:         {fontSize: 16}
 	},
-	components: {
+	components:   {
 		MuiAlert:        {
 			styleOverrides: {
 				root:    {alignItems: 'center', padding: spacing(2, 4)},
@@ -96,7 +120,7 @@ const effTheme = createTheme({
 			}
 		},
 		MuiLink:         {
-			defaultProps: {component: LinkBehavior}
+			defaultProps: {component: NextLink}
 		},
 		MuiListItemIcon: {
 			styleOverrides: {root: {minWidth: 36}}
@@ -143,28 +167,27 @@ const effTheme = createTheme({
 });
 
 /**
- * Returns the app theme. Mode flipping is handled by MUI's cssVariables
- * layer (see colorSchemes above) — every palette read resolves through a
- * CSS var that the browser picks based on `prefers-color-scheme`.
+ * Returns the app theme. Mode flipping handled by MUI's cssVariables +
+ * colorSchemes layer (see colorSchemes above) — every palette read
+ * resolves through a CSS var the browser picks based on the OS scheme.
  */
 export const useEffTheme = (_overrideMode?: 'light' | 'dark') => effTheme;
 
 /**
  * FROZEN-opposite-scheme theme for Nivo chart tooltips. Tooltips render
  * in a React portal that doesn't reliably inherit cssVar scoping, so they
- * get a flat MUI theme built from the OPPOSITE scheme's concrete hex
- * values. Hook re-renders when the OS preference flips.
+ * get a flat MUI theme built from the OPPOSITE scheme's concrete OKLCH
+ * tokens. Hook re-renders when the OS preference flips.
  */
 export const useInvertedTheme = () => {
 	const prefersDark  = useMediaQuery('(prefers-color-scheme: dark)');
-	const invertedMode = prefersDark ? 'light' : 'dark';
-	const t            = tokens[invertedMode];
+	const palette      = prefersDark ? lightPalette : darkPalette;
 
 	return useMemo(() => createTheme({
 		spacing:    8,
-		palette:    buildPalette(t, invertedMode),
+		palette,
 		typography: {fontFamily: "'Titillium Web', sans-serif"}
-	}), [invertedMode, t]);
+	}), [palette]);
 };
 
 /**
@@ -174,8 +197,8 @@ export const useInvertedTheme = () => {
 export const useDarkMode = () => useMediaQuery('(prefers-color-scheme: dark)');
 
 /**
- * Fallback color (CSS var) used when team color is unavailable. Returns
- * a globals.css var that flips with the OS scheme; SVG fill/stroke and
- * MUI sx contexts both resolve it correctly.
+ * Fallback color used when team color is unavailable. Returns a
+ * `--mui-palette-*` reference so it flips with the OS scheme; SVG
+ * fill/stroke and sx contexts both resolve it correctly.
  */
-export const useFallbackColor = () => 'var(--color-primary)';
+export const useFallbackColor = () => 'var(--mui-palette-primary-main)';

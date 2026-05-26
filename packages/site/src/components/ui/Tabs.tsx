@@ -1,13 +1,5 @@
 'use client';
 
-/**
- * Local Tabs wrapper — mirrors the @gtibrett/mui-additions API but uses
- * @mui/material's native Tabs / Tab so the RovingTabIndexContext that
- * MUI v9's Tab requires is provided correctly. The additions lib still
- * imports @mui/lab's TabContext/TabList, whose v9 build lost that
- * context, throwing "RovingTabIndexContext is missing" at runtime.
- */
-
 import {Box, Grid, Tab, Tabs as MuiTabs} from '@mui/material';
 import {ReactNode, useCallback, useMemo, useState} from 'react';
 

@@ -1,4 +1,4 @@
-import {Link} from '@gtibrett/mui-additions';
+import {Link} from '@mui/material';
 import {AppBar, Grid, Toolbar, Typography} from '@mui/material';
 import NavMenu from './NavMenu';
 

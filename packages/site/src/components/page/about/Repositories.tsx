@@ -3,7 +3,7 @@
 import {OpensInNewWindow} from '@/components/ui';
 import {faGithub} from '@fortawesome/free-brands-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Link} from '@gtibrett/mui-additions';
+import {Link} from '@mui/material';
 import {Card, CardContent, CardHeader, List, ListItem, ListItemIcon, ListItemText} from '@mui/material';
 
 const Repositories = () => (

@@ -1,6 +1,6 @@
 import {ConstructorByLine} from '@/components/app';
-import {Link, useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
-import {Alert, Grid, Skeleton} from '@mui/material';
+import { useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
+import {Alert, Grid, Link, Skeleton} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import {useState} from 'react';
 import SeasonDialog from '../season/SeasonDialog';
@@ -14,7 +14,6 @@ export default function Career({driverId}: CareerProps) {
 	const {data, loading}                          = useCareerData(driverId);
 	const careerStandings                          = data?.driver.standings?.nodes;
 	const racesByYear: { [key: number]: number }   = {};
-	const {ref, node, dimensions: {width, height}} = useComponentDimensionsWithRef();
 	const [active, setActive]                      = useState<number | undefined>();
 
 	if (loading || !careerStandings) {

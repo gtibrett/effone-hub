@@ -1,7 +1,7 @@
 import {useAppState} from '@/components/app';
 import {PositionChange} from '@/components/page/race';
 import {getPositionTextOutcome, getTimeStringFromDate} from '@/helpers';
-import {Link} from '@gtibrett/mui-additions';
+import {Link} from '@mui/material';
 import {Alert, Grid, Skeleton, Typography} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import SeasonChart from './SeasonChart';

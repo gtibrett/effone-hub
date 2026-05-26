@@ -3,7 +3,7 @@ import {useDriver} from '@/hooks/data';
 import {DriverId} from '@/types';
 import {faAsterisk} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Link} from '@gtibrett/mui-additions';
+import {Link} from '@mui/material';
 import {Card, CardHeader, Divider, Typography} from '@mui/material';
 
 type PlaceProps = {

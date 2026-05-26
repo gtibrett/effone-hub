@@ -5,7 +5,7 @@ import {IconDefinition} from '@fortawesome/fontawesome-svg-core';
 import {faSquare} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Maybe} from '@/gql/graphql';
-import {Link} from '@gtibrett/mui-additions';
+import {Link} from '@mui/material';
 import {Box, Card, CardProps, Grid, Typography} from '@mui/material';
 import {ReactNode} from 'react';
 import convertGenericMapToDataWithValueMap from './convertGenericMapToDataWithValueMap';

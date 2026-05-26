@@ -3,7 +3,7 @@ import {useCircuitsList} from '@/components/page/circuits/index';
 import {CircuitsListFilters} from '@/components/page/circuits/types';
 import {Circuit} from '@/gql/graphql';
 import { useSuspenseQuery } from "@apollo/client/react";
-import {Link} from '@gtibrett/mui-additions';
+import {Link} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 
 type CircuitsListProps = {

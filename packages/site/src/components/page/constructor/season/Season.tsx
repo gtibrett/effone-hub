@@ -1,6 +1,6 @@
 import {DriverByLine} from '@/components/app';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
-import {Link} from '@gtibrett/mui-additions';
+import {Link} from '@mui/material';
 import {Alert, Grid, Skeleton, Typography, TypographyProps} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import {PropsWithChildren} from 'react';

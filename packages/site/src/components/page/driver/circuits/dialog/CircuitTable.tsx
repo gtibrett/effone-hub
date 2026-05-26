@@ -1,7 +1,7 @@
 import {PositionChange} from '@/components/page/race';
 import {getPositionTextOutcome, getTimeStringFromDate} from '@/helpers';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
-import {Link} from '@gtibrett/mui-additions';
+import {Link} from '@mui/material';
 import {Alert, Box, Skeleton, Typography} from '@mui/material';
 import {DataGrid} from '@mui/x-data-grid';
 import {CircuitDialogData} from './types';

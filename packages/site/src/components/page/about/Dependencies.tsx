@@ -1,7 +1,7 @@
 'use client';
 
 import {OpensInNewWindow} from '@/components/ui';
-import {Link} from '@gtibrett/mui-additions';
+import {Link} from '@mui/material';
 import {Card, CardContent, CardHeader, List, ListItem, ListItemText, ListSubheader} from '@mui/material';
 import {Fragment} from 'react';
 

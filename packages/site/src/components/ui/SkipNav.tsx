@@ -3,19 +3,6 @@
 import {Link} from '@mui/material';
 import {MouseEventHandler, PropsWithChildren} from 'react';
 
-/**
- * Local fork of `SkipNav` from @gtibrett/mui-additions. Forked so the
- * background color flips with the OS scheme via the Tailwind
- * `--color-background-paper` token; the upstream component piped the value
- * through MUI's `alpha()`, whose `decomposeColor` throws on var() inputs.
- *
- * `sr-only` + `focus:not-sr-only` is Tailwind's visually-hidden /
- * skip-link idiom — keyboard-focuses the link without showing it to
- * sighted users until focus arrives.
- *
- * Track upstream fix in @gtibrett/mui-additions, then re-import from
- * the package and delete this file.
- */
 export type SkipNavProps = PropsWithChildren<{
 	selector: Parameters<typeof document.querySelector>[0]
 }>;

@@ -1,7 +1,7 @@
 import {StatCard, StatCardStat} from '@/components/app';
 import SeasonsQuery from '@/components/page/season/SeasonsQuery';
 import { useSuspenseQuery } from "@apollo/client/react";
-import {Link} from '@gtibrett/mui-additions';
+import {Link} from '@mui/material';
 import {Box, Skeleton} from '@mui/material';
 import {DataGrid, GridColDef, GridRenderCellParams} from '@mui/x-data-grid';
 import {memo, Suspense} from 'react';

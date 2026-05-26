@@ -1,7 +1,7 @@
 import {useAppState} from '@/components/app';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Link} from '@gtibrett/mui-additions';
+import {Link} from '@mui/material';
 import {Box, Grid, IconButton, Menu, MenuItem, useTheme} from '@mui/material';
 import {usePathname, useRouter} from 'next/navigation';
 import {MouseEvent, useState} from 'react';

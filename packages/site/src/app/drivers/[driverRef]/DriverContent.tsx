@@ -84,23 +84,12 @@ export default function DriverContent({driver}: {driver: DriverPageProp | null})
 					? <Box component="img" src={bio.thumbnailUrl} alt={`${driver.firstName} ${driver.lastName}`} className="w-[200px] h-[200px] object-cover rounded"/>
 					: <DriverAvatar driverId={driver.rowId} size={200}/>
 			}
+			
 			actionProps={{size: 'auto'}}
 			subheader={<><Divider orientation="horizontal" className="my-2"/></>}
+			extra={<div className="absolute inset-0 bottom-auto h-4" style={{background: primaryColor || undefined}}/>}
 			headerProps={{
-				sx: {
-					position:   'relative',
-					pt:         3,
-					'&:before': {
-						position:   'absolute',
-						left:       0,
-						top:        0,
-						bottom:     'auto',
-						width:      '100%',
-						height:     theme.spacing(2),
-						content:    '" "',
-						background: primaryColor ?? 'transparent'
-					}
-				}
+				className:"relative pt-6",
 			}}
 		>
 			{bio?.extract && (
