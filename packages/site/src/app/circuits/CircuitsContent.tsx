@@ -1,13 +1,14 @@
 'use client';
 
-import {useAppState} from '@/components/app';
-import {CircuitsFilters, CircuitsList, CircuitsListFilters} from '@/components/page/circuits';
-import {Page} from '@/components/ui';
-import {Card, CardContent, Skeleton} from '@mui/material';
-import {Suspense, useState} from 'react';
+import { Suspense, useState } from 'react';
+import { Card, CardContent, Skeleton } from '@mui/material';
+
+import { useAppState } from '@/components/app';
+import { CircuitsFilters, CircuitsList, CircuitsListFilters } from '@/components/page/circuits';
+import { Page } from '@/components/ui';
 
 export default function CircuitsContent() {
-	const [{currentSeason}]     = useAppState();
+	const [{ currentSeason }] = useAppState();
 	const [filters, setFilters] = useState<CircuitsListFilters>({
 		season: currentSeason,
 		search: ''
@@ -16,10 +17,10 @@ export default function CircuitsContent() {
 	return (
 		<Page title="Circuits">
 			<Card>
-				<CircuitsFilters filters={filters} setFilters={setFilters}/>
-				<Suspense fallback={<Skeleton variant="rectangular" height="65vh"/>}>
+				<CircuitsFilters filters={filters} setFilters={setFilters} />
+				<Suspense fallback={<Skeleton variant="rectangular" height="65vh" />}>
 					<CardContent>
-						<CircuitsList filters={filters}/>
+						<CircuitsList filters={filters} />
 					</CardContent>
 				</Suspense>
 			</Card>

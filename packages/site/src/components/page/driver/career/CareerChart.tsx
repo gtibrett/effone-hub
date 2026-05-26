@@ -1,5 +1,6 @@
-import {ChartSwitcher, ChartSwitcherChart, LineChartByTeam} from '@/components/app';
-import {DriverId} from '@/types';
+import { ChartSwitcher, ChartSwitcherChart, LineChartByTeam } from '@/components/app';
+import { DriverId } from '@/types';
+
 import CareerBreakdownChart from './CareerBreakdownChart';
 import CareerTooltip from './CareerTooltip';
 import useCareerChartDataWithTeam from './useCareerChartDataWithTeam';
@@ -7,35 +8,44 @@ import useCareerChartDataWithTeam from './useCareerChartDataWithTeam';
 type CareerChartProps = {
 	driverId: DriverId;
 	size: number;
-}
+};
 
-export default function CareerChart({driverId, size}: CareerChartProps) {
+export default function CareerChart({ driverId, size }: CareerChartProps) {
 	const data = useCareerChartDataWithTeam(driverId);
-	
+
 	const charts: ChartSwitcherChart[] = [
 		{
-			id:    'breakdown',
+			id: 'breakdown',
 			label: 'Breakdown',
-			chart: <CareerBreakdownChart driverId={driverId}/>
+			chart: <CareerBreakdownChart driverId={driverId} />
 		},
 		{
-			id:    'position',
+			id: 'position',
 			label: 'Position',
-			chart: <LineChartByTeam xKey="year" yKey="position" data={data} tooltip={CareerTooltip} invert min={1}/>
+			chart: (
+				<LineChartByTeam
+					xKey="year"
+					yKey="position"
+					data={data}
+					tooltip={CareerTooltip}
+					invert
+					min={1}
+				/>
+			)
 		},
 		{
-			id:    'points',
+			id: 'points',
 			label: 'Points',
-			chart: <LineChartByTeam xKey="year" yKey="points" data={data} tooltip={CareerTooltip}/>
+			chart: <LineChartByTeam xKey="year" yKey="points" data={data} tooltip={CareerTooltip} />
 		},
 		{
-			id:    'wins',
+			id: 'wins',
 			label: 'Wins',
-			chart: <LineChartByTeam xKey="year" yKey="wins" data={data} tooltip={CareerTooltip}/>
+			chart: <LineChartByTeam xKey="year" yKey="wins" data={data} tooltip={CareerTooltip} />
 		}
 	];
-	
+
 	return (
-		<ChartSwitcher title="Career Timeline" size={size} charts={charts} initial="breakdown"/>
+		<ChartSwitcher title="Career Timeline" size={size} charts={charts} initial="breakdown" />
 	);
 }

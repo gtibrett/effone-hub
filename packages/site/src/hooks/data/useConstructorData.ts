@@ -1,7 +1,7 @@
-import {ConstructorPageData} from '@/components/page/constructor/types';
 import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 
-import { useQuery } from "@apollo/client/react";
+import { ConstructorPageData } from '@/components/page/constructor/types';
 
 const ConstructorDataQuery = gql`
 	query ConstructorDataQuery($constructorRef: String!, $season: Int!) {
@@ -103,5 +103,7 @@ const ConstructorDataQuery = gql`
 `;
 
 export default function useConstructorData(constructorRef?: string, season?: number) {
-	return useQuery<ConstructorPageData>(ConstructorDataQuery, {variables: {constructorRef, season}});
+	return useQuery<ConstructorPageData>(ConstructorDataQuery, {
+		variables: { constructorRef, season }
+	});
 }

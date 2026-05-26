@@ -1,19 +1,20 @@
 import '@/polyfills';
-import {Card, useTheme} from '@mui/material';
-import {PaletteColor} from '@mui/material/styles';
+import { Card, useTheme } from '@mui/material';
+import { PaletteColor } from '@mui/material/styles';
+
 import CountdownClock from './CountdownClock';
+import { NextRace } from './useNextRaceData';
 import useRaceScheduleEvents from './useRaceScheduleEvents';
-import {NextRace} from './useNextRaceData';
 
 type NextRaceCountdownProps = {
-	race: NextRace
-	variant: keyof Pick<PaletteColor, 'dark' | 'main'>
-}
+	race: NextRace;
+	variant: keyof Pick<PaletteColor, 'dark' | 'main'>;
+};
 
-export default function NextRaceCountdown({race, variant}: NextRaceCountdownProps) {
-	const theme          = useTheme();
+export default function NextRaceCountdown({ race, variant }: NextRaceCountdownProps) {
+	const theme = useTheme();
 	const scheduleEvents = useRaceScheduleEvents(race);
-	const background     = theme.palette.secondary[variant];
+	const background = theme.palette.secondary[variant];
 
 	scheduleEvents.sortByAttribute('timeTo');
 	scheduleEvents.reverse();
@@ -28,7 +29,7 @@ export default function NextRaceCountdown({race, variant}: NextRaceCountdownProp
 				['--countdown-fg' as any]: `contrast-color(${background} vs white, black)`
 			}}
 		>
-			<CountdownClock timeTo={nextEvent.timeTo} size="large"/>
+			<CountdownClock timeTo={nextEvent.timeTo} size="large" />
 		</Card>
 	);
 }

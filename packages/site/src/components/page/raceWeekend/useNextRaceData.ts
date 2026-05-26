@@ -1,6 +1,6 @@
+import { useMemo } from 'react';
 import { gql } from '@apollo/client';
-import { useSuspenseQuery } from "@apollo/client/react";
-import {useMemo} from 'react';
+import { useSuspenseQuery } from '@apollo/client/react';
 
 type NextRaceQueryResult = {
 	races: {
@@ -38,8 +38,8 @@ type NextRaceQueryResult = {
 				latitude: number | null;
 				longitude: number | null;
 			} | null;
-		}>
-	}
+		}>;
+	};
 };
 
 // Shape kept compatible with the old Ergast-shaped consumers
@@ -127,45 +127,47 @@ const query = gql`
 `;
 
 export default function useNextRaceData(season: number) {
-	const today  = new Date().toISOString().slice(0, 10);
-	const result = useSuspenseQuery<NextRaceQueryResult>(query, {variables: {season}});
+	const today = new Date().toISOString().slice(0, 10);
+	const result = useSuspenseQuery<NextRaceQueryResult>(query, { variables: { season } });
 
 	const data = useMemo<NextRaceData>(() => {
 		const node = (result.data?.races.nodes ?? []).find(r => r.date && r.date >= today) ?? null;
 		if (!node) {
-			return {race: null};
+			return { race: null };
 		}
 		return {
 			race: {
-				id:          node.id,
-				rowId:       node.rowId,
-				year:        node.year,
-				round:       node.round,
-				name:        node.officialName,
-				date:        node.date,
-				time:        node.time,
-				fp1Date:     node.freePractice1Date,
-				fp1Time:     node.freePractice1Time,
-				fp2Date:     node.freePractice2Date,
-				fp2Time:     node.freePractice2Time,
-				fp3Date:     node.freePractice3Date,
-				fp3Time:     node.freePractice3Time,
-				qualiDate:   node.qualifyingDate,
-				qualiTime:   node.qualifyingTime,
-				sprintDate:  node.sprintRaceDate,
-				sprintTime:  node.sprintRaceTime,
-				circuit:     node.circuit ? {
-					id:         node.circuit.id,
-					circuitRef: node.circuit.rowId,
-					fullName:   node.circuit.fullName,
-					location:   node.circuit.placeName,
-					country:    node.circuit.countryId,
-					lat:        node.circuit.latitude,
-					lng:        node.circuit.longitude
-				} : null
+				id: node.id,
+				rowId: node.rowId,
+				year: node.year,
+				round: node.round,
+				name: node.officialName,
+				date: node.date,
+				time: node.time,
+				fp1Date: node.freePractice1Date,
+				fp1Time: node.freePractice1Time,
+				fp2Date: node.freePractice2Date,
+				fp2Time: node.freePractice2Time,
+				fp3Date: node.freePractice3Date,
+				fp3Time: node.freePractice3Time,
+				qualiDate: node.qualifyingDate,
+				qualiTime: node.qualifyingTime,
+				sprintDate: node.sprintRaceDate,
+				sprintTime: node.sprintRaceTime,
+				circuit: node.circuit
+					? {
+							id: node.circuit.id,
+							circuitRef: node.circuit.rowId,
+							fullName: node.circuit.fullName,
+							location: node.circuit.placeName,
+							country: node.circuit.countryId,
+							lat: node.circuit.latitude,
+							lng: node.circuit.longitude
+						}
+					: null
 			}
 		};
 	}, [result.data]);
 
-	return {...result, data};
+	return { ...result, data };
 }

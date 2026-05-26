@@ -1,7 +1,7 @@
-import {StatCard} from '@/components/app';
 import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 
-import { useQuery } from "@apollo/client/react";
+import { StatCard } from '@/components/app';
 
 type RaceResultNode = {
 	driverId: string | null;
@@ -45,9 +45,11 @@ type DriverPodiumsProps = {
 	place: 1 | 2;
 };
 
-export default function DriverPodiums({constructorId, season, place}: DriverPodiumsProps) {
-	const {data, loading} = useQuery<QueryResponse>(query, {variables: {constructorId, season}});
-	const leaders         = new Map<string, number>();
+export default function DriverPodiums({ constructorId, season, place }: DriverPodiumsProps) {
+	const { data, loading } = useQuery<QueryResponse>(query, {
+		variables: { constructorId, season }
+	});
+	const leaders = new Map<string, number>();
 
 	(data?.season?.racesByYear?.nodes ?? []).forEach(race => {
 		race.raceResults.nodes.forEach(result => {
@@ -57,5 +59,13 @@ export default function DriverPodiums({constructorId, season, place}: DriverPodi
 		});
 	});
 
-	return <StatCard loading={loading} data={new Map([...leaders.entries()].sort((a, b) => b[1] - a[1]).slice(place - 1, place))} label="Podiums"/>;
+	return (
+		<StatCard
+			loading={loading}
+			data={
+				new Map([...leaders.entries()].sort((a, b) => b[1] - a[1]).slice(place - 1, place))
+			}
+			label="Podiums"
+		/>
+	);
 }

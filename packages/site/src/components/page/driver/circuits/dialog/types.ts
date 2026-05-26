@@ -1,4 +1,4 @@
-import {Circuit, Driver} from '@/gql/graphql';
+import { Circuit, Driver } from '@/gql/graphql';
 
 export type CircuitData = Pick<Circuit, 'rowId' | 'fullName' | 'longitude' | 'latitude'> & {
 	races: {
@@ -38,4 +38,4 @@ export type CircuitDialogData = {
 			}[];
 		};
 	};
-}
+};

@@ -1,19 +1,21 @@
-import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
-import {RESULTS_COLORS} from '@/lib/resultsColors';
-import {cssVar} from '@/lib/tokens';
-import {Box, Card, Skeleton, Typography} from '@mui/material';
-import {ComputedDatum, ResponsiveSunburst} from '@nivo/sunburst';
+import { Box, Card, Skeleton, Typography } from '@mui/material';
+import { ComputedDatum, ResponsiveSunburst } from '@nivo/sunburst';
+
+import { NivoTooltipFactory, useNivoTheme } from '@/components/ui/nivo';
+import { RESULTS_COLORS } from '@/lib/resultsColors';
+import { cssVar } from '@/lib/tokens';
+
 import usePerformanceData from '../usePerformanceData';
 import useCareerData from './useCareerData';
 
 const CareerPerformanceTooltip = (datum: ComputedDatum<BurstDatum>) => {
-	const {label} = datum.data;
-	
+	const { label } = datum.data;
+
 	return (
-        <Box className="py-2 px-4">
-            <Typography>{label}</Typography>
-        </Box>
-    );
+		<Box className="py-2 px-4">
+			<Typography>{label}</Typography>
+		</Box>
+	);
 };
 
 type BurstDatum = {
@@ -22,45 +24,48 @@ type BurstDatum = {
 	value?: number;
 	color?: string;
 	children?: BurstDatum[];
-}
+};
 
-export default function CareerPerformanceBurst({driverId, size}: {
-	driverId: string | undefined,
-	size: number
+export default function CareerPerformanceBurst({
+	driverId,
+	size
+}: {
+	driverId: string | undefined;
+	size: number;
 }) {
-	const nivoTheme       = useNivoTheme();
-	const {data, loading} = useCareerData(driverId);
+	const nivoTheme = useNivoTheme();
+	const { data, loading } = useCareerData(driverId);
 	const performanceData = usePerformanceData(data?.driver.raceResults?.nodes as any);
-	
+
 	if (loading) {
-		return <Skeleton variant="rectangular" height={size} width="100%"/>;
+		return <Skeleton variant="rectangular" height={size} width="100%" />;
 	}
-	
+
 	if (!performanceData) {
 		return null;
 	}
-	
-	const {appearances, wins, podiums, inPoints, DNFs} = performanceData;
-	
+
+	const { appearances, wins, podiums, inPoints, DNFs } = performanceData;
+
 	const chartData = {
-		id:       'data',
+		id: 'data',
 		children: [
 			{
-				id:       'appearances',
-				label:    `Starts: ${appearances}`,
+				id: 'appearances',
+				label: `Starts: ${appearances}`,
 				children: [
 					{
-						id:       'inPoints',
-						label:    `In Points: ${inPoints}`,
-						value:    inPoints - podiums,
+						id: 'inPoints',
+						label: `In Points: ${inPoints}`,
+						value: inPoints - podiums,
 						children: [
 							{
-								id:       'podiums',
-								label:    `Podiums: ${podiums}`,
-								value:    podiums - wins,
+								id: 'podiums',
+								label: `Podiums: ${podiums}`,
+								value: podiums - wins,
 								children: [
 									{
-										id:    'wins',
+										id: 'wins',
 										label: `Wins ${wins}`,
 										value: wins
 									}
@@ -69,16 +74,16 @@ export default function CareerPerformanceBurst({driverId, size}: {
 						]
 					},
 					{
-						id:       'outPoints',
-						label:    `Out of Points: ${appearances - inPoints}`,
+						id: 'outPoints',
+						label: `Out of Points: ${appearances - inPoints}`,
 						children: [
 							{
-								id:    'outOfPoints',
+								id: 'outOfPoints',
 								label: `Finished: ${appearances - inPoints - DNFs}`,
 								value: appearances - inPoints - DNFs
 							},
 							{
-								id:    'DNFs',
+								id: 'DNFs',
 								label: `DNFs: ${DNFs}`,
 								value: DNFs
 							}
@@ -88,21 +93,24 @@ export default function CareerPerformanceBurst({driverId, size}: {
 			}
 		]
 	};
-	
+
 	return (
-		<Card variant="outlined" aria-hidden style={{height: size, width: size}}>
+		<Card variant="outlined" aria-hidden style={{ height: size, width: size }}>
 			<ResponsiveSunburst<BurstDatum>
 				theme={nivoTheme}
 				data={chartData}
-				margin={{top: 20, right: 0, bottom: 0, left: 0}}
+				margin={{ top: 20, right: 0, bottom: 0, left: 0 }}
 				id="id"
 				value="value"
 				cornerRadius={10}
 				borderColor={cssVar.background.paper}
 				borderWidth={2}
 				inheritColorFromParent={false}
-				colors={(datum) => {
-					return RESULTS_COLORS[datum.id as keyof typeof RESULTS_COLORS]?.background || cssVar.primary.main;
+				colors={datum => {
+					return (
+						RESULTS_COLORS[datum.id as keyof typeof RESULTS_COLORS]?.background ||
+						cssVar.primary.main
+					);
 				}}
 				enableArcLabels={false}
 				// @ts-ignore

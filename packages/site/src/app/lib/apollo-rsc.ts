@@ -1,4 +1,5 @@
-import {registerApolloClient} from '@apollo/client-integration-nextjs';
-import {makeClient} from './apollo-make-client';
+import { registerApolloClient } from '@apollo/client-integration-nextjs';
 
-export const {getClient} = registerApolloClient(makeClient);
+import { makeClient } from './apollo-make-client';
+
+export const { getClient } = registerApolloClient(makeClient);

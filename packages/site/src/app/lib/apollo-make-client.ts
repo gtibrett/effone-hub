@@ -1,5 +1,5 @@
-import {HttpLink} from '@apollo/client';
-import {ApolloClient, InMemoryCache} from '@apollo/client-integration-nextjs';
+import { HttpLink } from '@apollo/client';
+import { ApolloClient, InMemoryCache } from '@apollo/client-integration-nextjs';
 
 /**
  * Resolve the GraphQL endpoint URI. Browser side, relative `/api/graphql`
@@ -32,20 +32,20 @@ export function makeClient() {
 		if (typeof window === 'undefined' && process.env.VERCEL_AUTOMATION_BYPASS_SECRET) {
 			headers.set('x-vercel-protection-bypass', process.env.VERCEL_AUTOMATION_BYPASS_SECRET);
 		}
-		return fetch(input, {...init, headers});
+		return fetch(input, { ...init, headers });
 	};
 
 	const httpLink = new HttpLink({
-		uri:          resolveUri(),
-		fetch:        customFetch,
+		uri: resolveUri(),
+		fetch: customFetch,
 		fetchOptions: {
 			cache: 'force-cache'
 		}
 	});
 
 	return new ApolloClient({
-		cache:          new InMemoryCache(),
-		link:           httpLink,
+		cache: new InMemoryCache(),
+		link: httpLink,
 		defaultOptions: {
 			// v4 flipped watchQuery's notifyOnNetworkStatusChange default to
 			// true, which emits an extra "loading" render on every
@@ -55,7 +55,7 @@ export function makeClient() {
 			// subscribers and re-fires the underlying queries — observable as
 			// a constant /api/graphql loop on /drivers/{id}'s Career tab.
 			// Restoring the v3 default ends the loop.
-			watchQuery: {notifyOnNetworkStatusChange: false}
+			watchQuery: { notifyOnNetworkStatusChange: false }
 		}
 	});
 }

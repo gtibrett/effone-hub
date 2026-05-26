@@ -1,11 +1,11 @@
-import {DriverId} from '@/types';
 import { gql } from '@apollo/client';
+import { useSuspenseQuery } from '@apollo/client/react';
 
-import { useSuspenseQuery } from "@apollo/client/react";
+import { DriverId } from '@/types';
 
 type DriverResult = {
 	driverId: DriverId;
-}
+};
 
 type RaceNode = {
 	rowId: number;
@@ -18,7 +18,7 @@ type RaceNode = {
 	} | null;
 	raceResults: { nodes: DriverResult[] };
 	sprintRaceResults: { nodes: DriverResult[] };
-}
+};
 
 export type RaceData = {
 	date: string;
@@ -27,17 +27,17 @@ export type RaceData = {
 	circuit: { lat: number | null; lng: number | null };
 	results: DriverResult[];
 	sprintResults: DriverResult[];
-}
+};
 
 export type ScheduleData = {
 	races: RaceData[];
-}
+};
 
 type ScheduleQueryResponse = {
 	season: {
 		racesByYear: { nodes: RaceNode[] };
 	} | null;
-}
+};
 
 const query = gql`
 	query scheduleQuery($season: Int!) {
@@ -71,10 +71,10 @@ const query = gql`
 `;
 
 export default function useScheduleData(season: number) {
-	const result = useSuspenseQuery<ScheduleQueryResponse>(query, {variables: {season}});
+	const result = useSuspenseQuery<ScheduleQueryResponse>(query, { variables: { season } });
 	const nodes = result.data?.season?.racesByYear?.nodes ?? [];
 
-	const races: RaceData[] = nodes.map((race) => ({
+	const races: RaceData[] = nodes.map(race => ({
 		date: race.date,
 		name: race.officialName,
 		round: race.round,
@@ -86,5 +86,5 @@ export default function useScheduleData(season: number) {
 		sprintResults: race.sprintRaceResults?.nodes ?? []
 	}));
 
-	return {...result, data: {races}};
+	return { ...result, data: { races } };
 }

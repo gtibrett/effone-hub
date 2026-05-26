@@ -1,5 +1,7 @@
-import {RaceResult} from '@/gql/graphql';
-import {BarDatum} from '@nivo/bar/dist/types/types';
+import { BarDatum } from '@nivo/bar/dist/types/types';
+
+import { RaceResult } from '@/gql/graphql';
+
 import useCareerData from './useCareerData';
 
 export interface BreakdownMetrics extends BarDatum {
@@ -19,8 +21,10 @@ export interface BreakdownDatum extends BarDatum {
 	raw: BreakdownMetrics; // this works, but doesn't pass ts check
 }
 
-export default function useBreakdownData(driverId: string | undefined): BreakdownDatum[] | undefined {
-	const {data}        = useCareerData(driverId);
+export default function useBreakdownData(
+	driverId: string | undefined
+): BreakdownDatum[] | undefined {
+	const { data } = useCareerData(driverId);
 	const careerResults = data?.driver.raceResults?.nodes;
 
 	if (!careerResults) {
@@ -28,43 +32,45 @@ export default function useBreakdownData(driverId: string | undefined): Breakdow
 	}
 
 	// @ts-ignore
-	return data?.driver.standings.nodes.map(({year}) => {
+	return data?.driver.standings.nodes.map(({ year }) => {
 		const seasonResults = careerResults.filter((r: RaceResult) => r.race?.year === year);
-		const appearances   = seasonResults.length;
+		const appearances = seasonResults.length;
 
 		const raw: BreakdownMetrics = {
-			wins:        0,
-			podiums:     0,
-			inPoints:    0,
+			wins: 0,
+			podiums: 0,
+			inPoints: 0,
 			outOfPoints: 0,
-			DNFs:        0,
+			DNFs: 0,
 			appearances
 		};
 
 		seasonResults.forEach((r: RaceResult) => {
 			switch (true) {
-				case (r.positionNumber === 1):
+				case r.positionNumber === 1:
 					raw.wins++;
 					break;
-				case (r.positionNumber && r.positionNumber <= 3):
+				case r.positionNumber && r.positionNumber <= 3:
 					raw.podiums++;
 					break;
-				case (r.positionNumber && r.positionNumber <= 10):
+				case r.positionNumber && r.positionNumber <= 10:
 					raw.inPoints++;
 					break;
-				case (r.positionText !== String(r.positionNumber)):
+				case r.positionText !== String(r.positionNumber):
 					raw.DNFs++;
 					break;
 				default:
 					raw.outOfPoints++;
 			}
 		});
-		
-		
+
 		const asPercentage: BreakdownMetrics = Object.entries(raw)
-		                                             .map(([key, value]) => ({key, value: Number(value) / appearances * 100}))
-		                                             .reduce((cur, {key, value}) => ({...cur, [`${key}Percentage`]: value}), {}) as BreakdownMetrics;
-		
+			.map(([key, value]) => ({ key, value: (Number(value) / appearances) * 100 }))
+			.reduce(
+				(cur, { key, value }) => ({ ...cur, [`${key}Percentage`]: value }),
+				{}
+			) as BreakdownMetrics;
+
 		return {
 			year,
 			driverId,

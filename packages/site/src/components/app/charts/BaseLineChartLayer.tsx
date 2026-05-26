@@ -1,17 +1,18 @@
-import {cssVar} from '@/lib/tokens';
-import {Datum} from '@nivo/line';
-import {AnyScale} from '@nivo/scales';
-import {line} from 'd3-shape';
+import { line } from 'd3-shape';
+import { Datum } from '@nivo/line';
+import { AnyScale } from '@nivo/scales';
+
+import { cssVar } from '@/lib/tokens';
 
 type CareerChartLineLayerProps = {
-	xScale: AnyScale,
-	yScale: AnyScale,
-}
+	xScale: AnyScale;
+	yScale: AnyScale;
+};
 
 export default function BaseLineChartLayer(series: any) {
 	const stroke = cssVar.divider;
 
-	return function LineLayer({xScale, yScale}: CareerChartLineLayerProps) {
+	return function LineLayer({ xScale, yScale }: CareerChartLineLayerProps) {
 		const lineGenerator = line()
 			.x((d: Datum) => {
 				return xScale(Number(d.x));

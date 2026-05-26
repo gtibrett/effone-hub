@@ -1,7 +1,9 @@
-import {DriverId} from '@/types';
 import { gql } from '@apollo/client';
-import { useQuery } from "@apollo/client/react";
-import {CircuitDialogData} from './types';
+import { useQuery } from '@apollo/client/react';
+
+import { DriverId } from '@/types';
+
+import { CircuitDialogData } from './types';
 
 const CircuitDataQuery = gql`
 	query CircuitDataQuery($circuitId: String!, $driverId: String!) {
@@ -66,5 +68,5 @@ const CircuitDataQuery = gql`
 `;
 
 export default function useCircuitDialogData(circuitId?: string, driverId?: DriverId) {
-	return useQuery<CircuitDialogData>(CircuitDataQuery, {variables: {circuitId, driverId}});
+	return useQuery<CircuitDialogData>(CircuitDataQuery, { variables: { circuitId, driverId } });
 }

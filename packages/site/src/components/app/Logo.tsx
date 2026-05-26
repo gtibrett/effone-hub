@@ -1,21 +1,21 @@
-import {Link} from '@mui/material';
-import {LinkProps, Typography, useTheme} from '@mui/material';
-import {CSSProperties} from 'react';
-import {lighten} from '@/components/ui/colors';
+import { CSSProperties } from 'react';
+import { Link, LinkProps, Typography, useTheme } from '@mui/material';
+
+import { lighten } from '@/components/ui/colors';
 
 type LogoProps = {
-	href: LinkProps['href']
+	href: LinkProps['href'];
 	size: number;
-	variant: 'light' | 'main' | 'dark'
+	variant: 'light' | 'main' | 'dark';
 };
 
-export default function Logo({href, variant, size}: LogoProps) {
+export default function Logo({ href, variant, size }: LogoProps) {
 	const theme = useTheme();
 
 	const color = (() => {
 		switch (variant) {
 			case 'light':
-				return lighten(theme.palette.secondary.light, .375);
+				return lighten(theme.palette.secondary.light, 0.375);
 
 			case 'main':
 				return theme.palette.secondary.main;
@@ -38,7 +38,11 @@ export default function Logo({href, variant, size}: LogoProps) {
 			style={linkStyle}
 		>
 			<Typography component="h1">
-				EFF<Typography component="span" className="opacity-100 px-1" style={{color}}>ONE</Typography>HUB
+				EFF
+				<Typography component="span" className="opacity-100 px-1" style={{ color }}>
+					ONE
+				</Typography>
+				HUB
 			</Typography>
 		</Link>
 	);

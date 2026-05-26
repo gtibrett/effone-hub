@@ -1,20 +1,24 @@
-import {StatCard} from '@/components/app';
 import { gql } from '@apollo/client';
-import { useQuery } from "@apollo/client/react";
-import {AppLapTime, Race, Season} from '@/gql/graphql';
-import {SeasonStatProps} from './index';
+import { useQuery } from '@apollo/client/react';
+
+import { StatCard } from '@/components/app';
+import { AppLapTime, Race, Season } from '@/gql/graphql';
+
+import { SeasonStatProps } from './index';
 
 type Data = {
-	season: (Pick<Season, 'year'> & {
-		racesByYear: {
-			nodes: (Pick<Race, 'rowId' | 'round'> & {
-				lapTimes: {
-					nodes: Pick<AppLapTime, 'driverId' | 'position'>[]
-				}
-			})[]
-		}
-	}) | null;
-}
+	season:
+		| (Pick<Season, 'year'> & {
+				racesByYear: {
+					nodes: (Pick<Race, 'rowId' | 'round'> & {
+						lapTimes: {
+							nodes: Pick<AppLapTime, 'driverId' | 'position'>[];
+						};
+					})[];
+				};
+		  })
+		| null;
+};
 
 const query = gql`
 	query SeasonLapLeaderQuery($season: Int!) {
@@ -37,9 +41,9 @@ const query = gql`
 	}
 `;
 
-export default function LapLeader({season, size}: SeasonStatProps) {
-	const {data, loading} = useQuery<Data>(query, {variables: {season}});
-	const leaders         = new Map<string, number>();
+export default function LapLeader({ season, size }: SeasonStatProps) {
+	const { data, loading } = useQuery<Data>(query, { variables: { season } });
+	const leaders = new Map<string, number>();
 
 	(data?.season?.racesByYear?.nodes || []).forEach(r => {
 		(r.lapTimes?.nodes || []).forEach((lt: Pick<AppLapTime, 'driverId' | 'position'>) => {
@@ -49,5 +53,5 @@ export default function LapLeader({season, size}: SeasonStatProps) {
 		});
 	});
 
-	return <StatCard size={size} loading={loading} data={leaders} label="Most Laps Led"/>;
+	return <StatCard size={size} loading={loading} data={leaders} label="Most Laps Led" />;
 }

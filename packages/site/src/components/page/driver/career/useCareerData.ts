@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
-import { useQuery } from "@apollo/client/react";
-import {DriverPageData} from '../types';
+import { useQuery } from '@apollo/client/react';
+
+import { DriverPageData } from '../types';
 
 const query = gql`
 	query DriverCareerQuery($driverId: String!) {
@@ -47,5 +48,5 @@ const query = gql`
 `;
 
 export default function useCareerData(driverId?: string) {
-	return useQuery<DriverPageData>(query, {variables: {driverId}});
+	return useQuery<DriverPageData>(query, { variables: { driverId } });
 }

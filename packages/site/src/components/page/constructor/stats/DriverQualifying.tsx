@@ -1,7 +1,7 @@
-import {StatCard} from '@/components/app';
 import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 
-import { useQuery } from "@apollo/client/react";
+import { StatCard } from '@/components/app';
 
 type QualifyingResultNode = {
 	driverId: string;
@@ -54,15 +54,15 @@ type DriverQualifyingProps = {
 	place: 1 | 2;
 };
 
-export default function DriverQualifying({constructorId, season, place}: DriverQualifyingProps) {
-	const {data, loading} = useQuery<Data>(query, {variables: {constructorId, season}});
-	const leaders         = new Map<string, number>();
+export default function DriverQualifying({ constructorId, season, place }: DriverQualifyingProps) {
+	const { data, loading } = useQuery<Data>(query, { variables: { constructorId, season } });
+	const leaders = new Map<string, number>();
 
 	(data?.season?.racesByYear?.nodes || []).forEach(r => {
 		const nodes = r.qualifyingResults.nodes;
 		if (nodes.length) {
 			let isFirst = true;
-			nodes.forEach(({driverId}) => {
+			nodes.forEach(({ driverId }) => {
 				if (driverId) {
 					leaders.set(driverId, (leaders.get(driverId) || 0) + (isFirst ? 1 : 0));
 					isFirst = false;
@@ -71,5 +71,13 @@ export default function DriverQualifying({constructorId, season, place}: DriverQ
 		}
 	});
 
-	return <StatCard loading={loading} data={new Map([...leaders.entries()].sort((a, b) => b[1] - a[1]).slice(place - 1, place))} label="Qualifying"/>;
+	return (
+		<StatCard
+			loading={loading}
+			data={
+				new Map([...leaders.entries()].sort((a, b) => b[1] - a[1]).slice(place - 1, place))
+			}
+			label="Qualifying"
+		/>
+	);
 }

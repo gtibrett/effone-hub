@@ -1,64 +1,93 @@
-import {Circuit} from '@/gql/graphql';
-import {SVGProps} from 'react';
-import {AlbertPark, Americas, Bahrain, Baku, Catalunya, Estoril, Hungaroring, Imola, Interlagos, Jeddah, Losail, MarinaBay, Miami, Monaco, Monza, RedBullRing, Ricard, Rodriguez, Shanghai, Silverstone, Sochi, Spa, Suzuka, Villeneuve, YasMarina, Zandvoort} from './index';
+import { SVGProps } from 'react';
+
+import { Circuit } from '@/gql/graphql';
+
+import {
+	AlbertPark,
+	Americas,
+	Bahrain,
+	Baku,
+	Catalunya,
+	Estoril,
+	Hungaroring,
+	Imola,
+	Interlagos,
+	Jeddah,
+	Losail,
+	MarinaBay,
+	Miami,
+	Monaco,
+	Monza,
+	RedBullRing,
+	Ricard,
+	Rodriguez,
+	Shanghai,
+	Silverstone,
+	Sochi,
+	Spa,
+	Suzuka,
+	Villeneuve,
+	YasMarina,
+	Zandvoort
+} from './index';
 
 export default function getMapSVG(circuitRef: Circuit['rowId'], svgProps: SVGProps<any>) {
 	switch (circuitRef) {
 		case 'albert_park':
-			return <AlbertPark {...svgProps}/>;
+			return <AlbertPark {...svgProps} />;
 		case 'americas':
-			return <Americas {...svgProps}/>;
+			return <Americas {...svgProps} />;
 		case 'bahrain':
-			return <Bahrain {...svgProps}/>;
+			return <Bahrain {...svgProps} />;
 		case 'baku':
-			return <Baku {...svgProps}/>;
+			return <Baku {...svgProps} />;
 		case 'catalunya':
-			return <Catalunya {...svgProps}/>;
+			return <Catalunya {...svgProps} />;
 		case 'estoril':
-			return <Estoril {...svgProps}/>;
+			return <Estoril {...svgProps} />;
 		case 'hungaroring':
-			return <Hungaroring {...svgProps}/>;
+			return <Hungaroring {...svgProps} />;
 		case 'imola':
-			return <Imola {...svgProps}/>;
+			return <Imola {...svgProps} />;
 		case 'interlagos':
-			return <Interlagos {...svgProps}/>;
+			return <Interlagos {...svgProps} />;
 		case 'jeddah':
-			return <Jeddah {...svgProps}/>;
+			return <Jeddah {...svgProps} />;
 		case 'losail':
-			return <Losail {...svgProps}/>;
+			return <Losail {...svgProps} />;
 		case 'marina_bay':
-			return <MarinaBay {...svgProps}/>;
+			return <MarinaBay {...svgProps} />;
 		case 'miami':
-			return <Miami {...svgProps}/>;
+			return <Miami {...svgProps} />;
 		case 'monaco':
-			return <Monaco {...svgProps}/>;
+			return <Monaco {...svgProps} />;
 		case 'monza':
-			return <Monza {...svgProps}/>;
+			return <Monza {...svgProps} />;
 		case 'red_bull_ring':
-			return <RedBullRing {...svgProps}/>;
+			return <RedBullRing {...svgProps} />;
 		case 'ricard':
-			return <Ricard {...svgProps}/>;
+			return <Ricard {...svgProps} />;
 		case 'rodriguez':
-			return <Rodriguez {...svgProps}/>;
+			return <Rodriguez {...svgProps} />;
 		case 'shanghai':
-			return <Shanghai {...svgProps}/>;
+			return <Shanghai {...svgProps} />;
 		case 'silverstone':
-			return <Silverstone {...svgProps}/>;
+			return <Silverstone {...svgProps} />;
 		case 'sochi':
-			return <Sochi {...svgProps}/>;
+			return <Sochi {...svgProps} />;
 		case 'spa':
-			return <Spa {...svgProps}/>;
+			return <Spa {...svgProps} />;
 		case 'suzuka':
-			return <Suzuka {...svgProps}/>;
+			return <Suzuka {...svgProps} />;
 		// case 'vegas':
 		// 	return <Vegas {...svgProps}/>;
 		case 'villeneuve':
-			return <Villeneuve {...svgProps}/>;
+			return <Villeneuve {...svgProps} />;
 		case 'yas_marina':
-			return <YasMarina {...svgProps}/>;
+			return <YasMarina {...svgProps} />;
 		case 'zandvoort':
-			return <Zandvoort {...svgProps}/>;
-		
+			return <Zandvoort {...svgProps} />;
+
 		default:
 			return null;
 	}

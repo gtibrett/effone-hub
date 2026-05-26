@@ -1,14 +1,16 @@
-import {DataWithValue, StatCard} from '@/components/app';
-import {getTimeStringFromDate} from '@/helpers';
 import { gql } from '@apollo/client';
-import { useQuery } from "@apollo/client/react";
-import {FastestLap as FastestLapNode, Race} from '@/gql/graphql';
-import {Typography} from '@mui/material';
-import {RaceStatProps} from './types';
+import { useQuery } from '@apollo/client/react';
+import { Typography } from '@mui/material';
+
+import { DataWithValue, StatCard } from '@/components/app';
+import { FastestLap as FastestLapNode, Race } from '@/gql/graphql';
+import { getTimeStringFromDate } from '@/helpers';
+
+import { RaceStatProps } from './types';
 
 type FastestLapQueryData = {
 	race: Pick<Race, 'fastestLaps'> | null;
-}
+};
 
 const query = gql`
 	query raceFastestLapQuery($season: Int!, $round: Int!) {
@@ -31,8 +33,10 @@ interface FastestRaceLap extends DataWithValue {
 	driverId: FastestLapNode['driverId'];
 }
 
-export default function FastestLap({season, round, size = 'small'}: RaceStatProps) {
-	const {loading, data} = useQuery<FastestLapQueryData>(query, {variables: {season, round}});
+export default function FastestLap({ season, round, size = 'small' }: RaceStatProps) {
+	const { loading, data } = useQuery<FastestLapQueryData>(query, {
+		variables: { season, round }
+	});
 
 	const node = data?.race?.fastestLaps?.nodes?.[0];
 
@@ -41,8 +45,8 @@ export default function FastestLap({season, round, size = 'small'}: RaceStatProp
 	}
 
 	const fastestRaceLap: FastestRaceLap = {
-		lap:      node.lap,
-		value:    node.timeMillis,
+		lap: node.lap,
+		value: node.timeMillis,
 		driverId: node.driverId
 	};
 
@@ -53,12 +57,14 @@ export default function FastestLap({season, round, size = 'small'}: RaceStatProp
 		<Typography variant="caption">Lap {d.lap}</Typography>
 	);
 
-	return <StatCard<FastestRaceLap, FastestRaceLap>
-		label="Fastest Lap"
-		size={size}
-		loading={loading}
-		data={fastestDriver}
-		format={(t) => getTimeStringFromDate(new Date(t.value))}
-		extra={formatExtra}
-	/>;
+	return (
+		<StatCard<FastestRaceLap, FastestRaceLap>
+			label="Fastest Lap"
+			size={size}
+			loading={loading}
+			data={fastestDriver}
+			format={t => getTimeStringFromDate(new Date(t.value))}
+			extra={formatExtra}
+		/>
+	);
 }

@@ -1,86 +1,88 @@
-import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
-import {Box, Skeleton, useMediaQuery, useTheme} from '@mui/material';
-import {BarSvgProps, ResponsiveBar} from '@nivo/bar';
-import {PitStopTableRow} from './PitStops';
+import { Box, Skeleton, useMediaQuery, useTheme } from '@mui/material';
+import { BarSvgProps, ResponsiveBar } from '@nivo/bar';
+
+import { NivoTooltipFactory, useNivoTheme } from '@/components/ui/nivo';
+
+import { PitStopTableRow } from './PitStops';
 import PitStopTooltip from './PitStopTooltip';
 
 type PitStopsChartProps = {
 	pitStops: PitStopTableRow[] | undefined;
 	maxStops: number;
-}
+};
 
 export type PitStopSerie = {
 	driverId: string;
 	code: string;
 	[stop: string]: number | string;
-}
+};
 
-export default function PitStopsChart({maxStops, pitStops}: PitStopsChartProps) {
+export default function PitStopsChart({ maxStops, pitStops }: PitStopsChartProps) {
 	const nivoTheme = useNivoTheme();
-	const theme     = useTheme();
-	const isSmall   = useMediaQuery(theme.breakpoints.down('sm'));
+	const theme = useTheme();
+	const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
 	if (!pitStops) {
-		return <Skeleton variant="rectangular" height={isSmall ? 400 : 150}/>;
+		return <Skeleton variant="rectangular" height={isSmall ? 400 : 150} />;
 	}
-	
+
 	if (!pitStops.length) {
 		return null;
 	}
-	
-	const keys: string[]       = (new Array(maxStops).fill(null).map((v, i) => String(i + 1)));
+
+	const keys: string[] = new Array(maxStops).fill(null).map((v, i) => String(i + 1));
 	const data: PitStopSerie[] = pitStops.map(p => {
 		const stop: PitStopSerie = {
 			driverId: p.driverId,
-			code:     p.code || '',
-			color:    p.color || theme.palette.primary.main
+			code: p.code || '',
+			color: p.color || theme.palette.primary.main
 		};
-		
-		p.stops.forEach((s) => {
+
+		p.stops.forEach(s => {
 			if (s.timeMillis) {
-				stop[String(s.stop)]              = s.timeMillis;
+				stop[String(s.stop)] = s.timeMillis;
 				stop[`${String(s.stop)}-display`] = s.time || '';
 			}
 		});
-		
+
 		return stop;
 	});
-	
+
 	const layoutProps: Partial<BarSvgProps<any>> = {};
 	if (isSmall) {
-		layoutProps.layout     = 'horizontal';
-		layoutProps.margin     = {left: 44};
+		layoutProps.layout = 'horizontal';
+		layoutProps.margin = { left: 44 };
 		layoutProps.axisBottom = null;
-		layoutProps.axisLeft   = {
-			tickSize:     0,
-			tickPadding:  5,
+		layoutProps.axisLeft = {
+			tickSize: 0,
+			tickPadding: 5,
 			tickRotation: 0
 		};
 	} else {
-		layoutProps.layout     = 'vertical';
+		layoutProps.layout = 'vertical';
 		layoutProps.axisBottom = {
-			tickSize:     0,
-			tickPadding:  5,
+			tickSize: 0,
+			tickPadding: 5,
 			tickRotation: 0
 		};
-		layoutProps.axisLeft   = null;
+		layoutProps.axisLeft = null;
 	}
-	
+
 	return (
-		<Box className="mb-4" style={{height: isSmall ? 400 : 150}} aria-hidden>
+		<Box className="mb-4" style={{ height: isSmall ? 400 : 150 }} aria-hidden>
 			<ResponsiveBar
 				theme={nivoTheme}
 				indexBy="code"
 				keys={keys}
 				data={data}
-				colors={({data}) => data.color}
+				colors={({ data }) => data.color}
 				enableLabel={false}
 				enableGridY={false}
-				padding={.1}
+				padding={0.1}
 				innerPadding={1.5}
 				tooltip={NivoTooltipFactory(PitStopTooltip)}
 				{...layoutProps}
-				margin={{top: 16, right: 16, bottom: 32, left: 16, ...layoutProps.margin}}
+				margin={{ top: 16, right: 16, bottom: 32, left: 16, ...layoutProps.margin }}
 			/>
 		</Box>
 	);

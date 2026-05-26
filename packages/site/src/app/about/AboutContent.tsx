@@ -1,49 +1,54 @@
 'use client';
 
-import {Data, Dependencies, Mission, Repositories} from '@/components/page/about';
-import {Page} from '@/components/ui';
-import {Grid} from '@mui/material';
+import { Grid } from '@mui/material';
+
+import { Data, Dependencies, Mission, Repositories } from '@/components/page/about';
+import { Page } from '@/components/ui';
 
 export default function AboutContent() {
 	return (
-        <Page title="About effOne Hub">
-            <Grid container spacing={2}>
+		<Page title="About effOne Hub">
+			<Grid container spacing={2}>
 				<Grid
-                    size={{
-                        xs: 12,
-                        md: 9
-                    }}>
+					size={{
+						xs: 12,
+						md: 9
+					}}
+				>
 					<Grid container spacing={2} className="items-stretch">
 						<Grid size={12}>
-							<Mission/>
+							<Mission />
 						</Grid>
 
 						<Grid
-                            size={{
-                                xs: 12,
-                                md: 6
-                            }}>
-							<Data/>
+							size={{
+								xs: 12,
+								md: 6
+							}}
+						>
+							<Data />
 						</Grid>
 
 						<Grid
-                            size={{
-                                xs: 12,
-                                md: 6
-                            }}>
-							<Repositories/>
+							size={{
+								xs: 12,
+								md: 6
+							}}
+						>
+							<Repositories />
 						</Grid>
 					</Grid>
 				</Grid>
 
 				<Grid
-                    size={{
-                        xs: 12,
-                        md: 3
-                    }}>
-					<Dependencies/>
+					size={{
+						xs: 12,
+						md: 3
+					}}
+				>
+					<Dependencies />
 				</Grid>
 			</Grid>
-        </Page>
-    );
+		</Page>
+	);
 }

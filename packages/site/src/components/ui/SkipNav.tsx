@@ -1,14 +1,14 @@
 'use client';
 
-import {Link} from '@mui/material';
-import {MouseEventHandler, PropsWithChildren} from 'react';
+import { MouseEventHandler, PropsWithChildren } from 'react';
+import { Link } from '@mui/material';
 
 export type SkipNavProps = PropsWithChildren<{
-	selector: Parameters<typeof document.querySelector>[0]
+	selector: Parameters<typeof document.querySelector>[0];
 }>;
 
-export default function SkipNav({children = 'Skip navigation', selector}: SkipNavProps) {
-	const handleSkip: MouseEventHandler<HTMLAnchorElement> = (ev) => {
+export default function SkipNav({ children = 'Skip navigation', selector }: SkipNavProps) {
+	const handleSkip: MouseEventHandler<HTMLAnchorElement> = ev => {
 		ev.preventDefault();
 		ev.currentTarget.blur();
 

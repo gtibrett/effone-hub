@@ -1,22 +1,29 @@
-import {DataWithValue, StatCard} from '@/components/app';
-import {getTimeStringFromDate} from '@/helpers';
 import { gql } from '@apollo/client';
-import { useQuery } from "@apollo/client/react";
-import {FastestLap as FastestLapNode, Race, Season} from '@/gql/graphql';
-import {Typography} from '@mui/material';
-import {SeasonStatProps} from './types';
+import { useQuery } from '@apollo/client/react';
+import { Typography } from '@mui/material';
+
+import { DataWithValue, StatCard } from '@/components/app';
+import { FastestLap as FastestLapNode, Race, Season } from '@/gql/graphql';
+import { getTimeStringFromDate } from '@/helpers';
+
+import { SeasonStatProps } from './types';
 
 export type FastestLapQueryData = {
-	season: (Pick<Season, 'year'> & {
-		racesByYear: {
-			nodes: (Pick<Race, 'rowId' | 'round' | 'officialName'> & {
-				fastestLaps: {
-					nodes: Pick<FastestLapNode, 'driverId' | 'lap' | 'time' | 'timeMillis'>[];
+	season:
+		| (Pick<Season, 'year'> & {
+				racesByYear: {
+					nodes: (Pick<Race, 'rowId' | 'round' | 'officialName'> & {
+						fastestLaps: {
+							nodes: Pick<
+								FastestLapNode,
+								'driverId' | 'lap' | 'time' | 'timeMillis'
+							>[];
+						};
+					})[];
 				};
-			})[];
-		};
-	}) | null;
-}
+		  })
+		| null;
+};
 
 export const seasonFastestLapQuery = gql`
 	query seasonFastestLapQuery($season: Int!) {
@@ -51,8 +58,10 @@ interface FastestSeasonLap extends DataWithValue {
 	driverId: FastestLapNode['driverId'];
 }
 
-export default function FastestLap({season, size = 'small'}: SeasonStatProps) {
-	const {loading, data} = useQuery<FastestLapQueryData>(seasonFastestLapQuery, {variables: {season}});
+export default function FastestLap({ season, size = 'small' }: SeasonStatProps) {
+	const { loading, data } = useQuery<FastestLapQueryData>(seasonFastestLapQuery, {
+		variables: { season }
+	});
 
 	const races = data?.season?.racesByYear?.nodes ?? [];
 
@@ -62,7 +71,7 @@ export default function FastestLap({season, size = 'small'}: SeasonStatProps) {
 
 	let fastestSeasonLap: FastestSeasonLap | null = null;
 
-	races.forEach(({officialName, round, fastestLaps}) => {
+	races.forEach(({ officialName, round, fastestLaps }) => {
 		const node = fastestLaps?.nodes?.[0];
 		if (!node || node.timeMillis == null || node.driverId == null) {
 			return;
@@ -70,12 +79,12 @@ export default function FastestLap({season, size = 'small'}: SeasonStatProps) {
 
 		if (fastestSeasonLap === null || node.timeMillis < fastestSeasonLap.value) {
 			fastestSeasonLap = {
-				name:     officialName,
+				name: officialName,
 				round,
-				lap:      node.lap,
-				value:    node.timeMillis,
+				lap: node.lap,
+				value: node.timeMillis,
 				driverId: node.driverId,
-				quali:    false
+				quali: false
 			};
 		}
 	});
@@ -89,15 +98,20 @@ export default function FastestLap({season, size = 'small'}: SeasonStatProps) {
 	fastestDriver.set(winner.driverId || '', winner);
 
 	const formatExtra = (d: FastestSeasonLap) => (
-		<Typography variant="caption">{d.name}: {d.quali ? 'Q' : 'Lap '}{d.lap}</Typography>
+		<Typography variant="caption">
+			{d.name}: {d.quali ? 'Q' : 'Lap '}
+			{d.lap}
+		</Typography>
 	);
 
-	return <StatCard<FastestSeasonLap, FastestSeasonLap>
-		label="Fastest Lap"
-		size={size}
-		loading={loading}
-		data={fastestDriver}
-		format={(t) => getTimeStringFromDate(new Date(t.value))}
-		extra={formatExtra}
-	/>;
+	return (
+		<StatCard<FastestSeasonLap, FastestSeasonLap>
+			label="Fastest Lap"
+			size={size}
+			loading={loading}
+			data={fastestDriver}
+			format={t => getTimeStringFromDate(new Date(t.value))}
+			extra={formatExtra}
+		/>
+	);
 }

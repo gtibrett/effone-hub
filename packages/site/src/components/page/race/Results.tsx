@@ -1,127 +1,147 @@
-import {ConstructorByLine, DriverByLine} from '@/components/app';
-import {getPositionTextOutcome} from '@/helpers';
-import {faSquare} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Race, RaceResult} from '@/gql/graphql';
-import {Alert, Grid, Skeleton, Tooltip, Typography} from '@mui/material';
-import {purple} from '@mui/material/colors';
-import {DataGrid} from '@mui/x-data-grid';
+import { faSquare } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Alert, Grid, Skeleton, Tooltip, Typography } from '@mui/material';
+import { purple } from '@mui/material/colors';
+import { DataGrid } from '@mui/x-data-grid';
+
+import { ConstructorByLine, DriverByLine } from '@/components/app';
+import { Race, RaceResult } from '@/gql/graphql';
+import { getPositionTextOutcome } from '@/helpers';
+
 import Podium from './Podium';
 import PositionChange from './PositionChange';
 
-export default function Results({results}: { results?: Race['raceResults'] | null }) {
+export default function Results({ results }: { results?: Race['raceResults'] | null }) {
 	const nodes = results?.nodes;
 
 	if (!nodes) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" height={400} />;
 	}
 
 	if (!nodes.length) {
-		return <Alert variant="outlined" severity="info">Race Data Not Available</Alert>;
+		return (
+			<Alert variant="outlined" severity="info">
+				Race Data Not Available
+			</Alert>
+		);
 	}
 
-	const rows = (nodes as Array<RaceResult | null>).filter((r): r is RaceResult => r != null).map((row: RaceResult) => ({
-		...row,
-		id: row.positionDisplayOrder
-	}));
-	
+	const rows = (nodes as Array<RaceResult | null>)
+		.filter((r): r is RaceResult => r != null)
+		.map((row: RaceResult) => ({
+			...row,
+			id: row.positionDisplayOrder
+		}));
+
 	return (
-        <>
-            <Grid
-                container
-                spacing={2}
-                className="justify-evenly mb-4">
-				<Podium results={(nodes as Array<RaceResult | null>).filter((r): r is RaceResult => r != null)}/>
+		<>
+			<Grid container spacing={2} className="justify-evenly mb-4">
+				<Podium
+					results={(nodes as Array<RaceResult | null>).filter(
+						(r): r is RaceResult => r != null
+					)}
+				/>
 			</Grid>
-            <DataGrid
+			<DataGrid
 				rows={rows}
 				autoHeight
 				density="compact"
 				getRowId={r => r.driverId || 0}
 				initialState={{
 					sorting: {
-						sortModel: [{field: 'positionDisplayOrder', sort: 'asc'}]
+						sortModel: [{ field: 'positionDisplayOrder', sort: 'asc' }]
 					}
 				}}
-				columns={
-					[
-						{
-							field:       'positionDisplayOrder',
-							headerName:  'P',
-							width:       60,
-							headerAlign: 'center',
-							align:       'center',
-							type:        'number'
-						},
-						{
-							field:        'change',
-							renderHeader: () => <Typography className="sr-only">Position Changes</Typography>,
-							renderCell:   ({row}) => (
-								<PositionChange {...row}/>
-							),
-							valueGetter:  (value, row) => {
-								const {gridPositionNumber, positionDisplayOrder} = row;
-								if (!gridPositionNumber || !positionDisplayOrder) {
-									return 0;
-								}
+				columns={[
+					{
+						field: 'positionDisplayOrder',
+						headerName: 'P',
+						width: 60,
+						headerAlign: 'center',
+						align: 'center',
+						type: 'number'
+					},
+					{
+						field: 'change',
+						renderHeader: () => (
+							<Typography className="sr-only">Position Changes</Typography>
+						),
+						renderCell: ({ row }) => <PositionChange {...row} />,
+						valueGetter: (value, row) => {
+							const { gridPositionNumber, positionDisplayOrder } = row;
+							if (!gridPositionNumber || !positionDisplayOrder) {
+								return 0;
+							}
 
-								return Number(gridPositionNumber) - Number(positionDisplayOrder);
-							},
-							width:        60,
-							headerAlign:  'center',
-							align:        'center'
+							return Number(gridPositionNumber) - Number(positionDisplayOrder);
 						},
-						{
-							field:      'Driver',
-							headerName: 'Driver',
-							flex:       1,
-							renderCell: ({row}) => row.driverId ? <DriverByLine id={row.driverId}/> : '',
-							minWidth:   200
+						width: 60,
+						headerAlign: 'center',
+						align: 'center'
+					},
+					{
+						field: 'Driver',
+						headerName: 'Driver',
+						flex: 1,
+						renderCell: ({ row }) =>
+							row.driverId ? <DriverByLine id={row.driverId} /> : '',
+						minWidth: 200
+					},
+					{
+						field: 'Constructor',
+						headerName: 'Constructor',
+						flex: 1,
+						renderCell: ({ row }) =>
+							row.teamId ? <ConstructorByLine id={row.teamId} /> : '',
+						minWidth: 150
+					},
+					{
+						field: 'points',
+						headerName: 'Points',
+						type: 'number',
+						headerAlign: 'center',
+						align: 'center'
+					},
+					{
+						field: 'time',
+						headerName: 'Time',
+						sortable: false,
+						headerAlign: 'left',
+						align: 'left',
+						flex: 0.5,
+						renderCell: ({ row }) => {
+							const time = row.time;
+							return (
+								<Grid
+									container
+									spacing={1}
+									className="items-center justify-between flex-nowrap"
+								>
+									<Grid>
+										{time
+											? time
+											: getPositionTextOutcome(
+													row.positionText,
+													row.reasonRetired
+												)}
+									</Grid>
+									{row.fastestLap && (
+										<Grid>
+											<Tooltip title="Fastest Lap">
+												<FontAwesomeIcon
+													icon={faSquare}
+													color={purple[400]}
+												/>
+											</Tooltip>
+										</Grid>
+									)}
+								</Grid>
+							);
 						},
-						{
-							field:      'Constructor',
-							headerName: 'Constructor',
-							flex:       1,
-							renderCell: ({row}) => row.teamId ? <ConstructorByLine id={row.teamId}/> : '',
-							minWidth:   150
-						},
-						{
-							field:       'points',
-							headerName:  'Points',
-							type:        'number',
-							headerAlign: 'center',
-							align:       'center'
-						},
-						{
-							field:       'time',
-							headerName:  'Time',
-							sortable:    false,
-							headerAlign: 'left',
-							align:       'left',
-							flex:        .5,
-							renderCell:  ({row}) => {
-								const time = row.time;
-								return (
-                                    <Grid
-                                        container
-                                        spacing={1}
-                                        className="items-center justify-between flex-nowrap">
-                                        <Grid>{time ? time : getPositionTextOutcome(row.positionText, row.reasonRetired)}</Grid>
-                                        {row.fastestLap && (
-											<Grid>
-												<Tooltip title="Fastest Lap">
-													<FontAwesomeIcon icon={faSquare} color={purple[400]}/>
-												</Tooltip>
-											</Grid>
-										)}
-                                    </Grid>
-                                );
-							},
-							minWidth:    110
-						}
-					]
-				}
+						minWidth: 110
+					}
+				]}
 			/>
-        </>
-    );
+		</>
+	);
 }

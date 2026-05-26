@@ -1,8 +1,10 @@
-import {useFallbackColor} from '@/components/ui';
+import { useCallback } from 'react';
 import { gql } from '@apollo/client';
-import { useSuspenseQuery } from "@apollo/client/react";
-import {useCallback} from 'react';
-import {Entity, RaceStandingsWithEntities} from '../charts';
+import { useSuspenseQuery } from '@apollo/client/react';
+
+import { useFallbackColor } from '@/components/ui';
+
+import { Entity, RaceStandingsWithEntities } from '../charts';
 
 type ConstructorColors = {
 	primaryHex: string | null;
@@ -35,11 +37,14 @@ type ConstructorStandingsQueryData = {
 const useMapConstructorToEntity = () => {
 	const fallbackColor = useFallbackColor();
 
-	return useCallback((constructor: ConstructorNode): Entity => ({
-		id:    constructor.rowId,
-		name:  constructor.name || '',
-		color: constructor.colors?.primaryHex || fallbackColor
-	}), [fallbackColor]);
+	return useCallback(
+		(constructor: ConstructorNode): Entity => ({
+			id: constructor.rowId,
+			name: constructor.name || '',
+			color: constructor.colors?.primaryHex || fallbackColor
+		}),
+		[fallbackColor]
+	);
 };
 
 const query = gql`
@@ -73,24 +78,28 @@ const query = gql`
 `;
 
 export default function useConstructorStandingsData(season: number) {
-	const {data}                  = useSuspenseQuery<ConstructorStandingsQueryData>(query, {variables: {season}});
-	const mapConstructorToEntity  = useMapConstructorToEntity();
-
-	const chartData: RaceStandingsWithEntities[] = (data?.season?.racesByYear?.nodes ?? []).map(r => {
-		const standings = r.raceTeamStandings.nodes
-			.filter(cs => cs.team)
-			.map(({teamId, positionNumber, points, team}) => ({
-				id:       teamId,
-				position: Number(positionNumber),
-				points:   Number(points),
-				entity:   mapConstructorToEntity(team as ConstructorNode)
-			}));
-
-		return {
-			round: r.round,
-			standings
-		};
+	const { data } = useSuspenseQuery<ConstructorStandingsQueryData>(query, {
+		variables: { season }
 	});
+	const mapConstructorToEntity = useMapConstructorToEntity();
 
-	return {data, chartData};
+	const chartData: RaceStandingsWithEntities[] = (data?.season?.racesByYear?.nodes ?? []).map(
+		r => {
+			const standings = r.raceTeamStandings.nodes
+				.filter(cs => cs.team)
+				.map(({ teamId, positionNumber, points, team }) => ({
+					id: teamId,
+					position: Number(positionNumber),
+					points: Number(points),
+					entity: mapConstructorToEntity(team as ConstructorNode)
+				}));
+
+			return {
+				round: r.round,
+				standings
+			};
+		}
+	);
+
+	return { data, chartData };
 }

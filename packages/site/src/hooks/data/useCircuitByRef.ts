@@ -1,7 +1,8 @@
-import {Circuit as CircuitT, Race} from '@/gql/graphql';
 import { gql } from '@apollo/client';
-import { useSuspenseQuery } from "@apollo/client/react";
-import type {SimpleApolloResult} from '@/app/lib/apollo-types';
+import { useSuspenseQuery } from '@apollo/client/react';
+
+import type { SimpleApolloResult } from '@/app/lib/apollo-types';
+import { Circuit as CircuitT, Race } from '@/gql/graphql';
 
 const CircuitQuery = gql`
 	query CircuitQuery($circuitRef: String!, $showCurrentSeason: Boolean!, $season: Int) {
@@ -101,17 +102,22 @@ export type CircuitHistoryData = Pick<Race, 'year' | 'round' | 'date'> & {
 	};
 	lapTimes: { nodes: { driverId: string }[] };
 	fastestLaps: { nodes: { driverId: string; milliseconds: number | null }[] };
-}
+};
 
 type CircuitPageData = {
-	circuit: Pick<CircuitT, 'rowId' | 'fullName' | 'placeName' | 'countryId' | 'latitude' | 'longitude' | 'description'> & {
+	circuit: Pick<
+		CircuitT,
+		'rowId' | 'fullName' | 'placeName' | 'countryId' | 'latitude' | 'longitude' | 'description'
+	> & {
 		history: { nodes: CircuitHistoryData[] };
 		season: { nodes: Race[] };
-	}
-}
+	};
+};
 
 export type CircuitDataProps = SimpleApolloResult<CircuitPageData>;
 
 export default function useCircuitByRef(circuitRef: string, season?: number) {
-	return useSuspenseQuery<CircuitPageData>(CircuitQuery, {variables: {circuitRef, showCurrentSeason: Boolean(season), season}});
+	return useSuspenseQuery<CircuitPageData>(CircuitQuery, {
+		variables: { circuitRef, showCurrentSeason: Boolean(season), season }
+	});
 }

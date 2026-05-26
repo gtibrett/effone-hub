@@ -11,28 +11,31 @@
 
 /* Alias next/font CSS vars into Tailwind font tokens. */
 @theme {
-	--font-sans:    var(--font-titillium), system-ui, sans-serif;
+	--font-sans: var(--font-titillium), system-ui, sans-serif;
 	--font-display: var(--font-anton), sans-serif;
-	--font-racing:  var(--font-racing), sans-serif;
+	--font-racing: var(--font-racing), sans-serif;
 }
 
 /* Full shade scales. Mirror src/components/ui/colors.ts. Plain `@theme` so `bg-primary-950` etc. resolve. */
 @theme {
+	--color-white: oklch(0.968 0.003 286.81);
+	--color-black: oklch(0.2 0.018 244);
+
 	/* primary = blueGrey */
-	--color-primary-50:  oklch(0.951 0.005 236);
+	--color-primary-50: oklch(0.951 0.005 236);
 	--color-primary-100: oklch(0.864 0.014 230);
-	--color-primary-200: oklch(0.780 0.020 232);
+	--color-primary-200: oklch(0.78 0.02 232);
 	--color-primary-300: oklch(0.675 0.027 234);
-	--color-primary-400: oklch(0.600 0.033 236);
-	--color-primary-500: oklch(0.530 0.039 240);
-	--color-primary-600: oklch(0.470 0.038 242);
-	--color-primary-700: oklch(0.400 0.034 244);
-	--color-primary-800: oklch(0.330 0.027 244);
-	--color-primary-900: oklch(0.250 0.020 244);
-	--color-primary-950: oklch(0.200 0.018 244);
+	--color-primary-400: oklch(0.6 0.033 236);
+	--color-primary-500: oklch(0.53 0.039 240);
+	--color-primary-600: oklch(0.47 0.038 242);
+	--color-primary-700: oklch(0.4 0.034 244);
+	--color-primary-800: oklch(0.33 0.027 244);
+	--color-primary-900: oklch(0.25 0.02 244);
+	--color-primary-950: oklch(0.2 0.018 244);
 
 	/* secondary = red */
-	--color-secondary-50:  oklch(0.968 0.014 17.52);
+	--color-secondary-50: oklch(0.968 0.014 17.52);
 	--color-secondary-100: oklch(0.934 0.029 17.73);
 	--color-secondary-200: oklch(0.87 0.061 18.41);
 	--color-secondary-300: oklch(0.797 0.103 19.6);
@@ -45,7 +48,7 @@
 	--color-secondary-950: oklch(0.207 0.077 27.3);
 
 	/* tertiary = blue */
-	--color-tertiary-50:  oklch(0.957 0.019 266.01);
+	--color-tertiary-50: oklch(0.957 0.019 266.01);
 	--color-tertiary-100: oklch(0.914 0.037 265.15);
 	--color-tertiary-200: oklch(0.829 0.077 264.37);
 	--color-tertiary-300: oklch(0.735 0.124 259.15);
@@ -60,61 +63,61 @@
 
 /* Semantic aliases → MUI palette vars. `bg-tertiary` falls back to shade-500 (no MUI tertiary). */
 @theme inline {
-	--color-primary:           var(--mui-palette-primary-main);
-	--color-primary-light:     var(--mui-palette-primary-light);
-	--color-primary-dark:      var(--mui-palette-primary-dark);
-	--color-primary-contrast:  var(--mui-palette-primary-contrastText);
+	--color-primary: var(--mui-palette-primary-main);
+	--color-primary-light: var(--mui-palette-primary-light);
+	--color-primary-dark: var(--mui-palette-primary-dark);
+	--color-primary-contrast: var(--mui-palette-primary-contrastText);
 
-	--color-secondary:           var(--mui-palette-secondary-main);
-	--color-secondary-light:     var(--mui-palette-secondary-light);
-	--color-secondary-dark:      var(--mui-palette-secondary-dark);
-	--color-secondary-contrast:  var(--mui-palette-secondary-contrastText);
+	--color-secondary: var(--mui-palette-secondary-main);
+	--color-secondary-light: var(--mui-palette-secondary-light);
+	--color-secondary-dark: var(--mui-palette-secondary-dark);
+	--color-secondary-contrast: var(--mui-palette-secondary-contrastText);
 
-	--color-tertiary:          var(--color-tertiary-500);
+	--color-tertiary: var(--color-tertiary-500);
 
-	--color-background:        var(--mui-palette-background-default);
-	--color-background-paper:  var(--mui-palette-background-paper);
+	--color-background: var(--mui-palette-background-default);
+	--color-background-paper: var(--mui-palette-background-paper);
 
-	--color-text-primary:      var(--mui-palette-text-primary);
-	--color-text-secondary:    var(--mui-palette-text-secondary);
-	--color-text-disabled:     var(--mui-palette-text-disabled);
+	--color-text-primary: var(--mui-palette-text-primary);
+	--color-text-secondary: var(--mui-palette-text-secondary);
+	--color-text-disabled: var(--mui-palette-text-disabled);
 
-	--color-divider:           var(--mui-palette-divider);
+	--color-divider: var(--mui-palette-divider);
 
-	--color-success:           var(--mui-palette-success-main);
-	--color-warning:           var(--mui-palette-warning-main);
-	--color-error:             var(--mui-palette-error-main);
-	--color-info:              var(--mui-palette-info-main);
+	--color-success: var(--mui-palette-success-main);
+	--color-warning: var(--mui-palette-warning-main);
+	--color-error: var(--mui-palette-error-main);
+	--color-info: var(--mui-palette-info-main);
 }
 
 /* Chart bucket + map sector colors. Light = darker shades on white; dark = lighter shades. */
 :root {
-	--results-appearances:    #455a64; /* blueGrey 700 */
-	--results-wins:           #512da8; /* deepPurple 700 */
-	--results-podiums:        #4caf50; /* green 500 */
-	--results-in-points:      #ffc107; /* amber 500 */
-	--results-out-points:     #607d8b; /* blueGrey 500 */
-	--results-out-of-points:  #b0bec5; /* blueGrey 200 */
-	--results-dnfs:           #d32f2f; /* red 700 */
+	--results-appearances: #455a64; /* blueGrey 700 */
+	--results-wins: #512da8; /* deepPurple 700 */
+	--results-podiums: #4caf50; /* green 500 */
+	--results-in-points: #ffc107; /* amber 500 */
+	--results-out-points: #607d8b; /* blueGrey 500 */
+	--results-out-of-points: #b0bec5; /* blueGrey 200 */
+	--results-dnfs: #d32f2f; /* red 700 */
 
 	/* Circuit map sector overlays. */
-	--map-sector-1:           #f44336; /* red 500 */
-	--map-sector-2:           #2196f3; /* blue 500 */
-	--map-sector-3:           #ffeb3b; /* yellow 500 */
+	--map-sector-1: #f44336; /* red 500 */
+	--map-sector-2: #2196f3; /* blue 500 */
+	--map-sector-3: #ffeb3b; /* yellow 500 */
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--results-appearances:    #607d8b; /* blueGrey 500 */
-		--results-wins:           #b39ddb; /* deepPurple 200 */
-		--results-podiums:        #a5d6a7; /* green 200 */
-		--results-in-points:      #ffe082; /* amber 200 */
-		--results-out-points:     #90a4ae; /* blueGrey 300 */
-		--results-out-of-points:  #cfd8dc; /* blueGrey 100 */
-		--results-dnfs:           #ef9a9a; /* red 200 */
+		--results-appearances: #607d8b; /* blueGrey 500 */
+		--results-wins: #b39ddb; /* deepPurple 200 */
+		--results-podiums: #a5d6a7; /* green 200 */
+		--results-in-points: #ffe082; /* amber 200 */
+		--results-out-points: #90a4ae; /* blueGrey 300 */
+		--results-out-of-points: #cfd8dc; /* blueGrey 100 */
+		--results-dnfs: #ef9a9a; /* red 200 */
 
-		--map-sector-1:           #c62828; /* red 800 */
-		--map-sector-2:           #1565c0; /* blue 800 */
-		--map-sector-3:           #f9a825; /* yellow 800 */
+		--map-sector-1: #c62828; /* red 800 */
+		--map-sector-2: #1565c0; /* blue 800 */
+		--map-sector-3: #f9a825; /* yellow 800 */
 	}
 }

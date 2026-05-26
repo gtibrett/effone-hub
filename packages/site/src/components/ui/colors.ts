@@ -13,7 +13,7 @@ export function darken(color: string, percentage: number) {
 
 // OKLCH for perceptual uniformity. sRGB hex fallbacks in `src/lib/tokens.ts` for JS color math.
 export const blueGrey = {
-	50:  'oklch(0.951 0.005 236)',
+	50: 'oklch(0.951 0.005 236)',
 	100: 'oklch(0.864 0.014 230)',
 	200: 'oklch(0.780 0.020 232)',
 	300: 'oklch(0.675 0.027 234)',
@@ -26,9 +26,8 @@ export const blueGrey = {
 	950: 'oklch(0.200 0.018 244)'
 };
 
-
 export const red = {
-	50:  'oklch(0.968 0.014 17.52)',
+	50: 'oklch(0.968 0.014 17.52)',
 	100: 'oklch(0.934 0.029 17.73)',
 	200: 'oklch(0.87 0.061 18.41)',
 	300: 'oklch(0.797 0.103 19.6)',
@@ -42,7 +41,7 @@ export const red = {
 };
 
 export const blue = {
-	50:  'oklch(0.957 0.019 266.01)',
+	50: 'oklch(0.957 0.019 266.01)',
 	100: 'oklch(0.914 0.037 265.15)',
 	200: 'oklch(0.829 0.077 264.37)',
 	300: 'oklch(0.735 0.124 259.15)',
@@ -55,6 +54,6 @@ export const blue = {
 	950: 'oklch(0.177 0.048 253.48)'
 };
 
-export const primary   = blueGrey;
+export const primary = blueGrey;
 export const secondary = red;
-export const tertiary  = blue;
+export const tertiary = blue;

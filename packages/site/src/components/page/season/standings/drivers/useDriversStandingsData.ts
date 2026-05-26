@@ -1,8 +1,10 @@
-import {useFallbackColor} from '@/components/ui';
+import { useCallback } from 'react';
 import { gql } from '@apollo/client';
-import { useSuspenseQuery } from "@apollo/client/react";
-import {useCallback} from 'react';
-import {Entity, RaceStandingsWithEntities, StandingWithEntity} from '../charts';
+import { useSuspenseQuery } from '@apollo/client/react';
+
+import { useFallbackColor } from '@/components/ui';
+
+import { Entity, RaceStandingsWithEntities, StandingWithEntity } from '../charts';
 
 type DriverColors = {
 	primaryHex: string | null;
@@ -50,16 +52,19 @@ type DriverStandingsQueryData = {
 const useMapDriverToEntity = () => {
 	const fallbackColor = useFallbackColor();
 
-	return useCallback((driver: DriverNode): Entity => {
-		const primaryHex = driver.seasonEntrantDrivers.nodes[0]?.team?.colors?.primaryHex;
-		const color      = primaryHex || fallbackColor;
+	return useCallback(
+		(driver: DriverNode): Entity => {
+			const primaryHex = driver.seasonEntrantDrivers.nodes[0]?.team?.colors?.primaryHex;
+			const color = primaryHex || fallbackColor;
 
-		return {
-			id:    driver.rowId,
-			name:  driver.lastName,
-			color
-		};
-	}, [fallbackColor]);
+			return {
+				id: driver.rowId,
+				name: driver.lastName,
+				color
+			};
+		},
+		[fallbackColor]
+	);
 };
 
 const query = gql`
@@ -109,24 +114,26 @@ const query = gql`
 `;
 
 export default function useDriverStandingsData(season: number) {
-	const {data}          = useSuspenseQuery<DriverStandingsQueryData>(query, {variables: {season}});
+	const { data } = useSuspenseQuery<DriverStandingsQueryData>(query, { variables: { season } });
 	const mapDriverToEntity = useMapDriverToEntity();
 
-	const chartData: RaceStandingsWithEntities[] = (data?.season?.racesByYear?.nodes ?? []).map(r => {
-		const standings: StandingWithEntity[] = r.raceDriverStandings.nodes
-			.filter(s => s.driver)
-			.map(({driverId, positionNumber, points, driver}) => ({
-				id:       driverId,
-				position: Number(positionNumber),
-				points:   Number(points),
-				entity:   mapDriverToEntity(driver as DriverNode)
-			}));
+	const chartData: RaceStandingsWithEntities[] = (data?.season?.racesByYear?.nodes ?? []).map(
+		r => {
+			const standings: StandingWithEntity[] = r.raceDriverStandings.nodes
+				.filter(s => s.driver)
+				.map(({ driverId, positionNumber, points, driver }) => ({
+					id: driverId,
+					position: Number(positionNumber),
+					points: Number(points),
+					entity: mapDriverToEntity(driver as DriverNode)
+				}));
 
-		return {
-			round: r.round,
-			standings
-		};
-	});
+			return {
+				round: r.round,
+				standings
+			};
+		}
+	);
 
-	return {data, chartData};
+	return { data, chartData };
 }

@@ -1,5 +1,6 @@
-import {SwarmPlotSvgProps} from '@nivo/swarmplot';
-import {CircuitDialogData} from './types';
+import { SwarmPlotSvgProps } from '@nivo/swarmplot';
+
+import { CircuitDialogData } from './types';
 import useGetTeamColorsByYear from './useGetTeamColorsByYear';
 
 export type SwarmData = {
@@ -9,7 +10,7 @@ export type SwarmData = {
 	deviations: number;
 	milliseconds: number;
 	color: string;
-}
+};
 
 function getStandardDeviation(data: number[]) {
 	const n = data.length;
@@ -27,35 +28,39 @@ export function useMapLapTimeDataToSwarmChart() {
 
 	return (data: CircuitDialogData): SwarmPlotSvgProps<SwarmData>['data'] => {
 		const mappedData: SwarmPlotSvgProps<SwarmData>['data'] = [];
-		const colorsByYear                                     = getColorsByYear(data.driver.seasonEntrantDrivers);
+		const colorsByYear = getColorsByYear(data.driver.seasonEntrantDrivers);
 
 		data?.circuit.races?.nodes?.forEach(race => {
 			const mappedLaps = (race.lapTimes?.nodes || [])
 				.filter(l => l.timeMillis)
 				.map(l => ({
-					lap:          l.lap,
+					lap: l.lap,
 					milliseconds: Number(l.timeMillis)
 				}));
 
-			const averageLapTime = mappedLaps.reduce((a, v) => Number(v.milliseconds) + a, 0) / (mappedLaps.length + Number.EPSILON);
-			const stdDevLapTime  = getStandardDeviation(mappedLaps.map(l => l.milliseconds));
+			const averageLapTime =
+				mappedLaps.reduce((a, v) => Number(v.milliseconds) + a, 0) /
+				(mappedLaps.length + Number.EPSILON);
+			const stdDevLapTime = getStandardDeviation(mappedLaps.map(l => l.milliseconds));
 
 			mappedLaps.forEach(l => {
 				mappedData.push({
 					...l,
-					id:         `${race.rowId}-${l.lap}`,
-					group:      String(race.year),
-					deviations: l.milliseconds ? Math.abs(l.milliseconds - averageLapTime) / stdDevLapTime : 1000,
-					color:      colorsByYear[race.year as number]
+					id: `${race.rowId}-${l.lap}`,
+					group: String(race.year),
+					deviations: l.milliseconds
+						? Math.abs(l.milliseconds - averageLapTime) / stdDevLapTime
+						: 1000,
+					color: colorsByYear[race.year as number]
 				});
 			});
 		});
 
 		return mappedData;
 	};
-};
+}
 
-type LapTimeBoxChartData = { year: number, milliseconds: number }[];
+type LapTimeBoxChartData = { year: number; milliseconds: number }[];
 
 export function mapLapTimeDataToBoxChart(data: CircuitDialogData): LapTimeBoxChartData {
 	const mappedData: LapTimeBoxChartData = [];
@@ -64,13 +69,13 @@ export function mapLapTimeDataToBoxChart(data: CircuitDialogData): LapTimeBoxCha
 		const mappedLaps = (race.lapTimes?.nodes || [])
 			.filter(l => l.timeMillis)
 			.map(l => ({
-				lap:          l.lap,
+				lap: l.lap,
 				milliseconds: Number(l.timeMillis)
 			}));
 
 		mappedLaps.forEach(l => {
 			mappedData.push({
-				year:         race.year as number,
+				year: race.year as number,
 				milliseconds: l.milliseconds
 			});
 		});

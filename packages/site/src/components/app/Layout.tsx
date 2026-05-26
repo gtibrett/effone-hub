@@ -1,37 +1,37 @@
 'use client';
 
-import {SkipNav} from '@/components/ui';
-import {UkraineButton} from '@gtibrett/mui-additions';
-import {Box, Container} from '@mui/material';
-import {PropsWithChildren, Suspense} from 'react';
+import { PropsWithChildren, Suspense } from 'react';
+import { UkraineButton } from '@gtibrett/mui-additions';
+import { Box, Container } from '@mui/material';
+
+import { SkipNav } from '@/components/ui';
+
 import AppStateProvider from './AppStateProvider';
 import ErrorBoundary from './ErrorBoundary';
 import Footer from './footer/Footer';
 import Header from './header/Header';
 
-export default function Layout({children}: PropsWithChildren) {
+export default function Layout({ children }: PropsWithChildren) {
 	// Cache Components: leaf `new Date()` reads ("is race in future?") must live inside Suspense.
 	return (
 		<AppStateProvider>
-			<SkipNav selector="main"/>
+			<SkipNav selector="main" />
 
 			<Box className="fixed inset-0 overflow-auto bg-background">
 				<Suspense>
-					<Header/>
+					<Header />
 				</Suspense>
 
 				<Container maxWidth="xl" component="main" className="relative py-2" tabIndex={0}>
 					<ErrorBoundary>
-						<Suspense>
-							{children}
-						</Suspense>
+						<Suspense>{children}</Suspense>
 					</ErrorBoundary>
 				</Container>
 
 				<Suspense>
-					<Footer/>
+					<Footer />
 				</Suspense>
-				<UkraineButton/>
+				<UkraineButton />
 			</Box>
 		</AppStateProvider>
 	);

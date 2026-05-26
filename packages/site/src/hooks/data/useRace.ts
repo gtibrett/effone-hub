@@ -1,7 +1,7 @@
-import {Race as RaceT} from '@/gql/graphql';
 import { gql } from '@apollo/client';
+import { useSuspenseQuery } from '@apollo/client/react';
 
-import { useSuspenseQuery } from "@apollo/client/react";
+import { Race as RaceT } from '@/gql/graphql';
 
 const raceQuery = gql`
 	#graphql
@@ -55,9 +55,9 @@ const raceQuery = gql`
 `;
 
 export default function useRace(season: number, round: number) {
-	const {data} = useSuspenseQuery<{
-		races: { nodes: RaceT[] }
-	}>(raceQuery, {variables: {season: season, round: round}});
+	const { data } = useSuspenseQuery<{
+		races: { nodes: RaceT[] };
+	}>(raceQuery, { variables: { season: season, round: round } });
 
 	return data.races.nodes[0];
 }

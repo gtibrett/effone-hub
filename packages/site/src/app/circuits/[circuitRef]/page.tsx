@@ -1,21 +1,24 @@
-import type {Metadata} from 'next';
-import {buildCircuitName, buildCircuitRowIds} from '../../lib/build-pg';
+import type { Metadata } from 'next';
+
+import { buildCircuitName, buildCircuitRowIds } from '../../lib/build-pg';
 import CircuitContent from './CircuitContent';
 
-type Params = Promise<{circuitRef: string}>;
+type Params = Promise<{ circuitRef: string }>;
 
-export async function generateStaticParams(): Promise<{circuitRef: string}[]> {
+export async function generateStaticParams(): Promise<{ circuitRef: string }[]> {
 	const ids = await buildCircuitRowIds();
-	return ids.map(circuitRef => ({circuitRef}));
+	return ids.map(circuitRef => ({ circuitRef }));
 }
 
-export async function generateMetadata({params}: {params: Params}): Promise<Metadata> {
-	const {circuitRef} = await params;
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+	const { circuitRef } = await params;
 	const c = await buildCircuitName(circuitRef);
-	return {title: c?.fullName ? `${c.fullName} | effOne Hub` : `Circuit: ${circuitRef} | effOne Hub`};
+	return {
+		title: c?.fullName ? `${c.fullName} | effOne Hub` : `Circuit: ${circuitRef} | effOne Hub`
+	};
 }
 
-export default async function CircuitPage({params}: {params: Params}) {
-	const {circuitRef} = await params;
-	return <CircuitContent circuitRef={circuitRef}/>;
+export default async function CircuitPage({ params }: { params: Params }) {
+	const { circuitRef } = await params;
+	return <CircuitContent circuitRef={circuitRef} />;
 }

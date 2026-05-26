@@ -1,49 +1,54 @@
-import {ChartSwitcher, ChartSwitcherChart, DataWithTeamInfo, LineChartByTeam, LineChartByTeamProps} from '@/components/app';
-import {useGetTeamColor} from '@/hooks';
-import type {SimpleApolloResult} from '@/app/lib/apollo-types';
+import type { SimpleApolloResult } from '@/app/lib/apollo-types';
+import {
+	ChartSwitcher,
+	ChartSwitcherChart,
+	DataWithTeamInfo,
+	LineChartByTeam,
+	LineChartByTeamProps
+} from '@/components/app';
 import CareerTooltip from '@/components/page/driver/career/CareerTooltip';
-import {CircuitDialogData} from './types';
+import { useGetTeamColor } from '@/hooks';
+
+import { CircuitDialogData } from './types';
 
 type CircuitChartProps = SimpleApolloResult<CircuitDialogData>;
 
-export default function CircuitChart({data}: CircuitChartProps) {
+export default function CircuitChart({ data }: CircuitChartProps) {
 	const getTeamColor = useGetTeamColor();
-	const races        = (data?.circuit.races?.nodes || []).filter(r => r?.results?.length);
+	const races = (data?.circuit.races?.nodes || []).filter(r => r?.results?.length);
 
 	const chartData: DataWithTeamInfo[] = races.map(r => ({
-		teamId:   r.results[0].constructor?.rowId ?? '',
-		color:    getTeamColor(r.results[0].constructor?.colors, 'primaryHex'),
-		year:     Number(r.year),
-		points:   Number(r.results[0].points),
+		teamId: r.results[0].constructor?.rowId ?? '',
+		color: getTeamColor(r.results[0].constructor?.colors, 'primaryHex'),
+		year: Number(r.year),
+		points: Number(r.results[0].points),
 		position: Number(r.results[0].positionDisplayOrder),
-		grid:     Number(r.results[0].gridPositionNumber)
+		grid: Number(r.results[0].gridPositionNumber)
 	}));
 
 	const baseProps: Omit<LineChartByTeamProps, 'yKey'> = {
-		xKey:    'year',
-		data:    chartData,
+		xKey: 'year',
+		data: chartData,
 		tooltip: CareerTooltip
 	};
 
 	const charts: ChartSwitcherChart[] = [
 		{
-			id:    'position',
+			id: 'position',
 			label: 'Position',
-			chart: <LineChartByTeam {...baseProps} yKey="position" invert min={1}/>
+			chart: <LineChartByTeam {...baseProps} yKey="position" invert min={1} />
 		},
 		{
-			id:    'qualifying',
+			id: 'qualifying',
 			label: 'Qualifying',
-			chart: <LineChartByTeam {...baseProps} yKey="grid" invert min={1}/>
+			chart: <LineChartByTeam {...baseProps} yKey="grid" invert min={1} />
 		},
 		{
-			id:    'points',
+			id: 'points',
 			label: 'Points',
-			chart: <LineChartByTeam {...baseProps} yKey="points"/>
+			chart: <LineChartByTeam {...baseProps} yKey="points" />
 		}
 	];
 
-	return (
-		<ChartSwitcher title="Circuit History" charts={charts} size={200}/>
-	);
+	return <ChartSwitcher title="Circuit History" charts={charts} size={200} />;
 }
