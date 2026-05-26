@@ -27,29 +27,27 @@ const query = gql`
 	query DriverCircuitQuery($driverId: String!) {
 		driver(rowId: $driverId) {
 			raceResults {
-				nodes {
+				id
+				race {
 					id
-					race {
+					rowId
+					year
+					round
+					circuit {
 						id
 						rowId
-						year
-						round
-						circuit {
-							id
-							rowId
-							fullName
-							longitude
-							latitude
-						}
+						fullName
+						longitude
+						latitude
 					}
-					gridPositionNumber
-					positionDisplayOrder
-					points
-					positionText
-					teamId
-					timeMillis
-					reasonRetired
 				}
+				gridPositionNumber
+				positionDisplayOrder
+				points
+				positionText
+				teamId
+				timeMillis
+				reasonRetired
 			}
 		}
 	}
@@ -70,7 +68,7 @@ export default function useCircuitData(
 		};
 	}
 
-	data?.driver.raceResults?.nodes?.forEach(({ race, ...result }) => {
+	data?.driver.raceResults?.forEach(({ race, ...result }) => {
 		if (!race?.circuit) {
 			return;
 		}

@@ -5,7 +5,7 @@ import { StatCard, useAppState } from '@/components/app';
 
 type Data = {
 	season: {
-		seasonTeamStandingsByYear: { nodes: Array<{ teamId: string }> };
+		seasonTeamStandingsByYear: Array<{ teamId: string }>;
 	} | null;
 };
 
@@ -13,10 +13,8 @@ const query = gql`
 	query seasonConstructorChampionQuery($season: Int!) {
 		season(year: $season) {
 			seasonTeamStandingsByYear(orderBy: POSITION_NUMBER_ASC, first: 1) {
-				nodes {
-					id
-					teamId
-				}
+				id
+				teamId
 			}
 		}
 	}
@@ -29,7 +27,7 @@ export default function ConstructorChampion({ season }: { season: number }) {
 	const champion = new Map<string, number>();
 	const label = season === currentSeason ? 'Constructor Leader' : 'Constructor Champion';
 
-	const nodes = data?.season?.seasonTeamStandingsByYear?.nodes ?? [];
+	const nodes = data?.season?.seasonTeamStandingsByYear ?? [];
 	if (!nodes.length) {
 		return null;
 	}

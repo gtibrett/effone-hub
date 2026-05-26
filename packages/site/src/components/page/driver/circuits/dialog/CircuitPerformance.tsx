@@ -17,12 +17,14 @@ export default function CircuitPerformance({ data, loading }: CircuitPerformance
 		ref,
 		dimensions: { width }
 	} = useComponentDimensionsWithRef();
-	const rawResults = data?.circuit.races?.nodes?.flatMap(r => r.results);
+	const rawResults = data?.circuit.races?.flatMap(r => r.results);
 	const circuitResults = rawResults?.filter(Boolean).map(r => ({
 		positionOrder: r.positionDisplayOrder ?? undefined,
 		positionText: r.positionText ?? undefined
 	})) as any;
 	const performanceData = usePerformanceData(circuitResults);
+
+	console.log(rawResults, circuitResults, performanceData);
 
 	if (!performanceData || loading) {
 		return null;
@@ -50,7 +52,7 @@ export default function CircuitPerformance({ data, loading }: CircuitPerformance
 	const color = theme.palette.primary.main;
 
 	return (
-		<Paper variant="outlined" ref={ref} className="p-0" style={{ height: width, width }}>
+		<Paper variant="outlined" ref={ref} className="p-0" style={{ aspectRatio: 1, width }}>
 			<ResponsiveRadar
 				theme={nivoTheme}
 				data={chartData}

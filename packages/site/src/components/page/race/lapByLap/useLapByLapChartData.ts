@@ -13,31 +13,27 @@ const lapsQuery = gql`
 	query lapsSeasonRound($season: Int!, $round: Int!) {
 		race: raceByYearAndRound(year: $season, round: $round) {
 			lapTimes(orderBy: LAP_ASC) {
-				nodes {
-					id
-					lap
-					position
-					timeText
-					milliseconds
-					driverId
-				}
+				id
+				lap
+				position
+				timeText
+				milliseconds
+				driverId
 			}
 			raceResults(orderBy: POSITION_DISPLAY_ORDER_ASC) {
-				nodes {
+				id
+				positionDisplayOrder
+				positionNumber
+				driverId
+				driver {
 					id
-					positionDisplayOrder
-					positionNumber
-					driverId
-					driver {
+					lastName
+				}
+				team {
+					id
+					colors {
 						id
-						lastName
-					}
-					team {
-						id
-						colors {
-							id
-							primaryHex
-						}
+						primaryHex
 					}
 				}
 			}
@@ -54,8 +50,8 @@ type RaceResultRow = Pick<RaceResult, 'positionDisplayOrder' | 'positionNumber' 
 
 export type LapTimeData = {
 	race: {
-		lapTimes: { nodes: LapTimeRow[] };
-		raceResults: { nodes: RaceResultRow[] };
+		lapTimes: LapTimeRow[];
+		raceResults: RaceResultRow[];
 	};
 };
 
@@ -75,8 +71,8 @@ export const useLapByLapData = (season: number, round: number): LapByLapData => 
 	const { data, loading } = useQuery<LapTimeData>(lapsQuery, { variables: { season, round } });
 
 	return useMemo<LapByLapData>(() => {
-		const lapTimes = data?.race?.lapTimes?.nodes ?? [];
-		const results = data?.race?.raceResults?.nodes ?? [];
+		const lapTimes = data?.race?.lapTimes ?? [];
+		const results = data?.race?.raceResults ?? [];
 
 		if (!lapTimes.length || !results.length) {
 			return {

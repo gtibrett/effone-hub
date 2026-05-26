@@ -16,23 +16,21 @@ const pitStopsQuery = gql`
 	query pitStopsBySeasonRound($season: Int!, $round: Int!) {
 		race: raceByYearAndRound(year: $season, round: $round) {
 			pitStops {
-				nodes {
+				id
+				lap
+				stop
+				time
+				timeMillis
+				driverId
+				driver {
 					id
-					lap
-					stop
-					time
-					timeMillis
-					driverId
-					driver {
+					abbreviation
+				}
+				team {
+					id
+					colors {
 						id
-						abbreviation
-					}
-					team {
-						id
-						colors {
-							id
-							primaryHex
-						}
+						primaryHex
 					}
 				}
 			}
@@ -91,17 +89,16 @@ const useMapTableData = () => {
 };
 
 export default function PitStops({ season, round }: PitStopsProps) {
-	const { loading, data } = useQuery<{ race: { pitStops: { nodes: PitStop[] } } }>(
-		pitStopsQuery,
-		{ variables: { season, round } }
-	);
+	const { loading, data } = useQuery<{ race: { pitStops: PitStop[] } }>(pitStopsQuery, {
+		variables: { season, round }
+	});
 	const mapTableData = useMapTableData();
 
 	if (loading) {
 		return <Skeleton variant="rectangular" height={400} />;
 	}
 
-	const nodes = data?.race?.pitStops?.nodes ?? [];
+	const nodes = data?.race?.pitStops ?? [];
 	if (!nodes.length) {
 		return (
 			<Alert variant="outlined" severity="info">

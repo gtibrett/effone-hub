@@ -11,16 +11,9 @@ import { SeasonStatProps } from './types';
 export type FastestLapQueryData = {
 	season:
 		| (Pick<Season, 'year'> & {
-				racesByYear: {
-					nodes: (Pick<Race, 'rowId' | 'round' | 'officialName'> & {
-						fastestLaps: {
-							nodes: Pick<
-								FastestLapNode,
-								'driverId' | 'lap' | 'time' | 'timeMillis'
-							>[];
-						};
-					})[];
-				};
+				racesByYear: (Pick<Race, 'rowId' | 'round' | 'officialName'> & {
+					fastestLaps: Pick<FastestLapNode, 'driverId' | 'lap' | 'time' | 'timeMillis'>[];
+				})[];
 		  })
 		| null;
 };
@@ -30,20 +23,16 @@ export const seasonFastestLapQuery = gql`
 		season(year: $season) {
 			year
 			racesByYear {
-				nodes {
+				id
+				rowId
+				round
+				officialName
+				fastestLaps(orderBy: TIME_MILLIS_ASC, first: 1) {
 					id
-					rowId
-					round
-					officialName
-					fastestLaps(orderBy: TIME_MILLIS_ASC, first: 1) {
-						nodes {
-							id
-							driverId
-							lap
-							time
-							timeMillis
-						}
-					}
+					driverId
+					lap
+					time
+					timeMillis
 				}
 			}
 		}
@@ -63,7 +52,7 @@ export default function FastestLap({ season, size = 'small' }: SeasonStatProps) 
 		variables: { season }
 	});
 
-	const races = data?.season?.racesByYear?.nodes ?? [];
+	const races = data?.season?.racesByYear ?? [];
 
 	if (!races.length) {
 		return null;
@@ -72,7 +61,7 @@ export default function FastestLap({ season, size = 'small' }: SeasonStatProps) 
 	let fastestSeasonLap: FastestSeasonLap | null = null;
 
 	races.forEach(({ officialName, round, fastestLaps }) => {
-		const node = fastestLaps?.nodes?.[0];
+		const node = fastestLaps?.[0];
 		if (!node || node.timeMillis == null || node.driverId == null) {
 			return;
 		}

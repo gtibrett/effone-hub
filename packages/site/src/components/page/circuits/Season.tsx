@@ -17,19 +17,19 @@ export default function Season({ data, loading }: CircuitDataProps) {
 		return null;
 	}
 
-	if (data.circuit.season.nodes.length) {
-		if (!data.circuit.season.nodes[0].raceResults.nodes.length) {
+	if (data.circuit.season.length) {
+		if (!data.circuit.season[0].raceResults.length) {
 			return (
 				<>
 					<Typography variant="h5">Countdown</Typography>
-					<NextRaceCountdown variant="main" race={data.circuit.season.nodes[0] as any} />
+					<NextRaceCountdown variant="main" race={data.circuit.season[0] as any} />
 				</>
 			);
 		}
 	}
 
-	const results = data.circuit.season.nodes[0].raceResults.nodes.filter(Boolean) as NonNullable<
-		(typeof data.circuit.season.nodes)[0]['raceResults']['nodes'][number]
+	const results = data.circuit.season[0].raceResults.filter(Boolean) as NonNullable<
+		(typeof data.circuit.season)[0]['raceResults'][number]
 	>[];
 
 	return (

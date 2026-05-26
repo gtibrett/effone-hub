@@ -12,7 +12,7 @@ export default function DriverAppearances({ driverId }: DriverStatProps) {
 	}
 
 	const leaders = new Map<string, number>([
-		[driverId ?? '', (data?.driver?.raceResults?.nodes || []).length]
+		[driverId ?? '', (data?.driver?.raceResults || []).length]
 	]);
 
 	return (

@@ -22,7 +22,7 @@ type ByLinePropsById = BaseByLineProps & {
 type ByLinePropsByDriver = BaseByLineProps & {
 	driver?: Pick<
 		Driver,
-		'id' | 'rowId' | 'firstName' | 'lastName' | 'nationalityCountryId' | 'abbreviation'
+		'id' | 'rowId' | 'firstName' | 'lastName' | 'nationalityCountry' | 'abbreviation'
 	>;
 };
 
@@ -65,7 +65,7 @@ const ByDriver = (props: ByLinePropsByDriver) => {
 		return <DriverSkeleton variant={variant} avatarProps={avatarProps} flagProps={flagProps} />;
 	}
 
-	const { id, rowId, firstName, lastName, nationalityCountryId, abbreviation } = driver;
+	const { rowId, firstName, lastName, nationalityCountry, abbreviation } = driver;
 	const name = `${firstName} ${lastName}`;
 
 	switch (variant) {
@@ -93,10 +93,10 @@ const ByDriver = (props: ByLinePropsByDriver) => {
 							<Link href={`/drivers/${rowId}`}>{name}</Link>
 						</Typography>
 					</Grid>
-					{!noFlag && nationalityCountryId && (
+					{!noFlag && nationalityCountry && (
 						<Grid className="hidden md:block">
 							<Typography>
-								<Flag nationality={nationalityCountryId} {...flagProps} />
+								<Flag nationality={nationalityCountry} {...flagProps} />
 							</Typography>
 						</Grid>
 					)}

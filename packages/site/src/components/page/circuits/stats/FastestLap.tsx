@@ -5,9 +5,9 @@ import { CircuitDataProps } from '@/hooks/data';
 
 export default function FastestLap({ data, loading }: CircuitDataProps) {
 	const fastestLaps: Map<string, Maybe<number>> = new Map<string, Maybe<number>>(
-		(data?.circuit.history?.nodes || [])
-			.filter(r => r.fastestLaps.nodes.length)
-			.map(r => r.fastestLaps.nodes[0])
+		(data?.circuit.history || [])
+			.filter(r => r.fastestLaps.length)
+			.map(r => r.fastestLaps[0])
 			.map(({ milliseconds, driverId }): [string, number] => [
 				driverId ?? '',
 				milliseconds ?? Number.POSITIVE_INFINITY

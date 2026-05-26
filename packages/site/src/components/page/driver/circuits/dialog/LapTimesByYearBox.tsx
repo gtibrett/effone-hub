@@ -15,9 +15,7 @@ type LapTimesChartProps = SimpleApolloResult<CircuitDialogData>;
 
 export default function LapTimesByYearBox({ data }: LapTimesChartProps) {
 	const nivoTheme = useNivoTheme();
-	const colorsByYear = useGetTeamColorsByYear()(
-		data?.driver.seasonEntrantDrivers ?? { nodes: [] }
-	);
+	const colorsByYear = useGetTeamColorsByYear()(data?.driver.seasonEntrantDrivers ?? []);
 	const getColorConfig = ({ group }: any) => colorsByYear[group];
 
 	if (!data) {

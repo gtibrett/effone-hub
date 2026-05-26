@@ -9,7 +9,7 @@ export default function History({ data, loading }: CircuitDataProps) {
 		return <Skeleton variant="rectangular" height={400} />;
 	}
 
-	if (!data?.circuit.history.nodes.length) {
+	if (!data?.circuit.history.length) {
 		return (
 			<Alert variant="outlined" severity="info">
 				Race Data Not Available
@@ -19,7 +19,7 @@ export default function History({ data, loading }: CircuitDataProps) {
 
 	return (
 		<DataGrid
-			rows={data.circuit.history.nodes}
+			rows={data.circuit.history}
 			autoHeight
 			density="compact"
 			getRowId={r => r.date}
@@ -63,18 +63,18 @@ export default function History({ data, loading }: CircuitDataProps) {
 					headerName: 'Winner',
 					flex: 1,
 					valueGetter: (value, row) => {
-						if (!row.raceResults?.nodes?.length) {
+						if (!row.raceResults?.length) {
 							return '--';
 						}
 
-						return `${row.raceResults?.nodes?.[0]?.driver?.lastName}, ${row.raceResults?.nodes?.[0]?.driver?.firstName}`;
+						return `${row.raceResults?.[0]?.driver?.lastName}, ${row.raceResults?.[0]?.driver?.firstName}`;
 					},
 					renderCell: ({ row }) => {
-						if (!row.raceResults?.nodes?.length) {
+						if (!row.raceResults?.length) {
 							return '--';
 						}
 
-						return <DriverByLine id={row.raceResults?.nodes?.[0]?.driverId} />;
+						return <DriverByLine id={row.raceResults?.[0]?.driverId} />;
 					},
 					minWidth: 200
 				},
@@ -85,7 +85,7 @@ export default function History({ data, loading }: CircuitDataProps) {
 					headerAlign: 'left',
 					align: 'left',
 					flex: 0.5,
-					renderCell: ({ row }) => row.raceResults?.nodes?.[0]?.time || '--',
+					renderCell: ({ row }) => row.raceResults?.[0]?.time || '--',
 					minWidth: 110
 				}
 			]}

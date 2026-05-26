@@ -22,8 +22,8 @@ type ConstructorsTableProps = {
 export default function ConstructorsList({ filters }: ConstructorsTableProps) {
 	const {
 		data: { teams }
-	} = useSuspenseQuery<{ teams: { nodes: TeamWithSeasons[] } }>(ConstructorsQuery);
-	const filteredTeams = useConstructorsList(teams.nodes, filters);
+	} = useSuspenseQuery<{ teams: TeamWithSeasons[] }>(ConstructorsQuery);
+	const filteredTeams = useConstructorsList(teams, filters);
 	const getTeamColor = useGetTeamColor();
 
 	return (
@@ -57,8 +57,7 @@ export default function ConstructorsList({ filters }: ConstructorsTableProps) {
 					flex: 0.25,
 					type: 'number',
 					valueGetter: (_, row) =>
-						(row.seasons?.nodes ?? []).map((s: { year: number }) => s.year).distinct()
-							.length
+						(row.seasons ?? []).map((s: { year: number }) => s.year).distinct().length
 				},
 				{
 					field: 'races',
@@ -66,7 +65,7 @@ export default function ConstructorsList({ filters }: ConstructorsTableProps) {
 					flex: 0.25,
 					type: 'number',
 					valueGetter: (_, row) =>
-						row.raceResults?.nodes
+						row.raceResults
 							.filter((r): r is RaceResult => r != null)
 							.map(r => `${r.raceId}-${r.driverId}`)
 							.distinct().length
@@ -84,7 +83,7 @@ export default function ConstructorsList({ filters }: ConstructorsTableProps) {
 					flex: 0.25,
 					type: 'number',
 					valueGetter: (value, row) =>
-						row.raceResults?.nodes
+						row.raceResults
 							.filter((r): r is RaceResult => r != null)
 							.filter(
 								(r: { positionNumber?: number | null }) =>
@@ -97,7 +96,7 @@ export default function ConstructorsList({ filters }: ConstructorsTableProps) {
 					flex: 0.25,
 					type: 'number',
 					valueGetter: (value, row) =>
-						row.raceResults?.nodes
+						row.raceResults
 							.filter((r): r is RaceResult => r != null)
 							.filter(
 								(r: { positionNumber?: number | null }) =>

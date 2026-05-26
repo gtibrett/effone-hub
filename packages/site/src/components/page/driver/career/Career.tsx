@@ -14,7 +14,7 @@ type CareerProps = { driverId: string };
 
 export default function Career({ driverId }: CareerProps) {
 	const { data, loading } = useCareerData(driverId);
-	const careerStandings = data?.driver.standings?.nodes;
+	const careerStandings = data?.driver.standings;
 	const racesByYear: { [key: number]: number } = {};
 	const [active, setActive] = useState<number | undefined>();
 
@@ -30,7 +30,7 @@ export default function Career({ driverId }: CareerProps) {
 		);
 	}
 
-	data?.driver.raceResults?.nodes?.forEach(
+	data?.driver.raceResults?.forEach(
 		r => r.race?.year && (racesByYear[r.race?.year] = (racesByYear[r.race?.year] || 0) + 1)
 	);
 

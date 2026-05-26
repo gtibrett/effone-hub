@@ -15,7 +15,7 @@ export default function useGetTeamColorsByYear() {
 		(
 			seasonEntrantDrivers: CircuitDialogData['driver']['seasonEntrantDrivers']
 		): ColorsByYear => {
-			return (seasonEntrantDrivers?.nodes || [])
+			return (seasonEntrantDrivers || [])
 				.map(({ year, constructor: c }) => ({
 					year: year as number,
 					color: getTeamColor(c?.colors)

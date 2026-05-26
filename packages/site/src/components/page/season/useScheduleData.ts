@@ -16,8 +16,8 @@ type RaceNode = {
 		latitude: number | null;
 		longitude: number | null;
 	} | null;
-	raceResults: { nodes: DriverResult[] };
-	sprintRaceResults: { nodes: DriverResult[] };
+	raceResults: DriverResult[];
+	sprintRaceResults: DriverResult[];
 };
 
 export type RaceData = {
@@ -35,7 +35,7 @@ export type ScheduleData = {
 
 type ScheduleQueryResponse = {
 	season: {
-		racesByYear: { nodes: RaceNode[] };
+		racesByYear: RaceNode[];
 	} | null;
 };
 
@@ -43,27 +43,21 @@ const query = gql`
 	query scheduleQuery($season: Int!) {
 		season(year: $season) {
 			racesByYear(orderBy: ROUND_ASC) {
-				nodes {
+				id
+				rowId
+				round
+				date
+				officialName
+				circuit {
 					id
-					rowId
-					round
-					date
-					officialName
-					circuit {
-						id
-						latitude
-						longitude
-					}
-					raceResults(condition: {positionNumber: 1}, first: 1) {
-						nodes {
-							driverId
-						}
-					}
-					sprintRaceResults(condition: {positionNumber: 1}, first: 1) {
-						nodes {
-							driverId
-						}
-					}
+					latitude
+					longitude
+				}
+				raceResults(condition: {positionNumber: 1}, first: 1) {
+					driverId
+				}
+				sprintRaceResults(condition: {positionNumber: 1}, first: 1) {
+					driverId
 				}
 			}
 		}
@@ -72,7 +66,7 @@ const query = gql`
 
 export default function useScheduleData(season: number) {
 	const result = useSuspenseQuery<ScheduleQueryResponse>(query, { variables: { season } });
-	const nodes = result.data?.season?.racesByYear?.nodes ?? [];
+	const nodes = result.data?.season?.racesByYear ?? [];
 
 	const races: RaceData[] = nodes.map(race => ({
 		date: race.date,
@@ -82,8 +76,8 @@ export default function useScheduleData(season: number) {
 			lat: race.circuit?.latitude ?? null,
 			lng: race.circuit?.longitude ?? null
 		},
-		results: race.raceResults?.nodes ?? [],
-		sprintResults: race.sprintRaceResults?.nodes ?? []
+		results: race.raceResults ?? [],
+		sprintResults: race.sprintRaceResults ?? []
 	}));
 
 	return { ...result, data: { races } };

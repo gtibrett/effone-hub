@@ -24,7 +24,7 @@ export default function Drivers({ data, loading }: DriversProps) {
 	}
 	const years: RowData[] = [];
 
-	(data?.team.drivers.nodes || []).forEach(dy => {
+	(data?.team.drivers || []).forEach(dy => {
 		let index = years.findIndex(y => y.year === dy.year);
 
 		if (index === -1) {
@@ -92,7 +92,7 @@ export default function Drivers({ data, loading }: DriversProps) {
 							row.drivers[0]
 								? findFinalStandings(
 										row.year,
-										row.drivers[0].seasonDriverStandings?.nodes?.filter(
+										row.drivers[0].seasonDriverStandings?.filter(
 											(s): s is SeasonDriverStanding => s != null
 										)
 									)?.positionNumber
@@ -109,7 +109,7 @@ export default function Drivers({ data, loading }: DriversProps) {
 							row.drivers[0]
 								? findFinalStandings(
 										row.year,
-										row.drivers[0].seasonDriverStandings?.nodes?.filter(
+										row.drivers[0].seasonDriverStandings?.filter(
 											(s): s is SeasonDriverStanding => s != null
 										)
 									)?.points
@@ -137,7 +137,7 @@ export default function Drivers({ data, loading }: DriversProps) {
 							row.drivers[1]
 								? findFinalStandings(
 										row.year,
-										row.drivers[1].seasonDriverStandings?.nodes?.filter(
+										row.drivers[1].seasonDriverStandings?.filter(
 											(s): s is SeasonDriverStanding => s != null
 										)
 									)?.positionNumber
@@ -153,7 +153,7 @@ export default function Drivers({ data, loading }: DriversProps) {
 							row.drivers[1]
 								? findFinalStandings(
 										row.year,
-										row.drivers[1].seasonDriverStandings?.nodes?.filter(
+										row.drivers[1].seasonDriverStandings?.filter(
 											(s): s is SeasonDriverStanding => s != null
 										)
 									)?.points

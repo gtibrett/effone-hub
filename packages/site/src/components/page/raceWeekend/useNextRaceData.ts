@@ -3,43 +3,41 @@ import { gql } from '@apollo/client';
 import { useSuspenseQuery } from '@apollo/client/react';
 
 type NextRaceQueryResult = {
-	races: {
-		nodes: Array<{
+	races: Array<{
+		id: string;
+		rowId: number;
+		year: number;
+		round: number;
+		date: string;
+		time: string | null;
+		officialName: string;
+		grandPrixId: string;
+		preQualifyingDate: string | null;
+		preQualifyingTime: string | null;
+		freePractice1Date: string | null;
+		freePractice1Time: string | null;
+		freePractice2Date: string | null;
+		freePractice2Time: string | null;
+		freePractice3Date: string | null;
+		freePractice3Time: string | null;
+		freePractice4Date: string | null;
+		freePractice4Time: string | null;
+		qualifyingDate: string | null;
+		qualifyingTime: string | null;
+		sprintQualifyingDate: string | null;
+		sprintQualifyingTime: string | null;
+		sprintRaceDate: string | null;
+		sprintRaceTime: string | null;
+		circuit: {
 			id: string;
-			rowId: number;
-			year: number;
-			round: number;
-			date: string;
-			time: string | null;
-			officialName: string;
-			grandPrixId: string;
-			preQualifyingDate: string | null;
-			preQualifyingTime: string | null;
-			freePractice1Date: string | null;
-			freePractice1Time: string | null;
-			freePractice2Date: string | null;
-			freePractice2Time: string | null;
-			freePractice3Date: string | null;
-			freePractice3Time: string | null;
-			freePractice4Date: string | null;
-			freePractice4Time: string | null;
-			qualifyingDate: string | null;
-			qualifyingTime: string | null;
-			sprintQualifyingDate: string | null;
-			sprintQualifyingTime: string | null;
-			sprintRaceDate: string | null;
-			sprintRaceTime: string | null;
-			circuit: {
-				id: string;
-				rowId: string;
-				fullName: string;
-				placeName: string | null;
-				countryId: string | null;
-				latitude: number | null;
-				longitude: number | null;
-			} | null;
-		}>;
-	};
+			rowId: string;
+			fullName: string;
+			placeName: string | null;
+			countryId: string | null;
+			latitude: number | null;
+			longitude: number | null;
+		} | null;
+	}>;
 };
 
 // Shape kept compatible with the old Ergast-shaped consumers
@@ -87,40 +85,38 @@ const query = gql`
 			condition: {year: $season},
 			orderBy: ROUND_ASC
 		) {
-			nodes {
+			id
+			rowId
+			year
+			round
+			date
+			time
+			officialName
+			grandPrixId
+			preQualifyingDate
+			preQualifyingTime
+			freePractice1Date
+			freePractice1Time
+			freePractice2Date
+			freePractice2Time
+			freePractice3Date
+			freePractice3Time
+			freePractice4Date
+			freePractice4Time
+			qualifyingDate
+			qualifyingTime
+			sprintQualifyingDate
+			sprintQualifyingTime
+			sprintRaceDate
+			sprintRaceTime
+			circuit {
 				id
 				rowId
-				year
-				round
-				date
-				time
-				officialName
-				grandPrixId
-				preQualifyingDate
-				preQualifyingTime
-				freePractice1Date
-				freePractice1Time
-				freePractice2Date
-				freePractice2Time
-				freePractice3Date
-				freePractice3Time
-				freePractice4Date
-				freePractice4Time
-				qualifyingDate
-				qualifyingTime
-				sprintQualifyingDate
-				sprintQualifyingTime
-				sprintRaceDate
-				sprintRaceTime
-				circuit {
-					id
-					rowId
-					fullName
-					placeName
-					countryId
-					latitude
-					longitude
-				}
+				fullName
+				placeName
+				countryId
+				latitude
+				longitude
 			}
 		}
 	}
@@ -131,7 +127,7 @@ export default function useNextRaceData(season: number) {
 	const result = useSuspenseQuery<NextRaceQueryResult>(query, { variables: { season } });
 
 	const data = useMemo<NextRaceData>(() => {
-		const node = (result.data?.races.nodes ?? []).find(r => r.date && r.date >= today) ?? null;
+		const node = (result.data?.races ?? []).find(r => r.date && r.date >= today) ?? null;
 		if (!node) {
 			return { race: null };
 		}

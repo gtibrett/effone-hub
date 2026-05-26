@@ -25,12 +25,12 @@ type RaceConstructorStandingNode = {
 
 type RaceNode = {
 	round: number;
-	raceTeamStandings: { nodes: RaceConstructorStandingNode[] };
+	raceTeamStandings: RaceConstructorStandingNode[];
 };
 
 type ConstructorStandingsQueryData = {
 	season: {
-		racesByYear: { nodes: RaceNode[] };
+		racesByYear: RaceNode[];
 	} | null;
 };
 
@@ -51,24 +51,20 @@ const query = gql`
 	query constructorStandingsQuery($season: Int!) {
 		season(year: $season) {
 			racesByYear(orderBy: ROUND_ASC) {
-				nodes {
+				id
+				round
+				raceTeamStandings(orderBy: POSITION_NUMBER_ASC) {
 					id
-					round
-					raceTeamStandings(orderBy: POSITION_NUMBER_ASC) {
-						nodes {
+					teamId
+					positionNumber
+					points
+					team {
+						id
+						rowId
+						name
+						colors {
 							id
-							teamId
-							positionNumber
-							points
-							team {
-								id
-								rowId
-								name
-								colors {
-									id
-									primaryHex
-								}
-							}
+							primaryHex
 						}
 					}
 				}
@@ -83,23 +79,21 @@ export default function useConstructorStandingsData(season: number) {
 	});
 	const mapConstructorToEntity = useMapConstructorToEntity();
 
-	const chartData: RaceStandingsWithEntities[] = (data?.season?.racesByYear?.nodes ?? []).map(
-		r => {
-			const standings = r.raceTeamStandings.nodes
-				.filter(cs => cs.team)
-				.map(({ teamId, positionNumber, points, team }) => ({
-					id: teamId,
-					position: Number(positionNumber),
-					points: Number(points),
-					entity: mapConstructorToEntity(team as ConstructorNode)
-				}));
+	const chartData: RaceStandingsWithEntities[] = (data?.season?.racesByYear ?? []).map(r => {
+		const standings = r.raceTeamStandings
+			.filter(cs => cs.team)
+			.map(({ teamId, positionNumber, points, team }) => ({
+				id: teamId,
+				position: Number(positionNumber),
+				points: Number(points),
+				entity: mapConstructorToEntity(team as ConstructorNode)
+			}));
 
-			return {
-				round: r.round,
-				standings
-			};
-		}
-	);
+		return {
+			round: r.round,
+			standings
+		};
+	});
 
 	return { data, chartData };
 }

@@ -24,8 +24,8 @@ export default function Season({ data, loading, season }: SeasonProps) {
 		return <Skeleton variant="rectangular" height={400} />;
 	}
 
-	const races = data.races.nodes;
-	const results = data.team.raceResults.nodes;
+	const races = data.races;
+	const results = data.team.raceResults;
 
 	if (!races?.length) {
 		return (

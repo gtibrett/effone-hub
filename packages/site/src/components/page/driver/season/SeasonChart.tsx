@@ -20,9 +20,9 @@ type SeasonChartProps = SimpleApolloResult<DriverPageData> & {
 export default function SeasonChart({ driverId, season, data, loading }: SeasonChartProps) {
 	const getTeamColor = useGetTeamColor();
 	const driver = useDriver(driverId);
-	const seasonResults = data?.races?.nodes
-		?.filter(r => r.raceResults?.nodes?.length)
-		.map(r => ({ ...r.raceResults?.nodes?.[0], race: r }));
+	const seasonResults = data?.races
+		?.filter(r => r.raceResults?.length)
+		.map(r => ({ ...r.raceResults?.[0], race: r }));
 	const firstResult = seasonResults?.[0];
 
 	if (!firstResult || !driver || loading) {
@@ -31,11 +31,8 @@ export default function SeasonChart({ driverId, season, data, loading }: SeasonC
 
 	const chartData = seasonResults.map(
 		({ race: { round }, gridPositionNumber, positionDisplayOrder }) => ({
-			teamId: driver.seasonEntrantDrivers?.nodes?.[0]?.team?.id ?? '',
-			color: getTeamColor(
-				driver.seasonEntrantDrivers?.nodes?.[0]?.team?.colors,
-				'primaryHex'
-			),
+			teamId: driver.seasonEntrantDrivers?.[0]?.team?.id ?? '',
+			color: getTeamColor(driver.seasonEntrantDrivers?.[0]?.team?.colors, 'primaryHex'),
 			round,
 			grid: gridPositionNumber,
 			position: positionDisplayOrder

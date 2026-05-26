@@ -21,10 +21,8 @@ import { getClient } from './apollo-rsc';
 const CurrentSeasonQuery = gql`
 	query CurrentSeasonQuery {
 		seasons(orderBy: YEAR_DESC, first: 1) {
-			nodes {
-				id
-				year
-			}
+			id
+			year
 		}
 	}
 `;
@@ -32,9 +30,7 @@ const CurrentSeasonQuery = gql`
 const AllCircuitsQuery = gql`
 	query AllCircuitsQuery {
 		circuits {
-			nodes {
-				rowId
-			}
+			rowId
 		}
 	}
 `;
@@ -42,23 +38,21 @@ const AllCircuitsQuery = gql`
 const RaceLookupQuery = gql`
 	query RaceLookupQuery($season: Int!, $round: Int!) {
 		races(condition: {year: $season, round: $round}) {
-			nodes {
+			rowId
+			year
+			round
+			officialName
+			date
+			circuit {
+				id
 				rowId
-				year
-				round
-				officialName
-				date
-				circuit {
-					id
-					rowId
-					fullName
-					placeName
-					countryId
-					latitude
-					longitude
-					description {
-						description
-					}
+				fullName
+				placeName
+				countryId
+				latitude
+				longitude
+				description {
+					description
 				}
 			}
 		}
@@ -68,11 +62,9 @@ const RaceLookupQuery = gql`
 const AllRacesQuery = gql`
 	query AllRacesQuery {
 		races {
-			nodes {
-				rowId
-				year
-				round
-			}
+			rowId
+			year
+			round
 		}
 	}
 `;
@@ -88,15 +80,13 @@ export type TeamRecord = {
 export const ConstructorDataQuery = gql`
 	query ConstructorPageStaticQuery($constructorRef: String!) {
 		teams(condition: {rowId: $constructorRef}) {
-			nodes {
+			id
+			rowId
+			name
+			countryId
+			colors {
 				id
-				rowId
-				name
-				countryId
-				colors {
-					id
-					primaryHex
-				}
+				primaryHex
 			}
 		}
 	}
@@ -111,10 +101,10 @@ export async function getCurrentSeason(): Promise<{ year: number }> {
 	cacheLife('hours');
 	cacheTag('seasons', 'current-season');
 	try {
-		const { data } = await getClient().query<{ seasons: { nodes: { year: number }[] } }>({
+		const { data } = await getClient().query<{ seasons: { year: number }[] }>({
 			query: CurrentSeasonQuery
 		});
-		const [current] = data?.seasons.nodes ?? [];
+		const [current] = data?.seasons ?? [];
 		if (current) return current;
 	} catch {
 		// fall through
@@ -127,10 +117,10 @@ export async function getPastSeasonYears(): Promise<string[]> {
 	cacheLife('max');
 	cacheTag('seasons');
 	try {
-		const { data } = await getClient().query<{ seasons: { nodes: { year: number }[] } }>({
+		const { data } = await getClient().query<{ seasons: { year: number }[] }>({
 			query: PastSeasonsQuery
 		});
-		return data?.seasons.nodes.map(s => s.year.toString()) ?? [];
+		return data?.seasons.map(s => s.year.toString()) ?? [];
 	} catch {
 		return [];
 	}
@@ -161,10 +151,10 @@ export async function getDriverRowIds(): Promise<string[]> {
 	cacheLife('max');
 	cacheTag('drivers');
 	try {
-		const { data } = await getClient().query<{ drivers: { nodes: DriverT[] } }>({
+		const { data } = await getClient().query<{ drivers: DriverT[] }>({
 			query: DriversQuery
 		});
-		return data?.drivers.nodes.map(d => d.rowId!).filter(Boolean) ?? [];
+		return data?.drivers.map(d => d.rowId!).filter(Boolean) ?? [];
 	} catch {
 		return [];
 	}
@@ -194,10 +184,10 @@ export async function getTeamRowIds(): Promise<string[]> {
 	cacheLife('max');
 	cacheTag('teams');
 	try {
-		const { data } = await getClient().query<{ teams: { nodes: { rowId: string }[] } }>({
+		const { data } = await getClient().query<{ teams: { rowId: string }[] }>({
 			query: ConstructorsQuery
 		});
-		return data?.teams.nodes.map(t => t.rowId).filter(Boolean) ?? [];
+		return data?.teams.map(t => t.rowId).filter(Boolean) ?? [];
 	} catch {
 		return [];
 	}
@@ -212,10 +202,10 @@ export async function getCircuitRowIds(): Promise<string[]> {
 	cacheLife('max');
 	cacheTag('circuits');
 	try {
-		const { data } = await getClient().query<{ circuits: { nodes: Circuit[] } }>({
+		const { data } = await getClient().query<{ circuits: Circuit[] }>({
 			query: AllCircuitsQuery
 		});
-		return data?.circuits.nodes.map(c => c.rowId!).filter(Boolean) ?? [];
+		return data?.circuits.map(c => c.rowId!).filter(Boolean) ?? [];
 	} catch {
 		return [];
 	}
@@ -230,11 +220,11 @@ export async function getAllRaces(): Promise<{ season: string; round: string }[]
 	cacheLife('max');
 	cacheTag('races');
 	try {
-		const { data } = await getClient().query<{ races: { nodes: Race[] } }>({
+		const { data } = await getClient().query<{ races: Race[] }>({
 			query: AllRacesQuery
 		});
 		return (
-			data?.races.nodes
+			data?.races
 				.filter(r => r.year != null && r.round != null)
 				.map(r => ({ season: String(r.year), round: String(r.round) })) ?? []
 		);
@@ -248,11 +238,11 @@ export async function getRace(season: number, round: number): Promise<Partial<Ra
 	cacheLife('max');
 	cacheTag('races', `race:${season}:${round}`);
 	try {
-		const { data } = await getClient().query<{ races: { nodes: Race[] } }>({
+		const { data } = await getClient().query<{ races: Race[] }>({
 			query: RaceLookupQuery,
 			variables: { season, round }
 		});
-		return data?.races.nodes[0] ?? {};
+		return data?.races[0] ?? {};
 	} catch {
 		return {};
 	}
@@ -262,42 +252,36 @@ export async function getRace(season: number, round: number): Promise<Partial<Ra
 const RaceFullDataQuery = gql`
 	query raceFullDataServer($season: Int!, $round: Int!) {
 		races(condition: {year: $season, round: $round}) {
-			nodes {
+			id
+			raceResults {
 				id
-				raceResults {
-					nodes {
-						id
-						driver {id rowId}
-						driverId
-						teamId
-						gridPositionNumber
-						positionNumber
-						positionText
-						positionDisplayOrder
-						points
-						laps
-						time
-						timeMillis
-						reasonRetired
-					}
-				}
-				sprintRaceResults {
-					nodes {
-						id
-						driver {id rowId}
-						driverId
-						teamId
-						gridPositionNumber
-						positionNumber
-						positionText
-						positionDisplayOrder
-						points
-						laps
-						time
-						timeMillis
-						reasonRetired
-					}
-				}
+				driver {id rowId}
+				driverId
+				teamId
+				gridPositionNumber
+				positionNumber
+				positionText
+				positionDisplayOrder
+				points
+				laps
+				time
+				timeMillis
+				reasonRetired
+			}
+			sprintRaceResults {
+				id
+				driver {id rowId}
+				driverId
+				teamId
+				gridPositionNumber
+				positionNumber
+				positionText
+				positionDisplayOrder
+				points
+				laps
+				time
+				timeMillis
+				reasonRetired
 			}
 		}
 	}
@@ -309,11 +293,11 @@ export async function getRaceFullData(season: number, round: number): Promise<Ra
 	cacheLife('max');
 	cacheTag('races', `race:${season}:${round}`, `race-data:${season}:${round}`);
 	try {
-		const { data } = await getClient().query<{ races: { nodes: Race[] } }>({
+		const { data } = await getClient().query<{ races: Race[] }>({
 			query: RaceFullDataQuery,
 			variables: { season, round }
 		});
-		return data?.races.nodes[0] ?? null;
+		return data?.races[0] ?? null;
 	} catch {
 		return null;
 	}
@@ -324,11 +308,11 @@ export async function getTeam(rowId: string): Promise<TeamRecord | null> {
 	cacheLife('max');
 	cacheTag('teams', `team:${rowId}`);
 	try {
-		const { data } = await getClient().query<{ teams: { nodes: TeamRecord[] } }>({
+		const { data } = await getClient().query<{ teams: TeamRecord[] }>({
 			query: ConstructorDataQuery,
 			variables: { constructorRef: rowId }
 		});
-		return data?.teams.nodes[0] ?? null;
+		return data?.teams[0] ?? null;
 	} catch {
 		return null;
 	}

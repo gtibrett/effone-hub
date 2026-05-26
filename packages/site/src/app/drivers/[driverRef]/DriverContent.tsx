@@ -22,19 +22,17 @@ export type DriverPageProp = {
 	lastName?: string | null;
 	abbreviation?: string | null;
 	permanentNumber?: string | null;
-	nationalityCountryId?: string | null;
+	nationalityCountry?: any;
 	bio?: {
 		thumbnailUrl?: string | null;
 		extract?: string | null;
 	} | null;
-	seasonEntrantDrivers?: {
-		nodes: Array<{
-			year: number;
-			team?: {
-				colors?: { primaryHex?: string | null } | null;
-			} | null;
-		}>;
-	} | null;
+	seasonEntrantDrivers?: Array<{
+		year: number;
+		team?: {
+			colors?: { primaryHex?: string | null } | null;
+		} | null;
+	}> | null;
 };
 
 const DriverDetails = ({ driver }: { driver: DriverPageProp }) => (
@@ -45,9 +43,9 @@ const DriverDetails = ({ driver }: { driver: DriverPageProp }) => (
 			</Typography>
 		</Grid>
 		<Box className="hidden md:contents">
-			{driver.nationalityCountryId && (
+			{driver.nationalityCountry && (
 				<Grid>
-					<Flag nationality={driver.nationalityCountryId} size={48} />
+					<Flag nationality={driver.nationalityCountry} size={48} />
 				</Grid>
 			)}
 			<Grid size="grow" />
@@ -70,7 +68,7 @@ export default function DriverContent({ driver }: { driver: DriverPageProp | nul
 		return null;
 	}
 
-	const latestSeasonNode = driver.seasonEntrantDrivers?.nodes?.[0];
+	const latestSeasonNode = driver.seasonEntrantDrivers?.[0];
 	const primaryColor = latestSeasonNode?.team?.colors?.primaryHex;
 	const isCurrentSeason = latestSeasonNode?.year === currentSeason;
 

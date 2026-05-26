@@ -1,9 +1,7 @@
 query PastSeasonsQuery {
 	seasons(orderBy: YEAR_DESC) {
-		nodes {
-			id
-			year
-		}
+		id
+		year
 	}
 }
 

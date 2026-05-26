@@ -35,7 +35,9 @@ const preset: GraphileConfig.Preset = {
 		watch:              process.env.NODE_ENV !== 'production'
 	},
 	schema: {
-		exportSchemaSDLPath: process.env.NODE_ENV === 'production' ? undefined : './src/schema.graphql'
+		exportSchemaSDLPath: process.env.NODE_ENV === 'production' ? undefined : './src/schema.graphql',
+		defaultBehavior: '-connection +list',
+		pgOmitListSuffix: true
 	}
 };
 

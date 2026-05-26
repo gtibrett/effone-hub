@@ -6,13 +6,9 @@ import { ApolloError } from '@apollo/client/v4-migration';
 export const SeasonsListQuery = gql`
 	query SeasonsListQuery {
 		seasons(orderBy: YEAR_DESC) {
-			nodes {
-				id
-				year
-				seasonDriverStandingsByYear(first: 1) {
-					totalCount
-				}
-			}
+			id
+			year
+			hasResults
 		}
 	}
 `;
@@ -25,7 +21,7 @@ type SeasonRow = {
 
 type SeasonNode = {
 	year: number;
-	seasonDriverStandingsByYear: { totalCount: number };
+	hasResults: boolean | null;
 };
 
 type useSeasonReturnType = {
@@ -35,16 +31,14 @@ type useSeasonReturnType = {
 };
 
 export default function useSeasons(): useSeasonReturnType {
-	const { data, loading, error } = useQuery<{ seasons: { nodes: SeasonNode[] } }>(
-		SeasonsListQuery
-	);
+	const { data, loading, error } = useQuery<{ seasons: SeasonNode[] }>(SeasonsListQuery);
 
 	return useMemo<useSeasonReturnType>(() => {
 		const currentYear = new Date().getFullYear();
-		const seasons: SeasonRow[] = data?.seasons.nodes.map(s => ({
+		const seasons: SeasonRow[] = data?.seasons.map(s => ({
 			year: s.year,
 			ended: s.year < currentYear,
-			hasResults: (s.seasonDriverStandingsByYear?.totalCount ?? 0) > 0
+			hasResults: !!s.hasResults
 		})) ?? [{ year: currentYear, ended: false, hasResults: false }];
 		return { seasons, loading, error };
 	}, [data, loading, error]);

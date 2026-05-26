@@ -12,11 +12,9 @@ type ResultNode = {
 type Data = {
 	season: {
 		racesByYear: {
-			nodes: {
-				raceResults: { nodes: ResultNode[] };
-				sprintRaceResults: { nodes: ResultNode[] };
-			}[];
-		};
+			raceResults: ResultNode[];
+			sprintRaceResults: ResultNode[];
+		}[];
 	} | null;
 };
 
@@ -24,22 +22,16 @@ const query = gql`
 	query ConstructorDriverPointsQuery($season: Int!, $constructorId: String!) {
 		season(year: $season) {
 			racesByYear {
-				nodes {
+				id
+				raceResults(condition: {teamId: $constructorId}) {
 					id
-					raceResults(condition: {teamId: $constructorId}) {
-						nodes {
-							id
-							driverId
-							points
-						}
-					}
-					sprintRaceResults(condition: {teamId: $constructorId}) {
-						nodes {
-							id
-							driverId
-							points
-						}
-					}
+					driverId
+					points
+				}
+				sprintRaceResults(condition: {teamId: $constructorId}) {
+					id
+					driverId
+					points
 				}
 			}
 		}
@@ -56,8 +48,8 @@ export default function DriverPoints({ constructorId, season, place }: DriverPoi
 	const { data, loading } = useQuery<Data>(query, { variables: { constructorId, season } });
 	const leaders = new Map<string, number>();
 
-	(data?.season?.racesByYear?.nodes || []).forEach(r => {
-		[...r.raceResults.nodes, ...r.sprintRaceResults.nodes].forEach(rs => {
+	(data?.season?.racesByYear || []).forEach(r => {
+		[...r.raceResults, ...r.sprintRaceResults].forEach(rs => {
 			if (rs.driverId) {
 				leaders.set(
 					rs.driverId,

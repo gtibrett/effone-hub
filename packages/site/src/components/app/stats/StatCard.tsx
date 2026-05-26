@@ -74,10 +74,7 @@ const DriverVariant = <T extends DataWithValue>({
 			avatar={<DriverAvatar driverId={driverId} size={64} />}
 			title={<DriverByLine id={driverId} variant={size === 'small' ? 'code-link' : 'link'} />}
 			label={label}
-			color={getTeamColor(
-				driver?.seasonEntrantDrivers?.nodes?.[0]?.team?.colors,
-				'primaryHex'
-			)}
+			color={getTeamColor(driver?.seasonEntrantDrivers?.[0]?.team?.colors, 'primaryHex')}
 			data={value}
 			format={format}
 			extra={extra}

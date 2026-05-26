@@ -18,7 +18,7 @@ export default function Season({ season, driverId }: SeasonProps) {
 		return <Skeleton variant="rectangular" height={400} />;
 	}
 
-	if (!data.races.nodes.length) {
+	if (!data.races.length) {
 		return (
 			<Alert variant="outlined" severity="info">
 				Season Data Not Available
@@ -33,7 +33,7 @@ export default function Season({ season, driverId }: SeasonProps) {
 			</Grid>
 			<Grid size={12}>
 				<DataGrid
-					rows={data.races.nodes}
+					rows={data.races}
 					autoHeight
 					density="compact"
 					getRowId={row => row.rowId || ''}
@@ -71,7 +71,7 @@ export default function Season({ season, driverId }: SeasonProps) {
 							headerAlign: 'center',
 							align: 'center',
 							valueGetter: (value, row) =>
-								row.raceResults?.nodes?.[0]?.gridPositionNumber || '--'
+								row.raceResults?.[0]?.gridPositionNumber || '--'
 						},
 						{
 							field: 'result',
@@ -80,7 +80,7 @@ export default function Season({ season, driverId }: SeasonProps) {
 							headerAlign: 'center',
 							align: 'center',
 							valueGetter: (value, row) =>
-								row.raceResults?.nodes?.[0]?.positionDisplayOrder || '--'
+								row.raceResults?.[0]?.positionDisplayOrder || '--'
 						},
 						{
 							field: 'change',
@@ -88,7 +88,7 @@ export default function Season({ season, driverId }: SeasonProps) {
 								<Typography className="sr-only">Position Changes</Typography>
 							),
 							renderCell: ({ row }) => {
-								const result = row.raceResults?.nodes?.[0];
+								const result = row.raceResults?.[0];
 								if (result) {
 									const { gridPositionNumber, positionDisplayOrder } = result;
 									return (
@@ -101,7 +101,7 @@ export default function Season({ season, driverId }: SeasonProps) {
 								return '--';
 							},
 							valueGetter: (value, row) => {
-								const result = row.raceResults?.nodes?.[0];
+								const result = row.raceResults?.[0];
 								if (result) {
 									const { gridPositionNumber, positionDisplayOrder } = result;
 									if (gridPositionNumber && positionDisplayOrder) {
@@ -121,7 +121,7 @@ export default function Season({ season, driverId }: SeasonProps) {
 							type: 'number',
 							headerAlign: 'center',
 							align: 'center',
-							valueGetter: (value, row) => row.raceResults?.nodes?.[0]?.points || '--'
+							valueGetter: (value, row) => row.raceResults?.[0]?.points || '--'
 						},
 						{
 							field: 'time',
@@ -131,7 +131,7 @@ export default function Season({ season, driverId }: SeasonProps) {
 							align: 'left',
 							flex: 0.5,
 							valueGetter: (value, row) => {
-								const result = row.raceResults?.nodes?.[0];
+								const result = row.raceResults?.[0];
 								if (result) {
 									const time = result.timeMillis;
 									return time

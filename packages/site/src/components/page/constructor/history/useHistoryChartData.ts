@@ -28,9 +28,9 @@ export default function useHistoryChartData(
 	const standingsByTeam = new Map<string, StandingsAndTeamInfo>();
 
 	const { name, id, colors } = data.team;
-	standingsByTeam.set(id, { name, id, colors, standings: data.team.standings.nodes || [] });
+	standingsByTeam.set(id, { name, id, colors, standings: data.team.standings || [] });
 
-	data?.team.antecedents.nodes.forEach(({ antecedentTeam, startYear, endYear }) => {
+	data?.team.antecedents.forEach(({ antecedentTeam, startYear, endYear }) => {
 		const { id, name, colors, standings = [] } = antecedentTeam;
 		const filteredStandings = standings.filter(
 			s => s.year && s.year >= (startYear ?? 0) && (!endYear || s.year <= endYear)

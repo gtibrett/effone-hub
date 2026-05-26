@@ -7,48 +7,42 @@ const raceQuery = gql`
 	#graphql
 	query raceBySeasonRound($season: Int!, $round: Int!) {
 		races(condition: { year: $season, round: $round }) {
-			nodes {
+			id
+			raceResults {
 				id
-				raceResults {
-					nodes {
-						id
-						driver {
-							id
-							rowId
-						}
-						driverId
-						teamId
-						gridPositionNumber
-						positionNumber
-						positionText
-						positionDisplayOrder
-						points
-						laps
-						time
-						timeMillis
-						reasonRetired
-					}
+				driver {
+					id
+					rowId
 				}
-				sprintRaceResults {
-					nodes {
-						id
-						driver {
-							id
-							rowId
-						}
-						driverId
-						teamId
-						gridPositionNumber
-						positionNumber
-						positionText
-						positionDisplayOrder
-						points
-						laps
-						time
-						timeMillis
-						reasonRetired
-					}
+				driverId
+				teamId
+				gridPositionNumber
+				positionNumber
+				positionText
+				positionDisplayOrder
+				points
+				laps
+				time
+				timeMillis
+				reasonRetired
+			}
+			sprintRaceResults {
+				id
+				driver {
+					id
+					rowId
 				}
+				driverId
+				teamId
+				gridPositionNumber
+				positionNumber
+				positionText
+				positionDisplayOrder
+				points
+				laps
+				time
+				timeMillis
+				reasonRetired
 			}
 		}
 	}
@@ -56,8 +50,8 @@ const raceQuery = gql`
 
 export default function useRace(season: number, round: number) {
 	const { data } = useSuspenseQuery<{
-		races: { nodes: RaceT[] };
+		races: RaceT[];
 	}>(raceQuery, { variables: { season: season, round: round } });
 
-	return data.races.nodes[0];
+	return data.races[0];
 }

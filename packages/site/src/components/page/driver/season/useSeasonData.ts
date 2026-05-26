@@ -6,24 +6,20 @@ import { DriverPageData } from '../types';
 const query = gql`
 	query DriverSeasonQuery($driverId: String!, $season: Int!) {
 		races(condition: {year: $season}, orderBy: ROUND_ASC) {
-			nodes {
-				id
-				rowId
-				round
-				officialName
-				date
-				time
-				raceResults(condition: {driverId: $driverId}) {
-					nodes {
-						gridPositionNumber
-						positionDisplayOrder
-						points
-						positionText
-						teamId
-						timeMillis
-						reasonRetired
-					}
-				}
+			id
+			rowId
+			round
+			officialName
+			date
+			time
+			raceResults(condition: {driverId: $driverId}) {
+				gridPositionNumber
+				positionDisplayOrder
+				points
+				positionText
+				teamId
+				timeMillis
+				reasonRetired
 			}
 		}
 	}

@@ -21,8 +21,8 @@ export default function ConstructorStandingsDialog({
 }: ConstructorStandingsDialogProps) {
 	const { data } = useConstructorStandingsData(season);
 	const lastRaceStandings =
-		data?.season?.racesByYear?.nodes?.filter(r => r.raceTeamStandings.nodes.length)?.at(-1)
-			?.raceTeamStandings?.nodes || [];
+		data?.season?.racesByYear?.filter(r => r.raceTeamStandings.length)?.at(-1)
+			?.raceTeamStandings || [];
 	const onClose = () => setOpen(false);
 
 	if (!lastRaceStandings?.length) {

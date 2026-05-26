@@ -14,52 +14,44 @@ const CircuitDataQuery = gql`
 			longitude
 			latitude
 			races {
-				nodes {
+				id
+				rowId
+				year
+				date
+				raceResults(condition: {driverId: $driverId}) {
 					id
-					rowId
-					year
-					date
-					raceResults(condition: {driverId: $driverId}) {
-						nodes {
+					gridPositionNumber
+					positionDisplayOrder
+					positionText
+					points
+					timeMillis
+					reasonRetired
+					team {
+						id
+						rowId
+						colors {
 							id
-							gridPositionNumber
-							positionDisplayOrder
-							positionText
-							points
-							timeMillis
-							reasonRetired
-							team {
-								id
-								rowId
-								colors {
-									id
-									primaryHex
-								}
-							}
+							primaryHex
 						}
 					}
-					lapTimes(condition: {driverId: $driverId}) {
-						nodes {
-							id
-							lap
-							milliseconds
-						}
-					}
+				}
+				lapTimes(condition: {driverId: $driverId}) {
+					id
+					lap
+					milliseconds
 				}
 			}
 		}
 		driver(rowId: $driverId) {
 			id
 			seasonEntrantDrivers {
-				nodes {
+				id
+				year
+				team {
 					id
-					year
-					team {
+					colors {
 						id
-						colors {
-							id
-							primaryHex
-						}
+						primaryHex
 					}
 				}
 			}
@@ -68,5 +60,8 @@ const CircuitDataQuery = gql`
 `;
 
 export default function useCircuitDialogData(circuitId?: string, driverId?: DriverId) {
-	return useQuery<CircuitDialogData>(CircuitDataQuery, { variables: { circuitId, driverId } });
+	return useQuery<CircuitDialogData>(CircuitDataQuery, {
+		variables: { circuitId, driverId },
+		skip: !circuitId || !driverId
+	});
 }

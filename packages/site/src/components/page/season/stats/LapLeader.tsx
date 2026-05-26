@@ -9,13 +9,9 @@ import { SeasonStatProps } from './index';
 type Data = {
 	season:
 		| (Pick<Season, 'year'> & {
-				racesByYear: {
-					nodes: (Pick<Race, 'rowId' | 'round'> & {
-						lapTimes: {
-							nodes: Pick<AppLapTime, 'driverId' | 'position'>[];
-						};
-					})[];
-				};
+				racesByYear: (Pick<Race, 'rowId' | 'round'> & {
+					lapTimes: Pick<AppLapTime, 'driverId' | 'position'>[];
+				})[];
 		  })
 		| null;
 };
@@ -24,17 +20,13 @@ const query = gql`
 	query SeasonLapLeaderQuery($season: Int!) {
 		season(year: $season) {
 			racesByYear {
-				nodes {
+				id
+				rowId
+				round
+				lapTimes {
 					id
-					rowId
-					round
-					lapTimes {
-						nodes {
-							id
-							driverId
-							position
-						}
-					}
+					driverId
+					position
 				}
 			}
 		}
@@ -45,8 +37,8 @@ export default function LapLeader({ season, size }: SeasonStatProps) {
 	const { data, loading } = useQuery<Data>(query, { variables: { season } });
 	const leaders = new Map<string, number>();
 
-	(data?.season?.racesByYear?.nodes || []).forEach(r => {
-		(r.lapTimes?.nodes || []).forEach((lt: Pick<AppLapTime, 'driverId' | 'position'>) => {
+	(data?.season?.racesByYear || []).forEach(r => {
+		(r.lapTimes || []).forEach((lt: Pick<AppLapTime, 'driverId' | 'position'>) => {
 			if (lt.driverId && lt.position === 1) {
 				leaders.set(lt.driverId, (leaders.get(lt.driverId) || 0) + 1);
 			}

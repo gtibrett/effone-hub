@@ -32,8 +32,8 @@ export default function DriverStandingsDialog({
 }: DriverStandingsDialogProps) {
 	const { ref, dimensions } = useComponentDimensionsWithRef();
 	const { data } = useDriverStandingsData(season);
-	const races = data?.season?.racesByYear?.nodes?.filter(r => r.raceDriverStandings.nodes.length);
-	const standings = races?.at(-1)?.raceDriverStandings?.nodes;
+	const races = data?.season?.racesByYear?.filter(r => r.raceDriverStandings.length);
+	const standings = races?.at(-1)?.raceDriverStandings;
 	const onClose = () => setOpen(false);
 
 	if (!standings?.length) {

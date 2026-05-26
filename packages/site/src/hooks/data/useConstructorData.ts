@@ -15,89 +15,75 @@ const ConstructorDataQuery = gql`
 			}
 
 			drivers: seasonEntrantDrivers(orderBy: YEAR_ASC) {
-				nodes {
+				id
+				year
+				driver {
 					id
-					year
-					driver {
+					firstName
+					lastName
+					driverStandings: seasonDriverStandings(orderBy: YEAR_ASC) {
 						id
-						firstName
-						lastName
-						driverStandings: seasonDriverStandings(orderBy: YEAR_ASC) {
-							nodes {
-								id
-								year
-								points
-								positionNumber
-							}
-						}
+						year
+						points
+						positionNumber
 					}
 				}
 			}
 
 			standings: seasonTeamStandings(orderBy: YEAR_ASC) {
-				nodes {
-					id
-					points
-					positionNumber
-					positionText
-					year
-				}
+				id
+				points
+				positionNumber
+				positionText
+				year
 			}
 
 			antecedents {
-				nodes {
+				id
+				antecedentTeamId
+				startYear
+				endYear
+				antecedentTeam {
 					id
-					antecedentTeamId
-					startYear
-					endYear
-					antecedentTeam {
+					name
+					colors {
 						id
-						name
-						colors {
-							id
-							primaryHex
-						}
-						standings: seasonTeamStandings(orderBy: YEAR_ASC) {
-							nodes {
-								id
-								points
-								positionNumber
-								positionText
-								year
-							}
-						}
+						primaryHex
+					}
+					standings: seasonTeamStandings(orderBy: YEAR_ASC) {
+						id
+						points
+						positionNumber
+						positionText
+						year
 					}
 				}
 			}
 
 			raceResults {
-				nodes {
+				id
+				raceId
+				race {
 					id
-					raceId
-					race {
-						id
-						round
-					}
-					driverId
-					driver {
-						id
-						abbreviation
-					}
-					gridPositionNumber
-					positionDisplayOrder
-					points
+					round
 				}
+				driverId
+				driver {
+					id
+					abbreviation
+				}
+				gridPositionNumber
+				positionDisplayOrder
+				points
 			}
 		}
 
 		races(condition: { year: $season }, orderBy: ROUND_ASC) {
-			nodes {
-				id
-				rowId
-				round
-				officialName
-				date
-			}
+			id
+			rowId
+			round
+			officialName
+			date
 		}
 	}
 `;

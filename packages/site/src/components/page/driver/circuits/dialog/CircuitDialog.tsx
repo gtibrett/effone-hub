@@ -4,6 +4,7 @@ import { Dialog } from '@gtibrett/mui-additions';
 import { Card, Grid, Typography } from '@mui/material';
 
 import { DriverByLine, RaceMap, useMapCircuitsToMapPoints } from '@/components/app';
+import ErrorBoundary from '@/components/app/ErrorBoundary';
 import { Tabs } from '@/components/ui';
 import { DriverId } from '@/types';
 
@@ -55,16 +56,20 @@ export default function CircuitDialog({ driverId, circuitId, onClose }: CircuitP
 								id: 'results',
 								label: 'Results',
 								content: (
-									<>
+									<ErrorBoundary>
 										<CircuitChart data={data} loading={loading} />
 										<CircuitTable data={data} loading={loading} />
-									</>
+									</ErrorBoundary>
 								)
 							},
 							{
 								id: 'laptimes',
 								label: 'Lap Times',
-								content: <LapTimesByYearBox data={data} loading={loading} />
+								content: (
+									<ErrorBoundary>
+										<LapTimesByYearBox data={data} loading={loading} />
+									</ErrorBoundary>
+								)
 							}
 						]}
 					/>
@@ -73,20 +78,24 @@ export default function CircuitDialog({ driverId, circuitId, onClose }: CircuitP
 					<Grid container spacing={1}>
 						<Grid size={12}>
 							<Card className="mb-4">
-								<RaceMap
-									points={points}
-									onClick={onClick}
-									height={200}
-									centerOn={{
-										latitude: circuit.latitude,
-										longitude: circuit.longitude
-									}}
-									zoom
-								/>
+								<ErrorBoundary>
+									<RaceMap
+										points={points}
+										onClick={onClick}
+										height={200}
+										centerOn={{
+											latitude: circuit.latitude,
+											longitude: circuit.longitude
+										}}
+										zoom
+									/>
+								</ErrorBoundary>
 							</Card>
 						</Grid>
 						<Grid size={12}>
-							<CircuitPerformance data={data} loading={loading} />
+							<ErrorBoundary>
+								<CircuitPerformance data={data} loading={loading} />
+							</ErrorBoundary>
 						</Grid>
 					</Grid>
 				</Grid>

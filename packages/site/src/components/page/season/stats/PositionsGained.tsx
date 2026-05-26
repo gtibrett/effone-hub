@@ -14,17 +14,13 @@ const query = gql`
 	query SeasonPositionsGainedQuery($season: Int!) {
 		season(year: $season) {
 			racesByYear {
-				nodes {
+				id
+				rowId
+				raceResults {
 					id
-					rowId
-					raceResults {
-						nodes {
-							id
-							driverId
-							gridPositionNumber
-							positionNumber
-						}
-					}
+					driverId
+					gridPositionNumber
+					positionNumber
 				}
 			}
 		}
@@ -35,8 +31,8 @@ export default function PositionsGained({ season, size }: SeasonStatProps) {
 	const { data, loading } = useQuery<Data>(query, { variables: { season } });
 	const leaders = new Map<string, number>();
 
-	(data?.season?.racesByYear?.nodes || []).forEach(r => {
-		(r?.raceResults?.nodes || []).forEach(rs => {
+	(data?.season?.racesByYear || []).forEach(r => {
+		(r?.raceResults || []).forEach(rs => {
 			const { driverId, gridPositionNumber, positionNumber } = rs as {
 				driverId?: string;
 				gridPositionNumber?: number | null;

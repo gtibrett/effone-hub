@@ -19,71 +19,59 @@ const CircuitQuery = gql`
 			}
 
 			history: races(orderBy: YEAR_DESC) {
-				nodes {
+				id
+				year
+				round
+				date
+				officialName
+				raceResults(condition: {positionNumber: 1}) {
 					id
-					year
-					round
-					date
-					officialName
-					raceResults(condition: {positionNumber: 1}) {
-						nodes {
-							id
-							teamId
-							driverId
-							driver {
-								id
-								firstName
-								lastName
-							}
-							time
-						}
+					teamId
+					driverId
+					driver {
+						id
+						firstName
+						lastName
 					}
-					lapTimes(condition: {lap: 1}) {
-						nodes {
-							id
-							driverId
-						}
-					}
-					fastestLaps: lapTimes(first: 1) {
-						nodes {
-							id
-							driverId
-							milliseconds
-						}
-					}
+					time
+				}
+				lapTimes(condition: {lap: 1}) {
+					id
+					driverId
+				}
+				fastestLaps: lapTimes(first: 1) {
+					id
+					driverId
+					milliseconds
 				}
 			}
 
 			season: races(condition: {year: $season}) @include(if: $showCurrentSeason) {
-				nodes {
+				id
+				year
+				round
+				officialName
+				freePractice1Date
+				freePractice1Time
+				freePractice2Date
+				freePractice2Time
+				freePractice3Date
+				freePractice3Time
+				qualifyingDate
+				qualifyingTime
+				date
+				time
+				raceResults {
 					id
-					year
-					round
-					officialName
-					freePractice1Date
-					freePractice1Time
-					freePractice2Date
-					freePractice2Time
-					freePractice3Date
-					freePractice3Time
-					qualifyingDate
-					qualifyingTime
-					date
-					time
-					raceResults {
-						nodes {
-							id
-							driverId
-							team {
-								id
-								rowId
-							}
-							gridPositionNumber
-							positionDisplayOrder
-							points
-							reasonRetired
-						}
+					driverId
+					team {
+						id
+						rowId
 					}
+					gridPositionNumber
+					positionDisplayOrder
+					points
+					reasonRetired
 				}
 			}
 		}
@@ -93,15 +81,13 @@ const CircuitQuery = gql`
 export type CircuitHistoryData = Pick<Race, 'year' | 'round' | 'date'> & {
 	officialName: string;
 	raceResults: {
-		nodes: {
-			teamId: string;
-			driverId: string;
-			driver: { firstName: string; lastName: string };
-			time: string | null;
-		}[];
-	};
-	lapTimes: { nodes: { driverId: string }[] };
-	fastestLaps: { nodes: { driverId: string; milliseconds: number | null }[] };
+		teamId: string;
+		driverId: string;
+		driver: { firstName: string; lastName: string };
+		time: string | null;
+	}[];
+	lapTimes: { driverId: string }[];
+	fastestLaps: { driverId: string; milliseconds: number | null }[];
 };
 
 type CircuitPageData = {
@@ -109,8 +95,8 @@ type CircuitPageData = {
 		CircuitT,
 		'rowId' | 'fullName' | 'placeName' | 'countryId' | 'latitude' | 'longitude' | 'description'
 	> & {
-		history: { nodes: CircuitHistoryData[] };
-		season: { nodes: Race[] };
+		history: CircuitHistoryData[];
+		season: Race[];
 	};
 };
 

@@ -16,20 +16,20 @@ type DriversTableProps = {
 export default function DriversList({ filters }: DriversTableProps) {
 	const {
 		data: { drivers }
-	} = useSuspenseQuery<{ drivers: { nodes: Driver[] } }>(DriversQuery);
-	const filteredDrivers = useDriversList(drivers.nodes, filters);
+	} = useSuspenseQuery<{ drivers: Driver[] }>(DriversQuery);
+	const filteredDrivers = useDriversList(drivers, filters);
 
 	return (
 		<DataGrid
 			rows={filteredDrivers}
 			autoHeight
 			density="compact"
-			getRowId={r => r.id}
+			getRowId={r => r.rowId}
 			columns={[
 				{
 					field: 'avatar',
 					renderHeader: () => <Typography className="sr-only">Photo</Typography>,
-					renderCell: ({ row }) => <DriverAvatar driverId={row.id} />,
+					renderCell: ({ row }) => <DriverAvatar driverId={row.rowId} />,
 					width: 50,
 					align: 'center',
 					sortable: false
@@ -45,12 +45,12 @@ export default function DriversList({ filters }: DriversTableProps) {
 					field: 'nationalityCountryId',
 					headerName: 'Nationality',
 					flex: 1,
-					renderCell: ({ value }) => (
+					renderCell: ({ value, row }) => (
 						<Grid container spacing={1}>
 							<Grid>
-								<Flag nationality={value} />
+								<Flag nationality={row.nationalityCountry} />
 							</Grid>
-							<Grid>{value}</Grid>
+							<Grid>{row.nationalityCountry?.name}</Grid>
 						</Grid>
 					)
 				},
@@ -59,14 +59,14 @@ export default function DriversList({ filters }: DriversTableProps) {
 					headerName: 'Seasons',
 					flex: 0.25,
 					type: 'number',
-					valueGetter: (value, row) => row.seasonEntrantDrivers?.nodes?.length ?? 0
+					valueGetter: (value, row) => row.seasonEntrantDrivers?.length ?? 0
 				},
 				{
 					field: 'races',
 					headerName: 'Races',
 					flex: 0.25,
 					type: 'number',
-					valueGetter: (value, row) => row.raceResults?.nodes?.length ?? 0
+					valueGetter: (value, row) => row.raceResults?.length ?? 0
 				},
 				// {
 				// 	field:       'championships',
@@ -81,9 +81,8 @@ export default function DriversList({ filters }: DriversTableProps) {
 					flex: 0.25,
 					type: 'number',
 					valueGetter: (value, row) =>
-						(row.raceResults?.nodes ?? []).filter(
-							(r: any) => Number(r.positionOrder) === 1
-						).length
+						(row.raceResults ?? []).filter((r: any) => Number(r.positionOrder) === 1)
+							.length
 				},
 				{
 					field: 'podiums',
@@ -91,9 +90,8 @@ export default function DriversList({ filters }: DriversTableProps) {
 					flex: 0.25,
 					type: 'number',
 					valueGetter: (value, row) =>
-						(row.raceResults?.nodes ?? []).filter(
-							(r: any) => Number(r.positionOrder) <= 3
-						).length
+						(row.raceResults ?? []).filter((r: any) => Number(r.positionOrder) <= 3)
+							.length
 				}
 			]}
 			initialState={{

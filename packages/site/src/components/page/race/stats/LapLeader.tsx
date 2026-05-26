@@ -14,11 +14,9 @@ const query = gql`
 	query raceLapLeaderQuery($season: Int!, $round: Int!) {
 		race: raceByYearAndRound(year: $season, round: $round) {
 			lapTimes {
-				nodes {
-					id
-					driverId
-					position
-				}
+				id
+				driverId
+				position
 			}
 		}
 	}
@@ -28,7 +26,7 @@ export default function LapLeader({ season, round, size }: RaceStatProps) {
 	const { data, loading } = useQuery<Data>(query, { variables: { season, round } });
 	const leaders = new Map<string, number>();
 
-	((data?.race?.lapTimes?.nodes || []) as Array<AppLapTime | null>)
+	((data?.race?.lapTimes || []) as Array<AppLapTime | null>)
 		.filter((lt): lt is AppLapTime => lt != null)
 		.forEach((lt: AppLapTime) => {
 			if (lt.driverId && lt.position === 1) {

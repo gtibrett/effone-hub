@@ -10,11 +10,11 @@ import { CircuitDialogData } from './types';
 type CircuitTableProps = SimpleApolloResult<CircuitDialogData>;
 
 export default function CircuitTable({ data, loading }: CircuitTableProps) {
-	if (!data?.circuit.races?.nodes || loading) {
+	if (!data?.circuit.races || loading) {
 		return <Skeleton variant="rectangular" height={400} />;
 	}
 
-	const races = data?.circuit.races?.nodes?.filter(r => r.results?.length);
+	const races = data?.circuit.races?.filter(r => r.results?.length);
 
 	if (!races.length) {
 		return (

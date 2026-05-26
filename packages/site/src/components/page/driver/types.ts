@@ -12,17 +12,15 @@ export type DriverData = Pick<
 	| 'dateOfBirth'
 > & {
 	seasonEntrantDrivers: {
-		nodes: {
-			year: number;
-			team?: {
-				id: string;
-				rowId: string;
-				colors?: { primaryHex?: string | null } | null;
-			} | null;
-		}[];
-	};
-	standings: { nodes: DriverStandingData[] };
-	raceResults: { nodes: RaceResult[] };
+		year: number;
+		team?: {
+			id: string;
+			rowId: string;
+			colors?: { primaryHex?: string | null } | null;
+		} | null;
+	}[];
+	standings: DriverStandingData[];
+	raceResults: RaceResult[];
 };
 
 export type DriverStandingData = Pick<
@@ -36,7 +34,7 @@ export type DriverStandingData = Pick<
 
 export type DriverPageData = {
 	driver: DriverData;
-	races: { nodes: Race[] };
+	races: Race[];
 };
 
 export type DriversListFilters = {

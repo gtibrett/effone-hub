@@ -77,12 +77,12 @@ const renderPlaceFactory = (
 export default function SeasonsList() {
 	const {
 		data: { seasons }
-	} = useSuspenseQuery<{ seasons: { nodes: SeasonData[] } }>(SeasonsQuery);
+	} = useSuspenseQuery<{ seasons: SeasonData[] }>(SeasonsQuery);
 
 	return (
 		<Suspense fallback={<Skeleton variant="rectangular" height="60vh" />}>
 			<DataGrid
-				rows={seasons.nodes}
+				rows={seasons}
 				autoHeight
 				getRowId={r => r.year}
 				rowHeight={90}

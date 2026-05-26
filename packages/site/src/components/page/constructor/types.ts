@@ -23,15 +23,15 @@ export type TeamHistoryData = {
 };
 
 export type TeamData = Pick<Team, 'id' | 'name' | 'countryId' | 'colors'> & {
-	antecedents: { nodes: TeamHistoryData[] };
-	standings: { nodes: TeamStandingData[] };
-	raceResults: { nodes: RaceResult[] };
-	drivers: { nodes: DriverByYear[] };
+	antecedents: TeamHistoryData[];
+	standings: TeamStandingData[];
+	raceResults: RaceResult[];
+	drivers: DriverByYear[];
 };
 
 export type ConstructorPageData = {
 	team: TeamData;
-	races: { nodes: Race[] };
+	races: Race[];
 };
 
 export type ConstructorsListFilters = {

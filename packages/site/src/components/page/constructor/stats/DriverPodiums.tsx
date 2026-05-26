@@ -10,12 +10,12 @@ type RaceResultNode = {
 
 type RaceNode = {
 	rowId: number;
-	raceResults: { nodes: RaceResultNode[] };
+	raceResults: RaceResultNode[];
 };
 
 type QueryResponse = {
 	season: {
-		racesByYear: { nodes: RaceNode[] };
+		racesByYear: RaceNode[];
 	} | null;
 };
 
@@ -23,16 +23,12 @@ const query = gql`
 	query constructorDriverPodiumsQuery($season: Int!, $constructorId: String!) {
 		season(year: $season) {
 			racesByYear(orderBy: ROUND_ASC) {
-				nodes {
+				id
+				rowId
+				raceResults(condition: {teamId: $constructorId}) {
 					id
-					rowId
-					raceResults(condition: {teamId: $constructorId}) {
-						nodes {
-							id
-							driverId
-							positionNumber
-						}
-					}
+					driverId
+					positionNumber
 				}
 			}
 		}
@@ -51,8 +47,8 @@ export default function DriverPodiums({ constructorId, season, place }: DriverPo
 	});
 	const leaders = new Map<string, number>();
 
-	(data?.season?.racesByYear?.nodes ?? []).forEach(race => {
-		race.raceResults.nodes.forEach(result => {
+	(data?.season?.racesByYear ?? []).forEach(race => {
+		race.raceResults.forEach(result => {
 			if (result.driverId && result.positionNumber != null && result.positionNumber <= 3) {
 				leaders.set(result.driverId, (leaders.get(result.driverId) ?? 0) + 1);
 			}

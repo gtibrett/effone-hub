@@ -19,7 +19,7 @@ export default function CircuitContent({ circuitRef }: { circuitRef: string }) {
 		ref,
 		dimensions: { height }
 	} = useComponentDimensionsWithRef();
-	const seasonToShow = data?.circuit.season?.nodes?.[0]?.raceResults?.nodes?.length
+	const seasonToShow = data?.circuit.season?.[0]?.raceResults?.length
 		? currentSeason
 		: currentSeason - 1;
 

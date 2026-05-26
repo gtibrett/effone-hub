@@ -33,12 +33,12 @@ function RoundContentRender({ season: seasonStr, round: roundStr, race, raceData
 	const round = Number(roundStr);
 	const mapSeasonRacesToFeatures = useMapSeasonRacesToMapPoints();
 	const results = raceData?.raceResults;
-	const sprintResults = (raceData?.sprintRaceResults?.nodes ?? []).filter(
+	const sprintResults = (raceData?.sprintRaceResults ?? []).filter(
 		(r): r is NonNullable<typeof r> => r != null
 	);
 
 	const circuitDescription = race?.circuit?.description?.description || '';
-	const hasResults = Number(results?.nodes?.length) > 0;
+	const hasResults = Number(results?.length) > 0;
 	const seasonToShow = hasResults ? season : season - 1;
 	const { points, onClick } = mapSeasonRacesToFeatures(season, [
 		{

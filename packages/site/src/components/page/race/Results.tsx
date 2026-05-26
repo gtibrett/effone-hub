@@ -12,7 +12,7 @@ import Podium from './Podium';
 import PositionChange from './PositionChange';
 
 export default function Results({ results }: { results?: Race['raceResults'] | null }) {
-	const nodes = results?.nodes;
+	const nodes = results;
 
 	if (!nodes) {
 		return <Skeleton variant="rectangular" height={400} />;

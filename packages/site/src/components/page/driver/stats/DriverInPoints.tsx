@@ -9,7 +9,7 @@ export default function DriverInPoints({ driverId }: DriverStatProps) {
 	const { data, loading } = useDriverStatsData(driverId);
 	const leaders = new Map<string, number>();
 
-	data?.driver?.raceResults?.nodes.forEach(rs => {
+	data?.driver?.raceResults.forEach(rs => {
 		if (driverId && rs.positionDisplayOrder) {
 			leaders.set(
 				driverId,

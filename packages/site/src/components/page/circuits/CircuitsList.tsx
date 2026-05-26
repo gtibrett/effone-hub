@@ -14,8 +14,8 @@ type CircuitsListProps = {
 export default function CircuitsList({ filters }: CircuitsListProps) {
 	const {
 		data: { circuits }
-	} = useSuspenseQuery<{ circuits: { nodes: Circuit[] } }>(CircuitQuery);
-	const filteredCircuits = useCircuitsList(circuits.nodes, filters);
+	} = useSuspenseQuery<{ circuits: Circuit[] }>(CircuitQuery);
+	const filteredCircuits = useCircuitsList(circuits, filters);
 
 	return (
 		<DataGrid
@@ -42,7 +42,7 @@ export default function CircuitsList({ filters }: CircuitsListProps) {
 					headerAlign: 'right',
 					align: 'right',
 					flex: 0.25,
-					valueGetter: (value, row) => row.races.nodes.length
+					valueGetter: (value, row) => row.races.length
 				}
 			]}
 			initialState={{

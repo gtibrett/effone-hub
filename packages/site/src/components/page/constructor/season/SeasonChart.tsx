@@ -24,7 +24,7 @@ export default function SeasonChart({ data, loading }: SeasonChartProps) {
 		alpha(getTeamColor(data.team.colors, 'primaryHex'), 0.75),
 		alpha(getTeamColor(data.team.colors, 'secondaryHex'), 0.75)
 	];
-	const raceResults = data.team.raceResults.nodes;
+	const raceResults = data.team.raceResults;
 	const rounds = Math.max(...raceResults.map(rs => rs.race?.round || 0));
 	const blankData = new Array<number>(rounds).fill(0).map((v, i) => ({ x: i + 1, y: null }));
 

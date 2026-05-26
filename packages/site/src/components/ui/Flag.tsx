@@ -3,23 +3,16 @@ import { countryCode } from 'emoji-flags';
 import nationalities from 'i18n-nationality';
 import { Avatar } from '@mui/material';
 
+import { Driver } from '@/gql/graphql';
+
 nationalities.registerLocale(require('i18n-nationality/langs/en.json'));
 
-export const useCountryFlag = (nationality: string | undefined) => {
-	if (!nationality) {
-		return null;
-	}
-
-	const code = nationalities.getAlpha2Code(
-		nationality === 'Monegasque' ? 'Monacan' : nationality,
-		'en'
-	);
-
+export const useCountryFlag = (code: string | undefined) => {
 	return code ? countryCode(code).emoji : null;
 };
 
 export type FlagProps = {
-	nationality: string | undefined;
+	nationality: Driver['nationalityCountry'];
 	size?: 'small' | 'medium' | 'large' | 'auto' | number;
 };
 
@@ -45,7 +38,7 @@ const getSizeStyle = (size: FlagProps['size']): CSSProperties => {
 
 export default function Flag({ nationality, size = 'small' }: FlagProps) {
 	const sizeStyle = getSizeStyle(size);
-	const flag = useCountryFlag(nationality);
+	const flag = useCountryFlag(nationality?.alpha2Code);
 	if (!flag) {
 		return null;
 	}
@@ -54,7 +47,7 @@ export default function Flag({ nationality, size = 'small' }: FlagProps) {
 		<Avatar
 			component="span"
 			variant="rounded"
-			alt={nationality}
+			alt={nationality?.name}
 			className="bg-transparent"
 			style={sizeStyle}
 		>

@@ -16,9 +16,8 @@ export default function useCircuitsList(
 				circuits,
 				filters.season,
 				(season: number, d: Circuit) =>
-					d.races.nodes.filter(
-						(s): s is NonNullable<typeof s> => !!s && s.year === season
-					).length > 0
+					d.races.filter((s): s is NonNullable<typeof s> => !!s && s.year === season)
+						.length > 0
 			);
 		}
 

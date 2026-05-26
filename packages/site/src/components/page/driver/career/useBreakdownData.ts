@@ -25,14 +25,14 @@ export default function useBreakdownData(
 	driverId: string | undefined
 ): BreakdownDatum[] | undefined {
 	const { data } = useCareerData(driverId);
-	const careerResults = data?.driver.raceResults?.nodes;
+	const careerResults = data?.driver.raceResults;
 
 	if (!careerResults) {
 		return undefined;
 	}
 
 	// @ts-ignore
-	return data?.driver.standings.nodes.map(({ year }) => {
+	return data?.driver.standings.map(({ year }) => {
 		const seasonResults = careerResults.filter((r: RaceResult) => r.race?.year === year);
 		const appearances = seasonResults.length;
 

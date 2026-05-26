@@ -15,8 +15,7 @@ export default function useDriversList(unfilteredDrivers: Driver[], filters: Dri
 				drivers,
 				filters.season,
 				(season, d) =>
-					(d.seasonEntrantDrivers?.nodes ?? []).filter((s: any) => s.year === season)
-						.length > 0
+					(d.seasonDrivers ?? []).filter(s => s?.season?.year === season).length > 0
 			);
 		}
 

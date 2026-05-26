@@ -8,7 +8,7 @@ export default function useCareerChartDataWithTeam(driverId?: string) {
 	const { data } = useCareerData(driverId);
 	const getTeamColor = useGetTeamColor();
 
-	const rawData: DataWithTeamInfo[] = (data?.driver.standings?.nodes || [])
+	const rawData: DataWithTeamInfo[] = (data?.driver.standings || [])
 		.filter(s => !!s)
 		.map(s => ({
 			teamId: s.team?.id ?? '',

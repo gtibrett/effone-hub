@@ -35,7 +35,7 @@ export default function CareerPerformanceBurst({
 }) {
 	const nivoTheme = useNivoTheme();
 	const { data, loading } = useCareerData(driverId);
-	const performanceData = usePerformanceData(data?.driver.raceResults?.nodes as any);
+	const performanceData = usePerformanceData(data?.driver.raceResults);
 
 	if (loading) {
 		return <Skeleton variant="rectangular" height={size} width="100%" />;

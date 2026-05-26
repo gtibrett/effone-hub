@@ -233,17 +233,15 @@ type DriverExtras = {
 	__typename: 'Driver';
 	id: string;
 	dateOfBirth: string | null;
-	teamsByYear: {
-		nodes: Array<{
+	teamsByYear: Array<{
+		id: string;
+		year: number;
+		team: {
 			id: string;
-			year: number;
-			team: {
-				id: string;
-				rowId: string;
-				colors?: { id: string; primaryHex: string | null } | null;
-			} | null;
-		}>;
-	};
+			rowId: string;
+			colors?: { id: string; primaryHex: string | null } | null;
+		} | null;
+	}>;
 };
 
 export type BuildDriverRow = DriverPageProp & DriverExtras;
@@ -315,8 +313,8 @@ export async function buildDriverFull(rowId: string): Promise<BuildDriverRow | n
 			nationalityCountryId: r.nationality_country_id,
 			dateOfBirth: r.date_of_birth,
 			bio: null,
-			seasonEntrantDrivers: { nodes: seasons.slice(0, 1) },
-			teamsByYear: { nodes: seasons }
+			seasonEntrantDrivers: seasons.slice(0, 1),
+			teamsByYear: seasons
 		} as BuildDriverRow;
 	} catch (err) {
 		console.warn('[build-pg] buildDriverFull failed:', err);

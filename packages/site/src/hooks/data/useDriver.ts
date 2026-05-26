@@ -23,29 +23,25 @@ const DriverFields = gql`
 		}
 
 		seasonEntrantDrivers(orderBy: YEAR_DESC, first: 1) {
-			nodes {
+			id
+			year
+			team {
 				id
-				year
-				team {
+				colors {
 					id
-					colors {
-						id
-						primaryHex
-					}
+					primaryHex
 				}
 			}
 		}
 
 		teamsByYear: seasonEntrantDrivers(orderBy: YEAR_DESC) {
-			nodes {
+			id
+			year
+			team {
 				id
-				year
-				team {
+				colors {
 					id
-					colors {
-						id
-						primaryHex
-					}
+					primaryHex
 				}
 			}
 		}

@@ -30,8 +30,8 @@ export function useMapLapTimeDataToSwarmChart() {
 		const mappedData: SwarmPlotSvgProps<SwarmData>['data'] = [];
 		const colorsByYear = getColorsByYear(data.driver.seasonEntrantDrivers);
 
-		data?.circuit.races?.nodes?.forEach(race => {
-			const mappedLaps = (race.lapTimes?.nodes || [])
+		data?.circuit.races?.forEach(race => {
+			const mappedLaps = (race.lapTimes || [])
 				.filter(l => l.timeMillis)
 				.map(l => ({
 					lap: l.lap,
@@ -65,8 +65,8 @@ type LapTimeBoxChartData = { year: number; milliseconds: number }[];
 export function mapLapTimeDataToBoxChart(data: CircuitDialogData): LapTimeBoxChartData {
 	const mappedData: LapTimeBoxChartData = [];
 
-	data?.circuit.races?.nodes?.forEach(race => {
-		const mappedLaps = (race.lapTimes?.nodes || [])
+	data?.circuit.races?.forEach(race => {
+		const mappedLaps = (race.lapTimes || [])
 			.filter(l => l.timeMillis)
 			.map(l => ({
 				lap: l.lap,

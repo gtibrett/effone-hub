@@ -9,8 +9,7 @@ import {
 	Divider,
 	Grid,
 	Skeleton,
-	Typography,
-	useTheme
+	Typography
 } from '@mui/material';
 
 import { useAppState } from '@/components/app';
@@ -39,11 +38,11 @@ const TeamDetails = ({ team }: { team: TeamProp }) => (
 		<Grid>
 			<Typography variant="h2">{team.name}</Typography>
 		</Grid>
-		{team.countryId && (
-			<Grid>
-				<Flag nationality={team.countryId} size={48} />
-			</Grid>
-		)}
+		{/*{team.countryId && (*/}
+		{/*	<Grid>*/}
+		{/*		/!* FIXME <Flag nationality={team.countryId} size={48} />*!/ */}
+		{/*	</Grid>*/}
+		{/*)}*/}
 	</Grid>
 );
 
@@ -97,7 +96,6 @@ type Props = {
 };
 
 export default function ConstructorContent({ teamRef, team }: Props) {
-	const theme = useTheme();
 	const getTeamColor = useGetTeamColor();
 	const [{ currentSeason }] = useAppState();
 	const { data, loading } = useConstructorData(teamRef || '', currentSeason);
@@ -108,7 +106,7 @@ export default function ConstructorContent({ teamRef, team }: Props) {
 	}
 
 	const isInCurrentSeason =
-		typeof data.team.standings.nodes.find((s: any) => s.year === currentSeason) !== 'undefined';
+		typeof data.team.standings.find((s: any) => s.year === currentSeason) !== 'undefined';
 
 	const tabs = [
 		{
@@ -123,7 +121,7 @@ export default function ConstructorContent({ teamRef, team }: Props) {
 		}
 	];
 
-	if (data.team.standings.nodes.find((s: any) => s.year === currentSeason)) {
+	if (data.team.standings.find((s: any) => s.year === currentSeason)) {
 		tabs.push({
 			id: 'season',
 			label: `${currentSeason} Season`,

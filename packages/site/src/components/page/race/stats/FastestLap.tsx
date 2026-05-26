@@ -16,13 +16,11 @@ const query = gql`
 	query raceFastestLapQuery($season: Int!, $round: Int!) {
 		race: raceByYearAndRound(year: $season, round: $round) {
 			fastestLaps(first: 1) {
-				nodes {
-					id
-					driverId
-					lap
-					time
-					timeMillis
-				}
+				id
+				driverId
+				lap
+				time
+				timeMillis
 			}
 		}
 	}
@@ -38,7 +36,7 @@ export default function FastestLap({ season, round, size = 'small' }: RaceStatPr
 		variables: { season, round }
 	});
 
-	const node = data?.race?.fastestLaps?.nodes?.[0];
+	const node = data?.race?.fastestLaps?.[0];
 
 	if (!node || node.timeMillis == null || node.driverId == null) {
 		return null;

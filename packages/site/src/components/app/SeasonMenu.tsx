@@ -7,10 +7,8 @@ import { Season } from '@/gql/graphql';
 export const SeasonsQuery = gql`
 	query SeasonMenuQuery {
 		seasons(orderBy: YEAR_DESC) {
-			nodes {
-				id
-				year
-			}
+			id
+			year
 		}
 	}
 `;
@@ -33,11 +31,9 @@ export default function SeasonMenu({
 	setSeason,
 	required = true
 }: SeasonMenuProps) {
-	const { data, loading } = useQuery<{ seasons: { nodes: Pick<Season, 'year'>[] } }>(
-		SeasonsQuery
-	);
+	const { data, loading } = useQuery<{ seasons: Pick<Season, 'year'>[] }>(SeasonsQuery);
 
-	const seasons = (data?.seasons.nodes ?? [{ year: new Date().getFullYear() }]).map(s => s.year);
+	const seasons = (data?.seasons ?? [{ year: new Date().getFullYear() }]).map(s => s.year);
 
 	if (!seasons.length || loading) {
 		return null;

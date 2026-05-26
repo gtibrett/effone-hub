@@ -7,41 +7,37 @@ const query = gql`
 	query DriverCareerQuery($driverId: String!) {
 		driver(rowId: $driverId) {
 			standings: seasonDriverStandings(orderBy: YEAR_ASC) {
-				nodes {
-					id
-					year
-					positionNumber
-					positionText
-					points
-				}
+				id
+				year
+				positionNumber
+				positionText
+				points
 			}
 
 			# for CareerPerformance.tsx
 			raceResults {
-				nodes {
+				id
+				race {
 					id
-					race {
+					rowId
+					year
+					round
+					circuit {
 						id
 						rowId
-						year
-						round
-						circuit {
-							id
-							rowId
-							fullName
-							longitude
-							latitude
-						}
+						fullName
+						longitude
+						latitude
 					}
-					gridPositionNumber
-					positionNumber
-					positionDisplayOrder
-					points
-					positionText
-					teamId
-					timeMillis
-					reasonRetired
 				}
+				gridPositionNumber
+				positionNumber
+				positionDisplayOrder
+				points
+				positionText
+				teamId
+				timeMillis
+				reasonRetired
 			}
 		}
 	}

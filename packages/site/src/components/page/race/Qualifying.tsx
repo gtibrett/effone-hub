@@ -10,15 +10,13 @@ const QualifyingQuery = gql`
 	query qualifyingQuery($season: Int!, $round: Int!) {
 		race: raceByYearAndRound(year: $season, round: $round) {
 			qualifyingResults {
-				nodes {
-					id
-					driverId
-					teamId
-					positionNumber
-					q1
-					q2
-					q3
-				}
+				id
+				driverId
+				teamId
+				positionNumber
+				q1
+				q2
+				q3
 			}
 		}
 	}
@@ -38,7 +36,7 @@ export default function Qualifying({ season, round }: QualifyingProps) {
 		return <Skeleton variant="rectangular" height={400} />;
 	}
 
-	const rows = (data?.race?.qualifyingResults?.nodes ?? []).filter(
+	const rows = (data?.race?.qualifyingResults ?? []).filter(
 		(r): r is QualifyingResult => r != null
 	);
 

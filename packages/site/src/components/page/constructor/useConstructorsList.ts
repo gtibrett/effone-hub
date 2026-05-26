@@ -6,7 +6,7 @@ import { Team } from '@/gql/graphql';
 import { ConstructorsListFilters } from './types';
 
 export type TeamWithSeasons = Omit<Team, 'seasonEntrantDrivers'> & {
-	seasons: { nodes: { year: number }[] };
+	seasons: { year: number }[];
 };
 
 export default function useConstructorsList(
@@ -20,8 +20,7 @@ export default function useConstructorsList(
 				teams,
 				filters.season,
 				(season, d) =>
-					(d.seasons?.nodes ?? []).filter((s: { year: number }) => s.year === season)
-						.length > 0
+					(d.seasons ?? []).filter((s: { year: number }) => s.year === season).length > 0
 			);
 		}
 

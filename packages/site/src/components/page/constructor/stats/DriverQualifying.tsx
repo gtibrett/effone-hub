@@ -15,14 +15,10 @@ type QualifyingResultNode = {
 type Data = {
 	season: {
 		racesByYear: {
-			nodes: {
-				rowId: number;
-				round: number;
-				qualifyingResults: {
-					nodes: QualifyingResultNode[];
-				};
-			}[];
-		};
+			rowId: number;
+			round: number;
+			qualifyingResults: QualifyingResultNode[];
+		}[];
 	} | null;
 };
 
@@ -30,18 +26,14 @@ const query = gql`
 	query ConstructorDriverQualifyingQuery($season: Int!, $constructorId: String!) {
 		season(year: $season) {
 			racesByYear {
-				nodes {
+				id
+				rowId
+				round
+				qualifyingResults(condition: {teamId: $constructorId}, orderBy: POSITION_NUMBER_ASC) {
 					id
-					rowId
-					round
-					qualifyingResults(condition: {teamId: $constructorId}, orderBy: POSITION_NUMBER_ASC) {
-						nodes {
-							id
-							driverId
-							positionNumber
-							driver { id fullName }
-						}
-					}
+					driverId
+					positionNumber
+					driver { id fullName }
 				}
 			}
 		}
@@ -58,8 +50,8 @@ export default function DriverQualifying({ constructorId, season, place }: Drive
 	const { data, loading } = useQuery<Data>(query, { variables: { constructorId, season } });
 	const leaders = new Map<string, number>();
 
-	(data?.season?.racesByYear?.nodes || []).forEach(r => {
-		const nodes = r.qualifyingResults.nodes;
+	(data?.season?.racesByYear || []).forEach(r => {
+		const nodes = r.qualifyingResults;
 		if (nodes.length) {
 			let isFirst = true;
 			nodes.forEach(({ driverId }) => {
