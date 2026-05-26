@@ -26,7 +26,7 @@ export default function useNivoTheme(): NivoTheme {
 		text:        {
 			color:      cssVar.text.primary,
 			fontSize:   theme.typography.caption.fontSize,
-			fontFamily: "'Titillium Web', sans-serif"
+			fontFamily: "var(--font-titillium), sans-serif"
 		},
 		translation: {},
 		axis:        {

@@ -21,6 +21,17 @@
 @import "tailwindcss";
 
 /*
+ * Font families. next/font sets `--font-titillium`, `--font-anton`,
+ * `--font-racing` on <html>; we alias them into Tailwind's font tokens
+ * so `font-sans`, `font-display`, `font-racing` resolve.
+ */
+@theme {
+	--font-sans:    var(--font-titillium), system-ui, sans-serif;
+	--font-display: var(--font-anton), sans-serif;
+	--font-racing:  var(--font-racing), sans-serif;
+}
+
+/*
  * Full shade scales for primary (blueGrey), secondary (red), and
  * tertiary (blue). Sourced from src/components/ui/colors.ts — keep in
  * sync. Plain `@theme` (not inline) so Tailwind emits `--color-X-N` at

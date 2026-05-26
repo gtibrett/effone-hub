@@ -11,11 +11,11 @@ export default function Header() {
 				component="nav"
 				color="primary"
 				aria-label="main navigation"
-				className="py-2 border-b-4 border-secondary-light bg-primary-950 before:absolute before:inset-0 before:content-[''] before:bg-[url(/carbon-fiber-texture.png)] before:bg-cover before:opacity-25">
+				className="py-2 border-b-4 border-secondary-500 bg-primary-950 before:absolute before:inset-0 before:content-[''] before:bg-[url(/carbon-fiber-texture.png)] before:bg-cover before:opacity-5">
 				<Toolbar>
 					<Grid container spacing={1} className="items-center w-full">
 						<Grid>
-							<Link href="/" color="inherit" className="no-underline **:font-['Anton']! **:text-[48px]!">
+							<Link href="/" color="inherit" className="no-underline **:font-display! **:text-[48px]!">
 								<Typography component="h1">
 									EFF<Typography component="span" className="opacity-100 px-1 text-secondary-light">ONE</Typography>HUB
 								</Typography>

@@ -47,7 +47,7 @@ const DriverDetails = ({driver}: {driver: DriverPageProp}) => (
 			{driver.nationalityCountryId && <Grid><Flag nationality={driver.nationalityCountryId} size={48}/></Grid>}
 			<Grid size="grow" />
 			<Grid><Typography variant="h2" className="font-bold">{driver.abbreviation}</Typography></Grid>
-			<Grid className="font-['Racing_Sans_One'] text-[1.1em]">{driver.permanentNumber}</Grid>
+			<Grid className="font-racing text-[1.1em]">{driver.permanentNumber}</Grid>
 		</Box>
 	</Grid>
 );

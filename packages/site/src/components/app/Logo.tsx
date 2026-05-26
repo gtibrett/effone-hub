@@ -34,7 +34,7 @@ export default function Logo({href, variant, size}: LogoProps) {
 		<Link
 			href={href}
 			color="inherit"
-			className="no-underline [&_*]:!font-['Anton'] [&_*]:!text-(length:--logo-size)"
+			className="no-underline [&_*]:!font-display [&_*]:!text-(length:--logo-size)"
 			style={linkStyle}
 		>
 			<Typography component="h1">

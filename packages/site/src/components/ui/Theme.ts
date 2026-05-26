@@ -43,7 +43,7 @@ const darkPalette = {
 	mode:              'dark' as const,
 	contrastThreshold: 4.5,
 	primary:           {main: blueGrey[400], light: blueGrey[300], dark: blueGrey[500], contrastText: '#F4F4F6'},
-	secondary:         {main: red[300], light: red[200], dark: red[500], contrastText: '#000'},
+	secondary:         {main: red[500], light: red[300], dark: red[700], contrastText: '#000'},
 	background:        {default: blueGrey[800], paper: blueGrey[900]},
 	text:              {primary: '#F4F4F6', secondary: 'rgba(255, 255, 255, 0.7)', disabled: 'rgba(255, 255, 255, 0.5)'},
 	divider:           'rgba(255, 255, 255, 0.12)',
@@ -65,7 +65,7 @@ const effTheme = createTheme({
 	},
 	spacing:      8,
 	typography:   {
-		fontFamily: "'Titillium Web', sans-serif",
+		fontFamily: "var(--font-titillium), sans-serif",
 		h1:         {fontSize: 48},
 		h2:         {fontSize: 24},
 		h3:         {fontSize: 20},
@@ -186,7 +186,7 @@ export const useInvertedTheme = () => {
 	return useMemo(() => createTheme({
 		spacing:    8,
 		palette,
-		typography: {fontFamily: "'Titillium Web', sans-serif"}
+		typography: {fontFamily: "var(--font-titillium), sans-serif"}
 	}), [palette]);
 };
 
