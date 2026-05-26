@@ -5,22 +5,26 @@ import {useDarkMode, useEffTheme, useFallbackColor, useInvertedTheme} from './Th
 
 describe('Theme.ts', () => {
 	describe('useEffTheme', () => {
-		test('palette holds CONCRETE sRGB-parseable values (not var() strings)', () => {
-			// Regression guard for the SkipNav/MUI-internals crash:
-			// MUI's decomposeColor (called transitively by alpha/lighten/darken)
-			// throws on var(--color-*). If anyone reverts to var() palette
-			// values, this test fails fast — and the assertions below confirm
-			// that MUI's own helpers can still operate on the palette.
+		test('exposes theme.vars CSS-var strings so components paint via vars', () => {
+			// MUI cssVariables exposes parallel `theme.vars.X` containing the
+			// `var(--mui-palette-*)` strings. Internal components prefer
+			// theme.vars when available, which is how dark-mode flipping works.
+			const {result} = renderHook(() => useEffTheme());
+			const vars     = (result.current as any).vars;
+			expect(vars).toBeDefined();
+			expect(vars.palette.primary.main).toMatch(/^var\(--mui-palette-primary-main/);
+			expect(vars.palette.background.paper).toMatch(/^var\(--mui-palette-background-paper/);
+		});
+
+		test('emits both light and dark colorSchemes', () => {
+			const {result} = renderHook(() => useEffTheme());
+			expect(result.current.colorSchemes?.light).toBeDefined();
+			expect(result.current.colorSchemes?.dark).toBeDefined();
+		});
+
+		test('MUI color helpers (alpha/darken/lighten) work on palette values', () => {
 			const {result} = renderHook(() => useEffTheme());
 			const palette  = result.current.palette;
-
-			expect(palette.primary.main).not.toMatch(/^var\(/);
-			expect(palette.secondary.main).not.toMatch(/^var\(/);
-			expect(palette.background.paper).not.toMatch(/^var\(/);
-			expect(palette.background.default).not.toMatch(/^var\(/);
-			expect(palette.divider).not.toMatch(/^var\(/);
-
-			// And MUI's color helpers must not throw on any palette value.
 			expect(() => alpha(palette.background.paper, .5)).not.toThrow();
 			expect(() => alpha(palette.primary.main, .5)).not.toThrow();
 			expect(() => darken(palette.primary.main, .25)).not.toThrow();
