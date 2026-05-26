@@ -6,7 +6,6 @@ import {Flag} from '@/components/ui';
 import {Driver} from '@/gql/graphql';
 import { useSuspenseQuery } from "@apollo/client/react";
 import {Grid, Typography} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';
 
 type DriversTableProps = {
@@ -27,7 +26,7 @@ export default function DriversList({filters}: DriversTableProps) {
 				[
 					{
 						field:        'avatar',
-						renderHeader: () => <Typography sx={visuallyHidden}>Photo</Typography>,
+						renderHeader: () => <Typography className="sr-only">Photo</Typography>,
 						renderCell:   (({row}) => <DriverAvatar driverId={row.id}/>),
 						width:        50,
 						align:        'center',

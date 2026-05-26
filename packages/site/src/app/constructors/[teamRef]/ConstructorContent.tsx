@@ -7,7 +7,7 @@ import {Flag, Page} from '@/components/ui';
 import {useGetTeamColor} from '@/hooks';
 import {useConstructorData} from '@/hooks/data';
 import useTeam from '@/hooks/data/useTeam';
-import {Tabs} from '@gtibrett/mui-additions';
+import {Tabs} from '@/components/ui';
 import {Box, Card, CardContent, CardHeader, CardMedia, Divider, Grid, Skeleton, Typography, useTheme} from '@mui/material';
 
 /**

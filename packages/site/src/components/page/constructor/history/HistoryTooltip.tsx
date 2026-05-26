@@ -12,7 +12,7 @@ export default function HistoryTooltip(props: PointTooltipProps) {
 	
 	return (
 		<Card className="p-0">
-			<CardHeader sx={headerSx} title={name} subheader={point.data.xFormatted}/>
+			<CardHeader className={headerSx.className} style={headerSx.style} title={name} subheader={point.data.xFormatted}/>
 			<PropertiesTable>
 				{positionNumber && <PropertiesTableRow header="Position" align="right">{positionNumber}</PropertiesTableRow>}
 				{typeof points !== 'undefined' && <PropertiesTableRow header="Points" align="right">{points}</PropertiesTableRow>}

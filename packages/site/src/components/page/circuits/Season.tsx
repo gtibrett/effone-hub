@@ -2,7 +2,6 @@ import {ConstructorByLine, DriverByLine} from '@/components/app';
 import {getPositionTextOutcome} from '@/helpers';
 import {CircuitDataProps} from '@/hooks/data';
 import {Grid, Skeleton, Typography} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';
 import PositionChange from '../race/PositionChange';
 import NextRaceCountdown from '../raceWeekend/NextRaceCountdown';
@@ -50,7 +49,7 @@ export default function Season({data, loading}: CircuitDataProps) {
 					},
 					{
 						field:        'change',
-						renderHeader: () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
+						renderHeader: () => <Typography className="sr-only">Position Changes</Typography>,
 						renderCell:   ({row}) => (
 							<PositionChange gridPositionNumber={Number(row.gridPositionNumber)} positionDisplayOrder={Number(row.positionDisplayOrder)}/>
 						),

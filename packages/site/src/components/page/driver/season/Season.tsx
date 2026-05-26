@@ -3,7 +3,6 @@ import {PositionChange} from '@/components/page/race';
 import {getPositionTextOutcome, getTimeStringFromDate} from '@/helpers';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Grid, Skeleton, Typography} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';
 import SeasonChart from './SeasonChart';
 import useSeasonData from './useSeasonData';
@@ -77,7 +76,7 @@ export default function Season({season, driverId}: SeasonProps) {
 							},
 							{
 								field:        'change',
-								renderHeader: () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
+								renderHeader: () => <Typography className="sr-only">Position Changes</Typography>,
 								renderCell:   ({row}) => {
 									const result = row.raceResults?.nodes?.[0];
 									if (result) {

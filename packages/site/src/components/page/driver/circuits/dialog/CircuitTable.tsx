@@ -3,7 +3,6 @@ import {getPositionTextOutcome, getTimeStringFromDate} from '@/helpers';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {Link} from '@gtibrett/mui-additions';
 import {Alert, Box, Skeleton, Typography} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';
 import {CircuitDialogData} from './types';
 
@@ -65,7 +64,7 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 						},
 						{
 							field:        'change',
-							renderHeader: () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
+							renderHeader: () => <Typography className="sr-only">Position Changes</Typography>,
 							renderCell:   ({row}) => {
 								const result = row.results[0];
 								if (result) {

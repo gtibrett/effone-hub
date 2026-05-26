@@ -2,7 +2,8 @@ import {DriverByLine, RaceMap, useMapCircuitsToMapPoints} from '@/components/app
 import {DriverId} from '@/types';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Dialog, Tabs} from '@gtibrett/mui-additions';
+import {Dialog} from '@gtibrett/mui-additions';
+import {Tabs} from '@/components/ui';
 import {Card, Grid, Typography} from '@mui/material';
 import CircuitChart from './CircuitChart';
 import CircuitPerformance from './CircuitPerformance';

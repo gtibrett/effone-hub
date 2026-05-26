@@ -1,18 +1,26 @@
 /**
- * Returns an sx-shaped style object for a driver-header strip — team
- * color bg with contrast-aware text via CSS `contrast-color()`. Cascades
- * into nested MuiTypography / MuiTableCell so portal tooltips paint
- * uniformly.
+ * Returns {className, style} for a driver-header strip — team-color bg
+ * with contrast text via CSS `contrast-color()`. The Tailwind arbitrary
+ * variants below cascade the same bg/fg into nested MuiTypography /
+ * MuiTableCell descendants (matches the old SX cascade).
  */
 import {useDriver} from '@/hooks/data';
 import {DriverId} from '@/types';
-import {SxProps} from '@mui/material';
+import type {CSSProperties} from 'react';
 import useGetTeamColor from './useGetTeamColor';
 
-export function useDriverHeaderSx(driverId: DriverId, year?: 'current' | number): SxProps;
-export function useDriverHeaderSx(driverId: DriverId, color: string): SxProps;
+export type HeaderStyle = {
+	className: string;
+	style:     CSSProperties;
+};
 
-export default function useDriverHeaderSx(driverId: DriverId, yearOrColor: any = 'current'): SxProps {
+// Static class string so Tailwind's scanner picks it up at build.
+const HEADER_CLASS = 'bg-(--header-bg) text-(--header-fg) [&_.MuiTypography-root]:bg-(--header-bg) [&_.MuiTypography-root]:text-(--header-fg) [&_.MuiTableCell-root]:bg-(--header-bg) [&_.MuiTableCell-root]:text-(--header-fg)';
+
+export function useDriverHeaderSx(driverId: DriverId, year?: 'current' | number): HeaderStyle;
+export function useDriverHeaderSx(driverId: DriverId, color: string): HeaderStyle;
+
+export default function useDriverHeaderSx(driverId: DriverId, yearOrColor: any = 'current'): HeaderStyle {
 	const driver       = useDriver(driverId ?? undefined);
 	const getTeamColor = useGetTeamColor();
 
@@ -27,13 +35,11 @@ export default function useDriverHeaderSx(driverId: DriverId, yearOrColor: any =
 		background = yearOrColor;
 	}
 
-	const color = `contrast-color(${background} vs white, black)`;
-
 	return {
-		background, color,
-
-		'& .MuiTypography-root, & .MuiTableCell-root': {
-			background, color
-		}
+		className: HEADER_CLASS,
+		style:     {
+			['--header-bg' as string]: background,
+			['--header-fg' as string]: `contrast-color(${background} vs white, black)`
+		} as CSSProperties
 	};
 }

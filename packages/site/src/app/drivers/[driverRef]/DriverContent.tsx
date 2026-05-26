@@ -4,7 +4,7 @@ import {DriverAvatar, useAppState} from '@/components/app';
 import {Career, Circuits, Season} from '@/components/page/driver';
 import {Flag, Page} from '@/components/ui';
 import {useGetTeamColor} from '@/hooks';
-import {Tabs} from '@gtibrett/mui-additions';
+import {Tabs} from '@/components/ui';
 import {Box, Card, Divider, Grid, Typography, useTheme} from '@mui/material';
 
 /**

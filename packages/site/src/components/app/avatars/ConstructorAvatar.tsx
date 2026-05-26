@@ -12,14 +12,14 @@ export type TeamAvatarProps = {
 }
 
 export default function TeamAvatar({teamId, size = 'small'}: TeamAvatarProps) {
-	const sizeSx       = useAvatarSize(size);
-	const {team}       = useTeam(teamId);
-	const getTeamColor = useGetTeamColor();
-	const primary      = team ? getTeamColor(team.colors, 'primaryHex') : '';
+	const {className, style} = useAvatarSize(size);
+	const {team}             = useTeam(teamId);
+	const getTeamColor       = useGetTeamColor();
+	const primary            = team ? getTeamColor(team.colors, 'primaryHex') : '';
 
 	return useMemo(() => {
 		if (!team) {
-			return <Avatar variant="rounded" sx={sizeSx}><FontAwesomeIcon icon={faIndustry}/></Avatar>;
+			return <Avatar variant="rounded" className={className} style={style}><FontAwesomeIcon icon={faIndustry}/></Avatar>;
 		}
 
 		const {name, bio} = team;
@@ -32,13 +32,13 @@ export default function TeamAvatar({teamId, size = 'small'}: TeamAvatarProps) {
 		return (
 			<Avatar
 				variant="rounded"
-				sx={sizeSx}
-				style={{background: primary, color: `contrast-color(${primary} vs white, black)`}}
+				className={className}
+				style={{...style, background: primary, color: `contrast-color(${primary} vs white, black)`}}
 				src={bio?.thumbnailUrl ?? undefined}
 				alt={name ?? ''}
 			>
 				{initials?.join('')}
 			</Avatar>
 		);
-	}, [team, sizeSx, primary]);
+	}, [team, className, style, primary]);
 }

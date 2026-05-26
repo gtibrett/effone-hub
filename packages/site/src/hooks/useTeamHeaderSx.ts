@@ -1,21 +1,24 @@
 /**
- * Returns an sx-shaped style object for a team-header strip — team color
- * bg with contrast-aware text via CSS `contrast-color()`.
+ * Returns {className, style} for a team-header strip — team-color bg
+ * with contrast text via CSS `contrast-color()`. Cascades to nested
+ * MuiTypography / MuiTableCell via Tailwind arbitrary variants.
  */
 import {useTeam} from '@/hooks/data';
-import {SxProps} from '@mui/material';
+import type {CSSProperties} from 'react';
 import useGetTeamColor from './useGetTeamColor';
+import type {HeaderStyle} from './useDriverHeaderSx';
 
-export default function useTeamHeaderSx(teamId?: string): SxProps {
+const HEADER_CLASS = 'bg-(--header-bg) text-(--header-fg) [&_.MuiTypography-root]:bg-(--header-bg) [&_.MuiTypography-root]:text-(--header-fg) [&_.MuiTableCell-root]:bg-(--header-bg) [&_.MuiTableCell-root]:text-(--header-fg)';
+
+export default function useTeamHeaderSx(teamId?: string): HeaderStyle {
 	const {team}     = useTeam(teamId);
 	const background = useGetTeamColor()(team?.colors);
-	const color      = `contrast-color(${background} vs white, black)`;
 
 	return {
-		background, color,
-
-		'& .MuiTypography-root, & .MuiTableCell-root': {
-			background, color
-		}
+		className: HEADER_CLASS,
+		style:     {
+			['--header-bg' as string]: background,
+			['--header-fg' as string]: `contrast-color(${background} vs white, black)`
+		} as CSSProperties
 	};
 }

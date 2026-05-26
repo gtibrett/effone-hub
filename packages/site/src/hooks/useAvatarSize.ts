@@ -1,25 +1,24 @@
-import {SxProps, useTheme} from '@mui/material';
+import type {CSSProperties} from 'react';
 
 export type AvatarSizes = 'small' | 'medium' | 'large' | 'auto' | number;
 
-export default function useAvatarSize(size: AvatarSizes): SxProps {
-	const theme = useTheme();
-	
-	switch (size) {
-		case 'small':
-			return {width: theme.spacing(4), height: theme.spacing(4)};
-		
-		case 'medium':
-			return {width: theme.spacing(8), height: theme.spacing(8)};
-		
-		case 'large':
-			return {width: theme.spacing(16), height: theme.spacing(16)};
-		
-		default:
-			if (typeof size === 'number') {
-				return {width: size, height: size};
-			}
+export type AvatarSizeStyle = {
+	className: string;
+	style?: CSSProperties;
+};
+
+// Static class strings let Tailwind's content scanner detect them at build.
+// Numeric sizes fall through to inline style — by definition dynamic.
+const PRESETS: Record<Exclude<AvatarSizes, number>, AvatarSizeStyle> = {
+	small:  {className: 'w-8 h-8'},
+	medium: {className: 'w-16 h-16'},
+	large:  {className: 'w-32 h-32'},
+	auto:   {className: 'w-full h-full'}
+};
+
+export default function useAvatarSize(size: AvatarSizes): AvatarSizeStyle {
+	if (typeof size === 'number') {
+		return {className: '', style: {width: size, height: size}};
 	}
-	
-	return {width: '100%', height: '100%'};
+	return PRESETS[size] ?? PRESETS.auto;
 }

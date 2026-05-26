@@ -5,7 +5,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Race, RaceResult} from '@/gql/graphql';
 import {Alert, Grid, Skeleton, Tooltip, Typography} from '@mui/material';
 import {purple} from '@mui/material/colors';
-import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';
 import Podium from './Podium';
 import PositionChange from './PositionChange';
@@ -56,7 +55,7 @@ export default function Results({results}: { results?: Race['raceResults'] | nul
 						},
 						{
 							field:        'change',
-							renderHeader: () => <Typography style={visuallyHidden}>Position Changes</Typography>,
+							renderHeader: () => <Typography className="sr-only">Position Changes</Typography>,
 							renderCell:   ({row}) => (
 								<PositionChange {...row}/>
 							),

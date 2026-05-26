@@ -103,7 +103,7 @@ const IconVariant = <T extends DataWithValue>({size, label, data, format, extra,
 
 export default function StatCard<T extends StatCardData = DataWithValue, F extends DataWithValue = DataWithValue>(props: StatCardProps<T, F>) {
 	const {variant, size, noGrid, cardProps = {}, loading, data} = props;
-	const {className, sx, ...otherCardProps}                     = cardProps;
+	const {className, ...otherCardProps}                         = cardProps;
 	const normalizedData                                         = convertGenericMapToDataWithValueMap<T, F>(data) as Map<string, F>;
 
 	if (loading || !data.size) {
@@ -130,7 +130,7 @@ export default function StatCard<T extends StatCardData = DataWithValue, F exten
 	switch (size) {
 		case 'small':
 			card = (
-				<Card variant="elevation" className={`h-[66px] rounded-lg p-0 overflow-hidden border border-background ${className ?? ''}`} sx={sx} {...otherCardProps}>
+				<Card variant="elevation" className={`h-[66px] rounded-lg p-0 overflow-hidden border border-background ${className ?? ''}`} {...otherCardProps}>
 					{content}
 				</Card>
 			);
@@ -139,7 +139,7 @@ export default function StatCard<T extends StatCardData = DataWithValue, F exten
 		case 'regular':
 		default:
 			card = (
-				<Card variant="elevation" className={`h-full ${className ?? ''}`} sx={sx} {...otherCardProps}>
+				<Card variant="elevation" className={`h-full ${className ?? ''}`} {...otherCardProps}>
 					{content}
 				</Card>
 			);

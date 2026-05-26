@@ -2,7 +2,6 @@ import {ConstructorByLine, DriverByLine} from '@/components/app';
 import {getPositionTextOutcome} from '@/helpers';
 import {SprintRaceResult} from '@/gql/graphql';
 import {Alert, Grid, Skeleton, Typography} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
 import {DataGrid} from '@mui/x-data-grid';
 import PositionChange from './PositionChange';
 
@@ -40,7 +39,7 @@ export default function SprintResults({results}: {
 					},
 					{
 						field:        'change',
-						renderHeader: () => <Typography style={visuallyHidden}>Position Changes</Typography>,
+						renderHeader: () => <Typography className="sr-only">Position Changes</Typography>,
 						renderCell:   ({row}) => (
 							<PositionChange {...row}/>
 						),

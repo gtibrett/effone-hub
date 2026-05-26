@@ -40,5 +40,5 @@ export default function ConstructorChampion({season}: { season: number }) {
 	}
 	champion.set(teamId, 1);
 
-	return <StatCard label={label} loading={loading} data={champion} format={() => ''} variant="team" noGrid cardProps={{sx: {'& > .MuiCardHeader-root': {px: 0, pb: 0}}}}/>;
+	return <StatCard label={label} loading={loading} data={champion} format={() => ''} variant="team" noGrid cardProps={{className: '[&>.MuiCardHeader-root]:px-0 [&>.MuiCardHeader-root]:pb-0'}}/>;
 }

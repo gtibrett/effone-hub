@@ -6,7 +6,8 @@ import {FastestLap, LapLeader, Pole, PositionsGained} from '@/components/page/ra
 import {OpenAILink, Page} from '@/components/ui';
 import {Race} from '@/gql/graphql';
 import useRace from '@/hooks/data/useRace';
-import {Link, TabContent, Tabs} from '@gtibrett/mui-additions';
+import {Link} from '@gtibrett/mui-additions';
+import {Tabs, type TabContent} from '@/components/ui';
 import {Box, Card, CardContent, CardHeader, CardMedia, Grid, Typography} from '@mui/material';
 
 type Props = {
