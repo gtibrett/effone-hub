@@ -32,10 +32,7 @@ export default function Career({driverId}: CareerProps) {
             <Grid
                 container
                 spacing={2}
-                sx={{
-                    alignItems: "center",
-                    justifyContent: "space-around"
-                }}>
+                className="items-center justify-around">
 				<Stats driverId={driverId}/>
 				<Grid size={12} />
 				<Grid size={12}>

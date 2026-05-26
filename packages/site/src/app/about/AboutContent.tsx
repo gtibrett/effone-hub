@@ -13,9 +13,7 @@ export default function AboutContent() {
                         xs: 12,
                         md: 9
                     }}>
-					<Grid container spacing={2} sx={{
-                        alignItems: "strech"
-                    }}>
+					<Grid container spacing={2} className="items-stretch">
 						<Grid size={12}>
 							<Mission/>
 						</Grid>

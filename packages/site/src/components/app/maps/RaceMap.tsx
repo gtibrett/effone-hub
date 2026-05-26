@@ -78,8 +78,8 @@ export default function RaceMap(props: RaceMapProps) {
 	
 	// PropTypes vs TS mismatches
 	return (
-		<Box ref={ref} sx={{position: 'relative'}} aria-hidden>
-			<Box sx={{height, width}}>
+		<Box ref={ref} className="relative" aria-hidden>
+			<Box style={{height, width}}>
 				<ResponsiveGeoMap
 					{...RequiredByPropTypes.GeoMap}
 					

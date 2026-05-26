@@ -30,7 +30,7 @@ export default function LapTimesByYearSwarm({data, loading}: LapTimesChartProps)
 	const max   = Math.max(...chartData.map(d => d.milliseconds));
 	
 	return (
-		<Box sx={{height: '60vh', width: '100%'}} aria-hidden>
+		<Box className="h-[60vh] w-full" aria-hidden>
 			<ResponsiveSwarmPlot
 				theme={nivoTheme}
 				data={chartData}

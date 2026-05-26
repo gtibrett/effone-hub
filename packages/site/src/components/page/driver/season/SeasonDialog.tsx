@@ -19,9 +19,7 @@ export default function SeasonDialog({driverId, season, onClose}: SeasonDialogPr
 			title={
 				<>
 					{season} Season
-					<Typography variant="subtitle1" sx={{
-                        marginBottom: "16px"
-                    }}><DriverByLine id={driverId} variant="name"/></Typography>
+					<Typography variant="subtitle1" className="mb-4"><DriverByLine id={driverId} variant="name"/></Typography>
 				</>
 			}>
             {season && <Season season={season} driverId={driverId || ''}/>}

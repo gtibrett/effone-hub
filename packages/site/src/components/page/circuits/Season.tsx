@@ -99,11 +99,7 @@ export default function Season({data, loading}: CircuitDataProps) {
                                 <Grid
                                     container
                                     spacing={1}
-                                    sx={{
-                                        alignItems: "center",
-                                        justifyContent: "space-between",
-                                        flexWrap: "nowrap"
-                                    }}>
+                                    className="items-center justify-between flex-nowrap">
                                     <Grid><>{row.reasonRetired ? row.reasonRetired : getPositionTextOutcome(String(row.positionDisplayOrder), undefined)}</>
 									</Grid>
                                 </Grid>

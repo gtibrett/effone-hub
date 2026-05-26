@@ -11,14 +11,14 @@ export default function NextRaceSchedule({race}: { race: NextRace }) {
 	const scheduleEvents = useRaceScheduleEvents(race);
 	
 	return (
-		<Card sx={{width: '100%'}}>
-			<Table size="small" sx={{width: '100%'}}>
+		<Card className="w-full">
+			<Table size="small" className="w-full">
 				<TableHead>
 					<TableRow>
 						{scheduleEvents.map(({label}) => <TableCell width={`${100 / scheduleEvents.length}%`} key={label} component="th" scope="col" variant="head">{label}</TableCell>)}
 					</TableRow>
 				</TableHead>
-				<TableBody sx={{'& tr:last-child .MuiTableCell-root': {borderBottom: 0}}}>
+				<TableBody className="[&_tr:last-child_.MuiTableCell-root]:border-b-0">
 					<TableRow>
 						{scheduleEvents.map(({label, date, time, asDate}) => (
 								<TableCell component="td" variant="body" key={label}>

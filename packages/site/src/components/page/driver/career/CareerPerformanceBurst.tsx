@@ -10,11 +10,7 @@ const CareerPerformanceTooltip = (datum: ComputedDatum<BurstDatum>) => {
 	const {label} = datum.data;
 	
 	return (
-        <Box
-            sx={{
-                py: 1,
-                px: 2
-            }}>
+        <Box className="py-2 px-4">
             <Typography>{label}</Typography>
         </Box>
     );
@@ -95,7 +91,7 @@ export default function CareerPerformanceBurst({driverId, size}: {
 	};
 	
 	return (
-		<Card variant="outlined" aria-hidden sx={{height: size, width: size}}>
+		<Card variant="outlined" aria-hidden style={{height: size, width: size}}>
 			<ResponsiveSunburst<BurstDatum>
 				theme={nivoTheme}
 				data={chartData}

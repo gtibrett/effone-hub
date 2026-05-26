@@ -18,7 +18,7 @@ export function ErrorCard({message}: { message?: string }) {
 	return (
 		<Container maxWidth="md">
 			<Card>
-				<Alert sx={{py: 2, px: 4}} severity="error" variant="filled" icon={<FontAwesomeIcon icon={faFlag} color={color} size="2x"/>}>
+				<Alert className="px-8 py-4" severity="error" variant="filled" icon={<FontAwesomeIcon icon={faFlag} color={color} size="2x"/>}>
 					<Typography variant="h2">{message}</Typography>
 				</Alert>
 			</Card>

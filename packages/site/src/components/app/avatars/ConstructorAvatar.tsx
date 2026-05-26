@@ -32,7 +32,8 @@ export default function TeamAvatar({teamId, size = 'small'}: TeamAvatarProps) {
 		return (
 			<Avatar
 				variant="rounded"
-				sx={{...sizeSx, background: primary, color: `contrast-color(${primary} vs white, black)`}}
+				sx={sizeSx}
+				style={{background: primary, color: `contrast-color(${primary} vs white, black)`}}
 				src={bio?.thumbnailUrl ?? undefined}
 				alt={name ?? ''}
 			>

@@ -1,4 +1,5 @@
-import {Avatar, SxProps, useTheme} from '@mui/material';
+import {Avatar} from '@mui/material';
+import {CSSProperties} from 'react';
 import {countryCode} from 'emoji-flags';
 import nationalities from 'i18n-nationality';
 
@@ -8,9 +9,9 @@ export const useCountryFlag = (nationality: string | undefined) => {
 	if (!nationality) {
 		return null;
 	}
-	
+
 	const code = nationalities.getAlpha2Code(nationality === 'Monegasque' ? 'Monacan' : nationality, 'en');
-	
+
 	return code ? countryCode(code).emoji : null;
 };
 
@@ -19,44 +20,40 @@ export type FlagProps = {
 	size?: 'small' | 'medium' | 'large' | 'auto' | number
 }
 
-const useSize = (size: FlagProps['size']): SxProps => {
-	const theme = useTheme();
-	
+const getSizeStyle = (size: FlagProps['size']): CSSProperties => {
 	switch (size) {
 		case 'small':
-			return {width: theme.spacing(4), height: theme.spacing(4), fontSize: theme.spacing(4)};
-		
+			return {width: 32, height: 32, fontSize: 32};
+
 		case 'medium':
-			return {width: theme.spacing(8), height: theme.spacing(8), fontSize: theme.spacing(4)};
-		
+			return {width: 64, height: 64, fontSize: 32};
+
 		case 'large':
-			return {width: theme.spacing(16), height: theme.spacing(16), fontSize: theme.spacing(4)};
-		
+			return {width: 128, height: 128, fontSize: 32};
+
 		default:
 			if (typeof size === 'number') {
 				return {width: size, height: size, fontSize: size};
 			}
 	}
-	
+
 	return {width: '100%', height: '100%'};
 };
 
 export default function Flag({nationality, size = 'small'}: FlagProps) {
-	const sizeSx = useSize(size);
-	const flag   = useCountryFlag(nationality);
+	const sizeStyle = getSizeStyle(size);
+	const flag      = useCountryFlag(nationality);
 	if (!flag) {
 		return null;
 	}
-	
+
 	return (
 		<Avatar
 			component="span"
 			variant="rounded"
 			alt={nationality}
-			sx={{
-				...sizeSx,
-				background: 'transparent'
-			}}
+			className="bg-transparent"
+			style={sizeStyle}
 		>
 			{flag}
 		</Avatar>

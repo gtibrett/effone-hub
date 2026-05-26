@@ -40,7 +40,7 @@ export default function SprintResults({results}: {
 					},
 					{
 						field:        'change',
-						renderHeader: () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
+						renderHeader: () => <Typography style={visuallyHidden}>Position Changes</Typography>,
 						renderCell:   ({row}) => (
 							<PositionChange {...row}/>
 						),
@@ -90,11 +90,7 @@ export default function SprintResults({results}: {
                                 <Grid
                                     container
                                     spacing={1}
-                                    sx={{
-                                        alignItems: "center",
-                                        justifyContent: "space-between",
-                                        flexWrap: "nowrap"
-                                    }}>
+                                    className="items-center justify-between flex-nowrap">
                                     <Grid>{time ? time : getPositionTextOutcome(row.positionText, row.reasonRetired)}</Grid>
                                 </Grid>
                             );

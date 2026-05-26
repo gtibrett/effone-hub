@@ -30,7 +30,7 @@ export default function Circuits({driverId}: CircuitsProps) {
             <Grid size={12}>
 				<CircuitDialog driverId={driverId} circuitId={active} onClose={() => setActive(undefined)}/>
 				<DataGrid
-					sx={{mt: 2}}
+					className="mt-4"
 					rows={data}
 					loading={loading}
 					autoHeight

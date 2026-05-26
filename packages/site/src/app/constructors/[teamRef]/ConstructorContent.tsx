@@ -27,11 +27,7 @@ const TeamDetails = ({team}: {team: TeamProp}) => (
 	<Grid
         container
         spacing={4}
-        sx={{
-            alignItems: "center",
-            fontSize: '1.5em',
-            fontWeight: 'bold'
-        }}>
+        className="items-center text-[1.5em] font-bold">
 		<Grid><Typography variant="h2">{team.name}</Typography></Grid>
 		{team.countryId && <Grid><Flag nationality={team.countryId} size={48}/></Grid>}
 	</Grid>
@@ -46,9 +42,7 @@ const PageSkeleton = () => (
                     md: 8,
                     lg: 9
                 }}
-                sx={{
-                    order: {xs: 2, md: 1}
-                }}>
+                className="order-2 md:order-1">
 				<Card variant="outlined">
 					<Skeleton variant="rectangular" height={600}/>
 				</Card>
@@ -60,12 +54,10 @@ const PageSkeleton = () => (
                     md: 4,
                     lg: 3
                 }}
-                sx={{
-                    order: {xs: 1, md: 2}
-                }}>
+                className="order-1 md:order-2">
 				<Card variant="outlined">
 					<CardMedia>
-						<Skeleton variant="rectangular" sx={{height: {xs: 24, md: 48}}}/>
+						<Skeleton variant="rectangular" className="h-6 md:h-12"/>
 					</CardMedia>
 					<CardContent>
 						<Typography variant="body1">
@@ -74,7 +66,7 @@ const PageSkeleton = () => (
 							<Skeleton variant="text"/>
 							<Skeleton variant="text"/>
 						</Typography>
-						<Divider orientation="horizontal" sx={{my: 1}}/>
+						<Divider orientation="horizontal" className="my-2"/>
 						<Skeleton variant="text"/>
 					</CardContent>
 				</Card>
@@ -124,7 +116,7 @@ export default function ConstructorContent({teamRef, team}: Props) {
 	return (
         <Page
 			title={<TeamDetails team={team}/>}
-			subheader={<><Divider orientation="horizontal" sx={{my: 1}}/></>}
+			subheader={<><Divider orientation="horizontal" className="my-2"/></>}
 			headerProps={{
 				sx: {
 					position:   'relative',
@@ -149,16 +141,14 @@ export default function ConstructorContent({teamRef, team}: Props) {
                         md: isInCurrentSeason ? 8 : 12,
                         lg: isInCurrentSeason ? 9 : 12
                     }}
-                    sx={{
-                        order: {xs: 2, md: 1}
-                    }}>
+                    className="order-2 md:order-1">
 					{bio?.extract && (
-						<Card variant="outlined" sx={{mb: 2, p: 2}}>
+						<Card variant="outlined" className="mb-4 p-4">
 							{bio.thumbnailUrl && (
-								<Box component="img" src={bio.thumbnailUrl} alt={team.name ?? ''} sx={{float: 'right', ml: 2, mb: 1, width: 120, height: 120, objectFit: 'cover', borderRadius: 1}}/>
+								<Box component="img" src={bio.thumbnailUrl} alt={team.name ?? ''} className="float-right ml-4 mb-2 w-[120px] h-[120px] object-cover rounded"/>
 							)}
 							<Typography variant="body1">{bio.extract}</Typography>
-							<Box sx={{clear: 'both'}}/>
+							<Box className="clear-both"/>
 						</Card>
 					)}
 					<Card variant="outlined">
@@ -174,9 +164,7 @@ export default function ConstructorContent({teamRef, team}: Props) {
                                 md: 4,
                                 lg: 3
                             }}
-                            sx={{
-                                order: {xs: 1, md: 2}
-                            }}>
+                            className="order-1 md:order-2">
 							<Card variant="outlined">
 								<CardHeader title={`${currentSeason} Season Stats`}/>
 								<CardContent>

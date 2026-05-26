@@ -8,7 +8,7 @@ export function ConstructorStandingsPositionTooltip({serie}: PositionsChartToolt
 	const headerSx                     = useTeamHeaderSx(id);
 	
 	return (
-		<Card sx={{p: 0}}>
+		<Card className="p-0">
 			<CardHeader sx={headerSx} title={name}/>
 		</Card>
 	);
@@ -19,9 +19,9 @@ export function ConstructorStandingsPointsTooltip({point}: PointTooltipProps) {
 	const {x}                                    = data;
 	const {points, position, entity: {id, name}} = data.data;
 	const headerSx                               = useTeamHeaderSx(id);
-	
+
 	return (
-		<Card sx={{p: 0}}>
+		<Card className="p-0">
 			<CardHeader sx={headerSx} title={name}/>
 			<PropertiesTable>
 				<PropertiesTableRow header="Round" align="right">{`${x}`}</PropertiesTableRow>

@@ -19,17 +19,13 @@ export default function Season({season}: SeasonProps) {
 			title={`${season.year} Season`}
 			headerProps={{sx: {minWidth: 480}}}
 		>
-            <Grid container spacing={2} sx={{
-                alignItems: "stretch"
-            }}>
+            <Grid container spacing={2} className="items-stretch">
 				<Grid
                     size={{
                         xs: 12,
                         lg: 8
                     }}>
-					<Grid container spacing={2} sx={{
-                        alignItems: "stretch"
-                    }}>
+					<Grid container spacing={2} className="items-stretch">
 						<Suspense><RaceWeekend season={season.year}/></Suspense>
 						<Grid size={12}>
 							<Suspense fallback={<ScheduleSkeleton/>}>
@@ -58,13 +54,13 @@ export default function Season({season}: SeasonProps) {
 									<Grid container spacing={2}>
 										<Wins size="small" season={season.year}/>
 										<SprintWins size="small" season={season.year}/>
-										<Grid size={12} sx={{display: {xs: 'block', lg: 'none'}}} />
+										<Grid size={12} className="block lg:hidden" />
 										<Poles size="small" season={season.year}/>
 										<FastestLaps season={season.year}/>
-										<Grid size={12} sx={{display: {xs: 'block', lg: 'none'}}} />
+										<Grid size={12} className="block lg:hidden" />
 										<FastestLap season={season.year}/>
 										<LapLeader size="small" season={season.year}/>
-										<Grid size={12} sx={{display: {xs: 'block', lg: 'none'}}} />
+										<Grid size={12} className="block lg:hidden" />
 										<PositionsGained size="small" season={season.year}/>
 										<DNFs size="small" season={season.year}/>
 									</Grid>

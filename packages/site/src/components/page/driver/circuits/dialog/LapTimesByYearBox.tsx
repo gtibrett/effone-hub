@@ -27,7 +27,7 @@ export default function LapTimesByYearBox({data}: LapTimesChartProps) {
 	}
 	
 	return (
-		<Card variant="outlined" sx={{height: '60vh', width: '100%'}} aria-hidden>
+		<Card variant="outlined" className="h-[60vh] w-full" aria-hidden>
 			<ResponsiveBoxPlot
 				theme={nivoTheme}
 				data={chartData}

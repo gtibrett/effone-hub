@@ -1,7 +1,6 @@
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Button, CardActions, Grid, Tooltip, Typography} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
 import {ChangeEvent, Dispatch, ReactNode, SetStateAction, SyntheticEvent} from 'react';
 
 type TableFilterProps = {
@@ -17,7 +16,7 @@ export default function TableFilter({handleSearch, children}: TableFilterProps) 
 					{Array.isArray(children) ? children.map((c, i) => <Grid key={i} size="grow">{c}</Grid>) : <Grid size="grow">{children}</Grid>}
 					<Grid>
 						<Tooltip title="Search" arrow placement="bottom">
-							<Button color="secondary" type="submit" variant="contained" onClick={handleSearch}><FontAwesomeIcon icon={faMagnifyingGlass} style={{fontSize: 26}}/><Typography sx={visuallyHidden}>Search</Typography></Button>
+							<Button color="secondary" type="submit" variant="contained" onClick={handleSearch}><FontAwesomeIcon icon={faMagnifyingGlass} style={{fontSize: 26}}/><Typography className="sr-only">Search</Typography></Button>
 						</Tooltip>
 					</Grid>
 				</Grid>

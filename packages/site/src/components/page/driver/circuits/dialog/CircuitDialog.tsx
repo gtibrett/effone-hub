@@ -33,9 +33,7 @@ export default function CircuitDialog({driverId, circuitId, onClose}: CircuitPro
 			title={
 				<>
 					{circuit.fullName}
-					<Typography variant="subtitle1" sx={{
-                        marginBottom: "16px"
-                    }}><DriverByLine id={driverId} variant="name"/></Typography>
+					<Typography variant="subtitle1" className="mb-4"><DriverByLine id={driverId} variant="name"/></Typography>
 				</>
 			}>
             <Grid container spacing={2}>
@@ -61,7 +59,7 @@ export default function CircuitDialog({driverId, circuitId, onClose}: CircuitPro
 				<Grid size={3}>
 					<Grid container spacing={1}>
 						<Grid size={12}>
-							<Card sx={{mb: 2}}>
+							<Card className="mb-4">
 								<RaceMap points={points} onClick={onClick} height={200} centerOn={{latitude: circuit.latitude, longitude: circuit.longitude}} zoom/>
 							</Card>
 						</Grid>

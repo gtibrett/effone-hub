@@ -16,13 +16,8 @@ export const SeasonsQuery = gql`
 
 // Tailwind-only: border + hover-bg flip with OS scheme via the
 // text-primary / divider tokens defined in globals.css. The
-// notchedOutline override stays in sx (deep MUI selector).
-const SELECT_CLASS = 'min-w-30 rounded border border-text-primary hover:bg-divider/5';
-const SELECT_SX    = {
-	'& > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
-		border: 0
-	}
-};
+// notchedOutline override uses an arbitrary variant so we can drop sx.
+const SELECT_CLASS = 'min-w-30 rounded border border-text-primary hover:bg-divider/5 [&>.MuiInputBase-root>.MuiOutlinedInput-notchedOutline]:border-0';
 
 type SeasonMenuProps = {
 	id: string;
@@ -46,7 +41,7 @@ export default function SeasonMenu({variant = 'simple', id, season, setSeason, r
 	switch (variant) {
 		case 'simple':
 			return (
-				<FormControl fullWidth className={SELECT_CLASS} sx={SELECT_SX} size="small">
+				<FormControl fullWidth className={SELECT_CLASS} size="small">
 					<Select
 						inputProps={{'aria-label': 'Season'}}
 						className="text-inherit p-0 border-0"

@@ -11,7 +11,7 @@ export default function HistoryTooltip(props: PointTooltipProps) {
 	const headerSx                           = useTeamHeaderSx(id);
 	
 	return (
-		<Card sx={{p: 0}}>
+		<Card className="p-0">
 			<CardHeader sx={headerSx} title={name} subheader={point.data.xFormatted}/>
 			<PropertiesTable>
 				{positionNumber && <PropertiesTableRow header="Position" align="right">{positionNumber}</PropertiesTableRow>}

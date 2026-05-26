@@ -2,8 +2,7 @@ import {useAppState} from '@/components/app';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link} from '@gtibrett/mui-additions';
-import {Box, Grid, IconButton, Menu, MenuItem, SxProps, useTheme} from '@mui/material';
-import {lighten} from '@/components/ui/colors';
+import {Box, Grid, IconButton, Menu, MenuItem, useTheme} from '@mui/material';
 import {usePathname, useRouter} from 'next/navigation';
 import {MouseEvent, useState} from 'react';
 
@@ -61,25 +60,14 @@ export default function NavMenu() {
 	const pathname                = usePathname() || '';
 	const navLinks                = useNavLinks(pathname);
 	
-	const navLinkSx: SxProps = {
-		fontFamily:           "'Titillium Web', sans-serif",
-		fontWeight:           'bold',
-		textDecoration:       'none',
-		py:                   1,
-		px:                   1.5,
-		mx:                   .5,
-		border:               '1px solid transparent',
-		borderRadius:         1,
-		'&:hover, &:focus':   {
-			color:       lighten('var(--color-secondary-light)', .375),
-			borderColor: lighten('var(--color-secondary-light)', .375)
-		},
-		'&:active, &.active': {
-			color:       'var(--color-secondary-contrast)',
-			background:  'var(--color-secondary-light)',
-			borderColor: 'transparent !important'
-		}
-	};
+	const navLinkClass = [
+		"font-['Titillium_Web',sans-serif] font-bold no-underline",
+		'py-2 px-3 mx-1 border border-transparent rounded',
+		'hover:text-[color-mix(in_oklch,_var(--color-secondary-light),_white_37.5%)] hover:border-[color-mix(in_oklch,_var(--color-secondary-light),_white_37.5%)]',
+		'focus:text-[color-mix(in_oklch,_var(--color-secondary-light),_white_37.5%)] focus:border-[color-mix(in_oklch,_var(--color-secondary-light),_white_37.5%)]',
+		'active:text-secondary-contrast active:bg-secondary-light active:!border-transparent',
+		'[&.active]:text-secondary-contrast [&.active]:bg-secondary-light [&.active]:!border-transparent'
+	].join(' ');
 	
 	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -96,17 +84,17 @@ export default function NavMenu() {
 	
 	return (
         <>
-            <Box sx={{display: {xs: 'none', md: 'contents'}}}>
+            <Box className="hidden md:contents">
                 {navLinks.map(({path, label, active}, i) => {
                         return (
                             <Grid key={i}>
-                                <Link color="inherit" sx={navLinkSx} className={active ? 'active' : ''} href={path}>{label}</Link>
+                                <Link color="inherit" className={`${navLinkClass}${active ? ' active' : ''}`} href={path}>{label}</Link>
                             </Grid>
                         );
                     }
                 )}
             </Box>
-            <Grid sx={{display: {xs: 'block', md: 'none'}}}>
+            <Grid className="block md:hidden">
                 <div>
                         <IconButton
                             id="hamburger-button"

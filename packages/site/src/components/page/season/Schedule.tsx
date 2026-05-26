@@ -16,7 +16,7 @@ type ScheduleProps = {
 export const ScheduleSkeleton = () => (
 	<Card id="season" variant="outlined">
 		<CardHeader title="Schedule"/>
-		<Box sx={{px: 2}}><Skeleton variant="rectangular" height={300}/></Box>
+		<Box className="px-4"><Skeleton variant="rectangular" height={300}/></Box>
 		<Skeleton variant="rectangular" height={300}/>
 	</Card>
 );
@@ -33,9 +33,9 @@ export default function Schedule({season}: ScheduleProps) {
 	return (
 		<Card id="season" variant="outlined">
 			<CardHeader title="Schedule"/>
-			<Box sx={{px: 2}}><RaceMap points={points} onClick={onClick} highlightNext/></Box>
+			<Box className="px-4"><RaceMap points={points} onClick={onClick} highlightNext/></Box>
 			<DataGrid
-				sx={{mt: 2}}
+				className="mt-4"
 				rows={races}
 				autoHeight
 				density="compact"

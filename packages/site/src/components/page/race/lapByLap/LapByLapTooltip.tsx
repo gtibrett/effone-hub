@@ -8,7 +8,7 @@ export default function LapByLapTooltip({serie}: { serie: BumpSerie<any, any> })
 	const headerSx           = useDriverHeaderSx(driverId);
 	
 	return (
-		<Card sx={{p: 0}}>
+		<Card className="p-0">
 			<CardHeader sx={headerSx} title={<DriverByLine id={driverId} variant="name"/>} avatar={<DriverAvatar driverId={driverId} size={42}/>}/>
 		</Card>
 	);

@@ -31,10 +31,7 @@ export default function Results({results}: { results?: Race['raceResults'] | nul
             <Grid
                 container
                 spacing={2}
-                sx={{
-                    justifyContent: "space-evenly",
-                    mb: 2
-                }}>
+                className="justify-evenly mb-4">
 				<Podium results={(nodes as Array<RaceResult | null>).filter((r): r is RaceResult => r != null)}/>
 			</Grid>
             <DataGrid
@@ -59,7 +56,7 @@ export default function Results({results}: { results?: Race['raceResults'] | nul
 						},
 						{
 							field:        'change',
-							renderHeader: () => <Typography sx={visuallyHidden}>Position Changes</Typography>,
+							renderHeader: () => <Typography style={visuallyHidden}>Position Changes</Typography>,
 							renderCell:   ({row}) => (
 								<PositionChange {...row}/>
 							),
@@ -109,11 +106,7 @@ export default function Results({results}: { results?: Race['raceResults'] | nul
                                     <Grid
                                         container
                                         spacing={1}
-                                        sx={{
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            flexWrap: "nowrap"
-                                        }}>
+                                        className="items-center justify-between flex-nowrap">
                                         <Grid>{time ? time : getPositionTextOutcome(row.positionText, row.reasonRetired)}</Grid>
                                         {row.fastestLap && (
 											<Grid>

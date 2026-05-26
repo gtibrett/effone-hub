@@ -59,7 +59,7 @@ export default function DriverStandingsDialog({season, open, setOpen}: DriverSta
                         xs: 12,
                         lg: 7
                     }}>
-					<Card sx={{height: dimensions.height - 14}}>
+					<Card style={{height: dimensions.height - 14}}>
 						<DataGrid
 							sx={sx}
 							rows={rest}

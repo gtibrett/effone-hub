@@ -35,11 +35,8 @@ const DriverSkeleton = ({variant = 'full', avatarProps = {}}: BaseByLineProps) =
                 <Grid
                     container
                     spacing={1}
-                    sx={{
-                        alignItems: "center",
-                        flexWrap: 'nowrap'
-                    }}>
-                    <Grid sx={{display: {xs: 'none', sm: 'block'}}}><DriverAvatar driverId={undefined} {...avatarProps}/></Grid>
+                    className="items-center flex-nowrap">
+                    <Grid className="hidden sm:block"><DriverAvatar driverId={undefined} {...avatarProps}/></Grid>
                     <Grid><Typography><Skeleton/></Typography></Grid>
                 </Grid>
             );
@@ -68,7 +65,7 @@ const ByDriver = (props: ByLinePropsByDriver) => {
 		case 'code':
 			return <>{abbreviation}</>;
 		case 'code-link':
-			return <Link sx={{fontWeight: 'bold'}} href={`/drivers/${rowId}`}>{abbreviation}</Link>;
+			return <Link className="font-bold" href={`/drivers/${rowId}`}>{abbreviation}</Link>;
 		case 'name':
 			return <>{name}</>;
 		case 'link':
@@ -79,13 +76,10 @@ const ByDriver = (props: ByLinePropsByDriver) => {
                 <Grid
                     container
                     spacing={1}
-                    sx={{
-                        alignItems: "center",
-                        flexWrap: 'nowrap'
-                    }}>
-                    <Grid sx={{display: {xs: 'none', sm: 'block'}}}><DriverAvatar driverId={rowId} {...avatarProps}/></Grid>
+                    className="items-center flex-nowrap">
+                    <Grid className="hidden sm:block"><DriverAvatar driverId={rowId} {...avatarProps}/></Grid>
                     <Grid><Typography><Link href={`/drivers/${rowId}`}>{name}</Link></Typography></Grid>
-                    {!noFlag && nationalityCountryId && <Grid sx={{display: {xs: 'none', md: 'block'}}}><Typography><Flag nationality={nationalityCountryId} {...flagProps}/></Typography></Grid>}
+                    {!noFlag && nationalityCountryId && <Grid className="hidden md:block"><Typography><Flag nationality={nationalityCountryId} {...flagProps}/></Typography></Grid>}
                 </Grid>
             );
 	}

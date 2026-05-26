@@ -69,9 +69,7 @@ function RoundContentRender({season: seasonStr, round: roundStr, race, raceData}
 					<CardHeader title={<Link href={`/circuits/${race.circuit?.rowId}`}>{race.circuit?.fullName}</Link>}/>
 					<CardMedia><RaceMap points={points} onClick={onClick} height={140} centerOn={{latitude: race.circuit?.latitude, longitude: race.circuit?.longitude}} zoom/></CardMedia>
 					<CardContent>
-						<Typography variant="body1">{circuitDescription} <Box component="span" sx={{
-                            display: "block"
-                        }}><OpenAILink/></Box></Typography>
+						<Typography variant="body1">{circuitDescription} <Box component="span" className="block"><OpenAILink/></Box></Typography>
 					</CardContent>
 				</Card>
 			)
@@ -89,7 +87,7 @@ function RoundContentRender({season: seasonStr, round: roundStr, race, raceData}
 			extra={null}
 			action={
 				race.circuit && (
-					<Card sx={{display: {xs: 'none', md: 'block'}}}>
+					<Card className="hidden md:block">
 						<CardMedia><RaceMap points={points} onClick={onClick} height={140} centerOn={{latitude: race.circuit.latitude, longitude: race.circuit.longitude}} zoom/></CardMedia>
 						<CardHeader title={<Link href={`/circuits/${race.circuit.rowId}`}>{race.circuit.fullName}</Link>}/>
 					</Card>
@@ -104,9 +102,7 @@ function RoundContentRender({season: seasonStr, round: roundStr, race, raceData}
                         md: 8,
                         lg: 9
                     }}
-                    sx={{
-                        order: {xs: 2, md: 1}
-                    }}>
+                    className="order-2 md:order-1">
 					<Card>
 						{
 							hasResults
@@ -118,11 +114,7 @@ function RoundContentRender({season: seasonStr, round: roundStr, race, raceData}
 										{circuitDescription && (
 											<>
 												<Typography variant="body2">{circuitDescription}</Typography>
-												<Box
-                                                    sx={{
-                                                        textAlign: "right",
-                                                        display: "block"
-                                                    }}><OpenAILink/></Box>
+												<Box className="text-right block"><OpenAILink/></Box>
 											</>
 										)}
 									</CardContent>
@@ -137,16 +129,14 @@ function RoundContentRender({season: seasonStr, round: roundStr, race, raceData}
                         md: 4,
                         lg: 3
                     }}
-                    sx={{
-                        order: {xs: 1, md: 2}
-                    }}>
-					<Card sx={{height: '100%'}}>
+                    className="order-1 md:order-2">
+					<Card className="h-full">
 						<CardContent>
 							<Grid container spacing={2}>
 								<CardHeader title={`${seasonToShow} Season`}/>
 								<Pole season={seasonToShow} round={round} size="small"/>
 								<FastestLap season={seasonToShow} round={round} size="small"/>
-								<Grid size={12} sx={{display: {xs: 'block', lg: 'none'}}} />
+								<Grid size={12} className="block lg:hidden" />
 								<LapLeader season={seasonToShow} round={round} size="small"/>
 								<PositionsGained season={seasonToShow} round={round} size="small"/>
 							</Grid>

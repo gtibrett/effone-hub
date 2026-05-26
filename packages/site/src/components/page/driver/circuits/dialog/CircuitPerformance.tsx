@@ -45,7 +45,7 @@ export default function CircuitPerformance({data, loading}: CircuitPerformancePr
 	const color = theme.palette.primary.main;
 
 	return (
-		<Paper variant="outlined" ref={ref} sx={{height: width, width, p: 0}}>
+		<Paper variant="outlined" ref={ref} className="p-0" style={{height: width, width}}>
 			<ResponsiveRadar
 				theme={nivoTheme}
 				data={chartData}

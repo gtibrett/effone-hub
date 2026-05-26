@@ -16,30 +16,9 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 	if (!race) {
 		return null;
 	} else {
-		const sx       = {
-			background:      lightTheme.palette.secondary.main,
-			backgroundImage: `url(/carbon-fiber-texture.png)`,
-			position:        'relative',
-			
-			'&:before': {
-				content:    '" "',
-				position:   'absolute',
-				left:       0,
-				top:        0,
-				height:     '100%',
-				width:      '100%',
-				zIndex:     1,
-				background: lightTheme.palette.secondary.main,
-				opacity:    .5
-			},
-			
-			'& > *': {
-				zIndex:   2,
-				position: 'relative'
-			}
-		};
+		const bg       = lightTheme.palette.secondary.main;
 		const raceDate = new Date(`${race.date}T${race.time}`);
-		
+
 		return (
 			<Grid
 				size={{
@@ -47,7 +26,11 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 					md: 12
 				}}>
 				<ThemeProvider theme={darkTheme}>
-					<Card sx={sx} id="next-race-weekend">
+					<Card
+						id="next-race-weekend"
+						className="relative bg-[image:url(/carbon-fiber-texture.png)] before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-full before:z-[1] before:opacity-50 before:bg-[var(--rw-bg)] [&>*]:z-[2] [&>*]:relative bg-[var(--rw-bg)]"
+						style={{['--rw-bg' as any]: bg}}
+					>
 						<CardHeader
 							title={race.name}
 							subheader={getDateWithTime(raceDate)}
@@ -59,7 +42,7 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 						<CardContent>
 							<Typography variant="body1" component="p">{race.name}</Typography>
 						</CardContent>
-						<CardActions sx={{p: 0, mx: 1, mb: 1}}>
+						<CardActions className="p-0 mx-2 mb-2">
 							<NextRaceSchedule race={race}/>
 						</CardActions>
 					</Card>

@@ -67,7 +67,7 @@ export default function PitStopsChart({maxStops, pitStops}: PitStopsChartProps) 
 	}
 	
 	return (
-		<Box sx={{height: isSmall ? 400 : 150, mb: 2}} aria-hidden>
+		<Box className="mb-4" style={{height: isSmall ? 400 : 150}} aria-hidden>
 			<ResponsiveBar
 				theme={nivoTheme}
 				indexBy="code"

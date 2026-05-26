@@ -55,9 +55,7 @@ export default function LapByLapTable({season, round}: LapByLapProps) {
 	}
 	
 	return (
-        <Box sx={{
-            height: 800
-        }}>
+        <Box className="h-[800px]">
             <DataGrid columns={columns} rows={flatData} getRowId={r => r.driverId ?? ''}/>
         </Box>
     );

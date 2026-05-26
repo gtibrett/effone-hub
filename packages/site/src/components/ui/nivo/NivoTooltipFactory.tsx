@@ -8,27 +8,19 @@ export default function NivoTooltipFactory(Component: FC<any>): FC<any> {
 	const theme     = useInvertedTheme();
 
 	return useCallback((props: any) => {
-		const sx = {
+		const style = {
 			...nivoTheme.tooltip?.container,
-			minWidth:     200,
-			borderRadius: theme.spacing(.5),
-			position:     'relative',
-			overflow:     'hidden',
-			p:            0,
-			opacity:      .9,
-
-			'& .MuiCard-root': {
-				border: 0
-			},
-
-			'& .MuiTypography-root': {
-				color: `contrast-color(${theme.palette.background.paper} vs white, black)`
-			}
+			['--tooltip-fg' as string]: `contrast-color(${theme.palette.background.paper} vs white, black)`
 		};
 
 		const content = Component({...props, theme: nivoTheme}) as ReactNode;
 
-		return content ? <Box sx={sx}><ThemeProvider theme={theme}>{content}</ThemeProvider></Box> : null;
-		
+		return content
+			? <Box
+				className="min-w-[200px] rounded-sm relative overflow-hidden p-0 opacity-90 [&_.MuiCard-root]:border-0 [&_.MuiTypography-root]:text-(--tooltip-fg)"
+				style={style}
+			><ThemeProvider theme={theme}>{content}</ThemeProvider></Box>
+			: null;
+
 	}, [Component, nivoTheme, theme]);
 }

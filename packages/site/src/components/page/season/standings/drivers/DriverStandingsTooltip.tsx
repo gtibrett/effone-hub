@@ -9,7 +9,7 @@ export function DriverStandingsPositionTooltip({serie}: PositionsChartTooltipPro
 	const headerSx                      = useDriverHeaderSx(id, color);
 	
 	return (
-		<Card sx={{p: 0}}>
+		<Card className="p-0">
 			<CardHeader sx={headerSx} title={<DriverByLine id={id} variant="name"/>} avatar={<DriverAvatar driverId={id} size={42}/>}/>
 		</Card>
 	);
@@ -22,7 +22,7 @@ export function DriverStandingsPointsTooltip({point}: PointTooltipProps) {
 	const headerSx                                = useDriverHeaderSx(id, color);
 	
 	return (
-		<Card sx={{p: 0}}>
+		<Card className="p-0">
 			<CardHeader sx={headerSx} title={<DriverByLine id={id} variant="name"/>} avatar={<DriverAvatar driverId={id} size={42}/>}/>
 			<PropertiesTable>
 				<PropertiesTableRow header="Round" align="right">{`${x}`}</PropertiesTableRow>

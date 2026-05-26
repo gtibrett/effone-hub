@@ -48,7 +48,7 @@ export default function SeasonChart({data, loading}: SeasonChartProps) {
 	);
 	
 	return (
-		<Box sx={{height: 132, width: '100%'}} aria-hidden>
+		<Box className="h-[132px] w-full" aria-hidden>
 			<ResponsiveLine
 				{...RequiredByPropTypes.Line}
 				theme={nivoTheme}

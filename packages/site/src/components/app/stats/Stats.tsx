@@ -6,11 +6,7 @@ export default function Stats({children}: PropsWithChildren) {
         <Grid
             container
             spacing={2}
-            sx={{
-                justifyContent: "stretch",
-                flexWrap: {xs: 'wrap', lg: 'nowrap'},
-                py: 0
-            }}>
+            className="justify-stretch flex-wrap lg:flex-nowrap py-0">
             {children}
         </Grid>
     );

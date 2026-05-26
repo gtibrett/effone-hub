@@ -7,7 +7,7 @@ import {Link} from '@gtibrett/mui-additions';
 import {Card, CardContent, CardHeader, List, ListItem, ListItemIcon, ListItemText} from '@mui/material';
 
 const Repositories = () => (
-	<Card sx={{height: '100%'}}>
+	<Card className="h-full">
 		<CardHeader title="Repositories"/>
 		<CardContent>
 			<List>

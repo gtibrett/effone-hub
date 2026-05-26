@@ -10,11 +10,7 @@ export default function MapTooltip({feature}: MapTooltipProps) {
 	}
 	
 	return (
-        <Box
-            sx={{
-                py: 1,
-                px: 2
-            }}>
+        <Box className="py-2 px-4">
             <Typography>{feature.properties.name}</Typography>
         </Box>
     );

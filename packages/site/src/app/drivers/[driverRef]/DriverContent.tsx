@@ -41,17 +41,13 @@ const DriverDetails = ({driver}: {driver: DriverPageProp}) => (
 	<Grid
         container
         spacing={2}
-        sx={{
-            alignItems: "center",
-            fontSize: '1.5em',
-            fontWeight: 'bold'
-        }}>
+        className="items-center text-[1.5em] font-bold">
 		<Grid><Typography variant="h2">{driver.firstName} {driver.lastName}</Typography></Grid>
-		<Box sx={{display: {xs: 'none', md: 'contents'}}}>
+		<Box className="hidden md:contents">
 			{driver.nationalityCountryId && <Grid><Flag nationality={driver.nationalityCountryId} size={48}/></Grid>}
 			<Grid size="grow" />
-			<Grid><Typography variant="h2" sx={{fontWeight: 'bold'}}>{driver.abbreviation}</Typography></Grid>
-			<Grid sx={{fontFamily: 'Racing Sans One', fontSize: '1.1em'}}>{driver.permanentNumber}</Grid>
+			<Grid><Typography variant="h2" className="font-bold">{driver.abbreviation}</Typography></Grid>
+			<Grid className="font-['Racing_Sans_One'] text-[1.1em]">{driver.permanentNumber}</Grid>
 		</Box>
 	</Grid>
 );
@@ -85,11 +81,11 @@ export default function DriverContent({driver}: {driver: DriverPageProp | null})
 			title={<DriverDetails driver={driver}/>}
 			action={
 				bio?.thumbnailUrl
-					? <Box component="img" src={bio.thumbnailUrl} alt={`${driver.firstName} ${driver.lastName}`} sx={{width: 200, height: 200, objectFit: 'cover', borderRadius: 1}}/>
+					? <Box component="img" src={bio.thumbnailUrl} alt={`${driver.firstName} ${driver.lastName}`} className="w-[200px] h-[200px] object-cover rounded"/>
 					: <DriverAvatar driverId={driver.rowId} size={200}/>
 			}
 			actionProps={{size: 'auto'}}
-			subheader={<><Divider orientation="horizontal" sx={{my: 1}}/></>}
+			subheader={<><Divider orientation="horizontal" className="my-2"/></>}
 			headerProps={{
 				sx: {
 					position:   'relative',
@@ -108,7 +104,7 @@ export default function DriverContent({driver}: {driver: DriverPageProp | null})
 			}}
 		>
 			{bio?.extract && (
-				<Card sx={{mb: 2, p: 2}}>
+				<Card className="mb-4 p-4">
 					<Typography variant="body1">{bio.extract}</Typography>
 				</Card>
 			)}

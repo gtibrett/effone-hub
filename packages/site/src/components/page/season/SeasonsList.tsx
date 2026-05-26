@@ -31,7 +31,7 @@ const PlaceColumnRenderer = memo(function PlaceColumnRenderer({data}: PlaceColum
 	const key                   = isDriverChampion(data) ? data.driverId : data.teamId;
 
 	return (
-		<Box sx={{mt: 1.5}}>
+		<Box className="mt-3">
 			<StatCard<ChampionData, ChampionData>
 				variant={variant}
 				noGrid

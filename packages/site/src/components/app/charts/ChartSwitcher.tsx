@@ -19,10 +19,10 @@ export default function ChartSwitcher({title, subheader, charts, initial, action
 	return (
 		<Card variant="outlined" aria-hidden>
 			<CardHeader title={title} subheader={subheader} action={<ChartSwitcherToggle charts={charts} active={active} setActive={setActive}/>}/>
-			<CardContent sx={{height: size}}>
+			<CardContent style={{height: size}}>
 				<ChartSwitcherCharts charts={charts} active={active}/>
 			</CardContent>
-			{actions && <CardActions sx={{justifyContent: 'flex-end'}}>{actions}</CardActions>}
+			{actions && <CardActions className="justify-end">{actions}</CardActions>}
 		</Card>
 	);
 }

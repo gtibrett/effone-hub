@@ -8,7 +8,7 @@ import {Link} from '@gtibrett/mui-additions';
 import {Card, CardContent, CardHeader, List, ListItem, ListItemIcon, ListItemText, Typography} from '@mui/material';
 
 const Data = () => (
-	<Card sx={{height: '100%'}}>
+	<Card className="h-full">
 		<CardHeader title="Data"/>
 		<CardContent>
 			<List>
@@ -43,11 +43,7 @@ const Data = () => (
 			</List>
 			<Typography
                 variant="caption"
-                sx={{
-                    color: "text.secondary",
-                    display: 'block',
-                    mt: 1
-                }}>
+                className="text-text-secondary block mt-2">
 				Ergast API was the original data source through 2024. F1DB and Jolpica-F1 are the active sources as of the 2025 season.
 			</Typography>
 		</CardContent>

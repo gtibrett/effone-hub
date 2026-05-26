@@ -38,14 +38,14 @@ export default function CircuitContent({circuitRef}: {circuitRef: string}) {
 						{circuit.description?.description && (
 							<>
 								<Typography variant="body1">{circuit.description.description}</Typography>
-								<Divider orientation="horizontal" sx={{my: 1}}/>
+								<Divider orientation="horizontal" className="my-2"/>
 								<OpenAILink/>
 							</>
 						)}
 					</>
 				)}
 				action={(
-					<Card sx={{display: {xs: 'none', md: 'block'}, height: '100%'}} ref={ref}>
+					<Card className="hidden md:block h-full" ref={ref}>
 						<RaceMap points={points} onClick={onClick} height={height} centerOn={circuit} zoom/>
 					</Card>
 				)}
@@ -53,7 +53,7 @@ export default function CircuitContent({circuitRef}: {circuitRef: string}) {
 			>
 				<Grid container spacing={2}>
 					<Grid
-                        sx={{order: {xs: 2, md: 1}}}
+                        className="order-2 md:order-1"
                         size={{
                             xs: 12,
                             md: 8,
@@ -78,13 +78,13 @@ export default function CircuitContent({circuitRef}: {circuitRef: string}) {
 					</Grid>
 
 					<Grid
-                        sx={{order: {xs: 1, md: 2}}}
+                        className="order-1 md:order-2"
                         size={{
                             xs: 12,
                             md: 4,
                             lg: 3
                         }}>
-						<Card sx={{height: '100%'}}>
+						<Card className="h-full">
 							<CardHeader title={`${seasonToShow} Season`}/>
 							<CardContent>
 								<Grid container spacing={2}>

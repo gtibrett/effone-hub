@@ -11,7 +11,7 @@ export default function PitStopTooltip(props: BarTooltipProps<PitStopSerie>) {
 	const headerSx                      = useDriverHeaderSx(driverId);
 	
 	return (
-		<Card sx={{p: 0}}>
+		<Card className="p-0">
 			<CardHeader sx={headerSx}
 				avatar={<DriverAvatar driverId={driverId} size={42}/>}
 				title={<DriverByLine id={driverId} variant="name"/>}

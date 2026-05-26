@@ -21,9 +21,7 @@ export default function CircuitTable({data, loading}: CircuitTableProps) {
 	}
 
 	return (
-        <Box sx={{
-            height: 400
-        }}>
+        <Box className="h-[400px]">
             <DataGrid
 				rows={races}
 				density="compact"

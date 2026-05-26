@@ -19,14 +19,9 @@ export const StatCardStat = <T extends DataWithValue>({label, data, format}: Pic
         container
         spacing={1}
         wrap="nowrap"
-        sx={{
-            alignItems: "center",
-            justifyContent: "space-between"
-        }}>
+        className="items-center justify-between">
 		{label && <Grid><Typography noWrap>{label}</Typography></Grid>}
-		<Grid><Typography noWrap sx={{
-            fontWeight: "bold"
-        }}>{format ? format(data) : (typeof data.value !== 'undefined' ? data.value : '--')}</Typography></Grid>
+		<Grid><Typography noWrap className="font-bold">{format ? format(data) : (typeof data.value !== 'undefined' ? data.value : '--')}</Typography></Grid>
 	</Grid>
 );
 
@@ -80,9 +75,7 @@ export default function StatCardContent<T extends DataWithValue>({size, avatar, 
 					subheader={(
 						<>
 							<StatCardStat<T> label={label} data={data} format={format}/>
-							{extra && <Box sx={{
-                                mt: 0
-                            }}>{(typeof extra === 'function' ? extra(data) : extra)}</Box>}
+							{extra && <Box className="mt-0">{(typeof extra === 'function' ? extra(data) : extra)}</Box>}
 						</>
 					)}
 				/>
@@ -97,9 +90,7 @@ export default function StatCardContent<T extends DataWithValue>({size, avatar, 
 					subheader={(
 						<>
 							<StatCardStat<T> label={label} data={data} format={format}/>
-							{extra && <Box sx={{
-                                mt: .5
-                            }}>{(typeof extra === 'function' ? extra(data) : extra)}</Box>}
+							{extra && <Box className="mt-1">{(typeof extra === 'function' ? extra(data) : extra)}</Box>}
 						</>
 					)}
 					slotProps={{
