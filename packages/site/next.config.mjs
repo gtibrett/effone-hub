@@ -20,26 +20,39 @@ const nextConfig = {
 	// src/pages/api/cron/ingest.ts for the corresponding `updateTag` calls.
 	cacheComponents: true,
 	serverExternalPackages: POSTGRAPHILE_EXTERNALS,
-	webpack(config, {isServer}) {
+	experimental: {
+		// Use both build-container vCPUs on Vercel Hobby (default may pick 1).
+		// Capped by container hardware — Pro Enhanced Build Machines raise this.
+		cpus: 2
+	},
+	webpack(config, { isServer }) {
 		config.module.rules.push({
-			test  : /\.svg$/i,
+			test: /\.svg$/i,
 			issuer: /\.[jt]sx?$/,
-			use   : ['@svgr/webpack']
+			use: ['@svgr/webpack']
 		});
 
 		config.module.rules.push({
-			test   : /\.(graphql|gql)/,
+			test: /\.(graphql|gql)/,
 			exclude: /node_modules/,
-			loader : "graphql-tag/loader"
+			loader: 'graphql-tag/loader'
 		});
 
 		if (isServer) {
-			config.externals = [...(config.externals || []), ({request}, cb) => {
-				if (request && POSTGRAPHILE_EXTERNALS.some(p => request === p || request.startsWith(p + '/'))) {
-					return cb(null, 'commonjs ' + request);
+			config.externals = [
+				...(config.externals || []),
+				({ request }, cb) => {
+					if (
+						request &&
+						POSTGRAPHILE_EXTERNALS.some(
+							p => request === p || request.startsWith(p + '/')
+						)
+					) {
+						return cb(null, 'commonjs ' + request);
+					}
+					cb();
 				}
-				cb();
-			}];
+			];
 		}
 
 		return config;

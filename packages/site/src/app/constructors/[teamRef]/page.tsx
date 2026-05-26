@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 
-import { buildTeamFull, buildTeamName, buildTeamRowIds } from '../../lib/build-pg';
+import { buildCurrentSeasonTeamRowIds, buildTeamFull, buildTeamName } from '../../lib/build-pg';
 import ConstructorContent from './ConstructorContent';
 
 type Params = Promise<{ teamRef: string }>;
 
 export async function generateStaticParams(): Promise<{ teamRef: string }[]> {
-	const ids = await buildTeamRowIds();
+	const ids = await buildCurrentSeasonTeamRowIds();
 	return ids.map(teamRef => ({ teamRef }));
 }
 

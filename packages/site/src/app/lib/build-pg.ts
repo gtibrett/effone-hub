@@ -81,6 +81,112 @@ export async function buildCircuitRowIds(): Promise<string[]> {
 }
 
 // ---------------------------------------------------------------------------
+// Current-season narrows — used by generateStaticParams to keep the SSG set
+// small (home + current-season pages). Older slugs render on-demand and cache
+// forever per cached-data.ts `cacheLife('max')`.
+// ---------------------------------------------------------------------------
+
+export async function buildCurrentSeason(): Promise<number> {
+	const row = await queryRow<{ year: number }>(
+		`SELECT MAX(year)::int AS year FROM f1db.race WHERE year IS NOT NULL`
+	);
+	return row?.year ?? new Date().getFullYear();
+}
+
+export async function buildCurrentSeasonRaceSlugs(): Promise<{ season: string; round: string }[]> {
+	const year = await buildCurrentSeason();
+	const fallback = [{ season: String(year), round: '1' }];
+	const connectionString = process.env.POSTGRES_URL;
+	if (!connectionString) return fallback;
+	const client = new Client({ connectionString });
+	try {
+		await client.connect();
+		const { rows } = await client.query<{ round: number }>(
+			`SELECT round FROM f1db.race WHERE year = $1 AND round IS NOT NULL ORDER BY round`,
+			[year]
+		);
+		const out = rows.map(r => ({ season: String(year), round: String(r.round) }));
+		return out.length > 0 ? out : fallback;
+	} catch (err) {
+		console.warn('[build-pg] current-season race slugs failed:', err);
+		return fallback;
+	} finally {
+		try {
+			await client.end();
+		} catch {}
+	}
+}
+
+export async function buildCurrentSeasonDriverRowIds(): Promise<string[]> {
+	const year = await buildCurrentSeason();
+	const connectionString = process.env.POSTGRES_URL;
+	if (!connectionString) return ['max-verstappen'];
+	const client = new Client({ connectionString });
+	try {
+		await client.connect();
+		const { rows } = await client.query<{ id: string }>(
+			`SELECT DISTINCT driver_id AS id FROM f1db.season_entrant_driver WHERE year = $1 ORDER BY id`,
+			[year]
+		);
+		const out = rows.map(r => r.id).filter(Boolean);
+		return out.length > 0 ? out : ['max-verstappen'];
+	} catch (err) {
+		console.warn('[build-pg] current-season driver ids failed:', err);
+		return ['max-verstappen'];
+	} finally {
+		try {
+			await client.end();
+		} catch {}
+	}
+}
+
+export async function buildCurrentSeasonTeamRowIds(): Promise<string[]> {
+	const year = await buildCurrentSeason();
+	const connectionString = process.env.POSTGRES_URL;
+	if (!connectionString) return ['red-bull'];
+	const client = new Client({ connectionString });
+	try {
+		await client.connect();
+		const { rows } = await client.query<{ id: string }>(
+			`SELECT DISTINCT team_id AS id FROM f1db.season_entrant_driver WHERE year = $1 ORDER BY id`,
+			[year]
+		);
+		const out = rows.map(r => r.id).filter(Boolean);
+		return out.length > 0 ? out : ['red-bull'];
+	} catch (err) {
+		console.warn('[build-pg] current-season team ids failed:', err);
+		return ['red-bull'];
+	} finally {
+		try {
+			await client.end();
+		} catch {}
+	}
+}
+
+export async function buildCurrentSeasonCircuitRowIds(): Promise<string[]> {
+	const year = await buildCurrentSeason();
+	const connectionString = process.env.POSTGRES_URL;
+	if (!connectionString) return ['monza'];
+	const client = new Client({ connectionString });
+	try {
+		await client.connect();
+		const { rows } = await client.query<{ id: string }>(
+			`SELECT DISTINCT circuit_id AS id FROM f1db.race WHERE year = $1 ORDER BY id`,
+			[year]
+		);
+		const out = rows.map(r => r.id).filter(Boolean);
+		return out.length > 0 ? out : ['monza'];
+	} catch (err) {
+		console.warn('[build-pg] current-season circuit ids failed:', err);
+		return ['monza'];
+	} finally {
+		try {
+			await client.end();
+		} catch {}
+	}
+}
+
+// ---------------------------------------------------------------------------
 // Per-row lookups (used by generateMetadata at build time)
 // ---------------------------------------------------------------------------
 

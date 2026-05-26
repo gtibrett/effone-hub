@@ -124,7 +124,7 @@ export async function getCurrentSeason(): Promise<{ year: number }> {
 
 export async function getPastSeasonYears(): Promise<string[]> {
 	'use cache';
-	cacheLife('days');
+	cacheLife('max');
 	cacheTag('seasons');
 	try {
 		const { data } = await getClient().query<{ seasons: { nodes: { year: number }[] } }>({
@@ -138,7 +138,7 @@ export async function getPastSeasonYears(): Promise<string[]> {
 
 export async function getSeason(year: number): Promise<{ year: number }> {
 	'use cache';
-	cacheLife('days');
+	cacheLife('max');
 	cacheTag('seasons', `season:${year}`);
 	try {
 		const { data } = await getClient().query<{ season: { year: number } }>({
@@ -158,7 +158,7 @@ export async function getSeason(year: number): Promise<{ year: number }> {
 
 export async function getDriverRowIds(): Promise<string[]> {
 	'use cache';
-	cacheLife('days');
+	cacheLife('max');
 	cacheTag('drivers');
 	try {
 		const { data } = await getClient().query<{ drivers: { nodes: DriverT[] } }>({
@@ -172,7 +172,7 @@ export async function getDriverRowIds(): Promise<string[]> {
 
 export async function getDriver(rowId: string): Promise<DriverT | null> {
 	'use cache';
-	cacheLife('days');
+	cacheLife('max');
 	cacheTag('drivers', `driver:${rowId}`);
 	try {
 		const { data } = await getClient().query<{ driver: DriverT }>({
@@ -191,7 +191,7 @@ export async function getDriver(rowId: string): Promise<DriverT | null> {
 
 export async function getTeamRowIds(): Promise<string[]> {
 	'use cache';
-	cacheLife('days');
+	cacheLife('max');
 	cacheTag('teams');
 	try {
 		const { data } = await getClient().query<{ teams: { nodes: { rowId: string }[] } }>({
@@ -209,7 +209,7 @@ export async function getTeamRowIds(): Promise<string[]> {
 
 export async function getCircuitRowIds(): Promise<string[]> {
 	'use cache';
-	cacheLife('days');
+	cacheLife('max');
 	cacheTag('circuits');
 	try {
 		const { data } = await getClient().query<{ circuits: { nodes: Circuit[] } }>({
@@ -227,7 +227,7 @@ export async function getCircuitRowIds(): Promise<string[]> {
 
 export async function getAllRaces(): Promise<{ season: string; round: string }[]> {
 	'use cache';
-	cacheLife('days');
+	cacheLife('max');
 	cacheTag('races');
 	try {
 		const { data } = await getClient().query<{ races: { nodes: Race[] } }>({
@@ -245,7 +245,7 @@ export async function getAllRaces(): Promise<{ season: string; round: string }[]
 
 export async function getRace(season: number, round: number): Promise<Partial<Race>> {
 	'use cache';
-	cacheLife('days');
+	cacheLife('max');
 	cacheTag('races', `race:${season}:${round}`);
 	try {
 		const { data } = await getClient().query<{ races: { nodes: Race[] } }>({
@@ -306,7 +306,7 @@ const RaceFullDataQuery = gql`
 export async function getRaceFullData(season: number, round: number): Promise<Race | null> {
 	'use cache';
 	// 'days' matches getRace; ingest cron invalidates race-data tags when corrections land.
-	cacheLife('days');
+	cacheLife('max');
 	cacheTag('races', `race:${season}:${round}`, `race-data:${season}:${round}`);
 	try {
 		const { data } = await getClient().query<{ races: { nodes: Race[] } }>({
@@ -321,7 +321,7 @@ export async function getRaceFullData(season: number, round: number): Promise<Ra
 
 export async function getTeam(rowId: string): Promise<TeamRecord | null> {
 	'use cache';
-	cacheLife('days');
+	cacheLife('max');
 	cacheTag('teams', `team:${rowId}`);
 	try {
 		const { data } = await getClient().query<{ teams: { nodes: TeamRecord[] } }>({

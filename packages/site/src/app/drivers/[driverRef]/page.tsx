@@ -1,12 +1,16 @@
 import type { Metadata } from 'next';
 
-import { buildDriverFull, buildDriverName, buildDriverRowIds } from '../../lib/build-pg';
+import {
+	buildCurrentSeasonDriverRowIds,
+	buildDriverFull,
+	buildDriverName
+} from '../../lib/build-pg';
 import DriverContent from './DriverContent';
 
 type Params = Promise<{ driverRef: string }>;
 
 export async function generateStaticParams(): Promise<{ driverRef: string }[]> {
-	const ids = await buildDriverRowIds();
+	const ids = await buildCurrentSeasonDriverRowIds();
 	return ids.map(driverRef => ({ driverRef }));
 }
 
