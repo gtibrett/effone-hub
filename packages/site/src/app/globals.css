@@ -69,6 +69,20 @@
 	--brand-error:             #d32f2f;
 	--brand-info:              #0288d1;
 
+	/* Chart bucket colors (driver career, season stats). Tuned for white bg. */
+	--results-appearances:    #455a64; /* blueGrey 700 */
+	--results-wins:           #512da8; /* deepPurple 700 */
+	--results-podiums:        #4caf50; /* green 500 */
+	--results-in-points:      #ffc107; /* amber 500 */
+	--results-out-points:     #607d8b; /* blueGrey 500 */
+	--results-out-of-points:  #b0bec5; /* blueGrey 200 */
+	--results-dnfs:           #d32f2f; /* red 700 */
+
+	/* Circuit map sector overlays. */
+	--map-sector-1:           #f44336; /* red 500 */
+	--map-sector-2:           #2196f3; /* blue 500 */
+	--map-sector-3:           #ffeb3b; /* yellow 500 */
+
 	color-scheme: light;
 }
 
@@ -98,6 +112,20 @@
 		--brand-warning:           #ffa726;
 		--brand-error:             #f44336;
 		--brand-info:              #29b6f6;
+
+		/* Chart bucket colors — lighter shades for dark bg. */
+		--results-appearances:    #607d8b; /* blueGrey 500 */
+		--results-wins:           #b39ddb; /* deepPurple 200 */
+		--results-podiums:        #a5d6a7; /* green 200 */
+		--results-in-points:      #ffe082; /* amber 200 */
+		--results-out-points:     #90a4ae; /* blueGrey 300 */
+		--results-out-of-points:  #cfd8dc; /* blueGrey 100 */
+		--results-dnfs:           #ef9a9a; /* red 200 */
+
+		/* Circuit map sector overlays — darker shades for dark bg. */
+		--map-sector-1:           #c62828; /* red 800 */
+		--map-sector-2:           #1565c0; /* blue 800 */
+		--map-sector-3:           #f9a825; /* yellow 800 */
 
 		color-scheme: dark;
 	}

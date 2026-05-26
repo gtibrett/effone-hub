@@ -66,7 +66,7 @@ const useMapTableData = () => {
 				tableData.push({
 					driverId: p.driver.id,
 					code:     p.driver.abbreviation,
-					color:    getTeamColor(primaryHex ? {primaryHex, secondaryHex: null} : undefined, 'primaryHex', false),
+					color:    getTeamColor(primaryHex ? {primaryHex, secondaryHex: null} : undefined, 'primaryHex'),
 					stops:    []
 				});
 				index = tableData.length - 1;

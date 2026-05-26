@@ -1,5 +1,4 @@
 import {useFallbackColor} from '@/components/ui';
-import {useGetAccessibleColor} from '@/hooks';
 import { gql } from '@apollo/client';
 import { useSuspenseQuery } from "@apollo/client/react";
 import {useCallback} from 'react';
@@ -34,14 +33,13 @@ type ConstructorStandingsQueryData = {
 };
 
 const useMapConstructorToEntity = () => {
-	const getAccessibleColor = useGetAccessibleColor();
-	const fallbackColor      = useFallbackColor();
+	const fallbackColor = useFallbackColor();
 
 	return useCallback((constructor: ConstructorNode): Entity => ({
 		id:    constructor.rowId,
 		name:  constructor.name || '',
-		color: getAccessibleColor(constructor.colors?.primaryHex || fallbackColor, false)
-	}), [getAccessibleColor, fallbackColor]);
+		color: constructor.colors?.primaryHex || fallbackColor
+	}), [fallbackColor]);
 };
 
 const query = gql`

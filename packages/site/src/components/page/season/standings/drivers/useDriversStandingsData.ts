@@ -1,5 +1,4 @@
 import {useFallbackColor} from '@/components/ui';
-import {useGetAccessibleColor} from '@/hooks';
 import { gql } from '@apollo/client';
 import { useSuspenseQuery } from "@apollo/client/react";
 import {useCallback} from 'react';
@@ -49,19 +48,18 @@ type DriverStandingsQueryData = {
 };
 
 const useMapDriverToEntity = () => {
-	const getAccessibleColor = useGetAccessibleColor();
-	const fallbackColor      = useFallbackColor();
+	const fallbackColor = useFallbackColor();
 
 	return useCallback((driver: DriverNode): Entity => {
 		const primaryHex = driver.seasonEntrantDrivers.nodes[0]?.team?.colors?.primaryHex;
-		const color      = getAccessibleColor(primaryHex || fallbackColor, false);
+		const color      = primaryHex || fallbackColor;
 
 		return {
 			id:    driver.rowId,
 			name:  driver.lastName,
 			color
 		};
-	}, [getAccessibleColor, fallbackColor]);
+	}, [fallbackColor]);
 };
 
 const query = gql`

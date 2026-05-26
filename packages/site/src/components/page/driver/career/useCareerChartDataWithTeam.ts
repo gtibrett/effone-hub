@@ -11,7 +11,7 @@ export default function useCareerChartDataWithTeam(driverId?: string) {
 		.filter(s => !!s)
 		.map(s => ({
 			teamId:   s.team?.id ?? '',
-			color:    getTeamColor(s.team?.colors ? {primaryHex: s.team.colors.primaryHex, secondaryHex: null} : null, 'primaryHex', false),
+			color:    getTeamColor(s.team?.colors ? {primaryHex: s.team.colors.primaryHex, secondaryHex: null} : null, 'primaryHex'),
 			year:     s.year,
 			points:   s.points,
 			position: s.positionNumber,

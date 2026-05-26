@@ -1,34 +1,32 @@
-import {useDarkMode} from '@/components/ui';
-import {getCssContrast} from '@/lib/useContrastText';
-import {amber, deepPurple, green, red} from '@mui/material/colors';
-import {blueGrey} from '@/components/ui/colors';
+/**
+ * Maps result categories to background + text-color CSS strings. Both
+ * values are pure CSS — bg points to a scheme-aware var defined in
+ * globals.css; color uses `contrast-color()` so the browser picks the
+ * best black/white against the var at paint time.
+ */
 
 type ResultsColor = {
 	background: string;
-	color: string;
+	color:      string;
 }
 
-export default function useResultsColors(): { [key: string]: ResultsColor } {
-	const prefersDarkMode = useDarkMode();
+const buckets = {
+	appearances: 'var(--results-appearances)',
+	wins:        'var(--results-wins)',
+	podiums:     'var(--results-podiums)',
+	inPoints:    'var(--results-in-points)',
+	outPoints:   'var(--results-out-points)',
+	outOfPoints: 'var(--results-out-of-points)',
+	DNFs:        'var(--results-dnfs)'
+} as const;
 
-	const backgrounds = {
-		appearances: blueGrey[prefersDarkMode ? 500 : 700],
-		wins:        deepPurple[prefersDarkMode ? 200 : 700],
-		podiums:     green[prefersDarkMode ? 200 : 500],
-		inPoints:    amber[prefersDarkMode ? 200 : 500],
-		outPoints:   blueGrey[prefersDarkMode ? 300 : 500],
-		outOfPoints: blueGrey[prefersDarkMode ? 100 : 200],
-		DNFs:        red[prefersDarkMode ? 200 : 700]
-	};
+const palette: Record<keyof typeof buckets, ResultsColor> = Object.fromEntries(
+	Object.entries(buckets).map(([key, bg]) => [
+		key,
+		{background: bg, color: `contrast-color(${bg} vs white, black)`}
+	])
+) as Record<keyof typeof buckets, ResultsColor>;
 
-	return Object.entries(backgrounds)
-	             .map(([key, background]) => (
-		             {
-			             [key]: {
-				             background,
-				             color: getCssContrast(background)
-			             }
-		             }
-	             ))
-	             .reduce((cur, item) => ({...cur, ...item}), {});
+export default function useResultsColors(): Record<keyof typeof buckets, ResultsColor> {
+	return palette;
 }

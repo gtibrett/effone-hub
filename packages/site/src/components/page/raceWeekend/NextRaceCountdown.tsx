@@ -1,7 +1,6 @@
 import '@/polyfills';
 import {Card, SxProps, useTheme} from '@mui/material';
 import {PaletteColor} from '@mui/material/styles';
-import {getCssContrast} from '@/lib/useContrastText';
 import CountdownClock from './CountdownClock';
 import useRaceScheduleEvents from './useRaceScheduleEvents';
 import {NextRace} from './useNextRaceData';
@@ -25,7 +24,7 @@ export default function NextRaceCountdown({race, variant}: NextRaceCountdownProp
 		py:       2, px: 2,
 		background,
 		'&, & *': {
-			color: `${getCssContrast(background)} !important`
+			color: `contrast-color(${background} vs white, black) !important`
 		}
 	};
 	

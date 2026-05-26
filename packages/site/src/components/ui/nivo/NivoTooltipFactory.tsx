@@ -1,6 +1,5 @@
 import {Box, ThemeProvider} from '@mui/material';
 import {FC, ReactNode, useCallback} from 'react';
-import {getCssContrast} from '@/lib/useContrastText';
 import {useInvertedTheme} from '../Theme';
 import useNivoTheme from './useNivoTheme';
 
@@ -23,7 +22,7 @@ export default function NivoTooltipFactory(Component: FC<any>): FC<any> {
 			},
 
 			'& .MuiTypography-root': {
-				color: getCssContrast(theme.palette.background.paper)
+				color: `contrast-color(${theme.palette.background.paper} vs white, black)`
 			}
 		};
 

@@ -14,7 +14,7 @@ type CareerBreakdownChartProps = {
 export type BreakdownMetric = keyof ReturnType<typeof useResultsColors>;
 export const breakdownMetrics: BreakdownMetric[] = ['wins', 'podiums', 'inPoints', 'outOfPoints', 'DNFs'];
 
-const findRawKey = (percentageKey: BreakdownMetric) => String(percentageKey).replace('Percentage', '') as BreakdownMetric;
+const findRawKey = (percentageKey: string | number) => String(percentageKey).replace('Percentage', '') as BreakdownMetric;
 
 export default function CareerBreakdownChart({driverId, season}: CareerBreakdownChartProps) {
 	const nivoTheme      = useNivoTheme();

@@ -1,5 +1,4 @@
 import {useFallbackColor} from '@/components/ui';
-import {useGetAccessibleColor} from '@/hooks';
 import {DriverId} from '@/types';
 import { gql } from '@apollo/client';
 import { useQuery } from "@apollo/client/react";
@@ -106,7 +105,6 @@ export const useLapByLapData = (season: number, round: number): LapByLapData => 
 };
 
 const useLapByLapChartData = (lapByLapData: LapByLapData) => {
-	const getAccessibleColor         = useGetAccessibleColor();
 	const {data = [], totalLaps = 0} = lapByLapData;
 
 	return useMemo<LapChartSeries[]>(() => {
@@ -117,7 +115,7 @@ const useLapByLapChartData = (lapByLapData: LapByLapData) => {
 				...driverData,
 				driverId,
 				id:    driverId,
-				color: getAccessibleColor(color),
+				color,
 				data:  laps.map(lt => ({
 					x: lt.lap ?? 0,
 					y: lt.position || null
@@ -136,7 +134,7 @@ const useLapByLapChartData = (lapByLapData: LapByLapData) => {
 		});
 
 		return drivers;
-	}, [data, totalLaps, getAccessibleColor]);
+	}, [data, totalLaps]);
 };
 
 export default useLapByLapChartData;

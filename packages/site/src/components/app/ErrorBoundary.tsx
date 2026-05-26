@@ -1,5 +1,4 @@
 import {useEffTheme} from '@/components/ui';
-import {getCssContrast} from '@/lib/useContrastText';
 import {faFlag} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Alert, Card, Container, Typography} from '@mui/material';
@@ -12,9 +11,9 @@ type ErrorBoundaryState = {
 
 export function ErrorCard({message}: { message?: string }) {
 	const theme = useEffTheme('dark');
-	
+
 	const background = theme.palette.error.dark;
-	const color      = getCssContrast(background);
+	const color      = `contrast-color(${background} vs white, black)`;
 	
 	return (
 		<Container maxWidth="md">

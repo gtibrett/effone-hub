@@ -17,10 +17,10 @@ export default function SeasonChart({data, loading}: SeasonChartProps) {
 	}
 
 	const colors    = [
-		getTeamColor(data.team.colors, 'primaryHex', false),
-		getTeamColor(data.team.colors, 'secondaryHex', false),
-		alpha(getTeamColor(data.team.colors, 'primaryHex', false), .75),
-		alpha(getTeamColor(data.team.colors, 'secondaryHex', false), .75)
+		getTeamColor(data.team.colors, 'primaryHex'),
+		getTeamColor(data.team.colors, 'secondaryHex'),
+		alpha(getTeamColor(data.team.colors, 'primaryHex'), .75),
+		alpha(getTeamColor(data.team.colors, 'secondaryHex'), .75)
 	];
 	const raceResults = data.team.raceResults.nodes;
 	const rounds      = Math.max(...(raceResults.map(rs => rs.race?.round || 0)));

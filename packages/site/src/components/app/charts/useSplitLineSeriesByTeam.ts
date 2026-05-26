@@ -1,22 +1,18 @@
 import {alpha} from '@/components/ui/colors';
-import {useGetAccessibleChartColors} from '@/hooks';
 import {cssVar} from '@/lib/tokens';
 import {Serie} from '@nivo/line';
 import {useCallback} from 'react';
 import {DataWithTeamInfo, MutableSerie, SerieWithTeamAndData} from './types';
 
 export default function useSplitSeriesByTeam() {
-	const getAccessibleChartColors = useGetAccessibleChartColors();
-	// cssVar.X strings flip with OS scheme at paint.
-
 	return useCallback((xKey: keyof SerieWithTeamAndData['rawData'], data: DataWithTeamInfo[]): [Serie[], Serie] => {
 		const xKeys = (data.map((rawData) => rawData[xKey]) || []).removeDuplicates();
 		const teams = (data.map(({teamId, color}) => ({teamId, color})) || []).removeDuplicates((a, b) => a.teamId === b.teamId);
-		
+
 		const seriesByTeam: MutableSerie[] = teams.map(({teamId, color}) => (
 			{
 				id:    teamId,
-				color: getAccessibleChartColors(color || cssVar.primary.main)[0],
+				color: color || cssVar.primary.main,
 				data:  xKeys.map(val => (
 					{
 						[xKey]: val
@@ -53,5 +49,5 @@ export default function useSplitSeriesByTeam() {
 		});
 		
 		return [seriesByTeam, baseSerie];
-	}, [getAccessibleChartColors]);
+	}, []);
 }

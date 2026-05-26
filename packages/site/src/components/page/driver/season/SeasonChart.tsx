@@ -23,7 +23,7 @@ export default function SeasonChart({driverId, season, data, loading}: SeasonCha
 
 	const chartData = seasonResults.map(({race: {round}, gridPositionNumber, positionDisplayOrder}) => ({
 		teamId:   driver.seasonEntrantDrivers?.nodes?.[0]?.team?.id ?? '',
-		color:    getTeamColor(driver.seasonEntrantDrivers?.nodes?.[0]?.team?.colors, 'primaryHex', false),
+		color:    getTeamColor(driver.seasonEntrantDrivers?.nodes?.[0]?.team?.colors, 'primaryHex'),
 		round,
 		grid:     gridPositionNumber,
 		position: positionDisplayOrder

@@ -17,9 +17,10 @@ describe('Theme.ts', () => {
 		});
 
 		test('emits both light and dark colorSchemes', () => {
-			const {result} = renderHook(() => useEffTheme());
-			expect(result.current.colorSchemes?.light).toBeDefined();
-			expect(result.current.colorSchemes?.dark).toBeDefined();
+			const {result}   = renderHook(() => useEffTheme());
+			const schemes    = (result.current as any).colorSchemes;
+			expect(schemes?.light).toBeDefined();
+			expect(schemes?.dark).toBeDefined();
 		});
 
 		test('MUI color helpers (alpha/darken/lighten) work on palette values', () => {

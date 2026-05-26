@@ -107,7 +107,7 @@ export default function CareerPerformanceBurst({driverId, size}: {
 				borderWidth={2}
 				inheritColorFromParent={false}
 				colors={(datum) => {
-					return colors[datum.id].background || cssVar.primary.main;
+					return colors[datum.id as keyof typeof colors]?.background || cssVar.primary.main;
 				}}
 				enableArcLabels={false}
 				// @ts-ignore

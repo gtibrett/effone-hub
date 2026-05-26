@@ -30,7 +30,7 @@ export default function ConstructorsList({filters}: ConstructorsTableProps) {
 						field:      'color',
 						headerName: '',
 						width:      24,
-						renderCell: (({row}) => <FontAwesomeIcon icon={faSquareFull} color={getTeamColor(row.colors, 'primaryHex', false)}/>),
+						renderCell: (({row}) => <FontAwesomeIcon icon={faSquareFull} color={getTeamColor(row.colors, 'primaryHex')}/>),
 						sortable:   false
 					},
 					{

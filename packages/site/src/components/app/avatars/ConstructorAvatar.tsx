@@ -4,7 +4,6 @@ import {useTeam} from '@/hooks/data';
 import {faIndustry} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Avatar} from '@mui/material';
-import {useContrastText} from '@/lib/useContrastText';
 import {useMemo} from 'react';
 
 export type TeamAvatarProps = {
@@ -16,8 +15,7 @@ export default function TeamAvatar({teamId, size = 'small'}: TeamAvatarProps) {
 	const sizeSx       = useAvatarSize(size);
 	const {team}       = useTeam(teamId);
 	const getTeamColor = useGetTeamColor();
-	const primary      = team ? getTeamColor(team.colors, 'primaryHex', false) : '';
-	const contrast     = useContrastText(primary);
+	const primary      = team ? getTeamColor(team.colors, 'primaryHex') : '';
 
 	return useMemo(() => {
 		if (!team) {
@@ -34,12 +32,12 @@ export default function TeamAvatar({teamId, size = 'small'}: TeamAvatarProps) {
 		return (
 			<Avatar
 				variant="rounded"
-				sx={{...sizeSx, background: primary, ...contrast}}
+				sx={{...sizeSx, background: primary, color: `contrast-color(${primary} vs white, black)`}}
 				src={bio?.thumbnailUrl ?? undefined}
 				alt={name ?? ''}
 			>
 				{initials?.join('')}
 			</Avatar>
 		);
-	}, [team, sizeSx, primary, contrast]);
+	}, [team, sizeSx, primary]);
 }

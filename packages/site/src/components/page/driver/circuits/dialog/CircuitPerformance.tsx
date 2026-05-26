@@ -1,6 +1,5 @@
 import {usePerformanceData} from '@/components/page/driver';
 import {useNivoTheme} from '@/components/ui/nivo';
-import {useGetAccessibleColor} from '@/hooks';
 import type {SimpleApolloResult} from '@/app/lib/apollo-types';
 import {useComponentDimensionsWithRef} from '@gtibrett/mui-additions';
 import {Paper, useTheme} from '@mui/material';
@@ -19,7 +18,6 @@ export default function CircuitPerformance({data, loading}: CircuitPerformancePr
 		positionText:  r.positionText ?? undefined
 	})) as any;
 	const performanceData            = usePerformanceData(circuitResults);
-	const getAccessibleColor         = useGetAccessibleColor();
 
 	if (!performanceData || loading) {
 		return null;
@@ -44,7 +42,7 @@ export default function CircuitPerformance({data, loading}: CircuitPerformancePr
 		}
 	];
 
-	const color = getAccessibleColor(theme.palette.primary.main);
+	const color = theme.palette.primary.main;
 
 	return (
 		<Paper variant="outlined" ref={ref} sx={{height: width, width, p: 0}}>

@@ -1,5 +1,4 @@
 import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
-import {useGetAccessibleColor} from '@/hooks';
 import {Box, Skeleton, useMediaQuery, useTheme} from '@mui/material';
 import {BarSvgProps, ResponsiveBar} from '@nivo/bar';
 import {PitStopTableRow} from './PitStops';
@@ -17,11 +16,10 @@ export type PitStopSerie = {
 }
 
 export default function PitStopsChart({maxStops, pitStops}: PitStopsChartProps) {
-	const nivoTheme          = useNivoTheme();
-	const theme              = useTheme();
-	const isSmall            = useMediaQuery(theme.breakpoints.down('sm'));
-	const getAccessibleColor = useGetAccessibleColor();
-	
+	const nivoTheme = useNivoTheme();
+	const theme     = useTheme();
+	const isSmall   = useMediaQuery(theme.breakpoints.down('sm'));
+
 	if (!pitStops) {
 		return <Skeleton variant="rectangular" height={isSmall ? 400 : 150}/>;
 	}
@@ -35,7 +33,7 @@ export default function PitStopsChart({maxStops, pitStops}: PitStopsChartProps) 
 		const stop: PitStopSerie = {
 			driverId: p.driverId,
 			code:     p.code || '',
-			color:    getAccessibleColor(p.color || theme.palette.primary.main)
+			color:    p.color || theme.palette.primary.main
 		};
 		
 		p.stops.forEach((s) => {

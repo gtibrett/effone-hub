@@ -1,5 +1,10 @@
+/**
+ * Returns an sx-shaped style object for a driver-header strip — team
+ * color bg with contrast-aware text via CSS `contrast-color()`. Cascades
+ * into nested MuiTypography / MuiTableCell so portal tooltips paint
+ * uniformly.
+ */
 import {useDriver} from '@/hooks/data';
-import {getCssContrast} from '@/lib/useContrastText';
 import {DriverId} from '@/types';
 import {SxProps} from '@mui/material';
 import useGetTeamColor from './useGetTeamColor';
@@ -15,13 +20,14 @@ export default function useDriverHeaderSx(driverId: DriverId, yearOrColor: any =
 		yearOrColor === 'current'
 		? driver?.seasonEntrantDrivers?.nodes?.[0]?.team?.colors
 		: driver?.seasonEntrantDrivers?.nodes?.find((t: any) => t.year === yearOrColor)?.team?.colors,
-		'primaryHex', false);
+		'primaryHex'
+	);
 
 	if (typeof yearOrColor === 'string' && yearOrColor !== 'current') {
 		background = yearOrColor;
 	}
 
-	const color = getCssContrast(background);
+	const color = `contrast-color(${background} vs white, black)`;
 
 	return {
 		background, color,
