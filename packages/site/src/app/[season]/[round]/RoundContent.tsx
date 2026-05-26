@@ -14,11 +14,7 @@ type Props = {
 	season:             string;
 	round:              string;
 	race:               Partial<Race>;
-	/**
-	 * Server-prefetched race data (results + sprint results) for past races.
-	 * When supplied, RoundContent skips its client-side useRace call entirely
-	 * — the past-race tree renders without an Apollo round-trip on hydration.
-	 */
+	/** When supplied, skips client useRace — past-race tree renders without Apollo round-trip on hydration. */
 	prefetchedRaceData?: Race | null;
 };
 
@@ -149,20 +145,13 @@ function RoundContentRender({season: seasonStr, round: roundStr, race, raceData}
     );
 }
 
-/**
- * Wrapper that runs the client-side useRace suspense query. Used only when
- * prefetchedRaceData is not supplied (live/upcoming races).
- */
 function RoundContentClientFetch(props: Props) {
 	const raceData = useRace(Number(props.season), Number(props.round));
 	return <RoundContentRender {...props} raceData={raceData}/>;
 }
 
 export default function RoundContent(props: Props) {
-	// Past races: render from server-prefetched data, no Apollo round-trip on
-	// the client. Hooks can't be called conditionally, so the data-fetching
-	// path lives in a separate component reached only by the live/upcoming
-	// branch.
+	// Hooks-rule split: useRace lives in separate component so prefetched path skips it.
 	if (props.prefetchedRaceData) {
 		return <RoundContentRender {...props} raceData={props.prefetchedRaceData}/>;
 	}

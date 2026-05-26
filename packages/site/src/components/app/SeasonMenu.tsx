@@ -14,9 +14,6 @@ export const SeasonsQuery = gql`
 	}
 `;
 
-// Tailwind-only: border + hover-bg flip with OS scheme via the
-// text-primary / divider tokens defined in globals.css. The
-// notchedOutline override uses an arbitrary variant so we can drop sx.
 const SELECT_CLASS = 'min-w-30 rounded border border-text-primary hover:bg-divider/5 [&>.MuiInputBase-root>.MuiOutlinedInput-notchedOutline]:border-0';
 
 type SeasonMenuProps = {

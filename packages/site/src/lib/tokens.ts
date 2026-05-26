@@ -1,13 +1,7 @@
 /**
- * CSS var references for palette tokens. The actual values are emitted
- * by MUI's `cssVariables` + `colorSchemes` layer (see Theme.ts) as
- * `--mui-palette-*` vars that auto-flip via the prefers-color-scheme
- * media query. Tailwind v4 `@theme inline` (globals.css) aliases these
- * into `--color-*` for the utility classes.
- *
- * Use `cssVar.X` wherever JS needs to produce a string consumed by CSS
- * (SVG fill/stroke, Nivo theme, inline style). For pure CSS contexts,
- * prefer Tailwind utilities (`bg-primary`, `text-secondary`).
+ * CSS var refs for palette tokens (emitted by MUI cssVariables + colorSchemes in Theme.ts).
+ * Use `cssVar.X` when JS must produce a CSS-consumed string (SVG attrs, Nivo, inline style).
+ * For pure-CSS contexts, prefer Tailwind utilities.
  */
 
 export type ColorScheme = 'light' | 'dark';

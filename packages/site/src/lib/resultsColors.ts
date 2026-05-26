@@ -1,11 +1,6 @@
 /**
- * Static map of result-bucket → CSS color strings (no hook, no React).
- *
- * Charts that paint via Nivo's `colors` prop need plain strings, not
- * Tailwind class names — Nivo writes them straight to SVG fill/stroke.
- * Both fields are pure CSS:
- *   - background: scheme-aware var defined in globals.css
- *   - color: `contrast-color()` lets the browser pick black/white
+ * Static map of result-bucket → CSS color strings. Plain strings (not Tailwind classes) for
+ * Nivo's `colors` prop, which writes them straight to SVG fill/stroke.
  */
 
 export type ResultsBucket =

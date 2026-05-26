@@ -1,8 +1,6 @@
 /**
- * Returns the requested team-color variant from a team's color block, or
- * a CSS var fallback if the team has no color set. No accessibility
- * shifting — for contrast against a known bg, use `contrast-color()` in
- * CSS at the call site.
+ * Returns team-color variant or CSS-var fallback. No a11y shifting —
+ * for contrast against known bg, use `contrast-color()` at the call site.
  */
 import {AppTeamColor} from '@/gql/graphql';
 import {useCallback} from 'react';

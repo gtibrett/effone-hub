@@ -19,11 +19,7 @@ export default async function RoundPage({params}: {params: Params}) {
 	const {season, round} = await params;
 	const [race, prefetchedRaceData] = await Promise.all([
 		getRace(Number(season), Number(round)),
-		// Always pre-fetch the full race-data tree on the server. Past races
-		// (immutable) cache long-term; upcoming races refresh daily with the
-		// 'days' cacheLife and pick up new results via the ingest cron's
-		// `race-data:${s}:${r}` cacheTag invalidation. RoundContent renders
-		// from this prop directly — no client useRace round-trip on hydration.
+		// SSR race-data: cron invalidates via `race-data:${s}:${r}` cacheTag; client skips useRace.
 		getRaceFullData(Number(season), Number(round))
 	]);
 

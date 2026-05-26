@@ -10,17 +10,12 @@ type NivoTheme = Theme & {
 	translation: BoxPlotDatum;
 }
 
-// Use `cssVar.X` (Tailwind CSS var strings) so Nivo SVG fill/stroke attrs
-// flip with the OS color scheme at paint time, no React work. Reading
-// `theme.palette.X` would give a concrete light-scheme hex (frozen).
+// cssVar.X (not theme.palette.X) so Nivo SVG attrs flip at paint — theme.palette would freeze to default scheme.
 export default function useNivoTheme(): NivoTheme {
 	const theme         = useTheme();
 	const invertedTheme = useInvertedTheme();
 
-	// useMemo is load-bearing: the returned object is passed to <ResponsiveBar
-	// theme={...}/> and is also a dep of NivoTooltipFactory's useCallback.
-	// Without memoization, a fresh object identity per render flows into Nivo's
-	// internal memoization and re-mounts the tooltip on every parent render.
+	// Load-bearing useMemo: identity churn re-mounts Nivo tooltip every parent render.
 	return useMemo(() => ({
 		background:  alpha(cssVar.background.default, .25),
 		text:        {
@@ -105,9 +100,7 @@ export default function useNivoTheme(): NivoTheme {
 
 			container:      {
 				background: invertedTheme.palette.background.paper,
-				// `palette.getContrastText` would call MUI's decomposeColor on
-				// the oklch background — unsupported. Defer the contrast pick
-				// to CSS instead.
+				// CSS contrast-color: getContrastText would call decomposeColor on oklch (unsupported).
 				color:      `contrast-color(${invertedTheme.palette.background.paper} vs white, black)`,
 				fontSize:   invertedTheme.typography.caption.fontSize
 			},

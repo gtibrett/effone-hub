@@ -1,42 +1,22 @@
 /*
- * Tailwind v4 reads MUI's palette CSS variables as its design tokens.
- *
- * Ownership: MUI is the single source of truth for palette and surface
- * colors. createTheme in src/components/ui/Theme.ts emits
- * `--mui-palette-*` vars for both light and dark schemes; the browser
- * picks via @media (prefers-color-scheme). The `@theme inline` block
- * below aliases the MUI vars into Tailwind's `--color-*` so
- * `bg-primary`, `text-secondary`, `border-divider`, etc. work natively.
- *
- * Chart-bucket and circuit-map sector colors are NOT part of the MUI
- * palette; they live as standalone `--results-*` / `--map-sector-*`
- * vars with their own light/dark variants.
- *
- * Layer order: `mui` before `utilities` so Tailwind utilities can
- * override MUI styles without `!important`. MUI's layer mode is enabled
- * via `enableCssLayer: true` on AppRouterCacheProvider.
+ * MUI owns palette + surface tokens (Theme.ts emits `--mui-palette-*` for both schemes).
+ * Tailwind `@theme inline` below aliases them into `--color-*`.
+ * Chart-bucket + circuit-map sector colors are standalone `--results-*` / `--map-sector-*`.
+ * Layer order: `mui` before `utilities` so utilities win without `!important`
+ * (requires `enableCssLayer: true` on AppRouterCacheProvider).
  */
 
 @layer theme, base, mui, components, utilities;
 @import "tailwindcss";
 
-/*
- * Font families. next/font sets `--font-titillium`, `--font-anton`,
- * `--font-racing` on <html>; we alias them into Tailwind's font tokens
- * so `font-sans`, `font-display`, `font-racing` resolve.
- */
+/* Alias next/font CSS vars into Tailwind font tokens. */
 @theme {
 	--font-sans:    var(--font-titillium), system-ui, sans-serif;
 	--font-display: var(--font-anton), sans-serif;
 	--font-racing:  var(--font-racing), sans-serif;
 }
 
-/*
- * Full shade scales for primary (blueGrey), secondary (red), and
- * tertiary (blue). Sourced from src/components/ui/colors.ts — keep in
- * sync. Plain `@theme` (not inline) so Tailwind emits `--color-X-N` at
- * :root and `bg-primary-950`, `border-tertiary-300`, etc. all resolve.
- */
+/* Full shade scales. Mirror src/components/ui/colors.ts. Plain `@theme` so `bg-primary-950` etc. resolve. */
 @theme {
 	/* primary = blueGrey */
 	--color-primary-50:  oklch(0.951 0.005 236);
@@ -78,12 +58,7 @@
 	--color-tertiary-950: oklch(0.177 0.048 253.48);
 }
 
-/*
- * Semantic alias layer — Tailwind reads the MUI palette CSS variables.
- * Bare `bg-primary` / `text-text-primary` resolve through MUI's
- * scheme-aware vars; bare `bg-tertiary` falls through to the 500 shade
- * (no MUI tertiary palette exists).
- */
+/* Semantic aliases → MUI palette vars. `bg-tertiary` falls back to shade-500 (no MUI tertiary). */
 @theme inline {
 	--color-primary:           var(--mui-palette-primary-main);
 	--color-primary-light:     var(--mui-palette-primary-light);
@@ -112,10 +87,7 @@
 	--color-info:              var(--mui-palette-info-main);
 }
 
-/*
- * Chart bucket colors (driver career, season stats). Tuned for white
- * bg in light mode; lighter shades in dark mode.
- */
+/* Chart bucket + map sector colors. Light = darker shades on white; dark = lighter shades. */
 :root {
 	--results-appearances:    #455a64; /* blueGrey 700 */
 	--results-wins:           #512da8; /* deepPurple 700 */
@@ -133,7 +105,6 @@
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		/* Lighter shades for dark bg. */
 		--results-appearances:    #607d8b; /* blueGrey 500 */
 		--results-wins:           #b39ddb; /* deepPurple 200 */
 		--results-podiums:        #a5d6a7; /* green 200 */

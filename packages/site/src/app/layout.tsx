@@ -7,12 +7,6 @@ import type {Metadata, Viewport} from 'next';
 import {PropsWithChildren} from 'react';
 import Providers from './Providers';
 
-/*
- * next/font/google: self-hosts the WOFF2 at build time, generates a
- * single CSS var per family, and applies `font-display: swap` plus
- * sized-adjusted fallbacks to minimize CLS. Replaces the eager
- * @fontsource imports that pulled every weight/subset.
- */
 const titillium = Titillium_Web({
 	weight:   ['300', '400', '600', '700'],
 	subsets:  ['latin'],

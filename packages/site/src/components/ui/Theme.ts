@@ -1,18 +1,9 @@
 'use client';
 
 /**
- * MUI is the single source of truth for design tokens. createTheme with
- * `cssVariables: {nativeColor: true, colorSchemeSelector: 'media'}` emits
- * `--mui-palette-*` CSS vars for both light and dark schemes, picked by
- * the browser via @media (prefers-color-scheme). Tailwind v4 (globals.css
- * @theme inline) reads those vars into utility tokens (`bg-primary`,
- * `text-secondary`, ...) for parity.
- *
- * `nativeColor: true` keeps the OKLCH color literals from `colors.ts`
- * verbatim in the emitted vars — no decomposeColor normalization. Pair
- * with no JS color math on palette values (we removed all of it in an
- * earlier phase). MUI internal styles needing alpha/darken/lighten emit
- * `color-mix()` expressions, not JS.
+ * Source of truth for design tokens. `cssVariables.nativeColor: true` keeps OKLCH literals
+ * verbatim (no decomposeColor) — requires zero JS color math on palette values.
+ * Tailwind globals.css `@theme inline` mirrors these into utility tokens.
  */
 
 import {blueGrey, red} from '@/components/ui/colors';
@@ -23,7 +14,6 @@ import {useMemo} from 'react';
 
 const {spacing} = createTheme({spacing: 8});
 
-// Light palette — darker shades against white backgrounds.
 const lightPalette = {
 	mode:              'light' as const,
 	contrastThreshold: 4.5,
@@ -38,7 +28,6 @@ const lightPalette = {
 	info:              {main: '#0288d1', contrastText: '#F4F4F6'}
 };
 
-// Dark palette — lighter shades against dark backgrounds.
 const darkPalette = {
 	mode:              'dark' as const,
 	contrastThreshold: 4.5,
@@ -166,18 +155,12 @@ const effTheme = createTheme({
 	}
 });
 
-/**
- * Returns the app theme. Mode flipping handled by MUI's cssVariables +
- * colorSchemes layer (see colorSchemes above) — every palette read
- * resolves through a CSS var the browser picks based on the OS scheme.
- */
+/** Returns the app theme. Mode flips via cssVariables + colorSchemes — palette reads resolve through CSS vars. */
 export const useEffTheme = (_overrideMode?: 'light' | 'dark') => effTheme;
 
 /**
- * FROZEN-opposite-scheme theme for Nivo chart tooltips. Tooltips render
- * in a React portal that doesn't reliably inherit cssVar scoping, so they
- * get a flat MUI theme built from the OPPOSITE scheme's concrete OKLCH
- * tokens. Hook re-renders when the OS preference flips.
+ * FROZEN-opposite-scheme theme for Nivo tooltips. Portal-rendered tooltips don't inherit
+ * cssVar scoping, so they get a flat theme built from concrete OPPOSITE-scheme OKLCH tokens.
  */
 export const useInvertedTheme = () => {
 	const prefersDark = useMediaQuery('(prefers-color-scheme: dark)');
@@ -190,15 +173,8 @@ export const useInvertedTheme = () => {
 	}), [palette]);
 };
 
-/**
- * Reads OS dark-mode preference. Re-renders the calling component on flip.
- * Use only in chart/map islands that need JS-side scheme branching.
- */
+/** Reads OS dark-mode preference. Use only in chart/map islands needing JS-side scheme branching. */
 export const useDarkMode = () => useMediaQuery('(prefers-color-scheme: dark)');
 
-/**
- * Fallback color used when team color is unavailable. Returns a
- * `--mui-palette-*` reference so it flips with the OS scheme; SVG
- * fill/stroke and sx contexts both resolve it correctly.
- */
+/** Fallback when team color missing. Returns `--mui-palette-*` ref — flips with OS scheme. */
 export const useFallbackColor = () => 'var(--mui-palette-primary-main)';

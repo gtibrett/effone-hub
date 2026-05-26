@@ -1,7 +1,6 @@
 /**
- * Returns {className, style} for a team-header strip — team-color bg
- * with contrast text via CSS `contrast-color()`. Cascades to nested
- * MuiTypography / MuiTableCell via Tailwind arbitrary variants.
+ * Returns {className, style} for a team-header strip. Team-color bg + contrast-color() fg.
+ * Cascades bg/fg into nested MuiTypography / MuiTableCell via Tailwind arbitrary variants.
  */
 import {useTeam} from '@/hooks/data';
 import type {CSSProperties} from 'react';

@@ -5,11 +5,8 @@ import axe from 'axe-core';
 import {PropsWithChildren} from 'react';
 import {NivoTooltipFactory, useNivoTheme} from './index';
 
-// Tests for chart-color logic use a flat (non-cssVars) theme so that
-// `theme.palette.text.primary` resolves to the mode-specific concrete value
-// at JS-read time (under cssVars it would freeze to the default scheme).
-// The hooks under test (useDarkMode, useGetAccessibleColor) read OS
-// preference via matchMedia, mocked here by setDarkMode().
+// Flat (non-cssVars) theme so `theme.palette.X` resolves to concrete mode values at JS-read.
+// useDarkMode reads matchMedia — mocked via setDarkMode().
 const TestAppContainer = ({mode, children}: PropsWithChildren<{ mode: Theme['palette']['mode'] }>) => {
 	setDarkMode(mode === 'dark');
 	const theme = createTheme({palette: {mode}});
@@ -36,9 +33,7 @@ describe('nivo.ts', () => {
 			</ThemeProvider>
 		);
 
-		// useNivoTheme returns Tailwind cssVar strings so Nivo SVG attrs flip
-		// with the OS scheme at paint. Compare against the var() literals,
-		// not against any MUI palette JS resolution.
+		// useNivoTheme returns cssVar strings for paint-time scheme flip — assert literals, not resolved values.
 		expect(screen.getByTestId('textColor')).toHaveTextContent('var(--mui-palette-text-primary)');
 		expect(screen.getByTestId('axisText')).toHaveTextContent('var(--mui-palette-text-secondary)');
 	});

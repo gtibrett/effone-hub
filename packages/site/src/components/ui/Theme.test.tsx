@@ -6,9 +6,7 @@ import {useDarkMode, useEffTheme, useFallbackColor, useInvertedTheme} from './Th
 describe('Theme.ts', () => {
 	describe('useEffTheme', () => {
 		test('exposes theme.vars CSS-var strings so components paint via vars', () => {
-			// MUI cssVariables exposes parallel `theme.vars.X` containing the
-			// `var(--mui-palette-*)` strings. Internal components prefer
-			// theme.vars when available, which is how dark-mode flipping works.
+			// theme.vars holds `var(--mui-palette-*)` strings — MUI internals prefer them, drives dark-mode flip.
 			const {result} = renderHook(() => useEffTheme());
 			const vars     = (result.current as any).vars;
 			expect(vars).toBeDefined();
@@ -22,10 +20,6 @@ describe('Theme.ts', () => {
 			expect(schemes?.light).toBeDefined();
 			expect(schemes?.dark).toBeDefined();
 		});
-
-		// MUI's alpha/darken/lighten don't parse oklch — we no longer call
-		// them on palette values. The CSS @theme inline + color-mix() in
-		// component styleOverrides handle alpha/darken at paint time.
 
 		test('returns stable reference across renders', () => {
 			const {result, rerender} = renderHook(() => useEffTheme());

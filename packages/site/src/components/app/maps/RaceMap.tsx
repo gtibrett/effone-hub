@@ -52,7 +52,6 @@ export default function RaceMap(props: RaceMapProps) {
 	const {points, onClick, height = 300, width = 'auto', centerOn = {longitude: 0, latitude: 0}, zoom = false, highlightNext = false} = props;
 	
 	const nivoTheme                           = useNivoTheme();
-	// cssVar.X strings flip with the OS scheme via globals.css media query.
 	const land                                = useLand();
 	const {ref, dimensions, node}             = useComponentDimensionsWithRef();
 	const [lastDimensions, setLastDimensions] = useState(dimensions);

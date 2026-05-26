@@ -9,12 +9,8 @@ import ErrorBoundary from './ErrorBoundary';
 import Footer from './footer/Footer';
 import Header from './header/Header';
 
-// `color-scheme: light/dark` is set on :root in globals.css per the OS
-// scheme — UA picks the right native scrollbar palette automatically.
 export default function Layout({children}: PropsWithChildren) {
-	// Cache Components requires non-deterministic values like `new Date()` (used
-	// throughout the leaf components for "is this race in the future?" checks)
-	// to be inside a Suspense boundary.
+	// Cache Components: leaf `new Date()` reads ("is race in future?") must live inside Suspense.
 	return (
 		<AppStateProvider>
 			<SkipNav selector="main"/>

@@ -9,7 +9,6 @@ type CareerChartLineLayerProps = {
 }
 
 export default function BaseLineChartLayer(series: any) {
-	// var(--color-divider) — flips with OS scheme at paint.
 	const stroke = cssVar.divider;
 
 	return function LineLayer({xScale, yScale}: CareerChartLineLayerProps) {

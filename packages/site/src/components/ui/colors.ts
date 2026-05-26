@@ -2,9 +2,7 @@ export function alpha(color: string, percentage: number) {
 	return `color-mix(in srgb, ${color}, transparent ${percentage * 100}%)`;
 }
 
-// CSS-native lighten/darken via color-mix in oklch space. Works on any
-// CSS color (oklch, var(--...), hex, rgb, etc.) — unlike MUI's
-// lighten/darken which only parse named color formats.
+// color-mix accepts oklch/var()/hex/rgb — MUI's lighten/darken only parse named formats.
 export function lighten(color: string, percentage: number) {
 	return `color-mix(in oklch, ${color}, white ${percentage * 100}%)`;
 }
@@ -13,10 +11,7 @@ export function darken(color: string, percentage: number) {
 	return `color-mix(in oklch, ${color}, black ${percentage * 100}%)`;
 }
 
-// OKLCH wide-gamut palette. Perceptually uniform — equal lightness deltas
-// look equally bright across hues, unlike sRGB hex. Browser support is
-// universal in modern engines; sRGB hex fallback values live in
-// `src/lib/tokens.ts` for JS color math (`decomposeColor` doesn't parse oklch).
+// OKLCH for perceptual uniformity. sRGB hex fallbacks in `src/lib/tokens.ts` for JS color math.
 export const blueGrey = {
 	50:  'oklch(0.951 0.005 236)',
 	100: 'oklch(0.864 0.014 230)',

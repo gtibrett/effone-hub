@@ -239,9 +239,7 @@ export async function getRace(season: number, round: number): Promise<Partial<Ra
 	}
 }
 
-// Full race data (results, sprint, etc.) used for past-race SSR. Mirrors the
-// shape `useRace` fetches client-side so RoundContent can accept it as a prop
-// and skip its useSuspenseQuery call when present.
+// Mirrors useRace shape so RoundContent can skip the client useSuspenseQuery when prefetched.
 const RaceFullDataQuery = gql`
 	query raceFullDataServer($season: Int!, $round: Int!) {
 		races(condition: {year: $season, round: $round}) {
@@ -288,10 +286,7 @@ const RaceFullDataQuery = gql`
 
 export async function getRaceFullData(season: number, round: number): Promise<Race | null> {
 	'use cache';
-	// 'days' matches getRace — past races effectively never change (results
-	// are immutable once ingested) and the daily ingest cron invalidates
-	// race-data tags when corrections land. Upcoming races also benefit:
-	// they cache empty/partial results for a day then refresh.
+	// 'days' matches getRace; ingest cron invalidates race-data tags when corrections land.
 	cacheLife('days');
 	cacheTag('races', `race:${season}:${round}`, `race-data:${season}:${round}`);
 	try {

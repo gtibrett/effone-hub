@@ -1,8 +1,6 @@
 /**
- * Returns {className, style} for a driver-header strip — team-color bg
- * with contrast text via CSS `contrast-color()`. The Tailwind arbitrary
- * variants below cascade the same bg/fg into nested MuiTypography /
- * MuiTableCell descendants (matches the old SX cascade).
+ * Returns {className, style} for a driver-header strip. Team-color bg + contrast-color() fg.
+ * Cascades bg/fg into nested MuiTypography / MuiTableCell via Tailwind arbitrary variants.
  */
 import {useDriver} from '@/hooks/data';
 import {DriverId} from '@/types';
@@ -14,7 +12,6 @@ export type HeaderStyle = {
 	style:     CSSProperties;
 };
 
-// Static class string so Tailwind's scanner picks it up at build.
 const HEADER_CLASS = 'bg-(--header-bg) text-(--header-fg) [&_.MuiTypography-root]:bg-(--header-bg) [&_.MuiTypography-root]:text-(--header-fg) [&_.MuiTableCell-root]:bg-(--header-bg) [&_.MuiTableCell-root]:text-(--header-fg)';
 
 export function useDriverHeaderSx(driverId: DriverId, year?: 'current' | number): HeaderStyle;

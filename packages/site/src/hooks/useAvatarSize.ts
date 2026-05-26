@@ -7,8 +7,7 @@ export type AvatarSizeStyle = {
 	style?: CSSProperties;
 };
 
-// Static class strings let Tailwind's content scanner detect them at build.
-// Numeric sizes fall through to inline style — by definition dynamic.
+// Static classes so Tailwind scanner picks them up; numeric sizes use inline style.
 const PRESETS: Record<Exclude<AvatarSizes, number>, AvatarSizeStyle> = {
 	small:  {className: 'w-8 h-8'},
 	medium: {className: 'w-16 h-16'},

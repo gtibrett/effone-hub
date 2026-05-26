@@ -1,6 +1,7 @@
 import {useEffTheme} from '@/components/ui';
 import {getDateWithTime} from '@/helpers';
 import {Card, CardActions, CardContent, CardHeader, Grid, ThemeProvider, Typography} from '@mui/material';
+import Image from 'next/image';
 import NextRaceCountdown from './NextRaceCountdown';
 import NextRaceSchedule from './NextRaceSchedule';
 import useNextRaceData from './useNextRaceData';
@@ -16,9 +17,8 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 	if (!race) {
 		return null;
 	} else {
-		const bg       = lightTheme.palette.secondary.main;
 		const raceDate = new Date(`${race.date}T${race.time}`);
-
+		
 		return (
 			<Grid
 				size={{
@@ -28,9 +28,9 @@ export default function RaceWeekend({season}: RaceWeekendProps) {
 				<ThemeProvider theme={darkTheme}>
 					<Card
 						id="next-race-weekend"
-						className="relative bg-[image:url(/carbon-fiber-texture.png)] before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-full before:z-[1] before:opacity-50 before:bg-[var(--rw-bg)] [&>*]:z-[2] [&>*]:relative bg-[var(--rw-bg)]"
-						style={{['--rw-bg' as any]: bg}}
+						className="relative bg-secondary-dark"
 					>
+						<Image fill src="/carbon-fiber-texture.png" className="object-cover opacity-50 mix-blend-luminosity z-0" alt=""/>
 						<CardHeader
 							title={race.name}
 							subheader={getDateWithTime(raceDate)}
