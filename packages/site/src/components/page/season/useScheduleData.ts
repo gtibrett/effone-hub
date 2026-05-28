@@ -42,6 +42,7 @@ type ScheduleQueryResponse = {
 const query = gql`
 	query scheduleQuery($season: Int!) {
 		season(year: $season) {
+			id
 			racesByYear(orderBy: ROUND_ASC) {
 				id
 				rowId

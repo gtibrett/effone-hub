@@ -1,10 +1,11 @@
 'use client';
 
-import { Box, Card, Divider, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Card, Divider, Grid, Typography } from '@mui/material';
 
 import { DriverAvatar, useAppState } from '@/components/app';
 import { Career, Circuits, Season } from '@/components/page/driver';
 import { Flag, Page, Tabs } from '@/components/ui';
+import { Header } from '@/components/ui/page/Header';
 import { Driver } from '@/gql/graphql';
 
 /**
@@ -87,40 +88,46 @@ export default function DriverContent({ driver }: { driver: DriverPageProp | nul
 
 	return (
 		<Page
-			title={<DriverDetails driver={driver} />}
-			action={
-				bio?.thumbnailUrl ? (
-					<Box
-						component="img"
-						src={bio.thumbnailUrl}
-						alt={`${driver.firstName} ${driver.lastName}`}
-						className="size-50 object-cover rounded"
-					/>
-				) : (
-					<DriverAvatar driverId={driver.rowId} size={200} />
-				)
+			header={
+				<Grid container spacing={2} className="items-stretch">
+					<Grid size="grow">
+						<Header
+							title={<DriverDetails driver={driver} />}
+							actionProps={{ size: 'auto' }}
+							subheader={
+								<>
+									<Divider orientation="horizontal" className="my-2" />
+									{bio?.extract && (
+										<Typography variant="body1">{bio.extract}</Typography>
+									)}
+								</>
+							}
+							extra={
+								<div
+									className="absolute inset-0 bottom-auto h-4"
+									style={{ background: primaryColor || undefined }}
+								/>
+							}
+							headerProps={{
+								className: 'relative pt-6'
+							}}
+						/>
+					</Grid>
+					<Grid size={{ xs: 12, md: 3 }}>
+						{bio?.thumbnailUrl ? (
+							<Box
+								component="img"
+								src={bio.thumbnailUrl}
+								alt={`${driver.firstName} ${driver.lastName}`}
+								className="w-full aspect-square object-cover rounded"
+							/>
+						) : (
+							<DriverAvatar driverId={driver.rowId} size={200} />
+						)}
+					</Grid>
+				</Grid>
 			}
-			actionProps={{ size: 'auto' }}
-			subheader={
-				<>
-					<Divider orientation="horizontal" className="my-2" />
-				</>
-			}
-			extra={
-				<div
-					className="absolute inset-0 bottom-auto h-4"
-					style={{ background: primaryColor || undefined }}
-				/>
-			}
-			headerProps={{
-				className: 'relative pt-6'
-			}}
 		>
-			{bio?.extract && (
-				<Card className="mb-4 p-4">
-					<Typography variant="body1">{bio.extract}</Typography>
-				</Card>
-			)}
 			<Card>
 				<Tabs active="career" tabs={tabs} />
 			</Card>

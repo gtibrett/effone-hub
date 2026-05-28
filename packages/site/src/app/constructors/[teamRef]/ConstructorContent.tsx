@@ -12,6 +12,7 @@ import {
 	Typography
 } from '@mui/material';
 
+import type { TeamRecord } from '@/app/lib/cached-data';
 import { useAppState } from '@/components/app';
 import { Drivers, History, Season } from '@/components/page/constructor';
 import { DriverPodiums, DriverPoints, DriverQualifying } from '@/components/page/constructor/stats';
@@ -20,28 +21,16 @@ import { useGetTeamColor } from '@/hooks';
 import { useConstructorData } from '@/hooks/data';
 import useTeam from '@/hooks/data/useTeam';
 
-/**
- * The subset of `Team` fields ConstructorContent reads at the top level.
- * Structurally assignable from `TeamRecord` (via `getTeam` in cached-data.ts).
- */
-export type TeamProp = {
-	id: string;
-	rowId: string;
-	name?: string | null;
-	countryId?: string | null;
-	colors?: { primaryHex?: string | null } | null;
-};
-
-const TeamDetails = ({ team }: { team: TeamProp }) => (
+const TeamDetails = ({ team }: { team: TeamRecord }) => (
 	<Grid container spacing={4} className="items-center text-[1.5em] font-bold">
 		<Grid>
 			<Typography variant="h2">{team.name}</Typography>
 		</Grid>
-		{/*{team.countryId && (*/}
-		{/*	<Grid>*/}
-		{/*		/!* FIXME <Flag nationality={team.countryId} size={48} />*!/ */}
-		{/*	</Grid>*/}
-		{/*)}*/}
+		{team.countryId && (
+			<Grid>
+				<Flag nationality={team.country} size={48} />
+			</Grid>
+		)}
 	</Grid>
 );
 
@@ -91,7 +80,7 @@ const PageSkeleton = () => (
 
 type Props = {
 	teamRef: string;
-	team: TeamProp | null;
+	team: TeamRecord | null;
 };
 
 export default function ConstructorContent({ teamRef, team }: Props) {

@@ -21,6 +21,7 @@ export type FastestLapQueryData = {
 export const seasonFastestLapQuery = gql`
 	query seasonFastestLapQuery($season: Int!) {
 		season(year: $season) {
+			id
 			year
 			racesByYear {
 				id

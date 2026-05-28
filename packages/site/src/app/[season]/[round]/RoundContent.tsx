@@ -8,6 +8,7 @@ import {
 	CardMedia,
 	Grid,
 	Link,
+	Stack,
 	Typography
 } from '@mui/material';
 
@@ -200,14 +201,14 @@ function RoundContentRender({ season: seasonStr, round: roundStr, race, raceData
 				>
 					<Card className="h-full">
 						<CardContent>
-							<Grid container spacing={2}>
+							<Stack spacing={2}>
 								<CardHeader title={`${seasonToShow} Season`} />
 								<Pole season={seasonToShow} round={round} size="small" />
 								<FastestLap season={seasonToShow} round={round} size="small" />
 								<Grid size={12} className="block lg:hidden" />
 								<LapLeader season={seasonToShow} round={round} size="small" />
 								<PositionsGained season={seasonToShow} round={round} size="small" />
-							</Grid>
+							</Stack>
 						</CardContent>
 					</Card>
 				</Grid>

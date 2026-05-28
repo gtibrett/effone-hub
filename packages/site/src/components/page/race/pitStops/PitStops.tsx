@@ -15,6 +15,7 @@ const pitStopsQuery = gql`
 	#graphql
 	query pitStopsBySeasonRound($season: Int!, $round: Int!) {
 		race: raceByYearAndRound(year: $season, round: $round) {
+			id
 			pitStops {
 				id
 				lap
@@ -24,10 +25,12 @@ const pitStopsQuery = gql`
 				driverId
 				driver {
 					id
+					rowId
 					abbreviation
 				}
 				team {
 					id
+					rowId
 					colors {
 						id
 						primaryHex
@@ -61,11 +64,11 @@ const useMapTableData = () => {
 				if (!p.driver) {
 					return;
 				}
-				let index = tableData.findIndex(driver => driver.driverId === p.driver?.id);
+				let index = tableData.findIndex(driver => driver.driverId === p.driver?.rowId);
 				if (index === -1) {
 					const primaryHex = p.team?.colors?.primaryHex;
 					tableData.push({
-						driverId: p.driver.id,
+						driverId: p.driver.rowId,
 						code: p.driver.abbreviation,
 						color: getTeamColor(
 							primaryHex ? { primaryHex, secondaryHex: null } : undefined,

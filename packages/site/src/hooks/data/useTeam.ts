@@ -8,7 +8,11 @@ const TeamFields = gql`
 	fragment TeamFields on Team {
 		id
 		name
-		countryId
+		country {
+	      id
+	      name
+	      alpha2Code
+	    }
 		colors {
 			id
 			primaryHex

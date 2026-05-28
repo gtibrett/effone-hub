@@ -12,6 +12,7 @@ type Data = {
 const query = gql`
 	query driverStats($driverId: String!) {
 		driver(rowId: $driverId) {
+			id
 			raceResults {
 				positionNumber
 				positionDisplayOrder

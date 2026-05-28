@@ -70,6 +70,7 @@ const useMapDriverToEntity = () => {
 const query = gql`
 	query driverStandingsQuery($season: Int!) {
 		season(year: $season) {
+			id
 			seasonDriverStandingsByYear(orderBy: POSITION_NUMBER_ASC) {
 				id
 				driverId

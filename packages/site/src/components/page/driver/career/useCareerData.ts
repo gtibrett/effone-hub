@@ -6,6 +6,7 @@ import { DriverPageData } from '../types';
 const query = gql`
 	query DriverCareerQuery($driverId: String!) {
 		driver(rowId: $driverId) {
+			id
 			standings: seasonDriverStandings(orderBy: YEAR_ASC) {
 				id
 				year

@@ -75,6 +75,7 @@ const CurrentSeasonCircuitIdsQuery = gql`
 const CircuitLookupQuery = gql`
 	query CircuitLookupQuery($ref: String!) {
 		circuit(rowId: $ref) {
+			id
 			rowId
 			fullName
 		}
@@ -128,6 +129,7 @@ export type TeamRecord = {
 	rowId: string;
 	name?: string | null;
 	countryId?: string | null;
+	country?: { alpha2Code?: string | null; name?: string | null } | null;
 	colors?: { primaryHex?: string | null } | null;
 };
 
@@ -138,6 +140,11 @@ export const ConstructorDataQuery = gql`
 			rowId
 			name
 			countryId
+			country {
+				id
+				alpha2Code
+				name
+			}
 			colors {
 				id
 				primaryHex

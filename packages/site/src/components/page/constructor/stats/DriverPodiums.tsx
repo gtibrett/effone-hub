@@ -22,6 +22,7 @@ type QueryResponse = {
 const query = gql`
 	query constructorDriverPodiumsQuery($season: Int!, $constructorId: String!) {
 		season(year: $season) {
+			id
 			racesByYear(orderBy: ROUND_ASC) {
 				id
 				rowId

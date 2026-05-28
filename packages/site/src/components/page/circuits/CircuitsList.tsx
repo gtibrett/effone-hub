@@ -28,13 +28,15 @@ export default function CircuitsList({ filters }: CircuitsListProps) {
 					field: 'name',
 					headerName: 'Circuit',
 					flex: 1,
-					renderCell: ({ row }) => <Link href={`/circuits/${row.rowId}`}>{row.name}</Link>
+					renderCell: ({ row }) => (
+						<Link href={`/circuits/${row.rowId}`}>{row.fullName}</Link>
+					)
 				},
 				{
 					field: 'country',
 					headerName: 'Location',
 					flex: 0.75,
-					renderCell: ({ row }) => `${row.placeName}, ${row.country}`
+					renderCell: ({ row }) => `${row.placeName}, ${row.country?.name}`
 				},
 				{
 					field: 'races',

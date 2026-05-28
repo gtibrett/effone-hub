@@ -12,6 +12,7 @@ const lapsQuery = gql`
 	#graphql
 	query lapsSeasonRound($season: Int!, $round: Int!) {
 		race: raceByYearAndRound(year: $season, round: $round) {
+			id
 			lapTimes(orderBy: LAP_ASC) {
 				id
 				lap

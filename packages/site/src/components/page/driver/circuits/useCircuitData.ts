@@ -26,6 +26,7 @@ export type CircuitWithResults = Pick<Circuit, 'rowId' | 'fullName' | 'longitude
 const query = gql`
 	query DriverCircuitQuery($driverId: String!) {
 		driver(rowId: $driverId) {
+			id
 			raceResults {
 				id
 				race {

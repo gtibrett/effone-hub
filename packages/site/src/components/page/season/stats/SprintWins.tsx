@@ -19,6 +19,7 @@ type Data = {
 const query = gql`
 	query SeasonSprintWinsQuery($season: Int!) {
 		season(year: $season) {
+			id
 			racesByYear {
 				id
 				rowId

@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 import { useComponentDimensionsWithRef } from '@gtibrett/mui-additions';
-import { Card, CardContent, CardHeader, Divider, Grid, Typography } from '@mui/material';
+import { Card, CardContent, CardHeader, Divider, Grid, Stack, Typography } from '@mui/material';
 
 import { CircuitMap, RaceMap, useAppState, useMapCircuitsToMapPoints } from '@/components/app';
 import { History, Season } from '@/components/page/circuits';
@@ -113,7 +113,7 @@ export default function CircuitContent({ circuitRef }: { circuitRef: string }) {
 						<Card className="h-full">
 							<CardHeader title={`${seasonToShow} Season`} />
 							<CardContent>
-								<Grid container spacing={2}>
+								<Stack spacing={2}>
 									<LapLeader
 										data={
 											seasonToShow === currentSeason ? data : lastSeasonData
@@ -132,7 +132,7 @@ export default function CircuitContent({ circuitRef }: { circuitRef: string }) {
 										}
 										loading={false}
 									/>
-								</Grid>
+								</Stack>
 							</CardContent>
 						</Card>
 					</Grid>

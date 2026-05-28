@@ -25,6 +25,7 @@ type Data = {
 const query = gql`
 	query ConstructorDriverQualifyingQuery($season: Int!, $constructorId: String!) {
 		season(year: $season) {
+			id
 			racesByYear {
 				id
 				rowId

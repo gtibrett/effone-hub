@@ -15,6 +15,7 @@ type FastestLapQueryData = {
 const query = gql`
 	query raceFastestLapQuery($season: Int!, $round: Int!) {
 		race: raceByYearAndRound(year: $season, round: $round) {
+			id
 			fastestLaps(first: 1) {
 				id
 				driverId

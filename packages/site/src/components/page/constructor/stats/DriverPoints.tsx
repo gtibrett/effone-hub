@@ -21,6 +21,7 @@ type Data = {
 const query = gql`
 	query ConstructorDriverPointsQuery($season: Int!, $constructorId: String!) {
 		season(year: $season) {
+			id
 			racesByYear {
 				id
 				raceResults(condition: {teamId: $constructorId}) {

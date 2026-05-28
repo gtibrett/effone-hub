@@ -50,6 +50,7 @@ const useMapConstructorToEntity = () => {
 const query = gql`
 	query constructorStandingsQuery($season: Int!) {
 		season(year: $season) {
+			id
 			racesByYear(orderBy: ROUND_ASC) {
 				id
 				round

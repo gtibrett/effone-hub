@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactNode, RefObject, Suspense } from 'react';
+import { ReactNode, RefObject, Suspense } from 'react';
 import { twMerge } from 'tailwind-merge';
 import {
 	Grid,
@@ -17,7 +17,7 @@ type Skeletons = {
 	action?: ReactNode;
 };
 
-type PageProps = PropsWithChildren<{
+export type HeaderProps = {
 	title: ReactNode;
 	subheader?: ReactNode;
 	extra?: ReactNode;
@@ -29,7 +29,7 @@ type PageProps = PropsWithChildren<{
 	titleProps?: TypographyProps;
 	subheaderProps?: TypographyProps;
 	skeletons?: Skeletons;
-}>;
+};
 
 const DefaultSkeletons: Skeletons = {
 	title: <Skeleton variant="text" />,
@@ -46,7 +46,7 @@ const PageTitle = ({
 	title,
 	skeleton,
 	titleProps = {}
-}: HasSkeleton<Pick<PageProps, 'title' | 'titleProps'>>) => {
+}: HasSkeleton<Pick<HeaderProps, 'title' | 'titleProps'>>) => {
 	const { sx, ...other } = titleProps;
 
 	return typeof title === 'string' ? (
@@ -61,7 +61,7 @@ const PageSubheader = ({
 	subheader,
 	skeleton,
 	subheaderProps = {}
-}: HasSkeleton<Pick<PageProps, 'subheader' | 'subheaderProps'>>) => {
+}: HasSkeleton<Pick<HeaderProps, 'subheader' | 'subheaderProps'>>) => {
 	const { sx, ...other } = subheaderProps;
 
 	return typeof subheader === 'string' ? (
@@ -73,59 +73,54 @@ const PageSubheader = ({
 	);
 };
 
-export default function Page(props: PageProps) {
+export const Header = (props: HeaderProps) => {
 	const { title, titleProps } = props;
 	const { subheader, subheaderProps } = props;
 	const { action, actionProps = {} } = props;
-	const { extra, headerProps = {}, headerRef, children } = props;
+	const { extra, headerProps = {}, headerRef } = props;
 	const skeletons = { ...DefaultSkeletons, ...props.skeletons };
 	const { sx, className: headerClassName, ...other } = headerProps;
 
 	return (
-		<Grid container spacing={2} className="items-stretch">
-			<Grid size={12}>
-				<Paper
-					ref={headerRef}
-					elevation={0}
-					className={twMerge('p-4 h-full', headerClassName)}
-					sx={sx}
-					{...other}
-				>
-					<Grid container spacing={2} className="items-stretch">
-						<Grid size="grow">
-							<Grid container spacing={2}>
-								<Grid size={12}>
-									<PageTitle
-										title={title}
-										titleProps={titleProps}
-										skeleton={skeletons.title}
-									/>
-								</Grid>
-								{subheader && (
-									<Grid size={12}>
-										<PageSubheader
-											subheader={subheader}
-											subheaderProps={subheaderProps}
-											skeleton={skeletons.subheader}
-										/>
-									</Grid>
-								)}
-								{extra && (
-									<Grid size={12}>
-										<Suspense fallback={skeletons.extra}>{extra}</Suspense>
-									</Grid>
-								)}
-							</Grid>
+		<Paper
+			ref={headerRef}
+			elevation={0}
+			className={twMerge('p-4 h-full', headerClassName)}
+			sx={sx}
+			{...other}
+		>
+			<Grid container spacing={2} className="items-stretch">
+				<Grid size="grow">
+					<Grid container spacing={2}>
+						<Grid size={12}>
+							<PageTitle
+								title={title}
+								titleProps={titleProps}
+								skeleton={skeletons.title}
+							/>
 						</Grid>
-						{action && (
-							<Grid {...actionProps}>
-								<Suspense fallback={skeletons.action}>{action}</Suspense>
+						{subheader && (
+							<Grid size={12}>
+								<PageSubheader
+									subheader={subheader}
+									subheaderProps={subheaderProps}
+									skeleton={skeletons.subheader}
+								/>
+							</Grid>
+						)}
+						{extra && (
+							<Grid size={12}>
+								<Suspense fallback={skeletons.extra}>{extra}</Suspense>
 							</Grid>
 						)}
 					</Grid>
-				</Paper>
+				</Grid>
+				{action && (
+					<Grid {...actionProps}>
+						<Suspense fallback={skeletons.action}>{action}</Suspense>
+					</Grid>
+				)}
 			</Grid>
-			{children && <Grid size={12}>{children}</Grid>}
-		</Grid>
+		</Paper>
 	);
-}
+};
