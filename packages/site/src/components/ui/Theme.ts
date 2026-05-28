@@ -111,11 +111,12 @@ export const effTheme = createTheme({
 			}
 		},
 		MuiBackdrop: {
+			defaultProps: {
+				className: 'bg-primary-900'
+			},
 			styleOverrides: {
 				root: {
-					background:
-						'color-mix(in srgb, var(--mui-palette-primary-dark), transparent 25%)',
-					backdropFilter: `blur(5px) grayscale(100%)`,
+					backdropFilter: `blur(5px) grayscale(50%)`,
 					zIndex: 100000
 				}
 			}

@@ -1,13 +1,12 @@
 import type { Metadata } from 'next';
 
-import { buildCurrentSeason } from '../lib/build-pg';
-import { getSeason } from '../lib/cached-data';
+import { getCurrentSeason, getSeason } from '../lib/cached-data';
 import SeasonContent from './SeasonContent';
 
 type Params = Promise<{ season: string }>;
 
 export async function generateStaticParams(): Promise<{ season: string }[]> {
-	const year = await buildCurrentSeason();
+	const { year } = await getCurrentSeason();
 	return [{ season: String(year) }];
 }
 

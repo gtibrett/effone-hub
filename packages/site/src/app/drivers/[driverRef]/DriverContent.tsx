@@ -5,7 +5,7 @@ import { Box, Card, Divider, Grid, Typography, useTheme } from '@mui/material';
 import { DriverAvatar, useAppState } from '@/components/app';
 import { Career, Circuits, Season } from '@/components/page/driver';
 import { Flag, Page, Tabs } from '@/components/ui';
-import { useGetTeamColor } from '@/hooks';
+import { Driver } from '@/gql/graphql';
 
 /**
  * The subset of `Driver` fields DriverContent reads at the top level.
@@ -13,8 +13,7 @@ import { useGetTeamColor } from '@/hooks';
  * data client-side via Apollo from `driver.rowId`, so this prop only needs
  * the header fields plus the latest-team color and the bio thumbnail/extract.
  *
- * Both the GraphQL `Driver` type and the pg-backed `BuildDriverRow` (see
- * `src/app/lib/build-pg.ts`) are structurally assignable to this shape.
+ * Structurally assignable from the GraphQL `Driver` type (via `getDriver`).
  */
 export type DriverPageProp = {
 	rowId: string;
@@ -22,7 +21,8 @@ export type DriverPageProp = {
 	lastName?: string | null;
 	abbreviation?: string | null;
 	permanentNumber?: string | null;
-	nationalityCountry?: any;
+	// Country object (alpha2Code/name) consumed by <Flag/>, not the bare id.
+	nationalityCountry?: Driver['nationalityCountry'];
 	bio?: {
 		thumbnailUrl?: string | null;
 		extract?: string | null;
@@ -60,8 +60,6 @@ const DriverDetails = ({ driver }: { driver: DriverPageProp }) => (
 );
 
 export default function DriverContent({ driver }: { driver: DriverPageProp | null }) {
-	const theme = useTheme();
-	const getTeamColor = useGetTeamColor();
 	const [{ currentSeason }] = useAppState();
 
 	if (!driver) {
@@ -96,7 +94,7 @@ export default function DriverContent({ driver }: { driver: DriverPageProp | nul
 						component="img"
 						src={bio.thumbnailUrl}
 						alt={`${driver.firstName} ${driver.lastName}`}
-						className="w-[200px] h-[200px] object-cover rounded"
+						className="size-50 object-cover rounded"
 					/>
 				) : (
 					<DriverAvatar driverId={driver.rowId} size={200} />

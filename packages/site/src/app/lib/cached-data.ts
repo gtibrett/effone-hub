@@ -27,6 +27,60 @@ const CurrentSeasonQuery = gql`
 	}
 `;
 
+// Current-season narrows for generateStaticParams. One nested query per entity
+// keeps the SSG set to home + current season; older slugs render on-demand and
+// cache via cacheLife('max').
+
+const CurrentSeasonRaceParamsQuery = gql`
+	query CurrentSeasonRaceParamsQuery {
+		seasons(orderBy: YEAR_DESC, first: 1) {
+			year
+			racesByYear(orderBy: ROUND_ASC) {
+				round
+			}
+		}
+	}
+`;
+
+const CurrentSeasonDriverIdsQuery = gql`
+	query CurrentSeasonDriverIdsQuery {
+		seasons(orderBy: YEAR_DESC, first: 1) {
+			seasonDriverStandingsByYear {
+				driverId
+			}
+		}
+	}
+`;
+
+const CurrentSeasonTeamIdsQuery = gql`
+	query CurrentSeasonTeamIdsQuery {
+		seasons(orderBy: YEAR_DESC, first: 1) {
+			seasonTeamStandingsByYear {
+				teamId
+			}
+		}
+	}
+`;
+
+const CurrentSeasonCircuitIdsQuery = gql`
+	query CurrentSeasonCircuitIdsQuery {
+		seasons(orderBy: YEAR_DESC, first: 1) {
+			racesByYear {
+				circuitId
+			}
+		}
+	}
+`;
+
+const CircuitLookupQuery = gql`
+	query CircuitLookupQuery($ref: String!) {
+		circuit(rowId: $ref) {
+			rowId
+			fullName
+		}
+	}
+`;
+
 const AllCircuitsQuery = gql`
 	query AllCircuitsQuery {
 		circuits {
@@ -142,6 +196,24 @@ export async function getSeason(year: number): Promise<{ year: number }> {
 	return { year };
 }
 
+export async function getCurrentSeasonRaceParams(): Promise<{ season: string; round: string }[]> {
+	'use cache';
+	cacheLife('hours');
+	cacheTag('seasons', 'races', 'current-season');
+	try {
+		const { data } = await getClient().query<{
+			seasons: { year: number; racesByYear: { round: number }[] }[];
+		}>({ query: CurrentSeasonRaceParamsQuery });
+		const [current] = data?.seasons ?? [];
+		if (!current) return [];
+		return current.racesByYear
+			.filter(r => r.round != null)
+			.map(r => ({ season: String(current.year), round: String(r.round) }));
+	} catch {
+		return [];
+	}
+}
+
 // ---------------------------------------------------------------------------
 // Drivers
 // ---------------------------------------------------------------------------
@@ -175,6 +247,24 @@ export async function getDriver(rowId: string): Promise<DriverT | null> {
 	}
 }
 
+export async function getCurrentSeasonDriverIds(): Promise<string[]> {
+	'use cache';
+	cacheLife('hours');
+	cacheTag('seasons', 'drivers', 'current-season');
+	try {
+		const { data } = await getClient().query<{
+			seasons: { seasonDriverStandingsByYear: { driverId: string }[] }[];
+		}>({ query: CurrentSeasonDriverIdsQuery });
+		const [current] = data?.seasons ?? [];
+		if (!current) return [];
+		return [
+			...new Set(current.seasonDriverStandingsByYear.map(s => s.driverId).filter(Boolean))
+		];
+	} catch {
+		return [];
+	}
+}
+
 // ---------------------------------------------------------------------------
 // Teams
 // ---------------------------------------------------------------------------
@@ -188,6 +278,22 @@ export async function getTeamRowIds(): Promise<string[]> {
 			query: ConstructorsQuery
 		});
 		return data?.teams.map(t => t.rowId).filter(Boolean) ?? [];
+	} catch {
+		return [];
+	}
+}
+
+export async function getCurrentSeasonTeamIds(): Promise<string[]> {
+	'use cache';
+	cacheLife('hours');
+	cacheTag('seasons', 'teams', 'current-season');
+	try {
+		const { data } = await getClient().query<{
+			seasons: { seasonTeamStandingsByYear: { teamId: string }[] }[];
+		}>({ query: CurrentSeasonTeamIdsQuery });
+		const [current] = data?.seasons ?? [];
+		if (!current) return [];
+		return [...new Set(current.seasonTeamStandingsByYear.map(s => s.teamId).filter(Boolean))];
 	} catch {
 		return [];
 	}
@@ -208,6 +314,38 @@ export async function getCircuitRowIds(): Promise<string[]> {
 		return data?.circuits.map(c => c.rowId!).filter(Boolean) ?? [];
 	} catch {
 		return [];
+	}
+}
+
+export async function getCurrentSeasonCircuitIds(): Promise<string[]> {
+	'use cache';
+	cacheLife('hours');
+	cacheTag('seasons', 'circuits', 'current-season');
+	try {
+		const { data } = await getClient().query<{
+			seasons: { racesByYear: { circuitId: string }[] }[];
+		}>({ query: CurrentSeasonCircuitIdsQuery });
+		const [current] = data?.seasons ?? [];
+		if (!current) return [];
+		return [...new Set(current.racesByYear.map(r => r.circuitId).filter(Boolean))];
+	} catch {
+		return [];
+	}
+}
+
+export async function getCircuit(
+	rowId: string
+): Promise<{ rowId: string; fullName: string } | null> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('circuits', `circuit:${rowId}`);
+	try {
+		const { data } = await getClient().query<{
+			circuit: { rowId: string; fullName: string } | null;
+		}>({ query: CircuitLookupQuery, variables: { ref: rowId } });
+		return data?.circuit ?? null;
+	} catch {
+		return null;
 	}
 }
 

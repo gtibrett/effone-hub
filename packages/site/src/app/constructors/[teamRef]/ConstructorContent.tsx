@@ -22,8 +22,7 @@ import useTeam from '@/hooks/data/useTeam';
 
 /**
  * The subset of `Team` fields ConstructorContent reads at the top level.
- * Both the GraphQL `Team` type and the pg-backed `BuildTeamRow` (see
- * `src/app/lib/build-pg.ts`) are structurally assignable to this shape.
+ * Structurally assignable from `TeamRecord` (via `getTeam` in cached-data.ts).
  */
 export type TeamProp = {
 	id: string;

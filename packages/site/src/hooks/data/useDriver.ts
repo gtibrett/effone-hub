@@ -14,6 +14,11 @@ const DriverFields = gql`
 		abbreviation
 		permanentNumber
 		nationalityCountryId
+		nationalityCountry {
+			id
+			name
+			alpha2Code
+		}
 
 		bio {
 			title
