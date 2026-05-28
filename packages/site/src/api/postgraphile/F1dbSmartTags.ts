@@ -46,11 +46,11 @@ const F1dbSmartTags = makeJSONPgSmartTagsPlugin({
 			},
 			'app.team_history': {
 				tags: {
-					// PK is (team_id, antecedent_team_id, start_year) — start_year
-					// is part of the key so multiple year-range rows can exist for
-					// the same (team, antecedent) pair (e.g. alfa-romeo/sauber
-					// 1993-2005 and 2011-2018).
-					primaryKey: 'team_id,antecedent_team_id,start_year',
+					// Real table with its own team_history_pkey — do NOT redeclare
+					// primaryKey here (the f1db result VIEWS need it because views
+					// have no PK; this table does). Redeclaring duplicated the
+					// Update/Delete*Input types + appTeamHistory field → schema
+					// build conflict. Only the cross-schema FKs are needed.
 					foreignKey: [
 						'(team_id) references f1db.team (id)|@fieldName team|@foreignFieldName antecedents',
 						'(antecedent_team_id) references f1db.team (id)|@fieldName antecedentTeam|@foreignFieldName successors'
