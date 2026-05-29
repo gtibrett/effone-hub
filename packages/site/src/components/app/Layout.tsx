@@ -22,7 +22,7 @@ export default function Layout({ children }: PropsWithChildren) {
 					<Header />
 				</Suspense>
 
-				<Container maxWidth="xl" component="main" className="relative py-2" tabIndex={0}>
+				<Container maxWidth="xl" component="main" className="relative py-4" tabIndex={0}>
 					<ErrorBoundary>
 						<Suspense>{children}</Suspense>
 					</ErrorBoundary>

@@ -11,7 +11,7 @@ type TableFilterProps = {
 export default function TableFilter({ handleSearch, children }: TableFilterProps) {
 	return (
 		<form onSubmit={handleSearch}>
-			<CardActions className="p-2 border-b-4 border-secondary bg-background/15">
+			<CardActions className="p-4 border-b-4 border-secondary bg-background/15">
 				<Grid container spacing={1}>
 					{Array.isArray(children) ? (
 						children.map((c, i) => (

@@ -40,7 +40,7 @@ export default function Header() {
 					</Grid>
 				</Toolbar>
 			</AppBar>
-			<Toolbar className="my-5" />
+			<Toolbar className="my-4" />
 		</header>
 	);
 }
