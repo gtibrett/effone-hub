@@ -14,19 +14,23 @@ import preset from '../../../graphile.config';
  * Next server has to be listening — fixes the build-time gap that
  * previously forced raw SQL.
  *
- * Schema is built once per process and memoized; the pg pool comes from
- * the preset's pgService and is reused across calls.
+ * Schema is built once per PROCESS and cached on globalThis. Module-scoped
+ * memoization is NOT enough: Next dev (webpack HMR) re-evaluates server
+ * modules across recompiles, so a `let` cache rebuilds the full f1db schema
+ * each time — those builds accumulate and the process gets OOM-killed (137).
+ * Pinning to globalThis survives HMR module re-instantiation → exactly one
+ * schema + one pg pool for the process lifetime.
  */
 
 type SchemaResult = Awaited<ReturnType<ReturnType<typeof postgraphile>['getSchemaResult']>>;
 
-let pgl: ReturnType<typeof postgraphile> | undefined;
-let schemaResult: Promise<SchemaResult> | undefined;
+const GLOBAL_KEY = Symbol.for('effone.serverGrafast');
+type GlobalCache = { schemaResult?: Promise<SchemaResult> };
+const globalCache: GlobalCache = ((globalThis as any)[GLOBAL_KEY] ??= {});
 
 function getSchemaResult(): Promise<SchemaResult> {
-	pgl ??= postgraphile(preset);
-	schemaResult ??= Promise.resolve(pgl.getSchemaResult());
-	return schemaResult;
+	globalCache.schemaResult ??= Promise.resolve(postgraphile(preset).getSchemaResult());
+	return globalCache.schemaResult;
 }
 
 export function createServerGrafastLink(): ApolloLink {

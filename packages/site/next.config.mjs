@@ -23,7 +23,11 @@ const nextConfig = {
 	experimental: {
 		// Use both build-container vCPUs on Vercel Hobby (default may pick 1).
 		// Capped by container hardware — Pro Enhanced Build Machines raise this.
-		cpus: 2
+		cpus: 2,
+		// Trade some compile speed for lower peak memory in webpack dev/build.
+		// This stack (webpack dev + in-process PostGraphile schema) was hitting
+		// OS OOM (SIGKILL 137); this keeps webpack's heap bounded.
+		webpackMemoryOptimizations: true
 	},
 	webpack(config, { isServer }) {
 		config.module.rules.push({

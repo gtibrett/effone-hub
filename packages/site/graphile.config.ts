@@ -56,7 +56,10 @@ const preset: GraphileConfig.Preset = {
 		})
 	],
 	grafast: {
-		explain: process.env.NODE_ENV !== 'production'
+		// `explain` attaches full query plans to every response's extensions —
+		// enormous payloads, heavy GC pressure across the many per-page RSC/SSR
+		// queries. Opt-in via env only; off by default even in dev.
+		explain: process.env.GRAFAST_EXPLAIN === 'true'
 	},
 	grafserv: {
 		graphqlPath: '/api/graphql',
@@ -64,7 +67,9 @@ const preset: GraphileConfig.Preset = {
 		graphiql:           process.env.ENABLE_GRAPHIQL === 'true',
 		graphiqlPath:       '/api/graphiql',
 		graphiqlStaticPath: '/api/ruru-static/',
-		watch:              process.env.NODE_ENV !== 'production'
+		// DB schema is static during a dev session; the watcher holds a LISTEN
+		// connection + rebuild machinery we don't need. Run codegen manually.
+		watch:              false
 	},
 	schema: {
 		exportSchemaSDLPath: process.env.NODE_ENV === 'production' ? undefined : './src/schema.graphql',
