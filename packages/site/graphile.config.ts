@@ -47,8 +47,20 @@ const IdRemapPlugin: GraphileConfig.Plugin = {
 const preset: GraphileConfig.Preset = {
 	extends: [PostGraphileAmberPreset, PgSimplifyInflectionPreset],
 	plugins: [F1dbSmartTags, WikipediaBioPlugin, IdRemapPlugin],
-	// Drop the Relay Node interface entirely (app never uses nodeId/node(id:)).
-	disablePlugins: ['NodePlugin', 'NodeAccessorPlugin', 'AddNodeInterfaceToSuitableTypesPlugin'],
+	disablePlugins: [
+		// Relay Node interface — app never uses nodeId/node(id:).
+		'NodePlugin',
+		'NodeAccessorPlugin',
+		'AddNodeInterfaceToSuitableTypesPlugin',
+		// Read-only public data API. Without these the Amber preset auto-exposes
+		// 165 create + update/delete mutations on an UNAUTHENTICATED endpoint
+		// against the full-privilege pg role. The app only reads; ingest writes
+		// go through raw pg in CI, never GraphQL. (Plugin names verified against
+		// graphile-build-pg@5.0.2.)
+		'PgMutationCreatePlugin',
+		'PgMutationUpdateDeletePlugin',
+		'PgMutationPayloadEdgePlugin'
+	],
 	pgServices: [
 		makePgService({
 			connectionString: POSTGRES_URL,
