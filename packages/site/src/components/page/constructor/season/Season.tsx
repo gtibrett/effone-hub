@@ -30,7 +30,7 @@ const query = gql`
 			raceResults(condition: { teamId: $teamId }) {
 				raceId
 				gridPositionNumber
-				positionNumber
+				positionDisplayOrder
 				points
 				timeMillis
 				driverId
@@ -139,7 +139,7 @@ export default function Season({ teamId, season }: SeasonProps) {
 								<>
 									{row.raceResults.map(result => (
 										<CellValueWrapper key={result.driverId ?? ''}>
-											{result.positionNumber}
+											{result.positionDisplayOrder}
 										</CellValueWrapper>
 									))}
 								</>
