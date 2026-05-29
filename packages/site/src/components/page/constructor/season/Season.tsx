@@ -62,7 +62,7 @@ export default function Season({ teamId, season }: SeasonProps) {
 
 	return (
 		<>
-			{/*<SeasonChart data={data} loading={loading} season={season} />*/}
+			{/* FIXME <SeasonChart data={data} loading={loading} season={season} />*/}
 			<DataGrid
 				rows={races}
 				rowHeight={100}
