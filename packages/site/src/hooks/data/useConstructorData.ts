@@ -33,6 +33,7 @@ const ConstructorDataQuery = gql`
 
 			standings: seasonTeamStandings(orderBy: YEAR_ASC) {
 				teamId
+				engineManufacturerId
 				points
 				positionNumber
 				positionText
@@ -53,6 +54,7 @@ const ConstructorDataQuery = gql`
 					}
 					standings: seasonTeamStandings(orderBy: YEAR_ASC) {
 						teamId
+						engineManufacturerId
 						points
 						positionNumber
 						positionText

@@ -67,7 +67,7 @@ export default function History({ data, loading }: HistoryProps) {
 				rows={standings}
 				autoHeight
 				density="compact"
-				getRowId={r => `${r.year}-${r.name}` || ''}
+				getRowId={r => `${r.year}-${r.name}-${r.engineManufacturerId ?? ''}`}
 				initialState={{
 					sorting: {
 						sortModel: [{ field: 'year', sort: 'desc' }]

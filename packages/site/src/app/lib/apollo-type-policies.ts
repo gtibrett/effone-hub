@@ -26,13 +26,16 @@ export const typePolicies: TypePolicies = {
 	FastestLap: { keyFields: ['raceId', 'driverId'] },
 	DriverOfTheDayResult: { keyFields: ['raceId', 'driverId'] },
 	RaceDriverStanding: { keyFields: ['raceId', 'driverId'] },
-	RaceTeamStanding: { keyFields: ['raceId', 'teamId'] },
+	// Team standings split per engine manufacturer (e.g. 1966 McLaren-Ford vs
+	// McLaren-Serenissima = two distinct rows). engineManufacturerId is required
+	// to keep them from collapsing into one normalized object.
+	RaceTeamStanding: { keyFields: ['raceId', 'teamId', 'engineManufacturerId'] },
 
 	PitStop: { keyFields: ['raceId', 'driverId', 'stop'] },
 	AppLapTime: { keyFields: ['raceId', 'driverId', 'lap'] },
 
 	SeasonDriverStanding: { keyFields: ['year', 'driverId'] },
-	SeasonTeamStanding: { keyFields: ['year', 'teamId'] },
+	SeasonTeamStanding: { keyFields: ['year', 'teamId', 'engineManufacturerId'] },
 	SeasonEntrantDriver: { keyFields: ['year', 'driverId', 'teamId'] },
 
 	AppTeamHistory: { keyFields: ['teamId', 'antecedentTeamId', 'startYear'] },

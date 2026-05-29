@@ -7,7 +7,7 @@ export type DriverByYear = {
 
 export type TeamStandingData = Pick<
 	SeasonTeamStanding,
-	'points' | 'positionNumber' | 'positionText' | 'year'
+	'points' | 'positionNumber' | 'positionText' | 'year' | 'engineManufacturerId'
 >;
 
 export type TeamHistoryData = {
