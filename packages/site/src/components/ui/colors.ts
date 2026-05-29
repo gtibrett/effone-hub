@@ -43,24 +43,6 @@ export const blue = {
 	950: 'oklch(0.185 0.04 236.26)'
 };
 
-const yellow = {
-	50: 'oklch(0.99 0.029 102.64)',
-	100: 'oklch(0.99 0.029 102.64)',
-	200: 'oklch(0.981 0.063 104.58)',
-	300: 'oklch(0.96 0.145 106.3)',
-	400: 'oklch(0.952 0.188 107.21)',
-	500: 'oklch(0.941 0.186 107.18)',
-	600: 'oklch(0.779 0.154 106.97)',
-	700: 'oklch(0.618 0.122 107.25)',
-	800: 'oklch(0.463 0.092 107.09)',
-	900: 'oklch(0.301 0.06 108.16)',
-	950: 'oklch(0.214 0.042 105.12)'
-};
-
-export const primary = blue;
-export const secondary = red;
-export const tertiary = yellow;
-
 export function alpha(color: string, percentage: number) {
 	// MUI-compatible: `percentage` is target opacity (alpha(c, 0.9) ≈ 90% opaque).
 	// color-mix needs the complementary transparent amount; round to kill FP noise.

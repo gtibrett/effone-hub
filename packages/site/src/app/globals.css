@@ -16,12 +16,18 @@
 	--font-racing: var(--font-racing), sans-serif;
 }
 
-/* Full shade scales. Mirror src/components/ui/colors.ts. Plain `@theme` so `bg-primary-950` etc. resolve. */
+/*
+ * Standalone shade scales (plain `@theme` so `bg-primary-950` etc. resolve).
+ * primary/secondary MUST mirror `blueGrey`/`red` in src/components/ui/colors.ts
+ * (MUI primary.main=blue[500], secondary.main=red[500]) — CSS can't import the
+ * TS, so keep literals in sync by hand. tertiary is a standalone blue (there is
+ * no MUI tertiary token; distinct hue from the primary-accent blue).
+ */
 @theme {
 	--color-white: oklch(0.968 0.003 286.81);
 	--color-black: oklch(0.2 0.018 244);
 
-	/* primary = blueGrey */
+	/* primary = blueGrey (colors.ts blueGrey) */
 	--color-primary-50: oklch(0.951 0.005 236);
 	--color-primary-100: oklch(0.864 0.014 230);
 	--color-primary-200: oklch(0.78 0.02 232);
@@ -34,20 +40,20 @@
 	--color-primary-900: oklch(0.25 0.02 244);
 	--color-primary-950: oklch(0.2 0.018 244);
 
-	/* secondary = red */
-	--color-secondary-50: oklch(0.968 0.014 17.52);
-	--color-secondary-100: oklch(0.934 0.029 17.73);
-	--color-secondary-200: oklch(0.87 0.061 18.41);
-	--color-secondary-300: oklch(0.797 0.103 19.6);
-	--color-secondary-400: oklch(0.733 0.145 21.23);
-	--color-secondary-500: oklch(0.669 0.194 23.65);
-	--color-secondary-600: oklch(0.604 0.226 27.02);
-	--color-secondary-700: oklch(0.529 0.198 27.16);
-	--color-secondary-800: oklch(0.398 0.149 27.08);
-	--color-secondary-900: oklch(0.271 0.102 26.81);
-	--color-secondary-950: oklch(0.207 0.077 27.3);
+	/* secondary = red (colors.ts red; secondary-500 == MUI secondary.main) */
+	--color-secondary-50: oklch(0.96 0.018 17.57);
+	--color-secondary-100: oklch(0.918 0.039 14.02);
+	--color-secondary-200: oklch(0.845 0.078 15.89);
+	--color-secondary-300: oklch(0.766 0.127 17.46);
+	--color-secondary-400: oklch(0.686 0.187 19.32);
+	--color-secondary-500: oklch(0.612 0.231 22.61);
+	--color-secondary-600: oklch(0.516 0.194 22.56);
+	--color-secondary-700: oklch(0.424 0.16 22.53);
+	--color-secondary-800: oklch(0.335 0.127 22.49);
+	--color-secondary-900: oklch(0.234 0.089 22.84);
+	--color-secondary-950: oklch(0.187 0.069 23.49);
 
-	/* tertiary = blue */
+	/* tertiary = blue (standalone scale; distinct from the MUI primary-accent blue) */
 	--color-tertiary-50: oklch(0.957 0.019 266.01);
 	--color-tertiary-100: oklch(0.914 0.037 265.15);
 	--color-tertiary-200: oklch(0.829 0.077 264.37);
