@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { getCurrentSeasonTeamIds, getTeam } from '../../lib/cached-data';
 import ConstructorContent from './ConstructorContent';
@@ -21,5 +22,6 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function ConstructorPage({ params }: { params: Params }) {
 	const { teamRef } = await params;
 	const team = await getTeam(teamRef);
+	if (!team) notFound();
 	return <ConstructorContent teamRef={teamRef} team={team} />;
 }

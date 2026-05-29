@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { getCurrentSeasonRaceParams, getRace, getRaceFullData } from '../../lib/cached-data';
 import RoundContent from './RoundContent';
@@ -25,6 +26,8 @@ export default async function RoundPage({ params }: { params: Params }) {
 		getRace(Number(season), Number(round)),
 		getRaceFullData(Number(season), Number(round))
 	]);
+
+	if (race.year == null) notFound();
 
 	return (
 		<RoundContent

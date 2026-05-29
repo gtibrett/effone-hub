@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { getCurrentSeasonDriverIds, getDriver } from '../../lib/cached-data';
 import DriverContent from './DriverContent';
@@ -21,5 +22,6 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function DriverPage({ params }: { params: Params }) {
 	const { driverRef } = await params;
 	const driver = await getDriver(driverRef);
+	if (!driver) notFound();
 	return <DriverContent driver={driver} />;
 }
