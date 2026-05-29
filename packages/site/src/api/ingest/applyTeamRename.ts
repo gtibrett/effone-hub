@@ -1,4 +1,4 @@
-import {Client} from 'pg';
+import { Client } from 'pg';
 
 /**
  * Rename f1db.constructor* tables and columns to f1db.team* within an already-

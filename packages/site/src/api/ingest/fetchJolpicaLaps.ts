@@ -21,21 +21,21 @@
  * clean early stop.
  */
 
-const BASE        = 'https://api.jolpi.ca/ergast/f1';
-const MAX_LIMIT   = 100;
-const BURST_MS    = 260;       // ~3.85 req/sec, just under the 4/sec cap
-const HOUR_MS     = 3_600_000;
-const HOUR_CAP    = 500;
-const MAX_BACKOFF_S = 300;     // refuse to sleep more than 5 min on a single 429
+const BASE = 'https://api.jolpi.ca/ergast/f1';
+const MAX_LIMIT = 100;
+const BURST_MS = 260; // ~3.85 req/sec, just under the 4/sec cap
+const HOUR_MS = 3_600_000;
+const HOUR_CAP = 500;
+const MAX_BACKOFF_S = 300; // refuse to sleep more than 5 min on a single 429
 
 export type JolpicaLapTiming = {
 	driverId: string;
 	position: string;
-	time:     string;
+	time: string;
 };
 
 export type ParsedLap = {
-	lap:     number;
+	lap: number;
 	timings: JolpicaLapTiming[];
 };
 
@@ -64,10 +64,12 @@ async function throttle(): Promise<void> {
 
 	// Hour gate.
 	if (requestTimestamps.length >= HOUR_CAP) {
-		const wakeAt  = requestTimestamps[0] + HOUR_MS;
+		const wakeAt = requestTimestamps[0] + HOUR_MS;
 		const sleepMs = wakeAt - Date.now();
 		if (sleepMs > 0) {
-			console.warn(`[jolpica] hourly cap (${HOUR_CAP}/hr) reached — sleeping ${Math.ceil(sleepMs / 1000)}s`);
+			console.warn(
+				`[jolpica] hourly cap (${HOUR_CAP}/hr) reached — sleeping ${Math.ceil(sleepMs / 1000)}s`
+			);
 			await sleep(sleepMs);
 			now = Date.now();
 			while (requestTimestamps.length && now - requestTimestamps[0] > HOUR_MS) {
@@ -79,7 +81,11 @@ async function throttle(): Promise<void> {
 	requestTimestamps.push(Date.now());
 }
 
-async function fetchPage(year: number, round: number, offset: number): Promise<{total: number; laps: ParsedLap[]}> {
+async function fetchPage(
+	year: number,
+	round: number,
+	offset: number
+): Promise<{ total: number; laps: ParsedLap[] }> {
 	const url = `${BASE}/${year}/${round}/laps.json?limit=${MAX_LIMIT}&offset=${offset}`;
 
 	let res: Response | null = null;
@@ -90,15 +96,19 @@ async function fetchPage(year: number, round: number, offset: number): Promise<{
 		if (res.status !== 429) break;
 
 		// 429 safety net: honor Retry-After once, then bail.
-		const ra        = res.headers.get('retry-after') ?? '';
-		const seconds   = /^\d+$/.test(ra) ? parseInt(ra, 10) : NaN;
+		const ra = res.headers.get('retry-after') ?? '';
+		const seconds = /^\d+$/.test(ra) ? parseInt(ra, 10) : NaN;
 		// `Retry-After` can also be an HTTP-date; if it's not a plain integer
 		// we treat it as a 60s default rather than parsing the date.
-		const backoffS  = Number.isFinite(seconds) ? seconds : 60;
+		const backoffS = Number.isFinite(seconds) ? seconds : 60;
 		if (backoffS > MAX_BACKOFF_S) {
-			throw new Error(`Jolpica 429 for ${url} (retry-after ${backoffS}s > ${MAX_BACKOFF_S}s cap)`);
+			throw new Error(
+				`Jolpica 429 for ${url} (retry-after ${backoffS}s > ${MAX_BACKOFF_S}s cap)`
+			);
 		}
-		console.warn(`[jolpica] 429 for ${url} — honoring Retry-After ${backoffS}s (attempt ${attempt + 1}/2)`);
+		console.warn(
+			`[jolpica] 429 for ${url} — honoring Retry-After ${backoffS}s (attempt ${attempt + 1}/2)`
+		);
 		await sleep(backoffS * 1000);
 	}
 
@@ -106,18 +116,23 @@ async function fetchPage(year: number, round: number, offset: number): Promise<{
 		throw new Error(`Jolpica ${res?.status ?? 'no-response'} for ${url}`);
 	}
 
-	const json = await res.json() as {
+	const json = (await res.json()) as {
 		MRData: {
-			total:     string;
-			RaceTable: {Races: Array<{Laps: Array<{number: string; Timings: JolpicaLapTiming[]}>}>};
+			total: string;
+			RaceTable: {
+				Races: Array<{ Laps: Array<{ number: string; Timings: JolpicaLapTiming[] }> }>;
+			};
 		};
 	};
 	const races = json.MRData.RaceTable.Races;
-	const laps: ParsedLap[] = races.length === 0 ? [] : races[0].Laps.map(l => ({
-		lap:     parseInt(l.number, 10),
-		timings: l.Timings
-	}));
-	return {total: parseInt(json.MRData.total, 10), laps};
+	const laps: ParsedLap[] =
+		races.length === 0
+			? []
+			: races[0].Laps.map(l => ({
+					lap: parseInt(l.number, 10),
+					timings: l.Timings
+				}));
+	return { total: parseInt(json.MRData.total, 10), laps };
 }
 
 /**
@@ -127,10 +142,10 @@ async function fetchPage(year: number, round: number, offset: number): Promise<{
 export async function fetchAllLaps(year: number, round: number): Promise<ParsedLap[]> {
 	const merged = new Map<number, JolpicaLapTiming[]>();
 	let offset = 0;
-	let total  = -1;
+	let total = -1;
 
 	while (total === -1 || offset < total) {
-		const {total: t, laps} = await fetchPage(year, round, offset);
+		const { total: t, laps } = await fetchPage(year, round, offset);
 		total = t;
 		if (laps.length === 0 && offset === 0) return [];
 		let returnedTimings = 0;
@@ -146,7 +161,7 @@ export async function fetchAllLaps(year: number, round: number): Promise<ParsedL
 
 	return Array.from(merged.entries())
 		.sort((a, b) => a[0] - b[0])
-		.map(([lap, timings]) => ({lap, timings}));
+		.map(([lap, timings]) => ({ lap, timings }));
 }
 
 /** Convert an Ergast time string like "1:37.284" into milliseconds. */
@@ -154,8 +169,8 @@ export function parseTimeToMillis(time: string): number | null {
 	if (!time) return null;
 	const m = time.match(/^(?:(\d+):)?(\d+)\.(\d+)$/);
 	if (!m) return null;
-	const minutes    = parseInt(m[1] ?? '0', 10);
-	const seconds    = parseInt(m[2], 10);
+	const minutes = parseInt(m[1] ?? '0', 10);
+	const seconds = parseInt(m[2], 10);
 	const fractional = m[3].padEnd(3, '0').slice(0, 3);
 	return minutes * 60_000 + seconds * 1_000 + parseInt(fractional, 10);
 }

@@ -1,51 +1,58 @@
-import {NivoTooltipFactory, useNivoTheme} from '@/components/ui/nivo';
-import {getTimeStringFromDate} from '@/helpers';
-import type {SimpleApolloResult} from '@/app/lib/apollo-types';
-import {Alert, alpha, Card, Skeleton} from '@mui/material';
-import {ResponsiveBoxPlot} from '@nivo/boxplot';
+import { Alert, Card, Skeleton } from '@mui/material';
+import { ResponsiveBoxPlot } from '@nivo/boxplot';
+
+import type { SimpleApolloResult } from '@/app/lib/apollo-types';
+import { alpha } from '@/components/ui/colors';
+import { NivoTooltipFactory, useNivoTheme } from '@/components/ui/nivo';
+import { getTimeStringFromDate } from '@/helpers';
+
 import LapTimesByYearTooltip from './LapTimesByYearTooltip';
-import {mapLapTimeDataToBoxChart} from './mapLapTimeDataToSwarmChart';
-import {CircuitDialogData} from './types';
+import { mapLapTimeDataToBoxChart } from './mapLapTimeDataToSwarmChart';
+import { CircuitDialogData } from './types';
 import useGetTeamColorsByYear from './useGetTeamColorsByYear';
 
 type LapTimesChartProps = SimpleApolloResult<CircuitDialogData>;
 
-export default function LapTimesByYearBox({data}: LapTimesChartProps) {
-	const nivoTheme      = useNivoTheme();
-	const colorsByYear   = useGetTeamColorsByYear()(data?.driver.seasonEntrantDrivers ?? {nodes: []});
-	const getColorConfig = ({group}: any) => colorsByYear[group];
-	
+export default function LapTimesByYearBox({ data }: LapTimesChartProps) {
+	const nivoTheme = useNivoTheme();
+	const colorsByYear = useGetTeamColorsByYear()(data?.driver.seasonEntrantDrivers ?? []);
+	const getColorConfig = ({ group }: any) => colorsByYear[group];
+
 	if (!data) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" height={400} />;
 	}
-	
+
 	const chartData = mapLapTimeDataToBoxChart(data);
-	
+
 	if (!chartData.length) {
-		return <Alert variant="outlined" severity="info">Lap Time Data Not Available</Alert>;
+		return (
+			<Alert variant="outlined" severity="info">
+				Lap Time Data Not Available
+			</Alert>
+		);
 	}
-	
+
 	return (
-		<Card variant="outlined" sx={{height: '60vh', width: '100%'}} aria-hidden>
+		<Card variant="outlined" className="h-[60vh] w-full" aria-hidden>
 			<ResponsiveBoxPlot
 				theme={nivoTheme}
 				data={chartData}
-				colors={({group}: any) => alpha(colorsByYear[group], .25)}
+				colors={({ group }: any) => alpha(colorsByYear[group], 0.25)}
 				groupBy="year"
 				value="milliseconds"
-				margin={{top: 16, right: 16, bottom: 40, left: 72}}
+				margin={{ top: 16, right: 16, bottom: 40, left: 72 }}
 				axisTop={null}
 				axisRight={null}
 				axisBottom={{
-					tickSize:     0,
-					tickPadding:  10,
+					tickSize: 0,
+					tickPadding: 10,
 					tickRotation: 0
 				}}
 				axisLeft={{
-					tickSize:     0,
-					tickPadding:  10,
+					tickSize: 0,
+					tickPadding: 10,
 					tickRotation: 0,
-					format:       (value: number) => {
+					format: (value: number) => {
 						return getTimeStringFromDate(new Date(value));
 					}
 				}}

@@ -10,12 +10,13 @@
  *
  * See docs/DEPLOY.md "Cron / Ingest" section for the new topology.
  */
-import {NextApiRequest, NextApiResponse} from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
+
 import revalidate from './revalidate';
 
 export const config = {
 	maxDuration: 10,
-	api:         {bodyParser: false}
+	api: { bodyParser: false }
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

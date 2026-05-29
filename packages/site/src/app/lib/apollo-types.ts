@@ -9,6 +9,6 @@
  * `data?.foo.bar` chains stay valid.
  */
 export type SimpleApolloResult<TData> = {
-	data?:   TData;
+	data?: TData;
 	loading: boolean;
 };

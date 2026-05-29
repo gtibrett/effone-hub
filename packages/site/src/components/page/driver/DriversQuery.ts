@@ -1,21 +1,24 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 const DriversQuery = gql`
-	#graphql
-	query DriversQuery {
-		drivers (orderBy: LAST_NAME_ASC) {
-			nodes {
-				id
-				rowId
-				firstName
-				lastName
-				nationalityCountryId
-#			driverStandingsBySeasons{
-#				position
-#			}
-			}
-		}
-	}
+query DriversQuery {
+  drivers(orderBy: LAST_NAME_ASC) {
+    id
+    firstName
+    lastName
+    nationalityCountryId
+    nationalityCountry {
+      id
+      name
+      alpha2Code
+    }
+    seasonDrivers {
+      season {
+        year
+      }
+    }
+  }
+}
 `;
 
 export default DriversQuery;

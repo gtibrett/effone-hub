@@ -1,17 +1,24 @@
-import {useFallbackColor} from '@/components/ui';
-import {useGetAccessibleColor} from '@/hooks';
-import {AppTeamColor} from '@/gql/graphql';
-import {useCallback} from 'react';
+/**
+ * Returns team-color variant or CSS-var fallback. No a11y shifting —
+ * for contrast against known bg, use `contrast-color()` at the call site.
+ */
+
+import { useCallback } from 'react';
+
+import { AppTeamColor } from '@/gql/graphql';
 
 type ColorVariants = 'primaryHex' | 'secondaryHex';
 
+const FALLBACK_COLOR = 'var(--color-primary)';
+
 export default function useGetTeamColor() {
-	const getAccessibleColor = useGetAccessibleColor();
-	const fallbackColor      = useFallbackColor();
-
-	return useCallback((colors: Pick<AppTeamColor, 'primaryHex' | 'secondaryHex'> | null | undefined, variant: ColorVariants = 'primaryHex', accessible: boolean = true) => {
-		const color = colors?.[variant] || fallbackColor;
-
-		return !accessible ? color : getAccessibleColor(color);
-	}, [fallbackColor, getAccessibleColor]);
+	return useCallback(
+		(
+			colors: Pick<AppTeamColor, 'primaryHex' | 'secondaryHex'> | null | undefined,
+			variant: ColorVariants = 'primaryHex'
+		) => {
+			return colors?.[variant] || FALLBACK_COLOR;
+		},
+		[]
+	);
 }

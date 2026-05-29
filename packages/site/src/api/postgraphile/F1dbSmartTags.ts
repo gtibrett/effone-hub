@@ -1,4 +1,4 @@
-import {makeJSONPgSmartTagsPlugin} from 'postgraphile/utils';
+import { makeJSONPgSmartTagsPlugin } from 'postgraphile/utils';
 
 /**
  * Cross-schema relations between `app.*` and `f1db.*`.
@@ -12,7 +12,7 @@ import {makeJSONPgSmartTagsPlugin} from 'postgraphile/utils';
  */
 const F1dbSmartTags = makeJSONPgSmartTagsPlugin({
 	version: 1,
-	config:  {
+	config: {
 		class: {
 			// NOTE: f1db.constructor* tables are renamed to f1db.team* by init.sh
 			// (see entrypoint/init.sh). This is required because PostGraphile
@@ -34,21 +34,23 @@ const F1dbSmartTags = makeJSONPgSmartTagsPlugin({
 			},
 			'app.circuit_descriptions': {
 				tags: {
-					foreignKey: '(circuit_id) references f1db.circuit (id)|@fieldName circuit|@foreignFieldName description'
+					foreignKey:
+						'(circuit_id) references f1db.circuit (id)|@fieldName circuit|@foreignFieldName description'
 				}
 			},
 			'app.team_colors': {
 				tags: {
-					foreignKey: '(team_id) references f1db.team (id)|@fieldName team|@foreignFieldName colors'
+					foreignKey:
+						'(team_id) references f1db.team (id)|@fieldName team|@foreignFieldName colors'
 				}
 			},
 			'app.team_history': {
 				tags: {
-					// PK is (team_id, antecedent_team_id, start_year) — start_year
-					// is part of the key so multiple year-range rows can exist for
-					// the same (team, antecedent) pair (e.g. alfa-romeo/sauber
-					// 1993-2005 and 2011-2018).
-					primaryKey: 'team_id,antecedent_team_id,start_year',
+					// Real table with its own team_history_pkey — do NOT redeclare
+					// primaryKey here (the f1db result VIEWS need it because views
+					// have no PK; this table does). Redeclaring duplicated the
+					// Update/Delete*Input types + appTeamHistory field → schema
+					// build conflict. Only the cross-schema FKs are needed.
 					foreignKey: [
 						'(team_id) references f1db.team (id)|@fieldName team|@foreignFieldName antecedents',
 						'(antecedent_team_id) references f1db.team (id)|@fieldName antecedentTeam|@foreignFieldName successors'

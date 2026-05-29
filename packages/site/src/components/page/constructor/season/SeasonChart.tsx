@@ -1,41 +1,46 @@
-import {RequiredByPropTypes, useNivoTheme} from '@/components/ui/nivo';
-import {useGetTeamColor} from '@/hooks';
-import type {SimpleApolloResult} from '@/app/lib/apollo-types';
-import {alpha, Box, Skeleton} from '@mui/material';
-import {ResponsiveLine, Serie as LineSerie} from '@nivo/line';
-import {ConstructorPageData} from '../types';
+import { Box, Skeleton } from '@mui/material';
+import { Serie as LineSerie, ResponsiveLine } from '@nivo/line';
+
+import type { SimpleApolloResult } from '@/app/lib/apollo-types';
+import { alpha } from '@/components/ui/colors';
+import { RequiredByPropTypes, useNivoTheme } from '@/components/ui/nivo';
+import { useGetTeamColor } from '@/hooks';
+
+import { ConstructorPageData } from '../types';
 
 type SeasonChartProps = SimpleApolloResult<ConstructorPageData> & { season: number };
 
-export default function SeasonChart({data, loading}: SeasonChartProps) {
-	const nivoTheme    = useNivoTheme();
+export default function SeasonChart({ data, loading }: SeasonChartProps) {
+	const nivoTheme = useNivoTheme();
 	const getTeamColor = useGetTeamColor();
 
 	if (loading || !data) {
-		return <Skeleton variant="rectangular" height={132}/>;
+		return <Skeleton variant="rectangular" height={132} />;
 	}
 
-	const colors    = [
-		getTeamColor(data.team.colors, 'primaryHex', false),
-		getTeamColor(data.team.colors, 'secondaryHex', false),
-		alpha(getTeamColor(data.team.colors, 'primaryHex', false), .75),
-		alpha(getTeamColor(data.team.colors, 'secondaryHex', false), .75)
+	const colors = [
+		getTeamColor(data.team.colors, 'primaryHex'),
+		getTeamColor(data.team.colors, 'secondaryHex'),
+		alpha(getTeamColor(data.team.colors, 'primaryHex'), 0.75),
+		alpha(getTeamColor(data.team.colors, 'secondaryHex'), 0.75)
 	];
-	const raceResults = data.team.raceResults.nodes;
-	const rounds      = Math.max(...(raceResults.map(rs => rs.race?.round || 0)));
-	const blankData   = (new Array<number>(rounds)).fill(0).map((v, i) => ({x: i + 1, y: null}));
+	const raceResults = data.team.raceResults;
+	const rounds = Math.max(...raceResults.map(rs => rs.race?.round || 0));
+	const blankData = new Array<number>(rounds).fill(0).map((v, i) => ({ x: i + 1, y: null }));
 
-	const drivers: LineSerie[] =
-		      raceResults
-		          .map(r => String(r.driver?.abbreviation))
-		          .removeDuplicates()
-		          .map(id => ({
-			          id,
-			          data: blankData.map(d => ({
-				          x: d.x,
-				          y: raceResults.find(rs => String(rs.driver?.abbreviation) === id && rs.race?.round === d.x)?.positionNumber || null
-			          }))
-		          }));
+	const drivers: LineSerie[] = raceResults
+		.map(r => String(r.driver?.abbreviation))
+		.removeDuplicates()
+		.map(id => ({
+			id,
+			data: blankData.map(d => ({
+				x: d.x,
+				y:
+					raceResults.find(
+						rs => String(rs.driver?.abbreviation) === id && rs.race?.round === d.x
+					)?.positionNumber || null
+			}))
+		}));
 
 	// Compute maxPosition from the populated series rather than mutating a
 	// `let` inside the .map() — react-hooks/immutability flags the mutation
@@ -45,9 +50,9 @@ export default function SeasonChart({data, loading}: SeasonChartProps) {
 		20,
 		...drivers.flatMap(d => d.data.map(p => (typeof p.y === 'number' ? p.y : 0)))
 	);
-	
+
 	return (
-		<Box sx={{height: 132, width: '100%'}} aria-hidden>
+		<Box className="h-33 w-full" aria-hidden>
 			<ResponsiveLine
 				{...RequiredByPropTypes.Line}
 				theme={nivoTheme}
@@ -57,35 +62,35 @@ export default function SeasonChart({data, loading}: SeasonChartProps) {
 				pointSize={12}
 				yScale={{
 					type: 'linear',
-					min:  maxPosition,
-					max:  1
+					min: maxPosition,
+					max: 1
 				}}
 				axisLeft={null}
 				axisRight={{
-					tickSize:     0,
-					tickPadding:  10,
+					tickSize: 0,
+					tickPadding: 10,
 					tickRotation: 0,
-					tickValues:   [1, 20]
+					tickValues: [1, 20]
 				}}
 				axisTop={null}
 				axisBottom={null}
 				enableGridX={false}
 				gridYValues={[1, 5, 10, 15, 20]}
-				margin={{top: 24, right: 36, bottom: 32, left: 16}}
+				margin={{ top: 24, right: 36, bottom: 32, left: 16 }}
 				legends={[
 					{
-						anchor:        'bottom',
-						direction:     'row',
-						justify:       false,
-						translateX:    0,
-						translateY:    24,
-						itemsSpacing:  0,
+						anchor: 'bottom',
+						direction: 'row',
+						justify: false,
+						translateX: 0,
+						translateY: 24,
+						itemsSpacing: 0,
 						itemDirection: 'left-to-right',
-						itemWidth:     80,
-						itemHeight:    20,
-						itemOpacity:   0.75,
-						symbolSize:    10,
-						symbolShape:   'circle'
+						itemWidth: 80,
+						itemHeight: 20,
+						itemOpacity: 0.75,
+						symbolSize: 10,
+						symbolShape: 'circle'
 					}
 				]}
 			/>

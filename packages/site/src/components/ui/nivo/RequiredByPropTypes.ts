@@ -1,29 +1,30 @@
-import {noop} from '@/helpers';
-import {GeoMapProps} from '@nivo/geo';
-import {LineSvgProps} from '@nivo/line';
+import { GeoMapProps } from '@nivo/geo';
+import { LineSvgProps } from '@nivo/line';
+
+import { noop } from '@/helpers';
 
 // PropTypes vs TS mismatches
 type RequiredByPropTypesType = {
 	GeoMap: Partial<GeoMapProps>;
 	Line: Partial<LineSvgProps>;
-}
+};
 
 const RequiredByPropTypes: RequiredByPropTypesType = {
 	GeoMap: {
 		projectionRotation: [0, 0, 0],
-		role:               'image',
+		role: 'image',
 		// @ts-ignore
-		layers:             ['features'],
-		onMouseLeave:       noop,
-		onMouseMove:        noop,
-		onMouseEnter:       noop,
-		isInteractive:      true,
+		layers: ['features'],
+		onMouseLeave: noop,
+		onMouseMove: noop,
+		onMouseEnter: noop,
+		isInteractive: true,
 		graticuleLineColor: 'transparent',
 		graticuleLineWidth: 0,
-		enableGraticule:    false
+		enableGraticule: false
 	},
-	Line:   {
-		layers:            [
+	Line: {
+		layers: [
 			'grid',
 			'markers',
 			'axes',
@@ -35,34 +36,34 @@ const RequiredByPropTypes: RequiredByPropTypesType = {
 			'mesh',
 			'legends'
 		],
-		curve:             'linear',
+		curve: 'linear',
 		areaBaselineValue: 0,
-		enableArea:        false,
-		areaOpacity:       0.2,
-		areaBlendMode:     'normal',
-		enablePoints:      true,
-		pointColor:        {from: 'color'},
-		pointBorderWidth:  0,
-		pointBorderColor:  {theme: 'background'},
-		enablePointLabel:  false,
-		pointLabel:        'yFormatted',
-		
+		enableArea: false,
+		areaOpacity: 0.2,
+		areaBlendMode: 'normal',
+		enablePoints: true,
+		pointColor: { from: 'color' },
+		pointBorderWidth: 0,
+		pointBorderColor: { theme: 'background' },
+		enablePointLabel: false,
+		pointLabel: 'yFormatted',
+
 		enableGridY: true,
-		xScale:      {type: 'point'},
-		
-		defs:            [],
-		fill:            [],
-		legends:         [],
-		isInteractive:   true,
-		debugMesh:       false,
-		useMesh:         false,
-		enableSlices:    false,
-		debugSlices:     false,
-		tooltip:         () => null,
-		sliceTooltip:    () => null,
+		xScale: { type: 'point' },
+
+		defs: [],
+		fill: [],
+		legends: [],
+		isInteractive: true,
+		debugMesh: false,
+		useMesh: false,
+		enableSlices: false,
+		debugSlices: false,
+		tooltip: () => null,
+		sliceTooltip: () => null,
 		enableCrosshair: true,
-		crosshairType:   'bottom-left',
-		role:            'img'
+		crosshairType: 'bottom-left',
+		role: 'img'
 	}
 };
 

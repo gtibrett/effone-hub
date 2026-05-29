@@ -1,4 +1,5 @@
-import type {Metadata} from 'next';
+import type { Metadata } from 'next';
+
 import CircuitsContent from './CircuitsContent';
 
 export const metadata: Metadata = {
@@ -6,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function CircuitsPage() {
-	return <CircuitsContent/>;
+	return <CircuitsContent />;
 }

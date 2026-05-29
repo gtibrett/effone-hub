@@ -1,15 +1,20 @@
-import {Team} from '@/gql/graphql';
+import { useMemo } from 'react';
 import { gql } from '@apollo/client';
-import { useQuery } from "@apollo/client/react";
-import {useMemo} from 'react';
+import { useQuery } from '@apollo/client/react';
+
+import { Team } from '@/gql/graphql';
 
 const TeamFields = gql`
 	fragment TeamFields on Team {
 		id
 		name
-		countryId
+		country {
+	      id
+	      name
+	      alpha2Code
+	    }
 		colors {
-			id
+			teamId
 			primaryHex
 			secondaryHex
 		}
@@ -25,20 +30,19 @@ const TeamFields = gql`
 export const TeamQuery = gql`
 	${TeamFields}
 	query teamById($rowId: String!) {
-		team(rowId: $rowId) {
+		team(id: $rowId) {
 			...TeamFields
 		}
 	}
 `;
 
-
 export default function useTeam(constructorId?: Team['id']): { team?: Team } {
-	const variables = {rowId: constructorId ?? ''};
+	const variables = { rowId: constructorId ?? '' };
 
-	const {data} = useQuery<{team: Team | null}>(TeamQuery, {
+	const { data } = useQuery<{ team: Team | null }>(TeamQuery, {
 		variables,
 		skip: !constructorId
 	});
 
-	return useMemo(() => ({team: data?.team ?? undefined}), [data]);
+	return useMemo(() => ({ team: data?.team ?? undefined }), [data]);
 }

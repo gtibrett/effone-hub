@@ -1,18 +1,23 @@
+import { useMemo } from 'react';
 import { gql } from '@apollo/client';
-import { useQuery } from "@apollo/client/react";
-import {Driver} from '@/gql/graphql';
-import {useMemo} from 'react';
+import { useQuery } from '@apollo/client/react';
+
+import { Driver } from '@/gql/graphql';
 
 const DriverFields = gql`
 	fragment DriverFields on Driver {
 		id
-		rowId
 		dateOfBirth
 		firstName
 		lastName
 		abbreviation
 		permanentNumber
 		nationalityCountryId
+		nationalityCountry {
+			id
+			name
+			alpha2Code
+		}
 
 		bio {
 			title
@@ -22,29 +27,27 @@ const DriverFields = gql`
 		}
 
 		seasonEntrantDrivers(orderBy: YEAR_DESC, first: 1) {
-			nodes {
+			year
+			driverId
+			teamId
+			team {
 				id
-				year
-				team {
-					id
-					colors {
-						id
-						primaryHex
-					}
+				colors {
+					teamId
+					primaryHex
 				}
 			}
 		}
 
 		teamsByYear: seasonEntrantDrivers(orderBy: YEAR_DESC) {
-			nodes {
+			year
+			driverId
+			teamId
+			team {
 				id
-				year
-				team {
-					id
-					colors {
-						id
-						primaryHex
-					}
+				colors {
+					teamId
+					primaryHex
 				}
 			}
 		}
@@ -54,16 +57,16 @@ const DriverFields = gql`
 export const DriverQuery = gql`
 	${DriverFields}
 	query DriverQuery($id: String!) {
-		driver(rowId: $id) {
+		driver(id: $id) {
 			...DriverFields
 		}
 	}
 `;
 
 export default function useDriver(driverId?: string) {
-	const variables = {id: driverId ?? ''};
+	const variables = { id: driverId ?? '' };
 
-	const {loading, data} = useQuery<{driver: Driver}>(DriverQuery, {
+	const { loading, data } = useQuery<{ driver: Driver }>(DriverQuery, {
 		variables,
 		skip: !driverId
 	});
@@ -78,7 +81,10 @@ export default function useDriver(driverId?: string) {
 		if (!driverData.abbreviation) {
 			return {
 				...driverData,
-				abbreviation: (driverData?.lastName || '').replace(/[^a-z]/i, '').substring(0, 3).toUpperCase()
+				abbreviation: (driverData?.lastName || '')
+					.replace(/[^a-z]/i, '')
+					.substring(0, 3)
+					.toUpperCase()
 			};
 		}
 

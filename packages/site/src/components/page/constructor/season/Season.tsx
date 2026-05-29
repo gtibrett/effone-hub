@@ -1,111 +1,169 @@
-import {DriverByLine} from '@/components/app';
-import type {SimpleApolloResult} from '@/app/lib/apollo-types';
-import {Link} from '@gtibrett/mui-additions';
-import {Alert, Grid, Skeleton, Typography, TypographyProps} from '@mui/material';
-import {DataGrid} from '@mui/x-data-grid';
-import {PropsWithChildren} from 'react';
-import {ConstructorPageData} from '../types';
-import SeasonChart from './SeasonChart';
+import { PropsWithChildren } from 'react';
+import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
+import { Alert, Grid, Link, Skeleton, Typography, TypographyProps } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
 
-const CellValueWrapper = ({align = 'center', children}: PropsWithChildren<Pick<TypographyProps, 'align'>>) => <Typography paragraph align={align} sx={{mb: 0, mt: .5}}>{children}</Typography>;
+import { DriverByLine } from '@/components/app';
+import { DriverPageData } from '@/components/page/driver';
+import { Team } from '@/gql/graphql';
 
-type SeasonProps = SimpleApolloResult<ConstructorPageData> & { season: number };
+const CellValueWrapper = ({
+	align = 'center',
+	children
+}: PropsWithChildren<Pick<TypographyProps, 'align'>>) => (
+	<Typography align={align} className="mb-0 mt-1">
+		{children}
+	</Typography>
+);
 
-export default function Season({data, loading, season}: SeasonProps) {
-	
+const query = gql`
+	query ConstructorSeasonQuery($teamId: String!, $season: Int!) {
+		races(condition: { year: $season }, orderBy: ROUND_ASC) {
+			rowId
+			year
+			round
+			officialName
+			date
+			time
+
+			raceResults(condition: { teamId: $teamId }) {
+				raceId
+				gridPositionNumber
+				positionDisplayOrder
+				points
+				timeMillis
+				driverId
+				teamId
+				reasonRetired
+			}
+		}
+	}
+`;
+
+type SeasonProps = { teamId: Team['id']; season: number };
+
+export default function Season({ teamId, season }: SeasonProps) {
+	const { data, loading } = useQuery<DriverPageData>(query, { variables: { teamId, season } });
+
 	if (loading || !data) {
-		return <Skeleton variant="rectangular" height={400}/>;
+		return <Skeleton variant="rectangular" height={400} />;
 	}
-	
-	const races   = data.races.nodes;
-	const results = data.team.raceResults.nodes;
-	
+
+	const races = data.races;
+
 	if (!races?.length) {
-		return <Alert variant="outlined" severity="info">Season Data Not Available</Alert>;
+		return (
+			<Alert variant="outlined" severity="info">
+				Season Data Not Available
+			</Alert>
+		);
 	}
-	
+
 	return (
 		<>
-			<SeasonChart data={data} loading={loading} season={season}/>
+			{/* FIXME <SeasonChart data={data} loading={loading} season={season} />*/}
 			<DataGrid
 				rows={races}
 				rowHeight={100}
 				autoHeight
 				density="compact"
-				getRowId={(row) => row.round || ''}
+				getRowId={row => row.round || ''}
 				initialState={{
 					sorting: {
-						sortModel: [{field: 'date', sort: 'asc'}]
+						sortModel: [{ field: 'date', sort: 'asc' }]
 					}
 				}}
-				columns={
-					[
-						{
-							field:       'date',
-							headerName:  'Date',
-							headerAlign: 'center',
-							type:        'date',
-							align:       'center',
-							valueGetter: (value) => (new Date(value)),
-							renderCell:  ({value}) => value.toLocaleDateString()
-						},
-						{
-							field:      'officialName',
-							headerName: 'Race',
-							flex:       1,
-							renderCell: ({row, value}) => (
-								<Link href={`/${season}/${row.round}#${row.officialName}`}>{value}</Link>
-							)
-						},
-						{
-							field:      'driver',
-							headerName: 'Drivers',
-							flex:       1,
-							renderCell: ({row}) => (
+				columns={[
+					{
+						field: 'date',
+						headerName: 'Date',
+						headerAlign: 'center',
+						type: 'date',
+						align: 'center',
+						valueGetter: value => new Date(value),
+						renderCell: ({ value }) => value.toLocaleDateString()
+					},
+					{
+						field: 'officialName',
+						headerName: 'Race',
+						flex: 1,
+						renderCell: ({ row, value }) => (
+							<Link href={`/${season}/${row.round}#${row.officialName}`}>
+								{value}
+							</Link>
+						)
+					},
+					{
+						field: 'driver',
+						headerName: 'Drivers',
+						flex: 1,
+						renderCell: ({ row }) => (
+							<>
+								{row.raceResults.map(result => (
+									<CellValueWrapper
+										key={result.driverId ?? undefined}
+										align="left"
+									>
+										<DriverByLine
+											id={result.driverId ?? undefined}
+											variant="link"
+										/>
+									</CellValueWrapper>
+								))}
+							</>
+						)
+					},
+					{
+						field: 'qualifying',
+						headerName: 'Qualifying',
+						headerAlign: 'center',
+						align: 'center',
+						renderCell: ({ row }) => (
+							<>
+								{row.raceResults.map(result => (
+									<CellValueWrapper key={result.driverId ?? ''}>
+										{result.gridPositionNumber}
+									</CellValueWrapper>
+								))}
+							</>
+						)
+					},
+					{
+						field: 'finish',
+						headerName: 'Finish',
+						headerAlign: 'center',
+						align: 'center',
+						renderCell: ({ row }) => {
+							return (
 								<>
-									{
-										results.filter(r => r.raceId === row.rowId).map(result => <CellValueWrapper key={result.driverId ?? undefined} align="left"><DriverByLine id={result.driverId ?? undefined} variant="link"/></CellValueWrapper>)
-									}
+									{row.raceResults.map(result => (
+										<CellValueWrapper key={result.driverId ?? ''}>
+											{result.positionDisplayOrder}
+										</CellValueWrapper>
+									))}
 								</>
-							)
-						},
-						{
-							field:       'qualifying',
-							headerName:  'Qualifying',
-							headerAlign: 'center',
-							align:       'center',
-							renderCell:  ({row}) => (
-								<>
-									{
-										results.filter(r => r.raceId === row.rowId).map(result => <CellValueWrapper key={result.driverId ?? ''}>{result.gridPositionNumber}</CellValueWrapper>)
-									}
-								</>
-							)
-						},
-						{
-							field:       'finish',
-							headerName:  'Finish',
-							headerAlign: 'center',
-							align:       'center',
-							renderCell:  ({row}) => {
-								return <>
-									{results.filter(r => r.raceId === row.rowId).map(result => <CellValueWrapper key={result.driverId ?? ''}>{result.positionNumber}</CellValueWrapper>)}
-								</>;
-							}
-						},
-						{
-							field:       'points',
-							headerName:  'Points',
-							headerAlign: 'center',
-							align:       'center',
-							renderCell:  ({row}) => {
-								return <Grid container spacing={0} justifyContent="center">
-									{results.filter(r => r.raceId === row.rowId).map(result => <Grid item xs={12} key={result.driverId ?? ''}><Typography align="center">{result.points}</Typography></Grid>)}
-								</Grid>;
-							}
+							);
 						}
-					]
-				}
+					},
+					{
+						field: 'points',
+						headerName: 'Points',
+						headerAlign: 'center',
+						align: 'center',
+						renderCell: ({ row }) => {
+							return (
+								<Grid container spacing={0} className="justify-center">
+									{row.raceResults.map(result => (
+										<Grid key={result.driverId ?? ''} size={12}>
+											<Typography align="center">{result.points}</Typography>
+										</Grid>
+									))}
+								</Grid>
+							);
+						}
+					}
+				]}
 			/>
 		</>
 	);

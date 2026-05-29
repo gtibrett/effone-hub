@@ -1,4 +1,5 @@
-import type {Metadata} from 'next';
+import type { Metadata } from 'next';
+
 import AboutContent from './AboutContent';
 
 export const metadata: Metadata = {
@@ -6,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-	return <AboutContent/>;
+	return <AboutContent />;
 }

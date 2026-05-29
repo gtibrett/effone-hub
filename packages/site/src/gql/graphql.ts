@@ -16,8 +16,6 @@ export type Scalars = {
   Float: { input: number; output: number; }
   /** A floating point number that requires more precision than IEEE 754 binary 64 */
   BigFloat: { input: any; output: any; }
-  /** A location in a connection that can be used for resuming pagination. */
-  Cursor: { input: any; output: any; }
   /** A calendar date in YYYY-MM-DD format. */
   Date: { input: any; output: any; }
   /**
@@ -30,14 +28,12 @@ export type Scalars = {
   Datetime: { input: any; output: any; }
 };
 
-export type AppCircuitDescription = Node & {
+export type AppCircuitDescription = {
   __typename?: 'AppCircuitDescription';
   /** Reads a single `Circuit` that is related to this `AppCircuitDescription`. */
   circuit?: Maybe<Circuit>;
   circuitId: Scalars['String']['output'];
   description: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   updatedAt: Scalars['Datetime']['output'];
 };
 
@@ -48,28 +44,6 @@ export type AppCircuitDescription = Node & {
 export type AppCircuitDescriptionCondition = {
   /** Checks for equality with the object’s `circuitId` field. */
   circuitId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `AppCircuitDescription` values. */
-export type AppCircuitDescriptionConnection = {
-  __typename?: 'AppCircuitDescriptionConnection';
-  /** A list of edges which contains the `AppCircuitDescription` and cursor to aid in pagination. */
-  edges: Array<Maybe<AppCircuitDescriptionEdge>>;
-  /** A list of `AppCircuitDescription` objects. */
-  nodes: Array<Maybe<AppCircuitDescription>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `AppCircuitDescription` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `AppCircuitDescription` edge in the connection. */
-export type AppCircuitDescriptionEdge = {
-  __typename?: 'AppCircuitDescriptionEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `AppCircuitDescription` at the end of the edge. */
-  node?: Maybe<AppCircuitDescription>;
 };
 
 /** An input for mutations affecting `AppCircuitDescription` */
@@ -95,12 +69,10 @@ export type AppCircuitDescriptionPatch = {
   updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
 };
 
-export type AppConstructorBio = Node & {
+export type AppConstructorBio = {
   __typename?: 'AppConstructorBio';
   description?: Maybe<Scalars['String']['output']>;
   extract?: Maybe<Scalars['String']['output']>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   source?: Maybe<Scalars['String']['output']>;
   teamId: Scalars['String']['output'];
   thumbnailUrl?: Maybe<Scalars['String']['output']>;
@@ -115,28 +87,6 @@ export type AppConstructorBio = Node & {
 export type AppConstructorBioCondition = {
   /** Checks for equality with the object’s `teamId` field. */
   teamId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `AppConstructorBio` values. */
-export type AppConstructorBioConnection = {
-  __typename?: 'AppConstructorBioConnection';
-  /** A list of edges which contains the `AppConstructorBio` and cursor to aid in pagination. */
-  edges: Array<Maybe<AppConstructorBioEdge>>;
-  /** A list of `AppConstructorBio` objects. */
-  nodes: Array<Maybe<AppConstructorBio>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `AppConstructorBio` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `AppConstructorBio` edge in the connection. */
-export type AppConstructorBioEdge = {
-  __typename?: 'AppConstructorBioEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `AppConstructorBio` at the end of the edge. */
-  node?: Maybe<AppConstructorBio>;
 };
 
 /** An input for mutations affecting `AppConstructorBio` */
@@ -170,13 +120,11 @@ export type AppConstructorBioPatch = {
   updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
 };
 
-export type AppDriverBio = Node & {
+export type AppDriverBio = {
   __typename?: 'AppDriverBio';
   description?: Maybe<Scalars['String']['output']>;
   driverId: Scalars['String']['output'];
   extract?: Maybe<Scalars['String']['output']>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   source?: Maybe<Scalars['String']['output']>;
   thumbnailUrl?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
@@ -190,28 +138,6 @@ export type AppDriverBio = Node & {
 export type AppDriverBioCondition = {
   /** Checks for equality with the object’s `driverId` field. */
   driverId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `AppDriverBio` values. */
-export type AppDriverBioConnection = {
-  __typename?: 'AppDriverBioConnection';
-  /** A list of edges which contains the `AppDriverBio` and cursor to aid in pagination. */
-  edges: Array<Maybe<AppDriverBioEdge>>;
-  /** A list of `AppDriverBio` objects. */
-  nodes: Array<Maybe<AppDriverBio>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `AppDriverBio` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `AppDriverBio` edge in the connection. */
-export type AppDriverBioEdge = {
-  __typename?: 'AppDriverBioEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `AppDriverBio` at the end of the edge. */
-  node?: Maybe<AppDriverBio>;
 };
 
 /** An input for mutations affecting `AppDriverBio` */
@@ -245,10 +171,8 @@ export type AppDriverBioPatch = {
   updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
 };
 
-export type AppIngestState = Node & {
+export type AppIngestState = {
   __typename?: 'AppIngestState';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   key: Scalars['String']['output'];
   updatedAt: Scalars['Datetime']['output'];
   value?: Maybe<Scalars['String']['output']>;
@@ -261,28 +185,6 @@ export type AppIngestState = Node & {
 export type AppIngestStateCondition = {
   /** Checks for equality with the object’s `key` field. */
   key?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `AppIngestState` values. */
-export type AppIngestStateConnection = {
-  __typename?: 'AppIngestStateConnection';
-  /** A list of edges which contains the `AppIngestState` and cursor to aid in pagination. */
-  edges: Array<Maybe<AppIngestStateEdge>>;
-  /** A list of `AppIngestState` objects. */
-  nodes: Array<Maybe<AppIngestState>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `AppIngestState` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `AppIngestState` edge in the connection. */
-export type AppIngestStateEdge = {
-  __typename?: 'AppIngestStateEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `AppIngestState` at the end of the edge. */
-  node?: Maybe<AppIngestState>;
 };
 
 /** An input for mutations affecting `AppIngestState` */
@@ -308,13 +210,11 @@ export type AppIngestStatePatch = {
   value?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type AppLapTime = Node & {
+export type AppLapTime = {
   __typename?: 'AppLapTime';
   /** Reads a single `Driver` that is related to this `AppLapTime`. */
   driver?: Maybe<Driver>;
   driverId: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   lap: Scalars['Int']['output'];
   milliseconds?: Maybe<Scalars['Int']['output']>;
   position?: Maybe<Scalars['Int']['output']>;
@@ -335,28 +235,6 @@ export type AppLapTimeCondition = {
   lap?: InputMaybe<Scalars['Int']['input']>;
   /** Checks for equality with the object’s `raceId` field. */
   raceId?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** A connection to a list of `AppLapTime` values. */
-export type AppLapTimeConnection = {
-  __typename?: 'AppLapTimeConnection';
-  /** A list of edges which contains the `AppLapTime` and cursor to aid in pagination. */
-  edges: Array<Maybe<AppLapTimeEdge>>;
-  /** A list of `AppLapTime` objects. */
-  nodes: Array<Maybe<AppLapTime>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `AppLapTime` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `AppLapTime` edge in the connection. */
-export type AppLapTimeEdge = {
-  __typename?: 'AppLapTimeEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `AppLapTime` at the end of the edge. */
-  node?: Maybe<AppLapTime>;
 };
 
 /** An input for mutations affecting `AppLapTime` */
@@ -392,10 +270,8 @@ export type AppLapTimePatch = {
   timeText?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type AppTeamColor = Node & {
+export type AppTeamColor = {
   __typename?: 'AppTeamColor';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   logo?: Maybe<Scalars['String']['output']>;
   primaryHex?: Maybe<Scalars['String']['output']>;
   secondaryHex?: Maybe<Scalars['String']['output']>;
@@ -411,28 +287,6 @@ export type AppTeamColor = Node & {
 export type AppTeamColorCondition = {
   /** Checks for equality with the object’s `teamId` field. */
   teamId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `AppTeamColor` values. */
-export type AppTeamColorConnection = {
-  __typename?: 'AppTeamColorConnection';
-  /** A list of edges which contains the `AppTeamColor` and cursor to aid in pagination. */
-  edges: Array<Maybe<AppTeamColorEdge>>;
-  /** A list of `AppTeamColor` objects. */
-  nodes: Array<Maybe<AppTeamColor>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `AppTeamColor` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `AppTeamColor` edge in the connection. */
-export type AppTeamColorEdge = {
-  __typename?: 'AppTeamColorEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `AppTeamColor` at the end of the edge. */
-  node?: Maybe<AppTeamColor>;
 };
 
 /** An input for mutations affecting `AppTeamColor` */
@@ -460,14 +314,12 @@ export type AppTeamColorPatch = {
   teamId?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type AppTeamHistory = Node & {
+export type AppTeamHistory = {
   __typename?: 'AppTeamHistory';
   /** Reads a single `Team` that is related to this `AppTeamHistory`. */
   antecedentTeam?: Maybe<Team>;
   antecedentTeamId: Scalars['String']['output'];
   endYear?: Maybe<Scalars['Int']['output']>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   startYear: Scalars['Int']['output'];
   /** Reads a single `Team` that is related to this `AppTeamHistory`. */
   team?: Maybe<Team>;
@@ -485,28 +337,6 @@ export type AppTeamHistoryCondition = {
   startYear?: InputMaybe<Scalars['Int']['input']>;
   /** Checks for equality with the object’s `teamId` field. */
   teamId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `AppTeamHistory` values. */
-export type AppTeamHistoryConnection = {
-  __typename?: 'AppTeamHistoryConnection';
-  /** A list of edges which contains the `AppTeamHistory` and cursor to aid in pagination. */
-  edges: Array<Maybe<AppTeamHistoryEdge>>;
-  /** A list of `AppTeamHistory` objects. */
-  nodes: Array<Maybe<AppTeamHistory>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `AppTeamHistory` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `AppTeamHistory` edge in the connection. */
-export type AppTeamHistoryEdge = {
-  __typename?: 'AppTeamHistoryEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `AppTeamHistory` at the end of the edge. */
-  node?: Maybe<AppTeamHistory>;
 };
 
 /** An input for mutations affecting `AppTeamHistory` */
@@ -538,15 +368,13 @@ export type AppTeamHistoryPatch = {
   teamId?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type Chassis = Node & {
+export type Chassis = {
   __typename?: 'Chassis';
   fullName: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
+  id: Scalars['String']['output'];
   name: Scalars['String']['output'];
-  rowId: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `SeasonEntrantChassis`. */
-  seasonEntrantChassises: SeasonEntrantChassisConnection;
+  seasonEntrantChassises: Array<SeasonEntrantChassis>;
   /** Reads a single `Team` that is related to this `Chassis`. */
   team?: Maybe<Team>;
   teamId: Scalars['String']['output'];
@@ -554,11 +382,8 @@ export type Chassis = Node & {
 
 
 export type ChassisSeasonEntrantChassisesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantChassisCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantChassisOrderBy>>;
 };
@@ -567,41 +392,19 @@ export type ChassisSeasonEntrantChassisesArgs = {
 export type ChassisCondition = {
   /** Checks for equality with the object’s `fullName` field. */
   fullName?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `teamId` field. */
   teamId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `Chassis` values. */
-export type ChassisConnection = {
-  __typename?: 'ChassisConnection';
-  /** A list of edges which contains the `Chassis` and cursor to aid in pagination. */
-  edges: Array<Maybe<ChassisEdge>>;
-  /** A list of `Chassis` objects. */
-  nodes: Array<Maybe<Chassis>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Chassis` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `Chassis` edge in the connection. */
-export type ChassisEdge = {
-  __typename?: 'ChassisEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `Chassis` at the end of the edge. */
-  node?: Maybe<Chassis>;
 };
 
 /** An input for mutations affecting `Chassis` */
 export type ChassisInput = {
   fullName: Scalars['String']['input'];
+  id: Scalars['String']['input'];
   name: Scalars['String']['input'];
-  rowId: Scalars['String']['input'];
   teamId: Scalars['String']['input'];
 };
 
@@ -609,13 +412,13 @@ export type ChassisInput = {
 export enum ChassisOrderBy {
   FullNameAsc = 'FULL_NAME_ASC',
   FullNameDesc = 'FULL_NAME_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   NameAsc = 'NAME_ASC',
   NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  RowIdAsc = 'ROW_ID_ASC',
-  RowIdDesc = 'ROW_ID_DESC',
   TeamIdAsc = 'TEAM_ID_ASC',
   TeamIdDesc = 'TEAM_ID_DESC'
 }
@@ -623,15 +426,15 @@ export enum ChassisOrderBy {
 /** Represents an update to a `Chassis`. Fields that are set will be updated. */
 export type ChassisPatch = {
   fullName?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  rowId?: InputMaybe<Scalars['String']['input']>;
   teamId?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type Circuit = Node & {
+export type Circuit = {
   __typename?: 'Circuit';
   /** Reads and enables pagination through a set of `CircuitLayout`. */
-  circuitLayouts: CircuitLayoutConnection;
+  circuitLayouts: Array<CircuitLayout>;
   /** Reads a single `Country` that is related to this `Circuit`. */
   country?: Maybe<Country>;
   countryId: Scalars['String']['output'];
@@ -639,8 +442,7 @@ export type Circuit = Node & {
   description?: Maybe<AppCircuitDescription>;
   direction: Scalars['String']['output'];
   fullName: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
+  id: Scalars['String']['output'];
   latitude: Scalars['BigFloat']['output'];
   length: Scalars['BigFloat']['output'];
   longitude: Scalars['BigFloat']['output'];
@@ -648,8 +450,7 @@ export type Circuit = Node & {
   placeName: Scalars['String']['output'];
   previousNames?: Maybe<Scalars['String']['output']>;
   /** Reads and enables pagination through a set of `Race`. */
-  races: RaceConnection;
-  rowId: Scalars['String']['output'];
+  races: Array<Race>;
   totalRacesHeld: Scalars['Int']['output'];
   turns: Scalars['Int']['output'];
   type: Scalars['String']['output'];
@@ -657,22 +458,16 @@ export type Circuit = Node & {
 
 
 export type CircuitCircuitLayoutsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<CircuitLayoutCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<CircuitLayoutOrderBy>>;
 };
 
 
 export type CircuitRacesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceOrderBy>>;
 };
@@ -685,36 +480,14 @@ export type CircuitCondition = {
   direction?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `fullName` field. */
   fullName?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `placeName` field. */
   placeName?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `type` field. */
   type?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `Circuit` values. */
-export type CircuitConnection = {
-  __typename?: 'CircuitConnection';
-  /** A list of edges which contains the `Circuit` and cursor to aid in pagination. */
-  edges: Array<Maybe<CircuitEdge>>;
-  /** A list of `Circuit` objects. */
-  nodes: Array<Maybe<Circuit>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Circuit` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `Circuit` edge in the connection. */
-export type CircuitEdge = {
-  __typename?: 'CircuitEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `Circuit` at the end of the edge. */
-  node?: Maybe<Circuit>;
 };
 
 /** An input for mutations affecting `Circuit` */
@@ -722,40 +495,35 @@ export type CircuitInput = {
   countryId: Scalars['String']['input'];
   direction: Scalars['String']['input'];
   fullName: Scalars['String']['input'];
+  id: Scalars['String']['input'];
   latitude: Scalars['BigFloat']['input'];
   length: Scalars['BigFloat']['input'];
   longitude: Scalars['BigFloat']['input'];
   name: Scalars['String']['input'];
   placeName: Scalars['String']['input'];
   previousNames?: InputMaybe<Scalars['String']['input']>;
-  rowId: Scalars['String']['input'];
   totalRacesHeld: Scalars['Int']['input'];
   turns: Scalars['Int']['input'];
   type: Scalars['String']['input'];
 };
 
-export type CircuitLayout = Node & {
+export type CircuitLayout = {
   __typename?: 'CircuitLayout';
   /** Reads a single `Circuit` that is related to this `CircuitLayout`. */
   circuit?: Maybe<Circuit>;
   circuitId: Scalars['String']['output'];
   effective: Scalars['Boolean']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
+  id: Scalars['String']['output'];
   length: Scalars['BigFloat']['output'];
   /** Reads and enables pagination through a set of `Race`. */
-  races: RaceConnection;
-  rowId: Scalars['String']['output'];
+  races: Array<Race>;
   turns: Scalars['Int']['output'];
 };
 
 
 export type CircuitLayoutRacesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceOrderBy>>;
 };
@@ -767,38 +535,16 @@ export type CircuitLayoutRacesArgs = {
 export type CircuitLayoutCondition = {
   /** Checks for equality with the object’s `circuitId` field. */
   circuitId?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `CircuitLayout` values. */
-export type CircuitLayoutConnection = {
-  __typename?: 'CircuitLayoutConnection';
-  /** A list of edges which contains the `CircuitLayout` and cursor to aid in pagination. */
-  edges: Array<Maybe<CircuitLayoutEdge>>;
-  /** A list of `CircuitLayout` objects. */
-  nodes: Array<Maybe<CircuitLayout>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CircuitLayout` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `CircuitLayout` edge in the connection. */
-export type CircuitLayoutEdge = {
-  __typename?: 'CircuitLayoutEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `CircuitLayout` at the end of the edge. */
-  node?: Maybe<CircuitLayout>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** An input for mutations affecting `CircuitLayout` */
 export type CircuitLayoutInput = {
   circuitId: Scalars['String']['input'];
   effective: Scalars['Boolean']['input'];
+  id: Scalars['String']['input'];
   length: Scalars['BigFloat']['input'];
-  rowId: Scalars['String']['input'];
   turns: Scalars['Int']['input'];
 };
 
@@ -806,19 +552,19 @@ export type CircuitLayoutInput = {
 export enum CircuitLayoutOrderBy {
   CircuitIdAsc = 'CIRCUIT_ID_ASC',
   CircuitIdDesc = 'CIRCUIT_ID_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  RowIdAsc = 'ROW_ID_ASC',
-  RowIdDesc = 'ROW_ID_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
 /** Represents an update to a `CircuitLayout`. Fields that are set will be updated. */
 export type CircuitLayoutPatch = {
   circuitId?: InputMaybe<Scalars['String']['input']>;
   effective?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   length?: InputMaybe<Scalars['BigFloat']['input']>;
-  rowId?: InputMaybe<Scalars['String']['input']>;
   turns?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -830,6 +576,8 @@ export enum CircuitOrderBy {
   DirectionDesc = 'DIRECTION_DESC',
   FullNameAsc = 'FULL_NAME_ASC',
   FullNameDesc = 'FULL_NAME_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   NameAsc = 'NAME_ASC',
   NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
@@ -837,8 +585,6 @@ export enum CircuitOrderBy {
   PlaceNameDesc = 'PLACE_NAME_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  RowIdAsc = 'ROW_ID_ASC',
-  RowIdDesc = 'ROW_ID_DESC',
   TypeAsc = 'TYPE_ASC',
   TypeDesc = 'TYPE_DESC'
 }
@@ -848,37 +594,32 @@ export type CircuitPatch = {
   countryId?: InputMaybe<Scalars['String']['input']>;
   direction?: InputMaybe<Scalars['String']['input']>;
   fullName?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   latitude?: InputMaybe<Scalars['BigFloat']['input']>;
   length?: InputMaybe<Scalars['BigFloat']['input']>;
   longitude?: InputMaybe<Scalars['BigFloat']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   placeName?: InputMaybe<Scalars['String']['input']>;
   previousNames?: InputMaybe<Scalars['String']['input']>;
-  rowId?: InputMaybe<Scalars['String']['input']>;
   totalRacesHeld?: InputMaybe<Scalars['Int']['input']>;
   turns?: InputMaybe<Scalars['Int']['input']>;
   type?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type Continent = Node & {
+export type Continent = {
   __typename?: 'Continent';
   code: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `Country`. */
-  countries: CountryConnection;
+  countries: Array<Country>;
   demonym: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
+  id: Scalars['String']['output'];
   name: Scalars['String']['output'];
-  rowId: Scalars['String']['output'];
 };
 
 
 export type ContinentCountriesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<CountryCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<CountryOrderBy>>;
 };
@@ -890,191 +631,140 @@ export type ContinentCountriesArgs = {
 export type ContinentCondition = {
   /** Checks for equality with the object’s `code` field. */
   code?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `Continent` values. */
-export type ContinentConnection = {
-  __typename?: 'ContinentConnection';
-  /** A list of edges which contains the `Continent` and cursor to aid in pagination. */
-  edges: Array<Maybe<ContinentEdge>>;
-  /** A list of `Continent` objects. */
-  nodes: Array<Maybe<Continent>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Continent` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `Continent` edge in the connection. */
-export type ContinentEdge = {
-  __typename?: 'ContinentEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `Continent` at the end of the edge. */
-  node?: Maybe<Continent>;
 };
 
 /** An input for mutations affecting `Continent` */
 export type ContinentInput = {
   code: Scalars['String']['input'];
   demonym: Scalars['String']['input'];
+  id: Scalars['String']['input'];
   name: Scalars['String']['input'];
-  rowId: Scalars['String']['input'];
 };
 
 /** Methods to use when ordering `Continent`. */
 export enum ContinentOrderBy {
   CodeAsc = 'CODE_ASC',
   CodeDesc = 'CODE_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   NameAsc = 'NAME_ASC',
   NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  RowIdAsc = 'ROW_ID_ASC',
-  RowIdDesc = 'ROW_ID_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
 /** Represents an update to a `Continent`. Fields that are set will be updated. */
 export type ContinentPatch = {
   code?: InputMaybe<Scalars['String']['input']>;
   demonym?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  rowId?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type Country = Node & {
+export type Country = {
   __typename?: 'Country';
   alpha2Code: Scalars['String']['output'];
   alpha3Code: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `Circuit`. */
-  circuits: CircuitConnection;
+  circuits: Array<Circuit>;
   /** Reads a single `Continent` that is related to this `Country`. */
   continent?: Maybe<Continent>;
   continentId: Scalars['String']['output'];
   demonym?: Maybe<Scalars['String']['output']>;
   /** Reads and enables pagination through a set of `Driver`. */
-  driversByCountryOfBirthCountryId: DriverConnection;
+  driversByCountryOfBirthCountryId: Array<Driver>;
   /** Reads and enables pagination through a set of `Driver`. */
-  driversByNationalityCountryId: DriverConnection;
+  driversByNationalityCountryId: Array<Driver>;
   /** Reads and enables pagination through a set of `Driver`. */
-  driversBySecondNationalityCountryId: DriverConnection;
+  driversBySecondNationalityCountryId: Array<Driver>;
   /** Reads and enables pagination through a set of `EngineManufacturer`. */
-  engineManufacturers: EngineManufacturerConnection;
+  engineManufacturers: Array<EngineManufacturer>;
   /** Reads and enables pagination through a set of `GrandPrix`. */
-  grandPrixes: GrandPrixConnection;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
+  grandPrixes: Array<GrandPrix>;
+  id: Scalars['String']['output'];
   iocCode?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
-  rowId: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `SeasonEntrant`. */
-  seasonEntrants: SeasonEntrantConnection;
+  seasonEntrants: Array<SeasonEntrant>;
   /** Reads and enables pagination through a set of `Team`. */
-  teams: TeamConnection;
+  teams: Array<Team>;
   /** Reads and enables pagination through a set of `TyreManufacturer`. */
-  tyreManufacturers: TyreManufacturerConnection;
+  tyreManufacturers: Array<TyreManufacturer>;
 };
 
 
 export type CountryCircuitsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<CircuitCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<CircuitOrderBy>>;
 };
 
 
 export type CountryDriversByCountryOfBirthCountryIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<DriverCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<DriverOrderBy>>;
 };
 
 
 export type CountryDriversByNationalityCountryIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<DriverCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<DriverOrderBy>>;
 };
 
 
 export type CountryDriversBySecondNationalityCountryIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<DriverCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<DriverOrderBy>>;
 };
 
 
 export type CountryEngineManufacturersArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<EngineManufacturerCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<EngineManufacturerOrderBy>>;
 };
 
 
 export type CountryGrandPrixesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<GrandPrixCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<GrandPrixOrderBy>>;
 };
 
 
 export type CountrySeasonEntrantsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantOrderBy>>;
 };
 
 
 export type CountryTeamsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<TeamCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<TeamOrderBy>>;
 };
 
 
 export type CountryTyreManufacturersArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<TyreManufacturerCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<TyreManufacturerOrderBy>>;
 };
@@ -1087,32 +777,10 @@ export type CountryCondition = {
   alpha3Code?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `continentId` field. */
   continentId?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `Country` values. */
-export type CountryConnection = {
-  __typename?: 'CountryConnection';
-  /** A list of edges which contains the `Country` and cursor to aid in pagination. */
-  edges: Array<Maybe<CountryEdge>>;
-  /** A list of `Country` objects. */
-  nodes: Array<Maybe<Country>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Country` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `Country` edge in the connection. */
-export type CountryEdge = {
-  __typename?: 'CountryEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `Country` at the end of the edge. */
-  node?: Maybe<Country>;
 };
 
 /** An input for mutations affecting `Country` */
@@ -1121,9 +789,9 @@ export type CountryInput = {
   alpha3Code: Scalars['String']['input'];
   continentId: Scalars['String']['input'];
   demonym?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
   iocCode?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
-  rowId: Scalars['String']['input'];
 };
 
 /** Methods to use when ordering `Country`. */
@@ -1134,13 +802,13 @@ export enum CountryOrderBy {
   Alpha3CodeDesc = 'ALPHA3_CODE_DESC',
   ContinentIdAsc = 'CONTINENT_ID_ASC',
   ContinentIdDesc = 'CONTINENT_ID_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   NameAsc = 'NAME_ASC',
   NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  RowIdAsc = 'ROW_ID_ASC',
-  RowIdDesc = 'ROW_ID_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
 /** Represents an update to a `Country`. Fields that are set will be updated. */
@@ -1149,9 +817,9 @@ export type CountryPatch = {
   alpha3Code?: InputMaybe<Scalars['String']['input']>;
   continentId?: InputMaybe<Scalars['String']['input']>;
   demonym?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   iocCode?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  rowId?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** All input for the create `AppCircuitDescription` mutation. */
@@ -1170,8 +838,6 @@ export type CreateAppCircuitDescriptionPayload = {
   __typename?: 'CreateAppCircuitDescriptionPayload';
   /** The `AppCircuitDescription` that was created by this mutation. */
   appCircuitDescription?: Maybe<AppCircuitDescription>;
-  /** An edge for our `AppCircuitDescription`. May be used by Relay 1. */
-  appCircuitDescriptionEdge?: Maybe<AppCircuitDescriptionEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1179,12 +845,6 @@ export type CreateAppCircuitDescriptionPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `AppCircuitDescription` mutation. */
-export type CreateAppCircuitDescriptionPayloadAppCircuitDescriptionEdgeArgs = {
-  orderBy?: Array<AppCircuitDescriptionOrderBy>;
 };
 
 /** All input for the create `AppConstructorBio` mutation. */
@@ -1203,8 +863,6 @@ export type CreateAppConstructorBioPayload = {
   __typename?: 'CreateAppConstructorBioPayload';
   /** The `AppConstructorBio` that was created by this mutation. */
   appConstructorBio?: Maybe<AppConstructorBio>;
-  /** An edge for our `AppConstructorBio`. May be used by Relay 1. */
-  appConstructorBioEdge?: Maybe<AppConstructorBioEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1212,12 +870,6 @@ export type CreateAppConstructorBioPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `AppConstructorBio` mutation. */
-export type CreateAppConstructorBioPayloadAppConstructorBioEdgeArgs = {
-  orderBy?: Array<AppConstructorBioOrderBy>;
 };
 
 /** All input for the create `AppDriverBio` mutation. */
@@ -1236,8 +888,6 @@ export type CreateAppDriverBioPayload = {
   __typename?: 'CreateAppDriverBioPayload';
   /** The `AppDriverBio` that was created by this mutation. */
   appDriverBio?: Maybe<AppDriverBio>;
-  /** An edge for our `AppDriverBio`. May be used by Relay 1. */
-  appDriverBioEdge?: Maybe<AppDriverBioEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1245,12 +895,6 @@ export type CreateAppDriverBioPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `AppDriverBio` mutation. */
-export type CreateAppDriverBioPayloadAppDriverBioEdgeArgs = {
-  orderBy?: Array<AppDriverBioOrderBy>;
 };
 
 /** All input for the create `AppIngestState` mutation. */
@@ -1269,8 +913,6 @@ export type CreateAppIngestStatePayload = {
   __typename?: 'CreateAppIngestStatePayload';
   /** The `AppIngestState` that was created by this mutation. */
   appIngestState?: Maybe<AppIngestState>;
-  /** An edge for our `AppIngestState`. May be used by Relay 1. */
-  appIngestStateEdge?: Maybe<AppIngestStateEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1278,12 +920,6 @@ export type CreateAppIngestStatePayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `AppIngestState` mutation. */
-export type CreateAppIngestStatePayloadAppIngestStateEdgeArgs = {
-  orderBy?: Array<AppIngestStateOrderBy>;
 };
 
 /** All input for the create `AppLapTime` mutation. */
@@ -1302,8 +938,6 @@ export type CreateAppLapTimePayload = {
   __typename?: 'CreateAppLapTimePayload';
   /** The `AppLapTime` that was created by this mutation. */
   appLapTime?: Maybe<AppLapTime>;
-  /** An edge for our `AppLapTime`. May be used by Relay 1. */
-  appLapTimeEdge?: Maybe<AppLapTimeEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1311,12 +945,6 @@ export type CreateAppLapTimePayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `AppLapTime` mutation. */
-export type CreateAppLapTimePayloadAppLapTimeEdgeArgs = {
-  orderBy?: Array<AppLapTimeOrderBy>;
 };
 
 /** All input for the create `AppTeamColor` mutation. */
@@ -1335,8 +963,6 @@ export type CreateAppTeamColorPayload = {
   __typename?: 'CreateAppTeamColorPayload';
   /** The `AppTeamColor` that was created by this mutation. */
   appTeamColor?: Maybe<AppTeamColor>;
-  /** An edge for our `AppTeamColor`. May be used by Relay 1. */
-  appTeamColorEdge?: Maybe<AppTeamColorEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1344,12 +970,6 @@ export type CreateAppTeamColorPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `AppTeamColor` mutation. */
-export type CreateAppTeamColorPayloadAppTeamColorEdgeArgs = {
-  orderBy?: Array<AppTeamColorOrderBy>;
 };
 
 /** All input for the create `AppTeamHistory` mutation. */
@@ -1368,8 +988,6 @@ export type CreateAppTeamHistoryPayload = {
   __typename?: 'CreateAppTeamHistoryPayload';
   /** The `AppTeamHistory` that was created by this mutation. */
   appTeamHistory?: Maybe<AppTeamHistory>;
-  /** An edge for our `AppTeamHistory`. May be used by Relay 1. */
-  appTeamHistoryEdge?: Maybe<AppTeamHistoryEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1377,12 +995,6 @@ export type CreateAppTeamHistoryPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `AppTeamHistory` mutation. */
-export type CreateAppTeamHistoryPayloadAppTeamHistoryEdgeArgs = {
-  orderBy?: Array<AppTeamHistoryOrderBy>;
 };
 
 /** All input for the create `Chassis` mutation. */
@@ -1401,8 +1013,6 @@ export type CreateChassisPayload = {
   __typename?: 'CreateChassisPayload';
   /** The `Chassis` that was created by this mutation. */
   chassis?: Maybe<Chassis>;
-  /** An edge for our `Chassis`. May be used by Relay 1. */
-  chassisEdge?: Maybe<ChassisEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1410,12 +1020,6 @@ export type CreateChassisPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `Chassis` mutation. */
-export type CreateChassisPayloadChassisEdgeArgs = {
-  orderBy?: Array<ChassisOrderBy>;
 };
 
 /** All input for the create `Circuit` mutation. */
@@ -1445,8 +1049,6 @@ export type CreateCircuitLayoutPayload = {
   __typename?: 'CreateCircuitLayoutPayload';
   /** The `CircuitLayout` that was created by this mutation. */
   circuitLayout?: Maybe<CircuitLayout>;
-  /** An edge for our `CircuitLayout`. May be used by Relay 1. */
-  circuitLayoutEdge?: Maybe<CircuitLayoutEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1454,12 +1056,6 @@ export type CreateCircuitLayoutPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `CircuitLayout` mutation. */
-export type CreateCircuitLayoutPayloadCircuitLayoutEdgeArgs = {
-  orderBy?: Array<CircuitLayoutOrderBy>;
 };
 
 /** The output of our create `Circuit` mutation. */
@@ -1467,8 +1063,6 @@ export type CreateCircuitPayload = {
   __typename?: 'CreateCircuitPayload';
   /** The `Circuit` that was created by this mutation. */
   circuit?: Maybe<Circuit>;
-  /** An edge for our `Circuit`. May be used by Relay 1. */
-  circuitEdge?: Maybe<CircuitEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1476,12 +1070,6 @@ export type CreateCircuitPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `Circuit` mutation. */
-export type CreateCircuitPayloadCircuitEdgeArgs = {
-  orderBy?: Array<CircuitOrderBy>;
 };
 
 /** All input for the create `Continent` mutation. */
@@ -1505,16 +1093,8 @@ export type CreateContinentPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `Continent` that was created by this mutation. */
   continent?: Maybe<Continent>;
-  /** An edge for our `Continent`. May be used by Relay 1. */
-  continentEdge?: Maybe<ContinentEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `Continent` mutation. */
-export type CreateContinentPayloadContinentEdgeArgs = {
-  orderBy?: Array<ContinentOrderBy>;
 };
 
 /** All input for the create `Country` mutation. */
@@ -1538,16 +1118,8 @@ export type CreateCountryPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `Country` that was created by this mutation. */
   country?: Maybe<Country>;
-  /** An edge for our `Country`. May be used by Relay 1. */
-  countryEdge?: Maybe<CountryEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `Country` mutation. */
-export type CreateCountryPayloadCountryEdgeArgs = {
-  orderBy?: Array<CountryOrderBy>;
 };
 
 /** All input for the create `DriverFamilyRelationship` mutation. */
@@ -1571,16 +1143,8 @@ export type CreateDriverFamilyRelationshipPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `DriverFamilyRelationship` that was created by this mutation. */
   driverFamilyRelationship?: Maybe<DriverFamilyRelationship>;
-  /** An edge for our `DriverFamilyRelationship`. May be used by Relay 1. */
-  driverFamilyRelationshipEdge?: Maybe<DriverFamilyRelationshipEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `DriverFamilyRelationship` mutation. */
-export type CreateDriverFamilyRelationshipPayloadDriverFamilyRelationshipEdgeArgs = {
-  orderBy?: Array<DriverFamilyRelationshipOrderBy>;
 };
 
 /** All input for the create `Driver` mutation. */
@@ -1615,16 +1179,8 @@ export type CreateDriverOfTheDayResultPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `DriverOfTheDayResult` that was created by this mutation. */
   driverOfTheDayResult?: Maybe<DriverOfTheDayResult>;
-  /** An edge for our `DriverOfTheDayResult`. May be used by Relay 1. */
-  driverOfTheDayResultEdge?: Maybe<DriverOfTheDayResultEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `DriverOfTheDayResult` mutation. */
-export type CreateDriverOfTheDayResultPayloadDriverOfTheDayResultEdgeArgs = {
-  orderBy?: Array<DriverOfTheDayResultOrderBy>;
 };
 
 /** The output of our create `Driver` mutation. */
@@ -1637,16 +1193,8 @@ export type CreateDriverPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `Driver` that was created by this mutation. */
   driver?: Maybe<Driver>;
-  /** An edge for our `Driver`. May be used by Relay 1. */
-  driverEdge?: Maybe<DriverEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `Driver` mutation. */
-export type CreateDriverPayloadDriverEdgeArgs = {
-  orderBy?: Array<DriverOrderBy>;
 };
 
 /** All input for the create `Engine` mutation. */
@@ -1681,16 +1229,8 @@ export type CreateEngineManufacturerPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `EngineManufacturer` that was created by this mutation. */
   engineManufacturer?: Maybe<EngineManufacturer>;
-  /** An edge for our `EngineManufacturer`. May be used by Relay 1. */
-  engineManufacturerEdge?: Maybe<EngineManufacturerEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `EngineManufacturer` mutation. */
-export type CreateEngineManufacturerPayloadEngineManufacturerEdgeArgs = {
-  orderBy?: Array<EngineManufacturerOrderBy>;
 };
 
 /** The output of our create `Engine` mutation. */
@@ -1703,16 +1243,8 @@ export type CreateEnginePayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `Engine` that was created by this mutation. */
   engine?: Maybe<Engine>;
-  /** An edge for our `Engine`. May be used by Relay 1. */
-  engineEdge?: Maybe<EngineEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `Engine` mutation. */
-export type CreateEnginePayloadEngineEdgeArgs = {
-  orderBy?: Array<EngineOrderBy>;
 };
 
 /** All input for the create `Entrant` mutation. */
@@ -1736,16 +1268,8 @@ export type CreateEntrantPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `Entrant` that was created by this mutation. */
   entrant?: Maybe<Entrant>;
-  /** An edge for our `Entrant`. May be used by Relay 1. */
-  entrantEdge?: Maybe<EntrantEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `Entrant` mutation. */
-export type CreateEntrantPayloadEntrantEdgeArgs = {
-  orderBy?: Array<EntrantOrderBy>;
 };
 
 /** All input for the create `FastestLap` mutation. */
@@ -1769,16 +1293,8 @@ export type CreateFastestLapPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `FastestLap` that was created by this mutation. */
   fastestLap?: Maybe<FastestLap>;
-  /** An edge for our `FastestLap`. May be used by Relay 1. */
-  fastestLapEdge?: Maybe<FastestLapEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `FastestLap` mutation. */
-export type CreateFastestLapPayloadFastestLapEdgeArgs = {
-  orderBy?: Array<FastestLapOrderBy>;
 };
 
 /** All input for the create `FreePractice1Result` mutation. */
@@ -1902,16 +1418,8 @@ export type CreateGrandPrixPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `GrandPrix` that was created by this mutation. */
   grandPrix?: Maybe<GrandPrix>;
-  /** An edge for our `GrandPrix`. May be used by Relay 1. */
-  grandPrixEdge?: Maybe<GrandPrixEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `GrandPrix` mutation. */
-export type CreateGrandPrixPayloadGrandPrixEdgeArgs = {
-  orderBy?: Array<GrandPrixOrderBy>;
 };
 
 /** All input for the create `PitStop` mutation. */
@@ -1935,16 +1443,8 @@ export type CreatePitStopPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `PitStop` that was created by this mutation. */
   pitStop?: Maybe<PitStop>;
-  /** An edge for our `PitStop`. May be used by Relay 1. */
-  pitStopEdge?: Maybe<PitStopEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `PitStop` mutation. */
-export type CreatePitStopPayloadPitStopEdgeArgs = {
-  orderBy?: Array<PitStopOrderBy>;
 };
 
 /** All input for the create `PreQualifyingResult` mutation. */
@@ -2043,16 +1543,8 @@ export type CreateQualifyingResultPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `QualifyingResult` that was created by this mutation. */
   qualifyingResult?: Maybe<QualifyingResult>;
-  /** An edge for our `QualifyingResult`. May be used by Relay 1. */
-  qualifyingResultEdge?: Maybe<QualifyingResultEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `QualifyingResult` mutation. */
-export type CreateQualifyingResultPayloadQualifyingResultEdgeArgs = {
-  orderBy?: Array<QualifyingResultOrderBy>;
 };
 
 /** All input for the create `RaceDatum` mutation. */
@@ -2078,14 +1570,6 @@ export type CreateRaceDatumPayload = {
   query?: Maybe<Query>;
   /** The `RaceDatum` that was created by this mutation. */
   raceDatum?: Maybe<RaceDatum>;
-  /** An edge for our `RaceDatum`. May be used by Relay 1. */
-  raceDatumEdge?: Maybe<RaceDatumEdge>;
-};
-
-
-/** The output of our create `RaceDatum` mutation. */
-export type CreateRaceDatumPayloadRaceDatumEdgeArgs = {
-  orderBy?: Array<RaceDatumOrderBy>;
 };
 
 /** All input for the create `RaceDriverStanding` mutation. */
@@ -2111,14 +1595,6 @@ export type CreateRaceDriverStandingPayload = {
   query?: Maybe<Query>;
   /** The `RaceDriverStanding` that was created by this mutation. */
   raceDriverStanding?: Maybe<RaceDriverStanding>;
-  /** An edge for our `RaceDriverStanding`. May be used by Relay 1. */
-  raceDriverStandingEdge?: Maybe<RaceDriverStandingEdge>;
-};
-
-
-/** The output of our create `RaceDriverStanding` mutation. */
-export type CreateRaceDriverStandingPayloadRaceDriverStandingEdgeArgs = {
-  orderBy?: Array<RaceDriverStandingOrderBy>;
 };
 
 /** All input for the create `Race` mutation. */
@@ -2144,14 +1620,6 @@ export type CreateRacePayload = {
   query?: Maybe<Query>;
   /** The `Race` that was created by this mutation. */
   race?: Maybe<Race>;
-  /** An edge for our `Race`. May be used by Relay 1. */
-  raceEdge?: Maybe<RaceEdge>;
-};
-
-
-/** The output of our create `Race` mutation. */
-export type CreateRacePayloadRaceEdgeArgs = {
-  orderBy?: Array<RaceOrderBy>;
 };
 
 /** All input for the create `RaceResult` mutation. */
@@ -2177,14 +1645,6 @@ export type CreateRaceResultPayload = {
   query?: Maybe<Query>;
   /** The `RaceResult` that was created by this mutation. */
   raceResult?: Maybe<RaceResult>;
-  /** An edge for our `RaceResult`. May be used by Relay 1. */
-  raceResultEdge?: Maybe<RaceResultEdge>;
-};
-
-
-/** The output of our create `RaceResult` mutation. */
-export type CreateRaceResultPayloadRaceResultEdgeArgs = {
-  orderBy?: Array<RaceResultOrderBy>;
 };
 
 /** All input for the create `RaceTeamStanding` mutation. */
@@ -2210,14 +1670,6 @@ export type CreateRaceTeamStandingPayload = {
   query?: Maybe<Query>;
   /** The `RaceTeamStanding` that was created by this mutation. */
   raceTeamStanding?: Maybe<RaceTeamStanding>;
-  /** An edge for our `RaceTeamStanding`. May be used by Relay 1. */
-  raceTeamStandingEdge?: Maybe<RaceTeamStandingEdge>;
-};
-
-
-/** The output of our create `RaceTeamStanding` mutation. */
-export type CreateRaceTeamStandingPayloadRaceTeamStandingEdgeArgs = {
-  orderBy?: Array<RaceTeamStandingOrderBy>;
 };
 
 /** All input for the create `SeasonDriver` mutation. */
@@ -2243,14 +1695,6 @@ export type CreateSeasonDriverPayload = {
   query?: Maybe<Query>;
   /** The `SeasonDriver` that was created by this mutation. */
   seasonDriver?: Maybe<SeasonDriver>;
-  /** An edge for our `SeasonDriver`. May be used by Relay 1. */
-  seasonDriverEdge?: Maybe<SeasonDriverEdge>;
-};
-
-
-/** The output of our create `SeasonDriver` mutation. */
-export type CreateSeasonDriverPayloadSeasonDriverEdgeArgs = {
-  orderBy?: Array<SeasonDriverOrderBy>;
 };
 
 /** All input for the create `SeasonDriverStanding` mutation. */
@@ -2276,14 +1720,6 @@ export type CreateSeasonDriverStandingPayload = {
   query?: Maybe<Query>;
   /** The `SeasonDriverStanding` that was created by this mutation. */
   seasonDriverStanding?: Maybe<SeasonDriverStanding>;
-  /** An edge for our `SeasonDriverStanding`. May be used by Relay 1. */
-  seasonDriverStandingEdge?: Maybe<SeasonDriverStandingEdge>;
-};
-
-
-/** The output of our create `SeasonDriverStanding` mutation. */
-export type CreateSeasonDriverStandingPayloadSeasonDriverStandingEdgeArgs = {
-  orderBy?: Array<SeasonDriverStandingOrderBy>;
 };
 
 /** All input for the create `SeasonEngineManufacturer` mutation. */
@@ -2309,14 +1745,6 @@ export type CreateSeasonEngineManufacturerPayload = {
   query?: Maybe<Query>;
   /** The `SeasonEngineManufacturer` that was created by this mutation. */
   seasonEngineManufacturer?: Maybe<SeasonEngineManufacturer>;
-  /** An edge for our `SeasonEngineManufacturer`. May be used by Relay 1. */
-  seasonEngineManufacturerEdge?: Maybe<SeasonEngineManufacturerEdge>;
-};
-
-
-/** The output of our create `SeasonEngineManufacturer` mutation. */
-export type CreateSeasonEngineManufacturerPayloadSeasonEngineManufacturerEdgeArgs = {
-  orderBy?: Array<SeasonEngineManufacturerOrderBy>;
 };
 
 /** All input for the create `SeasonEntrantChassis` mutation. */
@@ -2342,14 +1770,6 @@ export type CreateSeasonEntrantChassisPayload = {
   query?: Maybe<Query>;
   /** The `SeasonEntrantChassis` that was created by this mutation. */
   seasonEntrantChassis?: Maybe<SeasonEntrantChassis>;
-  /** An edge for our `SeasonEntrantChassis`. May be used by Relay 1. */
-  seasonEntrantChassisEdge?: Maybe<SeasonEntrantChassisEdge>;
-};
-
-
-/** The output of our create `SeasonEntrantChassis` mutation. */
-export type CreateSeasonEntrantChassisPayloadSeasonEntrantChassisEdgeArgs = {
-  orderBy?: Array<SeasonEntrantChassisOrderBy>;
 };
 
 /** All input for the create `SeasonEntrantDriver` mutation. */
@@ -2375,14 +1795,6 @@ export type CreateSeasonEntrantDriverPayload = {
   query?: Maybe<Query>;
   /** The `SeasonEntrantDriver` that was created by this mutation. */
   seasonEntrantDriver?: Maybe<SeasonEntrantDriver>;
-  /** An edge for our `SeasonEntrantDriver`. May be used by Relay 1. */
-  seasonEntrantDriverEdge?: Maybe<SeasonEntrantDriverEdge>;
-};
-
-
-/** The output of our create `SeasonEntrantDriver` mutation. */
-export type CreateSeasonEntrantDriverPayloadSeasonEntrantDriverEdgeArgs = {
-  orderBy?: Array<SeasonEntrantDriverOrderBy>;
 };
 
 /** All input for the create `SeasonEntrantEngine` mutation. */
@@ -2408,14 +1820,6 @@ export type CreateSeasonEntrantEnginePayload = {
   query?: Maybe<Query>;
   /** The `SeasonEntrantEngine` that was created by this mutation. */
   seasonEntrantEngine?: Maybe<SeasonEntrantEngine>;
-  /** An edge for our `SeasonEntrantEngine`. May be used by Relay 1. */
-  seasonEntrantEngineEdge?: Maybe<SeasonEntrantEngineEdge>;
-};
-
-
-/** The output of our create `SeasonEntrantEngine` mutation. */
-export type CreateSeasonEntrantEnginePayloadSeasonEntrantEngineEdgeArgs = {
-  orderBy?: Array<SeasonEntrantEngineOrderBy>;
 };
 
 /** All input for the create `SeasonEntrant` mutation. */
@@ -2441,14 +1845,6 @@ export type CreateSeasonEntrantPayload = {
   query?: Maybe<Query>;
   /** The `SeasonEntrant` that was created by this mutation. */
   seasonEntrant?: Maybe<SeasonEntrant>;
-  /** An edge for our `SeasonEntrant`. May be used by Relay 1. */
-  seasonEntrantEdge?: Maybe<SeasonEntrantEdge>;
-};
-
-
-/** The output of our create `SeasonEntrant` mutation. */
-export type CreateSeasonEntrantPayloadSeasonEntrantEdgeArgs = {
-  orderBy?: Array<SeasonEntrantOrderBy>;
 };
 
 /** All input for the create `SeasonEntrantTeam` mutation. */
@@ -2474,14 +1870,6 @@ export type CreateSeasonEntrantTeamPayload = {
   query?: Maybe<Query>;
   /** The `SeasonEntrantTeam` that was created by this mutation. */
   seasonEntrantTeam?: Maybe<SeasonEntrantTeam>;
-  /** An edge for our `SeasonEntrantTeam`. May be used by Relay 1. */
-  seasonEntrantTeamEdge?: Maybe<SeasonEntrantTeamEdge>;
-};
-
-
-/** The output of our create `SeasonEntrantTeam` mutation. */
-export type CreateSeasonEntrantTeamPayloadSeasonEntrantTeamEdgeArgs = {
-  orderBy?: Array<SeasonEntrantTeamOrderBy>;
 };
 
 /** All input for the create `SeasonEntrantTyreManufacturer` mutation. */
@@ -2507,14 +1895,6 @@ export type CreateSeasonEntrantTyreManufacturerPayload = {
   query?: Maybe<Query>;
   /** The `SeasonEntrantTyreManufacturer` that was created by this mutation. */
   seasonEntrantTyreManufacturer?: Maybe<SeasonEntrantTyreManufacturer>;
-  /** An edge for our `SeasonEntrantTyreManufacturer`. May be used by Relay 1. */
-  seasonEntrantTyreManufacturerEdge?: Maybe<SeasonEntrantTyreManufacturerEdge>;
-};
-
-
-/** The output of our create `SeasonEntrantTyreManufacturer` mutation. */
-export type CreateSeasonEntrantTyreManufacturerPayloadSeasonEntrantTyreManufacturerEdgeArgs = {
-  orderBy?: Array<SeasonEntrantTyreManufacturerOrderBy>;
 };
 
 /** All input for the create `Season` mutation. */
@@ -2540,14 +1920,6 @@ export type CreateSeasonPayload = {
   query?: Maybe<Query>;
   /** The `Season` that was created by this mutation. */
   season?: Maybe<Season>;
-  /** An edge for our `Season`. May be used by Relay 1. */
-  seasonEdge?: Maybe<SeasonEdge>;
-};
-
-
-/** The output of our create `Season` mutation. */
-export type CreateSeasonPayloadSeasonEdgeArgs = {
-  orderBy?: Array<SeasonOrderBy>;
 };
 
 /** All input for the create `SeasonTeam` mutation. */
@@ -2573,14 +1945,6 @@ export type CreateSeasonTeamPayload = {
   query?: Maybe<Query>;
   /** The `SeasonTeam` that was created by this mutation. */
   seasonTeam?: Maybe<SeasonTeam>;
-  /** An edge for our `SeasonTeam`. May be used by Relay 1. */
-  seasonTeamEdge?: Maybe<SeasonTeamEdge>;
-};
-
-
-/** The output of our create `SeasonTeam` mutation. */
-export type CreateSeasonTeamPayloadSeasonTeamEdgeArgs = {
-  orderBy?: Array<SeasonTeamOrderBy>;
 };
 
 /** All input for the create `SeasonTeamStanding` mutation. */
@@ -2606,14 +1970,6 @@ export type CreateSeasonTeamStandingPayload = {
   query?: Maybe<Query>;
   /** The `SeasonTeamStanding` that was created by this mutation. */
   seasonTeamStanding?: Maybe<SeasonTeamStanding>;
-  /** An edge for our `SeasonTeamStanding`. May be used by Relay 1. */
-  seasonTeamStandingEdge?: Maybe<SeasonTeamStandingEdge>;
-};
-
-
-/** The output of our create `SeasonTeamStanding` mutation. */
-export type CreateSeasonTeamStandingPayloadSeasonTeamStandingEdgeArgs = {
-  orderBy?: Array<SeasonTeamStandingOrderBy>;
 };
 
 /** All input for the create `SeasonTyreManufacturer` mutation. */
@@ -2639,14 +1995,6 @@ export type CreateSeasonTyreManufacturerPayload = {
   query?: Maybe<Query>;
   /** The `SeasonTyreManufacturer` that was created by this mutation. */
   seasonTyreManufacturer?: Maybe<SeasonTyreManufacturer>;
-  /** An edge for our `SeasonTyreManufacturer`. May be used by Relay 1. */
-  seasonTyreManufacturerEdge?: Maybe<SeasonTyreManufacturerEdge>;
-};
-
-
-/** The output of our create `SeasonTyreManufacturer` mutation. */
-export type CreateSeasonTyreManufacturerPayloadSeasonTyreManufacturerEdgeArgs = {
-  orderBy?: Array<SeasonTyreManufacturerOrderBy>;
 };
 
 /** All input for the create `SprintQualifyingResult` mutation. */
@@ -2672,14 +2020,6 @@ export type CreateSprintQualifyingResultPayload = {
   query?: Maybe<Query>;
   /** The `SprintQualifyingResult` that was created by this mutation. */
   sprintQualifyingResult?: Maybe<SprintQualifyingResult>;
-  /** An edge for our `SprintQualifyingResult`. May be used by Relay 1. */
-  sprintQualifyingResultEdge?: Maybe<SprintQualifyingResultEdge>;
-};
-
-
-/** The output of our create `SprintQualifyingResult` mutation. */
-export type CreateSprintQualifyingResultPayloadSprintQualifyingResultEdgeArgs = {
-  orderBy?: Array<SprintQualifyingResultOrderBy>;
 };
 
 /** All input for the create `SprintRaceResult` mutation. */
@@ -2705,14 +2045,6 @@ export type CreateSprintRaceResultPayload = {
   query?: Maybe<Query>;
   /** The `SprintRaceResult` that was created by this mutation. */
   sprintRaceResult?: Maybe<SprintRaceResult>;
-  /** An edge for our `SprintRaceResult`. May be used by Relay 1. */
-  sprintRaceResultEdge?: Maybe<SprintRaceResultEdge>;
-};
-
-
-/** The output of our create `SprintRaceResult` mutation. */
-export type CreateSprintRaceResultPayloadSprintRaceResultEdgeArgs = {
-  orderBy?: Array<SprintRaceResultOrderBy>;
 };
 
 /** All input for the create `SprintStartingGridPosition` mutation. */
@@ -2738,14 +2070,6 @@ export type CreateSprintStartingGridPositionPayload = {
   query?: Maybe<Query>;
   /** The `SprintStartingGridPosition` that was created by this mutation. */
   sprintStartingGridPosition?: Maybe<SprintStartingGridPosition>;
-  /** An edge for our `SprintStartingGridPosition`. May be used by Relay 1. */
-  sprintStartingGridPositionEdge?: Maybe<SprintStartingGridPositionEdge>;
-};
-
-
-/** The output of our create `SprintStartingGridPosition` mutation. */
-export type CreateSprintStartingGridPositionPayloadSprintStartingGridPositionEdgeArgs = {
-  orderBy?: Array<SprintStartingGridPositionOrderBy>;
 };
 
 /** All input for the create `StartingGridPosition` mutation. */
@@ -2771,14 +2095,6 @@ export type CreateStartingGridPositionPayload = {
   query?: Maybe<Query>;
   /** The `StartingGridPosition` that was created by this mutation. */
   startingGridPosition?: Maybe<StartingGridPosition>;
-  /** An edge for our `StartingGridPosition`. May be used by Relay 1. */
-  startingGridPositionEdge?: Maybe<StartingGridPositionEdge>;
-};
-
-
-/** The output of our create `StartingGridPosition` mutation. */
-export type CreateStartingGridPositionPayloadStartingGridPositionEdgeArgs = {
-  orderBy?: Array<StartingGridPositionOrderBy>;
 };
 
 /** All input for the create `TeamChronology` mutation. */
@@ -2804,14 +2120,6 @@ export type CreateTeamChronologyPayload = {
   query?: Maybe<Query>;
   /** The `TeamChronology` that was created by this mutation. */
   teamChronology?: Maybe<TeamChronology>;
-  /** An edge for our `TeamChronology`. May be used by Relay 1. */
-  teamChronologyEdge?: Maybe<TeamChronologyEdge>;
-};
-
-
-/** The output of our create `TeamChronology` mutation. */
-export type CreateTeamChronologyPayloadTeamChronologyEdgeArgs = {
-  orderBy?: Array<TeamChronologyOrderBy>;
 };
 
 /** All input for the create `Team` mutation. */
@@ -2837,14 +2145,6 @@ export type CreateTeamPayload = {
   query?: Maybe<Query>;
   /** The `Team` that was created by this mutation. */
   team?: Maybe<Team>;
-  /** An edge for our `Team`. May be used by Relay 1. */
-  teamEdge?: Maybe<TeamEdge>;
-};
-
-
-/** The output of our create `Team` mutation. */
-export type CreateTeamPayloadTeamEdgeArgs = {
-  orderBy?: Array<TeamOrderBy>;
 };
 
 /** All input for the create `TyreManufacturer` mutation. */
@@ -2870,14 +2170,6 @@ export type CreateTyreManufacturerPayload = {
   query?: Maybe<Query>;
   /** The `TyreManufacturer` that was created by this mutation. */
   tyreManufacturer?: Maybe<TyreManufacturer>;
-  /** An edge for our `TyreManufacturer`. May be used by Relay 1. */
-  tyreManufacturerEdge?: Maybe<TyreManufacturerEdge>;
-};
-
-
-/** The output of our create `TyreManufacturer` mutation. */
-export type CreateTyreManufacturerPayloadTyreManufacturerEdgeArgs = {
-  orderBy?: Array<TyreManufacturerOrderBy>;
 };
 
 /** All input for the create `WarmingUpResult` mutation. */
@@ -2905,17 +2197,6 @@ export type CreateWarmingUpResultPayload = {
   warmingUpResult?: Maybe<WarmingUpResult>;
 };
 
-/** All input for the `deleteAppCircuitDescriptionById` mutation. */
-export type DeleteAppCircuitDescriptionByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `AppCircuitDescription` to be deleted. */
-  id: Scalars['ID']['input'];
-};
-
 /** All input for the `deleteAppCircuitDescription` mutation. */
 export type DeleteAppCircuitDescriptionInput = {
   circuitId: Scalars['String']['input'];
@@ -2931,33 +2212,13 @@ export type DeleteAppCircuitDescriptionPayload = {
   __typename?: 'DeleteAppCircuitDescriptionPayload';
   /** The `AppCircuitDescription` that was deleted by this mutation. */
   appCircuitDescription?: Maybe<AppCircuitDescription>;
-  /** An edge for our `AppCircuitDescription`. May be used by Relay 1. */
-  appCircuitDescriptionEdge?: Maybe<AppCircuitDescriptionEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedAppCircuitDescriptionId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `AppCircuitDescription` mutation. */
-export type DeleteAppCircuitDescriptionPayloadAppCircuitDescriptionEdgeArgs = {
-  orderBy?: Array<AppCircuitDescriptionOrderBy>;
-};
-
-/** All input for the `deleteAppConstructorBioById` mutation. */
-export type DeleteAppConstructorBioByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `AppConstructorBio` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteAppConstructorBio` mutation. */
@@ -2975,33 +2236,13 @@ export type DeleteAppConstructorBioPayload = {
   __typename?: 'DeleteAppConstructorBioPayload';
   /** The `AppConstructorBio` that was deleted by this mutation. */
   appConstructorBio?: Maybe<AppConstructorBio>;
-  /** An edge for our `AppConstructorBio`. May be used by Relay 1. */
-  appConstructorBioEdge?: Maybe<AppConstructorBioEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedAppConstructorBioId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `AppConstructorBio` mutation. */
-export type DeleteAppConstructorBioPayloadAppConstructorBioEdgeArgs = {
-  orderBy?: Array<AppConstructorBioOrderBy>;
-};
-
-/** All input for the `deleteAppDriverBioById` mutation. */
-export type DeleteAppDriverBioByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `AppDriverBio` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteAppDriverBio` mutation. */
@@ -3019,33 +2260,13 @@ export type DeleteAppDriverBioPayload = {
   __typename?: 'DeleteAppDriverBioPayload';
   /** The `AppDriverBio` that was deleted by this mutation. */
   appDriverBio?: Maybe<AppDriverBio>;
-  /** An edge for our `AppDriverBio`. May be used by Relay 1. */
-  appDriverBioEdge?: Maybe<AppDriverBioEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedAppDriverBioId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `AppDriverBio` mutation. */
-export type DeleteAppDriverBioPayloadAppDriverBioEdgeArgs = {
-  orderBy?: Array<AppDriverBioOrderBy>;
-};
-
-/** All input for the `deleteAppIngestStateById` mutation. */
-export type DeleteAppIngestStateByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `AppIngestState` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteAppIngestState` mutation. */
@@ -3063,33 +2284,13 @@ export type DeleteAppIngestStatePayload = {
   __typename?: 'DeleteAppIngestStatePayload';
   /** The `AppIngestState` that was deleted by this mutation. */
   appIngestState?: Maybe<AppIngestState>;
-  /** An edge for our `AppIngestState`. May be used by Relay 1. */
-  appIngestStateEdge?: Maybe<AppIngestStateEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedAppIngestStateId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `AppIngestState` mutation. */
-export type DeleteAppIngestStatePayloadAppIngestStateEdgeArgs = {
-  orderBy?: Array<AppIngestStateOrderBy>;
-};
-
-/** All input for the `deleteAppLapTimeById` mutation. */
-export type DeleteAppLapTimeByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `AppLapTime` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteAppLapTime` mutation. */
@@ -3109,33 +2310,13 @@ export type DeleteAppLapTimePayload = {
   __typename?: 'DeleteAppLapTimePayload';
   /** The `AppLapTime` that was deleted by this mutation. */
   appLapTime?: Maybe<AppLapTime>;
-  /** An edge for our `AppLapTime`. May be used by Relay 1. */
-  appLapTimeEdge?: Maybe<AppLapTimeEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedAppLapTimeId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `AppLapTime` mutation. */
-export type DeleteAppLapTimePayloadAppLapTimeEdgeArgs = {
-  orderBy?: Array<AppLapTimeOrderBy>;
-};
-
-/** All input for the `deleteAppTeamColorById` mutation. */
-export type DeleteAppTeamColorByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `AppTeamColor` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteAppTeamColor` mutation. */
@@ -3153,33 +2334,13 @@ export type DeleteAppTeamColorPayload = {
   __typename?: 'DeleteAppTeamColorPayload';
   /** The `AppTeamColor` that was deleted by this mutation. */
   appTeamColor?: Maybe<AppTeamColor>;
-  /** An edge for our `AppTeamColor`. May be used by Relay 1. */
-  appTeamColorEdge?: Maybe<AppTeamColorEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedAppTeamColorId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `AppTeamColor` mutation. */
-export type DeleteAppTeamColorPayloadAppTeamColorEdgeArgs = {
-  orderBy?: Array<AppTeamColorOrderBy>;
-};
-
-/** All input for the `deleteAppTeamHistoryById` mutation. */
-export type DeleteAppTeamHistoryByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `AppTeamHistory` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteAppTeamHistory` mutation. */
@@ -3199,33 +2360,13 @@ export type DeleteAppTeamHistoryPayload = {
   __typename?: 'DeleteAppTeamHistoryPayload';
   /** The `AppTeamHistory` that was deleted by this mutation. */
   appTeamHistory?: Maybe<AppTeamHistory>;
-  /** An edge for our `AppTeamHistory`. May be used by Relay 1. */
-  appTeamHistoryEdge?: Maybe<AppTeamHistoryEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedAppTeamHistoryId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `AppTeamHistory` mutation. */
-export type DeleteAppTeamHistoryPayloadAppTeamHistoryEdgeArgs = {
-  orderBy?: Array<AppTeamHistoryOrderBy>;
-};
-
-/** All input for the `deleteChassisById` mutation. */
-export type DeleteChassisByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Chassis` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteChassis` mutation. */
@@ -3235,7 +2376,7 @@ export type DeleteChassisInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  rowId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
 };
 
 /** The output of our delete `Chassis` mutation. */
@@ -3243,33 +2384,13 @@ export type DeleteChassisPayload = {
   __typename?: 'DeleteChassisPayload';
   /** The `Chassis` that was deleted by this mutation. */
   chassis?: Maybe<Chassis>;
-  /** An edge for our `Chassis`. May be used by Relay 1. */
-  chassisEdge?: Maybe<ChassisEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedChassisId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `Chassis` mutation. */
-export type DeleteChassisPayloadChassisEdgeArgs = {
-  orderBy?: Array<ChassisOrderBy>;
-};
-
-/** All input for the `deleteCircuitById` mutation. */
-export type DeleteCircuitByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Circuit` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteCircuit` mutation. */
@@ -3279,18 +2400,7 @@ export type DeleteCircuitInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  rowId: Scalars['String']['input'];
-};
-
-/** All input for the `deleteCircuitLayoutById` mutation. */
-export type DeleteCircuitLayoutByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `CircuitLayout` to be deleted. */
-  id: Scalars['ID']['input'];
+  id: Scalars['String']['input'];
 };
 
 /** All input for the `deleteCircuitLayout` mutation. */
@@ -3300,7 +2410,7 @@ export type DeleteCircuitLayoutInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  rowId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
 };
 
 /** The output of our delete `CircuitLayout` mutation. */
@@ -3308,22 +2418,13 @@ export type DeleteCircuitLayoutPayload = {
   __typename?: 'DeleteCircuitLayoutPayload';
   /** The `CircuitLayout` that was deleted by this mutation. */
   circuitLayout?: Maybe<CircuitLayout>;
-  /** An edge for our `CircuitLayout`. May be used by Relay 1. */
-  circuitLayoutEdge?: Maybe<CircuitLayoutEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedCircuitLayoutId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `CircuitLayout` mutation. */
-export type DeleteCircuitLayoutPayloadCircuitLayoutEdgeArgs = {
-  orderBy?: Array<CircuitLayoutOrderBy>;
 };
 
 /** The output of our delete `Circuit` mutation. */
@@ -3331,22 +2432,13 @@ export type DeleteCircuitPayload = {
   __typename?: 'DeleteCircuitPayload';
   /** The `Circuit` that was deleted by this mutation. */
   circuit?: Maybe<Circuit>;
-  /** An edge for our `Circuit`. May be used by Relay 1. */
-  circuitEdge?: Maybe<CircuitEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedCircuitId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `Circuit` mutation. */
-export type DeleteCircuitPayloadCircuitEdgeArgs = {
-  orderBy?: Array<CircuitOrderBy>;
 };
 
 /** All input for the `deleteContinentByCode` mutation. */
@@ -3357,17 +2449,6 @@ export type DeleteContinentByCodeInput = {
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   code: Scalars['String']['input'];
-};
-
-/** All input for the `deleteContinentById` mutation. */
-export type DeleteContinentByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Continent` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteContinentByName` mutation. */
@@ -3387,7 +2468,7 @@ export type DeleteContinentInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  rowId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
 };
 
 /** The output of our delete `Continent` mutation. */
@@ -3400,17 +2481,8 @@ export type DeleteContinentPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `Continent` that was deleted by this mutation. */
   continent?: Maybe<Continent>;
-  /** An edge for our `Continent`. May be used by Relay 1. */
-  continentEdge?: Maybe<ContinentEdge>;
-  deletedContinentId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `Continent` mutation. */
-export type DeleteContinentPayloadContinentEdgeArgs = {
-  orderBy?: Array<ContinentOrderBy>;
 };
 
 /** All input for the `deleteCountryByAlpha2Code` mutation. */
@@ -3433,17 +2505,6 @@ export type DeleteCountryByAlpha3CodeInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** All input for the `deleteCountryById` mutation. */
-export type DeleteCountryByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Country` to be deleted. */
-  id: Scalars['ID']['input'];
-};
-
 /** All input for the `deleteCountryByName` mutation. */
 export type DeleteCountryByNameInput = {
   /**
@@ -3461,7 +2522,7 @@ export type DeleteCountryInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  rowId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
 };
 
 /** The output of our delete `Country` mutation. */
@@ -3474,28 +2535,8 @@ export type DeleteCountryPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `Country` that was deleted by this mutation. */
   country?: Maybe<Country>;
-  /** An edge for our `Country`. May be used by Relay 1. */
-  countryEdge?: Maybe<CountryEdge>;
-  deletedCountryId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `Country` mutation. */
-export type DeleteCountryPayloadCountryEdgeArgs = {
-  orderBy?: Array<CountryOrderBy>;
-};
-
-/** All input for the `deleteDriverById` mutation. */
-export type DeleteDriverByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Driver` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteDriverFamilyRelationshipByDriverIdAndOtherDriverIdAndType` mutation. */
@@ -3508,17 +2549,6 @@ export type DeleteDriverFamilyRelationshipByDriverIdAndOtherDriverIdAndTypeInput
   driverId: Scalars['String']['input'];
   otherDriverId: Scalars['String']['input'];
   type: Scalars['String']['input'];
-};
-
-/** All input for the `deleteDriverFamilyRelationshipById` mutation. */
-export type DeleteDriverFamilyRelationshipByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `DriverFamilyRelationship` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteDriverFamilyRelationship` mutation. */
@@ -3540,19 +2570,10 @@ export type DeleteDriverFamilyRelationshipPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedDriverFamilyRelationshipId?: Maybe<Scalars['ID']['output']>;
   /** The `DriverFamilyRelationship` that was deleted by this mutation. */
   driverFamilyRelationship?: Maybe<DriverFamilyRelationship>;
-  /** An edge for our `DriverFamilyRelationship`. May be used by Relay 1. */
-  driverFamilyRelationshipEdge?: Maybe<DriverFamilyRelationshipEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `DriverFamilyRelationship` mutation. */
-export type DeleteDriverFamilyRelationshipPayloadDriverFamilyRelationshipEdgeArgs = {
-  orderBy?: Array<DriverFamilyRelationshipOrderBy>;
 };
 
 /** All input for the `deleteDriver` mutation. */
@@ -3562,18 +2583,7 @@ export type DeleteDriverInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  rowId: Scalars['String']['input'];
-};
-
-/** All input for the `deleteDriverOfTheDayResultById` mutation. */
-export type DeleteDriverOfTheDayResultByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `DriverOfTheDayResult` to be deleted. */
-  id: Scalars['ID']['input'];
+  id: Scalars['String']['input'];
 };
 
 /** All input for the `deleteDriverOfTheDayResult` mutation. */
@@ -3595,19 +2605,10 @@ export type DeleteDriverOfTheDayResultPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedDriverOfTheDayResultId?: Maybe<Scalars['ID']['output']>;
   /** The `DriverOfTheDayResult` that was deleted by this mutation. */
   driverOfTheDayResult?: Maybe<DriverOfTheDayResult>;
-  /** An edge for our `DriverOfTheDayResult`. May be used by Relay 1. */
-  driverOfTheDayResultEdge?: Maybe<DriverOfTheDayResultEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `DriverOfTheDayResult` mutation. */
-export type DeleteDriverOfTheDayResultPayloadDriverOfTheDayResultEdgeArgs = {
-  orderBy?: Array<DriverOfTheDayResultOrderBy>;
 };
 
 /** The output of our delete `Driver` mutation. */
@@ -3618,30 +2619,10 @@ export type DeleteDriverPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedDriverId?: Maybe<Scalars['ID']['output']>;
   /** The `Driver` that was deleted by this mutation. */
   driver?: Maybe<Driver>;
-  /** An edge for our `Driver`. May be used by Relay 1. */
-  driverEdge?: Maybe<DriverEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `Driver` mutation. */
-export type DeleteDriverPayloadDriverEdgeArgs = {
-  orderBy?: Array<DriverOrderBy>;
-};
-
-/** All input for the `deleteEngineById` mutation. */
-export type DeleteEngineByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Engine` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteEngine` mutation. */
@@ -3651,18 +2632,7 @@ export type DeleteEngineInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  rowId: Scalars['String']['input'];
-};
-
-/** All input for the `deleteEngineManufacturerById` mutation. */
-export type DeleteEngineManufacturerByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `EngineManufacturer` to be deleted. */
-  id: Scalars['ID']['input'];
+  id: Scalars['String']['input'];
 };
 
 /** All input for the `deleteEngineManufacturer` mutation. */
@@ -3672,7 +2642,7 @@ export type DeleteEngineManufacturerInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  rowId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
 };
 
 /** The output of our delete `EngineManufacturer` mutation. */
@@ -3683,19 +2653,10 @@ export type DeleteEngineManufacturerPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedEngineManufacturerId?: Maybe<Scalars['ID']['output']>;
   /** The `EngineManufacturer` that was deleted by this mutation. */
   engineManufacturer?: Maybe<EngineManufacturer>;
-  /** An edge for our `EngineManufacturer`. May be used by Relay 1. */
-  engineManufacturerEdge?: Maybe<EngineManufacturerEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `EngineManufacturer` mutation. */
-export type DeleteEngineManufacturerPayloadEngineManufacturerEdgeArgs = {
-  orderBy?: Array<EngineManufacturerOrderBy>;
 };
 
 /** The output of our delete `Engine` mutation. */
@@ -3706,30 +2667,10 @@ export type DeleteEnginePayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedEngineId?: Maybe<Scalars['ID']['output']>;
   /** The `Engine` that was deleted by this mutation. */
   engine?: Maybe<Engine>;
-  /** An edge for our `Engine`. May be used by Relay 1. */
-  engineEdge?: Maybe<EngineEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `Engine` mutation. */
-export type DeleteEnginePayloadEngineEdgeArgs = {
-  orderBy?: Array<EngineOrderBy>;
-};
-
-/** All input for the `deleteEntrantById` mutation. */
-export type DeleteEntrantByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Entrant` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteEntrant` mutation. */
@@ -3739,7 +2680,7 @@ export type DeleteEntrantInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  rowId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
 };
 
 /** The output of our delete `Entrant` mutation. */
@@ -3750,30 +2691,10 @@ export type DeleteEntrantPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedEntrantId?: Maybe<Scalars['ID']['output']>;
   /** The `Entrant` that was deleted by this mutation. */
   entrant?: Maybe<Entrant>;
-  /** An edge for our `Entrant`. May be used by Relay 1. */
-  entrantEdge?: Maybe<EntrantEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `Entrant` mutation. */
-export type DeleteEntrantPayloadEntrantEdgeArgs = {
-  orderBy?: Array<EntrantOrderBy>;
-};
-
-/** All input for the `deleteFastestLapById` mutation. */
-export type DeleteFastestLapByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `FastestLap` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteFastestLap` mutation. */
@@ -3795,30 +2716,10 @@ export type DeleteFastestLapPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedFastestLapId?: Maybe<Scalars['ID']['output']>;
   /** The `FastestLap` that was deleted by this mutation. */
   fastestLap?: Maybe<FastestLap>;
-  /** An edge for our `FastestLap`. May be used by Relay 1. */
-  fastestLapEdge?: Maybe<FastestLapEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `FastestLap` mutation. */
-export type DeleteFastestLapPayloadFastestLapEdgeArgs = {
-  orderBy?: Array<FastestLapOrderBy>;
-};
-
-/** All input for the `deleteGrandPrixById` mutation. */
-export type DeleteGrandPrixByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `GrandPrix` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteGrandPrix` mutation. */
@@ -3828,7 +2729,7 @@ export type DeleteGrandPrixInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  rowId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
 };
 
 /** The output of our delete `GrandPrix` mutation. */
@@ -3839,30 +2740,10 @@ export type DeleteGrandPrixPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedGrandPrixId?: Maybe<Scalars['ID']['output']>;
   /** The `GrandPrix` that was deleted by this mutation. */
   grandPrix?: Maybe<GrandPrix>;
-  /** An edge for our `GrandPrix`. May be used by Relay 1. */
-  grandPrixEdge?: Maybe<GrandPrixEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `GrandPrix` mutation. */
-export type DeleteGrandPrixPayloadGrandPrixEdgeArgs = {
-  orderBy?: Array<GrandPrixOrderBy>;
-};
-
-/** All input for the `deletePitStopById` mutation. */
-export type DeletePitStopByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `PitStop` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deletePitStop` mutation. */
@@ -3885,30 +2766,10 @@ export type DeletePitStopPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedPitStopId?: Maybe<Scalars['ID']['output']>;
   /** The `PitStop` that was deleted by this mutation. */
   pitStop?: Maybe<PitStop>;
-  /** An edge for our `PitStop`. May be used by Relay 1. */
-  pitStopEdge?: Maybe<PitStopEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `PitStop` mutation. */
-export type DeletePitStopPayloadPitStopEdgeArgs = {
-  orderBy?: Array<PitStopOrderBy>;
-};
-
-/** All input for the `deleteQualifyingResultById` mutation. */
-export type DeleteQualifyingResultByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `QualifyingResult` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteQualifyingResult` mutation. */
@@ -3930,30 +2791,10 @@ export type DeleteQualifyingResultPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedQualifyingResultId?: Maybe<Scalars['ID']['output']>;
   /** The `QualifyingResult` that was deleted by this mutation. */
   qualifyingResult?: Maybe<QualifyingResult>;
-  /** An edge for our `QualifyingResult`. May be used by Relay 1. */
-  qualifyingResultEdge?: Maybe<QualifyingResultEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `QualifyingResult` mutation. */
-export type DeleteQualifyingResultPayloadQualifyingResultEdgeArgs = {
-  orderBy?: Array<QualifyingResultOrderBy>;
-};
-
-/** All input for the `deleteRaceById` mutation. */
-export type DeleteRaceByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Race` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteRaceByYearAndRound` mutation. */
@@ -3965,17 +2806,6 @@ export type DeleteRaceByYearAndRoundInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   round: Scalars['Int']['input'];
   year: Scalars['Int']['input'];
-};
-
-/** All input for the `deleteRaceDatumById` mutation. */
-export type DeleteRaceDatumByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `RaceDatum` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteRaceDatum` mutation. */
@@ -3998,30 +2828,10 @@ export type DeleteRaceDatumPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedRaceDatumId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `RaceDatum` that was deleted by this mutation. */
   raceDatum?: Maybe<RaceDatum>;
-  /** An edge for our `RaceDatum`. May be used by Relay 1. */
-  raceDatumEdge?: Maybe<RaceDatumEdge>;
-};
-
-
-/** The output of our delete `RaceDatum` mutation. */
-export type DeleteRaceDatumPayloadRaceDatumEdgeArgs = {
-  orderBy?: Array<RaceDatumOrderBy>;
-};
-
-/** All input for the `deleteRaceDriverStandingById` mutation. */
-export type DeleteRaceDriverStandingByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `RaceDriverStanding` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteRaceDriverStanding` mutation. */
@@ -4043,19 +2853,10 @@ export type DeleteRaceDriverStandingPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedRaceDriverStandingId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `RaceDriverStanding` that was deleted by this mutation. */
   raceDriverStanding?: Maybe<RaceDriverStanding>;
-  /** An edge for our `RaceDriverStanding`. May be used by Relay 1. */
-  raceDriverStandingEdge?: Maybe<RaceDriverStandingEdge>;
-};
-
-
-/** The output of our delete `RaceDriverStanding` mutation. */
-export type DeleteRaceDriverStandingPayloadRaceDriverStandingEdgeArgs = {
-  orderBy?: Array<RaceDriverStandingOrderBy>;
 };
 
 /** All input for the `deleteRace` mutation. */
@@ -4076,30 +2877,10 @@ export type DeleteRacePayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedRaceId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `Race` that was deleted by this mutation. */
   race?: Maybe<Race>;
-  /** An edge for our `Race`. May be used by Relay 1. */
-  raceEdge?: Maybe<RaceEdge>;
-};
-
-
-/** The output of our delete `Race` mutation. */
-export type DeleteRacePayloadRaceEdgeArgs = {
-  orderBy?: Array<RaceOrderBy>;
-};
-
-/** All input for the `deleteRaceResultById` mutation. */
-export type DeleteRaceResultByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `RaceResult` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteRaceResult` mutation. */
@@ -4121,30 +2902,10 @@ export type DeleteRaceResultPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedRaceResultId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `RaceResult` that was deleted by this mutation. */
   raceResult?: Maybe<RaceResult>;
-  /** An edge for our `RaceResult`. May be used by Relay 1. */
-  raceResultEdge?: Maybe<RaceResultEdge>;
-};
-
-
-/** The output of our delete `RaceResult` mutation. */
-export type DeleteRaceResultPayloadRaceResultEdgeArgs = {
-  orderBy?: Array<RaceResultOrderBy>;
-};
-
-/** All input for the `deleteRaceTeamStandingById` mutation. */
-export type DeleteRaceTeamStandingByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `RaceTeamStanding` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteRaceTeamStanding` mutation. */
@@ -4166,41 +2927,10 @@ export type DeleteRaceTeamStandingPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedRaceTeamStandingId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `RaceTeamStanding` that was deleted by this mutation. */
   raceTeamStanding?: Maybe<RaceTeamStanding>;
-  /** An edge for our `RaceTeamStanding`. May be used by Relay 1. */
-  raceTeamStandingEdge?: Maybe<RaceTeamStandingEdge>;
-};
-
-
-/** The output of our delete `RaceTeamStanding` mutation. */
-export type DeleteRaceTeamStandingPayloadRaceTeamStandingEdgeArgs = {
-  orderBy?: Array<RaceTeamStandingOrderBy>;
-};
-
-/** All input for the `deleteSeasonById` mutation. */
-export type DeleteSeasonByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Season` to be deleted. */
-  id: Scalars['ID']['input'];
-};
-
-/** All input for the `deleteSeasonDriverById` mutation. */
-export type DeleteSeasonDriverByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonDriver` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteSeasonDriver` mutation. */
@@ -4222,30 +2952,10 @@ export type DeleteSeasonDriverPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedSeasonDriverId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `SeasonDriver` that was deleted by this mutation. */
   seasonDriver?: Maybe<SeasonDriver>;
-  /** An edge for our `SeasonDriver`. May be used by Relay 1. */
-  seasonDriverEdge?: Maybe<SeasonDriverEdge>;
-};
-
-
-/** The output of our delete `SeasonDriver` mutation. */
-export type DeleteSeasonDriverPayloadSeasonDriverEdgeArgs = {
-  orderBy?: Array<SeasonDriverOrderBy>;
-};
-
-/** All input for the `deleteSeasonDriverStandingById` mutation. */
-export type DeleteSeasonDriverStandingByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonDriverStanding` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteSeasonDriverStanding` mutation. */
@@ -4267,30 +2977,10 @@ export type DeleteSeasonDriverStandingPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedSeasonDriverStandingId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `SeasonDriverStanding` that was deleted by this mutation. */
   seasonDriverStanding?: Maybe<SeasonDriverStanding>;
-  /** An edge for our `SeasonDriverStanding`. May be used by Relay 1. */
-  seasonDriverStandingEdge?: Maybe<SeasonDriverStandingEdge>;
-};
-
-
-/** The output of our delete `SeasonDriverStanding` mutation. */
-export type DeleteSeasonDriverStandingPayloadSeasonDriverStandingEdgeArgs = {
-  orderBy?: Array<SeasonDriverStandingOrderBy>;
-};
-
-/** All input for the `deleteSeasonEngineManufacturerById` mutation. */
-export type DeleteSeasonEngineManufacturerByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonEngineManufacturer` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteSeasonEngineManufacturer` mutation. */
@@ -4312,41 +3002,10 @@ export type DeleteSeasonEngineManufacturerPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedSeasonEngineManufacturerId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `SeasonEngineManufacturer` that was deleted by this mutation. */
   seasonEngineManufacturer?: Maybe<SeasonEngineManufacturer>;
-  /** An edge for our `SeasonEngineManufacturer`. May be used by Relay 1. */
-  seasonEngineManufacturerEdge?: Maybe<SeasonEngineManufacturerEdge>;
-};
-
-
-/** The output of our delete `SeasonEngineManufacturer` mutation. */
-export type DeleteSeasonEngineManufacturerPayloadSeasonEngineManufacturerEdgeArgs = {
-  orderBy?: Array<SeasonEngineManufacturerOrderBy>;
-};
-
-/** All input for the `deleteSeasonEntrantById` mutation. */
-export type DeleteSeasonEntrantByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonEntrant` to be deleted. */
-  id: Scalars['ID']['input'];
-};
-
-/** All input for the `deleteSeasonEntrantChassisById` mutation. */
-export type DeleteSeasonEntrantChassisByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonEntrantChassis` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteSeasonEntrantChassis` mutation. */
@@ -4371,30 +3030,10 @@ export type DeleteSeasonEntrantChassisPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedSeasonEntrantChassisId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `SeasonEntrantChassis` that was deleted by this mutation. */
   seasonEntrantChassis?: Maybe<SeasonEntrantChassis>;
-  /** An edge for our `SeasonEntrantChassis`. May be used by Relay 1. */
-  seasonEntrantChassisEdge?: Maybe<SeasonEntrantChassisEdge>;
-};
-
-
-/** The output of our delete `SeasonEntrantChassis` mutation. */
-export type DeleteSeasonEntrantChassisPayloadSeasonEntrantChassisEdgeArgs = {
-  orderBy?: Array<SeasonEntrantChassisOrderBy>;
-};
-
-/** All input for the `deleteSeasonEntrantDriverById` mutation. */
-export type DeleteSeasonEntrantDriverByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonEntrantDriver` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteSeasonEntrantDriver` mutation. */
@@ -4419,30 +3058,10 @@ export type DeleteSeasonEntrantDriverPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedSeasonEntrantDriverId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `SeasonEntrantDriver` that was deleted by this mutation. */
   seasonEntrantDriver?: Maybe<SeasonEntrantDriver>;
-  /** An edge for our `SeasonEntrantDriver`. May be used by Relay 1. */
-  seasonEntrantDriverEdge?: Maybe<SeasonEntrantDriverEdge>;
-};
-
-
-/** The output of our delete `SeasonEntrantDriver` mutation. */
-export type DeleteSeasonEntrantDriverPayloadSeasonEntrantDriverEdgeArgs = {
-  orderBy?: Array<SeasonEntrantDriverOrderBy>;
-};
-
-/** All input for the `deleteSeasonEntrantEngineById` mutation. */
-export type DeleteSeasonEntrantEngineByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonEntrantEngine` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteSeasonEntrantEngine` mutation. */
@@ -4467,19 +3086,10 @@ export type DeleteSeasonEntrantEnginePayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedSeasonEntrantEngineId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `SeasonEntrantEngine` that was deleted by this mutation. */
   seasonEntrantEngine?: Maybe<SeasonEntrantEngine>;
-  /** An edge for our `SeasonEntrantEngine`. May be used by Relay 1. */
-  seasonEntrantEngineEdge?: Maybe<SeasonEntrantEngineEdge>;
-};
-
-
-/** The output of our delete `SeasonEntrantEngine` mutation. */
-export type DeleteSeasonEntrantEnginePayloadSeasonEntrantEngineEdgeArgs = {
-  orderBy?: Array<SeasonEntrantEngineOrderBy>;
 };
 
 /** All input for the `deleteSeasonEntrant` mutation. */
@@ -4501,30 +3111,10 @@ export type DeleteSeasonEntrantPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedSeasonEntrantId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `SeasonEntrant` that was deleted by this mutation. */
   seasonEntrant?: Maybe<SeasonEntrant>;
-  /** An edge for our `SeasonEntrant`. May be used by Relay 1. */
-  seasonEntrantEdge?: Maybe<SeasonEntrantEdge>;
-};
-
-
-/** The output of our delete `SeasonEntrant` mutation. */
-export type DeleteSeasonEntrantPayloadSeasonEntrantEdgeArgs = {
-  orderBy?: Array<SeasonEntrantOrderBy>;
-};
-
-/** All input for the `deleteSeasonEntrantTeamById` mutation. */
-export type DeleteSeasonEntrantTeamByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonEntrantTeam` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteSeasonEntrantTeam` mutation. */
@@ -4548,30 +3138,10 @@ export type DeleteSeasonEntrantTeamPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedSeasonEntrantTeamId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `SeasonEntrantTeam` that was deleted by this mutation. */
   seasonEntrantTeam?: Maybe<SeasonEntrantTeam>;
-  /** An edge for our `SeasonEntrantTeam`. May be used by Relay 1. */
-  seasonEntrantTeamEdge?: Maybe<SeasonEntrantTeamEdge>;
-};
-
-
-/** The output of our delete `SeasonEntrantTeam` mutation. */
-export type DeleteSeasonEntrantTeamPayloadSeasonEntrantTeamEdgeArgs = {
-  orderBy?: Array<SeasonEntrantTeamOrderBy>;
-};
-
-/** All input for the `deleteSeasonEntrantTyreManufacturerById` mutation. */
-export type DeleteSeasonEntrantTyreManufacturerByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonEntrantTyreManufacturer` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteSeasonEntrantTyreManufacturer` mutation. */
@@ -4596,19 +3166,10 @@ export type DeleteSeasonEntrantTyreManufacturerPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedSeasonEntrantTyreManufacturerId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `SeasonEntrantTyreManufacturer` that was deleted by this mutation. */
   seasonEntrantTyreManufacturer?: Maybe<SeasonEntrantTyreManufacturer>;
-  /** An edge for our `SeasonEntrantTyreManufacturer`. May be used by Relay 1. */
-  seasonEntrantTyreManufacturerEdge?: Maybe<SeasonEntrantTyreManufacturerEdge>;
-};
-
-
-/** The output of our delete `SeasonEntrantTyreManufacturer` mutation. */
-export type DeleteSeasonEntrantTyreManufacturerPayloadSeasonEntrantTyreManufacturerEdgeArgs = {
-  orderBy?: Array<SeasonEntrantTyreManufacturerOrderBy>;
 };
 
 /** All input for the `deleteSeason` mutation. */
@@ -4629,30 +3190,10 @@ export type DeleteSeasonPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedSeasonId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `Season` that was deleted by this mutation. */
   season?: Maybe<Season>;
-  /** An edge for our `Season`. May be used by Relay 1. */
-  seasonEdge?: Maybe<SeasonEdge>;
-};
-
-
-/** The output of our delete `Season` mutation. */
-export type DeleteSeasonPayloadSeasonEdgeArgs = {
-  orderBy?: Array<SeasonOrderBy>;
-};
-
-/** All input for the `deleteSeasonTeamById` mutation. */
-export type DeleteSeasonTeamByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonTeam` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteSeasonTeam` mutation. */
@@ -4674,30 +3215,10 @@ export type DeleteSeasonTeamPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedSeasonTeamId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `SeasonTeam` that was deleted by this mutation. */
   seasonTeam?: Maybe<SeasonTeam>;
-  /** An edge for our `SeasonTeam`. May be used by Relay 1. */
-  seasonTeamEdge?: Maybe<SeasonTeamEdge>;
-};
-
-
-/** The output of our delete `SeasonTeam` mutation. */
-export type DeleteSeasonTeamPayloadSeasonTeamEdgeArgs = {
-  orderBy?: Array<SeasonTeamOrderBy>;
-};
-
-/** All input for the `deleteSeasonTeamStandingById` mutation. */
-export type DeleteSeasonTeamStandingByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonTeamStanding` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteSeasonTeamStanding` mutation. */
@@ -4719,30 +3240,10 @@ export type DeleteSeasonTeamStandingPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedSeasonTeamStandingId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `SeasonTeamStanding` that was deleted by this mutation. */
   seasonTeamStanding?: Maybe<SeasonTeamStanding>;
-  /** An edge for our `SeasonTeamStanding`. May be used by Relay 1. */
-  seasonTeamStandingEdge?: Maybe<SeasonTeamStandingEdge>;
-};
-
-
-/** The output of our delete `SeasonTeamStanding` mutation. */
-export type DeleteSeasonTeamStandingPayloadSeasonTeamStandingEdgeArgs = {
-  orderBy?: Array<SeasonTeamStandingOrderBy>;
-};
-
-/** All input for the `deleteSeasonTyreManufacturerById` mutation. */
-export type DeleteSeasonTyreManufacturerByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonTyreManufacturer` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteSeasonTyreManufacturer` mutation. */
@@ -4764,30 +3265,10 @@ export type DeleteSeasonTyreManufacturerPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedSeasonTyreManufacturerId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `SeasonTyreManufacturer` that was deleted by this mutation. */
   seasonTyreManufacturer?: Maybe<SeasonTyreManufacturer>;
-  /** An edge for our `SeasonTyreManufacturer`. May be used by Relay 1. */
-  seasonTyreManufacturerEdge?: Maybe<SeasonTyreManufacturerEdge>;
-};
-
-
-/** The output of our delete `SeasonTyreManufacturer` mutation. */
-export type DeleteSeasonTyreManufacturerPayloadSeasonTyreManufacturerEdgeArgs = {
-  orderBy?: Array<SeasonTyreManufacturerOrderBy>;
-};
-
-/** All input for the `deleteSprintQualifyingResultById` mutation. */
-export type DeleteSprintQualifyingResultByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SprintQualifyingResult` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteSprintQualifyingResult` mutation. */
@@ -4809,30 +3290,10 @@ export type DeleteSprintQualifyingResultPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedSprintQualifyingResultId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `SprintQualifyingResult` that was deleted by this mutation. */
   sprintQualifyingResult?: Maybe<SprintQualifyingResult>;
-  /** An edge for our `SprintQualifyingResult`. May be used by Relay 1. */
-  sprintQualifyingResultEdge?: Maybe<SprintQualifyingResultEdge>;
-};
-
-
-/** The output of our delete `SprintQualifyingResult` mutation. */
-export type DeleteSprintQualifyingResultPayloadSprintQualifyingResultEdgeArgs = {
-  orderBy?: Array<SprintQualifyingResultOrderBy>;
-};
-
-/** All input for the `deleteSprintRaceResultById` mutation. */
-export type DeleteSprintRaceResultByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SprintRaceResult` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteSprintRaceResult` mutation. */
@@ -4854,30 +3315,10 @@ export type DeleteSprintRaceResultPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedSprintRaceResultId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `SprintRaceResult` that was deleted by this mutation. */
   sprintRaceResult?: Maybe<SprintRaceResult>;
-  /** An edge for our `SprintRaceResult`. May be used by Relay 1. */
-  sprintRaceResultEdge?: Maybe<SprintRaceResultEdge>;
-};
-
-
-/** The output of our delete `SprintRaceResult` mutation. */
-export type DeleteSprintRaceResultPayloadSprintRaceResultEdgeArgs = {
-  orderBy?: Array<SprintRaceResultOrderBy>;
-};
-
-/** All input for the `deleteSprintStartingGridPositionById` mutation. */
-export type DeleteSprintStartingGridPositionByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SprintStartingGridPosition` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteSprintStartingGridPosition` mutation. */
@@ -4899,30 +3340,10 @@ export type DeleteSprintStartingGridPositionPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedSprintStartingGridPositionId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `SprintStartingGridPosition` that was deleted by this mutation. */
   sprintStartingGridPosition?: Maybe<SprintStartingGridPosition>;
-  /** An edge for our `SprintStartingGridPosition`. May be used by Relay 1. */
-  sprintStartingGridPositionEdge?: Maybe<SprintStartingGridPositionEdge>;
-};
-
-
-/** The output of our delete `SprintStartingGridPosition` mutation. */
-export type DeleteSprintStartingGridPositionPayloadSprintStartingGridPositionEdgeArgs = {
-  orderBy?: Array<SprintStartingGridPositionOrderBy>;
-};
-
-/** All input for the `deleteStartingGridPositionById` mutation. */
-export type DeleteStartingGridPositionByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `StartingGridPosition` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteStartingGridPosition` mutation. */
@@ -4944,41 +3365,10 @@ export type DeleteStartingGridPositionPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedStartingGridPositionId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `StartingGridPosition` that was deleted by this mutation. */
   startingGridPosition?: Maybe<StartingGridPosition>;
-  /** An edge for our `StartingGridPosition`. May be used by Relay 1. */
-  startingGridPositionEdge?: Maybe<StartingGridPositionEdge>;
-};
-
-
-/** The output of our delete `StartingGridPosition` mutation. */
-export type DeleteStartingGridPositionPayloadStartingGridPositionEdgeArgs = {
-  orderBy?: Array<StartingGridPositionOrderBy>;
-};
-
-/** All input for the `deleteTeamById` mutation. */
-export type DeleteTeamByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Team` to be deleted. */
-  id: Scalars['ID']['input'];
-};
-
-/** All input for the `deleteTeamChronologyById` mutation. */
-export type DeleteTeamChronologyByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `TeamChronology` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteTeamChronologyByTeamIdAndOtherTeamIdAndYearFromAndYearTo` mutation. */
@@ -5013,19 +3403,10 @@ export type DeleteTeamChronologyPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedTeamChronologyId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `TeamChronology` that was deleted by this mutation. */
   teamChronology?: Maybe<TeamChronology>;
-  /** An edge for our `TeamChronology`. May be used by Relay 1. */
-  teamChronologyEdge?: Maybe<TeamChronologyEdge>;
-};
-
-
-/** The output of our delete `TeamChronology` mutation. */
-export type DeleteTeamChronologyPayloadTeamChronologyEdgeArgs = {
-  orderBy?: Array<TeamChronologyOrderBy>;
 };
 
 /** All input for the `deleteTeam` mutation. */
@@ -5035,7 +3416,7 @@ export type DeleteTeamInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  rowId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
 };
 
 /** The output of our delete `Team` mutation. */
@@ -5046,30 +3427,10 @@ export type DeleteTeamPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedTeamId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `Team` that was deleted by this mutation. */
   team?: Maybe<Team>;
-  /** An edge for our `Team`. May be used by Relay 1. */
-  teamEdge?: Maybe<TeamEdge>;
-};
-
-
-/** The output of our delete `Team` mutation. */
-export type DeleteTeamPayloadTeamEdgeArgs = {
-  orderBy?: Array<TeamOrderBy>;
-};
-
-/** All input for the `deleteTyreManufacturerById` mutation. */
-export type DeleteTyreManufacturerByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `TyreManufacturer` to be deleted. */
-  id: Scalars['ID']['input'];
 };
 
 /** All input for the `deleteTyreManufacturer` mutation. */
@@ -5079,7 +3440,7 @@ export type DeleteTyreManufacturerInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  rowId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
 };
 
 /** The output of our delete `TyreManufacturer` mutation. */
@@ -5090,22 +3451,13 @@ export type DeleteTyreManufacturerPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  deletedTyreManufacturerId?: Maybe<Scalars['ID']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `TyreManufacturer` that was deleted by this mutation. */
   tyreManufacturer?: Maybe<TyreManufacturer>;
-  /** An edge for our `TyreManufacturer`. May be used by Relay 1. */
-  tyreManufacturerEdge?: Maybe<TyreManufacturerEdge>;
 };
 
-
-/** The output of our delete `TyreManufacturer` mutation. */
-export type DeleteTyreManufacturerPayloadTyreManufacturerEdgeArgs = {
-  orderBy?: Array<TyreManufacturerOrderBy>;
-};
-
-export type Driver = Node & {
+export type Driver = {
   __typename?: 'Driver';
   abbreviation: Scalars['String']['output'];
   bestChampionshipPosition?: Maybe<Scalars['Int']['output']>;
@@ -5119,20 +3471,19 @@ export type Driver = Node & {
   dateOfBirth: Scalars['Date']['output'];
   dateOfDeath?: Maybe<Scalars['Date']['output']>;
   /** Reads and enables pagination through a set of `DriverFamilyRelationship`. */
-  driverFamilyRelationships: DriverFamilyRelationshipConnection;
+  driverFamilyRelationships: Array<DriverFamilyRelationship>;
   /** Reads and enables pagination through a set of `DriverFamilyRelationship`. */
-  driverFamilyRelationshipsByOtherDriverId: DriverFamilyRelationshipConnection;
+  driverFamilyRelationshipsByOtherDriverId: Array<DriverFamilyRelationship>;
   /** Reads and enables pagination through a set of `DriverOfTheDayResult`. */
-  driverOfTheDayResults: DriverOfTheDayResultConnection;
+  driverOfTheDayResults: Array<DriverOfTheDayResult>;
   /** Reads and enables pagination through a set of `FastestLap`. */
-  fastestLaps: FastestLapConnection;
+  fastestLaps: Array<FastestLap>;
   firstName: Scalars['String']['output'];
   fullName: Scalars['String']['output'];
   gender: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
+  id: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `AppLapTime`. */
-  lapTimes: AppLapTimeConnection;
+  lapTimes: Array<AppLapTime>;
   lastName: Scalars['String']['output'];
   name: Scalars['String']['output'];
   /** Reads a single `Country` that is related to this `Driver`. */
@@ -5140,34 +3491,33 @@ export type Driver = Node & {
   nationalityCountryId: Scalars['String']['output'];
   permanentNumber?: Maybe<Scalars['String']['output']>;
   /** Reads and enables pagination through a set of `PitStop`. */
-  pitStops: PitStopConnection;
+  pitStops: Array<PitStop>;
   placeOfBirth: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `QualifyingResult`. */
-  qualifyingResults: QualifyingResultConnection;
+  qualifyingResults: Array<QualifyingResult>;
   /** Reads and enables pagination through a set of `RaceDatum`. */
-  raceData: RaceDatumConnection;
+  raceData: Array<RaceDatum>;
   /** Reads and enables pagination through a set of `RaceDriverStanding`. */
-  raceDriverStandings: RaceDriverStandingConnection;
+  raceDriverStandings: Array<RaceDriverStanding>;
   /** Reads and enables pagination through a set of `RaceResult`. */
-  raceResults: RaceResultConnection;
-  rowId: Scalars['String']['output'];
+  raceResults: Array<RaceResult>;
   /** Reads and enables pagination through a set of `SeasonDriverStanding`. */
-  seasonDriverStandings: SeasonDriverStandingConnection;
+  seasonDriverStandings: Array<SeasonDriverStanding>;
   /** Reads and enables pagination through a set of `SeasonDriver`. */
-  seasonDrivers: SeasonDriverConnection;
+  seasonDrivers: Array<SeasonDriver>;
   /** Reads and enables pagination through a set of `SeasonEntrantDriver`. */
-  seasonEntrantDrivers: SeasonEntrantDriverConnection;
+  seasonEntrantDrivers: Array<SeasonEntrantDriver>;
   /** Reads a single `Country` that is related to this `Driver`. */
   secondNationalityCountry?: Maybe<Country>;
   secondNationalityCountryId?: Maybe<Scalars['String']['output']>;
   /** Reads and enables pagination through a set of `SprintQualifyingResult`. */
-  sprintQualifyingResults: SprintQualifyingResultConnection;
+  sprintQualifyingResults: Array<SprintQualifyingResult>;
   /** Reads and enables pagination through a set of `SprintRaceResult`. */
-  sprintRaceResults: SprintRaceResultConnection;
+  sprintRaceResults: Array<SprintRaceResult>;
   /** Reads and enables pagination through a set of `SprintStartingGridPosition`. */
-  sprintStartingGridPositions: SprintStartingGridPositionConnection;
+  sprintStartingGridPositions: Array<SprintStartingGridPosition>;
   /** Reads and enables pagination through a set of `StartingGridPosition`. */
-  startingGridPositions: StartingGridPositionConnection;
+  startingGridPositions: Array<StartingGridPosition>;
   totalChampionshipPoints: Scalars['BigFloat']['output'];
   totalChampionshipWins: Scalars['Int']['output'];
   totalDriverOfTheDay: Scalars['Int']['output'];
@@ -5186,187 +3536,136 @@ export type Driver = Node & {
 
 
 export type DriverDriverFamilyRelationshipsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<DriverFamilyRelationshipCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<DriverFamilyRelationshipOrderBy>>;
 };
 
 
 export type DriverDriverFamilyRelationshipsByOtherDriverIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<DriverFamilyRelationshipCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<DriverFamilyRelationshipOrderBy>>;
 };
 
 
 export type DriverDriverOfTheDayResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<DriverOfTheDayResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<DriverOfTheDayResultOrderBy>>;
 };
 
 
 export type DriverFastestLapsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<FastestLapCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<FastestLapOrderBy>>;
 };
 
 
 export type DriverLapTimesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<AppLapTimeCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<AppLapTimeOrderBy>>;
 };
 
 
 export type DriverPitStopsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<PitStopCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<PitStopOrderBy>>;
 };
 
 
 export type DriverQualifyingResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<QualifyingResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<QualifyingResultOrderBy>>;
 };
 
 
 export type DriverRaceDataArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceDatumCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceDatumOrderBy>>;
 };
 
 
 export type DriverRaceDriverStandingsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceDriverStandingCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceDriverStandingOrderBy>>;
 };
 
 
 export type DriverRaceResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceResultOrderBy>>;
 };
 
 
 export type DriverSeasonDriverStandingsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonDriverStandingCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonDriverStandingOrderBy>>;
 };
 
 
 export type DriverSeasonDriversArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonDriverCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonDriverOrderBy>>;
 };
 
 
 export type DriverSeasonEntrantDriversArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantDriverCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantDriverOrderBy>>;
 };
 
 
 export type DriverSprintQualifyingResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SprintQualifyingResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SprintQualifyingResultOrderBy>>;
 };
 
 
 export type DriverSprintRaceResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SprintRaceResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SprintRaceResultOrderBy>>;
 };
 
 
 export type DriverSprintStartingGridPositionsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SprintStartingGridPositionCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SprintStartingGridPositionOrderBy>>;
 };
 
 
 export type DriverStartingGridPositionsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<StartingGridPositionCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<StartingGridPositionOrderBy>>;
 };
@@ -5387,6 +3686,8 @@ export type DriverCondition = {
   fullName?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `gender` field. */
   gender?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `lastName` field. */
   lastName?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `name` field. */
@@ -5397,41 +3698,15 @@ export type DriverCondition = {
   permanentNumber?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `placeOfBirth` field. */
   placeOfBirth?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `secondNationalityCountryId` field. */
   secondNationalityCountryId?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** A connection to a list of `Driver` values. */
-export type DriverConnection = {
-  __typename?: 'DriverConnection';
-  /** A list of edges which contains the `Driver` and cursor to aid in pagination. */
-  edges: Array<Maybe<DriverEdge>>;
-  /** A list of `Driver` objects. */
-  nodes: Array<Maybe<Driver>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Driver` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `Driver` edge in the connection. */
-export type DriverEdge = {
-  __typename?: 'DriverEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `Driver` at the end of the edge. */
-  node?: Maybe<Driver>;
-};
-
-export type DriverFamilyRelationship = Node & {
+export type DriverFamilyRelationship = {
   __typename?: 'DriverFamilyRelationship';
   /** Reads a single `Driver` that is related to this `DriverFamilyRelationship`. */
   driver?: Maybe<Driver>;
   driverId: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   /** Reads a single `Driver` that is related to this `DriverFamilyRelationship`. */
   otherDriver?: Maybe<Driver>;
   otherDriverId: Scalars['String']['output'];
@@ -5452,28 +3727,6 @@ export type DriverFamilyRelationshipCondition = {
   positionDisplayOrder?: InputMaybe<Scalars['Int']['input']>;
   /** Checks for equality with the object’s `type` field. */
   type?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `DriverFamilyRelationship` values. */
-export type DriverFamilyRelationshipConnection = {
-  __typename?: 'DriverFamilyRelationshipConnection';
-  /** A list of edges which contains the `DriverFamilyRelationship` and cursor to aid in pagination. */
-  edges: Array<Maybe<DriverFamilyRelationshipEdge>>;
-  /** A list of `DriverFamilyRelationship` objects. */
-  nodes: Array<Maybe<DriverFamilyRelationship>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `DriverFamilyRelationship` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `DriverFamilyRelationship` edge in the connection. */
-export type DriverFamilyRelationshipEdge = {
-  __typename?: 'DriverFamilyRelationshipEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `DriverFamilyRelationship` at the end of the edge. */
-  node?: Maybe<DriverFamilyRelationship>;
 };
 
 /** An input for mutations affecting `DriverFamilyRelationship` */
@@ -5520,12 +3773,12 @@ export type DriverInput = {
   firstName: Scalars['String']['input'];
   fullName: Scalars['String']['input'];
   gender: Scalars['String']['input'];
+  id: Scalars['String']['input'];
   lastName: Scalars['String']['input'];
   name: Scalars['String']['input'];
   nationalityCountryId: Scalars['String']['input'];
   permanentNumber?: InputMaybe<Scalars['String']['input']>;
   placeOfBirth: Scalars['String']['input'];
-  rowId: Scalars['String']['input'];
   secondNationalityCountryId?: InputMaybe<Scalars['String']['input']>;
   totalChampionshipPoints: Scalars['BigFloat']['input'];
   totalChampionshipWins: Scalars['Int']['input'];
@@ -5543,15 +3796,13 @@ export type DriverInput = {
   totalSprintRaceWins: Scalars['Int']['input'];
 };
 
-export type DriverOfTheDayResult = Node & {
+export type DriverOfTheDayResult = {
   __typename?: 'DriverOfTheDayResult';
   /** Reads a single `Driver` that is related to this `DriverOfTheDayResult`. */
   driver?: Maybe<Driver>;
   driverId?: Maybe<Scalars['String']['output']>;
   driverNumber?: Maybe<Scalars['String']['output']>;
   engineManufacturerId?: Maybe<Scalars['String']['output']>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   percentage?: Maybe<Scalars['BigFloat']['output']>;
   positionDisplayOrder: Scalars['Int']['output'];
   positionNumber?: Maybe<Scalars['Int']['output']>;
@@ -5590,28 +3841,6 @@ export type DriverOfTheDayResultCondition = {
   teamId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `tyreManufacturerId` field. */
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `DriverOfTheDayResult` values. */
-export type DriverOfTheDayResultConnection = {
-  __typename?: 'DriverOfTheDayResultConnection';
-  /** A list of edges which contains the `DriverOfTheDayResult` and cursor to aid in pagination. */
-  edges: Array<Maybe<DriverOfTheDayResultEdge>>;
-  /** A list of `DriverOfTheDayResult` objects. */
-  nodes: Array<Maybe<DriverOfTheDayResult>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `DriverOfTheDayResult` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `DriverOfTheDayResult` edge in the connection. */
-export type DriverOfTheDayResultEdge = {
-  __typename?: 'DriverOfTheDayResultEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `DriverOfTheDayResult` at the end of the edge. */
-  node?: Maybe<DriverOfTheDayResult>;
 };
 
 /** An input for mutations affecting `DriverOfTheDayResult` */
@@ -5685,6 +3914,8 @@ export enum DriverOrderBy {
   FullNameDesc = 'FULL_NAME_DESC',
   GenderAsc = 'GENDER_ASC',
   GenderDesc = 'GENDER_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   LastNameAsc = 'LAST_NAME_ASC',
   LastNameDesc = 'LAST_NAME_DESC',
   NameAsc = 'NAME_ASC',
@@ -5698,8 +3929,6 @@ export enum DriverOrderBy {
   PlaceOfBirthDesc = 'PLACE_OF_BIRTH_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  RowIdAsc = 'ROW_ID_ASC',
-  RowIdDesc = 'ROW_ID_DESC',
   SecondNationalityCountryIdAsc = 'SECOND_NATIONALITY_COUNTRY_ID_ASC',
   SecondNationalityCountryIdDesc = 'SECOND_NATIONALITY_COUNTRY_ID_DESC'
 }
@@ -5717,12 +3946,12 @@ export type DriverPatch = {
   firstName?: InputMaybe<Scalars['String']['input']>;
   fullName?: InputMaybe<Scalars['String']['input']>;
   gender?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   lastName?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   nationalityCountryId?: InputMaybe<Scalars['String']['input']>;
   permanentNumber?: InputMaybe<Scalars['String']['input']>;
   placeOfBirth?: InputMaybe<Scalars['String']['input']>;
-  rowId?: InputMaybe<Scalars['String']['input']>;
   secondNationalityCountryId?: InputMaybe<Scalars['String']['input']>;
   totalChampionshipPoints?: InputMaybe<Scalars['BigFloat']['input']>;
   totalChampionshipWins?: InputMaybe<Scalars['Int']['input']>;
@@ -5740,7 +3969,7 @@ export type DriverPatch = {
   totalSprintRaceWins?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type Engine = Node & {
+export type Engine = {
   __typename?: 'Engine';
   aspiration?: Maybe<Scalars['String']['output']>;
   capacity?: Maybe<Scalars['BigFloat']['output']>;
@@ -5749,21 +3978,16 @@ export type Engine = Node & {
   engineManufacturer?: Maybe<EngineManufacturer>;
   engineManufacturerId: Scalars['String']['output'];
   fullName: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
+  id: Scalars['String']['output'];
   name: Scalars['String']['output'];
-  rowId: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `SeasonEntrantEngine`. */
-  seasonEntrantEngines: SeasonEntrantEngineConnection;
+  seasonEntrantEngines: Array<SeasonEntrantEngine>;
 };
 
 
 export type EngineSeasonEntrantEnginesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantEngineCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantEngineOrderBy>>;
 };
@@ -5780,32 +4004,10 @@ export type EngineCondition = {
   engineManufacturerId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `fullName` field. */
   fullName?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `Engine` values. */
-export type EngineConnection = {
-  __typename?: 'EngineConnection';
-  /** A list of edges which contains the `Engine` and cursor to aid in pagination. */
-  edges: Array<Maybe<EngineEdge>>;
-  /** A list of `Engine` objects. */
-  nodes: Array<Maybe<Engine>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Engine` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `Engine` edge in the connection. */
-export type EngineEdge = {
-  __typename?: 'EngineEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `Engine` at the end of the edge. */
-  node?: Maybe<Engine>;
 };
 
 /** An input for mutations affecting `Engine` */
@@ -5815,11 +4017,11 @@ export type EngineInput = {
   configuration?: InputMaybe<Scalars['String']['input']>;
   engineManufacturerId: Scalars['String']['input'];
   fullName: Scalars['String']['input'];
+  id: Scalars['String']['input'];
   name: Scalars['String']['input'];
-  rowId: Scalars['String']['input'];
 };
 
-export type EngineManufacturer = Node & {
+export type EngineManufacturer = {
   __typename?: 'EngineManufacturer';
   bestChampionshipPosition?: Maybe<Scalars['Int']['output']>;
   bestRaceResult?: Maybe<Scalars['Int']['output']>;
@@ -5829,29 +4031,27 @@ export type EngineManufacturer = Node & {
   country?: Maybe<Country>;
   countryId: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `Engine`. */
-  engines: EngineConnection;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
+  engines: Array<Engine>;
+  id: Scalars['String']['output'];
   name: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `RaceDatum`. */
-  raceData: RaceDatumConnection;
+  raceData: Array<RaceDatum>;
   /** Reads and enables pagination through a set of `RaceTeamStanding`. */
-  raceTeamStandings: RaceTeamStandingConnection;
-  rowId: Scalars['String']['output'];
+  raceTeamStandings: Array<RaceTeamStanding>;
   /** Reads and enables pagination through a set of `SeasonEngineManufacturer`. */
-  seasonEngineManufacturers: SeasonEngineManufacturerConnection;
+  seasonEngineManufacturers: Array<SeasonEngineManufacturer>;
   /** Reads and enables pagination through a set of `SeasonEntrantChassis`. */
-  seasonEntrantChassises: SeasonEntrantChassisConnection;
+  seasonEntrantChassises: Array<SeasonEntrantChassis>;
   /** Reads and enables pagination through a set of `SeasonEntrantDriver`. */
-  seasonEntrantDrivers: SeasonEntrantDriverConnection;
+  seasonEntrantDrivers: Array<SeasonEntrantDriver>;
   /** Reads and enables pagination through a set of `SeasonEntrantEngine`. */
-  seasonEntrantEngines: SeasonEntrantEngineConnection;
+  seasonEntrantEngines: Array<SeasonEntrantEngine>;
   /** Reads and enables pagination through a set of `SeasonEntrantTeam`. */
-  seasonEntrantTeams: SeasonEntrantTeamConnection;
+  seasonEntrantTeams: Array<SeasonEntrantTeam>;
   /** Reads and enables pagination through a set of `SeasonEntrantTyreManufacturer`. */
-  seasonEntrantTyreManufacturers: SeasonEntrantTyreManufacturerConnection;
+  seasonEntrantTyreManufacturers: Array<SeasonEntrantTyreManufacturer>;
   /** Reads and enables pagination through a set of `SeasonTeamStanding`. */
-  seasonTeamStandings: SeasonTeamStandingConnection;
+  seasonTeamStandings: Array<SeasonTeamStanding>;
   totalChampionshipPoints: Scalars['BigFloat']['output'];
   totalChampionshipWins: Scalars['Int']['output'];
   totalFastestLaps: Scalars['Int']['output'];
@@ -5869,110 +4069,80 @@ export type EngineManufacturer = Node & {
 
 
 export type EngineManufacturerEnginesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<EngineCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<EngineOrderBy>>;
 };
 
 
 export type EngineManufacturerRaceDataArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceDatumCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceDatumOrderBy>>;
 };
 
 
 export type EngineManufacturerRaceTeamStandingsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceTeamStandingCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceTeamStandingOrderBy>>;
 };
 
 
 export type EngineManufacturerSeasonEngineManufacturersArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEngineManufacturerCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEngineManufacturerOrderBy>>;
 };
 
 
 export type EngineManufacturerSeasonEntrantChassisesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantChassisCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantChassisOrderBy>>;
 };
 
 
 export type EngineManufacturerSeasonEntrantDriversArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantDriverCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantDriverOrderBy>>;
 };
 
 
 export type EngineManufacturerSeasonEntrantEnginesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantEngineCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantEngineOrderBy>>;
 };
 
 
 export type EngineManufacturerSeasonEntrantTeamsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantTeamCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantTeamOrderBy>>;
 };
 
 
 export type EngineManufacturerSeasonEntrantTyreManufacturersArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantTyreManufacturerCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantTyreManufacturerOrderBy>>;
 };
 
 
 export type EngineManufacturerSeasonTeamStandingsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonTeamStandingCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonTeamStandingOrderBy>>;
 };
@@ -5984,32 +4154,10 @@ export type EngineManufacturerSeasonTeamStandingsArgs = {
 export type EngineManufacturerCondition = {
   /** Checks for equality with the object’s `countryId` field. */
   countryId?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `EngineManufacturer` values. */
-export type EngineManufacturerConnection = {
-  __typename?: 'EngineManufacturerConnection';
-  /** A list of edges which contains the `EngineManufacturer` and cursor to aid in pagination. */
-  edges: Array<Maybe<EngineManufacturerEdge>>;
-  /** A list of `EngineManufacturer` objects. */
-  nodes: Array<Maybe<EngineManufacturer>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `EngineManufacturer` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `EngineManufacturer` edge in the connection. */
-export type EngineManufacturerEdge = {
-  __typename?: 'EngineManufacturerEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `EngineManufacturer` at the end of the edge. */
-  node?: Maybe<EngineManufacturer>;
 };
 
 /** An input for mutations affecting `EngineManufacturer` */
@@ -6019,8 +4167,8 @@ export type EngineManufacturerInput = {
   bestSprintRaceResult?: InputMaybe<Scalars['Int']['input']>;
   bestStartingGridPosition?: InputMaybe<Scalars['Int']['input']>;
   countryId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
   name: Scalars['String']['input'];
-  rowId: Scalars['String']['input'];
   totalChampionshipPoints: Scalars['BigFloat']['input'];
   totalChampionshipWins: Scalars['Int']['input'];
   totalFastestLaps: Scalars['Int']['input'];
@@ -6040,13 +4188,13 @@ export type EngineManufacturerInput = {
 export enum EngineManufacturerOrderBy {
   CountryIdAsc = 'COUNTRY_ID_ASC',
   CountryIdDesc = 'COUNTRY_ID_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   NameAsc = 'NAME_ASC',
   NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  RowIdAsc = 'ROW_ID_ASC',
-  RowIdDesc = 'ROW_ID_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
 /** Represents an update to a `EngineManufacturer`. Fields that are set will be updated. */
@@ -6056,8 +4204,8 @@ export type EngineManufacturerPatch = {
   bestSprintRaceResult?: InputMaybe<Scalars['Int']['input']>;
   bestStartingGridPosition?: InputMaybe<Scalars['Int']['input']>;
   countryId?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  rowId?: InputMaybe<Scalars['String']['input']>;
   totalChampionshipPoints?: InputMaybe<Scalars['BigFloat']['input']>;
   totalChampionshipWins?: InputMaybe<Scalars['Int']['input']>;
   totalFastestLaps?: InputMaybe<Scalars['Int']['input']>;
@@ -6085,13 +4233,13 @@ export enum EngineOrderBy {
   EngineManufacturerIdDesc = 'ENGINE_MANUFACTURER_ID_DESC',
   FullNameAsc = 'FULL_NAME_ASC',
   FullNameDesc = 'FULL_NAME_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   NameAsc = 'NAME_ASC',
   NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  RowIdAsc = 'ROW_ID_ASC',
-  RowIdDesc = 'ROW_ID_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
 /** Represents an update to a `Engine`. Fields that are set will be updated. */
@@ -6101,150 +4249,108 @@ export type EnginePatch = {
   configuration?: InputMaybe<Scalars['String']['input']>;
   engineManufacturerId?: InputMaybe<Scalars['String']['input']>;
   fullName?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  rowId?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type Entrant = Node & {
+export type Entrant = {
   __typename?: 'Entrant';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
+  id: Scalars['String']['output'];
   name: Scalars['String']['output'];
-  rowId: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `SeasonEntrantChassis`. */
-  seasonEntrantChassises: SeasonEntrantChassisConnection;
+  seasonEntrantChassises: Array<SeasonEntrantChassis>;
   /** Reads and enables pagination through a set of `SeasonEntrantDriver`. */
-  seasonEntrantDrivers: SeasonEntrantDriverConnection;
+  seasonEntrantDrivers: Array<SeasonEntrantDriver>;
   /** Reads and enables pagination through a set of `SeasonEntrantEngine`. */
-  seasonEntrantEngines: SeasonEntrantEngineConnection;
+  seasonEntrantEngines: Array<SeasonEntrantEngine>;
   /** Reads and enables pagination through a set of `SeasonEntrantTeam`. */
-  seasonEntrantTeams: SeasonEntrantTeamConnection;
+  seasonEntrantTeams: Array<SeasonEntrantTeam>;
   /** Reads and enables pagination through a set of `SeasonEntrantTyreManufacturer`. */
-  seasonEntrantTyreManufacturers: SeasonEntrantTyreManufacturerConnection;
+  seasonEntrantTyreManufacturers: Array<SeasonEntrantTyreManufacturer>;
   /** Reads and enables pagination through a set of `SeasonEntrant`. */
-  seasonEntrants: SeasonEntrantConnection;
+  seasonEntrants: Array<SeasonEntrant>;
 };
 
 
 export type EntrantSeasonEntrantChassisesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantChassisCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantChassisOrderBy>>;
 };
 
 
 export type EntrantSeasonEntrantDriversArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantDriverCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantDriverOrderBy>>;
 };
 
 
 export type EntrantSeasonEntrantEnginesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantEngineCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantEngineOrderBy>>;
 };
 
 
 export type EntrantSeasonEntrantTeamsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantTeamCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantTeamOrderBy>>;
 };
 
 
 export type EntrantSeasonEntrantTyreManufacturersArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantTyreManufacturerCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantTyreManufacturerOrderBy>>;
 };
 
 
 export type EntrantSeasonEntrantsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantOrderBy>>;
 };
 
 /** A condition to be used against `Entrant` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type EntrantCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `Entrant` values. */
-export type EntrantConnection = {
-  __typename?: 'EntrantConnection';
-  /** A list of edges which contains the `Entrant` and cursor to aid in pagination. */
-  edges: Array<Maybe<EntrantEdge>>;
-  /** A list of `Entrant` objects. */
-  nodes: Array<Maybe<Entrant>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Entrant` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `Entrant` edge in the connection. */
-export type EntrantEdge = {
-  __typename?: 'EntrantEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `Entrant` at the end of the edge. */
-  node?: Maybe<Entrant>;
 };
 
 /** An input for mutations affecting `Entrant` */
 export type EntrantInput = {
+  id: Scalars['String']['input'];
   name: Scalars['String']['input'];
-  rowId: Scalars['String']['input'];
 };
 
 /** Methods to use when ordering `Entrant`. */
 export enum EntrantOrderBy {
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   NameAsc = 'NAME_ASC',
   NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  RowIdAsc = 'ROW_ID_ASC',
-  RowIdDesc = 'ROW_ID_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
 /** Represents an update to a `Entrant`. Fields that are set will be updated. */
 export type EntrantPatch = {
+  id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  rowId?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type FastestLap = Node & {
+export type FastestLap = {
   __typename?: 'FastestLap';
   /** Reads a single `Driver` that is related to this `FastestLap`. */
   driver?: Maybe<Driver>;
@@ -6253,8 +4359,6 @@ export type FastestLap = Node & {
   engineManufacturerId?: Maybe<Scalars['String']['output']>;
   gap?: Maybe<Scalars['String']['output']>;
   gapMillis?: Maybe<Scalars['Int']['output']>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   interval?: Maybe<Scalars['String']['output']>;
   intervalMillis?: Maybe<Scalars['Int']['output']>;
   lap?: Maybe<Scalars['Int']['output']>;
@@ -6309,28 +4413,6 @@ export type FastestLapCondition = {
   timeMillis?: InputMaybe<Scalars['Int']['input']>;
   /** Checks for equality with the object’s `tyreManufacturerId` field. */
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `FastestLap` values. */
-export type FastestLapConnection = {
-  __typename?: 'FastestLapConnection';
-  /** A list of edges which contains the `FastestLap` and cursor to aid in pagination. */
-  edges: Array<Maybe<FastestLapEdge>>;
-  /** A list of `FastestLap` objects. */
-  nodes: Array<Maybe<FastestLap>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `FastestLap` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `FastestLap` edge in the connection. */
-export type FastestLapEdge = {
-  __typename?: 'FastestLapEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `FastestLap` at the end of the edge. */
-  node?: Maybe<FastestLap>;
 };
 
 /** An input for mutations affecting `FastestLap` */
@@ -6471,28 +4553,6 @@ export type FreePractice1ResultCondition = {
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** A connection to a list of `FreePractice1Result` values. */
-export type FreePractice1ResultConnection = {
-  __typename?: 'FreePractice1ResultConnection';
-  /** A list of edges which contains the `FreePractice1Result` and cursor to aid in pagination. */
-  edges: Array<Maybe<FreePractice1ResultEdge>>;
-  /** A list of `FreePractice1Result` objects. */
-  nodes: Array<Maybe<FreePractice1Result>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `FreePractice1Result` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `FreePractice1Result` edge in the connection. */
-export type FreePractice1ResultEdge = {
-  __typename?: 'FreePractice1ResultEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `FreePractice1Result` at the end of the edge. */
-  node?: Maybe<FreePractice1Result>;
-};
-
 /** An input for mutations affecting `FreePractice1Result` */
 export type FreePractice1ResultInput = {
   driverId?: InputMaybe<Scalars['String']['input']>;
@@ -6607,28 +4667,6 @@ export type FreePractice2ResultCondition = {
   timeMillis?: InputMaybe<Scalars['Int']['input']>;
   /** Checks for equality with the object’s `tyreManufacturerId` field. */
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `FreePractice2Result` values. */
-export type FreePractice2ResultConnection = {
-  __typename?: 'FreePractice2ResultConnection';
-  /** A list of edges which contains the `FreePractice2Result` and cursor to aid in pagination. */
-  edges: Array<Maybe<FreePractice2ResultEdge>>;
-  /** A list of `FreePractice2Result` objects. */
-  nodes: Array<Maybe<FreePractice2Result>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `FreePractice2Result` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `FreePractice2Result` edge in the connection. */
-export type FreePractice2ResultEdge = {
-  __typename?: 'FreePractice2ResultEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `FreePractice2Result` at the end of the edge. */
-  node?: Maybe<FreePractice2Result>;
 };
 
 /** An input for mutations affecting `FreePractice2Result` */
@@ -6747,28 +4785,6 @@ export type FreePractice3ResultCondition = {
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** A connection to a list of `FreePractice3Result` values. */
-export type FreePractice3ResultConnection = {
-  __typename?: 'FreePractice3ResultConnection';
-  /** A list of edges which contains the `FreePractice3Result` and cursor to aid in pagination. */
-  edges: Array<Maybe<FreePractice3ResultEdge>>;
-  /** A list of `FreePractice3Result` objects. */
-  nodes: Array<Maybe<FreePractice3Result>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `FreePractice3Result` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `FreePractice3Result` edge in the connection. */
-export type FreePractice3ResultEdge = {
-  __typename?: 'FreePractice3ResultEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `FreePractice3Result` at the end of the edge. */
-  node?: Maybe<FreePractice3Result>;
-};
-
 /** An input for mutations affecting `FreePractice3Result` */
 export type FreePractice3ResultInput = {
   driverId?: InputMaybe<Scalars['String']['input']>;
@@ -6885,28 +4901,6 @@ export type FreePractice4ResultCondition = {
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** A connection to a list of `FreePractice4Result` values. */
-export type FreePractice4ResultConnection = {
-  __typename?: 'FreePractice4ResultConnection';
-  /** A list of edges which contains the `FreePractice4Result` and cursor to aid in pagination. */
-  edges: Array<Maybe<FreePractice4ResultEdge>>;
-  /** A list of `FreePractice4Result` objects. */
-  nodes: Array<Maybe<FreePractice4Result>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `FreePractice4Result` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `FreePractice4Result` edge in the connection. */
-export type FreePractice4ResultEdge = {
-  __typename?: 'FreePractice4ResultEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `FreePractice4Result` at the end of the edge. */
-  node?: Maybe<FreePractice4Result>;
-};
-
 /** An input for mutations affecting `FreePractice4Result` */
 export type FreePractice4ResultInput = {
   driverId?: InputMaybe<Scalars['String']['input']>;
@@ -6964,30 +4958,25 @@ export enum FreePractice4ResultOrderBy {
   TyreManufacturerIdDesc = 'TYRE_MANUFACTURER_ID_DESC'
 }
 
-export type GrandPrix = Node & {
+export type GrandPrix = {
   __typename?: 'GrandPrix';
   abbreviation: Scalars['String']['output'];
   /** Reads a single `Country` that is related to this `GrandPrix`. */
   country?: Maybe<Country>;
   countryId?: Maybe<Scalars['String']['output']>;
   fullName: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
+  id: Scalars['String']['output'];
   name: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `Race`. */
-  races: RaceConnection;
-  rowId: Scalars['String']['output'];
+  races: Array<Race>;
   shortName: Scalars['String']['output'];
   totalRacesHeld: Scalars['Int']['output'];
 };
 
 
 export type GrandPrixRacesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceOrderBy>>;
 };
@@ -7003,34 +4992,12 @@ export type GrandPrixCondition = {
   countryId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `fullName` field. */
   fullName?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `shortName` field. */
   shortName?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `GrandPrix` values. */
-export type GrandPrixConnection = {
-  __typename?: 'GrandPrixConnection';
-  /** A list of edges which contains the `GrandPrix` and cursor to aid in pagination. */
-  edges: Array<Maybe<GrandPrixEdge>>;
-  /** A list of `GrandPrix` objects. */
-  nodes: Array<Maybe<GrandPrix>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `GrandPrix` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `GrandPrix` edge in the connection. */
-export type GrandPrixEdge = {
-  __typename?: 'GrandPrixEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `GrandPrix` at the end of the edge. */
-  node?: Maybe<GrandPrix>;
 };
 
 /** An input for mutations affecting `GrandPrix` */
@@ -7038,8 +5005,8 @@ export type GrandPrixInput = {
   abbreviation: Scalars['String']['input'];
   countryId?: InputMaybe<Scalars['String']['input']>;
   fullName: Scalars['String']['input'];
+  id: Scalars['String']['input'];
   name: Scalars['String']['input'];
-  rowId: Scalars['String']['input'];
   shortName: Scalars['String']['input'];
   totalRacesHeld: Scalars['Int']['input'];
 };
@@ -7052,13 +5019,13 @@ export enum GrandPrixOrderBy {
   CountryIdDesc = 'COUNTRY_ID_DESC',
   FullNameAsc = 'FULL_NAME_ASC',
   FullNameDesc = 'FULL_NAME_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   NameAsc = 'NAME_ASC',
   NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  RowIdAsc = 'ROW_ID_ASC',
-  RowIdDesc = 'ROW_ID_DESC',
   ShortNameAsc = 'SHORT_NAME_ASC',
   ShortNameDesc = 'SHORT_NAME_DESC'
 }
@@ -7068,8 +5035,8 @@ export type GrandPrixPatch = {
   abbreviation?: InputMaybe<Scalars['String']['input']>;
   countryId?: InputMaybe<Scalars['String']['input']>;
   fullName?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  rowId?: InputMaybe<Scalars['String']['input']>;
   shortName?: InputMaybe<Scalars['String']['input']>;
   totalRacesHeld?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -7189,50 +5156,28 @@ export type Mutation = {
   createWarmingUpResult?: Maybe<CreateWarmingUpResultPayload>;
   /** Deletes a single `AppCircuitDescription` using a unique key. */
   deleteAppCircuitDescription?: Maybe<DeleteAppCircuitDescriptionPayload>;
-  /** Deletes a single `AppCircuitDescription` using its globally unique id. */
-  deleteAppCircuitDescriptionById?: Maybe<DeleteAppCircuitDescriptionPayload>;
   /** Deletes a single `AppConstructorBio` using a unique key. */
   deleteAppConstructorBio?: Maybe<DeleteAppConstructorBioPayload>;
-  /** Deletes a single `AppConstructorBio` using its globally unique id. */
-  deleteAppConstructorBioById?: Maybe<DeleteAppConstructorBioPayload>;
   /** Deletes a single `AppDriverBio` using a unique key. */
   deleteAppDriverBio?: Maybe<DeleteAppDriverBioPayload>;
-  /** Deletes a single `AppDriverBio` using its globally unique id. */
-  deleteAppDriverBioById?: Maybe<DeleteAppDriverBioPayload>;
   /** Deletes a single `AppIngestState` using a unique key. */
   deleteAppIngestState?: Maybe<DeleteAppIngestStatePayload>;
-  /** Deletes a single `AppIngestState` using its globally unique id. */
-  deleteAppIngestStateById?: Maybe<DeleteAppIngestStatePayload>;
   /** Deletes a single `AppLapTime` using a unique key. */
   deleteAppLapTime?: Maybe<DeleteAppLapTimePayload>;
-  /** Deletes a single `AppLapTime` using its globally unique id. */
-  deleteAppLapTimeById?: Maybe<DeleteAppLapTimePayload>;
   /** Deletes a single `AppTeamColor` using a unique key. */
   deleteAppTeamColor?: Maybe<DeleteAppTeamColorPayload>;
-  /** Deletes a single `AppTeamColor` using its globally unique id. */
-  deleteAppTeamColorById?: Maybe<DeleteAppTeamColorPayload>;
   /** Deletes a single `AppTeamHistory` using a unique key. */
   deleteAppTeamHistory?: Maybe<DeleteAppTeamHistoryPayload>;
-  /** Deletes a single `AppTeamHistory` using its globally unique id. */
-  deleteAppTeamHistoryById?: Maybe<DeleteAppTeamHistoryPayload>;
   /** Deletes a single `Chassis` using a unique key. */
   deleteChassis?: Maybe<DeleteChassisPayload>;
-  /** Deletes a single `Chassis` using its globally unique id. */
-  deleteChassisById?: Maybe<DeleteChassisPayload>;
   /** Deletes a single `Circuit` using a unique key. */
   deleteCircuit?: Maybe<DeleteCircuitPayload>;
-  /** Deletes a single `Circuit` using its globally unique id. */
-  deleteCircuitById?: Maybe<DeleteCircuitPayload>;
   /** Deletes a single `CircuitLayout` using a unique key. */
   deleteCircuitLayout?: Maybe<DeleteCircuitLayoutPayload>;
-  /** Deletes a single `CircuitLayout` using its globally unique id. */
-  deleteCircuitLayoutById?: Maybe<DeleteCircuitLayoutPayload>;
   /** Deletes a single `Continent` using a unique key. */
   deleteContinent?: Maybe<DeleteContinentPayload>;
   /** Deletes a single `Continent` using a unique key. */
   deleteContinentByCode?: Maybe<DeleteContinentPayload>;
-  /** Deletes a single `Continent` using its globally unique id. */
-  deleteContinentById?: Maybe<DeleteContinentPayload>;
   /** Deletes a single `Continent` using a unique key. */
   deleteContinentByName?: Maybe<DeleteContinentPayload>;
   /** Deletes a single `Country` using a unique key. */
@@ -7241,202 +5186,108 @@ export type Mutation = {
   deleteCountryByAlpha2Code?: Maybe<DeleteCountryPayload>;
   /** Deletes a single `Country` using a unique key. */
   deleteCountryByAlpha3Code?: Maybe<DeleteCountryPayload>;
-  /** Deletes a single `Country` using its globally unique id. */
-  deleteCountryById?: Maybe<DeleteCountryPayload>;
   /** Deletes a single `Country` using a unique key. */
   deleteCountryByName?: Maybe<DeleteCountryPayload>;
   /** Deletes a single `Driver` using a unique key. */
   deleteDriver?: Maybe<DeleteDriverPayload>;
-  /** Deletes a single `Driver` using its globally unique id. */
-  deleteDriverById?: Maybe<DeleteDriverPayload>;
   /** Deletes a single `DriverFamilyRelationship` using a unique key. */
   deleteDriverFamilyRelationship?: Maybe<DeleteDriverFamilyRelationshipPayload>;
   /** Deletes a single `DriverFamilyRelationship` using a unique key. */
   deleteDriverFamilyRelationshipByDriverIdAndOtherDriverIdAndType?: Maybe<DeleteDriverFamilyRelationshipPayload>;
-  /** Deletes a single `DriverFamilyRelationship` using its globally unique id. */
-  deleteDriverFamilyRelationshipById?: Maybe<DeleteDriverFamilyRelationshipPayload>;
   /** Deletes a single `DriverOfTheDayResult` using a unique key. */
   deleteDriverOfTheDayResult?: Maybe<DeleteDriverOfTheDayResultPayload>;
-  /** Deletes a single `DriverOfTheDayResult` using its globally unique id. */
-  deleteDriverOfTheDayResultById?: Maybe<DeleteDriverOfTheDayResultPayload>;
   /** Deletes a single `Engine` using a unique key. */
   deleteEngine?: Maybe<DeleteEnginePayload>;
-  /** Deletes a single `Engine` using its globally unique id. */
-  deleteEngineById?: Maybe<DeleteEnginePayload>;
   /** Deletes a single `EngineManufacturer` using a unique key. */
   deleteEngineManufacturer?: Maybe<DeleteEngineManufacturerPayload>;
-  /** Deletes a single `EngineManufacturer` using its globally unique id. */
-  deleteEngineManufacturerById?: Maybe<DeleteEngineManufacturerPayload>;
   /** Deletes a single `Entrant` using a unique key. */
   deleteEntrant?: Maybe<DeleteEntrantPayload>;
-  /** Deletes a single `Entrant` using its globally unique id. */
-  deleteEntrantById?: Maybe<DeleteEntrantPayload>;
   /** Deletes a single `FastestLap` using a unique key. */
   deleteFastestLap?: Maybe<DeleteFastestLapPayload>;
-  /** Deletes a single `FastestLap` using its globally unique id. */
-  deleteFastestLapById?: Maybe<DeleteFastestLapPayload>;
   /** Deletes a single `GrandPrix` using a unique key. */
   deleteGrandPrix?: Maybe<DeleteGrandPrixPayload>;
-  /** Deletes a single `GrandPrix` using its globally unique id. */
-  deleteGrandPrixById?: Maybe<DeleteGrandPrixPayload>;
   /** Deletes a single `PitStop` using a unique key. */
   deletePitStop?: Maybe<DeletePitStopPayload>;
-  /** Deletes a single `PitStop` using its globally unique id. */
-  deletePitStopById?: Maybe<DeletePitStopPayload>;
   /** Deletes a single `QualifyingResult` using a unique key. */
   deleteQualifyingResult?: Maybe<DeleteQualifyingResultPayload>;
-  /** Deletes a single `QualifyingResult` using its globally unique id. */
-  deleteQualifyingResultById?: Maybe<DeleteQualifyingResultPayload>;
   /** Deletes a single `Race` using a unique key. */
   deleteRace?: Maybe<DeleteRacePayload>;
-  /** Deletes a single `Race` using its globally unique id. */
-  deleteRaceById?: Maybe<DeleteRacePayload>;
   /** Deletes a single `Race` using a unique key. */
   deleteRaceByYearAndRound?: Maybe<DeleteRacePayload>;
   /** Deletes a single `RaceDatum` using a unique key. */
   deleteRaceDatum?: Maybe<DeleteRaceDatumPayload>;
-  /** Deletes a single `RaceDatum` using its globally unique id. */
-  deleteRaceDatumById?: Maybe<DeleteRaceDatumPayload>;
   /** Deletes a single `RaceDriverStanding` using a unique key. */
   deleteRaceDriverStanding?: Maybe<DeleteRaceDriverStandingPayload>;
-  /** Deletes a single `RaceDriverStanding` using its globally unique id. */
-  deleteRaceDriverStandingById?: Maybe<DeleteRaceDriverStandingPayload>;
   /** Deletes a single `RaceResult` using a unique key. */
   deleteRaceResult?: Maybe<DeleteRaceResultPayload>;
-  /** Deletes a single `RaceResult` using its globally unique id. */
-  deleteRaceResultById?: Maybe<DeleteRaceResultPayload>;
   /** Deletes a single `RaceTeamStanding` using a unique key. */
   deleteRaceTeamStanding?: Maybe<DeleteRaceTeamStandingPayload>;
-  /** Deletes a single `RaceTeamStanding` using its globally unique id. */
-  deleteRaceTeamStandingById?: Maybe<DeleteRaceTeamStandingPayload>;
   /** Deletes a single `Season` using a unique key. */
   deleteSeason?: Maybe<DeleteSeasonPayload>;
-  /** Deletes a single `Season` using its globally unique id. */
-  deleteSeasonById?: Maybe<DeleteSeasonPayload>;
   /** Deletes a single `SeasonDriver` using a unique key. */
   deleteSeasonDriver?: Maybe<DeleteSeasonDriverPayload>;
-  /** Deletes a single `SeasonDriver` using its globally unique id. */
-  deleteSeasonDriverById?: Maybe<DeleteSeasonDriverPayload>;
   /** Deletes a single `SeasonDriverStanding` using a unique key. */
   deleteSeasonDriverStanding?: Maybe<DeleteSeasonDriverStandingPayload>;
-  /** Deletes a single `SeasonDriverStanding` using its globally unique id. */
-  deleteSeasonDriverStandingById?: Maybe<DeleteSeasonDriverStandingPayload>;
   /** Deletes a single `SeasonEngineManufacturer` using a unique key. */
   deleteSeasonEngineManufacturer?: Maybe<DeleteSeasonEngineManufacturerPayload>;
-  /** Deletes a single `SeasonEngineManufacturer` using its globally unique id. */
-  deleteSeasonEngineManufacturerById?: Maybe<DeleteSeasonEngineManufacturerPayload>;
   /** Deletes a single `SeasonEntrant` using a unique key. */
   deleteSeasonEntrant?: Maybe<DeleteSeasonEntrantPayload>;
-  /** Deletes a single `SeasonEntrant` using its globally unique id. */
-  deleteSeasonEntrantById?: Maybe<DeleteSeasonEntrantPayload>;
   /** Deletes a single `SeasonEntrantChassis` using a unique key. */
   deleteSeasonEntrantChassis?: Maybe<DeleteSeasonEntrantChassisPayload>;
-  /** Deletes a single `SeasonEntrantChassis` using its globally unique id. */
-  deleteSeasonEntrantChassisById?: Maybe<DeleteSeasonEntrantChassisPayload>;
   /** Deletes a single `SeasonEntrantDriver` using a unique key. */
   deleteSeasonEntrantDriver?: Maybe<DeleteSeasonEntrantDriverPayload>;
-  /** Deletes a single `SeasonEntrantDriver` using its globally unique id. */
-  deleteSeasonEntrantDriverById?: Maybe<DeleteSeasonEntrantDriverPayload>;
   /** Deletes a single `SeasonEntrantEngine` using a unique key. */
   deleteSeasonEntrantEngine?: Maybe<DeleteSeasonEntrantEnginePayload>;
-  /** Deletes a single `SeasonEntrantEngine` using its globally unique id. */
-  deleteSeasonEntrantEngineById?: Maybe<DeleteSeasonEntrantEnginePayload>;
   /** Deletes a single `SeasonEntrantTeam` using a unique key. */
   deleteSeasonEntrantTeam?: Maybe<DeleteSeasonEntrantTeamPayload>;
-  /** Deletes a single `SeasonEntrantTeam` using its globally unique id. */
-  deleteSeasonEntrantTeamById?: Maybe<DeleteSeasonEntrantTeamPayload>;
   /** Deletes a single `SeasonEntrantTyreManufacturer` using a unique key. */
   deleteSeasonEntrantTyreManufacturer?: Maybe<DeleteSeasonEntrantTyreManufacturerPayload>;
-  /** Deletes a single `SeasonEntrantTyreManufacturer` using its globally unique id. */
-  deleteSeasonEntrantTyreManufacturerById?: Maybe<DeleteSeasonEntrantTyreManufacturerPayload>;
   /** Deletes a single `SeasonTeam` using a unique key. */
   deleteSeasonTeam?: Maybe<DeleteSeasonTeamPayload>;
-  /** Deletes a single `SeasonTeam` using its globally unique id. */
-  deleteSeasonTeamById?: Maybe<DeleteSeasonTeamPayload>;
   /** Deletes a single `SeasonTeamStanding` using a unique key. */
   deleteSeasonTeamStanding?: Maybe<DeleteSeasonTeamStandingPayload>;
-  /** Deletes a single `SeasonTeamStanding` using its globally unique id. */
-  deleteSeasonTeamStandingById?: Maybe<DeleteSeasonTeamStandingPayload>;
   /** Deletes a single `SeasonTyreManufacturer` using a unique key. */
   deleteSeasonTyreManufacturer?: Maybe<DeleteSeasonTyreManufacturerPayload>;
-  /** Deletes a single `SeasonTyreManufacturer` using its globally unique id. */
-  deleteSeasonTyreManufacturerById?: Maybe<DeleteSeasonTyreManufacturerPayload>;
   /** Deletes a single `SprintQualifyingResult` using a unique key. */
   deleteSprintQualifyingResult?: Maybe<DeleteSprintQualifyingResultPayload>;
-  /** Deletes a single `SprintQualifyingResult` using its globally unique id. */
-  deleteSprintQualifyingResultById?: Maybe<DeleteSprintQualifyingResultPayload>;
   /** Deletes a single `SprintRaceResult` using a unique key. */
   deleteSprintRaceResult?: Maybe<DeleteSprintRaceResultPayload>;
-  /** Deletes a single `SprintRaceResult` using its globally unique id. */
-  deleteSprintRaceResultById?: Maybe<DeleteSprintRaceResultPayload>;
   /** Deletes a single `SprintStartingGridPosition` using a unique key. */
   deleteSprintStartingGridPosition?: Maybe<DeleteSprintStartingGridPositionPayload>;
-  /** Deletes a single `SprintStartingGridPosition` using its globally unique id. */
-  deleteSprintStartingGridPositionById?: Maybe<DeleteSprintStartingGridPositionPayload>;
   /** Deletes a single `StartingGridPosition` using a unique key. */
   deleteStartingGridPosition?: Maybe<DeleteStartingGridPositionPayload>;
-  /** Deletes a single `StartingGridPosition` using its globally unique id. */
-  deleteStartingGridPositionById?: Maybe<DeleteStartingGridPositionPayload>;
   /** Deletes a single `Team` using a unique key. */
   deleteTeam?: Maybe<DeleteTeamPayload>;
-  /** Deletes a single `Team` using its globally unique id. */
-  deleteTeamById?: Maybe<DeleteTeamPayload>;
   /** Deletes a single `TeamChronology` using a unique key. */
   deleteTeamChronology?: Maybe<DeleteTeamChronologyPayload>;
-  /** Deletes a single `TeamChronology` using its globally unique id. */
-  deleteTeamChronologyById?: Maybe<DeleteTeamChronologyPayload>;
   /** Deletes a single `TeamChronology` using a unique key. */
   deleteTeamChronologyByTeamIdAndOtherTeamIdAndYearFromAndYearTo?: Maybe<DeleteTeamChronologyPayload>;
   /** Deletes a single `TyreManufacturer` using a unique key. */
   deleteTyreManufacturer?: Maybe<DeleteTyreManufacturerPayload>;
-  /** Deletes a single `TyreManufacturer` using its globally unique id. */
-  deleteTyreManufacturerById?: Maybe<DeleteTyreManufacturerPayload>;
   /** Updates a single `AppCircuitDescription` using a unique key and a patch. */
   updateAppCircuitDescription?: Maybe<UpdateAppCircuitDescriptionPayload>;
-  /** Updates a single `AppCircuitDescription` using its globally unique id and a patch. */
-  updateAppCircuitDescriptionById?: Maybe<UpdateAppCircuitDescriptionPayload>;
   /** Updates a single `AppConstructorBio` using a unique key and a patch. */
   updateAppConstructorBio?: Maybe<UpdateAppConstructorBioPayload>;
-  /** Updates a single `AppConstructorBio` using its globally unique id and a patch. */
-  updateAppConstructorBioById?: Maybe<UpdateAppConstructorBioPayload>;
   /** Updates a single `AppDriverBio` using a unique key and a patch. */
   updateAppDriverBio?: Maybe<UpdateAppDriverBioPayload>;
-  /** Updates a single `AppDriverBio` using its globally unique id and a patch. */
-  updateAppDriverBioById?: Maybe<UpdateAppDriverBioPayload>;
   /** Updates a single `AppIngestState` using a unique key and a patch. */
   updateAppIngestState?: Maybe<UpdateAppIngestStatePayload>;
-  /** Updates a single `AppIngestState` using its globally unique id and a patch. */
-  updateAppIngestStateById?: Maybe<UpdateAppIngestStatePayload>;
   /** Updates a single `AppLapTime` using a unique key and a patch. */
   updateAppLapTime?: Maybe<UpdateAppLapTimePayload>;
-  /** Updates a single `AppLapTime` using its globally unique id and a patch. */
-  updateAppLapTimeById?: Maybe<UpdateAppLapTimePayload>;
   /** Updates a single `AppTeamColor` using a unique key and a patch. */
   updateAppTeamColor?: Maybe<UpdateAppTeamColorPayload>;
-  /** Updates a single `AppTeamColor` using its globally unique id and a patch. */
-  updateAppTeamColorById?: Maybe<UpdateAppTeamColorPayload>;
   /** Updates a single `AppTeamHistory` using a unique key and a patch. */
   updateAppTeamHistory?: Maybe<UpdateAppTeamHistoryPayload>;
-  /** Updates a single `AppTeamHistory` using its globally unique id and a patch. */
-  updateAppTeamHistoryById?: Maybe<UpdateAppTeamHistoryPayload>;
   /** Updates a single `Chassis` using a unique key and a patch. */
   updateChassis?: Maybe<UpdateChassisPayload>;
-  /** Updates a single `Chassis` using its globally unique id and a patch. */
-  updateChassisById?: Maybe<UpdateChassisPayload>;
   /** Updates a single `Circuit` using a unique key and a patch. */
   updateCircuit?: Maybe<UpdateCircuitPayload>;
-  /** Updates a single `Circuit` using its globally unique id and a patch. */
-  updateCircuitById?: Maybe<UpdateCircuitPayload>;
   /** Updates a single `CircuitLayout` using a unique key and a patch. */
   updateCircuitLayout?: Maybe<UpdateCircuitLayoutPayload>;
-  /** Updates a single `CircuitLayout` using its globally unique id and a patch. */
-  updateCircuitLayoutById?: Maybe<UpdateCircuitLayoutPayload>;
   /** Updates a single `Continent` using a unique key and a patch. */
   updateContinent?: Maybe<UpdateContinentPayload>;
   /** Updates a single `Continent` using a unique key and a patch. */
   updateContinentByCode?: Maybe<UpdateContinentPayload>;
-  /** Updates a single `Continent` using its globally unique id and a patch. */
-  updateContinentById?: Maybe<UpdateContinentPayload>;
   /** Updates a single `Continent` using a unique key and a patch. */
   updateContinentByName?: Maybe<UpdateContinentPayload>;
   /** Updates a single `Country` using a unique key and a patch. */
@@ -7445,156 +5296,84 @@ export type Mutation = {
   updateCountryByAlpha2Code?: Maybe<UpdateCountryPayload>;
   /** Updates a single `Country` using a unique key and a patch. */
   updateCountryByAlpha3Code?: Maybe<UpdateCountryPayload>;
-  /** Updates a single `Country` using its globally unique id and a patch. */
-  updateCountryById?: Maybe<UpdateCountryPayload>;
   /** Updates a single `Country` using a unique key and a patch. */
   updateCountryByName?: Maybe<UpdateCountryPayload>;
   /** Updates a single `Driver` using a unique key and a patch. */
   updateDriver?: Maybe<UpdateDriverPayload>;
-  /** Updates a single `Driver` using its globally unique id and a patch. */
-  updateDriverById?: Maybe<UpdateDriverPayload>;
   /** Updates a single `DriverFamilyRelationship` using a unique key and a patch. */
   updateDriverFamilyRelationship?: Maybe<UpdateDriverFamilyRelationshipPayload>;
   /** Updates a single `DriverFamilyRelationship` using a unique key and a patch. */
   updateDriverFamilyRelationshipByDriverIdAndOtherDriverIdAndType?: Maybe<UpdateDriverFamilyRelationshipPayload>;
-  /** Updates a single `DriverFamilyRelationship` using its globally unique id and a patch. */
-  updateDriverFamilyRelationshipById?: Maybe<UpdateDriverFamilyRelationshipPayload>;
   /** Updates a single `DriverOfTheDayResult` using a unique key and a patch. */
   updateDriverOfTheDayResult?: Maybe<UpdateDriverOfTheDayResultPayload>;
-  /** Updates a single `DriverOfTheDayResult` using its globally unique id and a patch. */
-  updateDriverOfTheDayResultById?: Maybe<UpdateDriverOfTheDayResultPayload>;
   /** Updates a single `Engine` using a unique key and a patch. */
   updateEngine?: Maybe<UpdateEnginePayload>;
-  /** Updates a single `Engine` using its globally unique id and a patch. */
-  updateEngineById?: Maybe<UpdateEnginePayload>;
   /** Updates a single `EngineManufacturer` using a unique key and a patch. */
   updateEngineManufacturer?: Maybe<UpdateEngineManufacturerPayload>;
-  /** Updates a single `EngineManufacturer` using its globally unique id and a patch. */
-  updateEngineManufacturerById?: Maybe<UpdateEngineManufacturerPayload>;
   /** Updates a single `Entrant` using a unique key and a patch. */
   updateEntrant?: Maybe<UpdateEntrantPayload>;
-  /** Updates a single `Entrant` using its globally unique id and a patch. */
-  updateEntrantById?: Maybe<UpdateEntrantPayload>;
   /** Updates a single `FastestLap` using a unique key and a patch. */
   updateFastestLap?: Maybe<UpdateFastestLapPayload>;
-  /** Updates a single `FastestLap` using its globally unique id and a patch. */
-  updateFastestLapById?: Maybe<UpdateFastestLapPayload>;
   /** Updates a single `GrandPrix` using a unique key and a patch. */
   updateGrandPrix?: Maybe<UpdateGrandPrixPayload>;
-  /** Updates a single `GrandPrix` using its globally unique id and a patch. */
-  updateGrandPrixById?: Maybe<UpdateGrandPrixPayload>;
   /** Updates a single `PitStop` using a unique key and a patch. */
   updatePitStop?: Maybe<UpdatePitStopPayload>;
-  /** Updates a single `PitStop` using its globally unique id and a patch. */
-  updatePitStopById?: Maybe<UpdatePitStopPayload>;
   /** Updates a single `QualifyingResult` using a unique key and a patch. */
   updateQualifyingResult?: Maybe<UpdateQualifyingResultPayload>;
-  /** Updates a single `QualifyingResult` using its globally unique id and a patch. */
-  updateQualifyingResultById?: Maybe<UpdateQualifyingResultPayload>;
   /** Updates a single `Race` using a unique key and a patch. */
   updateRace?: Maybe<UpdateRacePayload>;
-  /** Updates a single `Race` using its globally unique id and a patch. */
-  updateRaceById?: Maybe<UpdateRacePayload>;
   /** Updates a single `Race` using a unique key and a patch. */
   updateRaceByYearAndRound?: Maybe<UpdateRacePayload>;
   /** Updates a single `RaceDatum` using a unique key and a patch. */
   updateRaceDatum?: Maybe<UpdateRaceDatumPayload>;
-  /** Updates a single `RaceDatum` using its globally unique id and a patch. */
-  updateRaceDatumById?: Maybe<UpdateRaceDatumPayload>;
   /** Updates a single `RaceDriverStanding` using a unique key and a patch. */
   updateRaceDriverStanding?: Maybe<UpdateRaceDriverStandingPayload>;
-  /** Updates a single `RaceDriverStanding` using its globally unique id and a patch. */
-  updateRaceDriverStandingById?: Maybe<UpdateRaceDriverStandingPayload>;
   /** Updates a single `RaceResult` using a unique key and a patch. */
   updateRaceResult?: Maybe<UpdateRaceResultPayload>;
-  /** Updates a single `RaceResult` using its globally unique id and a patch. */
-  updateRaceResultById?: Maybe<UpdateRaceResultPayload>;
   /** Updates a single `RaceTeamStanding` using a unique key and a patch. */
   updateRaceTeamStanding?: Maybe<UpdateRaceTeamStandingPayload>;
-  /** Updates a single `RaceTeamStanding` using its globally unique id and a patch. */
-  updateRaceTeamStandingById?: Maybe<UpdateRaceTeamStandingPayload>;
   /** Updates a single `Season` using a unique key and a patch. */
   updateSeason?: Maybe<UpdateSeasonPayload>;
-  /** Updates a single `Season` using its globally unique id and a patch. */
-  updateSeasonById?: Maybe<UpdateSeasonPayload>;
   /** Updates a single `SeasonDriver` using a unique key and a patch. */
   updateSeasonDriver?: Maybe<UpdateSeasonDriverPayload>;
-  /** Updates a single `SeasonDriver` using its globally unique id and a patch. */
-  updateSeasonDriverById?: Maybe<UpdateSeasonDriverPayload>;
   /** Updates a single `SeasonDriverStanding` using a unique key and a patch. */
   updateSeasonDriverStanding?: Maybe<UpdateSeasonDriverStandingPayload>;
-  /** Updates a single `SeasonDriverStanding` using its globally unique id and a patch. */
-  updateSeasonDriverStandingById?: Maybe<UpdateSeasonDriverStandingPayload>;
   /** Updates a single `SeasonEngineManufacturer` using a unique key and a patch. */
   updateSeasonEngineManufacturer?: Maybe<UpdateSeasonEngineManufacturerPayload>;
-  /** Updates a single `SeasonEngineManufacturer` using its globally unique id and a patch. */
-  updateSeasonEngineManufacturerById?: Maybe<UpdateSeasonEngineManufacturerPayload>;
   /** Updates a single `SeasonEntrant` using a unique key and a patch. */
   updateSeasonEntrant?: Maybe<UpdateSeasonEntrantPayload>;
-  /** Updates a single `SeasonEntrant` using its globally unique id and a patch. */
-  updateSeasonEntrantById?: Maybe<UpdateSeasonEntrantPayload>;
   /** Updates a single `SeasonEntrantChassis` using a unique key and a patch. */
   updateSeasonEntrantChassis?: Maybe<UpdateSeasonEntrantChassisPayload>;
-  /** Updates a single `SeasonEntrantChassis` using its globally unique id and a patch. */
-  updateSeasonEntrantChassisById?: Maybe<UpdateSeasonEntrantChassisPayload>;
   /** Updates a single `SeasonEntrantDriver` using a unique key and a patch. */
   updateSeasonEntrantDriver?: Maybe<UpdateSeasonEntrantDriverPayload>;
-  /** Updates a single `SeasonEntrantDriver` using its globally unique id and a patch. */
-  updateSeasonEntrantDriverById?: Maybe<UpdateSeasonEntrantDriverPayload>;
   /** Updates a single `SeasonEntrantEngine` using a unique key and a patch. */
   updateSeasonEntrantEngine?: Maybe<UpdateSeasonEntrantEnginePayload>;
-  /** Updates a single `SeasonEntrantEngine` using its globally unique id and a patch. */
-  updateSeasonEntrantEngineById?: Maybe<UpdateSeasonEntrantEnginePayload>;
   /** Updates a single `SeasonEntrantTeam` using a unique key and a patch. */
   updateSeasonEntrantTeam?: Maybe<UpdateSeasonEntrantTeamPayload>;
-  /** Updates a single `SeasonEntrantTeam` using its globally unique id and a patch. */
-  updateSeasonEntrantTeamById?: Maybe<UpdateSeasonEntrantTeamPayload>;
   /** Updates a single `SeasonEntrantTyreManufacturer` using a unique key and a patch. */
   updateSeasonEntrantTyreManufacturer?: Maybe<UpdateSeasonEntrantTyreManufacturerPayload>;
-  /** Updates a single `SeasonEntrantTyreManufacturer` using its globally unique id and a patch. */
-  updateSeasonEntrantTyreManufacturerById?: Maybe<UpdateSeasonEntrantTyreManufacturerPayload>;
   /** Updates a single `SeasonTeam` using a unique key and a patch. */
   updateSeasonTeam?: Maybe<UpdateSeasonTeamPayload>;
-  /** Updates a single `SeasonTeam` using its globally unique id and a patch. */
-  updateSeasonTeamById?: Maybe<UpdateSeasonTeamPayload>;
   /** Updates a single `SeasonTeamStanding` using a unique key and a patch. */
   updateSeasonTeamStanding?: Maybe<UpdateSeasonTeamStandingPayload>;
-  /** Updates a single `SeasonTeamStanding` using its globally unique id and a patch. */
-  updateSeasonTeamStandingById?: Maybe<UpdateSeasonTeamStandingPayload>;
   /** Updates a single `SeasonTyreManufacturer` using a unique key and a patch. */
   updateSeasonTyreManufacturer?: Maybe<UpdateSeasonTyreManufacturerPayload>;
-  /** Updates a single `SeasonTyreManufacturer` using its globally unique id and a patch. */
-  updateSeasonTyreManufacturerById?: Maybe<UpdateSeasonTyreManufacturerPayload>;
   /** Updates a single `SprintQualifyingResult` using a unique key and a patch. */
   updateSprintQualifyingResult?: Maybe<UpdateSprintQualifyingResultPayload>;
-  /** Updates a single `SprintQualifyingResult` using its globally unique id and a patch. */
-  updateSprintQualifyingResultById?: Maybe<UpdateSprintQualifyingResultPayload>;
   /** Updates a single `SprintRaceResult` using a unique key and a patch. */
   updateSprintRaceResult?: Maybe<UpdateSprintRaceResultPayload>;
-  /** Updates a single `SprintRaceResult` using its globally unique id and a patch. */
-  updateSprintRaceResultById?: Maybe<UpdateSprintRaceResultPayload>;
   /** Updates a single `SprintStartingGridPosition` using a unique key and a patch. */
   updateSprintStartingGridPosition?: Maybe<UpdateSprintStartingGridPositionPayload>;
-  /** Updates a single `SprintStartingGridPosition` using its globally unique id and a patch. */
-  updateSprintStartingGridPositionById?: Maybe<UpdateSprintStartingGridPositionPayload>;
   /** Updates a single `StartingGridPosition` using a unique key and a patch. */
   updateStartingGridPosition?: Maybe<UpdateStartingGridPositionPayload>;
-  /** Updates a single `StartingGridPosition` using its globally unique id and a patch. */
-  updateStartingGridPositionById?: Maybe<UpdateStartingGridPositionPayload>;
   /** Updates a single `Team` using a unique key and a patch. */
   updateTeam?: Maybe<UpdateTeamPayload>;
-  /** Updates a single `Team` using its globally unique id and a patch. */
-  updateTeamById?: Maybe<UpdateTeamPayload>;
   /** Updates a single `TeamChronology` using a unique key and a patch. */
   updateTeamChronology?: Maybe<UpdateTeamChronologyPayload>;
-  /** Updates a single `TeamChronology` using its globally unique id and a patch. */
-  updateTeamChronologyById?: Maybe<UpdateTeamChronologyPayload>;
   /** Updates a single `TeamChronology` using a unique key and a patch. */
   updateTeamChronologyByTeamIdAndOtherTeamIdAndYearFromAndYearTo?: Maybe<UpdateTeamChronologyPayload>;
   /** Updates a single `TyreManufacturer` using a unique key and a patch. */
   updateTyreManufacturer?: Maybe<UpdateTyreManufacturerPayload>;
-  /** Updates a single `TyreManufacturer` using its globally unique id and a patch. */
-  updateTyreManufacturerById?: Maybe<UpdateTyreManufacturerPayload>;
 };
 
 
@@ -7935,20 +5714,8 @@ export type MutationDeleteAppCircuitDescriptionArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAppCircuitDescriptionByIdArgs = {
-  input: DeleteAppCircuitDescriptionByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteAppConstructorBioArgs = {
   input: DeleteAppConstructorBioInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAppConstructorBioByIdArgs = {
-  input: DeleteAppConstructorBioByIdInput;
 };
 
 
@@ -7959,20 +5726,8 @@ export type MutationDeleteAppDriverBioArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAppDriverBioByIdArgs = {
-  input: DeleteAppDriverBioByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteAppIngestStateArgs = {
   input: DeleteAppIngestStateInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAppIngestStateByIdArgs = {
-  input: DeleteAppIngestStateByIdInput;
 };
 
 
@@ -7983,20 +5738,8 @@ export type MutationDeleteAppLapTimeArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAppLapTimeByIdArgs = {
-  input: DeleteAppLapTimeByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteAppTeamColorArgs = {
   input: DeleteAppTeamColorInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAppTeamColorByIdArgs = {
-  input: DeleteAppTeamColorByIdInput;
 };
 
 
@@ -8007,20 +5750,8 @@ export type MutationDeleteAppTeamHistoryArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAppTeamHistoryByIdArgs = {
-  input: DeleteAppTeamHistoryByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteChassisArgs = {
   input: DeleteChassisInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteChassisByIdArgs = {
-  input: DeleteChassisByIdInput;
 };
 
 
@@ -8031,20 +5762,8 @@ export type MutationDeleteCircuitArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteCircuitByIdArgs = {
-  input: DeleteCircuitByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteCircuitLayoutArgs = {
   input: DeleteCircuitLayoutInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteCircuitLayoutByIdArgs = {
-  input: DeleteCircuitLayoutByIdInput;
 };
 
 
@@ -8057,12 +5776,6 @@ export type MutationDeleteContinentArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteContinentByCodeArgs = {
   input: DeleteContinentByCodeInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteContinentByIdArgs = {
-  input: DeleteContinentByIdInput;
 };
 
 
@@ -8091,12 +5804,6 @@ export type MutationDeleteCountryByAlpha3CodeArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteCountryByIdArgs = {
-  input: DeleteCountryByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteCountryByNameArgs = {
   input: DeleteCountryByNameInput;
 };
@@ -8105,12 +5812,6 @@ export type MutationDeleteCountryByNameArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteDriverArgs = {
   input: DeleteDriverInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteDriverByIdArgs = {
-  input: DeleteDriverByIdInput;
 };
 
 
@@ -8127,20 +5828,8 @@ export type MutationDeleteDriverFamilyRelationshipByDriverIdAndOtherDriverIdAndT
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteDriverFamilyRelationshipByIdArgs = {
-  input: DeleteDriverFamilyRelationshipByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteDriverOfTheDayResultArgs = {
   input: DeleteDriverOfTheDayResultInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteDriverOfTheDayResultByIdArgs = {
-  input: DeleteDriverOfTheDayResultByIdInput;
 };
 
 
@@ -8151,20 +5840,8 @@ export type MutationDeleteEngineArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEngineByIdArgs = {
-  input: DeleteEngineByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteEngineManufacturerArgs = {
   input: DeleteEngineManufacturerInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEngineManufacturerByIdArgs = {
-  input: DeleteEngineManufacturerByIdInput;
 };
 
 
@@ -8175,20 +5852,8 @@ export type MutationDeleteEntrantArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEntrantByIdArgs = {
-  input: DeleteEntrantByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteFastestLapArgs = {
   input: DeleteFastestLapInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteFastestLapByIdArgs = {
-  input: DeleteFastestLapByIdInput;
 };
 
 
@@ -8199,20 +5864,8 @@ export type MutationDeleteGrandPrixArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteGrandPrixByIdArgs = {
-  input: DeleteGrandPrixByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePitStopArgs = {
   input: DeletePitStopInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeletePitStopByIdArgs = {
-  input: DeletePitStopByIdInput;
 };
 
 
@@ -8223,20 +5876,8 @@ export type MutationDeleteQualifyingResultArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteQualifyingResultByIdArgs = {
-  input: DeleteQualifyingResultByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteRaceArgs = {
   input: DeleteRaceInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteRaceByIdArgs = {
-  input: DeleteRaceByIdInput;
 };
 
 
@@ -8253,20 +5894,8 @@ export type MutationDeleteRaceDatumArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteRaceDatumByIdArgs = {
-  input: DeleteRaceDatumByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteRaceDriverStandingArgs = {
   input: DeleteRaceDriverStandingInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteRaceDriverStandingByIdArgs = {
-  input: DeleteRaceDriverStandingByIdInput;
 };
 
 
@@ -8277,20 +5906,8 @@ export type MutationDeleteRaceResultArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteRaceResultByIdArgs = {
-  input: DeleteRaceResultByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteRaceTeamStandingArgs = {
   input: DeleteRaceTeamStandingInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteRaceTeamStandingByIdArgs = {
-  input: DeleteRaceTeamStandingByIdInput;
 };
 
 
@@ -8301,20 +5918,8 @@ export type MutationDeleteSeasonArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSeasonByIdArgs = {
-  input: DeleteSeasonByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteSeasonDriverArgs = {
   input: DeleteSeasonDriverInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSeasonDriverByIdArgs = {
-  input: DeleteSeasonDriverByIdInput;
 };
 
 
@@ -8325,20 +5930,8 @@ export type MutationDeleteSeasonDriverStandingArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSeasonDriverStandingByIdArgs = {
-  input: DeleteSeasonDriverStandingByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteSeasonEngineManufacturerArgs = {
   input: DeleteSeasonEngineManufacturerInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSeasonEngineManufacturerByIdArgs = {
-  input: DeleteSeasonEngineManufacturerByIdInput;
 };
 
 
@@ -8349,20 +5942,8 @@ export type MutationDeleteSeasonEntrantArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSeasonEntrantByIdArgs = {
-  input: DeleteSeasonEntrantByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteSeasonEntrantChassisArgs = {
   input: DeleteSeasonEntrantChassisInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSeasonEntrantChassisByIdArgs = {
-  input: DeleteSeasonEntrantChassisByIdInput;
 };
 
 
@@ -8373,20 +5954,8 @@ export type MutationDeleteSeasonEntrantDriverArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSeasonEntrantDriverByIdArgs = {
-  input: DeleteSeasonEntrantDriverByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteSeasonEntrantEngineArgs = {
   input: DeleteSeasonEntrantEngineInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSeasonEntrantEngineByIdArgs = {
-  input: DeleteSeasonEntrantEngineByIdInput;
 };
 
 
@@ -8397,20 +5966,8 @@ export type MutationDeleteSeasonEntrantTeamArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSeasonEntrantTeamByIdArgs = {
-  input: DeleteSeasonEntrantTeamByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteSeasonEntrantTyreManufacturerArgs = {
   input: DeleteSeasonEntrantTyreManufacturerInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSeasonEntrantTyreManufacturerByIdArgs = {
-  input: DeleteSeasonEntrantTyreManufacturerByIdInput;
 };
 
 
@@ -8421,20 +5978,8 @@ export type MutationDeleteSeasonTeamArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSeasonTeamByIdArgs = {
-  input: DeleteSeasonTeamByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteSeasonTeamStandingArgs = {
   input: DeleteSeasonTeamStandingInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSeasonTeamStandingByIdArgs = {
-  input: DeleteSeasonTeamStandingByIdInput;
 };
 
 
@@ -8445,20 +5990,8 @@ export type MutationDeleteSeasonTyreManufacturerArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSeasonTyreManufacturerByIdArgs = {
-  input: DeleteSeasonTyreManufacturerByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteSprintQualifyingResultArgs = {
   input: DeleteSprintQualifyingResultInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSprintQualifyingResultByIdArgs = {
-  input: DeleteSprintQualifyingResultByIdInput;
 };
 
 
@@ -8469,20 +6002,8 @@ export type MutationDeleteSprintRaceResultArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSprintRaceResultByIdArgs = {
-  input: DeleteSprintRaceResultByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteSprintStartingGridPositionArgs = {
   input: DeleteSprintStartingGridPositionInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSprintStartingGridPositionByIdArgs = {
-  input: DeleteSprintStartingGridPositionByIdInput;
 };
 
 
@@ -8493,32 +6014,14 @@ export type MutationDeleteStartingGridPositionArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteStartingGridPositionByIdArgs = {
-  input: DeleteStartingGridPositionByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteTeamArgs = {
   input: DeleteTeamInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteTeamByIdArgs = {
-  input: DeleteTeamByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteTeamChronologyArgs = {
   input: DeleteTeamChronologyInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteTeamChronologyByIdArgs = {
-  input: DeleteTeamChronologyByIdInput;
 };
 
 
@@ -8535,20 +6038,8 @@ export type MutationDeleteTyreManufacturerArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteTyreManufacturerByIdArgs = {
-  input: DeleteTyreManufacturerByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateAppCircuitDescriptionArgs = {
   input: UpdateAppCircuitDescriptionInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateAppCircuitDescriptionByIdArgs = {
-  input: UpdateAppCircuitDescriptionByIdInput;
 };
 
 
@@ -8559,20 +6050,8 @@ export type MutationUpdateAppConstructorBioArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateAppConstructorBioByIdArgs = {
-  input: UpdateAppConstructorBioByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateAppDriverBioArgs = {
   input: UpdateAppDriverBioInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateAppDriverBioByIdArgs = {
-  input: UpdateAppDriverBioByIdInput;
 };
 
 
@@ -8583,20 +6062,8 @@ export type MutationUpdateAppIngestStateArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateAppIngestStateByIdArgs = {
-  input: UpdateAppIngestStateByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateAppLapTimeArgs = {
   input: UpdateAppLapTimeInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateAppLapTimeByIdArgs = {
-  input: UpdateAppLapTimeByIdInput;
 };
 
 
@@ -8607,20 +6074,8 @@ export type MutationUpdateAppTeamColorArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateAppTeamColorByIdArgs = {
-  input: UpdateAppTeamColorByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateAppTeamHistoryArgs = {
   input: UpdateAppTeamHistoryInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateAppTeamHistoryByIdArgs = {
-  input: UpdateAppTeamHistoryByIdInput;
 };
 
 
@@ -8631,32 +6086,14 @@ export type MutationUpdateChassisArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateChassisByIdArgs = {
-  input: UpdateChassisByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateCircuitArgs = {
   input: UpdateCircuitInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateCircuitByIdArgs = {
-  input: UpdateCircuitByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateCircuitLayoutArgs = {
   input: UpdateCircuitLayoutInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateCircuitLayoutByIdArgs = {
-  input: UpdateCircuitLayoutByIdInput;
 };
 
 
@@ -8669,12 +6106,6 @@ export type MutationUpdateContinentArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateContinentByCodeArgs = {
   input: UpdateContinentByCodeInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateContinentByIdArgs = {
-  input: UpdateContinentByIdInput;
 };
 
 
@@ -8703,12 +6134,6 @@ export type MutationUpdateCountryByAlpha3CodeArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateCountryByIdArgs = {
-  input: UpdateCountryByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateCountryByNameArgs = {
   input: UpdateCountryByNameInput;
 };
@@ -8717,12 +6142,6 @@ export type MutationUpdateCountryByNameArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateDriverArgs = {
   input: UpdateDriverInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateDriverByIdArgs = {
-  input: UpdateDriverByIdInput;
 };
 
 
@@ -8739,20 +6158,8 @@ export type MutationUpdateDriverFamilyRelationshipByDriverIdAndOtherDriverIdAndT
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateDriverFamilyRelationshipByIdArgs = {
-  input: UpdateDriverFamilyRelationshipByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateDriverOfTheDayResultArgs = {
   input: UpdateDriverOfTheDayResultInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateDriverOfTheDayResultByIdArgs = {
-  input: UpdateDriverOfTheDayResultByIdInput;
 };
 
 
@@ -8763,20 +6170,8 @@ export type MutationUpdateEngineArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEngineByIdArgs = {
-  input: UpdateEngineByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateEngineManufacturerArgs = {
   input: UpdateEngineManufacturerInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEngineManufacturerByIdArgs = {
-  input: UpdateEngineManufacturerByIdInput;
 };
 
 
@@ -8787,20 +6182,8 @@ export type MutationUpdateEntrantArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEntrantByIdArgs = {
-  input: UpdateEntrantByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateFastestLapArgs = {
   input: UpdateFastestLapInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateFastestLapByIdArgs = {
-  input: UpdateFastestLapByIdInput;
 };
 
 
@@ -8811,20 +6194,8 @@ export type MutationUpdateGrandPrixArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateGrandPrixByIdArgs = {
-  input: UpdateGrandPrixByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePitStopArgs = {
   input: UpdatePitStopInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdatePitStopByIdArgs = {
-  input: UpdatePitStopByIdInput;
 };
 
 
@@ -8835,20 +6206,8 @@ export type MutationUpdateQualifyingResultArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateQualifyingResultByIdArgs = {
-  input: UpdateQualifyingResultByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateRaceArgs = {
   input: UpdateRaceInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateRaceByIdArgs = {
-  input: UpdateRaceByIdInput;
 };
 
 
@@ -8865,20 +6224,8 @@ export type MutationUpdateRaceDatumArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateRaceDatumByIdArgs = {
-  input: UpdateRaceDatumByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateRaceDriverStandingArgs = {
   input: UpdateRaceDriverStandingInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateRaceDriverStandingByIdArgs = {
-  input: UpdateRaceDriverStandingByIdInput;
 };
 
 
@@ -8889,20 +6236,8 @@ export type MutationUpdateRaceResultArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateRaceResultByIdArgs = {
-  input: UpdateRaceResultByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateRaceTeamStandingArgs = {
   input: UpdateRaceTeamStandingInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateRaceTeamStandingByIdArgs = {
-  input: UpdateRaceTeamStandingByIdInput;
 };
 
 
@@ -8913,20 +6248,8 @@ export type MutationUpdateSeasonArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSeasonByIdArgs = {
-  input: UpdateSeasonByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateSeasonDriverArgs = {
   input: UpdateSeasonDriverInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSeasonDriverByIdArgs = {
-  input: UpdateSeasonDriverByIdInput;
 };
 
 
@@ -8937,20 +6260,8 @@ export type MutationUpdateSeasonDriverStandingArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSeasonDriverStandingByIdArgs = {
-  input: UpdateSeasonDriverStandingByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateSeasonEngineManufacturerArgs = {
   input: UpdateSeasonEngineManufacturerInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSeasonEngineManufacturerByIdArgs = {
-  input: UpdateSeasonEngineManufacturerByIdInput;
 };
 
 
@@ -8961,20 +6272,8 @@ export type MutationUpdateSeasonEntrantArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSeasonEntrantByIdArgs = {
-  input: UpdateSeasonEntrantByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateSeasonEntrantChassisArgs = {
   input: UpdateSeasonEntrantChassisInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSeasonEntrantChassisByIdArgs = {
-  input: UpdateSeasonEntrantChassisByIdInput;
 };
 
 
@@ -8985,20 +6284,8 @@ export type MutationUpdateSeasonEntrantDriverArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSeasonEntrantDriverByIdArgs = {
-  input: UpdateSeasonEntrantDriverByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateSeasonEntrantEngineArgs = {
   input: UpdateSeasonEntrantEngineInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSeasonEntrantEngineByIdArgs = {
-  input: UpdateSeasonEntrantEngineByIdInput;
 };
 
 
@@ -9009,20 +6296,8 @@ export type MutationUpdateSeasonEntrantTeamArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSeasonEntrantTeamByIdArgs = {
-  input: UpdateSeasonEntrantTeamByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateSeasonEntrantTyreManufacturerArgs = {
   input: UpdateSeasonEntrantTyreManufacturerInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSeasonEntrantTyreManufacturerByIdArgs = {
-  input: UpdateSeasonEntrantTyreManufacturerByIdInput;
 };
 
 
@@ -9033,20 +6308,8 @@ export type MutationUpdateSeasonTeamArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSeasonTeamByIdArgs = {
-  input: UpdateSeasonTeamByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateSeasonTeamStandingArgs = {
   input: UpdateSeasonTeamStandingInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSeasonTeamStandingByIdArgs = {
-  input: UpdateSeasonTeamStandingByIdInput;
 };
 
 
@@ -9057,20 +6320,8 @@ export type MutationUpdateSeasonTyreManufacturerArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSeasonTyreManufacturerByIdArgs = {
-  input: UpdateSeasonTyreManufacturerByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateSprintQualifyingResultArgs = {
   input: UpdateSprintQualifyingResultInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSprintQualifyingResultByIdArgs = {
-  input: UpdateSprintQualifyingResultByIdInput;
 };
 
 
@@ -9081,20 +6332,8 @@ export type MutationUpdateSprintRaceResultArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSprintRaceResultByIdArgs = {
-  input: UpdateSprintRaceResultByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateSprintStartingGridPositionArgs = {
   input: UpdateSprintStartingGridPositionInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSprintStartingGridPositionByIdArgs = {
-  input: UpdateSprintStartingGridPositionByIdInput;
 };
 
 
@@ -9105,32 +6344,14 @@ export type MutationUpdateStartingGridPositionArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateStartingGridPositionByIdArgs = {
-  input: UpdateStartingGridPositionByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateTeamArgs = {
   input: UpdateTeamInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateTeamByIdArgs = {
-  input: UpdateTeamByIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateTeamChronologyArgs = {
   input: UpdateTeamChronologyInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateTeamChronologyByIdArgs = {
-  input: UpdateTeamChronologyByIdInput;
 };
 
 
@@ -9145,40 +6366,13 @@ export type MutationUpdateTyreManufacturerArgs = {
   input: UpdateTyreManufacturerInput;
 };
 
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateTyreManufacturerByIdArgs = {
-  input: UpdateTyreManufacturerByIdInput;
-};
-
-/** An object with a globally unique `ID`. */
-export type Node = {
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
-};
-
-/** Information about pagination in a connection. */
-export type PageInfo = {
-  __typename?: 'PageInfo';
-  /** When paginating forwards, the cursor to continue. */
-  endCursor?: Maybe<Scalars['Cursor']['output']>;
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor?: Maybe<Scalars['Cursor']['output']>;
-};
-
-export type PitStop = Node & {
+export type PitStop = {
   __typename?: 'PitStop';
   /** Reads a single `Driver` that is related to this `PitStop`. */
   driver?: Maybe<Driver>;
   driverId: Scalars['String']['output'];
   driverNumber?: Maybe<Scalars['String']['output']>;
   engineManufacturerId?: Maybe<Scalars['String']['output']>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   lap?: Maybe<Scalars['Int']['output']>;
   positionDisplayOrder?: Maybe<Scalars['Int']['output']>;
   positionNumber?: Maybe<Scalars['Int']['output']>;
@@ -9223,28 +6417,6 @@ export type PitStopCondition = {
   timeMillis?: InputMaybe<Scalars['Int']['input']>;
   /** Checks for equality with the object’s `tyreManufacturerId` field. */
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `PitStop` values. */
-export type PitStopConnection = {
-  __typename?: 'PitStopConnection';
-  /** A list of edges which contains the `PitStop` and cursor to aid in pagination. */
-  edges: Array<Maybe<PitStopEdge>>;
-  /** A list of `PitStop` objects. */
-  nodes: Array<Maybe<PitStop>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `PitStop` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `PitStop` edge in the connection. */
-export type PitStopEdge = {
-  __typename?: 'PitStopEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `PitStop` at the end of the edge. */
-  node?: Maybe<PitStop>;
 };
 
 /** An input for mutations affecting `PitStop` */
@@ -9373,28 +6545,6 @@ export type PreQualifyingResultCondition = {
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** A connection to a list of `PreQualifyingResult` values. */
-export type PreQualifyingResultConnection = {
-  __typename?: 'PreQualifyingResultConnection';
-  /** A list of edges which contains the `PreQualifyingResult` and cursor to aid in pagination. */
-  edges: Array<Maybe<PreQualifyingResultEdge>>;
-  /** A list of `PreQualifyingResult` objects. */
-  nodes: Array<Maybe<PreQualifyingResult>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `PreQualifyingResult` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `PreQualifyingResult` edge in the connection. */
-export type PreQualifyingResultEdge = {
-  __typename?: 'PreQualifyingResultEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `PreQualifyingResult` at the end of the edge. */
-  node?: Maybe<PreQualifyingResult>;
-};
-
 /** An input for mutations affecting `PreQualifyingResult` */
 export type PreQualifyingResultInput = {
   driverId?: InputMaybe<Scalars['String']['input']>;
@@ -9509,28 +6659,6 @@ export type Qualifying1ResultCondition = {
   timeMillis?: InputMaybe<Scalars['Int']['input']>;
   /** Checks for equality with the object’s `tyreManufacturerId` field. */
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `Qualifying1Result` values. */
-export type Qualifying1ResultConnection = {
-  __typename?: 'Qualifying1ResultConnection';
-  /** A list of edges which contains the `Qualifying1Result` and cursor to aid in pagination. */
-  edges: Array<Maybe<Qualifying1ResultEdge>>;
-  /** A list of `Qualifying1Result` objects. */
-  nodes: Array<Maybe<Qualifying1Result>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Qualifying1Result` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `Qualifying1Result` edge in the connection. */
-export type Qualifying1ResultEdge = {
-  __typename?: 'Qualifying1ResultEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `Qualifying1Result` at the end of the edge. */
-  node?: Maybe<Qualifying1Result>;
 };
 
 /** An input for mutations affecting `Qualifying1Result` */
@@ -9649,28 +6777,6 @@ export type Qualifying2ResultCondition = {
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** A connection to a list of `Qualifying2Result` values. */
-export type Qualifying2ResultConnection = {
-  __typename?: 'Qualifying2ResultConnection';
-  /** A list of edges which contains the `Qualifying2Result` and cursor to aid in pagination. */
-  edges: Array<Maybe<Qualifying2ResultEdge>>;
-  /** A list of `Qualifying2Result` objects. */
-  nodes: Array<Maybe<Qualifying2Result>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Qualifying2Result` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `Qualifying2Result` edge in the connection. */
-export type Qualifying2ResultEdge = {
-  __typename?: 'Qualifying2ResultEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `Qualifying2Result` at the end of the edge. */
-  node?: Maybe<Qualifying2Result>;
-};
-
 /** An input for mutations affecting `Qualifying2Result` */
 export type Qualifying2ResultInput = {
   driverId?: InputMaybe<Scalars['String']['input']>;
@@ -9728,7 +6834,7 @@ export enum Qualifying2ResultOrderBy {
   TyreManufacturerIdDesc = 'TYRE_MANUFACTURER_ID_DESC'
 }
 
-export type QualifyingResult = Node & {
+export type QualifyingResult = {
   __typename?: 'QualifyingResult';
   /** Reads a single `Driver` that is related to this `QualifyingResult`. */
   driver?: Maybe<Driver>;
@@ -9737,8 +6843,6 @@ export type QualifyingResult = Node & {
   engineManufacturerId?: Maybe<Scalars['String']['output']>;
   gap?: Maybe<Scalars['String']['output']>;
   gapMillis?: Maybe<Scalars['Int']['output']>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   interval?: Maybe<Scalars['String']['output']>;
   intervalMillis?: Maybe<Scalars['Int']['output']>;
   laps?: Maybe<Scalars['Int']['output']>;
@@ -9811,28 +6915,6 @@ export type QualifyingResultCondition = {
   timeMillis?: InputMaybe<Scalars['Int']['input']>;
   /** Checks for equality with the object’s `tyreManufacturerId` field. */
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `QualifyingResult` values. */
-export type QualifyingResultConnection = {
-  __typename?: 'QualifyingResultConnection';
-  /** A list of edges which contains the `QualifyingResult` and cursor to aid in pagination. */
-  edges: Array<Maybe<QualifyingResultEdge>>;
-  /** A list of `QualifyingResult` objects. */
-  nodes: Array<Maybe<QualifyingResult>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `QualifyingResult` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `QualifyingResult` edge in the connection. */
-export type QualifyingResultEdge = {
-  __typename?: 'QualifyingResultEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `QualifyingResult` at the end of the edge. */
-  node?: Maybe<QualifyingResult>;
 };
 
 /** An input for mutations affecting `QualifyingResult` */
@@ -9939,170 +7021,122 @@ export type QualifyingResultPatch = {
 };
 
 /** The root query type which gives access points into the data universe. */
-export type Query = Node & {
+export type Query = {
   __typename?: 'Query';
   /** Get a single `AppCircuitDescription`. */
   appCircuitDescription?: Maybe<AppCircuitDescription>;
-  /** Reads a single `AppCircuitDescription` using its globally unique `ID`. */
-  appCircuitDescriptionById?: Maybe<AppCircuitDescription>;
-  /** Reads and enables pagination through a set of `AppCircuitDescription`. */
-  appCircuitDescriptions?: Maybe<AppCircuitDescriptionConnection>;
+  /** Reads a set of `AppCircuitDescription`. */
+  appCircuitDescriptions?: Maybe<Array<AppCircuitDescription>>;
   /** Get a single `AppConstructorBio`. */
   appConstructorBio?: Maybe<AppConstructorBio>;
-  /** Reads a single `AppConstructorBio` using its globally unique `ID`. */
-  appConstructorBioById?: Maybe<AppConstructorBio>;
-  /** Reads and enables pagination through a set of `AppConstructorBio`. */
-  appConstructorBios?: Maybe<AppConstructorBioConnection>;
+  /** Reads a set of `AppConstructorBio`. */
+  appConstructorBios?: Maybe<Array<AppConstructorBio>>;
   /** Get a single `AppDriverBio`. */
   appDriverBio?: Maybe<AppDriverBio>;
-  /** Reads a single `AppDriverBio` using its globally unique `ID`. */
-  appDriverBioById?: Maybe<AppDriverBio>;
-  /** Reads and enables pagination through a set of `AppDriverBio`. */
-  appDriverBios?: Maybe<AppDriverBioConnection>;
+  /** Reads a set of `AppDriverBio`. */
+  appDriverBios?: Maybe<Array<AppDriverBio>>;
   /** Get a single `AppIngestState`. */
   appIngestState?: Maybe<AppIngestState>;
-  /** Reads a single `AppIngestState` using its globally unique `ID`. */
-  appIngestStateById?: Maybe<AppIngestState>;
-  /** Reads and enables pagination through a set of `AppIngestState`. */
-  appIngestStates?: Maybe<AppIngestStateConnection>;
+  /** Reads a set of `AppIngestState`. */
+  appIngestStates?: Maybe<Array<AppIngestState>>;
   /** Get a single `AppLapTime`. */
   appLapTime?: Maybe<AppLapTime>;
-  /** Reads a single `AppLapTime` using its globally unique `ID`. */
-  appLapTimeById?: Maybe<AppLapTime>;
-  /** Reads and enables pagination through a set of `AppLapTime`. */
-  appLapTimes?: Maybe<AppLapTimeConnection>;
+  /** Reads a set of `AppLapTime`. */
+  appLapTimes?: Maybe<Array<AppLapTime>>;
   /** Get a single `AppTeamColor`. */
   appTeamColor?: Maybe<AppTeamColor>;
-  /** Reads a single `AppTeamColor` using its globally unique `ID`. */
-  appTeamColorById?: Maybe<AppTeamColor>;
-  /** Reads and enables pagination through a set of `AppTeamColor`. */
-  appTeamColors?: Maybe<AppTeamColorConnection>;
-  /** Reads and enables pagination through a set of `AppTeamHistory`. */
-  appTeamHistories?: Maybe<AppTeamHistoryConnection>;
+  /** Reads a set of `AppTeamColor`. */
+  appTeamColors?: Maybe<Array<AppTeamColor>>;
+  /** Reads a set of `AppTeamHistory`. */
+  appTeamHistories?: Maybe<Array<AppTeamHistory>>;
   /** Get a single `AppTeamHistory`. */
   appTeamHistory?: Maybe<AppTeamHistory>;
-  /** Reads a single `AppTeamHistory` using its globally unique `ID`. */
-  appTeamHistoryById?: Maybe<AppTeamHistory>;
   /** Get a single `Chassis`. */
   chassis?: Maybe<Chassis>;
-  /** Reads a single `Chassis` using its globally unique `ID`. */
-  chassisById?: Maybe<Chassis>;
-  /** Reads and enables pagination through a set of `Chassis`. */
-  chassises?: Maybe<ChassisConnection>;
+  /** Reads a set of `Chassis`. */
+  chassises?: Maybe<Array<Chassis>>;
   /** Get a single `Circuit`. */
   circuit?: Maybe<Circuit>;
-  /** Reads a single `Circuit` using its globally unique `ID`. */
-  circuitById?: Maybe<Circuit>;
   /** Get a single `CircuitLayout`. */
   circuitLayout?: Maybe<CircuitLayout>;
-  /** Reads a single `CircuitLayout` using its globally unique `ID`. */
-  circuitLayoutById?: Maybe<CircuitLayout>;
-  /** Reads and enables pagination through a set of `CircuitLayout`. */
-  circuitLayouts?: Maybe<CircuitLayoutConnection>;
-  /** Reads and enables pagination through a set of `Circuit`. */
-  circuits?: Maybe<CircuitConnection>;
+  /** Reads a set of `CircuitLayout`. */
+  circuitLayouts?: Maybe<Array<CircuitLayout>>;
+  /** Reads a set of `Circuit`. */
+  circuits?: Maybe<Array<Circuit>>;
   /** Get a single `Continent`. */
   continent?: Maybe<Continent>;
   /** Get a single `Continent`. */
   continentByCode?: Maybe<Continent>;
-  /** Reads a single `Continent` using its globally unique `ID`. */
-  continentById?: Maybe<Continent>;
   /** Get a single `Continent`. */
   continentByName?: Maybe<Continent>;
-  /** Reads and enables pagination through a set of `Continent`. */
-  continents?: Maybe<ContinentConnection>;
-  /** Reads and enables pagination through a set of `Country`. */
-  countries?: Maybe<CountryConnection>;
+  /** Reads a set of `Continent`. */
+  continents?: Maybe<Array<Continent>>;
+  /** Reads a set of `Country`. */
+  countries?: Maybe<Array<Country>>;
   /** Get a single `Country`. */
   country?: Maybe<Country>;
   /** Get a single `Country`. */
   countryByAlpha2Code?: Maybe<Country>;
   /** Get a single `Country`. */
   countryByAlpha3Code?: Maybe<Country>;
-  /** Reads a single `Country` using its globally unique `ID`. */
-  countryById?: Maybe<Country>;
   /** Get a single `Country`. */
   countryByName?: Maybe<Country>;
   /** Get a single `Driver`. */
   driver?: Maybe<Driver>;
-  /** Reads a single `Driver` using its globally unique `ID`. */
-  driverById?: Maybe<Driver>;
   /** Get a single `DriverFamilyRelationship`. */
   driverFamilyRelationship?: Maybe<DriverFamilyRelationship>;
   /** Get a single `DriverFamilyRelationship`. */
   driverFamilyRelationshipByDriverIdAndOtherDriverIdAndType?: Maybe<DriverFamilyRelationship>;
-  /** Reads a single `DriverFamilyRelationship` using its globally unique `ID`. */
-  driverFamilyRelationshipById?: Maybe<DriverFamilyRelationship>;
-  /** Reads and enables pagination through a set of `DriverFamilyRelationship`. */
-  driverFamilyRelationships?: Maybe<DriverFamilyRelationshipConnection>;
+  /** Reads a set of `DriverFamilyRelationship`. */
+  driverFamilyRelationships?: Maybe<Array<DriverFamilyRelationship>>;
   /** Get a single `DriverOfTheDayResult`. */
   driverOfTheDayResult?: Maybe<DriverOfTheDayResult>;
-  /** Reads a single `DriverOfTheDayResult` using its globally unique `ID`. */
-  driverOfTheDayResultById?: Maybe<DriverOfTheDayResult>;
-  /** Reads and enables pagination through a set of `DriverOfTheDayResult`. */
-  driverOfTheDayResults?: Maybe<DriverOfTheDayResultConnection>;
-  /** Reads and enables pagination through a set of `Driver`. */
-  drivers?: Maybe<DriverConnection>;
+  /** Reads a set of `DriverOfTheDayResult`. */
+  driverOfTheDayResults?: Maybe<Array<DriverOfTheDayResult>>;
+  /** Reads a set of `Driver`. */
+  drivers?: Maybe<Array<Driver>>;
   /** Get a single `Engine`. */
   engine?: Maybe<Engine>;
-  /** Reads a single `Engine` using its globally unique `ID`. */
-  engineById?: Maybe<Engine>;
   /** Get a single `EngineManufacturer`. */
   engineManufacturer?: Maybe<EngineManufacturer>;
-  /** Reads a single `EngineManufacturer` using its globally unique `ID`. */
-  engineManufacturerById?: Maybe<EngineManufacturer>;
-  /** Reads and enables pagination through a set of `EngineManufacturer`. */
-  engineManufacturers?: Maybe<EngineManufacturerConnection>;
-  /** Reads and enables pagination through a set of `Engine`. */
-  engines?: Maybe<EngineConnection>;
+  /** Reads a set of `EngineManufacturer`. */
+  engineManufacturers?: Maybe<Array<EngineManufacturer>>;
+  /** Reads a set of `Engine`. */
+  engines?: Maybe<Array<Engine>>;
   /** Get a single `Entrant`. */
   entrant?: Maybe<Entrant>;
-  /** Reads a single `Entrant` using its globally unique `ID`. */
-  entrantById?: Maybe<Entrant>;
-  /** Reads and enables pagination through a set of `Entrant`. */
-  entrants?: Maybe<EntrantConnection>;
+  /** Reads a set of `Entrant`. */
+  entrants?: Maybe<Array<Entrant>>;
   /** Get a single `FastestLap`. */
   fastestLap?: Maybe<FastestLap>;
-  /** Reads a single `FastestLap` using its globally unique `ID`. */
-  fastestLapById?: Maybe<FastestLap>;
-  /** Reads and enables pagination through a set of `FastestLap`. */
-  fastestLaps?: Maybe<FastestLapConnection>;
-  /** Reads and enables pagination through a set of `FreePractice1Result`. */
-  freePractice1Results?: Maybe<FreePractice1ResultConnection>;
-  /** Reads and enables pagination through a set of `FreePractice2Result`. */
-  freePractice2Results?: Maybe<FreePractice2ResultConnection>;
-  /** Reads and enables pagination through a set of `FreePractice3Result`. */
-  freePractice3Results?: Maybe<FreePractice3ResultConnection>;
-  /** Reads and enables pagination through a set of `FreePractice4Result`. */
-  freePractice4Results?: Maybe<FreePractice4ResultConnection>;
+  /** Reads a set of `FastestLap`. */
+  fastestLaps?: Maybe<Array<FastestLap>>;
+  /** Reads a set of `FreePractice1Result`. */
+  freePractice1Results?: Maybe<Array<FreePractice1Result>>;
+  /** Reads a set of `FreePractice2Result`. */
+  freePractice2Results?: Maybe<Array<FreePractice2Result>>;
+  /** Reads a set of `FreePractice3Result`. */
+  freePractice3Results?: Maybe<Array<FreePractice3Result>>;
+  /** Reads a set of `FreePractice4Result`. */
+  freePractice4Results?: Maybe<Array<FreePractice4Result>>;
   /** Get a single `GrandPrix`. */
   grandPrix?: Maybe<GrandPrix>;
-  /** Reads a single `GrandPrix` using its globally unique `ID`. */
-  grandPrixById?: Maybe<GrandPrix>;
-  /** Reads and enables pagination through a set of `GrandPrix`. */
-  grandPrixes?: Maybe<GrandPrixConnection>;
-  /** The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`. */
-  id: Scalars['ID']['output'];
-  /** Fetches an object given its globally unique `ID`. */
-  node?: Maybe<Node>;
+  /** Reads a set of `GrandPrix`. */
+  grandPrixes?: Maybe<Array<GrandPrix>>;
   /** Get a single `PitStop`. */
   pitStop?: Maybe<PitStop>;
-  /** Reads a single `PitStop` using its globally unique `ID`. */
-  pitStopById?: Maybe<PitStop>;
-  /** Reads and enables pagination through a set of `PitStop`. */
-  pitStops?: Maybe<PitStopConnection>;
-  /** Reads and enables pagination through a set of `PreQualifyingResult`. */
-  preQualifyingResults?: Maybe<PreQualifyingResultConnection>;
-  /** Reads and enables pagination through a set of `Qualifying1Result`. */
-  qualifying1Results?: Maybe<Qualifying1ResultConnection>;
-  /** Reads and enables pagination through a set of `Qualifying2Result`. */
-  qualifying2Results?: Maybe<Qualifying2ResultConnection>;
+  /** Reads a set of `PitStop`. */
+  pitStops?: Maybe<Array<PitStop>>;
+  /** Reads a set of `PreQualifyingResult`. */
+  preQualifyingResults?: Maybe<Array<PreQualifyingResult>>;
+  /** Reads a set of `Qualifying1Result`. */
+  qualifying1Results?: Maybe<Array<Qualifying1Result>>;
+  /** Reads a set of `Qualifying2Result`. */
+  qualifying2Results?: Maybe<Array<Qualifying2Result>>;
   /** Get a single `QualifyingResult`. */
   qualifyingResult?: Maybe<QualifyingResult>;
-  /** Reads a single `QualifyingResult` using its globally unique `ID`. */
-  qualifyingResultById?: Maybe<QualifyingResult>;
-  /** Reads and enables pagination through a set of `QualifyingResult`. */
-  qualifyingResults?: Maybe<QualifyingResultConnection>;
+  /** Reads a set of `QualifyingResult`. */
+  qualifyingResults?: Maybe<Array<QualifyingResult>>;
   /**
    * Exposes the root query type nested one level down. This is helpful for Relay 1
    * which can only query top level fields if they are in a particular form.
@@ -10110,160 +7144,110 @@ export type Query = Node & {
   query: Query;
   /** Get a single `Race`. */
   race?: Maybe<Race>;
-  /** Reads a single `Race` using its globally unique `ID`. */
-  raceById?: Maybe<Race>;
   /** Get a single `Race`. */
   raceByYearAndRound?: Maybe<Race>;
-  /** Reads and enables pagination through a set of `RaceDatum`. */
-  raceData?: Maybe<RaceDatumConnection>;
+  /** Reads a set of `RaceDatum`. */
+  raceData?: Maybe<Array<RaceDatum>>;
   /** Get a single `RaceDatum`. */
   raceDatum?: Maybe<RaceDatum>;
-  /** Reads a single `RaceDatum` using its globally unique `ID`. */
-  raceDatumById?: Maybe<RaceDatum>;
   /** Get a single `RaceDriverStanding`. */
   raceDriverStanding?: Maybe<RaceDriverStanding>;
-  /** Reads a single `RaceDriverStanding` using its globally unique `ID`. */
-  raceDriverStandingById?: Maybe<RaceDriverStanding>;
-  /** Reads and enables pagination through a set of `RaceDriverStanding`. */
-  raceDriverStandings?: Maybe<RaceDriverStandingConnection>;
+  /** Reads a set of `RaceDriverStanding`. */
+  raceDriverStandings?: Maybe<Array<RaceDriverStanding>>;
   /** Get a single `RaceResult`. */
   raceResult?: Maybe<RaceResult>;
-  /** Reads a single `RaceResult` using its globally unique `ID`. */
-  raceResultById?: Maybe<RaceResult>;
-  /** Reads and enables pagination through a set of `RaceResult`. */
-  raceResults?: Maybe<RaceResultConnection>;
+  /** Reads a set of `RaceResult`. */
+  raceResults?: Maybe<Array<RaceResult>>;
   /** Get a single `RaceTeamStanding`. */
   raceTeamStanding?: Maybe<RaceTeamStanding>;
-  /** Reads a single `RaceTeamStanding` using its globally unique `ID`. */
-  raceTeamStandingById?: Maybe<RaceTeamStanding>;
-  /** Reads and enables pagination through a set of `RaceTeamStanding`. */
-  raceTeamStandings?: Maybe<RaceTeamStandingConnection>;
-  /** Reads and enables pagination through a set of `Race`. */
-  races?: Maybe<RaceConnection>;
+  /** Reads a set of `RaceTeamStanding`. */
+  raceTeamStandings?: Maybe<Array<RaceTeamStanding>>;
+  /** Reads a set of `Race`. */
+  races?: Maybe<Array<Race>>;
   /** Get a single `Season`. */
   season?: Maybe<Season>;
-  /** Reads a single `Season` using its globally unique `ID`. */
-  seasonById?: Maybe<Season>;
   /** Get a single `SeasonDriver`. */
   seasonDriver?: Maybe<SeasonDriver>;
-  /** Reads a single `SeasonDriver` using its globally unique `ID`. */
-  seasonDriverById?: Maybe<SeasonDriver>;
   /** Get a single `SeasonDriverStanding`. */
   seasonDriverStanding?: Maybe<SeasonDriverStanding>;
-  /** Reads a single `SeasonDriverStanding` using its globally unique `ID`. */
-  seasonDriverStandingById?: Maybe<SeasonDriverStanding>;
-  /** Reads and enables pagination through a set of `SeasonDriverStanding`. */
-  seasonDriverStandings?: Maybe<SeasonDriverStandingConnection>;
-  /** Reads and enables pagination through a set of `SeasonDriver`. */
-  seasonDrivers?: Maybe<SeasonDriverConnection>;
+  /** Reads a set of `SeasonDriverStanding`. */
+  seasonDriverStandings?: Maybe<Array<SeasonDriverStanding>>;
+  /** Reads a set of `SeasonDriver`. */
+  seasonDrivers?: Maybe<Array<SeasonDriver>>;
   /** Get a single `SeasonEngineManufacturer`. */
   seasonEngineManufacturer?: Maybe<SeasonEngineManufacturer>;
-  /** Reads a single `SeasonEngineManufacturer` using its globally unique `ID`. */
-  seasonEngineManufacturerById?: Maybe<SeasonEngineManufacturer>;
-  /** Reads and enables pagination through a set of `SeasonEngineManufacturer`. */
-  seasonEngineManufacturers?: Maybe<SeasonEngineManufacturerConnection>;
+  /** Reads a set of `SeasonEngineManufacturer`. */
+  seasonEngineManufacturers?: Maybe<Array<SeasonEngineManufacturer>>;
   /** Get a single `SeasonEntrant`. */
   seasonEntrant?: Maybe<SeasonEntrant>;
-  /** Reads a single `SeasonEntrant` using its globally unique `ID`. */
-  seasonEntrantById?: Maybe<SeasonEntrant>;
   /** Get a single `SeasonEntrantChassis`. */
   seasonEntrantChassis?: Maybe<SeasonEntrantChassis>;
-  /** Reads a single `SeasonEntrantChassis` using its globally unique `ID`. */
-  seasonEntrantChassisById?: Maybe<SeasonEntrantChassis>;
-  /** Reads and enables pagination through a set of `SeasonEntrantChassis`. */
-  seasonEntrantChassises?: Maybe<SeasonEntrantChassisConnection>;
+  /** Reads a set of `SeasonEntrantChassis`. */
+  seasonEntrantChassises?: Maybe<Array<SeasonEntrantChassis>>;
   /** Get a single `SeasonEntrantDriver`. */
   seasonEntrantDriver?: Maybe<SeasonEntrantDriver>;
-  /** Reads a single `SeasonEntrantDriver` using its globally unique `ID`. */
-  seasonEntrantDriverById?: Maybe<SeasonEntrantDriver>;
-  /** Reads and enables pagination through a set of `SeasonEntrantDriver`. */
-  seasonEntrantDrivers?: Maybe<SeasonEntrantDriverConnection>;
+  /** Reads a set of `SeasonEntrantDriver`. */
+  seasonEntrantDrivers?: Maybe<Array<SeasonEntrantDriver>>;
   /** Get a single `SeasonEntrantEngine`. */
   seasonEntrantEngine?: Maybe<SeasonEntrantEngine>;
-  /** Reads a single `SeasonEntrantEngine` using its globally unique `ID`. */
-  seasonEntrantEngineById?: Maybe<SeasonEntrantEngine>;
-  /** Reads and enables pagination through a set of `SeasonEntrantEngine`. */
-  seasonEntrantEngines?: Maybe<SeasonEntrantEngineConnection>;
+  /** Reads a set of `SeasonEntrantEngine`. */
+  seasonEntrantEngines?: Maybe<Array<SeasonEntrantEngine>>;
   /** Get a single `SeasonEntrantTeam`. */
   seasonEntrantTeam?: Maybe<SeasonEntrantTeam>;
-  /** Reads a single `SeasonEntrantTeam` using its globally unique `ID`. */
-  seasonEntrantTeamById?: Maybe<SeasonEntrantTeam>;
-  /** Reads and enables pagination through a set of `SeasonEntrantTeam`. */
-  seasonEntrantTeams?: Maybe<SeasonEntrantTeamConnection>;
+  /** Reads a set of `SeasonEntrantTeam`. */
+  seasonEntrantTeams?: Maybe<Array<SeasonEntrantTeam>>;
   /** Get a single `SeasonEntrantTyreManufacturer`. */
   seasonEntrantTyreManufacturer?: Maybe<SeasonEntrantTyreManufacturer>;
-  /** Reads a single `SeasonEntrantTyreManufacturer` using its globally unique `ID`. */
-  seasonEntrantTyreManufacturerById?: Maybe<SeasonEntrantTyreManufacturer>;
-  /** Reads and enables pagination through a set of `SeasonEntrantTyreManufacturer`. */
-  seasonEntrantTyreManufacturers?: Maybe<SeasonEntrantTyreManufacturerConnection>;
-  /** Reads and enables pagination through a set of `SeasonEntrant`. */
-  seasonEntrants?: Maybe<SeasonEntrantConnection>;
+  /** Reads a set of `SeasonEntrantTyreManufacturer`. */
+  seasonEntrantTyreManufacturers?: Maybe<Array<SeasonEntrantTyreManufacturer>>;
+  /** Reads a set of `SeasonEntrant`. */
+  seasonEntrants?: Maybe<Array<SeasonEntrant>>;
   /** Get a single `SeasonTeam`. */
   seasonTeam?: Maybe<SeasonTeam>;
-  /** Reads a single `SeasonTeam` using its globally unique `ID`. */
-  seasonTeamById?: Maybe<SeasonTeam>;
   /** Get a single `SeasonTeamStanding`. */
   seasonTeamStanding?: Maybe<SeasonTeamStanding>;
-  /** Reads a single `SeasonTeamStanding` using its globally unique `ID`. */
-  seasonTeamStandingById?: Maybe<SeasonTeamStanding>;
-  /** Reads and enables pagination through a set of `SeasonTeamStanding`. */
-  seasonTeamStandings?: Maybe<SeasonTeamStandingConnection>;
-  /** Reads and enables pagination through a set of `SeasonTeam`. */
-  seasonTeams?: Maybe<SeasonTeamConnection>;
+  /** Reads a set of `SeasonTeamStanding`. */
+  seasonTeamStandings?: Maybe<Array<SeasonTeamStanding>>;
+  /** Reads a set of `SeasonTeam`. */
+  seasonTeams?: Maybe<Array<SeasonTeam>>;
   /** Get a single `SeasonTyreManufacturer`. */
   seasonTyreManufacturer?: Maybe<SeasonTyreManufacturer>;
-  /** Reads a single `SeasonTyreManufacturer` using its globally unique `ID`. */
-  seasonTyreManufacturerById?: Maybe<SeasonTyreManufacturer>;
-  /** Reads and enables pagination through a set of `SeasonTyreManufacturer`. */
-  seasonTyreManufacturers?: Maybe<SeasonTyreManufacturerConnection>;
-  /** Reads and enables pagination through a set of `Season`. */
-  seasons?: Maybe<SeasonConnection>;
+  /** Reads a set of `SeasonTyreManufacturer`. */
+  seasonTyreManufacturers?: Maybe<Array<SeasonTyreManufacturer>>;
+  /** Reads a set of `Season`. */
+  seasons?: Maybe<Array<Season>>;
   /** Get a single `SprintQualifyingResult`. */
   sprintQualifyingResult?: Maybe<SprintQualifyingResult>;
-  /** Reads a single `SprintQualifyingResult` using its globally unique `ID`. */
-  sprintQualifyingResultById?: Maybe<SprintQualifyingResult>;
-  /** Reads and enables pagination through a set of `SprintQualifyingResult`. */
-  sprintQualifyingResults?: Maybe<SprintQualifyingResultConnection>;
+  /** Reads a set of `SprintQualifyingResult`. */
+  sprintQualifyingResults?: Maybe<Array<SprintQualifyingResult>>;
   /** Get a single `SprintRaceResult`. */
   sprintRaceResult?: Maybe<SprintRaceResult>;
-  /** Reads a single `SprintRaceResult` using its globally unique `ID`. */
-  sprintRaceResultById?: Maybe<SprintRaceResult>;
-  /** Reads and enables pagination through a set of `SprintRaceResult`. */
-  sprintRaceResults?: Maybe<SprintRaceResultConnection>;
+  /** Reads a set of `SprintRaceResult`. */
+  sprintRaceResults?: Maybe<Array<SprintRaceResult>>;
   /** Get a single `SprintStartingGridPosition`. */
   sprintStartingGridPosition?: Maybe<SprintStartingGridPosition>;
-  /** Reads a single `SprintStartingGridPosition` using its globally unique `ID`. */
-  sprintStartingGridPositionById?: Maybe<SprintStartingGridPosition>;
-  /** Reads and enables pagination through a set of `SprintStartingGridPosition`. */
-  sprintStartingGridPositions?: Maybe<SprintStartingGridPositionConnection>;
+  /** Reads a set of `SprintStartingGridPosition`. */
+  sprintStartingGridPositions?: Maybe<Array<SprintStartingGridPosition>>;
   /** Get a single `StartingGridPosition`. */
   startingGridPosition?: Maybe<StartingGridPosition>;
-  /** Reads a single `StartingGridPosition` using its globally unique `ID`. */
-  startingGridPositionById?: Maybe<StartingGridPosition>;
-  /** Reads and enables pagination through a set of `StartingGridPosition`. */
-  startingGridPositions?: Maybe<StartingGridPositionConnection>;
+  /** Reads a set of `StartingGridPosition`. */
+  startingGridPositions?: Maybe<Array<StartingGridPosition>>;
   /** Get a single `Team`. */
   team?: Maybe<Team>;
-  /** Reads a single `Team` using its globally unique `ID`. */
-  teamById?: Maybe<Team>;
-  /** Reads and enables pagination through a set of `TeamChronology`. */
-  teamChronologies?: Maybe<TeamChronologyConnection>;
+  /** Reads a set of `TeamChronology`. */
+  teamChronologies?: Maybe<Array<TeamChronology>>;
   /** Get a single `TeamChronology`. */
   teamChronology?: Maybe<TeamChronology>;
-  /** Reads a single `TeamChronology` using its globally unique `ID`. */
-  teamChronologyById?: Maybe<TeamChronology>;
   /** Get a single `TeamChronology`. */
   teamChronologyByTeamIdAndOtherTeamIdAndYearFromAndYearTo?: Maybe<TeamChronology>;
-  /** Reads and enables pagination through a set of `Team`. */
-  teams?: Maybe<TeamConnection>;
+  /** Reads a set of `Team`. */
+  teams?: Maybe<Array<Team>>;
   /** Get a single `TyreManufacturer`. */
   tyreManufacturer?: Maybe<TyreManufacturer>;
-  /** Reads a single `TyreManufacturer` using its globally unique `ID`. */
-  tyreManufacturerById?: Maybe<TyreManufacturer>;
-  /** Reads and enables pagination through a set of `TyreManufacturer`. */
-  tyreManufacturers?: Maybe<TyreManufacturerConnection>;
-  /** Reads and enables pagination through a set of `WarmingUpResult`. */
-  warmingUpResults?: Maybe<WarmingUpResultConnection>;
+  /** Reads a set of `TyreManufacturer`. */
+  tyreManufacturers?: Maybe<Array<TyreManufacturer>>;
+  /** Reads a set of `WarmingUpResult`. */
+  warmingUpResults?: Maybe<Array<WarmingUpResult>>;
 };
 
 
@@ -10274,18 +7258,9 @@ export type QueryAppCircuitDescriptionArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryAppCircuitDescriptionByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryAppCircuitDescriptionsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<AppCircuitDescriptionCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<AppCircuitDescriptionOrderBy>>;
 };
@@ -10298,18 +7273,9 @@ export type QueryAppConstructorBioArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryAppConstructorBioByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryAppConstructorBiosArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<AppConstructorBioCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<AppConstructorBioOrderBy>>;
 };
@@ -10322,18 +7288,9 @@ export type QueryAppDriverBioArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryAppDriverBioByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryAppDriverBiosArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<AppDriverBioCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<AppDriverBioOrderBy>>;
 };
@@ -10346,18 +7303,9 @@ export type QueryAppIngestStateArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryAppIngestStateByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryAppIngestStatesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<AppIngestStateCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<AppIngestStateOrderBy>>;
 };
@@ -10372,18 +7320,9 @@ export type QueryAppLapTimeArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryAppLapTimeByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryAppLapTimesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<AppLapTimeCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<AppLapTimeOrderBy>>;
 };
@@ -10396,18 +7335,9 @@ export type QueryAppTeamColorArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryAppTeamColorByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryAppTeamColorsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<AppTeamColorCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<AppTeamColorOrderBy>>;
 };
@@ -10415,11 +7345,8 @@ export type QueryAppTeamColorsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryAppTeamHistoriesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<AppTeamHistoryCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<AppTeamHistoryOrderBy>>;
 };
@@ -10434,30 +7361,15 @@ export type QueryAppTeamHistoryArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryAppTeamHistoryByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryChassisArgs = {
-  rowId: Scalars['String']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryChassisByIdArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
 export type QueryChassisesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<ChassisCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<ChassisOrderBy>>;
 };
@@ -10465,35 +7377,20 @@ export type QueryChassisesArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryCircuitArgs = {
-  rowId: Scalars['String']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryCircuitByIdArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
 export type QueryCircuitLayoutArgs = {
-  rowId: Scalars['String']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryCircuitLayoutByIdArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
 export type QueryCircuitLayoutsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<CircuitLayoutCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<CircuitLayoutOrderBy>>;
 };
@@ -10501,11 +7398,8 @@ export type QueryCircuitLayoutsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryCircuitsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<CircuitCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<CircuitOrderBy>>;
 };
@@ -10513,19 +7407,13 @@ export type QueryCircuitsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryContinentArgs = {
-  rowId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
 export type QueryContinentByCodeArgs = {
   code: Scalars['String']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryContinentByIdArgs = {
-  id: Scalars['ID']['input'];
 };
 
 
@@ -10537,11 +7425,8 @@ export type QueryContinentByNameArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryContinentsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<ContinentCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<ContinentOrderBy>>;
 };
@@ -10549,11 +7434,8 @@ export type QueryContinentsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryCountriesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<CountryCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<CountryOrderBy>>;
 };
@@ -10561,7 +7443,7 @@ export type QueryCountriesArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryCountryArgs = {
-  rowId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
 };
 
 
@@ -10578,12 +7460,6 @@ export type QueryCountryByAlpha3CodeArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryCountryByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryCountryByNameArgs = {
   name: Scalars['String']['input'];
 };
@@ -10591,13 +7467,7 @@ export type QueryCountryByNameArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryDriverArgs = {
-  rowId: Scalars['String']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryDriverByIdArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars['String']['input'];
 };
 
 
@@ -10617,18 +7487,9 @@ export type QueryDriverFamilyRelationshipByDriverIdAndOtherDriverIdAndTypeArgs =
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryDriverFamilyRelationshipByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryDriverFamilyRelationshipsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<DriverFamilyRelationshipCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<DriverFamilyRelationshipOrderBy>>;
 };
@@ -10642,18 +7503,9 @@ export type QueryDriverOfTheDayResultArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryDriverOfTheDayResultByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryDriverOfTheDayResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<DriverOfTheDayResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<DriverOfTheDayResultOrderBy>>;
 };
@@ -10661,11 +7513,8 @@ export type QueryDriverOfTheDayResultsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryDriversArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<DriverCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<DriverOrderBy>>;
 };
@@ -10673,35 +7522,20 @@ export type QueryDriversArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryEngineArgs = {
-  rowId: Scalars['String']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryEngineByIdArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
 export type QueryEngineManufacturerArgs = {
-  rowId: Scalars['String']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryEngineManufacturerByIdArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
 export type QueryEngineManufacturersArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<EngineManufacturerCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<EngineManufacturerOrderBy>>;
 };
@@ -10709,11 +7543,8 @@ export type QueryEngineManufacturersArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryEnginesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<EngineCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<EngineOrderBy>>;
 };
@@ -10721,23 +7552,14 @@ export type QueryEnginesArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryEntrantArgs = {
-  rowId: Scalars['String']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryEntrantByIdArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
 export type QueryEntrantsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<EntrantCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<EntrantOrderBy>>;
 };
@@ -10751,18 +7573,9 @@ export type QueryFastestLapArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryFastestLapByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryFastestLapsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<FastestLapCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<FastestLapOrderBy>>;
 };
@@ -10770,11 +7583,8 @@ export type QueryFastestLapsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryFreePractice1ResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<FreePractice1ResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<FreePractice1ResultOrderBy>>;
 };
@@ -10782,11 +7592,8 @@ export type QueryFreePractice1ResultsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryFreePractice2ResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<FreePractice2ResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<FreePractice2ResultOrderBy>>;
 };
@@ -10794,11 +7601,8 @@ export type QueryFreePractice2ResultsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryFreePractice3ResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<FreePractice3ResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<FreePractice3ResultOrderBy>>;
 };
@@ -10806,11 +7610,8 @@ export type QueryFreePractice3ResultsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryFreePractice4ResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<FreePractice4ResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<FreePractice4ResultOrderBy>>;
 };
@@ -10818,31 +7619,16 @@ export type QueryFreePractice4ResultsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryGrandPrixArgs = {
-  rowId: Scalars['String']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryGrandPrixByIdArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
 export type QueryGrandPrixesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<GrandPrixCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<GrandPrixOrderBy>>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryNodeArgs = {
-  id: Scalars['ID']['input'];
 };
 
 
@@ -10855,18 +7641,9 @@ export type QueryPitStopArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryPitStopByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryPitStopsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<PitStopCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<PitStopOrderBy>>;
 };
@@ -10874,11 +7651,8 @@ export type QueryPitStopsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPreQualifyingResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<PreQualifyingResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<PreQualifyingResultOrderBy>>;
 };
@@ -10886,11 +7660,8 @@ export type QueryPreQualifyingResultsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryQualifying1ResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<Qualifying1ResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Qualifying1ResultOrderBy>>;
 };
@@ -10898,11 +7669,8 @@ export type QueryQualifying1ResultsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryQualifying2ResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<Qualifying2ResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<Qualifying2ResultOrderBy>>;
 };
@@ -10916,18 +7684,9 @@ export type QueryQualifyingResultArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryQualifyingResultByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryQualifyingResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<QualifyingResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<QualifyingResultOrderBy>>;
 };
@@ -10940,12 +7699,6 @@ export type QueryRaceArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryRaceByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryRaceByYearAndRoundArgs = {
   round: Scalars['Int']['input'];
   year: Scalars['Int']['input'];
@@ -10954,11 +7707,8 @@ export type QueryRaceByYearAndRoundArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryRaceDataArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceDatumCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceDatumOrderBy>>;
 };
@@ -10973,12 +7723,6 @@ export type QueryRaceDatumArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryRaceDatumByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryRaceDriverStandingArgs = {
   positionDisplayOrder: Scalars['Int']['input'];
   raceId: Scalars['Int']['input'];
@@ -10986,18 +7730,9 @@ export type QueryRaceDriverStandingArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryRaceDriverStandingByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryRaceDriverStandingsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceDriverStandingCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceDriverStandingOrderBy>>;
 };
@@ -11011,18 +7746,9 @@ export type QueryRaceResultArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryRaceResultByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryRaceResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceResultOrderBy>>;
 };
@@ -11036,18 +7762,9 @@ export type QueryRaceTeamStandingArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryRaceTeamStandingByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryRaceTeamStandingsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceTeamStandingCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceTeamStandingOrderBy>>;
 };
@@ -11055,11 +7772,8 @@ export type QueryRaceTeamStandingsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryRacesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceOrderBy>>;
 };
@@ -11072,21 +7786,9 @@ export type QuerySeasonArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySeasonByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySeasonDriverArgs = {
   driverId: Scalars['String']['input'];
   year: Scalars['Int']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QuerySeasonDriverByIdArgs = {
-  id: Scalars['ID']['input'];
 };
 
 
@@ -11098,18 +7800,9 @@ export type QuerySeasonDriverStandingArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySeasonDriverStandingByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySeasonDriverStandingsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonDriverStandingCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonDriverStandingOrderBy>>;
 };
@@ -11117,11 +7810,8 @@ export type QuerySeasonDriverStandingsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QuerySeasonDriversArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonDriverCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonDriverOrderBy>>;
 };
@@ -11135,18 +7825,9 @@ export type QuerySeasonEngineManufacturerArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySeasonEngineManufacturerByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySeasonEngineManufacturersArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEngineManufacturerCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEngineManufacturerOrderBy>>;
 };
@@ -11156,12 +7837,6 @@ export type QuerySeasonEngineManufacturersArgs = {
 export type QuerySeasonEntrantArgs = {
   entrantId: Scalars['String']['input'];
   year: Scalars['Int']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QuerySeasonEntrantByIdArgs = {
-  id: Scalars['ID']['input'];
 };
 
 
@@ -11176,18 +7851,9 @@ export type QuerySeasonEntrantChassisArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySeasonEntrantChassisByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySeasonEntrantChassisesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantChassisCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantChassisOrderBy>>;
 };
@@ -11204,18 +7870,9 @@ export type QuerySeasonEntrantDriverArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySeasonEntrantDriverByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySeasonEntrantDriversArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantDriverCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantDriverOrderBy>>;
 };
@@ -11232,18 +7889,9 @@ export type QuerySeasonEntrantEngineArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySeasonEntrantEngineByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySeasonEntrantEnginesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantEngineCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantEngineOrderBy>>;
 };
@@ -11259,18 +7907,9 @@ export type QuerySeasonEntrantTeamArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySeasonEntrantTeamByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySeasonEntrantTeamsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantTeamCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantTeamOrderBy>>;
 };
@@ -11287,18 +7926,9 @@ export type QuerySeasonEntrantTyreManufacturerArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySeasonEntrantTyreManufacturerByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySeasonEntrantTyreManufacturersArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantTyreManufacturerCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantTyreManufacturerOrderBy>>;
 };
@@ -11306,11 +7936,8 @@ export type QuerySeasonEntrantTyreManufacturersArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QuerySeasonEntrantsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantOrderBy>>;
 };
@@ -11324,12 +7951,6 @@ export type QuerySeasonTeamArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySeasonTeamByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySeasonTeamStandingArgs = {
   positionDisplayOrder: Scalars['Int']['input'];
   year: Scalars['Int']['input'];
@@ -11337,18 +7958,9 @@ export type QuerySeasonTeamStandingArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySeasonTeamStandingByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySeasonTeamStandingsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonTeamStandingCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonTeamStandingOrderBy>>;
 };
@@ -11356,11 +7968,8 @@ export type QuerySeasonTeamStandingsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QuerySeasonTeamsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonTeamCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonTeamOrderBy>>;
 };
@@ -11374,18 +7983,9 @@ export type QuerySeasonTyreManufacturerArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySeasonTyreManufacturerByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySeasonTyreManufacturersArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonTyreManufacturerCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonTyreManufacturerOrderBy>>;
 };
@@ -11393,11 +7993,8 @@ export type QuerySeasonTyreManufacturersArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QuerySeasonsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonOrderBy>>;
 };
@@ -11411,18 +8008,9 @@ export type QuerySprintQualifyingResultArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySprintQualifyingResultByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySprintQualifyingResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SprintQualifyingResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SprintQualifyingResultOrderBy>>;
 };
@@ -11436,18 +8024,9 @@ export type QuerySprintRaceResultArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySprintRaceResultByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySprintRaceResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SprintRaceResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SprintRaceResultOrderBy>>;
 };
@@ -11461,18 +8040,9 @@ export type QuerySprintStartingGridPositionArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySprintStartingGridPositionByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySprintStartingGridPositionsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SprintStartingGridPositionCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SprintStartingGridPositionOrderBy>>;
 };
@@ -11486,18 +8056,9 @@ export type QueryStartingGridPositionArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryStartingGridPositionByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryStartingGridPositionsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<StartingGridPositionCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<StartingGridPositionOrderBy>>;
 };
@@ -11505,23 +8066,14 @@ export type QueryStartingGridPositionsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryTeamArgs = {
-  rowId: Scalars['String']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryTeamByIdArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
 export type QueryTeamChronologiesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<TeamChronologyCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<TeamChronologyOrderBy>>;
 };
@@ -11531,12 +8083,6 @@ export type QueryTeamChronologiesArgs = {
 export type QueryTeamChronologyArgs = {
   positionDisplayOrder: Scalars['Int']['input'];
   teamId: Scalars['String']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryTeamChronologyByIdArgs = {
-  id: Scalars['ID']['input'];
 };
 
 
@@ -11551,11 +8097,8 @@ export type QueryTeamChronologyByTeamIdAndOtherTeamIdAndYearFromAndYearToArgs = 
 
 /** The root query type which gives access points into the data universe. */
 export type QueryTeamsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<TeamCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<TeamOrderBy>>;
 };
@@ -11563,23 +8106,14 @@ export type QueryTeamsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryTyreManufacturerArgs = {
-  rowId: Scalars['String']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryTyreManufacturerByIdArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
 export type QueryTyreManufacturersArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<TyreManufacturerCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<TyreManufacturerOrderBy>>;
 };
@@ -11587,16 +8121,13 @@ export type QueryTyreManufacturersArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryWarmingUpResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<WarmingUpResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<WarmingUpResultOrderBy>>;
 };
 
-export type Race = Node & {
+export type Race = {
   __typename?: 'Race';
   /** Reads a single `Circuit` that is related to this `Race`. */
   circuit?: Maybe<Circuit>;
@@ -11611,10 +8142,10 @@ export type Race = Node & {
   direction: Scalars['String']['output'];
   distance: Scalars['BigFloat']['output'];
   /** Reads and enables pagination through a set of `DriverOfTheDayResult`. */
-  driverOfTheDayResults: DriverOfTheDayResultConnection;
+  driverOfTheDayResults: Array<DriverOfTheDayResult>;
   driversChampionshipDecider: Scalars['Boolean']['output'];
   /** Reads and enables pagination through a set of `FastestLap`. */
-  fastestLaps: FastestLapConnection;
+  fastestLaps: Array<FastestLap>;
   freePractice1Date?: Maybe<Scalars['Date']['output']>;
   freePractice1Time?: Maybe<Scalars['String']['output']>;
   freePractice2Date?: Maybe<Scalars['Date']['output']>;
@@ -11626,14 +8157,12 @@ export type Race = Node & {
   /** Reads a single `GrandPrix` that is related to this `Race`. */
   grandPrix?: Maybe<GrandPrix>;
   grandPrixId: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   /** Reads and enables pagination through a set of `AppLapTime`. */
-  lapTimes: AppLapTimeConnection;
+  lapTimes: Array<AppLapTime>;
   laps: Scalars['Int']['output'];
   officialName: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `PitStop`. */
-  pitStops: PitStopConnection;
+  pitStops: Array<PitStop>;
   preQualifyingDate?: Maybe<Scalars['Date']['output']>;
   preQualifyingTime?: Maybe<Scalars['String']['output']>;
   qualifying1Date?: Maybe<Scalars['Date']['output']>;
@@ -11643,16 +8172,16 @@ export type Race = Node & {
   qualifyingDate?: Maybe<Scalars['Date']['output']>;
   qualifyingFormat: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `QualifyingResult`. */
-  qualifyingResults: QualifyingResultConnection;
+  qualifyingResults: Array<QualifyingResult>;
   qualifyingTime?: Maybe<Scalars['String']['output']>;
   /** Reads and enables pagination through a set of `RaceDatum`. */
-  raceData: RaceDatumConnection;
+  raceData: Array<RaceDatum>;
   /** Reads and enables pagination through a set of `RaceDriverStanding`. */
-  raceDriverStandings: RaceDriverStandingConnection;
+  raceDriverStandings: Array<RaceDriverStanding>;
   /** Reads and enables pagination through a set of `RaceResult`. */
-  raceResults: RaceResultConnection;
+  raceResults: Array<RaceResult>;
   /** Reads and enables pagination through a set of `RaceTeamStanding`. */
-  raceTeamStandings: RaceTeamStandingConnection;
+  raceTeamStandings: Array<RaceTeamStanding>;
   round: Scalars['Int']['output'];
   rowId: Scalars['Int']['output'];
   scheduledDistance?: Maybe<Scalars['BigFloat']['output']>;
@@ -11662,16 +8191,16 @@ export type Race = Node & {
   sprintQualifyingDate?: Maybe<Scalars['Date']['output']>;
   sprintQualifyingFormat?: Maybe<Scalars['String']['output']>;
   /** Reads and enables pagination through a set of `SprintQualifyingResult`. */
-  sprintQualifyingResults: SprintQualifyingResultConnection;
+  sprintQualifyingResults: Array<SprintQualifyingResult>;
   sprintQualifyingTime?: Maybe<Scalars['String']['output']>;
   sprintRaceDate?: Maybe<Scalars['Date']['output']>;
   /** Reads and enables pagination through a set of `SprintRaceResult`. */
-  sprintRaceResults: SprintRaceResultConnection;
+  sprintRaceResults: Array<SprintRaceResult>;
   sprintRaceTime?: Maybe<Scalars['String']['output']>;
   /** Reads and enables pagination through a set of `SprintStartingGridPosition`. */
-  sprintStartingGridPositions: SprintStartingGridPositionConnection;
+  sprintStartingGridPositions: Array<SprintStartingGridPosition>;
   /** Reads and enables pagination through a set of `StartingGridPosition`. */
-  startingGridPositions: StartingGridPositionConnection;
+  startingGridPositions: Array<StartingGridPosition>;
   time?: Maybe<Scalars['String']['output']>;
   turns: Scalars['Int']['output'];
   warmingUpDate?: Maybe<Scalars['Date']['output']>;
@@ -11681,143 +8210,104 @@ export type Race = Node & {
 
 
 export type RaceDriverOfTheDayResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<DriverOfTheDayResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<DriverOfTheDayResultOrderBy>>;
 };
 
 
 export type RaceFastestLapsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<FastestLapCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<FastestLapOrderBy>>;
 };
 
 
 export type RaceLapTimesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<AppLapTimeCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<AppLapTimeOrderBy>>;
 };
 
 
 export type RacePitStopsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<PitStopCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<PitStopOrderBy>>;
 };
 
 
 export type RaceQualifyingResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<QualifyingResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<QualifyingResultOrderBy>>;
 };
 
 
 export type RaceRaceDataArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceDatumCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceDatumOrderBy>>;
 };
 
 
 export type RaceRaceDriverStandingsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceDriverStandingCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceDriverStandingOrderBy>>;
 };
 
 
 export type RaceRaceResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceResultOrderBy>>;
 };
 
 
 export type RaceRaceTeamStandingsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceTeamStandingCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceTeamStandingOrderBy>>;
 };
 
 
 export type RaceSprintQualifyingResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SprintQualifyingResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SprintQualifyingResultOrderBy>>;
 };
 
 
 export type RaceSprintRaceResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SprintRaceResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SprintRaceResultOrderBy>>;
 };
 
 
 export type RaceSprintStartingGridPositionsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SprintStartingGridPositionCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SprintStartingGridPositionOrderBy>>;
 };
 
 
 export type RaceStartingGridPositionsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<StartingGridPositionCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<StartingGridPositionOrderBy>>;
 };
@@ -11850,20 +8340,7 @@ export type RaceCondition = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** A connection to a list of `Race` values. */
-export type RaceConnection = {
-  __typename?: 'RaceConnection';
-  /** A list of edges which contains the `Race` and cursor to aid in pagination. */
-  edges: Array<Maybe<RaceEdge>>;
-  /** A list of `Race` objects. */
-  nodes: Array<Maybe<Race>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Race` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-export type RaceDatum = Node & {
+export type RaceDatum = {
   __typename?: 'RaceDatum';
   /** Reads a single `Driver` that is related to this `RaceDatum`. */
   driver?: Maybe<Driver>;
@@ -11880,8 +8357,6 @@ export type RaceDatum = Node & {
   fastestLapLap?: Maybe<Scalars['Int']['output']>;
   fastestLapTime?: Maybe<Scalars['String']['output']>;
   fastestLapTimeMillis?: Maybe<Scalars['Int']['output']>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   pitStopLap?: Maybe<Scalars['Int']['output']>;
   pitStopStop?: Maybe<Scalars['Int']['output']>;
   pitStopTime?: Maybe<Scalars['String']['output']>;
@@ -11975,28 +8450,6 @@ export type RaceDatumCondition = {
   type?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `tyreManufacturerId` field. */
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `RaceDatum` values. */
-export type RaceDatumConnection = {
-  __typename?: 'RaceDatumConnection';
-  /** A list of edges which contains the `RaceDatum` and cursor to aid in pagination. */
-  edges: Array<Maybe<RaceDatumEdge>>;
-  /** A list of `RaceDatum` objects. */
-  nodes: Array<Maybe<RaceDatum>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `RaceDatum` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `RaceDatum` edge in the connection. */
-export type RaceDatumEdge = {
-  __typename?: 'RaceDatumEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `RaceDatum` at the end of the edge. */
-  node?: Maybe<RaceDatum>;
 };
 
 /** An input for mutations affecting `RaceDatum` */
@@ -12176,14 +8629,12 @@ export type RaceDatumPatch = {
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type RaceDriverStanding = Node & {
+export type RaceDriverStanding = {
   __typename?: 'RaceDriverStanding';
   championshipWon: Scalars['Boolean']['output'];
   /** Reads a single `Driver` that is related to this `RaceDriverStanding`. */
   driver?: Maybe<Driver>;
   driverId: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   points: Scalars['BigFloat']['output'];
   positionDisplayOrder: Scalars['Int']['output'];
   positionNumber?: Maybe<Scalars['Int']['output']>;
@@ -12209,28 +8660,6 @@ export type RaceDriverStandingCondition = {
   positionText?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `raceId` field. */
   raceId?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** A connection to a list of `RaceDriverStanding` values. */
-export type RaceDriverStandingConnection = {
-  __typename?: 'RaceDriverStandingConnection';
-  /** A list of edges which contains the `RaceDriverStanding` and cursor to aid in pagination. */
-  edges: Array<Maybe<RaceDriverStandingEdge>>;
-  /** A list of `RaceDriverStanding` objects. */
-  nodes: Array<Maybe<RaceDriverStanding>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `RaceDriverStanding` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `RaceDriverStanding` edge in the connection. */
-export type RaceDriverStandingEdge = {
-  __typename?: 'RaceDriverStandingEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `RaceDriverStanding` at the end of the edge. */
-  node?: Maybe<RaceDriverStanding>;
 };
 
 /** An input for mutations affecting `RaceDriverStanding` */
@@ -12272,15 +8701,6 @@ export type RaceDriverStandingPatch = {
   positionText?: InputMaybe<Scalars['String']['input']>;
   positionsGained?: InputMaybe<Scalars['Int']['input']>;
   raceId?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** A `Race` edge in the connection. */
-export type RaceEdge = {
-  __typename?: 'RaceEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `Race` at the end of the edge. */
-  node?: Maybe<Race>;
 };
 
 /** An input for mutations affecting `Race` */
@@ -12408,7 +8828,7 @@ export type RacePatch = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type RaceResult = Node & {
+export type RaceResult = {
   __typename?: 'RaceResult';
   /** Reads a single `Driver` that is related to this `RaceResult`. */
   driver?: Maybe<Driver>;
@@ -12423,8 +8843,6 @@ export type RaceResult = Node & {
   grandSlam?: Maybe<Scalars['Boolean']['output']>;
   gridPositionNumber?: Maybe<Scalars['Int']['output']>;
   gridPositionText?: Maybe<Scalars['String']['output']>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   interval?: Maybe<Scalars['String']['output']>;
   intervalMillis?: Maybe<Scalars['Int']['output']>;
   laps?: Maybe<Scalars['Int']['output']>;
@@ -12521,28 +8939,6 @@ export type RaceResultCondition = {
   timePenaltyMillis?: InputMaybe<Scalars['Int']['input']>;
   /** Checks for equality with the object’s `tyreManufacturerId` field. */
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `RaceResult` values. */
-export type RaceResultConnection = {
-  __typename?: 'RaceResultConnection';
-  /** A list of edges which contains the `RaceResult` and cursor to aid in pagination. */
-  edges: Array<Maybe<RaceResultEdge>>;
-  /** A list of `RaceResult` objects. */
-  nodes: Array<Maybe<RaceResult>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `RaceResult` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `RaceResult` edge in the connection. */
-export type RaceResultEdge = {
-  __typename?: 'RaceResultEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `RaceResult` at the end of the edge. */
-  node?: Maybe<RaceResult>;
 };
 
 /** An input for mutations affecting `RaceResult` */
@@ -12688,14 +9084,12 @@ export type RaceResultPatch = {
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type RaceTeamStanding = Node & {
+export type RaceTeamStanding = {
   __typename?: 'RaceTeamStanding';
   championshipWon: Scalars['Boolean']['output'];
   /** Reads a single `EngineManufacturer` that is related to this `RaceTeamStanding`. */
   engineManufacturer?: Maybe<EngineManufacturer>;
   engineManufacturerId: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   points: Scalars['BigFloat']['output'];
   positionDisplayOrder: Scalars['Int']['output'];
   positionNumber?: Maybe<Scalars['Int']['output']>;
@@ -12726,28 +9120,6 @@ export type RaceTeamStandingCondition = {
   raceId?: InputMaybe<Scalars['Int']['input']>;
   /** Checks for equality with the object’s `teamId` field. */
   teamId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `RaceTeamStanding` values. */
-export type RaceTeamStandingConnection = {
-  __typename?: 'RaceTeamStandingConnection';
-  /** A list of edges which contains the `RaceTeamStanding` and cursor to aid in pagination. */
-  edges: Array<Maybe<RaceTeamStandingEdge>>;
-  /** A list of `RaceTeamStanding` objects. */
-  nodes: Array<Maybe<RaceTeamStanding>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `RaceTeamStanding` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `RaceTeamStanding` edge in the connection. */
-export type RaceTeamStandingEdge = {
-  __typename?: 'RaceTeamStandingEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `RaceTeamStanding` at the end of the edge. */
-  node?: Maybe<RaceTeamStanding>;
 };
 
 /** An input for mutations affecting `RaceTeamStanding` */
@@ -12795,180 +9167,139 @@ export type RaceTeamStandingPatch = {
   teamId?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type Season = Node & {
+export type Season = {
   __typename?: 'Season';
   ended?: Maybe<Scalars['Boolean']['output']>;
   hasResults?: Maybe<Scalars['Boolean']['output']>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   /** Reads and enables pagination through a set of `Race`. */
-  racesByYear: RaceConnection;
+  racesByYear: Array<Race>;
   /** Reads and enables pagination through a set of `SeasonDriverStanding`. */
-  seasonDriverStandingsByYear: SeasonDriverStandingConnection;
+  seasonDriverStandingsByYear: Array<SeasonDriverStanding>;
   /** Reads and enables pagination through a set of `SeasonDriver`. */
-  seasonDriversByYear: SeasonDriverConnection;
+  seasonDriversByYear: Array<SeasonDriver>;
   /** Reads and enables pagination through a set of `SeasonEngineManufacturer`. */
-  seasonEngineManufacturersByYear: SeasonEngineManufacturerConnection;
+  seasonEngineManufacturersByYear: Array<SeasonEngineManufacturer>;
   /** Reads and enables pagination through a set of `SeasonEntrantChassis`. */
-  seasonEntrantChassisByYear: SeasonEntrantChassisConnection;
+  seasonEntrantChassisByYear: Array<SeasonEntrantChassis>;
   /** Reads and enables pagination through a set of `SeasonEntrantDriver`. */
-  seasonEntrantDriversByYear: SeasonEntrantDriverConnection;
+  seasonEntrantDriversByYear: Array<SeasonEntrantDriver>;
   /** Reads and enables pagination through a set of `SeasonEntrantEngine`. */
-  seasonEntrantEnginesByYear: SeasonEntrantEngineConnection;
+  seasonEntrantEnginesByYear: Array<SeasonEntrantEngine>;
   /** Reads and enables pagination through a set of `SeasonEntrantTeam`. */
-  seasonEntrantTeamsByYear: SeasonEntrantTeamConnection;
+  seasonEntrantTeamsByYear: Array<SeasonEntrantTeam>;
   /** Reads and enables pagination through a set of `SeasonEntrantTyreManufacturer`. */
-  seasonEntrantTyreManufacturersByYear: SeasonEntrantTyreManufacturerConnection;
+  seasonEntrantTyreManufacturersByYear: Array<SeasonEntrantTyreManufacturer>;
   /** Reads and enables pagination through a set of `SeasonEntrant`. */
-  seasonEntrantsByYear: SeasonEntrantConnection;
+  seasonEntrantsByYear: Array<SeasonEntrant>;
   /** Reads and enables pagination through a set of `SeasonTeamStanding`. */
-  seasonTeamStandingsByYear: SeasonTeamStandingConnection;
+  seasonTeamStandingsByYear: Array<SeasonTeamStanding>;
   /** Reads and enables pagination through a set of `SeasonTeam`. */
-  seasonTeamsByYear: SeasonTeamConnection;
+  seasonTeamsByYear: Array<SeasonTeam>;
   /** Reads and enables pagination through a set of `SeasonTyreManufacturer`. */
-  seasonTyreManufacturersByYear: SeasonTyreManufacturerConnection;
+  seasonTyreManufacturersByYear: Array<SeasonTyreManufacturer>;
   year: Scalars['Int']['output'];
 };
 
 
 export type SeasonRacesByYearArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceOrderBy>>;
 };
 
 
 export type SeasonSeasonDriverStandingsByYearArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonDriverStandingCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonDriverStandingOrderBy>>;
 };
 
 
 export type SeasonSeasonDriversByYearArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonDriverCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonDriverOrderBy>>;
 };
 
 
 export type SeasonSeasonEngineManufacturersByYearArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEngineManufacturerCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEngineManufacturerOrderBy>>;
 };
 
 
 export type SeasonSeasonEntrantChassisByYearArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantChassisCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantChassisOrderBy>>;
 };
 
 
 export type SeasonSeasonEntrantDriversByYearArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantDriverCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantDriverOrderBy>>;
 };
 
 
 export type SeasonSeasonEntrantEnginesByYearArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantEngineCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantEngineOrderBy>>;
 };
 
 
 export type SeasonSeasonEntrantTeamsByYearArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantTeamCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantTeamOrderBy>>;
 };
 
 
 export type SeasonSeasonEntrantTyreManufacturersByYearArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantTyreManufacturerCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantTyreManufacturerOrderBy>>;
 };
 
 
 export type SeasonSeasonEntrantsByYearArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantOrderBy>>;
 };
 
 
 export type SeasonSeasonTeamStandingsByYearArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonTeamStandingCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonTeamStandingOrderBy>>;
 };
 
 
 export type SeasonSeasonTeamsByYearArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonTeamCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonTeamOrderBy>>;
 };
 
 
 export type SeasonSeasonTyreManufacturersByYearArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonTyreManufacturerCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonTyreManufacturerOrderBy>>;
 };
@@ -12979,20 +9310,7 @@ export type SeasonCondition = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** A connection to a list of `Season` values. */
-export type SeasonConnection = {
-  __typename?: 'SeasonConnection';
-  /** A list of edges which contains the `Season` and cursor to aid in pagination. */
-  edges: Array<Maybe<SeasonEdge>>;
-  /** A list of `Season` objects. */
-  nodes: Array<Maybe<Season>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Season` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-export type SeasonDriver = Node & {
+export type SeasonDriver = {
   __typename?: 'SeasonDriver';
   bestRaceResult?: Maybe<Scalars['Int']['output']>;
   bestSprintRaceResult?: Maybe<Scalars['Int']['output']>;
@@ -13000,8 +9318,6 @@ export type SeasonDriver = Node & {
   /** Reads a single `Driver` that is related to this `SeasonDriver`. */
   driver?: Maybe<Driver>;
   driverId: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   positionNumber?: Maybe<Scalars['Int']['output']>;
   positionText?: Maybe<Scalars['String']['output']>;
   /** Reads a single `Season` that is related to this `SeasonDriver`. */
@@ -13030,28 +9346,6 @@ export type SeasonDriverCondition = {
   driverId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `year` field. */
   year?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** A connection to a list of `SeasonDriver` values. */
-export type SeasonDriverConnection = {
-  __typename?: 'SeasonDriverConnection';
-  /** A list of edges which contains the `SeasonDriver` and cursor to aid in pagination. */
-  edges: Array<Maybe<SeasonDriverEdge>>;
-  /** A list of `SeasonDriver` objects. */
-  nodes: Array<Maybe<SeasonDriver>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `SeasonDriver` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `SeasonDriver` edge in the connection. */
-export type SeasonDriverEdge = {
-  __typename?: 'SeasonDriverEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `SeasonDriver` at the end of the edge. */
-  node?: Maybe<SeasonDriver>;
 };
 
 /** An input for mutations affecting `SeasonDriver` */
@@ -13111,14 +9405,12 @@ export type SeasonDriverPatch = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type SeasonDriverStanding = Node & {
+export type SeasonDriverStanding = {
   __typename?: 'SeasonDriverStanding';
   championshipWon: Scalars['Boolean']['output'];
   /** Reads a single `Driver` that is related to this `SeasonDriverStanding`. */
   driver?: Maybe<Driver>;
   driverId: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   points: Scalars['BigFloat']['output'];
   positionDisplayOrder: Scalars['Int']['output'];
   positionNumber?: Maybe<Scalars['Int']['output']>;
@@ -13143,28 +9435,6 @@ export type SeasonDriverStandingCondition = {
   positionText?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `year` field. */
   year?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** A connection to a list of `SeasonDriverStanding` values. */
-export type SeasonDriverStandingConnection = {
-  __typename?: 'SeasonDriverStandingConnection';
-  /** A list of edges which contains the `SeasonDriverStanding` and cursor to aid in pagination. */
-  edges: Array<Maybe<SeasonDriverStandingEdge>>;
-  /** A list of `SeasonDriverStanding` objects. */
-  nodes: Array<Maybe<SeasonDriverStanding>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `SeasonDriverStanding` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `SeasonDriverStanding` edge in the connection. */
-export type SeasonDriverStandingEdge = {
-  __typename?: 'SeasonDriverStandingEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `SeasonDriverStanding` at the end of the edge. */
-  node?: Maybe<SeasonDriverStanding>;
 };
 
 /** An input for mutations affecting `SeasonDriverStanding` */
@@ -13206,16 +9476,7 @@ export type SeasonDriverStandingPatch = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** A `Season` edge in the connection. */
-export type SeasonEdge = {
-  __typename?: 'SeasonEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `Season` at the end of the edge. */
-  node?: Maybe<Season>;
-};
-
-export type SeasonEngineManufacturer = Node & {
+export type SeasonEngineManufacturer = {
   __typename?: 'SeasonEngineManufacturer';
   bestRaceResult?: Maybe<Scalars['Int']['output']>;
   bestSprintRaceResult?: Maybe<Scalars['Int']['output']>;
@@ -13223,8 +9484,6 @@ export type SeasonEngineManufacturer = Node & {
   /** Reads a single `EngineManufacturer` that is related to this `SeasonEngineManufacturer`. */
   engineManufacturer?: Maybe<EngineManufacturer>;
   engineManufacturerId: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   positionNumber?: Maybe<Scalars['Int']['output']>;
   positionText?: Maybe<Scalars['String']['output']>;
   /** Reads a single `Season` that is related to this `SeasonEngineManufacturer`. */
@@ -13252,28 +9511,6 @@ export type SeasonEngineManufacturerCondition = {
   engineManufacturerId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `year` field. */
   year?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** A connection to a list of `SeasonEngineManufacturer` values. */
-export type SeasonEngineManufacturerConnection = {
-  __typename?: 'SeasonEngineManufacturerConnection';
-  /** A list of edges which contains the `SeasonEngineManufacturer` and cursor to aid in pagination. */
-  edges: Array<Maybe<SeasonEngineManufacturerEdge>>;
-  /** A list of `SeasonEngineManufacturer` objects. */
-  nodes: Array<Maybe<SeasonEngineManufacturer>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `SeasonEngineManufacturer` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `SeasonEngineManufacturer` edge in the connection. */
-export type SeasonEngineManufacturerEdge = {
-  __typename?: 'SeasonEngineManufacturerEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `SeasonEngineManufacturer` at the end of the edge. */
-  node?: Maybe<SeasonEngineManufacturer>;
 };
 
 /** An input for mutations affecting `SeasonEngineManufacturer` */
@@ -13331,7 +9568,7 @@ export type SeasonEngineManufacturerPatch = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type SeasonEntrant = Node & {
+export type SeasonEntrant = {
   __typename?: 'SeasonEntrant';
   /** Reads a single `Country` that is related to this `SeasonEntrant`. */
   country?: Maybe<Country>;
@@ -13339,14 +9576,12 @@ export type SeasonEntrant = Node & {
   /** Reads a single `Entrant` that is related to this `SeasonEntrant`. */
   entrant?: Maybe<Entrant>;
   entrantId: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   /** Reads a single `Season` that is related to this `SeasonEntrant`. */
   season?: Maybe<Season>;
   year: Scalars['Int']['output'];
 };
 
-export type SeasonEntrantChassis = Node & {
+export type SeasonEntrantChassis = {
   __typename?: 'SeasonEntrantChassis';
   /** Reads a single `Chassis` that is related to this `SeasonEntrantChassis`. */
   chassis?: Maybe<Chassis>;
@@ -13357,8 +9592,6 @@ export type SeasonEntrantChassis = Node & {
   /** Reads a single `Entrant` that is related to this `SeasonEntrantChassis`. */
   entrant?: Maybe<Entrant>;
   entrantId: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   /** Reads a single `Season` that is related to this `SeasonEntrantChassis`. */
   season?: Maybe<Season>;
   /** Reads a single `Team` that is related to this `SeasonEntrantChassis`. */
@@ -13382,28 +9615,6 @@ export type SeasonEntrantChassisCondition = {
   teamId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `year` field. */
   year?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** A connection to a list of `SeasonEntrantChassis` values. */
-export type SeasonEntrantChassisConnection = {
-  __typename?: 'SeasonEntrantChassisConnection';
-  /** A list of edges which contains the `SeasonEntrantChassis` and cursor to aid in pagination. */
-  edges: Array<Maybe<SeasonEntrantChassisEdge>>;
-  /** A list of `SeasonEntrantChassis` objects. */
-  nodes: Array<Maybe<SeasonEntrantChassis>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `SeasonEntrantChassis` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `SeasonEntrantChassis` edge in the connection. */
-export type SeasonEntrantChassisEdge = {
-  __typename?: 'SeasonEntrantChassisEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `SeasonEntrantChassis` at the end of the edge. */
-  node?: Maybe<SeasonEntrantChassis>;
 };
 
 /** An input for mutations affecting `SeasonEntrantChassis` */
@@ -13454,20 +9665,7 @@ export type SeasonEntrantCondition = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** A connection to a list of `SeasonEntrant` values. */
-export type SeasonEntrantConnection = {
-  __typename?: 'SeasonEntrantConnection';
-  /** A list of edges which contains the `SeasonEntrant` and cursor to aid in pagination. */
-  edges: Array<Maybe<SeasonEntrantEdge>>;
-  /** A list of `SeasonEntrant` objects. */
-  nodes: Array<Maybe<SeasonEntrant>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `SeasonEntrant` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-export type SeasonEntrantDriver = Node & {
+export type SeasonEntrantDriver = {
   __typename?: 'SeasonEntrantDriver';
   /** Reads a single `Driver` that is related to this `SeasonEntrantDriver`. */
   driver?: Maybe<Driver>;
@@ -13478,8 +9676,6 @@ export type SeasonEntrantDriver = Node & {
   /** Reads a single `Entrant` that is related to this `SeasonEntrantDriver`. */
   entrant?: Maybe<Entrant>;
   entrantId: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   rounds?: Maybe<Scalars['String']['output']>;
   roundsText?: Maybe<Scalars['String']['output']>;
   /** Reads a single `Season` that is related to this `SeasonEntrantDriver`. */
@@ -13506,28 +9702,6 @@ export type SeasonEntrantDriverCondition = {
   teamId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `year` field. */
   year?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** A connection to a list of `SeasonEntrantDriver` values. */
-export type SeasonEntrantDriverConnection = {
-  __typename?: 'SeasonEntrantDriverConnection';
-  /** A list of edges which contains the `SeasonEntrantDriver` and cursor to aid in pagination. */
-  edges: Array<Maybe<SeasonEntrantDriverEdge>>;
-  /** A list of `SeasonEntrantDriver` objects. */
-  nodes: Array<Maybe<SeasonEntrantDriver>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `SeasonEntrantDriver` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `SeasonEntrantDriver` edge in the connection. */
-export type SeasonEntrantDriverEdge = {
-  __typename?: 'SeasonEntrantDriverEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `SeasonEntrantDriver` at the end of the edge. */
-  node?: Maybe<SeasonEntrantDriver>;
 };
 
 /** An input for mutations affecting `SeasonEntrantDriver` */
@@ -13571,16 +9745,7 @@ export type SeasonEntrantDriverPatch = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** A `SeasonEntrant` edge in the connection. */
-export type SeasonEntrantEdge = {
-  __typename?: 'SeasonEntrantEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `SeasonEntrant` at the end of the edge. */
-  node?: Maybe<SeasonEntrant>;
-};
-
-export type SeasonEntrantEngine = Node & {
+export type SeasonEntrantEngine = {
   __typename?: 'SeasonEntrantEngine';
   /** Reads a single `Engine` that is related to this `SeasonEntrantEngine`. */
   engine?: Maybe<Engine>;
@@ -13591,8 +9756,6 @@ export type SeasonEntrantEngine = Node & {
   /** Reads a single `Entrant` that is related to this `SeasonEntrantEngine`. */
   entrant?: Maybe<Entrant>;
   entrantId: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   /** Reads a single `Season` that is related to this `SeasonEntrantEngine`. */
   season?: Maybe<Season>;
   /** Reads a single `Team` that is related to this `SeasonEntrantEngine`. */
@@ -13616,28 +9779,6 @@ export type SeasonEntrantEngineCondition = {
   teamId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `year` field. */
   year?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** A connection to a list of `SeasonEntrantEngine` values. */
-export type SeasonEntrantEngineConnection = {
-  __typename?: 'SeasonEntrantEngineConnection';
-  /** A list of edges which contains the `SeasonEntrantEngine` and cursor to aid in pagination. */
-  edges: Array<Maybe<SeasonEntrantEngineEdge>>;
-  /** A list of `SeasonEntrantEngine` objects. */
-  nodes: Array<Maybe<SeasonEntrantEngine>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `SeasonEntrantEngine` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `SeasonEntrantEngine` edge in the connection. */
-export type SeasonEntrantEngineEdge = {
-  __typename?: 'SeasonEntrantEngineEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `SeasonEntrantEngine` at the end of the edge. */
-  node?: Maybe<SeasonEntrantEngine>;
 };
 
 /** An input for mutations affecting `SeasonEntrantEngine` */
@@ -13702,7 +9843,7 @@ export type SeasonEntrantPatch = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type SeasonEntrantTeam = Node & {
+export type SeasonEntrantTeam = {
   __typename?: 'SeasonEntrantTeam';
   /** Reads a single `EngineManufacturer` that is related to this `SeasonEntrantTeam`. */
   engineManufacturer?: Maybe<EngineManufacturer>;
@@ -13710,8 +9851,6 @@ export type SeasonEntrantTeam = Node & {
   /** Reads a single `Entrant` that is related to this `SeasonEntrantTeam`. */
   entrant?: Maybe<Entrant>;
   entrantId: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   /** Reads a single `Season` that is related to this `SeasonEntrantTeam`. */
   season?: Maybe<Season>;
   /** Reads a single `Team` that is related to this `SeasonEntrantTeam`. */
@@ -13733,28 +9872,6 @@ export type SeasonEntrantTeamCondition = {
   teamId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `year` field. */
   year?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** A connection to a list of `SeasonEntrantTeam` values. */
-export type SeasonEntrantTeamConnection = {
-  __typename?: 'SeasonEntrantTeamConnection';
-  /** A list of edges which contains the `SeasonEntrantTeam` and cursor to aid in pagination. */
-  edges: Array<Maybe<SeasonEntrantTeamEdge>>;
-  /** A list of `SeasonEntrantTeam` objects. */
-  nodes: Array<Maybe<SeasonEntrantTeam>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `SeasonEntrantTeam` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `SeasonEntrantTeam` edge in the connection. */
-export type SeasonEntrantTeamEdge = {
-  __typename?: 'SeasonEntrantTeamEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `SeasonEntrantTeam` at the end of the edge. */
-  node?: Maybe<SeasonEntrantTeam>;
 };
 
 /** An input for mutations affecting `SeasonEntrantTeam` */
@@ -13788,7 +9905,7 @@ export type SeasonEntrantTeamPatch = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type SeasonEntrantTyreManufacturer = Node & {
+export type SeasonEntrantTyreManufacturer = {
   __typename?: 'SeasonEntrantTyreManufacturer';
   /** Reads a single `EngineManufacturer` that is related to this `SeasonEntrantTyreManufacturer`. */
   engineManufacturer?: Maybe<EngineManufacturer>;
@@ -13796,8 +9913,6 @@ export type SeasonEntrantTyreManufacturer = Node & {
   /** Reads a single `Entrant` that is related to this `SeasonEntrantTyreManufacturer`. */
   entrant?: Maybe<Entrant>;
   entrantId: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   /** Reads a single `Season` that is related to this `SeasonEntrantTyreManufacturer`. */
   season?: Maybe<Season>;
   /** Reads a single `Team` that is related to this `SeasonEntrantTyreManufacturer`. */
@@ -13824,28 +9939,6 @@ export type SeasonEntrantTyreManufacturerCondition = {
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `year` field. */
   year?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** A connection to a list of `SeasonEntrantTyreManufacturer` values. */
-export type SeasonEntrantTyreManufacturerConnection = {
-  __typename?: 'SeasonEntrantTyreManufacturerConnection';
-  /** A list of edges which contains the `SeasonEntrantTyreManufacturer` and cursor to aid in pagination. */
-  edges: Array<Maybe<SeasonEntrantTyreManufacturerEdge>>;
-  /** A list of `SeasonEntrantTyreManufacturer` objects. */
-  nodes: Array<Maybe<SeasonEntrantTyreManufacturer>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `SeasonEntrantTyreManufacturer` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `SeasonEntrantTyreManufacturer` edge in the connection. */
-export type SeasonEntrantTyreManufacturerEdge = {
-  __typename?: 'SeasonEntrantTyreManufacturerEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `SeasonEntrantTyreManufacturer` at the end of the edge. */
-  node?: Maybe<SeasonEntrantTyreManufacturer>;
 };
 
 /** An input for mutations affecting `SeasonEntrantTyreManufacturer` */
@@ -13902,13 +9995,11 @@ export type SeasonPatch = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type SeasonTeam = Node & {
+export type SeasonTeam = {
   __typename?: 'SeasonTeam';
   bestRaceResult?: Maybe<Scalars['Int']['output']>;
   bestSprintRaceResult?: Maybe<Scalars['Int']['output']>;
   bestStartingGridPosition?: Maybe<Scalars['Int']['output']>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   positionNumber?: Maybe<Scalars['Int']['output']>;
   positionText?: Maybe<Scalars['String']['output']>;
   /** Reads a single `Season` that is related to this `SeasonTeam`. */
@@ -13940,28 +10031,6 @@ export type SeasonTeamCondition = {
   teamId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `year` field. */
   year?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** A connection to a list of `SeasonTeam` values. */
-export type SeasonTeamConnection = {
-  __typename?: 'SeasonTeamConnection';
-  /** A list of edges which contains the `SeasonTeam` and cursor to aid in pagination. */
-  edges: Array<Maybe<SeasonTeamEdge>>;
-  /** A list of `SeasonTeam` objects. */
-  nodes: Array<Maybe<SeasonTeam>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `SeasonTeam` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `SeasonTeam` edge in the connection. */
-export type SeasonTeamEdge = {
-  __typename?: 'SeasonTeamEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `SeasonTeam` at the end of the edge. */
-  node?: Maybe<SeasonTeam>;
 };
 
 /** An input for mutations affecting `SeasonTeam` */
@@ -14021,14 +10090,12 @@ export type SeasonTeamPatch = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type SeasonTeamStanding = Node & {
+export type SeasonTeamStanding = {
   __typename?: 'SeasonTeamStanding';
   championshipWon: Scalars['Boolean']['output'];
   /** Reads a single `EngineManufacturer` that is related to this `SeasonTeamStanding`. */
   engineManufacturer?: Maybe<EngineManufacturer>;
   engineManufacturerId: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   points: Scalars['BigFloat']['output'];
   positionDisplayOrder: Scalars['Int']['output'];
   positionNumber?: Maybe<Scalars['Int']['output']>;
@@ -14058,28 +10125,6 @@ export type SeasonTeamStandingCondition = {
   teamId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `year` field. */
   year?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** A connection to a list of `SeasonTeamStanding` values. */
-export type SeasonTeamStandingConnection = {
-  __typename?: 'SeasonTeamStandingConnection';
-  /** A list of edges which contains the `SeasonTeamStanding` and cursor to aid in pagination. */
-  edges: Array<Maybe<SeasonTeamStandingEdge>>;
-  /** A list of `SeasonTeamStanding` objects. */
-  nodes: Array<Maybe<SeasonTeamStanding>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `SeasonTeamStanding` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `SeasonTeamStanding` edge in the connection. */
-export type SeasonTeamStandingEdge = {
-  __typename?: 'SeasonTeamStandingEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `SeasonTeamStanding` at the end of the edge. */
-  node?: Maybe<SeasonTeamStanding>;
 };
 
 /** An input for mutations affecting `SeasonTeamStanding` */
@@ -14125,13 +10170,11 @@ export type SeasonTeamStandingPatch = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type SeasonTyreManufacturer = Node & {
+export type SeasonTyreManufacturer = {
   __typename?: 'SeasonTyreManufacturer';
   bestRaceResult?: Maybe<Scalars['Int']['output']>;
   bestSprintRaceResult?: Maybe<Scalars['Int']['output']>;
   bestStartingGridPosition?: Maybe<Scalars['Int']['output']>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   /** Reads a single `Season` that is related to this `SeasonTyreManufacturer`. */
   season?: Maybe<Season>;
   totalFastestLaps: Scalars['Int']['output'];
@@ -14159,28 +10202,6 @@ export type SeasonTyreManufacturerCondition = {
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `year` field. */
   year?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** A connection to a list of `SeasonTyreManufacturer` values. */
-export type SeasonTyreManufacturerConnection = {
-  __typename?: 'SeasonTyreManufacturerConnection';
-  /** A list of edges which contains the `SeasonTyreManufacturer` and cursor to aid in pagination. */
-  edges: Array<Maybe<SeasonTyreManufacturerEdge>>;
-  /** A list of `SeasonTyreManufacturer` objects. */
-  nodes: Array<Maybe<SeasonTyreManufacturer>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `SeasonTyreManufacturer` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `SeasonTyreManufacturer` edge in the connection. */
-export type SeasonTyreManufacturerEdge = {
-  __typename?: 'SeasonTyreManufacturerEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `SeasonTyreManufacturer` at the end of the edge. */
-  node?: Maybe<SeasonTyreManufacturer>;
 };
 
 /** An input for mutations affecting `SeasonTyreManufacturer` */
@@ -14232,7 +10253,7 @@ export type SeasonTyreManufacturerPatch = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type SprintQualifyingResult = Node & {
+export type SprintQualifyingResult = {
   __typename?: 'SprintQualifyingResult';
   /** Reads a single `Driver` that is related to this `SprintQualifyingResult`. */
   driver?: Maybe<Driver>;
@@ -14241,8 +10262,6 @@ export type SprintQualifyingResult = Node & {
   engineManufacturerId?: Maybe<Scalars['String']['output']>;
   gap?: Maybe<Scalars['String']['output']>;
   gapMillis?: Maybe<Scalars['Int']['output']>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   interval?: Maybe<Scalars['String']['output']>;
   intervalMillis?: Maybe<Scalars['Int']['output']>;
   laps?: Maybe<Scalars['Int']['output']>;
@@ -14315,28 +10334,6 @@ export type SprintQualifyingResultCondition = {
   timeMillis?: InputMaybe<Scalars['Int']['input']>;
   /** Checks for equality with the object’s `tyreManufacturerId` field. */
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `SprintQualifyingResult` values. */
-export type SprintQualifyingResultConnection = {
-  __typename?: 'SprintQualifyingResultConnection';
-  /** A list of edges which contains the `SprintQualifyingResult` and cursor to aid in pagination. */
-  edges: Array<Maybe<SprintQualifyingResultEdge>>;
-  /** A list of `SprintQualifyingResult` objects. */
-  nodes: Array<Maybe<SprintQualifyingResult>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `SprintQualifyingResult` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `SprintQualifyingResult` edge in the connection. */
-export type SprintQualifyingResultEdge = {
-  __typename?: 'SprintQualifyingResultEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `SprintQualifyingResult` at the end of the edge. */
-  node?: Maybe<SprintQualifyingResult>;
 };
 
 /** An input for mutations affecting `SprintQualifyingResult` */
@@ -14442,7 +10439,7 @@ export type SprintQualifyingResultPatch = {
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type SprintRaceResult = Node & {
+export type SprintRaceResult = {
   __typename?: 'SprintRaceResult';
   /** Reads a single `Driver` that is related to this `SprintRaceResult`. */
   driver?: Maybe<Driver>;
@@ -14454,8 +10451,6 @@ export type SprintRaceResult = Node & {
   gapMillis?: Maybe<Scalars['Int']['output']>;
   gridPositionNumber?: Maybe<Scalars['Int']['output']>;
   gridPositionText?: Maybe<Scalars['String']['output']>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   interval?: Maybe<Scalars['String']['output']>;
   intervalMillis?: Maybe<Scalars['Int']['output']>;
   laps?: Maybe<Scalars['Int']['output']>;
@@ -14537,28 +10532,6 @@ export type SprintRaceResultCondition = {
   timePenaltyMillis?: InputMaybe<Scalars['Int']['input']>;
   /** Checks for equality with the object’s `tyreManufacturerId` field. */
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `SprintRaceResult` values. */
-export type SprintRaceResultConnection = {
-  __typename?: 'SprintRaceResultConnection';
-  /** A list of edges which contains the `SprintRaceResult` and cursor to aid in pagination. */
-  edges: Array<Maybe<SprintRaceResultEdge>>;
-  /** A list of `SprintRaceResult` objects. */
-  nodes: Array<Maybe<SprintRaceResult>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `SprintRaceResult` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `SprintRaceResult` edge in the connection. */
-export type SprintRaceResultEdge = {
-  __typename?: 'SprintRaceResultEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `SprintRaceResult` at the end of the edge. */
-  node?: Maybe<SprintRaceResult>;
 };
 
 /** An input for mutations affecting `SprintRaceResult` */
@@ -14680,7 +10653,7 @@ export type SprintRaceResultPatch = {
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type SprintStartingGridPosition = Node & {
+export type SprintStartingGridPosition = {
   __typename?: 'SprintStartingGridPosition';
   /** Reads a single `Driver` that is related to this `SprintStartingGridPosition`. */
   driver?: Maybe<Driver>;
@@ -14689,8 +10662,6 @@ export type SprintStartingGridPosition = Node & {
   engineManufacturerId?: Maybe<Scalars['String']['output']>;
   gridPenalty?: Maybe<Scalars['String']['output']>;
   gridPenaltyPositions?: Maybe<Scalars['Int']['output']>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   positionDisplayOrder: Scalars['Int']['output'];
   positionNumber?: Maybe<Scalars['Int']['output']>;
   positionText?: Maybe<Scalars['String']['output']>;
@@ -14742,28 +10713,6 @@ export type SprintStartingGridPositionCondition = {
   timeMillis?: InputMaybe<Scalars['Int']['input']>;
   /** Checks for equality with the object’s `tyreManufacturerId` field. */
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `SprintStartingGridPosition` values. */
-export type SprintStartingGridPositionConnection = {
-  __typename?: 'SprintStartingGridPositionConnection';
-  /** A list of edges which contains the `SprintStartingGridPosition` and cursor to aid in pagination. */
-  edges: Array<Maybe<SprintStartingGridPositionEdge>>;
-  /** A list of `SprintStartingGridPosition` objects. */
-  nodes: Array<Maybe<SprintStartingGridPosition>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `SprintStartingGridPosition` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `SprintStartingGridPosition` edge in the connection. */
-export type SprintStartingGridPositionEdge = {
-  __typename?: 'SprintStartingGridPositionEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `SprintStartingGridPosition` at the end of the edge. */
-  node?: Maybe<SprintStartingGridPosition>;
 };
 
 /** An input for mutations affecting `SprintStartingGridPosition` */
@@ -14841,7 +10790,7 @@ export type SprintStartingGridPositionPatch = {
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type StartingGridPosition = Node & {
+export type StartingGridPosition = {
   __typename?: 'StartingGridPosition';
   /** Reads a single `Driver` that is related to this `StartingGridPosition`. */
   driver?: Maybe<Driver>;
@@ -14850,8 +10799,6 @@ export type StartingGridPosition = Node & {
   engineManufacturerId?: Maybe<Scalars['String']['output']>;
   gridPenalty?: Maybe<Scalars['String']['output']>;
   gridPenaltyPositions?: Maybe<Scalars['Int']['output']>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   positionDisplayOrder: Scalars['Int']['output'];
   positionNumber?: Maybe<Scalars['Int']['output']>;
   positionText?: Maybe<Scalars['String']['output']>;
@@ -14903,28 +10850,6 @@ export type StartingGridPositionCondition = {
   timeMillis?: InputMaybe<Scalars['Int']['input']>;
   /** Checks for equality with the object’s `tyreManufacturerId` field. */
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `StartingGridPosition` values. */
-export type StartingGridPositionConnection = {
-  __typename?: 'StartingGridPositionConnection';
-  /** A list of edges which contains the `StartingGridPosition` and cursor to aid in pagination. */
-  edges: Array<Maybe<StartingGridPositionEdge>>;
-  /** A list of `StartingGridPosition` objects. */
-  nodes: Array<Maybe<StartingGridPosition>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `StartingGridPosition` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `StartingGridPosition` edge in the connection. */
-export type StartingGridPositionEdge = {
-  __typename?: 'StartingGridPositionEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `StartingGridPosition` at the end of the edge. */
-  node?: Maybe<StartingGridPosition>;
 };
 
 /** An input for mutations affecting `StartingGridPosition` */
@@ -15002,69 +10927,67 @@ export type StartingGridPositionPatch = {
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type Team = Node & {
+export type Team = {
   __typename?: 'Team';
   /** Reads and enables pagination through a set of `AppTeamHistory`. */
-  antecedents: AppTeamHistoryConnection;
+  antecedents: Array<AppTeamHistory>;
   bestChampionshipPosition?: Maybe<Scalars['Int']['output']>;
   bestRaceResult?: Maybe<Scalars['Int']['output']>;
   bestSprintRaceResult?: Maybe<Scalars['Int']['output']>;
   bestStartingGridPosition?: Maybe<Scalars['Int']['output']>;
   bio?: Maybe<WikipediaBio>;
   /** Reads and enables pagination through a set of `Chassis`. */
-  chassises: ChassisConnection;
+  chassises: Array<Chassis>;
   /** Reads a single `AppTeamColor` that is related to this `Team`. */
   colors?: Maybe<AppTeamColor>;
   /** Reads a single `Country` that is related to this `Team`. */
   country?: Maybe<Country>;
   countryId: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `DriverOfTheDayResult`. */
-  driverOfTheDayResults: DriverOfTheDayResultConnection;
+  driverOfTheDayResults: Array<DriverOfTheDayResult>;
   /** Reads and enables pagination through a set of `FastestLap`. */
-  fastestLaps: FastestLapConnection;
+  fastestLaps: Array<FastestLap>;
   fullName: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
+  id: Scalars['String']['output'];
   name: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `PitStop`. */
-  pitStops: PitStopConnection;
+  pitStops: Array<PitStop>;
   /** Reads and enables pagination through a set of `QualifyingResult`. */
-  qualifyingResults: QualifyingResultConnection;
+  qualifyingResults: Array<QualifyingResult>;
   /** Reads and enables pagination through a set of `RaceDatum`. */
-  raceData: RaceDatumConnection;
+  raceData: Array<RaceDatum>;
   /** Reads and enables pagination through a set of `RaceResult`. */
-  raceResults: RaceResultConnection;
+  raceResults: Array<RaceResult>;
   /** Reads and enables pagination through a set of `RaceTeamStanding`. */
-  raceTeamStandings: RaceTeamStandingConnection;
-  rowId: Scalars['String']['output'];
+  raceTeamStandings: Array<RaceTeamStanding>;
   /** Reads and enables pagination through a set of `SeasonEntrantChassis`. */
-  seasonEntrantChassises: SeasonEntrantChassisConnection;
+  seasonEntrantChassises: Array<SeasonEntrantChassis>;
   /** Reads and enables pagination through a set of `SeasonEntrantDriver`. */
-  seasonEntrantDrivers: SeasonEntrantDriverConnection;
+  seasonEntrantDrivers: Array<SeasonEntrantDriver>;
   /** Reads and enables pagination through a set of `SeasonEntrantEngine`. */
-  seasonEntrantEngines: SeasonEntrantEngineConnection;
+  seasonEntrantEngines: Array<SeasonEntrantEngine>;
   /** Reads and enables pagination through a set of `SeasonEntrantTeam`. */
-  seasonEntrantTeams: SeasonEntrantTeamConnection;
+  seasonEntrantTeams: Array<SeasonEntrantTeam>;
   /** Reads and enables pagination through a set of `SeasonEntrantTyreManufacturer`. */
-  seasonEntrantTyreManufacturers: SeasonEntrantTyreManufacturerConnection;
+  seasonEntrantTyreManufacturers: Array<SeasonEntrantTyreManufacturer>;
   /** Reads and enables pagination through a set of `SeasonTeamStanding`. */
-  seasonTeamStandings: SeasonTeamStandingConnection;
+  seasonTeamStandings: Array<SeasonTeamStanding>;
   /** Reads and enables pagination through a set of `SeasonTeam`. */
-  seasonTeams: SeasonTeamConnection;
+  seasonTeams: Array<SeasonTeam>;
   /** Reads and enables pagination through a set of `SprintQualifyingResult`. */
-  sprintQualifyingResults: SprintQualifyingResultConnection;
+  sprintQualifyingResults: Array<SprintQualifyingResult>;
   /** Reads and enables pagination through a set of `SprintRaceResult`. */
-  sprintRaceResults: SprintRaceResultConnection;
+  sprintRaceResults: Array<SprintRaceResult>;
   /** Reads and enables pagination through a set of `SprintStartingGridPosition`. */
-  sprintStartingGridPositions: SprintStartingGridPositionConnection;
+  sprintStartingGridPositions: Array<SprintStartingGridPosition>;
   /** Reads and enables pagination through a set of `StartingGridPosition`. */
-  startingGridPositions: StartingGridPositionConnection;
+  startingGridPositions: Array<StartingGridPosition>;
   /** Reads and enables pagination through a set of `AppTeamHistory`. */
-  successors: AppTeamHistoryConnection;
+  successors: Array<AppTeamHistory>;
   /** Reads and enables pagination through a set of `TeamChronology`. */
-  teamChronologies: TeamChronologyConnection;
+  teamChronologies: Array<TeamChronology>;
   /** Reads and enables pagination through a set of `TeamChronology`. */
-  teamChronologiesByOtherTeamId: TeamChronologyConnection;
+  teamChronologiesByOtherTeamId: Array<TeamChronology>;
   total1And2Finishes: Scalars['Int']['output'];
   totalChampionshipPoints: Scalars['BigFloat']['output'];
   totalChampionshipWins: Scalars['Int']['output'];
@@ -15083,261 +11006,190 @@ export type Team = Node & {
 
 
 export type TeamAntecedentsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<AppTeamHistoryCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<AppTeamHistoryOrderBy>>;
 };
 
 
 export type TeamChassisesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<ChassisCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<ChassisOrderBy>>;
 };
 
 
 export type TeamDriverOfTheDayResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<DriverOfTheDayResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<DriverOfTheDayResultOrderBy>>;
 };
 
 
 export type TeamFastestLapsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<FastestLapCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<FastestLapOrderBy>>;
 };
 
 
 export type TeamPitStopsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<PitStopCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<PitStopOrderBy>>;
 };
 
 
 export type TeamQualifyingResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<QualifyingResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<QualifyingResultOrderBy>>;
 };
 
 
 export type TeamRaceDataArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceDatumCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceDatumOrderBy>>;
 };
 
 
 export type TeamRaceResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceResultOrderBy>>;
 };
 
 
 export type TeamRaceTeamStandingsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceTeamStandingCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceTeamStandingOrderBy>>;
 };
 
 
 export type TeamSeasonEntrantChassisesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantChassisCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantChassisOrderBy>>;
 };
 
 
 export type TeamSeasonEntrantDriversArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantDriverCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantDriverOrderBy>>;
 };
 
 
 export type TeamSeasonEntrantEnginesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantEngineCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantEngineOrderBy>>;
 };
 
 
 export type TeamSeasonEntrantTeamsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantTeamCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantTeamOrderBy>>;
 };
 
 
 export type TeamSeasonEntrantTyreManufacturersArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantTyreManufacturerCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantTyreManufacturerOrderBy>>;
 };
 
 
 export type TeamSeasonTeamStandingsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonTeamStandingCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonTeamStandingOrderBy>>;
 };
 
 
 export type TeamSeasonTeamsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonTeamCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonTeamOrderBy>>;
 };
 
 
 export type TeamSprintQualifyingResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SprintQualifyingResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SprintQualifyingResultOrderBy>>;
 };
 
 
 export type TeamSprintRaceResultsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SprintRaceResultCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SprintRaceResultOrderBy>>;
 };
 
 
 export type TeamSprintStartingGridPositionsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SprintStartingGridPositionCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SprintStartingGridPositionOrderBy>>;
 };
 
 
 export type TeamStartingGridPositionsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<StartingGridPositionCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<StartingGridPositionOrderBy>>;
 };
 
 
 export type TeamSuccessorsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<AppTeamHistoryCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<AppTeamHistoryOrderBy>>;
 };
 
 
 export type TeamTeamChronologiesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<TeamChronologyCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<TeamChronologyOrderBy>>;
 };
 
 
 export type TeamTeamChronologiesByOtherTeamIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<TeamChronologyCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<TeamChronologyOrderBy>>;
 };
 
-export type TeamChronology = Node & {
+export type TeamChronology = {
   __typename?: 'TeamChronology';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
   /** Reads a single `Team` that is related to this `TeamChronology`. */
   otherTeam?: Maybe<Team>;
   otherTeamId: Scalars['String']['output'];
@@ -15364,28 +11216,6 @@ export type TeamChronologyCondition = {
   yearFrom?: InputMaybe<Scalars['Int']['input']>;
   /** Checks for equality with the object’s `yearTo` field. */
   yearTo?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** A connection to a list of `TeamChronology` values. */
-export type TeamChronologyConnection = {
-  __typename?: 'TeamChronologyConnection';
-  /** A list of edges which contains the `TeamChronology` and cursor to aid in pagination. */
-  edges: Array<Maybe<TeamChronologyEdge>>;
-  /** A list of `TeamChronology` objects. */
-  nodes: Array<Maybe<TeamChronology>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `TeamChronology` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `TeamChronology` edge in the connection. */
-export type TeamChronologyEdge = {
-  __typename?: 'TeamChronologyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `TeamChronology` at the end of the edge. */
-  node?: Maybe<TeamChronology>;
 };
 
 /** An input for mutations affecting `TeamChronology` */
@@ -15429,32 +11259,10 @@ export type TeamCondition = {
   countryId?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `fullName` field. */
   fullName?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `Team` values. */
-export type TeamConnection = {
-  __typename?: 'TeamConnection';
-  /** A list of edges which contains the `Team` and cursor to aid in pagination. */
-  edges: Array<Maybe<TeamEdge>>;
-  /** A list of `Team` objects. */
-  nodes: Array<Maybe<Team>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Team` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `Team` edge in the connection. */
-export type TeamEdge = {
-  __typename?: 'TeamEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `Team` at the end of the edge. */
-  node?: Maybe<Team>;
 };
 
 /** An input for mutations affecting `Team` */
@@ -15465,8 +11273,8 @@ export type TeamInput = {
   bestStartingGridPosition?: InputMaybe<Scalars['Int']['input']>;
   countryId: Scalars['String']['input'];
   fullName: Scalars['String']['input'];
+  id: Scalars['String']['input'];
   name: Scalars['String']['input'];
-  rowId: Scalars['String']['input'];
   total1And2Finishes: Scalars['Int']['input'];
   totalChampionshipPoints: Scalars['BigFloat']['input'];
   totalChampionshipWins: Scalars['Int']['input'];
@@ -15489,13 +11297,13 @@ export enum TeamOrderBy {
   CountryIdDesc = 'COUNTRY_ID_DESC',
   FullNameAsc = 'FULL_NAME_ASC',
   FullNameDesc = 'FULL_NAME_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   NameAsc = 'NAME_ASC',
   NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  RowIdAsc = 'ROW_ID_ASC',
-  RowIdDesc = 'ROW_ID_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
 /** Represents an update to a `Team`. Fields that are set will be updated. */
@@ -15506,8 +11314,8 @@ export type TeamPatch = {
   bestStartingGridPosition?: InputMaybe<Scalars['Int']['input']>;
   countryId?: InputMaybe<Scalars['String']['input']>;
   fullName?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  rowId?: InputMaybe<Scalars['String']['input']>;
   total1And2Finishes?: InputMaybe<Scalars['Int']['input']>;
   totalChampionshipPoints?: InputMaybe<Scalars['BigFloat']['input']>;
   totalChampionshipWins?: InputMaybe<Scalars['Int']['input']>;
@@ -15524,7 +11332,7 @@ export type TeamPatch = {
   totalSprintRaceWins?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type TyreManufacturer = Node & {
+export type TyreManufacturer = {
   __typename?: 'TyreManufacturer';
   bestRaceResult?: Maybe<Scalars['Int']['output']>;
   bestSprintRaceResult?: Maybe<Scalars['Int']['output']>;
@@ -15532,16 +11340,14 @@ export type TyreManufacturer = Node & {
   /** Reads a single `Country` that is related to this `TyreManufacturer`. */
   country?: Maybe<Country>;
   countryId: Scalars['String']['output'];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output'];
+  id: Scalars['String']['output'];
   name: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `RaceDatum`. */
-  raceData: RaceDatumConnection;
-  rowId: Scalars['String']['output'];
+  raceData: Array<RaceDatum>;
   /** Reads and enables pagination through a set of `SeasonEntrantTyreManufacturer`. */
-  seasonEntrantTyreManufacturers: SeasonEntrantTyreManufacturerConnection;
+  seasonEntrantTyreManufacturers: Array<SeasonEntrantTyreManufacturer>;
   /** Reads and enables pagination through a set of `SeasonTyreManufacturer`. */
-  seasonTyreManufacturers: SeasonTyreManufacturerConnection;
+  seasonTyreManufacturers: Array<SeasonTyreManufacturer>;
   totalFastestLaps: Scalars['Int']['output'];
   totalPodiumRaces: Scalars['Int']['output'];
   totalPodiums: Scalars['Int']['output'];
@@ -15556,33 +11362,24 @@ export type TyreManufacturer = Node & {
 
 
 export type TyreManufacturerRaceDataArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<RaceDatumCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RaceDatumOrderBy>>;
 };
 
 
 export type TyreManufacturerSeasonEntrantTyreManufacturersArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonEntrantTyreManufacturerCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonEntrantTyreManufacturerOrderBy>>;
 };
 
 
 export type TyreManufacturerSeasonTyreManufacturersArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
   condition?: InputMaybe<SeasonTyreManufacturerCondition>;
   first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<SeasonTyreManufacturerOrderBy>>;
 };
@@ -15594,32 +11391,10 @@ export type TyreManufacturerSeasonTyreManufacturersArgs = {
 export type TyreManufacturerCondition = {
   /** Checks for equality with the object’s `countryId` field. */
   countryId?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>;
-  /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `TyreManufacturer` values. */
-export type TyreManufacturerConnection = {
-  __typename?: 'TyreManufacturerConnection';
-  /** A list of edges which contains the `TyreManufacturer` and cursor to aid in pagination. */
-  edges: Array<Maybe<TyreManufacturerEdge>>;
-  /** A list of `TyreManufacturer` objects. */
-  nodes: Array<Maybe<TyreManufacturer>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `TyreManufacturer` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `TyreManufacturer` edge in the connection. */
-export type TyreManufacturerEdge = {
-  __typename?: 'TyreManufacturerEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `TyreManufacturer` at the end of the edge. */
-  node?: Maybe<TyreManufacturer>;
 };
 
 /** An input for mutations affecting `TyreManufacturer` */
@@ -15628,8 +11403,8 @@ export type TyreManufacturerInput = {
   bestSprintRaceResult?: InputMaybe<Scalars['Int']['input']>;
   bestStartingGridPosition?: InputMaybe<Scalars['Int']['input']>;
   countryId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
   name: Scalars['String']['input'];
-  rowId: Scalars['String']['input'];
   totalFastestLaps: Scalars['Int']['input'];
   totalPodiumRaces: Scalars['Int']['input'];
   totalPodiums: Scalars['Int']['input'];
@@ -15646,13 +11421,13 @@ export type TyreManufacturerInput = {
 export enum TyreManufacturerOrderBy {
   CountryIdAsc = 'COUNTRY_ID_ASC',
   CountryIdDesc = 'COUNTRY_ID_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   NameAsc = 'NAME_ASC',
   NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  RowIdAsc = 'ROW_ID_ASC',
-  RowIdDesc = 'ROW_ID_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
 /** Represents an update to a `TyreManufacturer`. Fields that are set will be updated. */
@@ -15661,8 +11436,8 @@ export type TyreManufacturerPatch = {
   bestSprintRaceResult?: InputMaybe<Scalars['Int']['input']>;
   bestStartingGridPosition?: InputMaybe<Scalars['Int']['input']>;
   countryId?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  rowId?: InputMaybe<Scalars['String']['input']>;
   totalFastestLaps?: InputMaybe<Scalars['Int']['input']>;
   totalPodiumRaces?: InputMaybe<Scalars['Int']['input']>;
   totalPodiums?: InputMaybe<Scalars['Int']['input']>;
@@ -15673,19 +11448,6 @@ export type TyreManufacturerPatch = {
   totalRaceWins?: InputMaybe<Scalars['Int']['input']>;
   totalSprintRaceStarts?: InputMaybe<Scalars['Int']['input']>;
   totalSprintRaceWins?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** All input for the `updateAppCircuitDescriptionById` mutation. */
-export type UpdateAppCircuitDescriptionByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `AppCircuitDescription` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `AppCircuitDescription` being updated. */
-  patch: AppCircuitDescriptionPatch;
 };
 
 /** All input for the `updateAppCircuitDescription` mutation. */
@@ -15705,8 +11467,6 @@ export type UpdateAppCircuitDescriptionPayload = {
   __typename?: 'UpdateAppCircuitDescriptionPayload';
   /** The `AppCircuitDescription` that was updated by this mutation. */
   appCircuitDescription?: Maybe<AppCircuitDescription>;
-  /** An edge for our `AppCircuitDescription`. May be used by Relay 1. */
-  appCircuitDescriptionEdge?: Maybe<AppCircuitDescriptionEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -15714,25 +11474,6 @@ export type UpdateAppCircuitDescriptionPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `AppCircuitDescription` mutation. */
-export type UpdateAppCircuitDescriptionPayloadAppCircuitDescriptionEdgeArgs = {
-  orderBy?: Array<AppCircuitDescriptionOrderBy>;
-};
-
-/** All input for the `updateAppConstructorBioById` mutation. */
-export type UpdateAppConstructorBioByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `AppConstructorBio` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `AppConstructorBio` being updated. */
-  patch: AppConstructorBioPatch;
 };
 
 /** All input for the `updateAppConstructorBio` mutation. */
@@ -15752,8 +11493,6 @@ export type UpdateAppConstructorBioPayload = {
   __typename?: 'UpdateAppConstructorBioPayload';
   /** The `AppConstructorBio` that was updated by this mutation. */
   appConstructorBio?: Maybe<AppConstructorBio>;
-  /** An edge for our `AppConstructorBio`. May be used by Relay 1. */
-  appConstructorBioEdge?: Maybe<AppConstructorBioEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -15761,25 +11500,6 @@ export type UpdateAppConstructorBioPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `AppConstructorBio` mutation. */
-export type UpdateAppConstructorBioPayloadAppConstructorBioEdgeArgs = {
-  orderBy?: Array<AppConstructorBioOrderBy>;
-};
-
-/** All input for the `updateAppDriverBioById` mutation. */
-export type UpdateAppDriverBioByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `AppDriverBio` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `AppDriverBio` being updated. */
-  patch: AppDriverBioPatch;
 };
 
 /** All input for the `updateAppDriverBio` mutation. */
@@ -15799,8 +11519,6 @@ export type UpdateAppDriverBioPayload = {
   __typename?: 'UpdateAppDriverBioPayload';
   /** The `AppDriverBio` that was updated by this mutation. */
   appDriverBio?: Maybe<AppDriverBio>;
-  /** An edge for our `AppDriverBio`. May be used by Relay 1. */
-  appDriverBioEdge?: Maybe<AppDriverBioEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -15808,25 +11526,6 @@ export type UpdateAppDriverBioPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `AppDriverBio` mutation. */
-export type UpdateAppDriverBioPayloadAppDriverBioEdgeArgs = {
-  orderBy?: Array<AppDriverBioOrderBy>;
-};
-
-/** All input for the `updateAppIngestStateById` mutation. */
-export type UpdateAppIngestStateByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `AppIngestState` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `AppIngestState` being updated. */
-  patch: AppIngestStatePatch;
 };
 
 /** All input for the `updateAppIngestState` mutation. */
@@ -15846,8 +11545,6 @@ export type UpdateAppIngestStatePayload = {
   __typename?: 'UpdateAppIngestStatePayload';
   /** The `AppIngestState` that was updated by this mutation. */
   appIngestState?: Maybe<AppIngestState>;
-  /** An edge for our `AppIngestState`. May be used by Relay 1. */
-  appIngestStateEdge?: Maybe<AppIngestStateEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -15855,25 +11552,6 @@ export type UpdateAppIngestStatePayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `AppIngestState` mutation. */
-export type UpdateAppIngestStatePayloadAppIngestStateEdgeArgs = {
-  orderBy?: Array<AppIngestStateOrderBy>;
-};
-
-/** All input for the `updateAppLapTimeById` mutation. */
-export type UpdateAppLapTimeByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `AppLapTime` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `AppLapTime` being updated. */
-  patch: AppLapTimePatch;
 };
 
 /** All input for the `updateAppLapTime` mutation. */
@@ -15895,8 +11573,6 @@ export type UpdateAppLapTimePayload = {
   __typename?: 'UpdateAppLapTimePayload';
   /** The `AppLapTime` that was updated by this mutation. */
   appLapTime?: Maybe<AppLapTime>;
-  /** An edge for our `AppLapTime`. May be used by Relay 1. */
-  appLapTimeEdge?: Maybe<AppLapTimeEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -15904,25 +11580,6 @@ export type UpdateAppLapTimePayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `AppLapTime` mutation. */
-export type UpdateAppLapTimePayloadAppLapTimeEdgeArgs = {
-  orderBy?: Array<AppLapTimeOrderBy>;
-};
-
-/** All input for the `updateAppTeamColorById` mutation. */
-export type UpdateAppTeamColorByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `AppTeamColor` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `AppTeamColor` being updated. */
-  patch: AppTeamColorPatch;
 };
 
 /** All input for the `updateAppTeamColor` mutation. */
@@ -15942,8 +11599,6 @@ export type UpdateAppTeamColorPayload = {
   __typename?: 'UpdateAppTeamColorPayload';
   /** The `AppTeamColor` that was updated by this mutation. */
   appTeamColor?: Maybe<AppTeamColor>;
-  /** An edge for our `AppTeamColor`. May be used by Relay 1. */
-  appTeamColorEdge?: Maybe<AppTeamColorEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -15951,25 +11606,6 @@ export type UpdateAppTeamColorPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `AppTeamColor` mutation. */
-export type UpdateAppTeamColorPayloadAppTeamColorEdgeArgs = {
-  orderBy?: Array<AppTeamColorOrderBy>;
-};
-
-/** All input for the `updateAppTeamHistoryById` mutation. */
-export type UpdateAppTeamHistoryByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `AppTeamHistory` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `AppTeamHistory` being updated. */
-  patch: AppTeamHistoryPatch;
 };
 
 /** All input for the `updateAppTeamHistory` mutation. */
@@ -15991,8 +11627,6 @@ export type UpdateAppTeamHistoryPayload = {
   __typename?: 'UpdateAppTeamHistoryPayload';
   /** The `AppTeamHistory` that was updated by this mutation. */
   appTeamHistory?: Maybe<AppTeamHistory>;
-  /** An edge for our `AppTeamHistory`. May be used by Relay 1. */
-  appTeamHistoryEdge?: Maybe<AppTeamHistoryEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -16000,25 +11634,6 @@ export type UpdateAppTeamHistoryPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `AppTeamHistory` mutation. */
-export type UpdateAppTeamHistoryPayloadAppTeamHistoryEdgeArgs = {
-  orderBy?: Array<AppTeamHistoryOrderBy>;
-};
-
-/** All input for the `updateChassisById` mutation. */
-export type UpdateChassisByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Chassis` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `Chassis` being updated. */
-  patch: ChassisPatch;
 };
 
 /** All input for the `updateChassis` mutation. */
@@ -16028,9 +11643,9 @@ export type UpdateChassisInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
   /** An object where the defined keys will be set on the `Chassis` being updated. */
   patch: ChassisPatch;
-  rowId: Scalars['String']['input'];
 };
 
 /** The output of our update `Chassis` mutation. */
@@ -16038,8 +11653,6 @@ export type UpdateChassisPayload = {
   __typename?: 'UpdateChassisPayload';
   /** The `Chassis` that was updated by this mutation. */
   chassis?: Maybe<Chassis>;
-  /** An edge for our `Chassis`. May be used by Relay 1. */
-  chassisEdge?: Maybe<ChassisEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -16047,25 +11660,6 @@ export type UpdateChassisPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `Chassis` mutation. */
-export type UpdateChassisPayloadChassisEdgeArgs = {
-  orderBy?: Array<ChassisOrderBy>;
-};
-
-/** All input for the `updateCircuitById` mutation. */
-export type UpdateCircuitByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Circuit` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `Circuit` being updated. */
-  patch: CircuitPatch;
 };
 
 /** All input for the `updateCircuit` mutation. */
@@ -16075,22 +11669,9 @@ export type UpdateCircuitInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
   /** An object where the defined keys will be set on the `Circuit` being updated. */
   patch: CircuitPatch;
-  rowId: Scalars['String']['input'];
-};
-
-/** All input for the `updateCircuitLayoutById` mutation. */
-export type UpdateCircuitLayoutByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `CircuitLayout` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `CircuitLayout` being updated. */
-  patch: CircuitLayoutPatch;
 };
 
 /** All input for the `updateCircuitLayout` mutation. */
@@ -16100,9 +11681,9 @@ export type UpdateCircuitLayoutInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
   /** An object where the defined keys will be set on the `CircuitLayout` being updated. */
   patch: CircuitLayoutPatch;
-  rowId: Scalars['String']['input'];
 };
 
 /** The output of our update `CircuitLayout` mutation. */
@@ -16110,8 +11691,6 @@ export type UpdateCircuitLayoutPayload = {
   __typename?: 'UpdateCircuitLayoutPayload';
   /** The `CircuitLayout` that was updated by this mutation. */
   circuitLayout?: Maybe<CircuitLayout>;
-  /** An edge for our `CircuitLayout`. May be used by Relay 1. */
-  circuitLayoutEdge?: Maybe<CircuitLayoutEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -16119,12 +11698,6 @@ export type UpdateCircuitLayoutPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `CircuitLayout` mutation. */
-export type UpdateCircuitLayoutPayloadCircuitLayoutEdgeArgs = {
-  orderBy?: Array<CircuitLayoutOrderBy>;
 };
 
 /** The output of our update `Circuit` mutation. */
@@ -16132,8 +11705,6 @@ export type UpdateCircuitPayload = {
   __typename?: 'UpdateCircuitPayload';
   /** The `Circuit` that was updated by this mutation. */
   circuit?: Maybe<Circuit>;
-  /** An edge for our `Circuit`. May be used by Relay 1. */
-  circuitEdge?: Maybe<CircuitEdge>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -16141,12 +11712,6 @@ export type UpdateCircuitPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `Circuit` mutation. */
-export type UpdateCircuitPayloadCircuitEdgeArgs = {
-  orderBy?: Array<CircuitOrderBy>;
 };
 
 /** All input for the `updateContinentByCode` mutation. */
@@ -16157,19 +11722,6 @@ export type UpdateContinentByCodeInput = {
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   code: Scalars['String']['input'];
-  /** An object where the defined keys will be set on the `Continent` being updated. */
-  patch: ContinentPatch;
-};
-
-/** All input for the `updateContinentById` mutation. */
-export type UpdateContinentByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Continent` to be updated. */
-  id: Scalars['ID']['input'];
   /** An object where the defined keys will be set on the `Continent` being updated. */
   patch: ContinentPatch;
 };
@@ -16193,9 +11745,9 @@ export type UpdateContinentInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
   /** An object where the defined keys will be set on the `Continent` being updated. */
   patch: ContinentPatch;
-  rowId: Scalars['String']['input'];
 };
 
 /** The output of our update `Continent` mutation. */
@@ -16208,16 +11760,8 @@ export type UpdateContinentPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `Continent` that was updated by this mutation. */
   continent?: Maybe<Continent>;
-  /** An edge for our `Continent`. May be used by Relay 1. */
-  continentEdge?: Maybe<ContinentEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `Continent` mutation. */
-export type UpdateContinentPayloadContinentEdgeArgs = {
-  orderBy?: Array<ContinentOrderBy>;
 };
 
 /** All input for the `updateCountryByAlpha2Code` mutation. */
@@ -16244,19 +11788,6 @@ export type UpdateCountryByAlpha3CodeInput = {
   patch: CountryPatch;
 };
 
-/** All input for the `updateCountryById` mutation. */
-export type UpdateCountryByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Country` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `Country` being updated. */
-  patch: CountryPatch;
-};
-
 /** All input for the `updateCountryByName` mutation. */
 export type UpdateCountryByNameInput = {
   /**
@@ -16276,9 +11807,9 @@ export type UpdateCountryInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
   /** An object where the defined keys will be set on the `Country` being updated. */
   patch: CountryPatch;
-  rowId: Scalars['String']['input'];
 };
 
 /** The output of our update `Country` mutation. */
@@ -16291,29 +11822,8 @@ export type UpdateCountryPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `Country` that was updated by this mutation. */
   country?: Maybe<Country>;
-  /** An edge for our `Country`. May be used by Relay 1. */
-  countryEdge?: Maybe<CountryEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `Country` mutation. */
-export type UpdateCountryPayloadCountryEdgeArgs = {
-  orderBy?: Array<CountryOrderBy>;
-};
-
-/** All input for the `updateDriverById` mutation. */
-export type UpdateDriverByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Driver` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `Driver` being updated. */
-  patch: DriverPatch;
 };
 
 /** All input for the `updateDriverFamilyRelationshipByDriverIdAndOtherDriverIdAndType` mutation. */
@@ -16328,19 +11838,6 @@ export type UpdateDriverFamilyRelationshipByDriverIdAndOtherDriverIdAndTypeInput
   /** An object where the defined keys will be set on the `DriverFamilyRelationship` being updated. */
   patch: DriverFamilyRelationshipPatch;
   type: Scalars['String']['input'];
-};
-
-/** All input for the `updateDriverFamilyRelationshipById` mutation. */
-export type UpdateDriverFamilyRelationshipByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `DriverFamilyRelationship` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `DriverFamilyRelationship` being updated. */
-  patch: DriverFamilyRelationshipPatch;
 };
 
 /** All input for the `updateDriverFamilyRelationship` mutation. */
@@ -16366,16 +11863,8 @@ export type UpdateDriverFamilyRelationshipPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `DriverFamilyRelationship` that was updated by this mutation. */
   driverFamilyRelationship?: Maybe<DriverFamilyRelationship>;
-  /** An edge for our `DriverFamilyRelationship`. May be used by Relay 1. */
-  driverFamilyRelationshipEdge?: Maybe<DriverFamilyRelationshipEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `DriverFamilyRelationship` mutation. */
-export type UpdateDriverFamilyRelationshipPayloadDriverFamilyRelationshipEdgeArgs = {
-  orderBy?: Array<DriverFamilyRelationshipOrderBy>;
 };
 
 /** All input for the `updateDriver` mutation. */
@@ -16385,22 +11874,9 @@ export type UpdateDriverInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
   /** An object where the defined keys will be set on the `Driver` being updated. */
   patch: DriverPatch;
-  rowId: Scalars['String']['input'];
-};
-
-/** All input for the `updateDriverOfTheDayResultById` mutation. */
-export type UpdateDriverOfTheDayResultByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `DriverOfTheDayResult` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `DriverOfTheDayResult` being updated. */
-  patch: DriverOfTheDayResultPatch;
 };
 
 /** All input for the `updateDriverOfTheDayResult` mutation. */
@@ -16426,16 +11902,8 @@ export type UpdateDriverOfTheDayResultPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `DriverOfTheDayResult` that was updated by this mutation. */
   driverOfTheDayResult?: Maybe<DriverOfTheDayResult>;
-  /** An edge for our `DriverOfTheDayResult`. May be used by Relay 1. */
-  driverOfTheDayResultEdge?: Maybe<DriverOfTheDayResultEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `DriverOfTheDayResult` mutation. */
-export type UpdateDriverOfTheDayResultPayloadDriverOfTheDayResultEdgeArgs = {
-  orderBy?: Array<DriverOfTheDayResultOrderBy>;
 };
 
 /** The output of our update `Driver` mutation. */
@@ -16448,29 +11916,8 @@ export type UpdateDriverPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `Driver` that was updated by this mutation. */
   driver?: Maybe<Driver>;
-  /** An edge for our `Driver`. May be used by Relay 1. */
-  driverEdge?: Maybe<DriverEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `Driver` mutation. */
-export type UpdateDriverPayloadDriverEdgeArgs = {
-  orderBy?: Array<DriverOrderBy>;
-};
-
-/** All input for the `updateEngineById` mutation. */
-export type UpdateEngineByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Engine` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `Engine` being updated. */
-  patch: EnginePatch;
 };
 
 /** All input for the `updateEngine` mutation. */
@@ -16480,22 +11927,9 @@ export type UpdateEngineInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
   /** An object where the defined keys will be set on the `Engine` being updated. */
   patch: EnginePatch;
-  rowId: Scalars['String']['input'];
-};
-
-/** All input for the `updateEngineManufacturerById` mutation. */
-export type UpdateEngineManufacturerByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `EngineManufacturer` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `EngineManufacturer` being updated. */
-  patch: EngineManufacturerPatch;
 };
 
 /** All input for the `updateEngineManufacturer` mutation. */
@@ -16505,9 +11939,9 @@ export type UpdateEngineManufacturerInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
   /** An object where the defined keys will be set on the `EngineManufacturer` being updated. */
   patch: EngineManufacturerPatch;
-  rowId: Scalars['String']['input'];
 };
 
 /** The output of our update `EngineManufacturer` mutation. */
@@ -16520,16 +11954,8 @@ export type UpdateEngineManufacturerPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `EngineManufacturer` that was updated by this mutation. */
   engineManufacturer?: Maybe<EngineManufacturer>;
-  /** An edge for our `EngineManufacturer`. May be used by Relay 1. */
-  engineManufacturerEdge?: Maybe<EngineManufacturerEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `EngineManufacturer` mutation. */
-export type UpdateEngineManufacturerPayloadEngineManufacturerEdgeArgs = {
-  orderBy?: Array<EngineManufacturerOrderBy>;
 };
 
 /** The output of our update `Engine` mutation. */
@@ -16542,29 +11968,8 @@ export type UpdateEnginePayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `Engine` that was updated by this mutation. */
   engine?: Maybe<Engine>;
-  /** An edge for our `Engine`. May be used by Relay 1. */
-  engineEdge?: Maybe<EngineEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `Engine` mutation. */
-export type UpdateEnginePayloadEngineEdgeArgs = {
-  orderBy?: Array<EngineOrderBy>;
-};
-
-/** All input for the `updateEntrantById` mutation. */
-export type UpdateEntrantByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Entrant` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `Entrant` being updated. */
-  patch: EntrantPatch;
 };
 
 /** All input for the `updateEntrant` mutation. */
@@ -16574,9 +11979,9 @@ export type UpdateEntrantInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
   /** An object where the defined keys will be set on the `Entrant` being updated. */
   patch: EntrantPatch;
-  rowId: Scalars['String']['input'];
 };
 
 /** The output of our update `Entrant` mutation. */
@@ -16589,29 +11994,8 @@ export type UpdateEntrantPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `Entrant` that was updated by this mutation. */
   entrant?: Maybe<Entrant>;
-  /** An edge for our `Entrant`. May be used by Relay 1. */
-  entrantEdge?: Maybe<EntrantEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `Entrant` mutation. */
-export type UpdateEntrantPayloadEntrantEdgeArgs = {
-  orderBy?: Array<EntrantOrderBy>;
-};
-
-/** All input for the `updateFastestLapById` mutation. */
-export type UpdateFastestLapByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `FastestLap` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `FastestLap` being updated. */
-  patch: FastestLapPatch;
 };
 
 /** All input for the `updateFastestLap` mutation. */
@@ -16637,29 +12021,8 @@ export type UpdateFastestLapPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `FastestLap` that was updated by this mutation. */
   fastestLap?: Maybe<FastestLap>;
-  /** An edge for our `FastestLap`. May be used by Relay 1. */
-  fastestLapEdge?: Maybe<FastestLapEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `FastestLap` mutation. */
-export type UpdateFastestLapPayloadFastestLapEdgeArgs = {
-  orderBy?: Array<FastestLapOrderBy>;
-};
-
-/** All input for the `updateGrandPrixById` mutation. */
-export type UpdateGrandPrixByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `GrandPrix` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `GrandPrix` being updated. */
-  patch: GrandPrixPatch;
 };
 
 /** All input for the `updateGrandPrix` mutation. */
@@ -16669,9 +12032,9 @@ export type UpdateGrandPrixInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
   /** An object where the defined keys will be set on the `GrandPrix` being updated. */
   patch: GrandPrixPatch;
-  rowId: Scalars['String']['input'];
 };
 
 /** The output of our update `GrandPrix` mutation. */
@@ -16684,29 +12047,8 @@ export type UpdateGrandPrixPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `GrandPrix` that was updated by this mutation. */
   grandPrix?: Maybe<GrandPrix>;
-  /** An edge for our `GrandPrix`. May be used by Relay 1. */
-  grandPrixEdge?: Maybe<GrandPrixEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `GrandPrix` mutation. */
-export type UpdateGrandPrixPayloadGrandPrixEdgeArgs = {
-  orderBy?: Array<GrandPrixOrderBy>;
-};
-
-/** All input for the `updatePitStopById` mutation. */
-export type UpdatePitStopByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `PitStop` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `PitStop` being updated. */
-  patch: PitStopPatch;
 };
 
 /** All input for the `updatePitStop` mutation. */
@@ -16733,29 +12075,8 @@ export type UpdatePitStopPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `PitStop` that was updated by this mutation. */
   pitStop?: Maybe<PitStop>;
-  /** An edge for our `PitStop`. May be used by Relay 1. */
-  pitStopEdge?: Maybe<PitStopEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `PitStop` mutation. */
-export type UpdatePitStopPayloadPitStopEdgeArgs = {
-  orderBy?: Array<PitStopOrderBy>;
-};
-
-/** All input for the `updateQualifyingResultById` mutation. */
-export type UpdateQualifyingResultByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `QualifyingResult` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `QualifyingResult` being updated. */
-  patch: QualifyingResultPatch;
 };
 
 /** All input for the `updateQualifyingResult` mutation. */
@@ -16781,29 +12102,8 @@ export type UpdateQualifyingResultPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   /** The `QualifyingResult` that was updated by this mutation. */
   qualifyingResult?: Maybe<QualifyingResult>;
-  /** An edge for our `QualifyingResult`. May be used by Relay 1. */
-  qualifyingResultEdge?: Maybe<QualifyingResultEdge>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `QualifyingResult` mutation. */
-export type UpdateQualifyingResultPayloadQualifyingResultEdgeArgs = {
-  orderBy?: Array<QualifyingResultOrderBy>;
-};
-
-/** All input for the `updateRaceById` mutation. */
-export type UpdateRaceByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Race` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `Race` being updated. */
-  patch: RacePatch;
 };
 
 /** All input for the `updateRaceByYearAndRound` mutation. */
@@ -16817,19 +12117,6 @@ export type UpdateRaceByYearAndRoundInput = {
   patch: RacePatch;
   round: Scalars['Int']['input'];
   year: Scalars['Int']['input'];
-};
-
-/** All input for the `updateRaceDatumById` mutation. */
-export type UpdateRaceDatumByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `RaceDatum` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `RaceDatum` being updated. */
-  patch: RaceDatumPatch;
 };
 
 /** All input for the `updateRaceDatum` mutation. */
@@ -16858,27 +12145,6 @@ export type UpdateRaceDatumPayload = {
   query?: Maybe<Query>;
   /** The `RaceDatum` that was updated by this mutation. */
   raceDatum?: Maybe<RaceDatum>;
-  /** An edge for our `RaceDatum`. May be used by Relay 1. */
-  raceDatumEdge?: Maybe<RaceDatumEdge>;
-};
-
-
-/** The output of our update `RaceDatum` mutation. */
-export type UpdateRaceDatumPayloadRaceDatumEdgeArgs = {
-  orderBy?: Array<RaceDatumOrderBy>;
-};
-
-/** All input for the `updateRaceDriverStandingById` mutation. */
-export type UpdateRaceDriverStandingByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `RaceDriverStanding` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `RaceDriverStanding` being updated. */
-  patch: RaceDriverStandingPatch;
 };
 
 /** All input for the `updateRaceDriverStanding` mutation. */
@@ -16906,14 +12172,6 @@ export type UpdateRaceDriverStandingPayload = {
   query?: Maybe<Query>;
   /** The `RaceDriverStanding` that was updated by this mutation. */
   raceDriverStanding?: Maybe<RaceDriverStanding>;
-  /** An edge for our `RaceDriverStanding`. May be used by Relay 1. */
-  raceDriverStandingEdge?: Maybe<RaceDriverStandingEdge>;
-};
-
-
-/** The output of our update `RaceDriverStanding` mutation. */
-export type UpdateRaceDriverStandingPayloadRaceDriverStandingEdgeArgs = {
-  orderBy?: Array<RaceDriverStandingOrderBy>;
 };
 
 /** All input for the `updateRace` mutation. */
@@ -16940,27 +12198,6 @@ export type UpdateRacePayload = {
   query?: Maybe<Query>;
   /** The `Race` that was updated by this mutation. */
   race?: Maybe<Race>;
-  /** An edge for our `Race`. May be used by Relay 1. */
-  raceEdge?: Maybe<RaceEdge>;
-};
-
-
-/** The output of our update `Race` mutation. */
-export type UpdateRacePayloadRaceEdgeArgs = {
-  orderBy?: Array<RaceOrderBy>;
-};
-
-/** All input for the `updateRaceResultById` mutation. */
-export type UpdateRaceResultByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `RaceResult` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `RaceResult` being updated. */
-  patch: RaceResultPatch;
 };
 
 /** All input for the `updateRaceResult` mutation. */
@@ -16988,27 +12225,6 @@ export type UpdateRaceResultPayload = {
   query?: Maybe<Query>;
   /** The `RaceResult` that was updated by this mutation. */
   raceResult?: Maybe<RaceResult>;
-  /** An edge for our `RaceResult`. May be used by Relay 1. */
-  raceResultEdge?: Maybe<RaceResultEdge>;
-};
-
-
-/** The output of our update `RaceResult` mutation. */
-export type UpdateRaceResultPayloadRaceResultEdgeArgs = {
-  orderBy?: Array<RaceResultOrderBy>;
-};
-
-/** All input for the `updateRaceTeamStandingById` mutation. */
-export type UpdateRaceTeamStandingByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `RaceTeamStanding` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `RaceTeamStanding` being updated. */
-  patch: RaceTeamStandingPatch;
 };
 
 /** All input for the `updateRaceTeamStanding` mutation. */
@@ -17036,40 +12252,6 @@ export type UpdateRaceTeamStandingPayload = {
   query?: Maybe<Query>;
   /** The `RaceTeamStanding` that was updated by this mutation. */
   raceTeamStanding?: Maybe<RaceTeamStanding>;
-  /** An edge for our `RaceTeamStanding`. May be used by Relay 1. */
-  raceTeamStandingEdge?: Maybe<RaceTeamStandingEdge>;
-};
-
-
-/** The output of our update `RaceTeamStanding` mutation. */
-export type UpdateRaceTeamStandingPayloadRaceTeamStandingEdgeArgs = {
-  orderBy?: Array<RaceTeamStandingOrderBy>;
-};
-
-/** All input for the `updateSeasonById` mutation. */
-export type UpdateSeasonByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Season` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `Season` being updated. */
-  patch: SeasonPatch;
-};
-
-/** All input for the `updateSeasonDriverById` mutation. */
-export type UpdateSeasonDriverByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonDriver` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `SeasonDriver` being updated. */
-  patch: SeasonDriverPatch;
 };
 
 /** All input for the `updateSeasonDriver` mutation. */
@@ -17097,27 +12279,6 @@ export type UpdateSeasonDriverPayload = {
   query?: Maybe<Query>;
   /** The `SeasonDriver` that was updated by this mutation. */
   seasonDriver?: Maybe<SeasonDriver>;
-  /** An edge for our `SeasonDriver`. May be used by Relay 1. */
-  seasonDriverEdge?: Maybe<SeasonDriverEdge>;
-};
-
-
-/** The output of our update `SeasonDriver` mutation. */
-export type UpdateSeasonDriverPayloadSeasonDriverEdgeArgs = {
-  orderBy?: Array<SeasonDriverOrderBy>;
-};
-
-/** All input for the `updateSeasonDriverStandingById` mutation. */
-export type UpdateSeasonDriverStandingByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonDriverStanding` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `SeasonDriverStanding` being updated. */
-  patch: SeasonDriverStandingPatch;
 };
 
 /** All input for the `updateSeasonDriverStanding` mutation. */
@@ -17145,27 +12306,6 @@ export type UpdateSeasonDriverStandingPayload = {
   query?: Maybe<Query>;
   /** The `SeasonDriverStanding` that was updated by this mutation. */
   seasonDriverStanding?: Maybe<SeasonDriverStanding>;
-  /** An edge for our `SeasonDriverStanding`. May be used by Relay 1. */
-  seasonDriverStandingEdge?: Maybe<SeasonDriverStandingEdge>;
-};
-
-
-/** The output of our update `SeasonDriverStanding` mutation. */
-export type UpdateSeasonDriverStandingPayloadSeasonDriverStandingEdgeArgs = {
-  orderBy?: Array<SeasonDriverStandingOrderBy>;
-};
-
-/** All input for the `updateSeasonEngineManufacturerById` mutation. */
-export type UpdateSeasonEngineManufacturerByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonEngineManufacturer` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `SeasonEngineManufacturer` being updated. */
-  patch: SeasonEngineManufacturerPatch;
 };
 
 /** All input for the `updateSeasonEngineManufacturer` mutation. */
@@ -17193,40 +12333,6 @@ export type UpdateSeasonEngineManufacturerPayload = {
   query?: Maybe<Query>;
   /** The `SeasonEngineManufacturer` that was updated by this mutation. */
   seasonEngineManufacturer?: Maybe<SeasonEngineManufacturer>;
-  /** An edge for our `SeasonEngineManufacturer`. May be used by Relay 1. */
-  seasonEngineManufacturerEdge?: Maybe<SeasonEngineManufacturerEdge>;
-};
-
-
-/** The output of our update `SeasonEngineManufacturer` mutation. */
-export type UpdateSeasonEngineManufacturerPayloadSeasonEngineManufacturerEdgeArgs = {
-  orderBy?: Array<SeasonEngineManufacturerOrderBy>;
-};
-
-/** All input for the `updateSeasonEntrantById` mutation. */
-export type UpdateSeasonEntrantByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonEntrant` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `SeasonEntrant` being updated. */
-  patch: SeasonEntrantPatch;
-};
-
-/** All input for the `updateSeasonEntrantChassisById` mutation. */
-export type UpdateSeasonEntrantChassisByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonEntrantChassis` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `SeasonEntrantChassis` being updated. */
-  patch: SeasonEntrantChassisPatch;
 };
 
 /** All input for the `updateSeasonEntrantChassis` mutation. */
@@ -17257,27 +12363,6 @@ export type UpdateSeasonEntrantChassisPayload = {
   query?: Maybe<Query>;
   /** The `SeasonEntrantChassis` that was updated by this mutation. */
   seasonEntrantChassis?: Maybe<SeasonEntrantChassis>;
-  /** An edge for our `SeasonEntrantChassis`. May be used by Relay 1. */
-  seasonEntrantChassisEdge?: Maybe<SeasonEntrantChassisEdge>;
-};
-
-
-/** The output of our update `SeasonEntrantChassis` mutation. */
-export type UpdateSeasonEntrantChassisPayloadSeasonEntrantChassisEdgeArgs = {
-  orderBy?: Array<SeasonEntrantChassisOrderBy>;
-};
-
-/** All input for the `updateSeasonEntrantDriverById` mutation. */
-export type UpdateSeasonEntrantDriverByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonEntrantDriver` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `SeasonEntrantDriver` being updated. */
-  patch: SeasonEntrantDriverPatch;
 };
 
 /** All input for the `updateSeasonEntrantDriver` mutation. */
@@ -17308,27 +12393,6 @@ export type UpdateSeasonEntrantDriverPayload = {
   query?: Maybe<Query>;
   /** The `SeasonEntrantDriver` that was updated by this mutation. */
   seasonEntrantDriver?: Maybe<SeasonEntrantDriver>;
-  /** An edge for our `SeasonEntrantDriver`. May be used by Relay 1. */
-  seasonEntrantDriverEdge?: Maybe<SeasonEntrantDriverEdge>;
-};
-
-
-/** The output of our update `SeasonEntrantDriver` mutation. */
-export type UpdateSeasonEntrantDriverPayloadSeasonEntrantDriverEdgeArgs = {
-  orderBy?: Array<SeasonEntrantDriverOrderBy>;
-};
-
-/** All input for the `updateSeasonEntrantEngineById` mutation. */
-export type UpdateSeasonEntrantEngineByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonEntrantEngine` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `SeasonEntrantEngine` being updated. */
-  patch: SeasonEntrantEnginePatch;
 };
 
 /** All input for the `updateSeasonEntrantEngine` mutation. */
@@ -17359,14 +12423,6 @@ export type UpdateSeasonEntrantEnginePayload = {
   query?: Maybe<Query>;
   /** The `SeasonEntrantEngine` that was updated by this mutation. */
   seasonEntrantEngine?: Maybe<SeasonEntrantEngine>;
-  /** An edge for our `SeasonEntrantEngine`. May be used by Relay 1. */
-  seasonEntrantEngineEdge?: Maybe<SeasonEntrantEngineEdge>;
-};
-
-
-/** The output of our update `SeasonEntrantEngine` mutation. */
-export type UpdateSeasonEntrantEnginePayloadSeasonEntrantEngineEdgeArgs = {
-  orderBy?: Array<SeasonEntrantEngineOrderBy>;
 };
 
 /** All input for the `updateSeasonEntrant` mutation. */
@@ -17394,27 +12450,6 @@ export type UpdateSeasonEntrantPayload = {
   query?: Maybe<Query>;
   /** The `SeasonEntrant` that was updated by this mutation. */
   seasonEntrant?: Maybe<SeasonEntrant>;
-  /** An edge for our `SeasonEntrant`. May be used by Relay 1. */
-  seasonEntrantEdge?: Maybe<SeasonEntrantEdge>;
-};
-
-
-/** The output of our update `SeasonEntrant` mutation. */
-export type UpdateSeasonEntrantPayloadSeasonEntrantEdgeArgs = {
-  orderBy?: Array<SeasonEntrantOrderBy>;
-};
-
-/** All input for the `updateSeasonEntrantTeamById` mutation. */
-export type UpdateSeasonEntrantTeamByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonEntrantTeam` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `SeasonEntrantTeam` being updated. */
-  patch: SeasonEntrantTeamPatch;
 };
 
 /** All input for the `updateSeasonEntrantTeam` mutation. */
@@ -17444,27 +12479,6 @@ export type UpdateSeasonEntrantTeamPayload = {
   query?: Maybe<Query>;
   /** The `SeasonEntrantTeam` that was updated by this mutation. */
   seasonEntrantTeam?: Maybe<SeasonEntrantTeam>;
-  /** An edge for our `SeasonEntrantTeam`. May be used by Relay 1. */
-  seasonEntrantTeamEdge?: Maybe<SeasonEntrantTeamEdge>;
-};
-
-
-/** The output of our update `SeasonEntrantTeam` mutation. */
-export type UpdateSeasonEntrantTeamPayloadSeasonEntrantTeamEdgeArgs = {
-  orderBy?: Array<SeasonEntrantTeamOrderBy>;
-};
-
-/** All input for the `updateSeasonEntrantTyreManufacturerById` mutation. */
-export type UpdateSeasonEntrantTyreManufacturerByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonEntrantTyreManufacturer` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `SeasonEntrantTyreManufacturer` being updated. */
-  patch: SeasonEntrantTyreManufacturerPatch;
 };
 
 /** All input for the `updateSeasonEntrantTyreManufacturer` mutation. */
@@ -17495,14 +12509,6 @@ export type UpdateSeasonEntrantTyreManufacturerPayload = {
   query?: Maybe<Query>;
   /** The `SeasonEntrantTyreManufacturer` that was updated by this mutation. */
   seasonEntrantTyreManufacturer?: Maybe<SeasonEntrantTyreManufacturer>;
-  /** An edge for our `SeasonEntrantTyreManufacturer`. May be used by Relay 1. */
-  seasonEntrantTyreManufacturerEdge?: Maybe<SeasonEntrantTyreManufacturerEdge>;
-};
-
-
-/** The output of our update `SeasonEntrantTyreManufacturer` mutation. */
-export type UpdateSeasonEntrantTyreManufacturerPayloadSeasonEntrantTyreManufacturerEdgeArgs = {
-  orderBy?: Array<SeasonEntrantTyreManufacturerOrderBy>;
 };
 
 /** All input for the `updateSeason` mutation. */
@@ -17529,27 +12535,6 @@ export type UpdateSeasonPayload = {
   query?: Maybe<Query>;
   /** The `Season` that was updated by this mutation. */
   season?: Maybe<Season>;
-  /** An edge for our `Season`. May be used by Relay 1. */
-  seasonEdge?: Maybe<SeasonEdge>;
-};
-
-
-/** The output of our update `Season` mutation. */
-export type UpdateSeasonPayloadSeasonEdgeArgs = {
-  orderBy?: Array<SeasonOrderBy>;
-};
-
-/** All input for the `updateSeasonTeamById` mutation. */
-export type UpdateSeasonTeamByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonTeam` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `SeasonTeam` being updated. */
-  patch: SeasonTeamPatch;
 };
 
 /** All input for the `updateSeasonTeam` mutation. */
@@ -17577,27 +12562,6 @@ export type UpdateSeasonTeamPayload = {
   query?: Maybe<Query>;
   /** The `SeasonTeam` that was updated by this mutation. */
   seasonTeam?: Maybe<SeasonTeam>;
-  /** An edge for our `SeasonTeam`. May be used by Relay 1. */
-  seasonTeamEdge?: Maybe<SeasonTeamEdge>;
-};
-
-
-/** The output of our update `SeasonTeam` mutation. */
-export type UpdateSeasonTeamPayloadSeasonTeamEdgeArgs = {
-  orderBy?: Array<SeasonTeamOrderBy>;
-};
-
-/** All input for the `updateSeasonTeamStandingById` mutation. */
-export type UpdateSeasonTeamStandingByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonTeamStanding` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `SeasonTeamStanding` being updated. */
-  patch: SeasonTeamStandingPatch;
 };
 
 /** All input for the `updateSeasonTeamStanding` mutation. */
@@ -17625,27 +12589,6 @@ export type UpdateSeasonTeamStandingPayload = {
   query?: Maybe<Query>;
   /** The `SeasonTeamStanding` that was updated by this mutation. */
   seasonTeamStanding?: Maybe<SeasonTeamStanding>;
-  /** An edge for our `SeasonTeamStanding`. May be used by Relay 1. */
-  seasonTeamStandingEdge?: Maybe<SeasonTeamStandingEdge>;
-};
-
-
-/** The output of our update `SeasonTeamStanding` mutation. */
-export type UpdateSeasonTeamStandingPayloadSeasonTeamStandingEdgeArgs = {
-  orderBy?: Array<SeasonTeamStandingOrderBy>;
-};
-
-/** All input for the `updateSeasonTyreManufacturerById` mutation. */
-export type UpdateSeasonTyreManufacturerByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SeasonTyreManufacturer` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `SeasonTyreManufacturer` being updated. */
-  patch: SeasonTyreManufacturerPatch;
 };
 
 /** All input for the `updateSeasonTyreManufacturer` mutation. */
@@ -17673,27 +12616,6 @@ export type UpdateSeasonTyreManufacturerPayload = {
   query?: Maybe<Query>;
   /** The `SeasonTyreManufacturer` that was updated by this mutation. */
   seasonTyreManufacturer?: Maybe<SeasonTyreManufacturer>;
-  /** An edge for our `SeasonTyreManufacturer`. May be used by Relay 1. */
-  seasonTyreManufacturerEdge?: Maybe<SeasonTyreManufacturerEdge>;
-};
-
-
-/** The output of our update `SeasonTyreManufacturer` mutation. */
-export type UpdateSeasonTyreManufacturerPayloadSeasonTyreManufacturerEdgeArgs = {
-  orderBy?: Array<SeasonTyreManufacturerOrderBy>;
-};
-
-/** All input for the `updateSprintQualifyingResultById` mutation. */
-export type UpdateSprintQualifyingResultByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SprintQualifyingResult` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `SprintQualifyingResult` being updated. */
-  patch: SprintQualifyingResultPatch;
 };
 
 /** All input for the `updateSprintQualifyingResult` mutation. */
@@ -17721,27 +12643,6 @@ export type UpdateSprintQualifyingResultPayload = {
   query?: Maybe<Query>;
   /** The `SprintQualifyingResult` that was updated by this mutation. */
   sprintQualifyingResult?: Maybe<SprintQualifyingResult>;
-  /** An edge for our `SprintQualifyingResult`. May be used by Relay 1. */
-  sprintQualifyingResultEdge?: Maybe<SprintQualifyingResultEdge>;
-};
-
-
-/** The output of our update `SprintQualifyingResult` mutation. */
-export type UpdateSprintQualifyingResultPayloadSprintQualifyingResultEdgeArgs = {
-  orderBy?: Array<SprintQualifyingResultOrderBy>;
-};
-
-/** All input for the `updateSprintRaceResultById` mutation. */
-export type UpdateSprintRaceResultByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SprintRaceResult` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `SprintRaceResult` being updated. */
-  patch: SprintRaceResultPatch;
 };
 
 /** All input for the `updateSprintRaceResult` mutation. */
@@ -17769,27 +12670,6 @@ export type UpdateSprintRaceResultPayload = {
   query?: Maybe<Query>;
   /** The `SprintRaceResult` that was updated by this mutation. */
   sprintRaceResult?: Maybe<SprintRaceResult>;
-  /** An edge for our `SprintRaceResult`. May be used by Relay 1. */
-  sprintRaceResultEdge?: Maybe<SprintRaceResultEdge>;
-};
-
-
-/** The output of our update `SprintRaceResult` mutation. */
-export type UpdateSprintRaceResultPayloadSprintRaceResultEdgeArgs = {
-  orderBy?: Array<SprintRaceResultOrderBy>;
-};
-
-/** All input for the `updateSprintStartingGridPositionById` mutation. */
-export type UpdateSprintStartingGridPositionByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `SprintStartingGridPosition` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `SprintStartingGridPosition` being updated. */
-  patch: SprintStartingGridPositionPatch;
 };
 
 /** All input for the `updateSprintStartingGridPosition` mutation. */
@@ -17817,27 +12697,6 @@ export type UpdateSprintStartingGridPositionPayload = {
   query?: Maybe<Query>;
   /** The `SprintStartingGridPosition` that was updated by this mutation. */
   sprintStartingGridPosition?: Maybe<SprintStartingGridPosition>;
-  /** An edge for our `SprintStartingGridPosition`. May be used by Relay 1. */
-  sprintStartingGridPositionEdge?: Maybe<SprintStartingGridPositionEdge>;
-};
-
-
-/** The output of our update `SprintStartingGridPosition` mutation. */
-export type UpdateSprintStartingGridPositionPayloadSprintStartingGridPositionEdgeArgs = {
-  orderBy?: Array<SprintStartingGridPositionOrderBy>;
-};
-
-/** All input for the `updateStartingGridPositionById` mutation. */
-export type UpdateStartingGridPositionByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `StartingGridPosition` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `StartingGridPosition` being updated. */
-  patch: StartingGridPositionPatch;
 };
 
 /** All input for the `updateStartingGridPosition` mutation. */
@@ -17865,40 +12724,6 @@ export type UpdateStartingGridPositionPayload = {
   query?: Maybe<Query>;
   /** The `StartingGridPosition` that was updated by this mutation. */
   startingGridPosition?: Maybe<StartingGridPosition>;
-  /** An edge for our `StartingGridPosition`. May be used by Relay 1. */
-  startingGridPositionEdge?: Maybe<StartingGridPositionEdge>;
-};
-
-
-/** The output of our update `StartingGridPosition` mutation. */
-export type UpdateStartingGridPositionPayloadStartingGridPositionEdgeArgs = {
-  orderBy?: Array<StartingGridPositionOrderBy>;
-};
-
-/** All input for the `updateTeamById` mutation. */
-export type UpdateTeamByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `Team` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `Team` being updated. */
-  patch: TeamPatch;
-};
-
-/** All input for the `updateTeamChronologyById` mutation. */
-export type UpdateTeamChronologyByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `TeamChronology` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `TeamChronology` being updated. */
-  patch: TeamChronologyPatch;
 };
 
 /** All input for the `updateTeamChronologyByTeamIdAndOtherTeamIdAndYearFromAndYearTo` mutation. */
@@ -17941,14 +12766,6 @@ export type UpdateTeamChronologyPayload = {
   query?: Maybe<Query>;
   /** The `TeamChronology` that was updated by this mutation. */
   teamChronology?: Maybe<TeamChronology>;
-  /** An edge for our `TeamChronology`. May be used by Relay 1. */
-  teamChronologyEdge?: Maybe<TeamChronologyEdge>;
-};
-
-
-/** The output of our update `TeamChronology` mutation. */
-export type UpdateTeamChronologyPayloadTeamChronologyEdgeArgs = {
-  orderBy?: Array<TeamChronologyOrderBy>;
 };
 
 /** All input for the `updateTeam` mutation. */
@@ -17958,9 +12775,9 @@ export type UpdateTeamInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
   /** An object where the defined keys will be set on the `Team` being updated. */
   patch: TeamPatch;
-  rowId: Scalars['String']['input'];
 };
 
 /** The output of our update `Team` mutation. */
@@ -17975,27 +12792,6 @@ export type UpdateTeamPayload = {
   query?: Maybe<Query>;
   /** The `Team` that was updated by this mutation. */
   team?: Maybe<Team>;
-  /** An edge for our `Team`. May be used by Relay 1. */
-  teamEdge?: Maybe<TeamEdge>;
-};
-
-
-/** The output of our update `Team` mutation. */
-export type UpdateTeamPayloadTeamEdgeArgs = {
-  orderBy?: Array<TeamOrderBy>;
-};
-
-/** All input for the `updateTyreManufacturerById` mutation. */
-export type UpdateTyreManufacturerByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** The globally unique `ID` which will identify a single `TyreManufacturer` to be updated. */
-  id: Scalars['ID']['input'];
-  /** An object where the defined keys will be set on the `TyreManufacturer` being updated. */
-  patch: TyreManufacturerPatch;
 };
 
 /** All input for the `updateTyreManufacturer` mutation. */
@@ -18005,9 +12801,9 @@ export type UpdateTyreManufacturerInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
   /** An object where the defined keys will be set on the `TyreManufacturer` being updated. */
   patch: TyreManufacturerPatch;
-  rowId: Scalars['String']['input'];
 };
 
 /** The output of our update `TyreManufacturer` mutation. */
@@ -18022,14 +12818,6 @@ export type UpdateTyreManufacturerPayload = {
   query?: Maybe<Query>;
   /** The `TyreManufacturer` that was updated by this mutation. */
   tyreManufacturer?: Maybe<TyreManufacturer>;
-  /** An edge for our `TyreManufacturer`. May be used by Relay 1. */
-  tyreManufacturerEdge?: Maybe<TyreManufacturerEdge>;
-};
-
-
-/** The output of our update `TyreManufacturer` mutation. */
-export type UpdateTyreManufacturerPayloadTyreManufacturerEdgeArgs = {
-  orderBy?: Array<TyreManufacturerOrderBy>;
 };
 
 export type WarmingUpResult = {
@@ -18089,28 +12877,6 @@ export type WarmingUpResultCondition = {
   timeMillis?: InputMaybe<Scalars['Int']['input']>;
   /** Checks for equality with the object’s `tyreManufacturerId` field. */
   tyreManufacturerId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** A connection to a list of `WarmingUpResult` values. */
-export type WarmingUpResultConnection = {
-  __typename?: 'WarmingUpResultConnection';
-  /** A list of edges which contains the `WarmingUpResult` and cursor to aid in pagination. */
-  edges: Array<Maybe<WarmingUpResultEdge>>;
-  /** A list of `WarmingUpResult` objects. */
-  nodes: Array<Maybe<WarmingUpResult>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `WarmingUpResult` you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
-};
-
-/** A `WarmingUpResult` edge in the connection. */
-export type WarmingUpResultEdge = {
-  __typename?: 'WarmingUpResultEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>;
-  /** The `WarmingUpResult` at the end of the edge. */
-  node?: Maybe<WarmingUpResult>;
 };
 
 /** An input for mutations affecting `WarmingUpResult` */
@@ -18181,12 +12947,39 @@ export type WikipediaBio = {
 export type CurrentSeasonQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentSeasonQueryQuery = { __typename?: 'Query', seasons?: { __typename?: 'SeasonConnection', nodes: Array<{ __typename?: 'Season', id: string, year: number } | null> } | null };
+export type CurrentSeasonQueryQuery = { __typename?: 'Query', seasons?: Array<{ __typename?: 'Season', year: number }> | null };
+
+export type CurrentSeasonRaceParamsQueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentSeasonRaceParamsQueryQuery = { __typename?: 'Query', seasons?: Array<{ __typename?: 'Season', year: number, racesByYear: Array<{ __typename?: 'Race', round: number }> }> | null };
+
+export type CurrentSeasonDriverIdsQueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentSeasonDriverIdsQueryQuery = { __typename?: 'Query', seasons?: Array<{ __typename?: 'Season', seasonDriverStandingsByYear: Array<{ __typename?: 'SeasonDriverStanding', driverId: string }> }> | null };
+
+export type CurrentSeasonTeamIdsQueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentSeasonTeamIdsQueryQuery = { __typename?: 'Query', seasons?: Array<{ __typename?: 'Season', seasonTeamStandingsByYear: Array<{ __typename?: 'SeasonTeamStanding', teamId: string }> }> | null };
+
+export type CurrentSeasonCircuitIdsQueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentSeasonCircuitIdsQueryQuery = { __typename?: 'Query', seasons?: Array<{ __typename?: 'Season', racesByYear: Array<{ __typename?: 'Race', circuitId: string }> }> | null };
+
+export type CircuitLookupQueryQueryVariables = Exact<{
+  ref: Scalars['String']['input'];
+}>;
+
+
+export type CircuitLookupQueryQuery = { __typename?: 'Query', circuit?: { __typename?: 'Circuit', id: string, fullName: string } | null };
 
 export type AllCircuitsQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllCircuitsQueryQuery = { __typename?: 'Query', circuits?: { __typename?: 'CircuitConnection', nodes: Array<{ __typename?: 'Circuit', rowId: string } | null> } | null };
+export type AllCircuitsQueryQuery = { __typename?: 'Query', circuits?: Array<{ __typename?: 'Circuit', id: string }> | null };
 
 export type RaceLookupQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
@@ -18194,34 +12987,50 @@ export type RaceLookupQueryQueryVariables = Exact<{
 }>;
 
 
-export type RaceLookupQueryQuery = { __typename?: 'Query', races?: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', rowId: number, year: number, round: number, officialName: string, date: any, circuit?: { __typename?: 'Circuit', id: string, rowId: string, fullName: string, placeName: string, countryId: string, latitude: any, longitude: any, description?: { __typename?: 'AppCircuitDescription', description: string } | null } | null } | null> } | null };
+export type RaceLookupQueryQuery = { __typename?: 'Query', races?: Array<{ __typename?: 'Race', rowId: number, year: number, round: number, officialName: string, date: any, circuit?: { __typename?: 'Circuit', id: string, fullName: string, placeName: string, countryId: string, latitude: any, longitude: any, description?: { __typename?: 'AppCircuitDescription', description: string } | null } | null }> | null };
 
 export type AllRacesQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllRacesQueryQuery = { __typename?: 'Query', races?: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', rowId: number, year: number, round: number } | null> } | null };
+export type AllRacesQueryQuery = { __typename?: 'Query', races?: Array<{ __typename?: 'Race', rowId: number, year: number, round: number }> | null };
 
 export type ConstructorPageStaticQueryQueryVariables = Exact<{
   constructorRef: Scalars['String']['input'];
 }>;
 
 
-export type ConstructorPageStaticQueryQuery = { __typename?: 'Query', teams?: { __typename?: 'TeamConnection', nodes: Array<{ __typename?: 'Team', id: string, rowId: string, name: string, countryId: string, colors?: { __typename?: 'AppTeamColor', id: string, primaryHex?: string | null } | null } | null> } | null };
+export type ConstructorPageStaticQueryQuery = { __typename?: 'Query', teams?: Array<{ __typename?: 'Team', id: string, name: string, countryId: string, country?: { __typename?: 'Country', id: string, alpha2Code: string, name: string } | null, colors?: { __typename?: 'AppTeamColor', teamId: string, primaryHex?: string | null } | null }> | null };
+
+export type RaceFullDataServerQueryVariables = Exact<{
+  season: Scalars['Int']['input'];
+  round: Scalars['Int']['input'];
+}>;
+
+
+export type RaceFullDataServerQuery = { __typename?: 'Query', races?: Array<{ __typename?: 'Race', year: number, round: number, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, driverId?: string | null, teamId?: string | null, gridPositionNumber?: number | null, positionNumber?: number | null, positionText?: string | null, positionDisplayOrder: number, points?: any | null, laps?: number | null, time?: string | null, timeMillis?: number | null, reasonRetired?: string | null, driver?: { __typename?: 'Driver', id: string } | null }>, sprintRaceResults: Array<{ __typename?: 'SprintRaceResult', raceId: number, driverId?: string | null, teamId?: string | null, gridPositionNumber?: number | null, positionNumber?: number | null, positionText?: string | null, positionDisplayOrder: number, points?: any | null, laps?: number | null, time?: string | null, timeMillis?: number | null, reasonRetired?: string | null, driver?: { __typename?: 'Driver', id: string } | null }> }> | null };
 
 export type SeasonMenuQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SeasonMenuQueryQuery = { __typename?: 'Query', seasons?: { __typename?: 'SeasonConnection', nodes: Array<{ __typename?: 'Season', id: string, year: number } | null> } | null };
+export type SeasonMenuQueryQuery = { __typename?: 'Query', seasons?: Array<{ __typename?: 'Season', year: number }> | null };
 
 export type CircuitsListQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CircuitsListQueryQuery = { __typename?: 'Query', circuits?: { __typename?: 'CircuitConnection', nodes: Array<{ __typename?: 'Circuit', id: string, rowId: string, fullName: string, placeName: string, countryId: string, latitude: any, longitude: any, type: string, direction: string, races: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', year: number, round: number } | null> } } | null> } | null };
+export type CircuitsListQueryQuery = { __typename?: 'Query', circuits?: Array<{ __typename?: 'Circuit', id: string, fullName: string, name: string, placeName: string, latitude: any, longitude: any, type: string, direction: string, country?: { __typename?: 'Country', id: string, name: string } | null, races: Array<{ __typename?: 'Race', year: number, round: number }> }> | null };
 
 export type ConstructorsQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ConstructorsQueryQuery = { __typename?: 'Query', teams?: { __typename?: 'TeamConnection', nodes: Array<{ __typename?: 'Team', id: string, rowId: string, name: string, countryId: string, colors?: { __typename?: 'AppTeamColor', id: string, primaryHex?: string | null, secondaryHex?: string | null } | null, seasons: { __typename?: 'SeasonTeamConnection', nodes: Array<{ __typename?: 'SeasonTeam', id: string, year: number } | null> }, raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', id: string, raceId: number, driverId?: string | null, positionNumber?: number | null } | null> } } | null> } | null };
+export type ConstructorsQueryQuery = { __typename?: 'Query', teams?: Array<{ __typename?: 'Team', id: string, name: string, countryId: string, colors?: { __typename?: 'AppTeamColor', teamId: string, primaryHex?: string | null, secondaryHex?: string | null } | null, seasons: Array<{ __typename?: 'SeasonTeam', year: number, teamId: string }>, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, driverId?: string | null, positionNumber?: number | null }> }> | null };
+
+export type ConstructorSeasonQueryQueryVariables = Exact<{
+  teamId: Scalars['String']['input'];
+  season: Scalars['Int']['input'];
+}>;
+
+
+export type ConstructorSeasonQueryQuery = { __typename?: 'Query', races?: Array<{ __typename?: 'Race', rowId: number, year: number, round: number, officialName: string, date: any, time?: string | null, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, gridPositionNumber?: number | null, positionNumber?: number | null, points?: any | null, timeMillis?: number | null, driverId?: string | null, teamId?: string | null, reasonRetired?: string | null }> }> | null };
 
 export type ConstructorDriverPodiumsQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
@@ -18229,7 +13038,7 @@ export type ConstructorDriverPodiumsQueryQueryVariables = Exact<{
 }>;
 
 
-export type ConstructorDriverPodiumsQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', racesByYear: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, rowId: number, raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', id: string, driverId?: string | null, positionNumber?: number | null } | null> } } | null> } } | null };
+export type ConstructorDriverPodiumsQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', year: number, racesByYear: Array<{ __typename?: 'Race', rowId: number, year: number, round: number, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, driverId?: string | null, positionNumber?: number | null }> }> } | null };
 
 export type ConstructorDriverPointsQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
@@ -18237,7 +13046,7 @@ export type ConstructorDriverPointsQueryQueryVariables = Exact<{
 }>;
 
 
-export type ConstructorDriverPointsQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', racesByYear: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', id: string, driverId?: string | null, points?: any | null } | null> }, sprintRaceResults: { __typename?: 'SprintRaceResultConnection', nodes: Array<{ __typename?: 'SprintRaceResult', id: string, driverId?: string | null, points?: any | null } | null> } } | null> } } | null };
+export type ConstructorDriverPointsQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', year: number, racesByYear: Array<{ __typename?: 'Race', year: number, round: number, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, driverId?: string | null, points?: any | null }>, sprintRaceResults: Array<{ __typename?: 'SprintRaceResult', raceId: number, driverId?: string | null, points?: any | null }> }> } | null };
 
 export type ConstructorDriverQualifyingQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
@@ -18245,19 +13054,19 @@ export type ConstructorDriverQualifyingQueryQueryVariables = Exact<{
 }>;
 
 
-export type ConstructorDriverQualifyingQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', racesByYear: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, rowId: number, round: number, qualifyingResults: { __typename?: 'QualifyingResultConnection', nodes: Array<{ __typename?: 'QualifyingResult', id: string, driverId?: string | null, positionNumber?: number | null, driver?: { __typename?: 'Driver', id: string, fullName: string } | null } | null> } } | null> } } | null };
+export type ConstructorDriverQualifyingQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', year: number, racesByYear: Array<{ __typename?: 'Race', rowId: number, year: number, round: number, qualifyingResults: Array<{ __typename?: 'QualifyingResult', raceId: number, driverId?: string | null, positionNumber?: number | null, driver?: { __typename?: 'Driver', id: string, fullName: string } | null }> }> } | null };
 
 export type DriversQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DriversQueryQuery = { __typename?: 'Query', drivers?: { __typename?: 'DriverConnection', nodes: Array<{ __typename?: 'Driver', id: string, rowId: string, firstName: string, lastName: string, nationalityCountryId: string } | null> } | null };
+export type DriversQueryQuery = { __typename?: 'Query', drivers?: Array<{ __typename?: 'Driver', id: string, firstName: string, lastName: string, nationalityCountryId: string, nationalityCountry?: { __typename?: 'Country', id: string, name: string, alpha2Code: string } | null, seasonDrivers: Array<{ __typename?: 'SeasonDriver', season?: { __typename?: 'Season', year: number } | null }> }> | null };
 
 export type DriverCareerQueryQueryVariables = Exact<{
   driverId: Scalars['String']['input'];
 }>;
 
 
-export type DriverCareerQueryQuery = { __typename?: 'Query', driver?: { __typename?: 'Driver', standings: { __typename?: 'SeasonDriverStandingConnection', nodes: Array<{ __typename?: 'SeasonDriverStanding', id: string, year: number, positionNumber?: number | null, positionText: string, points: any } | null> }, raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', id: string, gridPositionNumber?: number | null, positionNumber?: number | null, positionDisplayOrder: number, points?: any | null, positionText?: string | null, teamId?: string | null, timeMillis?: number | null, reasonRetired?: string | null, race?: { __typename?: 'Race', id: string, rowId: number, year: number, round: number, circuit?: { __typename?: 'Circuit', id: string, rowId: string, fullName: string, longitude: any, latitude: any } | null } | null } | null> } } | null };
+export type DriverCareerQueryQuery = { __typename?: 'Query', driver?: { __typename?: 'Driver', id: string, standings: Array<{ __typename?: 'SeasonDriverStanding', year: number, driverId: string, positionNumber?: number | null, positionText: string, points: any }>, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, driverId?: string | null, gridPositionNumber?: number | null, positionNumber?: number | null, positionDisplayOrder: number, points?: any | null, positionText?: string | null, teamId?: string | null, timeMillis?: number | null, reasonRetired?: string | null, race?: { __typename?: 'Race', rowId: number, year: number, round: number, circuit?: { __typename?: 'Circuit', id: string, fullName: string, longitude: any, latitude: any } | null } | null }> } | null };
 
 export type CircuitDataQueryQueryVariables = Exact<{
   circuitId: Scalars['String']['input'];
@@ -18265,14 +13074,14 @@ export type CircuitDataQueryQueryVariables = Exact<{
 }>;
 
 
-export type CircuitDataQueryQuery = { __typename?: 'Query', circuit?: { __typename?: 'Circuit', id: string, rowId: string, fullName: string, longitude: any, latitude: any, races: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, rowId: number, year: number, date: any, raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', id: string, gridPositionNumber?: number | null, positionDisplayOrder: number, positionText?: string | null, points?: any | null, timeMillis?: number | null, reasonRetired?: string | null, team?: { __typename?: 'Team', id: string, rowId: string, colors?: { __typename?: 'AppTeamColor', id: string, primaryHex?: string | null } | null } | null } | null> }, lapTimes: { __typename?: 'AppLapTimeConnection', nodes: Array<{ __typename?: 'AppLapTime', id: string, lap: number, milliseconds?: number | null } | null> } } | null> } } | null, driver?: { __typename?: 'Driver', id: string, seasonEntrantDrivers: { __typename?: 'SeasonEntrantDriverConnection', nodes: Array<{ __typename?: 'SeasonEntrantDriver', id: string, year: number, team?: { __typename?: 'Team', id: string, colors?: { __typename?: 'AppTeamColor', id: string, primaryHex?: string | null } | null } | null } | null> } } | null };
+export type CircuitDataQueryQuery = { __typename?: 'Query', circuit?: { __typename?: 'Circuit', id: string, fullName: string, longitude: any, latitude: any, races: Array<{ __typename?: 'Race', rowId: number, year: number, round: number, date: any, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, driverId?: string | null, gridPositionNumber?: number | null, positionDisplayOrder: number, positionText?: string | null, points?: any | null, timeMillis?: number | null, reasonRetired?: string | null, team?: { __typename?: 'Team', id: string, colors?: { __typename?: 'AppTeamColor', teamId: string, primaryHex?: string | null } | null } | null }>, lapTimes: Array<{ __typename?: 'AppLapTime', raceId: number, driverId: string, lap: number, milliseconds?: number | null }> }> } | null, driver?: { __typename?: 'Driver', id: string, seasonEntrantDrivers: Array<{ __typename?: 'SeasonEntrantDriver', year: number, driverId: string, teamId: string, team?: { __typename?: 'Team', id: string, colors?: { __typename?: 'AppTeamColor', teamId: string, primaryHex?: string | null } | null } | null }> } | null };
 
 export type DriverCircuitQueryQueryVariables = Exact<{
   driverId: Scalars['String']['input'];
 }>;
 
 
-export type DriverCircuitQueryQuery = { __typename?: 'Query', driver?: { __typename?: 'Driver', raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', id: string, gridPositionNumber?: number | null, positionDisplayOrder: number, points?: any | null, positionText?: string | null, teamId?: string | null, timeMillis?: number | null, reasonRetired?: string | null, race?: { __typename?: 'Race', id: string, rowId: number, year: number, round: number, circuit?: { __typename?: 'Circuit', id: string, rowId: string, fullName: string, longitude: any, latitude: any } | null } | null } | null> } } | null };
+export type DriverCircuitQueryQuery = { __typename?: 'Query', driver?: { __typename?: 'Driver', id: string, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, driverId?: string | null, gridPositionNumber?: number | null, positionDisplayOrder: number, points?: any | null, positionText?: string | null, teamId?: string | null, timeMillis?: number | null, reasonRetired?: string | null, race?: { __typename?: 'Race', rowId: number, year: number, round: number, circuit?: { __typename?: 'Circuit', id: string, fullName: string, longitude: any, latitude: any } | null } | null }> } | null };
 
 export type DriverSeasonQueryQueryVariables = Exact<{
   driverId: Scalars['String']['input'];
@@ -18280,14 +13089,14 @@ export type DriverSeasonQueryQueryVariables = Exact<{
 }>;
 
 
-export type DriverSeasonQueryQuery = { __typename?: 'Query', races?: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, rowId: number, round: number, officialName: string, date: any, time?: string | null, raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', gridPositionNumber?: number | null, positionDisplayOrder: number, points?: any | null, positionText?: string | null, teamId?: string | null, timeMillis?: number | null, reasonRetired?: string | null } | null> } } | null> } | null };
+export type DriverSeasonQueryQuery = { __typename?: 'Query', races?: Array<{ __typename?: 'Race', rowId: number, year: number, round: number, officialName: string, date: any, time?: string | null, raceResults: Array<{ __typename?: 'RaceResult', gridPositionNumber?: number | null, positionDisplayOrder: number, points?: any | null, positionText?: string | null, teamId?: string | null, timeMillis?: number | null, reasonRetired?: string | null }> }> | null };
 
 export type DriverStatsQueryVariables = Exact<{
   driverId: Scalars['String']['input'];
 }>;
 
 
-export type DriverStatsQuery = { __typename?: 'Query', driver?: { __typename?: 'Driver', raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', positionNumber?: number | null, positionDisplayOrder: number, points?: any | null } | null> } } | null };
+export type DriverStatsQuery = { __typename?: 'Query', driver?: { __typename?: 'Driver', id: string, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, driverId?: string | null, positionNumber?: number | null, positionDisplayOrder: number, points?: any | null }> } | null };
 
 export type QualifyingQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
@@ -18295,7 +13104,7 @@ export type QualifyingQueryQueryVariables = Exact<{
 }>;
 
 
-export type QualifyingQueryQuery = { __typename?: 'Query', race?: { __typename?: 'Race', qualifyingResults: { __typename?: 'QualifyingResultConnection', nodes: Array<{ __typename?: 'QualifyingResult', id: string, driverId?: string | null, teamId?: string | null, positionNumber?: number | null, q1?: string | null, q2?: string | null, q3?: string | null } | null> } } | null };
+export type QualifyingQueryQuery = { __typename?: 'Query', race?: { __typename?: 'Race', year: number, round: number, qualifyingResults: Array<{ __typename?: 'QualifyingResult', raceId: number, driverId?: string | null, teamId?: string | null, positionNumber?: number | null, q1?: string | null, q2?: string | null, q3?: string | null }> } | null };
 
 export type LapsSeasonRoundQueryVariables = Exact<{
   season: Scalars['Int']['input'];
@@ -18303,7 +13112,7 @@ export type LapsSeasonRoundQueryVariables = Exact<{
 }>;
 
 
-export type LapsSeasonRoundQuery = { __typename?: 'Query', race?: { __typename?: 'Race', lapTimes: { __typename?: 'AppLapTimeConnection', nodes: Array<{ __typename?: 'AppLapTime', id: string, lap: number, position?: number | null, timeText?: string | null, milliseconds?: number | null, driverId: string } | null> }, raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', id: string, positionDisplayOrder: number, positionNumber?: number | null, driverId?: string | null, driver?: { __typename?: 'Driver', id: string, lastName: string } | null, team?: { __typename?: 'Team', id: string, colors?: { __typename?: 'AppTeamColor', id: string, primaryHex?: string | null } | null } | null } | null> } } | null };
+export type LapsSeasonRoundQuery = { __typename?: 'Query', race?: { __typename?: 'Race', year: number, round: number, lapTimes: Array<{ __typename?: 'AppLapTime', raceId: number, lap: number, position?: number | null, timeText?: string | null, milliseconds?: number | null, driverId: string }>, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, positionDisplayOrder: number, positionNumber?: number | null, driverId?: string | null, driver?: { __typename?: 'Driver', id: string, lastName: string } | null, team?: { __typename?: 'Team', id: string, colors?: { __typename?: 'AppTeamColor', teamId: string, primaryHex?: string | null } | null } | null }> } | null };
 
 export type PitStopsBySeasonRoundQueryVariables = Exact<{
   season: Scalars['Int']['input'];
@@ -18311,7 +13120,7 @@ export type PitStopsBySeasonRoundQueryVariables = Exact<{
 }>;
 
 
-export type PitStopsBySeasonRoundQuery = { __typename?: 'Query', race?: { __typename?: 'Race', pitStops: { __typename?: 'PitStopConnection', nodes: Array<{ __typename?: 'PitStop', id: string, lap?: number | null, stop: number, time?: string | null, timeMillis?: number | null, driverId: string, driver?: { __typename?: 'Driver', id: string, abbreviation: string } | null, team?: { __typename?: 'Team', id: string, colors?: { __typename?: 'AppTeamColor', id: string, primaryHex?: string | null } | null } | null } | null> } } | null };
+export type PitStopsBySeasonRoundQuery = { __typename?: 'Query', race?: { __typename?: 'Race', year: number, round: number, pitStops: Array<{ __typename?: 'PitStop', raceId: number, lap?: number | null, stop: number, time?: string | null, timeMillis?: number | null, driverId: string, driver?: { __typename?: 'Driver', id: string, abbreviation: string } | null, team?: { __typename?: 'Team', id: string, colors?: { __typename?: 'AppTeamColor', teamId: string, primaryHex?: string | null } | null } | null }> } | null };
 
 export type RaceFastestLapQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
@@ -18319,7 +13128,7 @@ export type RaceFastestLapQueryQueryVariables = Exact<{
 }>;
 
 
-export type RaceFastestLapQueryQuery = { __typename?: 'Query', race?: { __typename?: 'Race', fastestLaps: { __typename?: 'FastestLapConnection', nodes: Array<{ __typename?: 'FastestLap', id: string, driverId?: string | null, lap?: number | null, time?: string | null, timeMillis?: number | null } | null> } } | null };
+export type RaceFastestLapQueryQuery = { __typename?: 'Query', race?: { __typename?: 'Race', year: number, round: number, fastestLaps: Array<{ __typename?: 'FastestLap', raceId: number, driverId?: string | null, lap?: number | null, time?: string | null, timeMillis?: number | null }> } | null };
 
 export type RaceLapLeaderQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
@@ -18327,7 +13136,7 @@ export type RaceLapLeaderQueryQueryVariables = Exact<{
 }>;
 
 
-export type RaceLapLeaderQueryQuery = { __typename?: 'Query', race?: { __typename?: 'Race', lapTimes: { __typename?: 'AppLapTimeConnection', nodes: Array<{ __typename?: 'AppLapTime', id: string, driverId: string, position?: number | null } | null> } } | null };
+export type RaceLapLeaderQueryQuery = { __typename?: 'Query', race?: { __typename?: 'Race', year: number, round: number, lapTimes: Array<{ __typename?: 'AppLapTime', raceId: number, driverId: string, lap: number, position?: number | null }> } | null };
 
 export type RacePolesLeaderQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
@@ -18335,7 +13144,7 @@ export type RacePolesLeaderQueryQueryVariables = Exact<{
 }>;
 
 
-export type RacePolesLeaderQueryQuery = { __typename?: 'Query', races?: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, qualifyingResults: { __typename?: 'QualifyingResultConnection', nodes: Array<{ __typename?: 'QualifyingResult', id: string, driverId?: string | null } | null> } } | null> } | null };
+export type RacePolesLeaderQueryQuery = { __typename?: 'Query', races?: Array<{ __typename?: 'Race', year: number, round: number, qualifyingResults: Array<{ __typename?: 'QualifyingResult', raceId: number, driverId?: string | null }> }> | null };
 
 export type RacePositionsGainedLeaderQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
@@ -18343,115 +13152,115 @@ export type RacePositionsGainedLeaderQueryQueryVariables = Exact<{
 }>;
 
 
-export type RacePositionsGainedLeaderQueryQuery = { __typename?: 'Query', race?: { __typename?: 'Race', raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', id: string, driverId?: string | null, gridPositionNumber?: number | null, positionNumber?: number | null } | null> } } | null };
+export type RacePositionsGainedLeaderQueryQuery = { __typename?: 'Query', race?: { __typename?: 'Race', year: number, round: number, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, driverId?: string | null, gridPositionNumber?: number | null, positionNumber?: number | null }> } | null };
 
 export type NextRaceBySeasonQueryVariables = Exact<{
   season: Scalars['Int']['input'];
 }>;
 
 
-export type NextRaceBySeasonQuery = { __typename?: 'Query', races?: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, rowId: number, year: number, round: number, date: any, time?: string | null, officialName: string, grandPrixId: string, preQualifyingDate?: any | null, preQualifyingTime?: string | null, freePractice1Date?: any | null, freePractice1Time?: string | null, freePractice2Date?: any | null, freePractice2Time?: string | null, freePractice3Date?: any | null, freePractice3Time?: string | null, freePractice4Date?: any | null, freePractice4Time?: string | null, qualifyingDate?: any | null, qualifyingTime?: string | null, sprintQualifyingDate?: any | null, sprintQualifyingTime?: string | null, sprintRaceDate?: any | null, sprintRaceTime?: string | null, circuit?: { __typename?: 'Circuit', id: string, rowId: string, fullName: string, placeName: string, countryId: string, latitude: any, longitude: any } | null } | null> } | null };
+export type NextRaceBySeasonQuery = { __typename?: 'Query', races?: Array<{ __typename?: 'Race', rowId: number, year: number, round: number, date: any, time?: string | null, officialName: string, grandPrixId: string, preQualifyingDate?: any | null, preQualifyingTime?: string | null, freePractice1Date?: any | null, freePractice1Time?: string | null, freePractice2Date?: any | null, freePractice2Time?: string | null, freePractice3Date?: any | null, freePractice3Time?: string | null, freePractice4Date?: any | null, freePractice4Time?: string | null, qualifyingDate?: any | null, qualifyingTime?: string | null, sprintQualifyingDate?: any | null, sprintQualifyingTime?: string | null, sprintRaceDate?: any | null, sprintRaceTime?: string | null, circuit?: { __typename?: 'Circuit', id: string, fullName: string, placeName: string, countryId: string, latitude: any, longitude: any } | null }> | null };
 
 export type SeasonsQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SeasonsQueryQuery = { __typename?: 'Query', seasons?: { __typename?: 'SeasonConnection', nodes: Array<{ __typename?: 'Season', id: string, year: number, seasonTeamStandingsByYear: { __typename?: 'SeasonTeamStandingConnection', nodes: Array<{ __typename?: 'SeasonTeamStanding', id: string, teamId: string, points: any, positionNumber?: number | null } | null> }, seasonDriverStandingsByYear: { __typename?: 'SeasonDriverStandingConnection', nodes: Array<{ __typename?: 'SeasonDriverStanding', id: string, driverId: string, points: any, positionNumber?: number | null } | null> } } | null> } | null };
+export type SeasonsQueryQuery = { __typename?: 'Query', seasons?: Array<{ __typename?: 'Season', year: number, seasonTeamStandingsByYear: Array<{ __typename?: 'SeasonTeamStanding', year: number, teamId: string, points: any, positionNumber?: number | null }>, seasonDriverStandingsByYear: Array<{ __typename?: 'SeasonDriverStanding', year: number, driverId: string, points: any, positionNumber?: number | null }> }> | null };
 
 export type ConstructorStandingsQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
 }>;
 
 
-export type ConstructorStandingsQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', racesByYear: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, round: number, raceTeamStandings: { __typename?: 'RaceTeamStandingConnection', nodes: Array<{ __typename?: 'RaceTeamStanding', id: string, teamId: string, positionNumber?: number | null, points: any, team?: { __typename?: 'Team', id: string, rowId: string, name: string, colors?: { __typename?: 'AppTeamColor', id: string, primaryHex?: string | null } | null } | null } | null> } } | null> } } | null };
+export type ConstructorStandingsQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', year: number, racesByYear: Array<{ __typename?: 'Race', year: number, round: number, raceTeamStandings: Array<{ __typename?: 'RaceTeamStanding', raceId: number, teamId: string, positionNumber?: number | null, points: any, team?: { __typename?: 'Team', id: string, name: string, colors?: { __typename?: 'AppTeamColor', teamId: string, primaryHex?: string | null } | null } | null }> }> } | null };
 
 export type DriverStandingsQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
 }>;
 
 
-export type DriverStandingsQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', seasonDriverStandingsByYear: { __typename?: 'SeasonDriverStandingConnection', nodes: Array<{ __typename?: 'SeasonDriverStanding', id: string, driverId: string, positionNumber?: number | null, points: any } | null> }, racesByYear: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, round: number, raceDriverStandings: { __typename?: 'RaceDriverStandingConnection', nodes: Array<{ __typename?: 'RaceDriverStanding', id: string, driverId: string, positionNumber?: number | null, points: any, driver?: { __typename?: 'Driver', id: string, rowId: string, lastName: string, seasonEntrantDrivers: { __typename?: 'SeasonEntrantDriverConnection', nodes: Array<{ __typename?: 'SeasonEntrantDriver', id: string, team?: { __typename?: 'Team', id: string, colors?: { __typename?: 'AppTeamColor', id: string, primaryHex?: string | null } | null } | null } | null> } } | null } | null> } } | null> } } | null };
+export type DriverStandingsQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', year: number, seasonDriverStandingsByYear: Array<{ __typename?: 'SeasonDriverStanding', year: number, driverId: string, positionNumber?: number | null, points: any }>, racesByYear: Array<{ __typename?: 'Race', year: number, round: number, raceDriverStandings: Array<{ __typename?: 'RaceDriverStanding', raceId: number, driverId: string, positionNumber?: number | null, points: any, driver?: { __typename?: 'Driver', id: string, lastName: string, seasonEntrantDrivers: Array<{ __typename?: 'SeasonEntrantDriver', year: number, driverId: string, teamId: string, team?: { __typename?: 'Team', id: string, colors?: { __typename?: 'AppTeamColor', teamId: string, primaryHex?: string | null } | null } | null }> } | null }> }> } | null };
 
 export type SeasonConstructorChampionQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
 }>;
 
 
-export type SeasonConstructorChampionQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', seasonTeamStandingsByYear: { __typename?: 'SeasonTeamStandingConnection', nodes: Array<{ __typename?: 'SeasonTeamStanding', id: string, teamId: string } | null> } } | null };
+export type SeasonConstructorChampionQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', year: number, seasonTeamStandingsByYear: Array<{ __typename?: 'SeasonTeamStanding', year: number, teamId: string }> } | null };
 
 export type SeasonDnFsQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
 }>;
 
 
-export type SeasonDnFsQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', racesByYear: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, rowId: number, raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', id: string, driverId?: string | null, reasonRetired?: string | null } | null> } } | null> } } | null };
+export type SeasonDnFsQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', year: number, racesByYear: Array<{ __typename?: 'Race', rowId: number, year: number, round: number, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, driverId?: string | null, reasonRetired?: string | null }> }> } | null };
 
 export type SeasonDriverChampionQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
 }>;
 
 
-export type SeasonDriverChampionQueryQuery = { __typename?: 'Query', seasonDriverStandings?: { __typename?: 'SeasonDriverStandingConnection', nodes: Array<{ __typename?: 'SeasonDriverStanding', id: string, driverId: string } | null> } | null };
+export type SeasonDriverChampionQueryQuery = { __typename?: 'Query', seasonDriverStandings?: Array<{ __typename?: 'SeasonDriverStanding', year: number, driverId: string }> | null };
 
 export type SeasonFastestLapQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
 }>;
 
 
-export type SeasonFastestLapQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', year: number, racesByYear: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, rowId: number, round: number, officialName: string, fastestLaps: { __typename?: 'FastestLapConnection', nodes: Array<{ __typename?: 'FastestLap', id: string, driverId?: string | null, lap?: number | null, time?: string | null, timeMillis?: number | null } | null> } } | null> } } | null };
+export type SeasonFastestLapQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', year: number, racesByYear: Array<{ __typename?: 'Race', rowId: number, year: number, round: number, officialName: string, fastestLaps: Array<{ __typename?: 'FastestLap', raceId: number, driverId?: string | null, lap?: number | null, time?: string | null, timeMillis?: number | null }> }> } | null };
 
 export type SeasonLapLeaderQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
 }>;
 
 
-export type SeasonLapLeaderQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', racesByYear: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, rowId: number, round: number, lapTimes: { __typename?: 'AppLapTimeConnection', nodes: Array<{ __typename?: 'AppLapTime', id: string, driverId: string, position?: number | null } | null> } } | null> } } | null };
+export type SeasonLapLeaderQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', year: number, racesByYear: Array<{ __typename?: 'Race', rowId: number, year: number, round: number, lapTimes: Array<{ __typename?: 'AppLapTime', raceId: number, driverId: string, lap: number, position?: number | null }> }> } | null };
 
 export type SeasonPolesQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
 }>;
 
 
-export type SeasonPolesQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', racesByYear: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, rowId: number, qualifyingResults: { __typename?: 'QualifyingResultConnection', nodes: Array<{ __typename?: 'QualifyingResult', id: string, driverId?: string | null } | null> } } | null> } } | null };
+export type SeasonPolesQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', year: number, racesByYear: Array<{ __typename?: 'Race', rowId: number, year: number, round: number, qualifyingResults: Array<{ __typename?: 'QualifyingResult', raceId: number, driverId?: string | null }> }> } | null };
 
 export type SeasonPositionsGainedQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
 }>;
 
 
-export type SeasonPositionsGainedQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', racesByYear: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, rowId: number, raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', id: string, driverId?: string | null, gridPositionNumber?: number | null, positionNumber?: number | null } | null> } } | null> } } | null };
+export type SeasonPositionsGainedQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', year: number, racesByYear: Array<{ __typename?: 'Race', rowId: number, year: number, round: number, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, driverId?: string | null, gridPositionNumber?: number | null, positionNumber?: number | null }> }> } | null };
 
 export type SeasonSprintWinsQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
 }>;
 
 
-export type SeasonSprintWinsQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', racesByYear: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, rowId: number, sprintRaceResults: { __typename?: 'SprintRaceResultConnection', nodes: Array<{ __typename?: 'SprintRaceResult', id: string, driverId?: string | null } | null> } } | null> } } | null };
+export type SeasonSprintWinsQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', year: number, racesByYear: Array<{ __typename?: 'Race', rowId: number, year: number, round: number, sprintRaceResults: Array<{ __typename?: 'SprintRaceResult', raceId: number, driverId?: string | null }> }> } | null };
 
 export type SeasonWinsQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
 }>;
 
 
-export type SeasonWinsQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', racesByYear: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, rowId: number, raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', id: string, driverId?: string | null } | null> } } | null> } } | null };
+export type SeasonWinsQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', year: number, racesByYear: Array<{ __typename?: 'Race', rowId: number, year: number, round: number, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, driverId?: string | null }> }> } | null };
 
 export type ScheduleQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
 }>;
 
 
-export type ScheduleQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', racesByYear: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, rowId: number, round: number, date: any, officialName: string, circuit?: { __typename?: 'Circuit', id: string, latitude: any, longitude: any } | null, raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', driverId?: string | null } | null> }, sprintRaceResults: { __typename?: 'SprintRaceResultConnection', nodes: Array<{ __typename?: 'SprintRaceResult', driverId?: string | null } | null> } } | null> } } | null };
+export type ScheduleQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', year: number, racesByYear: Array<{ __typename?: 'Race', rowId: number, year: number, round: number, date: any, officialName: string, circuit?: { __typename?: 'Circuit', id: string, latitude: any, longitude: any } | null, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, driverId?: string | null }>, sprintRaceResults: Array<{ __typename?: 'SprintRaceResult', raceId: number, driverId?: string | null }> }> } | null };
 
 export type PastSeasonsQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PastSeasonsQueryQuery = { __typename?: 'Query', seasons?: { __typename?: 'SeasonConnection', nodes: Array<{ __typename?: 'Season', id: string, year: number } | null> } | null };
+export type PastSeasonsQueryQuery = { __typename?: 'Query', seasons?: Array<{ __typename?: 'Season', year: number }> | null };
 
 export type SingleSeasonQueryQueryVariables = Exact<{
   season: Scalars['Int']['input'];
 }>;
 
 
-export type SingleSeasonQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', id: string, year: number } | null };
+export type SingleSeasonQueryQuery = { __typename?: 'Query', season?: { __typename?: 'Season', year: number } | null };
 
 export type CircuitQueryQueryVariables = Exact<{
   circuitRef: Scalars['String']['input'];
@@ -18460,7 +13269,7 @@ export type CircuitQueryQueryVariables = Exact<{
 }>;
 
 
-export type CircuitQueryQuery = { __typename?: 'Query', circuit?: { __typename?: 'Circuit', id: string, rowId: string, fullName: string, placeName: string, countryId: string, latitude: any, longitude: any, description?: { __typename?: 'AppCircuitDescription', description: string } | null, history: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, year: number, round: number, date: any, officialName: string, raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', id: string, teamId?: string | null, driverId?: string | null, time?: string | null, driver?: { __typename?: 'Driver', id: string, firstName: string, lastName: string } | null } | null> }, lapTimes: { __typename?: 'AppLapTimeConnection', nodes: Array<{ __typename?: 'AppLapTime', id: string, driverId: string } | null> }, fastestLaps: { __typename?: 'AppLapTimeConnection', nodes: Array<{ __typename?: 'AppLapTime', id: string, driverId: string, milliseconds?: number | null } | null> } } | null> }, season?: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, year: number, round: number, officialName: string, freePractice1Date?: any | null, freePractice1Time?: string | null, freePractice2Date?: any | null, freePractice2Time?: string | null, freePractice3Date?: any | null, freePractice3Time?: string | null, qualifyingDate?: any | null, qualifyingTime?: string | null, date: any, time?: string | null, raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', id: string, driverId?: string | null, gridPositionNumber?: number | null, positionDisplayOrder: number, points?: any | null, reasonRetired?: string | null, team?: { __typename?: 'Team', id: string, rowId: string } | null } | null> } } | null> } } | null };
+export type CircuitQueryQuery = { __typename?: 'Query', circuit?: { __typename?: 'Circuit', id: string, fullName: string, placeName: string, countryId: string, latitude: any, longitude: any, description?: { __typename?: 'AppCircuitDescription', description: string } | null, history: Array<{ __typename?: 'Race', year: number, round: number, date: any, officialName: string, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, teamId?: string | null, driverId?: string | null, time?: string | null, driver?: { __typename?: 'Driver', id: string, firstName: string, lastName: string } | null }>, lapTimes: Array<{ __typename?: 'AppLapTime', raceId: number, driverId: string, lap: number }>, fastestLaps: Array<{ __typename?: 'AppLapTime', raceId: number, driverId: string, lap: number, milliseconds?: number | null }> }>, season?: Array<{ __typename?: 'Race', year: number, round: number, officialName: string, freePractice1Date?: any | null, freePractice1Time?: string | null, freePractice2Date?: any | null, freePractice2Time?: string | null, freePractice3Date?: any | null, freePractice3Time?: string | null, qualifyingDate?: any | null, qualifyingTime?: string | null, date: any, time?: string | null, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, driverId?: string | null, gridPositionNumber?: number | null, positionDisplayOrder: number, points?: any | null, reasonRetired?: string | null, team?: { __typename?: 'Team', id: string } | null }> }> } | null };
 
 export type ConstructorDataQueryQueryVariables = Exact<{
   constructorRef: Scalars['String']['input'];
@@ -18468,9 +13277,9 @@ export type ConstructorDataQueryQueryVariables = Exact<{
 }>;
 
 
-export type ConstructorDataQueryQuery = { __typename?: 'Query', team?: { __typename?: 'Team', id: string, name: string, countryId: string, colors?: { __typename?: 'AppTeamColor', id: string, primaryHex?: string | null } | null, drivers: { __typename?: 'SeasonEntrantDriverConnection', nodes: Array<{ __typename?: 'SeasonEntrantDriver', id: string, year: number, driver?: { __typename?: 'Driver', id: string, firstName: string, lastName: string, driverStandings: { __typename?: 'SeasonDriverStandingConnection', nodes: Array<{ __typename?: 'SeasonDriverStanding', id: string, year: number, points: any, positionNumber?: number | null } | null> } } | null } | null> }, standings: { __typename?: 'SeasonTeamStandingConnection', nodes: Array<{ __typename?: 'SeasonTeamStanding', id: string, points: any, positionNumber?: number | null, positionText: string, year: number } | null> }, antecedents: { __typename?: 'AppTeamHistoryConnection', nodes: Array<{ __typename?: 'AppTeamHistory', id: string, antecedentTeamId: string, startYear: number, endYear?: number | null, antecedentTeam?: { __typename?: 'Team', id: string, name: string, colors?: { __typename?: 'AppTeamColor', id: string, primaryHex?: string | null } | null, standings: { __typename?: 'SeasonTeamStandingConnection', nodes: Array<{ __typename?: 'SeasonTeamStanding', id: string, points: any, positionNumber?: number | null, positionText: string, year: number } | null> } } | null } | null> }, raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', id: string, raceId: number, driverId?: string | null, gridPositionNumber?: number | null, positionDisplayOrder: number, points?: any | null, race?: { __typename?: 'Race', id: string, round: number } | null, driver?: { __typename?: 'Driver', id: string, abbreviation: string } | null } | null> } } | null, races?: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, rowId: number, round: number, officialName: string, date: any } | null> } | null };
+export type ConstructorDataQueryQuery = { __typename?: 'Query', team?: { __typename?: 'Team', id: string, name: string, countryId: string, colors?: { __typename?: 'AppTeamColor', teamId: string, primaryHex?: string | null } | null, drivers: Array<{ __typename?: 'SeasonEntrantDriver', year: number, driverId: string, teamId: string, driver?: { __typename?: 'Driver', id: string, firstName: string, lastName: string, seasonDriverStandings: Array<{ __typename?: 'SeasonDriverStanding', year: number, driverId: string, points: any, positionNumber?: number | null }> } | null }>, standings: Array<{ __typename?: 'SeasonTeamStanding', teamId: string, engineManufacturerId: string, points: any, positionNumber?: number | null, positionText: string, year: number }>, antecedents: Array<{ __typename?: 'AppTeamHistory', teamId: string, antecedentTeamId: string, startYear: number, endYear?: number | null, antecedentTeam?: { __typename?: 'Team', id: string, name: string, colors?: { __typename?: 'AppTeamColor', teamId: string, primaryHex?: string | null } | null, standings: Array<{ __typename?: 'SeasonTeamStanding', teamId: string, engineManufacturerId: string, points: any, positionNumber?: number | null, positionText: string, year: number }> } | null }>, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, driverId?: string | null, gridPositionNumber?: number | null, positionDisplayOrder: number, points?: any | null, race?: { __typename?: 'Race', year: number, round: number } | null, driver?: { __typename?: 'Driver', id: string, abbreviation: string } | null }> } | null, races?: Array<{ __typename?: 'Race', rowId: number, year: number, round: number, officialName: string, date: any }> | null };
 
-export type DriverFieldsFragment = { __typename?: 'Driver', id: string, rowId: string, dateOfBirth: any, firstName: string, lastName: string, abbreviation: string, permanentNumber?: string | null, nationalityCountryId: string, bio?: { __typename?: 'WikipediaBio', title: string, extract?: string | null, thumbnailUrl?: string | null, sourceUrl: string } | null, seasonEntrantDrivers: { __typename?: 'SeasonEntrantDriverConnection', nodes: Array<{ __typename?: 'SeasonEntrantDriver', id: string, year: number, team?: { __typename?: 'Team', id: string, colors?: { __typename?: 'AppTeamColor', id: string, primaryHex?: string | null } | null } | null } | null> }, teamsByYear: { __typename?: 'SeasonEntrantDriverConnection', nodes: Array<{ __typename?: 'SeasonEntrantDriver', id: string, year: number, team?: { __typename?: 'Team', id: string, colors?: { __typename?: 'AppTeamColor', id: string, primaryHex?: string | null } | null } | null } | null> } } & { ' $fragmentName'?: 'DriverFieldsFragment' };
+export type DriverFieldsFragment = { __typename?: 'Driver', id: string, dateOfBirth: any, firstName: string, lastName: string, abbreviation: string, permanentNumber?: string | null, nationalityCountryId: string, nationalityCountry?: { __typename?: 'Country', id: string, name: string, alpha2Code: string } | null, bio?: { __typename?: 'WikipediaBio', title: string, extract?: string | null, thumbnailUrl?: string | null, sourceUrl: string } | null, seasonEntrantDrivers: Array<{ __typename?: 'SeasonEntrantDriver', year: number, driverId: string, teamId: string, team?: { __typename?: 'Team', id: string, colors?: { __typename?: 'AppTeamColor', teamId: string, primaryHex?: string | null } | null } | null }>, teamsByYear: Array<{ __typename?: 'SeasonEntrantDriver', year: number, driverId: string, teamId: string, team?: { __typename?: 'Team', id: string, colors?: { __typename?: 'AppTeamColor', teamId: string, primaryHex?: string | null } | null } | null }> } & { ' $fragmentName'?: 'DriverFieldsFragment' };
 
 export type DriverQueryQueryVariables = Exact<{
   id: Scalars['String']['input'];
@@ -18488,9 +13297,9 @@ export type RaceBySeasonRoundQueryVariables = Exact<{
 }>;
 
 
-export type RaceBySeasonRoundQuery = { __typename?: 'Query', races?: { __typename?: 'RaceConnection', nodes: Array<{ __typename?: 'Race', id: string, raceResults: { __typename?: 'RaceResultConnection', nodes: Array<{ __typename?: 'RaceResult', id: string, driverId?: string | null, teamId?: string | null, gridPositionNumber?: number | null, positionNumber?: number | null, positionText?: string | null, positionDisplayOrder: number, points?: any | null, laps?: number | null, time?: string | null, timeMillis?: number | null, reasonRetired?: string | null, driver?: { __typename?: 'Driver', id: string, rowId: string } | null } | null> }, sprintRaceResults: { __typename?: 'SprintRaceResultConnection', nodes: Array<{ __typename?: 'SprintRaceResult', id: string, driverId?: string | null, teamId?: string | null, gridPositionNumber?: number | null, positionNumber?: number | null, positionText?: string | null, positionDisplayOrder: number, points?: any | null, laps?: number | null, time?: string | null, timeMillis?: number | null, reasonRetired?: string | null, driver?: { __typename?: 'Driver', id: string, rowId: string } | null } | null> } } | null> } | null };
+export type RaceBySeasonRoundQuery = { __typename?: 'Query', races?: Array<{ __typename?: 'Race', year: number, round: number, raceResults: Array<{ __typename?: 'RaceResult', raceId: number, driverId?: string | null, teamId?: string | null, gridPositionNumber?: number | null, positionNumber?: number | null, positionText?: string | null, positionDisplayOrder: number, points?: any | null, laps?: number | null, time?: string | null, timeMillis?: number | null, reasonRetired?: string | null, driver?: { __typename?: 'Driver', id: string } | null }>, sprintRaceResults: Array<{ __typename?: 'SprintRaceResult', raceId: number, driverId?: string | null, teamId?: string | null, gridPositionNumber?: number | null, positionNumber?: number | null, positionText?: string | null, positionDisplayOrder: number, points?: any | null, laps?: number | null, time?: string | null, timeMillis?: number | null, reasonRetired?: string | null, driver?: { __typename?: 'Driver', id: string } | null }> }> | null };
 
-export type TeamFieldsFragment = { __typename?: 'Team', id: string, name: string, countryId: string, colors?: { __typename?: 'AppTeamColor', id: string, primaryHex?: string | null, secondaryHex?: string | null } | null, bio?: { __typename?: 'WikipediaBio', title: string, extract?: string | null, thumbnailUrl?: string | null, sourceUrl: string } | null } & { ' $fragmentName'?: 'TeamFieldsFragment' };
+export type TeamFieldsFragment = { __typename?: 'Team', id: string, name: string, country?: { __typename?: 'Country', id: string, name: string, alpha2Code: string } | null, colors?: { __typename?: 'AppTeamColor', teamId: string, primaryHex?: string | null, secondaryHex?: string | null } | null, bio?: { __typename?: 'WikipediaBio', title: string, extract?: string | null, thumbnailUrl?: string | null, sourceUrl: string } | null } & { ' $fragmentName'?: 'TeamFieldsFragment' };
 
 export type TeamByIdQueryVariables = Exact<{
   rowId: Scalars['String']['input'];
@@ -18505,53 +13314,60 @@ export type TeamByIdQuery = { __typename?: 'Query', team?: (
 export type SeasonsListQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SeasonsListQueryQuery = { __typename?: 'Query', seasons?: { __typename?: 'SeasonConnection', nodes: Array<{ __typename?: 'Season', id: string, year: number, seasonDriverStandingsByYear: { __typename?: 'SeasonDriverStandingConnection', totalCount: number } } | null> } | null };
+export type SeasonsListQueryQuery = { __typename?: 'Query', seasons?: Array<{ __typename?: 'Season', year: number, hasResults?: boolean | null }> | null };
 
-export const DriverFieldsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DriverFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Driver"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"dateOfBirth"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"abbreviation"}},{"kind":"Field","name":{"kind":"Name","value":"permanentNumber"}},{"kind":"Field","name":{"kind":"Name","value":"nationalityCountryId"}},{"kind":"Field","name":{"kind":"Name","value":"bio"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"extract"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnailUrl"}},{"kind":"Field","name":{"kind":"Name","value":"sourceUrl"}}]}},{"kind":"Field","name":{"kind":"Name","value":"seasonEntrantDrivers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}},{"kind":"Field","alias":{"kind":"Name","value":"teamsByYear"},"name":{"kind":"Name","value":"seasonEntrantDrivers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<DriverFieldsFragment, unknown>;
-export const TeamFieldsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TeamFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Team"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"countryId"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}},{"kind":"Field","name":{"kind":"Name","value":"secondaryHex"}}]}},{"kind":"Field","name":{"kind":"Name","value":"bio"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"extract"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnailUrl"}},{"kind":"Field","name":{"kind":"Name","value":"sourceUrl"}}]}}]}}]} as unknown as DocumentNode<TeamFieldsFragment, unknown>;
-export const CurrentSeasonQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CurrentSeasonQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasons"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}}]}}]}}]}}]} as unknown as DocumentNode<CurrentSeasonQueryQuery, CurrentSeasonQueryQueryVariables>;
-export const AllCircuitsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AllCircuitsQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circuits"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}}]}}]}}]}}]} as unknown as DocumentNode<AllCircuitsQueryQuery, AllCircuitsQueryQueryVariables>;
-export const RaceLookupQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RaceLookupQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"officialName"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"circuit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"placeName"}},{"kind":"Field","name":{"kind":"Name","value":"countryId"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"description"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<RaceLookupQueryQuery, RaceLookupQueryQueryVariables>;
-export const AllRacesQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AllRacesQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"races"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}}]}}]}}]}}]} as unknown as DocumentNode<AllRacesQueryQuery, AllRacesQueryQueryVariables>;
-export const ConstructorPageStaticQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ConstructorPageStaticQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"constructorRef"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teams"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"rowId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"constructorRef"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"countryId"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}}]} as unknown as DocumentNode<ConstructorPageStaticQueryQuery, ConstructorPageStaticQueryQueryVariables>;
-export const SeasonMenuQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonMenuQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasons"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}}]}}]}}]}}]} as unknown as DocumentNode<SeasonMenuQueryQuery, SeasonMenuQueryQueryVariables>;
-export const CircuitsListQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CircuitsListQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circuits"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"FULL_NAME_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"placeName"}},{"kind":"Field","name":{"kind":"Name","value":"countryId"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"direction"}},{"kind":"Field","name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<CircuitsListQueryQuery, CircuitsListQueryQueryVariables>;
-export const ConstructorsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ConstructorsQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teams"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"NAME_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"countryId"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}},{"kind":"Field","name":{"kind":"Name","value":"secondaryHex"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"seasons"},"name":{"kind":"Name","value":"seasonTeams"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ConstructorsQueryQuery, ConstructorsQueryQueryVariables>;
-export const ConstructorDriverPodiumsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"constructorDriverPodiumsQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"constructorId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"ROUND_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"teamId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"constructorId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ConstructorDriverPodiumsQueryQuery, ConstructorDriverPodiumsQueryQueryVariables>;
-export const ConstructorDriverPointsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ConstructorDriverPointsQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"constructorId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"teamId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"constructorId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"points"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"sprintRaceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"teamId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"constructorId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"points"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ConstructorDriverPointsQueryQuery, ConstructorDriverPointsQueryQueryVariables>;
-export const ConstructorDriverQualifyingQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ConstructorDriverQualifyingQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"constructorId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"qualifyingResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"teamId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"constructorId"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_NUMBER_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}}]}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ConstructorDriverQualifyingQueryQuery, ConstructorDriverQualifyingQueryQueryVariables>;
-export const DriversQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"DriversQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"drivers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"LAST_NAME_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"nationalityCountryId"}}]}}]}}]}}]} as unknown as DocumentNode<DriversQueryQuery, DriversQueryQueryVariables>;
-export const DriverCareerQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"DriverCareerQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"driver"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"rowId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"standings"},"name":{"kind":"Name","value":"seasonDriverStandings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"points"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"race"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"circuit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}}]}}]}}]}}]}}]} as unknown as DocumentNode<DriverCareerQueryQuery, DriverCareerQueryQueryVariables>;
-export const CircuitDataQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CircuitDataQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"circuitId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circuit"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"rowId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"circuitId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"races"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"driverId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"lapTimes"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"driverId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lap"}},{"kind":"Field","name":{"kind":"Name","value":"milliseconds"}}]}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"rowId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"seasonEntrantDrivers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<CircuitDataQueryQuery, CircuitDataQueryQueryVariables>;
-export const DriverCircuitQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"DriverCircuitQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"driver"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"rowId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"race"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"circuit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}}]}}]}}]}}]}}]} as unknown as DocumentNode<DriverCircuitQueryQuery, DriverCircuitQueryQueryVariables>;
-export const DriverSeasonQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"DriverSeasonQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"ROUND_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"officialName"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"driverId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<DriverSeasonQueryQuery, DriverSeasonQueryQueryVariables>;
-export const DriverStatsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"driverStats"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"driver"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"rowId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}}]}}]}}]}}]}}]} as unknown as DocumentNode<DriverStatsQuery, DriverStatsQueryVariables>;
-export const QualifyingQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"qualifyingQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"race"},"name":{"kind":"Name","value":"raceByYearAndRound"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"Argument","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"qualifyingResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"q1"}},{"kind":"Field","name":{"kind":"Name","value":"q2"}},{"kind":"Field","name":{"kind":"Name","value":"q3"}}]}}]}}]}}]}}]} as unknown as DocumentNode<QualifyingQueryQuery, QualifyingQueryQueryVariables>;
-export const LapsSeasonRoundDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"lapsSeasonRound"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"race"},"name":{"kind":"Name","value":"raceByYearAndRound"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"Argument","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lapTimes"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"LAP_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lap"}},{"kind":"Field","name":{"kind":"Name","value":"position"}},{"kind":"Field","name":{"kind":"Name","value":"timeText"}},{"kind":"Field","name":{"kind":"Name","value":"milliseconds"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_DISPLAY_ORDER_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<LapsSeasonRoundQuery, LapsSeasonRoundQueryVariables>;
-export const PitStopsBySeasonRoundDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"pitStopsBySeasonRound"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"race"},"name":{"kind":"Name","value":"raceByYearAndRound"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"Argument","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pitStops"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lap"}},{"kind":"Field","name":{"kind":"Name","value":"stop"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"abbreviation"}}]}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<PitStopsBySeasonRoundQuery, PitStopsBySeasonRoundQueryVariables>;
-export const RaceFastestLapQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"raceFastestLapQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"race"},"name":{"kind":"Name","value":"raceByYearAndRound"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"Argument","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"fastestLaps"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"lap"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}}]}}]}}]}}]}}]} as unknown as DocumentNode<RaceFastestLapQueryQuery, RaceFastestLapQueryQueryVariables>;
-export const RaceLapLeaderQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"raceLapLeaderQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"race"},"name":{"kind":"Name","value":"raceByYearAndRound"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"Argument","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lapTimes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"position"}}]}}]}}]}}]}}]} as unknown as DocumentNode<RaceLapLeaderQueryQuery, RaceLapLeaderQueryQueryVariables>;
-export const RacePolesLeaderQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"racePolesLeaderQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"qualifyingResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"positionNumber"},"value":{"kind":"IntValue","value":"1"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<RacePolesLeaderQueryQuery, RacePolesLeaderQueryQueryVariables>;
-export const RacePositionsGainedLeaderQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"racePositionsGainedLeaderQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"race"},"name":{"kind":"Name","value":"raceByYearAndRound"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"Argument","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}}]}}]}}]}}]}}]} as unknown as DocumentNode<RacePositionsGainedLeaderQueryQuery, RacePositionsGainedLeaderQueryQueryVariables>;
-export const NextRaceBySeasonDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"NextRaceBySeason"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"ROUND_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"officialName"}},{"kind":"Field","name":{"kind":"Name","value":"grandPrixId"}},{"kind":"Field","name":{"kind":"Name","value":"preQualifyingDate"}},{"kind":"Field","name":{"kind":"Name","value":"preQualifyingTime"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice1Date"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice1Time"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice2Date"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice2Time"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice3Date"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice3Time"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice4Date"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice4Time"}},{"kind":"Field","name":{"kind":"Name","value":"qualifyingDate"}},{"kind":"Field","name":{"kind":"Name","value":"qualifyingTime"}},{"kind":"Field","name":{"kind":"Name","value":"sprintQualifyingDate"}},{"kind":"Field","name":{"kind":"Name","value":"sprintQualifyingTime"}},{"kind":"Field","name":{"kind":"Name","value":"sprintRaceDate"}},{"kind":"Field","name":{"kind":"Name","value":"sprintRaceTime"}},{"kind":"Field","name":{"kind":"Name","value":"circuit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"placeName"}},{"kind":"Field","name":{"kind":"Name","value":"countryId"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}}]}}]}}]}}]} as unknown as DocumentNode<NextRaceBySeasonQuery, NextRaceBySeasonQueryVariables>;
-export const SeasonsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonsQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasons"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"seasonTeamStandingsByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_NUMBER_ASC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"seasonDriverStandingsByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_NUMBER_ASC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"3"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<SeasonsQueryQuery, SeasonsQueryQueryVariables>;
-export const ConstructorStandingsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"constructorStandingsQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"ROUND_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"raceTeamStandings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_NUMBER_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ConstructorStandingsQueryQuery, ConstructorStandingsQueryQueryVariables>;
-export const DriverStandingsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"driverStandingsQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasonDriverStandingsByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_NUMBER_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"points"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"ROUND_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"raceDriverStandings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_NUMBER_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"seasonEntrantDrivers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<DriverStandingsQueryQuery, DriverStandingsQueryQueryVariables>;
-export const SeasonConstructorChampionQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"seasonConstructorChampionQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasonTeamStandingsByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_NUMBER_ASC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}}]}}]}}]}}]}}]} as unknown as DocumentNode<SeasonConstructorChampionQueryQuery, SeasonConstructorChampionQueryQueryVariables>;
-export const SeasonDnFsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonDNFsQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<SeasonDnFsQueryQuery, SeasonDnFsQueryQueryVariables>;
-export const SeasonDriverChampionQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonDriverChampionQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasonDriverStandings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_NUMBER_ASC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}}]}}]}}]} as unknown as DocumentNode<SeasonDriverChampionQueryQuery, SeasonDriverChampionQueryQueryVariables>;
-export const SeasonFastestLapQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"seasonFastestLapQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"officialName"}},{"kind":"Field","name":{"kind":"Name","value":"fastestLaps"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"TIME_MILLIS_ASC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"lap"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<SeasonFastestLapQueryQuery, SeasonFastestLapQueryQueryVariables>;
-export const SeasonLapLeaderQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonLapLeaderQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"lapTimes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"position"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<SeasonLapLeaderQueryQuery, SeasonLapLeaderQueryQueryVariables>;
-export const SeasonPolesQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonPolesQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"qualifyingResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"positionNumber"},"value":{"kind":"IntValue","value":"1"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<SeasonPolesQueryQuery, SeasonPolesQueryQueryVariables>;
-export const SeasonPositionsGainedQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonPositionsGainedQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<SeasonPositionsGainedQueryQuery, SeasonPositionsGainedQueryQueryVariables>;
-export const SeasonSprintWinsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonSprintWinsQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"sprintRaceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"positionNumber"},"value":{"kind":"IntValue","value":"1"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<SeasonSprintWinsQueryQuery, SeasonSprintWinsQueryQueryVariables>;
-export const SeasonWinsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonWinsQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"positionNumber"},"value":{"kind":"IntValue","value":"1"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<SeasonWinsQueryQuery, SeasonWinsQueryQueryVariables>;
-export const ScheduleQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"scheduleQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"ROUND_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"officialName"}},{"kind":"Field","name":{"kind":"Name","value":"circuit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"positionNumber"},"value":{"kind":"IntValue","value":"1"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"sprintRaceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"positionNumber"},"value":{"kind":"IntValue","value":"1"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ScheduleQueryQuery, ScheduleQueryQueryVariables>;
-export const PastSeasonsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PastSeasonsQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasons"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}}]}}]}}]}}]} as unknown as DocumentNode<PastSeasonsQueryQuery, PastSeasonsQueryQueryVariables>;
-export const SingleSeasonQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SingleSeasonQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}}]}}]}}]} as unknown as DocumentNode<SingleSeasonQueryQuery, SingleSeasonQueryQueryVariables>;
-export const CircuitQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CircuitQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"circuitRef"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"showCurrentSeason"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circuit"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"rowId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"circuitRef"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"placeName"}},{"kind":"Field","name":{"kind":"Name","value":"countryId"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"description"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"history"},"name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"officialName"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"positionNumber"},"value":{"kind":"IntValue","value":"1"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}},{"kind":"Field","name":{"kind":"Name","value":"time"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"lapTimes"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"lap"},"value":{"kind":"IntValue","value":"1"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}}]}},{"kind":"Field","alias":{"kind":"Name","value":"fastestLaps"},"name":{"kind":"Name","value":"lapTimes"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"milliseconds"}}]}}]}}]}}]}},{"kind":"Field","alias":{"kind":"Name","value":"season"},"name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}]}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"include"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"if"},"value":{"kind":"Variable","name":{"kind":"Name","value":"showCurrentSeason"}}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"officialName"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice1Date"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice1Time"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice2Date"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice2Time"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice3Date"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice3Time"}},{"kind":"Field","name":{"kind":"Name","value":"qualifyingDate"}},{"kind":"Field","name":{"kind":"Name","value":"qualifyingTime"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<CircuitQueryQuery, CircuitQueryQueryVariables>;
-export const ConstructorDataQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ConstructorDataQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"constructorRef"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"team"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"rowId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"constructorRef"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"countryId"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"drivers"},"name":{"kind":"Name","value":"seasonEntrantDrivers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","alias":{"kind":"Name","value":"driverStandings"},"name":{"kind":"Name","value":"seasonDriverStandings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}}]}}]}}]}}]}}]}},{"kind":"Field","alias":{"kind":"Name","value":"standings"},"name":{"kind":"Name","value":"seasonTeamStandings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"year"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"antecedents"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"antecedentTeamId"}},{"kind":"Field","name":{"kind":"Name","value":"startYear"}},{"kind":"Field","name":{"kind":"Name","value":"endYear"}},{"kind":"Field","name":{"kind":"Name","value":"antecedentTeam"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"standings"},"name":{"kind":"Name","value":"seasonTeamStandings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"year"}}]}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"race"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"round"}}]}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"abbreviation"}}]}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"ROUND_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"officialName"}},{"kind":"Field","name":{"kind":"Name","value":"date"}}]}}]}}]}}]} as unknown as DocumentNode<ConstructorDataQueryQuery, ConstructorDataQueryQueryVariables>;
-export const DriverQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"DriverQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"driver"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"rowId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DriverFields"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DriverFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Driver"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"dateOfBirth"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"abbreviation"}},{"kind":"Field","name":{"kind":"Name","value":"permanentNumber"}},{"kind":"Field","name":{"kind":"Name","value":"nationalityCountryId"}},{"kind":"Field","name":{"kind":"Name","value":"bio"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"extract"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnailUrl"}},{"kind":"Field","name":{"kind":"Name","value":"sourceUrl"}}]}},{"kind":"Field","name":{"kind":"Name","value":"seasonEntrantDrivers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}},{"kind":"Field","alias":{"kind":"Name","value":"teamsByYear"},"name":{"kind":"Name","value":"seasonEntrantDrivers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<DriverQueryQuery, DriverQueryQueryVariables>;
-export const RaceBySeasonRoundDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"raceBySeasonRound"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"laps"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"sprintRaceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rowId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"laps"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<RaceBySeasonRoundQuery, RaceBySeasonRoundQueryVariables>;
-export const TeamByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"teamById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"rowId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"team"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"rowId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"rowId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TeamFields"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TeamFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Team"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"countryId"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}},{"kind":"Field","name":{"kind":"Name","value":"secondaryHex"}}]}},{"kind":"Field","name":{"kind":"Name","value":"bio"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"extract"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnailUrl"}},{"kind":"Field","name":{"kind":"Name","value":"sourceUrl"}}]}}]}}]} as unknown as DocumentNode<TeamByIdQuery, TeamByIdQueryVariables>;
-export const SeasonsListQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonsListQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasons"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"seasonDriverStandingsByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]}}]}}]} as unknown as DocumentNode<SeasonsListQueryQuery, SeasonsListQueryQueryVariables>;
+export const DriverFieldsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DriverFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Driver"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"dateOfBirth"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"abbreviation"}},{"kind":"Field","name":{"kind":"Name","value":"permanentNumber"}},{"kind":"Field","name":{"kind":"Name","value":"nationalityCountryId"}},{"kind":"Field","name":{"kind":"Name","value":"nationalityCountry"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"alpha2Code"}}]}},{"kind":"Field","name":{"kind":"Name","value":"bio"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"extract"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnailUrl"}},{"kind":"Field","name":{"kind":"Name","value":"sourceUrl"}}]}},{"kind":"Field","name":{"kind":"Name","value":"seasonEntrantDrivers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}},{"kind":"Field","alias":{"kind":"Name","value":"teamsByYear"},"name":{"kind":"Name","value":"seasonEntrantDrivers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}}]} as unknown as DocumentNode<DriverFieldsFragment, unknown>;
+export const TeamFieldsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TeamFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Team"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"alpha2Code"}}]}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}},{"kind":"Field","name":{"kind":"Name","value":"secondaryHex"}}]}},{"kind":"Field","name":{"kind":"Name","value":"bio"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"extract"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnailUrl"}},{"kind":"Field","name":{"kind":"Name","value":"sourceUrl"}}]}}]}}]} as unknown as DocumentNode<TeamFieldsFragment, unknown>;
+export const CurrentSeasonQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CurrentSeasonQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasons"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}}]}}]}}]} as unknown as DocumentNode<CurrentSeasonQueryQuery, CurrentSeasonQueryQueryVariables>;
+export const CurrentSeasonRaceParamsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CurrentSeasonRaceParamsQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasons"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"ROUND_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"round"}}]}}]}}]}}]} as unknown as DocumentNode<CurrentSeasonRaceParamsQueryQuery, CurrentSeasonRaceParamsQueryQueryVariables>;
+export const CurrentSeasonDriverIdsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CurrentSeasonDriverIdsQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasons"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasonDriverStandingsByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}}]}}]}}]} as unknown as DocumentNode<CurrentSeasonDriverIdsQueryQuery, CurrentSeasonDriverIdsQueryQueryVariables>;
+export const CurrentSeasonTeamIdsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CurrentSeasonTeamIdsQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasons"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasonTeamStandingsByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}}]}}]}}]}}]} as unknown as DocumentNode<CurrentSeasonTeamIdsQueryQuery, CurrentSeasonTeamIdsQueryQueryVariables>;
+export const CurrentSeasonCircuitIdsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CurrentSeasonCircuitIdsQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasons"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circuitId"}}]}}]}}]}}]} as unknown as DocumentNode<CurrentSeasonCircuitIdsQueryQuery, CurrentSeasonCircuitIdsQueryQueryVariables>;
+export const CircuitLookupQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CircuitLookupQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ref"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circuit"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ref"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}}]}}]}}]} as unknown as DocumentNode<CircuitLookupQueryQuery, CircuitLookupQueryQueryVariables>;
+export const AllCircuitsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AllCircuitsQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circuits"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<AllCircuitsQueryQuery, AllCircuitsQueryQueryVariables>;
+export const RaceLookupQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RaceLookupQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"officialName"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"circuit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"placeName"}},{"kind":"Field","name":{"kind":"Name","value":"countryId"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"description"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]}}]}}]} as unknown as DocumentNode<RaceLookupQueryQuery, RaceLookupQueryQueryVariables>;
+export const AllRacesQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AllRacesQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"races"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}}]}}]}}]} as unknown as DocumentNode<AllRacesQueryQuery, AllRacesQueryQueryVariables>;
+export const ConstructorPageStaticQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ConstructorPageStaticQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"constructorRef"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teams"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"constructorRef"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"countryId"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"alpha2Code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]} as unknown as DocumentNode<ConstructorPageStaticQueryQuery, ConstructorPageStaticQueryQueryVariables>;
+export const RaceFullDataServerDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"raceFullDataServer"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"laps"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}}]}},{"kind":"Field","name":{"kind":"Name","value":"sprintRaceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"laps"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}}]}}]}}]}}]} as unknown as DocumentNode<RaceFullDataServerQuery, RaceFullDataServerQueryVariables>;
+export const SeasonMenuQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonMenuQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasons"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}}]}}]}}]} as unknown as DocumentNode<SeasonMenuQueryQuery, SeasonMenuQueryQueryVariables>;
+export const CircuitsListQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CircuitsListQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circuits"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"FULL_NAME_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"placeName"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"direction"}},{"kind":"Field","name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}}]}}]}}]}}]} as unknown as DocumentNode<CircuitsListQueryQuery, CircuitsListQueryQueryVariables>;
+export const ConstructorsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ConstructorsQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teams"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"NAME_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"countryId"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}},{"kind":"Field","name":{"kind":"Name","value":"secondaryHex"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"seasons"},"name":{"kind":"Name","value":"seasonTeams"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}}]}}]}}]}}]} as unknown as DocumentNode<ConstructorsQueryQuery, ConstructorsQueryQueryVariables>;
+export const ConstructorSeasonQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ConstructorSeasonQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"teamId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"ROUND_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"officialName"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"teamId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"teamId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}}]}}]}}]}}]} as unknown as DocumentNode<ConstructorSeasonQueryQuery, ConstructorSeasonQueryQueryVariables>;
+export const ConstructorDriverPodiumsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"constructorDriverPodiumsQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"constructorId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"ROUND_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"teamId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"constructorId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}}]}}]}}]}}]}}]} as unknown as DocumentNode<ConstructorDriverPodiumsQueryQuery, ConstructorDriverPodiumsQueryQueryVariables>;
+export const ConstructorDriverPointsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ConstructorDriverPointsQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"constructorId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"teamId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"constructorId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"points"}}]}},{"kind":"Field","name":{"kind":"Name","value":"sprintRaceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"teamId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"constructorId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"points"}}]}}]}}]}}]}}]} as unknown as DocumentNode<ConstructorDriverPointsQueryQuery, ConstructorDriverPointsQueryQueryVariables>;
+export const ConstructorDriverQualifyingQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ConstructorDriverQualifyingQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"constructorId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"qualifyingResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"teamId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"constructorId"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_NUMBER_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ConstructorDriverQualifyingQueryQuery, ConstructorDriverQualifyingQueryQueryVariables>;
+export const DriversQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"DriversQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"drivers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"LAST_NAME_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"nationalityCountryId"}},{"kind":"Field","name":{"kind":"Name","value":"nationalityCountry"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"alpha2Code"}}]}},{"kind":"Field","name":{"kind":"Name","value":"seasonDrivers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}}]}}]}}]}}]}}]} as unknown as DocumentNode<DriversQueryQuery, DriversQueryQueryVariables>;
+export const DriverCareerQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"DriverCareerQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"driver"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","alias":{"kind":"Name","value":"standings"},"name":{"kind":"Name","value":"seasonDriverStandings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"points"}}]}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"race"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"circuit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}}]}}]}}]}}]} as unknown as DocumentNode<DriverCareerQueryQuery, DriverCareerQueryQueryVariables>;
+export const CircuitDataQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CircuitDataQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"circuitId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circuit"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"circuitId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"races"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"driverId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"lapTimes"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"driverId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"lap"}},{"kind":"Field","name":{"kind":"Name","value":"milliseconds"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"seasonEntrantDrivers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<CircuitDataQueryQuery, CircuitDataQueryQueryVariables>;
+export const DriverCircuitQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"DriverCircuitQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"driver"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"race"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"circuit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}}]}}]}}]}}]} as unknown as DocumentNode<DriverCircuitQueryQuery, DriverCircuitQueryQueryVariables>;
+export const DriverSeasonQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"DriverSeasonQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"ROUND_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"officialName"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"driverId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}}]}}]}}]}}]} as unknown as DocumentNode<DriverSeasonQueryQuery, DriverSeasonQueryQueryVariables>;
+export const DriverStatsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"driverStats"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"driver"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"driverId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}}]}}]}}]}}]} as unknown as DocumentNode<DriverStatsQuery, DriverStatsQueryVariables>;
+export const QualifyingQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"qualifyingQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"race"},"name":{"kind":"Name","value":"raceByYearAndRound"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"Argument","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"qualifyingResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"q1"}},{"kind":"Field","name":{"kind":"Name","value":"q2"}},{"kind":"Field","name":{"kind":"Name","value":"q3"}}]}}]}}]}}]} as unknown as DocumentNode<QualifyingQueryQuery, QualifyingQueryQueryVariables>;
+export const LapsSeasonRoundDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"lapsSeasonRound"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"race"},"name":{"kind":"Name","value":"raceByYearAndRound"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"Argument","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"lapTimes"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"LAP_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"lap"}},{"kind":"Field","name":{"kind":"Name","value":"position"}},{"kind":"Field","name":{"kind":"Name","value":"timeText"}},{"kind":"Field","name":{"kind":"Name","value":"milliseconds"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_DISPLAY_ORDER_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<LapsSeasonRoundQuery, LapsSeasonRoundQueryVariables>;
+export const PitStopsBySeasonRoundDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"pitStopsBySeasonRound"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"race"},"name":{"kind":"Name","value":"raceByYearAndRound"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"Argument","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"pitStops"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"lap"}},{"kind":"Field","name":{"kind":"Name","value":"stop"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"abbreviation"}}]}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<PitStopsBySeasonRoundQuery, PitStopsBySeasonRoundQueryVariables>;
+export const RaceFastestLapQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"raceFastestLapQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"race"},"name":{"kind":"Name","value":"raceByYearAndRound"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"Argument","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"fastestLaps"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"lap"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}}]}}]}}]}}]} as unknown as DocumentNode<RaceFastestLapQueryQuery, RaceFastestLapQueryQueryVariables>;
+export const RaceLapLeaderQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"raceLapLeaderQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"race"},"name":{"kind":"Name","value":"raceByYearAndRound"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"Argument","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"lapTimes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"lap"}},{"kind":"Field","name":{"kind":"Name","value":"position"}}]}}]}}]}}]} as unknown as DocumentNode<RaceLapLeaderQueryQuery, RaceLapLeaderQueryQueryVariables>;
+export const RacePolesLeaderQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"racePolesLeaderQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"qualifyingResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"positionNumber"},"value":{"kind":"IntValue","value":"1"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}}]}}]}}]} as unknown as DocumentNode<RacePolesLeaderQueryQuery, RacePolesLeaderQueryQueryVariables>;
+export const RacePositionsGainedLeaderQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"racePositionsGainedLeaderQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"race"},"name":{"kind":"Name","value":"raceByYearAndRound"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"Argument","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}}]}}]}}]}}]} as unknown as DocumentNode<RacePositionsGainedLeaderQueryQuery, RacePositionsGainedLeaderQueryQueryVariables>;
+export const NextRaceBySeasonDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"NextRaceBySeason"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"ROUND_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"officialName"}},{"kind":"Field","name":{"kind":"Name","value":"grandPrixId"}},{"kind":"Field","name":{"kind":"Name","value":"preQualifyingDate"}},{"kind":"Field","name":{"kind":"Name","value":"preQualifyingTime"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice1Date"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice1Time"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice2Date"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice2Time"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice3Date"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice3Time"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice4Date"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice4Time"}},{"kind":"Field","name":{"kind":"Name","value":"qualifyingDate"}},{"kind":"Field","name":{"kind":"Name","value":"qualifyingTime"}},{"kind":"Field","name":{"kind":"Name","value":"sprintQualifyingDate"}},{"kind":"Field","name":{"kind":"Name","value":"sprintQualifyingTime"}},{"kind":"Field","name":{"kind":"Name","value":"sprintRaceDate"}},{"kind":"Field","name":{"kind":"Name","value":"sprintRaceTime"}},{"kind":"Field","name":{"kind":"Name","value":"circuit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"placeName"}},{"kind":"Field","name":{"kind":"Name","value":"countryId"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}}]}}]}}]} as unknown as DocumentNode<NextRaceBySeasonQuery, NextRaceBySeasonQueryVariables>;
+export const SeasonsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonsQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasons"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"seasonTeamStandingsByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_NUMBER_ASC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}}]}},{"kind":"Field","name":{"kind":"Name","value":"seasonDriverStandingsByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_NUMBER_ASC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"3"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}}]}}]}}]}}]} as unknown as DocumentNode<SeasonsQueryQuery, SeasonsQueryQueryVariables>;
+export const ConstructorStandingsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"constructorStandingsQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"ROUND_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"raceTeamStandings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_NUMBER_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ConstructorStandingsQueryQuery, ConstructorStandingsQueryQueryVariables>;
+export const DriverStandingsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"driverStandingsQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"seasonDriverStandingsByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_NUMBER_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"points"}}]}},{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"ROUND_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"raceDriverStandings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_NUMBER_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"seasonEntrantDrivers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<DriverStandingsQueryQuery, DriverStandingsQueryQueryVariables>;
+export const SeasonConstructorChampionQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"seasonConstructorChampionQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"seasonTeamStandingsByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_NUMBER_ASC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}}]}}]}}]}}]} as unknown as DocumentNode<SeasonConstructorChampionQueryQuery, SeasonConstructorChampionQueryQueryVariables>;
+export const SeasonDnFsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonDNFsQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}}]}}]}}]}}]}}]} as unknown as DocumentNode<SeasonDnFsQueryQuery, SeasonDnFsQueryQueryVariables>;
+export const SeasonDriverChampionQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonDriverChampionQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasonDriverStandings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"POSITION_NUMBER_ASC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}}]}}]} as unknown as DocumentNode<SeasonDriverChampionQueryQuery, SeasonDriverChampionQueryQueryVariables>;
+export const SeasonFastestLapQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"seasonFastestLapQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"officialName"}},{"kind":"Field","name":{"kind":"Name","value":"fastestLaps"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"TIME_MILLIS_ASC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"lap"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}}]}}]}}]}}]}}]} as unknown as DocumentNode<SeasonFastestLapQueryQuery, SeasonFastestLapQueryQueryVariables>;
+export const SeasonLapLeaderQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonLapLeaderQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"lapTimes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"lap"}},{"kind":"Field","name":{"kind":"Name","value":"position"}}]}}]}}]}}]}}]} as unknown as DocumentNode<SeasonLapLeaderQueryQuery, SeasonLapLeaderQueryQueryVariables>;
+export const SeasonPolesQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonPolesQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"qualifyingResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"positionNumber"},"value":{"kind":"IntValue","value":"1"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}}]}}]}}]}}]} as unknown as DocumentNode<SeasonPolesQueryQuery, SeasonPolesQueryQueryVariables>;
+export const SeasonPositionsGainedQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonPositionsGainedQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}}]}}]}}]}}]}}]} as unknown as DocumentNode<SeasonPositionsGainedQueryQuery, SeasonPositionsGainedQueryQueryVariables>;
+export const SeasonSprintWinsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonSprintWinsQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"sprintRaceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"positionNumber"},"value":{"kind":"IntValue","value":"1"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}}]}}]}}]}}]} as unknown as DocumentNode<SeasonSprintWinsQueryQuery, SeasonSprintWinsQueryQueryVariables>;
+export const SeasonWinsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonWinsQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"positionNumber"},"value":{"kind":"IntValue","value":"1"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}}]}}]}}]}}]} as unknown as DocumentNode<SeasonWinsQueryQuery, SeasonWinsQueryQueryVariables>;
+export const ScheduleQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"scheduleQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"racesByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"ROUND_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"officialName"}},{"kind":"Field","name":{"kind":"Name","value":"circuit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"positionNumber"},"value":{"kind":"IntValue","value":"1"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"sprintRaceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"positionNumber"},"value":{"kind":"IntValue","value":"1"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}}]}}]}}]}}]}}]} as unknown as DocumentNode<ScheduleQueryQuery, ScheduleQueryQueryVariables>;
+export const PastSeasonsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PastSeasonsQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasons"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}}]}}]}}]} as unknown as DocumentNode<PastSeasonsQueryQuery, PastSeasonsQueryQueryVariables>;
+export const SingleSeasonQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SingleSeasonQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"season"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}}]}}]}}]} as unknown as DocumentNode<SingleSeasonQueryQuery, SingleSeasonQueryQueryVariables>;
+export const CircuitQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CircuitQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"circuitRef"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"showCurrentSeason"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circuit"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"circuitRef"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"placeName"}},{"kind":"Field","name":{"kind":"Name","value":"countryId"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"description"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"history"},"name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"officialName"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"positionNumber"},"value":{"kind":"IntValue","value":"1"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}},{"kind":"Field","name":{"kind":"Name","value":"time"}}]}},{"kind":"Field","name":{"kind":"Name","value":"lapTimes"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"lap"},"value":{"kind":"IntValue","value":"1"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"lap"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"fastestLaps"},"name":{"kind":"Name","value":"lapTimes"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"lap"}},{"kind":"Field","name":{"kind":"Name","value":"milliseconds"}}]}}]}},{"kind":"Field","alias":{"kind":"Name","value":"season"},"name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}]}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"include"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"if"},"value":{"kind":"Variable","name":{"kind":"Name","value":"showCurrentSeason"}}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"officialName"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice1Date"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice1Time"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice2Date"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice2Time"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice3Date"}},{"kind":"Field","name":{"kind":"Name","value":"freePractice3Time"}},{"kind":"Field","name":{"kind":"Name","value":"qualifyingDate"}},{"kind":"Field","name":{"kind":"Name","value":"qualifyingTime"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}}]}}]}}]}}]}}]} as unknown as DocumentNode<CircuitQueryQuery, CircuitQueryQueryVariables>;
+export const ConstructorDataQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ConstructorDataQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"constructorRef"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"team"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"constructorRef"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"countryId"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"drivers"},"name":{"kind":"Name","value":"seasonEntrantDrivers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"seasonDriverStandings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}}]}}]}}]}},{"kind":"Field","alias":{"kind":"Name","value":"standings"},"name":{"kind":"Name","value":"seasonTeamStandings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"engineManufacturerId"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"year"}}]}},{"kind":"Field","name":{"kind":"Name","value":"antecedents"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"antecedentTeamId"}},{"kind":"Field","name":{"kind":"Name","value":"startYear"}},{"kind":"Field","name":{"kind":"Name","value":"endYear"}},{"kind":"Field","name":{"kind":"Name","value":"antecedentTeam"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"standings"},"name":{"kind":"Name","value":"seasonTeamStandings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"engineManufacturerId"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"year"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"race"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}}]}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"abbreviation"}}]}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"ROUND_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rowId"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"officialName"}},{"kind":"Field","name":{"kind":"Name","value":"date"}}]}}]}}]} as unknown as DocumentNode<ConstructorDataQueryQuery, ConstructorDataQueryQueryVariables>;
+export const DriverQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"DriverQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"driver"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DriverFields"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DriverFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Driver"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"dateOfBirth"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"abbreviation"}},{"kind":"Field","name":{"kind":"Name","value":"permanentNumber"}},{"kind":"Field","name":{"kind":"Name","value":"nationalityCountryId"}},{"kind":"Field","name":{"kind":"Name","value":"nationalityCountry"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"alpha2Code"}}]}},{"kind":"Field","name":{"kind":"Name","value":"bio"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"extract"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnailUrl"}},{"kind":"Field","name":{"kind":"Name","value":"sourceUrl"}}]}},{"kind":"Field","name":{"kind":"Name","value":"seasonEntrantDrivers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}},{"kind":"Field","alias":{"kind":"Name","value":"teamsByYear"},"name":{"kind":"Name","value":"seasonEntrantDrivers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"team"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}}]}}]}}]}}]}}]} as unknown as DocumentNode<DriverQueryQuery, DriverQueryQueryVariables>;
+export const RaceBySeasonRoundDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"raceBySeasonRound"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"season"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"round"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"races"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"condition"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"season"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"round"},"value":{"kind":"Variable","name":{"kind":"Name","value":"round"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"round"}},{"kind":"Field","name":{"kind":"Name","value":"raceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"laps"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}}]}},{"kind":"Field","name":{"kind":"Name","value":"sprintRaceResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"raceId"}},{"kind":"Field","name":{"kind":"Name","value":"driver"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"driverId"}},{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"gridPositionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionNumber"}},{"kind":"Field","name":{"kind":"Name","value":"positionText"}},{"kind":"Field","name":{"kind":"Name","value":"positionDisplayOrder"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"laps"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"timeMillis"}},{"kind":"Field","name":{"kind":"Name","value":"reasonRetired"}}]}}]}}]}}]} as unknown as DocumentNode<RaceBySeasonRoundQuery, RaceBySeasonRoundQueryVariables>;
+export const TeamByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"teamById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"rowId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"team"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"rowId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TeamFields"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TeamFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Team"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"alpha2Code"}}]}},{"kind":"Field","name":{"kind":"Name","value":"colors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamId"}},{"kind":"Field","name":{"kind":"Name","value":"primaryHex"}},{"kind":"Field","name":{"kind":"Name","value":"secondaryHex"}}]}},{"kind":"Field","name":{"kind":"Name","value":"bio"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"extract"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnailUrl"}},{"kind":"Field","name":{"kind":"Name","value":"sourceUrl"}}]}}]}}]} as unknown as DocumentNode<TeamByIdQuery, TeamByIdQueryVariables>;
+export const SeasonsListQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeasonsListQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seasons"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"YEAR_DESC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"hasResults"}}]}}]}}]} as unknown as DocumentNode<SeasonsListQueryQuery, SeasonsListQueryQueryVariables>;

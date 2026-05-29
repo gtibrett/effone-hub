@@ -1,43 +1,41 @@
-import {useFallbackColor} from '@/components/ui';
-import {useGetAccessibleColor} from '@/hooks';
-import {DriverId} from '@/types';
+import { useMemo } from 'react';
 import { gql } from '@apollo/client';
-import { useQuery } from "@apollo/client/react";
-import {AppLapTime, Driver, RaceResult} from '@/gql/graphql';
-import {Maybe} from '@/gql/graphql';
-import {useMemo} from 'react';
-import {LapChartSeries} from './LapByLap';
+import { useQuery } from '@apollo/client/react';
+
+import { useFallbackColor } from '@/components/ui';
+import { AppLapTime, Driver, Maybe, RaceResult } from '@/gql/graphql';
+import { DriverId } from '@/types';
+
+import { LapChartSeries } from './LapByLap';
 
 const lapsQuery = gql`
 	#graphql
 	query lapsSeasonRound($season: Int!, $round: Int!) {
 		race: raceByYearAndRound(year: $season, round: $round) {
+			year
+			round
 			lapTimes(orderBy: LAP_ASC) {
-				nodes {
-					id
-					lap
-					position
-					timeText
-					milliseconds
-					driverId
-				}
+				raceId
+				lap
+				position
+				timeText
+				milliseconds
+				driverId
 			}
 			raceResults(orderBy: POSITION_DISPLAY_ORDER_ASC) {
-				nodes {
+				raceId
+				positionDisplayOrder
+				positionNumber
+				driverId
+				driver {
 					id
-					positionDisplayOrder
-					positionNumber
-					driverId
-					driver {
-						id
-						lastName
-					}
-					team {
-						id
-						colors {
-							id
-							primaryHex
-						}
+					lastName
+				}
+				team {
+					id
+					colors {
+						teamId
+						primaryHex
 					}
 				}
 			}
@@ -54,10 +52,10 @@ type RaceResultRow = Pick<RaceResult, 'positionDisplayOrder' | 'positionNumber' 
 
 export type LapTimeData = {
 	race: {
-		lapTimes: { nodes: LapTimeRow[] };
-		raceResults: { nodes: RaceResultRow[] };
-	}
-}
+		lapTimes: LapTimeRow[];
+		raceResults: RaceResultRow[];
+	};
+};
 
 export type LapByLapData = {
 	loading: boolean;
@@ -68,20 +66,20 @@ export type LapByLapData = {
 		color: string;
 		position: Maybe<number> | undefined;
 		laps: LapTimeRow[];
-	}[]
-}
+	}[];
+};
 export const useLapByLapData = (season: number, round: number): LapByLapData => {
-	const fallbackColor   = useFallbackColor();
-	const {data, loading} = useQuery<LapTimeData>(lapsQuery, {variables: {season, round}});
+	const fallbackColor = useFallbackColor();
+	const { data, loading } = useQuery<LapTimeData>(lapsQuery, { variables: { season, round } });
 
 	return useMemo<LapByLapData>(() => {
-		const lapTimes = data?.race?.lapTimes?.nodes ?? [];
-		const results  = data?.race?.raceResults?.nodes ?? [];
+		const lapTimes = data?.race?.lapTimes ?? [];
+		const results = data?.race?.raceResults ?? [];
 
 		if (!lapTimes.length || !results.length) {
 			return {
 				loading,
-				data:      undefined,
+				data: undefined,
 				totalLaps: undefined
 			};
 		}
@@ -93,12 +91,12 @@ export const useLapByLapData = (season: number, round: number): LapByLapData => 
 			// (`driver { id }` is Base64-encoded). Pre-F1DB the two happened to
 			// be equal; post-migration they diverged and the filter silently
 			// produced empty laps for every driver.
-			data:      results.map(r => ({
+			data: results.map(r => ({
 				driverId: r.driverId ?? undefined,
-				name:     r.driver?.lastName,
-				color:    r.team?.colors?.primaryHex || fallbackColor,
+				name: r.driver?.lastName,
+				color: r.team?.colors?.primaryHex || fallbackColor,
 				position: r.positionNumber ?? r.positionDisplayOrder,
-				laps:     lapTimes.filter(lt => lt.driverId === r.driverId)
+				laps: lapTimes.filter(lt => lt.driverId === r.driverId)
 			})),
 			totalLaps: Math.max(...lapTimes.map(lt => lt.lap ?? 0))
 		};
@@ -106,37 +104,37 @@ export const useLapByLapData = (season: number, round: number): LapByLapData => 
 };
 
 const useLapByLapChartData = (lapByLapData: LapByLapData) => {
-	const getAccessibleColor         = useGetAccessibleColor();
-	const {data = [], totalLaps = 0} = lapByLapData;
+	const { data = [], totalLaps = 0 } = lapByLapData;
 
 	return useMemo<LapChartSeries[]>(() => {
 		const drivers: LapChartSeries[] = [];
 
-		data.forEach(({driverId, laps, color, ...driverData}) => {
-			driverId && drivers.push({
-				...driverData,
-				driverId,
-				id:    driverId,
-				color: getAccessibleColor(color),
-				data:  laps.map(lt => ({
-					x: lt.lap ?? 0,
-					y: lt.position || null
-				}))
-			});
+		data.forEach(({ driverId, laps, color, ...driverData }) => {
+			driverId &&
+				drivers.push({
+					...driverData,
+					driverId,
+					id: driverId,
+					color,
+					data: laps.map(lt => ({
+						x: lt.lap ?? 0,
+						y: lt.position || null
+					}))
+				});
 		});
 
 		drivers.forEach(driver => {
 			// Fill in missing laps with previous classification (final classification breaks if there are disqualifications)
 			const lastPosition = driver.data.at(-1)?.y || null;
 			for (let x = driver.data.length; x < totalLaps; x++) {
-				driver.data.push({x, y: lastPosition});
+				driver.data.push({ x, y: lastPosition });
 			}
 
-			driver.data.push({x: totalLaps + 1, y: lastPosition || null});
+			driver.data.push({ x: totalLaps + 1, y: lastPosition || null });
 		});
 
 		return drivers;
-	}, [data, totalLaps, getAccessibleColor]);
+	}, [data, totalLaps]);
 };
 
 export default useLapByLapChartData;

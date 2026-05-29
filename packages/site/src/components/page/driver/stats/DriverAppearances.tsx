@@ -1,16 +1,28 @@
-import {StatCard} from '@/components/app';
-import {faFlag} from '@fortawesome/free-solid-svg-icons';
-import {DriverStatProps} from './index';
+import { faFlag } from '@fortawesome/free-solid-svg-icons';
+
+import { StatCard } from '@/components/app';
+
+import { DriverStatProps } from './index';
 import useDriverStatsData from './useDriverStatsData';
 
-
-export default function DriverAppearances({driverId}: DriverStatProps) {
-	const {data, loading} = useDriverStatsData(driverId);
+export default function DriverAppearances({ driverId }: DriverStatProps) {
+	const { data, loading } = useDriverStatsData(driverId);
 	if (!driverId) {
 		return null;
 	}
-	
-	const leaders = new Map<string, number>([[driverId ?? '', (data?.driver?.raceResults?.nodes || []).length]]);
-	
-	return <StatCard variant="icon" icon={faFlag} loading={loading} data={leaders} label="Appearances" cardProps={{variant: 'outlined'}}/>;
+
+	const leaders = new Map<string, number>([
+		[driverId ?? '', (data?.driver?.raceResults || []).length]
+	]);
+
+	return (
+		<StatCard
+			variant="icon"
+			icon={faFlag}
+			loading={loading}
+			data={leaders}
+			label="Appearances"
+			cardProps={{ variant: 'outlined' }}
+		/>
+	);
 }

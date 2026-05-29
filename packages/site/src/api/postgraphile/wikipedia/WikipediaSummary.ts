@@ -9,7 +9,7 @@ export type WikipediaContentUrl = {
 	revisions: string;
 	edit: string;
 	talk: string;
-}
+};
 
 export type FullWikipediaSummary = {
 	type: string;
@@ -41,6 +41,9 @@ export type FullWikipediaSummary = {
 	};
 	extract: string;
 	extract_html: string;
-}
+};
 
-export type WikipediaSummary = Pick<FullWikipediaSummary, 'title' | 'description' | 'thumbnail' | 'extract'>;
+export type WikipediaSummary = Pick<
+	FullWikipediaSummary,
+	'title' | 'description' | 'thumbnail' | 'extract'
+>;

@@ -1,4 +1,5 @@
-import type {Metadata} from 'next';
+import type { Metadata } from 'next';
+
 import DriversContent from './DriversContent';
 
 export const metadata: Metadata = {
@@ -6,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function DriversPage() {
-	return <DriversContent/>;
+	return <DriversContent />;
 }

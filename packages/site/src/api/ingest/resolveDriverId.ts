@@ -1,4 +1,4 @@
-import {Client} from 'pg';
+import { Client } from 'pg';
 
 /**
  * Build an Ergast-style driverRef -> F1DB driver.id resolver against a live
@@ -13,14 +13,14 @@ import {Client} from 'pg';
  *
  * Returns null when no F1DB driver is found; caller should skip the row.
  */
-export type RaceContext = {year: number; round?: number};
+export type RaceContext = { year: number; round?: number };
 export type DriverResolver = (ergastRef: string, race?: RaceContext) => Promise<string | null>;
 
 export async function buildDriverResolver(client: Client): Promise<DriverResolver> {
 	const cache = new Map<string, string | null>();
 
 	// Pre-load f1db.driver ids and last names. ~1k rows, trivial.
-	const {rows} = await client.query<{id: string; last_name: string}>(
+	const { rows } = await client.query<{ id: string; last_name: string }>(
 		'select id, last_name from f1db.driver'
 	);
 	const byId = new Map(rows.map(r => [r.id, r.id]));
@@ -31,7 +31,10 @@ export async function buildDriverResolver(client: Client): Promise<DriverResolve
 	// `byLastNameLower.get('sainz')` matches the driver whose last_name is
 	// "Sainz Jr.". Without this the suffix forces a separate bucket.
 	const normalizeLastName = (ln: string): string =>
-		ln.toLowerCase().replace(/\s+(jr\.?|sr\.?|i{2,3}|iv)$/i, '').trim();
+		ln
+			.toLowerCase()
+			.replace(/\s+(jr\.?|sr\.?|i{2,3}|iv)$/i, '')
+			.trim();
 
 	for (const r of rows) {
 		const tail = r.id.slice(r.id.lastIndexOf('-') + 1);
@@ -44,7 +47,11 @@ export async function buildDriverResolver(client: Client): Promise<DriverResolve
 	// Used to break suffix/lastname ties when multiple drivers raced the same
 	// season (e.g. Charles + Arthur Leclerc both entered 2025 entrant rolls,
 	// but only Charles actually raced).
-	const {rows: rcRows} = await client.query<{year: number; driver_id: string; race_count: string}>(
+	const { rows: rcRows } = await client.query<{
+		year: number;
+		driver_id: string;
+		race_count: string;
+	}>(
 		`select r.year, rr.driver_id, count(*)::text as race_count
 		   from f1db.race_result rr
 		   join f1db.race r on r.id = rr.race_id
@@ -58,14 +65,18 @@ export async function buildDriverResolver(client: Client): Promise<DriverResolve
 		let bestCount = 0;
 		for (const id of ids) {
 			const c = raceCount.get(`${year}|${id}`) ?? 0;
-			if (c > bestCount) { best = id; bestCount = c; }
-			else if (c === bestCount && c > 0) { best = null; } // genuine tie -> give up
+			if (c > bestCount) {
+				best = id;
+				bestCount = c;
+			} else if (c === bestCount && c > 0) {
+				best = null;
+			} // genuine tie -> give up
 		}
 		return bestCount > 0 ? best : null;
 	}
 
 	// Pre-load year -> Set<driverId> from season_entrant_driver for year-scoped disambiguation.
-	const {rows: sedRows} = await client.query<{year: number; driver_id: string}>(
+	const { rows: sedRows } = await client.query<{ year: number; driver_id: string }>(
 		'select year, driver_id from f1db.season_entrant_driver'
 	);
 	const byYear = new Map<number, Set<string>>();
@@ -103,7 +114,10 @@ export async function buildDriverResolver(client: Client): Promise<DriverResolve
 			// Multiple year-active candidates: tie-break by race count in that year.
 			if (yearFiltered.length > 1) {
 				const byCount = pickByRaceCount(yearFiltered, race.year);
-				if (byCount) { cache.set(key, byCount); return byCount; }
+				if (byCount) {
+					cache.set(key, byCount);
+					return byCount;
+				}
 			}
 		}
 
@@ -124,7 +138,10 @@ export async function buildDriverResolver(client: Client): Promise<DriverResolve
 			}
 			if (yearFiltered.length > 1) {
 				const byCount = pickByRaceCount(yearFiltered, race.year);
-				if (byCount) { cache.set(key, byCount); return byCount; }
+				if (byCount) {
+					cache.set(key, byCount);
+					return byCount;
+				}
 			}
 		}
 

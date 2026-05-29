@@ -1,0 +1,103 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.0.0-beta.5/schema.json",
+	"formatter": {
+		"enabled": true,
+		"formatWithErrors": false,
+		"indentStyle": "tab",
+		"indentWidth": 4,
+		"lineEnding": "lf",
+		"lineWidth": 100,
+		"attributePosition": "auto"
+	},
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							"react",
+							[":URL:", "!**/*.css"],
+							[":NODE:", "!**/*.css"],
+							[":PACKAGE:", ":PACKAGE_WITH_PROTOCOL:", "!@*/**", "!**/*.css"],
+							["@*/**", "!@/**", "!**/*.css"],
+							":BLANK_LINE:",
+							["@/**", "!**/*.css"],
+							[":ALIAS:", "!**/*.css"],
+							":BLANK_LINE:",
+							[":PATH:", "!**/*.css"],
+							":BLANK_LINE:",
+							"**/*.css"
+						]
+					}
+				}
+			}
+		}
+	},
+	"files": {
+		"includes": [
+			"packages/site/src/**",
+			"packages/site/next.config.mjs",
+			"packages/site/postcss.config.mjs",
+			"packages/site/tsconfig.json",
+			"!packages/site/src/gql/**",
+			"!**/node_modules/**",
+			"!**/.next/**",
+			"!**/build/**",
+			"!.vendor/**",
+			"!skills/**"
+		]
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": false,
+			"complexity": {
+				"noBannedTypes": "warn",
+				"noUselessThisAlias": "warn",
+				"noUselessTypeConstraint": "warn",
+				"useArrowFunction": "off"
+			},
+			"correctness": {
+				"noPrecisionLoss": "warn",
+				"noUnusedVariables": "warn",
+				"noUnusedImports": "warn",
+				"useExhaustiveDependencies": "warn"
+			},
+			"style": {
+				"noInferrableTypes": "warn",
+				"noNamespace": "warn",
+				"noNonNullAssertion": "warn",
+				"useAsConstAssertion": "warn",
+				"useBlockStatements": "off"
+			},
+			"suspicious": {
+				"noEmptyBlockStatements": "warn",
+				"noEmptyInterface": "warn",
+				"noExplicitAny": "warn",
+				"noExtraNonNullAssertion": "error",
+				"noMisleadingInstantiator": "error",
+				"useNamespaceKeyword": "error"
+			}
+		},
+		"includes": ["**"]
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"jsxQuoteStyle": "double",
+			"quoteProperties": "asNeeded",
+			"trailingCommas": "none",
+			"semicolons": "always",
+			"arrowParentheses": "asNeeded",
+			"bracketSpacing": true,
+			"bracketSameLine": false,
+			"quoteStyle": "single",
+			"attributePosition": "auto"
+		}
+	}
+}
