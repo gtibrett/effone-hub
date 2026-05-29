@@ -12,7 +12,7 @@ export default function NivoTooltipFactory(Component: FC<any>): FC<any> {
 		(props: any) => {
 			const style = {
 				...nivoTheme.tooltip?.container,
-				['--tooltip-fg' as string]: `contrast-color(${theme.palette.background.paper} vs white, black)`
+				['--tooltip-fg' as string]: `contrast-color(${theme.palette.background.paper})`
 			};
 
 			const content = Component({ ...props, theme: nivoTheme }) as ReactNode;

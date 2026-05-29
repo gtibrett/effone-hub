@@ -103,7 +103,7 @@ export default function useNivoTheme(): NivoTheme {
 				container: {
 					background: invertedTheme.palette.background.paper,
 					// CSS contrast-color: getContrastText would call decomposeColor on oklch (unsupported).
-					color: `contrast-color(${invertedTheme.palette.background.paper} vs white, black)`,
+					color: `contrast-color(${invertedTheme.palette.background.paper})`,
 					fontSize: invertedTheme.typography.caption.fontSize
 				},
 				basic: {},

@@ -43,7 +43,7 @@ export default function useDriverHeaderSx(
 		className: HEADER_CLASS,
 		style: {
 			['--header-bg' as string]: background,
-			['--header-fg' as string]: `contrast-color(${background} vs white, black)`
+			['--header-fg' as string]: `contrast-color(${background})`
 		} as CSSProperties
 	};
 }

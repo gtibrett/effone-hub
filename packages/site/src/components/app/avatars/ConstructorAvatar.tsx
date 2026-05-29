@@ -42,7 +42,7 @@ export default function TeamAvatar({ teamId, size = 'small' }: TeamAvatarProps) 
 				style={{
 					...style,
 					background: primary,
-					color: `contrast-color(${primary} vs white, black)`
+					color: `contrast-color(${primary})`
 				}}
 				src={bio?.thumbnailUrl ?? undefined}
 				alt={name ?? ''}

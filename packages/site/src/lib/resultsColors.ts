@@ -30,6 +30,6 @@ const VAR_FOR: Record<ResultsBucket, string> = {
 export const RESULTS_COLORS: Record<ResultsBucket, ResultsColor> = Object.fromEntries(
 	(Object.entries(VAR_FOR) as [ResultsBucket, string][]).map(([key, bg]) => [
 		key,
-		{ background: bg, color: `contrast-color(${bg} vs white, black)` }
+		{ background: bg, color: `contrast-color(${bg})` }
 	])
 ) as Record<ResultsBucket, ResultsColor>;

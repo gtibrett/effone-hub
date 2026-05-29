@@ -12,7 +12,7 @@ export function ErrorCard({ message }: { message?: string }) {
 	const theme = useTheme();
 
 	const background = theme.palette.error.dark;
-	const color = `contrast-color(${background} vs white, black)`;
+	const color = `contrast-color(${background})`;
 
 	return (
 		<Container maxWidth="md">

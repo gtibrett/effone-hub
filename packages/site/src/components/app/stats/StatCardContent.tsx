@@ -91,7 +91,7 @@ export default function StatCardContent<T extends DataWithValue>({
 					justifyContent: 'center',
 
 					'&, & *': {
-						color: `contrast-color(${color || theme.palette.background.paper} vs white, black)`
+						color: `contrast-color(${color || theme.palette.background.paper})`
 					}
 				}
 			};
