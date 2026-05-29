@@ -62,7 +62,10 @@ export const secondary = red;
 export const tertiary = yellow;
 
 export function alpha(color: string, percentage: number) {
-	return `color-mix(in srgb, ${color}, transparent ${percentage * 100}%)`;
+	// MUI-compatible: `percentage` is target opacity (alpha(c, 0.9) ≈ 90% opaque).
+	// color-mix needs the complementary transparent amount; round to kill FP noise.
+	const transparent = Math.round((1 - percentage) * 1000) / 10;
+	return `color-mix(in srgb, ${color}, transparent ${transparent}%)`;
 }
 
 // color-mix accepts oklch/var()/hex/rgb — MUI's lighten/darken only parse named formats.

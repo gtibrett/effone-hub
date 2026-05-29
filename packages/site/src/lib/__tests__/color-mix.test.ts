@@ -2,14 +2,17 @@ import { alpha, darken, lighten } from '@/components/ui/colors';
 
 describe('color-mix helpers (src/components/ui/colors.ts)', () => {
 	describe('alpha', () => {
-		test('wraps any input with srgb color-mix + transparent', () => {
+		// percentage = target opacity (MUI semantics): alpha(c, 0.9) → 90% opaque,
+		// i.e. mixed with the complementary (1-p) transparent amount.
+		test('treats percentage as target opacity, mixing complementary transparent', () => {
 			expect(alpha('var(--color-primary)', 0.5)).toBe(
 				'color-mix(in srgb, var(--color-primary), transparent 50%)'
 			);
-			expect(alpha('#37474f', 0.25)).toBe('color-mix(in srgb, #37474f, transparent 25%)');
+			expect(alpha('#37474f', 0.25)).toBe('color-mix(in srgb, #37474f, transparent 75%)');
 			expect(alpha('oklch(0.6 0.033 236)', 0.1)).toBe(
-				'color-mix(in srgb, oklch(0.6 0.033 236), transparent 10%)'
+				'color-mix(in srgb, oklch(0.6 0.033 236), transparent 90%)'
 			);
+			expect(alpha('#fff', 0.9)).toBe('color-mix(in srgb, #fff, transparent 10%)');
 		});
 	});
 
