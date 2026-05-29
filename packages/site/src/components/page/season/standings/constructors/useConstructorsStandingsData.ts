@@ -57,6 +57,7 @@ const query = gql`
 				raceTeamStandings(orderBy: POSITION_NUMBER_ASC) {
 					raceId
 					teamId
+					engineManufacturerId
 					positionNumber
 					points
 					team {

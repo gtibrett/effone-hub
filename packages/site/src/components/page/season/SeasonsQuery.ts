@@ -7,6 +7,7 @@ const SeasonsQuery = gql`
 			seasonTeamStandingsByYear(orderBy: POSITION_NUMBER_ASC, first: 1) {
 				year
 				teamId
+				engineManufacturerId
 				points
 				positionNumber
 			}
