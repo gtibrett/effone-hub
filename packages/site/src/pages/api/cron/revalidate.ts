@@ -27,12 +27,17 @@ type RevalidateResult = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<RevalidateResult>) {
 	const cronSecret = process.env.CRON_SECRET;
-	if (cronSecret) {
-		const authHeader = req.headers['authorization'] ?? '';
-		if (authHeader !== `Bearer ${cronSecret}`) {
-			res.status(401).json({ status: 'unauthorized' });
-			return;
-		}
+	if (!cronSecret) {
+		// Fail closed: no secret configured = cannot authenticate. Never expose
+		// updateTag to anonymous callers (cache-bust DoS).
+		console.error('CRON_SECRET not set — refusing /api/cron/revalidate');
+		res.status(500).json({ status: 'unauthorized' });
+		return;
+	}
+	const authHeader = req.headers['authorization'] ?? '';
+	if (authHeader !== `Bearer ${cronSecret}`) {
+		res.status(401).json({ status: 'unauthorized' });
+		return;
 	}
 
 	const revalidated: string[] = [];
