@@ -56,10 +56,7 @@ const preset: GraphileConfig.Preset = {
 		})
 	],
 	grafast: {
-		// `explain` attaches full query plans to every response's extensions —
-		// enormous payloads, heavy GC pressure across the many per-page RSC/SSR
-		// queries. Opt-in via env only; off by default even in dev.
-		explain: process.env.GRAFAST_EXPLAIN === 'true'
+		explain: false
 	},
 	grafserv: {
 		graphqlPath: '/api/graphql',
