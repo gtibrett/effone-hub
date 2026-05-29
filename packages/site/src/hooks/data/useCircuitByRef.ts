@@ -6,9 +6,8 @@ import { Circuit as CircuitT, Race } from '@/gql/graphql';
 
 const CircuitQuery = gql`
 	query CircuitQuery($circuitRef: String!, $showCurrentSeason: Boolean!, $season: Int) {
-		circuit(rowId: $circuitRef) {
+		circuit(id: $circuitRef) {
 			id
-			rowId
 			fullName
 			placeName
 			countryId
@@ -19,13 +18,12 @@ const CircuitQuery = gql`
 			}
 
 			history: races(orderBy: YEAR_DESC) {
-				id
 				year
 				round
 				date
 				officialName
 				raceResults(condition: {positionNumber: 1}) {
-					id
+					raceId
 					teamId
 					driverId
 					driver {
@@ -36,18 +34,19 @@ const CircuitQuery = gql`
 					time
 				}
 				lapTimes(condition: {lap: 1}) {
-					id
+					raceId
 					driverId
+					lap
 				}
 				fastestLaps: lapTimes(first: 1) {
-					id
+					raceId
 					driverId
+					lap
 					milliseconds
 				}
 			}
 
 			season: races(condition: {year: $season}) @include(if: $showCurrentSeason) {
-				id
 				year
 				round
 				officialName
@@ -62,11 +61,10 @@ const CircuitQuery = gql`
 				date
 				time
 				raceResults {
-					id
+					raceId
 					driverId
 					team {
 						id
-						rowId
 					}
 					gridPositionNumber
 					positionDisplayOrder
@@ -93,7 +91,7 @@ export type CircuitHistoryData = Pick<Race, 'year' | 'round' | 'date'> & {
 type CircuitPageData = {
 	circuit: Pick<
 		CircuitT,
-		'rowId' | 'fullName' | 'placeName' | 'countryId' | 'latitude' | 'longitude' | 'description'
+		'id' | 'fullName' | 'placeName' | 'countryId' | 'latitude' | 'longitude' | 'description'
 	> & {
 		history: CircuitHistoryData[];
 		season: Race[];

@@ -88,7 +88,7 @@ export default function Season({ data, loading }: CircuitDataProps) {
 					headerName: 'Constructor',
 					flex: 1,
 					renderCell: ({ row }) =>
-						row.team?.rowId ? <ConstructorByLine id={row.team.rowId} /> : '',
+						row.team?.id ? <ConstructorByLine id={row.team.id} /> : '',
 					minWidth: 150
 				},
 				{

@@ -24,12 +24,12 @@ export default function DriversList({ filters }: DriversTableProps) {
 			rows={filteredDrivers}
 			autoHeight
 			density="compact"
-			getRowId={r => r.rowId}
+			getRowId={r => r.id}
 			columns={[
 				{
 					field: 'avatar',
 					renderHeader: () => <Typography className="sr-only">Photo</Typography>,
-					renderCell: ({ row }) => <DriverAvatar driverId={row.rowId} />,
+					renderCell: ({ row }) => <DriverAvatar driverId={row.id} />,
 					width: 50,
 					align: 'center',
 					sortable: false

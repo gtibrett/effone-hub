@@ -11,13 +11,13 @@ import { Driver } from '@/gql/graphql';
 /**
  * The subset of `Driver` fields DriverContent reads at the top level.
  * Nested components (Career, Circuits, Season, DriverAvatar) fetch their own
- * data client-side via Apollo from `driver.rowId`, so this prop only needs
+ * data client-side via Apollo from `driver.id`, so this prop only needs
  * the header fields plus the latest-team color and the bio thumbnail/extract.
  *
  * Structurally assignable from the GraphQL `Driver` type (via `getDriver`).
  */
 export type DriverPageProp = {
-	rowId: string;
+	id: string;
 	firstName?: string | null;
 	lastName?: string | null;
 	abbreviation?: string | null;
@@ -72,15 +72,15 @@ export default function DriverContent({ driver }: { driver: DriverPageProp | nul
 	const isCurrentSeason = latestSeasonNode?.year === currentSeason;
 
 	const tabs = [
-		{ id: 'career', label: 'Career', content: <Career driverId={driver.rowId} /> },
-		{ id: 'circuits', label: 'Circuits', content: <Circuits driverId={driver.rowId} /> }
+		{ id: 'career', label: 'Career', content: <Career driverId={driver.id} /> },
+		{ id: 'circuits', label: 'Circuits', content: <Circuits driverId={driver.id} /> }
 	];
 
 	if (isCurrentSeason) {
 		tabs.push({
 			id: 'season',
 			label: `${currentSeason} Season`,
-			content: <Season driverId={driver.rowId} season={currentSeason} />
+			content: <Season driverId={driver.id} season={currentSeason} />
 		});
 	}
 
@@ -122,7 +122,7 @@ export default function DriverContent({ driver }: { driver: DriverPageProp | nul
 								className="w-full aspect-square object-cover rounded"
 							/>
 						) : (
-							<DriverAvatar driverId={driver.rowId} size={200} />
+							<DriverAvatar driverId={driver.id} size={200} />
 						)}
 					</Grid>
 				</Grid>

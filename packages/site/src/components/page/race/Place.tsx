@@ -29,7 +29,7 @@ export default function Place({
 		return null;
 	}
 
-	const { firstName, lastName, rowId } = driver;
+	const { firstName, lastName, id } = driver;
 	const name = `${firstName} ${lastName}`;
 
 	return (
@@ -38,7 +38,7 @@ export default function Place({
 				avatar={<DriverAvatar driverId={driverId} size={64} />}
 				title={
 					<Typography noWrap>
-						<Link href={`/drivers/${rowId}`}>{name}</Link>{' '}
+						<Link href={`/drivers/${id}`}>{name}</Link>{' '}
 						{asterisk && (
 							<FontAwesomeIcon
 								icon={faAsterisk}

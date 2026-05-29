@@ -9,6 +9,7 @@ import {
 	Divider,
 	Grid,
 	Skeleton,
+	Stack,
 	Typography
 } from '@mui/material';
 
@@ -17,6 +18,7 @@ import { useAppState } from '@/components/app';
 import { Drivers, History, Season } from '@/components/page/constructor';
 import { DriverPodiums, DriverPoints, DriverQualifying } from '@/components/page/constructor/stats';
 import { Flag, Page, Tabs } from '@/components/ui';
+import { Header } from '@/components/ui/page/Header';
 import { useGetTeamColor } from '@/hooks';
 import { useConstructorData } from '@/hooks/data';
 import useTeam from '@/hooks/data/useTeam';
@@ -26,7 +28,7 @@ const TeamDetails = ({ team }: { team: TeamRecord }) => (
 		<Grid>
 			<Typography variant="h2">{team.name}</Typography>
 		</Grid>
-		{team.countryId && (
+		{team.country && (
 			<Grid>
 				<Flag nationality={team.country} size={48} />
 			</Grid>
@@ -94,7 +96,7 @@ export default function ConstructorContent({ teamRef, team }: Props) {
 	}
 
 	const isInCurrentSeason =
-		typeof data.team.standings.find((s: any) => s.year === currentSeason) !== 'undefined';
+		typeof data.team.standings.find(s => s.year === currentSeason) !== 'undefined';
 
 	const tabs = [
 		{
@@ -109,11 +111,11 @@ export default function ConstructorContent({ teamRef, team }: Props) {
 		}
 	];
 
-	if (data.team.standings.find((s: any) => s.year === currentSeason)) {
+	if (isInCurrentSeason) {
 		tabs.push({
 			id: 'season',
 			label: `${currentSeason} Season`,
-			content: <Season data={data} loading={loading} season={currentSeason} />
+			content: <Season teamId={teamRef} season={currentSeason} />
 		});
 	}
 
@@ -121,20 +123,41 @@ export default function ConstructorContent({ teamRef, team }: Props) {
 
 	return (
 		<Page
-			title={<TeamDetails team={team} />}
-			subheader={
-				<>
-					<Divider orientation="horizontal" className="my-2" />
-				</>
-			}
-			headerProps={{
-				className: 'relative pt-3'
-			}}
-			extra={
-				<div
-					className="absolute inset-0 bottom-auto h-2"
-					style={{ background: getTeamColor(team.colors) }}
-				/>
+			header={
+				<Grid container spacing={2} className="items-stretch">
+					<Grid size="grow">
+						<Header
+							title={<TeamDetails team={team} />}
+							subheader={
+								<>
+									<Divider orientation="horizontal" className="my-2" />
+									{bio?.extract && (
+										<Typography variant="body1">{bio.extract}</Typography>
+									)}
+								</>
+							}
+							headerProps={{
+								className: 'relative pt-3'
+							}}
+							extra={
+								<div
+									className="absolute inset-0 bottom-auto h-2"
+									style={{ background: getTeamColor(team.colors) }}
+								/>
+							}
+						/>
+					</Grid>
+					{bio?.thumbnailUrl && (
+						<Grid size={{ xs: 0, md: 2 }}>
+							<Box
+								component="img"
+								src={bio.thumbnailUrl}
+								alt={team.name ?? ''}
+								className="w-full aspect-square object-cover rounded"
+							/>
+						</Grid>
+					)}
+				</Grid>
 			}
 		>
 			<Grid container spacing={2}>
@@ -146,20 +169,6 @@ export default function ConstructorContent({ teamRef, team }: Props) {
 					}}
 					className="order-2 md:order-1"
 				>
-					{bio?.extract && (
-						<Card variant="outlined" className="mb-4 p-4">
-							{bio.thumbnailUrl && (
-								<Box
-									component="img"
-									src={bio.thumbnailUrl}
-									alt={team.name ?? ''}
-									className="float-right ml-4 mb-2 w-[120px] h-[120px] object-cover rounded"
-								/>
-							)}
-							<Typography variant="body1">{bio.extract}</Typography>
-							<Box className="clear-both" />
-						</Card>
-					)}
 					<Card variant="outlined">
 						<Tabs active="history" tabs={tabs} />
 					</Card>
@@ -177,14 +186,14 @@ export default function ConstructorContent({ teamRef, team }: Props) {
 						<Card variant="outlined">
 							<CardHeader title={`${currentSeason} Season Stats`} />
 							<CardContent>
-								<Grid container spacing={2}>
+								<Stack spacing={2}>
 									<DriverPoints
-										constructorId={team.rowId}
+										constructorId={team.id}
 										season={currentSeason}
 										place={1}
 									/>
 									<DriverPoints
-										constructorId={team.rowId}
+										constructorId={team.id}
 										season={currentSeason}
 										place={2}
 									/>
@@ -192,12 +201,12 @@ export default function ConstructorContent({ teamRef, team }: Props) {
 										<Typography variant="h4">Podiums</Typography>
 									</Grid>
 									<DriverPodiums
-										constructorId={team.rowId}
+										constructorId={team.id}
 										season={currentSeason}
 										place={1}
 									/>
 									<DriverPodiums
-										constructorId={team.rowId}
+										constructorId={team.id}
 										season={currentSeason}
 										place={2}
 									/>
@@ -207,16 +216,16 @@ export default function ConstructorContent({ teamRef, team }: Props) {
 										</Typography>
 									</Grid>
 									<DriverQualifying
-										constructorId={team.rowId}
+										constructorId={team.id}
 										season={currentSeason}
 										place={1}
 									/>
 									<DriverQualifying
-										constructorId={team.rowId}
+										constructorId={team.id}
 										season={currentSeason}
 										place={2}
 									/>
-								</Grid>
+								</Stack>
 							</CardContent>
 						</Card>
 					</Grid>

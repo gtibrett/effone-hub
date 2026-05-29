@@ -1,13 +1,11 @@
 query PastSeasonsQuery {
 	seasons(orderBy: YEAR_DESC) {
-		id
 		year
 	}
 }
 
 query SingleSeasonQuery($season: Int!) {
 	season(year: $season) {
-		id
 		year
 	}
 }

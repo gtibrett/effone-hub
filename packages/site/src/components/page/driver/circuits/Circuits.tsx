@@ -14,7 +14,7 @@ type CircuitsProps = { driverId: DriverId };
 export default function Circuits({ driverId }: CircuitsProps) {
 	const { data, loading } = useCircuitData(driverId);
 	const mapCircuitsToMapPoints = useMapCircuitsToMapPoints();
-	const [active, setActive] = useState<CircuitWithResults['rowId'] | undefined>();
+	const [active, setActive] = useState<CircuitWithResults['id'] | undefined>();
 
 	if (!data?.length) {
 		return (
@@ -45,7 +45,7 @@ export default function Circuits({ driverId }: CircuitsProps) {
 					loading={loading}
 					autoHeight
 					density="compact"
-					getRowId={row => row.rowId || ''}
+					getRowId={row => row.id || ''}
 					initialState={{
 						sorting: {
 							sortModel: [{ field: 'fullName', sort: 'asc' }]
@@ -58,11 +58,7 @@ export default function Circuits({ driverId }: CircuitsProps) {
 							flex: 1,
 							minWidth: 250,
 							renderCell: ({ row }) => (
-								<Link
-									href="#"
-									color="secondary"
-									onClick={() => setActive(row.rowId)}
-								>
+								<Link href="#" color="secondary" onClick={() => setActive(row.id)}>
 									{row.fullName}
 								</Link>
 							)

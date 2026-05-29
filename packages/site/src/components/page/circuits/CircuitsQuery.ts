@@ -4,7 +4,6 @@ const CircuitQuery = gql`
 query CircuitsListQuery {
   circuits(orderBy: FULL_NAME_ASC) {
     id
-    rowId
     fullName
     name
     placeName
@@ -17,7 +16,6 @@ query CircuitsListQuery {
     type
     direction
     races(orderBy: YEAR_DESC) {
-      id
       year
       round
     }

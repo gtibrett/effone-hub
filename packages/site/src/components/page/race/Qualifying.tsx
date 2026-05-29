@@ -9,9 +9,10 @@ import { QualifyingResult, Race } from '@/gql/graphql';
 const QualifyingQuery = gql`
 	query qualifyingQuery($season: Int!, $round: Int!) {
 		race: raceByYearAndRound(year: $season, round: $round) {
-			id
+			year
+			round
 			qualifyingResults {
-				id
+				raceId
 				driverId
 				teamId
 				positionNumber

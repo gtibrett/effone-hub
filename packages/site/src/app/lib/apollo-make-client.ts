@@ -1,13 +1,15 @@
 import { HttpLink } from '@apollo/client';
 import { ApolloClient, InMemoryCache } from '@apollo/client-integration-nextjs';
 
+import { typePolicies } from './apollo-type-policies';
+
 /**
  * Browser Apollo client — talks to the /api/graphql HTTP endpoint. Server
  * rendering uses the in-process grafast client in apollo-rsc.ts instead.
  */
 export function makeClient() {
 	return new ApolloClient({
-		cache: new InMemoryCache(),
+		cache: new InMemoryCache({ typePolicies }),
 		link: new HttpLink({
 			uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? '/api/graphql',
 			fetchOptions: { cache: 'force-cache' }

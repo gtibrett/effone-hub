@@ -12,9 +12,9 @@ type Data = {
 const query = gql`
 	query seasonConstructorChampionQuery($season: Int!) {
 		season(year: $season) {
-			id
+			year
 			seasonTeamStandingsByYear(orderBy: POSITION_NUMBER_ASC, first: 1) {
-				id
+				year
 				teamId
 			}
 		}

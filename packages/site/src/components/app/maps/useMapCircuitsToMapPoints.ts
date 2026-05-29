@@ -11,12 +11,12 @@ export default function useMapCircuitsToMapPoints() {
 
 	return useCallback(
 		(
-			circuits: Pick<Circuit, 'rowId' | 'latitude' | 'longitude' | 'fullName'>[]
+			circuits: Pick<Circuit, 'id' | 'latitude' | 'longitude' | 'fullName'>[]
 		): { points: Point[]; onClick: GeoMapEventHandler } => {
 			const points: Point[] = circuits
 				.filter(c => c.longitude && c.latitude)
 				.map(circuit => ({
-					id: circuit.rowId,
+					id: circuit.id,
 					name: circuit.fullName || '',
 					lng: Number(circuit.longitude),
 					lat: Number(circuit.latitude),

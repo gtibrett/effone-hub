@@ -21,7 +21,6 @@ import { getClient } from './apollo-rsc';
 const CurrentSeasonQuery = gql`
 	query CurrentSeasonQuery {
 		seasons(orderBy: YEAR_DESC, first: 1) {
-			id
 			year
 		}
 	}
@@ -74,9 +73,8 @@ const CurrentSeasonCircuitIdsQuery = gql`
 
 const CircuitLookupQuery = gql`
 	query CircuitLookupQuery($ref: String!) {
-		circuit(rowId: $ref) {
+		circuit(id: $ref) {
 			id
-			rowId
 			fullName
 		}
 	}
@@ -85,7 +83,7 @@ const CircuitLookupQuery = gql`
 const AllCircuitsQuery = gql`
 	query AllCircuitsQuery {
 		circuits {
-			rowId
+			id
 		}
 	}
 `;
@@ -100,7 +98,6 @@ const RaceLookupQuery = gql`
 			date
 			circuit {
 				id
-				rowId
 				fullName
 				placeName
 				countryId
@@ -126,7 +123,6 @@ const AllRacesQuery = gql`
 
 export type TeamRecord = {
 	id: string;
-	rowId: string;
 	name?: string | null;
 	countryId?: string | null;
 	country?: { alpha2Code?: string | null; name?: string | null } | null;
@@ -135,9 +131,8 @@ export type TeamRecord = {
 
 export const ConstructorDataQuery = gql`
 	query ConstructorPageStaticQuery($constructorRef: String!) {
-		teams(condition: {rowId: $constructorRef}) {
+		teams(condition: {id: $constructorRef}) {
 			id
-			rowId
 			name
 			countryId
 			country {
@@ -146,7 +141,7 @@ export const ConstructorDataQuery = gql`
 				name
 			}
 			colors {
-				id
+				teamId
 				primaryHex
 			}
 		}
@@ -233,7 +228,7 @@ export async function getDriverRowIds(): Promise<string[]> {
 		const { data } = await getClient().query<{ drivers: DriverT[] }>({
 			query: DriversQuery
 		});
-		return data?.drivers.map(d => d.rowId!).filter(Boolean) ?? [];
+		return data?.drivers.map(d => d.id!).filter(Boolean) ?? [];
 	} catch {
 		return [];
 	}
@@ -281,10 +276,10 @@ export async function getTeamRowIds(): Promise<string[]> {
 	cacheLife('max');
 	cacheTag('teams');
 	try {
-		const { data } = await getClient().query<{ teams: { rowId: string }[] }>({
+		const { data } = await getClient().query<{ teams: { id: string }[] }>({
 			query: ConstructorsQuery
 		});
-		return data?.teams.map(t => t.rowId).filter(Boolean) ?? [];
+		return data?.teams.map(t => t.id).filter(Boolean) ?? [];
 	} catch {
 		return [];
 	}
@@ -318,7 +313,7 @@ export async function getCircuitRowIds(): Promise<string[]> {
 		const { data } = await getClient().query<{ circuits: Circuit[] }>({
 			query: AllCircuitsQuery
 		});
-		return data?.circuits.map(c => c.rowId!).filter(Boolean) ?? [];
+		return data?.circuits.map(c => c.id!).filter(Boolean) ?? [];
 	} catch {
 		return [];
 	}
@@ -340,15 +335,13 @@ export async function getCurrentSeasonCircuitIds(): Promise<string[]> {
 	}
 }
 
-export async function getCircuit(
-	rowId: string
-): Promise<{ rowId: string; fullName: string } | null> {
+export async function getCircuit(rowId: string): Promise<{ id: string; fullName: string } | null> {
 	'use cache';
 	cacheLife('max');
 	cacheTag('circuits', `circuit:${rowId}`);
 	try {
 		const { data } = await getClient().query<{
-			circuit: { rowId: string; fullName: string } | null;
+			circuit: { id: string; fullName: string } | null;
 		}>({ query: CircuitLookupQuery, variables: { ref: rowId } });
 		return data?.circuit ?? null;
 	} catch {
@@ -397,10 +390,11 @@ export async function getRace(season: number, round: number): Promise<Partial<Ra
 const RaceFullDataQuery = gql`
 	query raceFullDataServer($season: Int!, $round: Int!) {
 		races(condition: {year: $season, round: $round}) {
-			id
+			year
+			round
 			raceResults {
-				id
-				driver {id rowId}
+				raceId
+				driver {id}
 				driverId
 				teamId
 				gridPositionNumber
@@ -414,8 +408,8 @@ const RaceFullDataQuery = gql`
 				reasonRetired
 			}
 			sprintRaceResults {
-				id
-				driver {id rowId}
+				raceId
+				driver {id}
 				driverId
 				teamId
 				gridPositionNumber

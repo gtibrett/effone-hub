@@ -5,20 +5,18 @@ const ConstructorsQuery = gql`
 	query ConstructorsQuery {
 		teams (orderBy: NAME_ASC) {
 			id
-			rowId
 			name
 			countryId
 			colors {
-				id
+				teamId
 				primaryHex
 				secondaryHex
 			}
 			seasons: seasonTeams {
-				id
 				year
+				teamId
 			}
 			raceResults {
-				id
 				raceId
 				driverId
 				positionNumber

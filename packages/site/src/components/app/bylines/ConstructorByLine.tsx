@@ -15,7 +15,7 @@ type ByLinePropsById = BaseByLineProps & {
 };
 
 type ByLinePropsByTeam = BaseByLineProps & {
-	team?: Pick<Team, 'rowId' | 'name' | 'colors'>;
+	team?: Pick<Team, 'id' | 'name' | 'colors'>;
 };
 
 export function isByTeam(props: ByLinePropsById | ByLinePropsByTeam): props is ByLinePropsByTeam {
@@ -37,14 +37,14 @@ const ByTeam = ({ variant = 'link', placeholder = false, team }: ByLinePropsByTe
 		}
 	}
 
-	const { rowId, name } = team;
+	const { id, name } = team;
 
 	switch (variant) {
 		case 'name':
 			return <>{name}</>;
 
 		case 'link':
-			return <Link href={`/constructors/${rowId}`}>{name}</Link>;
+			return <Link href={`/constructors/${id}`}>{name}</Link>;
 	}
 
 	return null;

@@ -1,6 +1,6 @@
 import { Circuit, Driver } from '@/gql/graphql';
 
-export type CircuitData = Pick<Circuit, 'rowId' | 'fullName' | 'longitude' | 'latitude'> & {
+export type CircuitData = Pick<Circuit, 'id' | 'fullName' | 'longitude' | 'latitude'> & {
 	races: {
 		rowId: number;
 		year: number;
@@ -13,7 +13,7 @@ export type CircuitData = Pick<Circuit, 'rowId' | 'fullName' | 'longitude' | 'la
 			timeMillis?: number | null;
 			reasonRetired?: string | null;
 			constructor?: {
-				rowId: string;
+				id: string;
 				colors?: { primaryHex?: string | null } | null;
 			} | null;
 		}[];

@@ -84,7 +84,7 @@ function RoundContentRender({ season: seasonStr, round: roundStr, race, raceData
 				<Card>
 					<CardHeader
 						title={
-							<Link href={`/circuits/${race.circuit?.rowId}`}>
+							<Link href={`/circuits/${race.circuit?.id}`}>
 								{race.circuit?.fullName}
 							</Link>
 						}
@@ -144,7 +144,7 @@ function RoundContentRender({ season: seasonStr, round: roundStr, race, raceData
 						</CardMedia>
 						<CardHeader
 							title={
-								<Link href={`/circuits/${race.circuit.rowId}`}>
+								<Link href={`/circuits/${race.circuit.id}`}>
 									{race.circuit.fullName}
 								</Link>
 							}
@@ -169,7 +169,7 @@ function RoundContentRender({ season: seasonStr, round: roundStr, race, raceData
 						) : (
 							<CardContent>
 								<Typography variant="h5">
-									<Link href={`/circuits/${race.circuit?.rowId}`}>
+									<Link href={`/circuits/${race.circuit?.id}`}>
 										{race.circuit?.fullName}
 									</Link>
 								</Typography>

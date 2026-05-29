@@ -20,10 +20,7 @@ type ByLinePropsById = BaseByLineProps & {
 };
 
 type ByLinePropsByDriver = BaseByLineProps & {
-	driver?: Pick<
-		Driver,
-		'id' | 'rowId' | 'firstName' | 'lastName' | 'nationalityCountry' | 'abbreviation'
-	>;
+	driver?: Pick<Driver, 'id' | 'firstName' | 'lastName' | 'nationalityCountry' | 'abbreviation'>;
 };
 
 const DriverSkeleton = ({ variant = 'full', avatarProps = {} }: BaseByLineProps) => {
@@ -65,7 +62,7 @@ const ByDriver = (props: ByLinePropsByDriver) => {
 		return <DriverSkeleton variant={variant} avatarProps={avatarProps} flagProps={flagProps} />;
 	}
 
-	const { rowId, firstName, lastName, nationalityCountry, abbreviation } = driver;
+	const { id, firstName, lastName, nationalityCountry, abbreviation } = driver;
 	const name = `${firstName} ${lastName}`;
 
 	switch (variant) {
@@ -73,24 +70,24 @@ const ByDriver = (props: ByLinePropsByDriver) => {
 			return <>{abbreviation}</>;
 		case 'code-link':
 			return (
-				<Link className="font-bold" href={`/drivers/${rowId}`}>
+				<Link className="font-bold" href={`/drivers/${id}`}>
 					{abbreviation}
 				</Link>
 			);
 		case 'name':
 			return <>{name}</>;
 		case 'link':
-			return <Link href={`/drivers/${rowId}`}>{name}</Link>;
+			return <Link href={`/drivers/${id}`}>{name}</Link>;
 
 		case 'full':
 			return (
 				<Grid container spacing={1} className="items-center flex-nowrap">
 					<Grid className="hidden sm:block">
-						<DriverAvatar driverId={rowId} {...avatarProps} />
+						<DriverAvatar driverId={id} {...avatarProps} />
 					</Grid>
 					<Grid>
 						<Typography>
-							<Link href={`/drivers/${rowId}`}>{name}</Link>
+							<Link href={`/drivers/${id}`}>{name}</Link>
 						</Typography>
 					</Grid>
 					{!noFlag && nationalityCountry && (

@@ -61,7 +61,7 @@ export default function DriverStandingsDialog({
 					<Grid container spacing={2} ref={ref}>
 						<Grid size={12}>
 							<Place
-								driverId={p1.driver?.rowId}
+								driverId={p1.driver?.id}
 								place={1}
 								points={p1.points || undefined}
 								asterisk={season === 2021}
@@ -69,14 +69,14 @@ export default function DriverStandingsDialog({
 						</Grid>
 						<Grid size={12}>
 							<Place
-								driverId={p2.driver?.rowId}
+								driverId={p2.driver?.id}
 								place={2}
 								points={p2.points || undefined}
 							/>
 						</Grid>
 						<Grid size={12}>
 							<Place
-								driverId={p3.driver?.rowId}
+								driverId={p3.driver?.id}
 								place={3}
 								points={p3.points || undefined}
 							/>
@@ -94,7 +94,7 @@ export default function DriverStandingsDialog({
 							sx={sx}
 							rows={rest}
 							density="compact"
-							getRowId={r => r.driver?.rowId || r.driverId || ''}
+							getRowId={r => r.driver?.id || r.driverId || ''}
 							hideFooter
 							initialState={{
 								sorting: {
@@ -116,7 +116,7 @@ export default function DriverStandingsDialog({
 									flex: 1,
 									renderCell: ({ row }) => (
 										<DriverByLine
-											id={row.driver?.rowId}
+											id={row.driver?.id}
 											avatarProps={{ size: 24 }}
 											flagProps={{ size: 16 }}
 										/>

@@ -17,6 +17,10 @@ import { createServerGrafastLink } from './server-graphql';
 export const { getClient } = registerApolloClient(
 	() =>
 		new ApolloClient({
+			// No typePolicies: server does one-shot build/SSR reads, not
+			// cross-component normalization. Compound types (no single `id`) store
+			// inline under their parent — avoids keyFields-completeness throws on
+			// queries that don't select every key field (e.g. param-gen queries).
 			cache: new InMemoryCache(),
 			link: createServerGrafastLink()
 		})

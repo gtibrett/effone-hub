@@ -3,7 +3,6 @@ import { Driver, Race, RaceResult, SeasonDriverStanding } from '@/gql/graphql';
 export type DriverData = Pick<
 	Driver,
 	| 'id'
-	| 'rowId'
 	| 'abbreviation'
 	| 'permanentNumber'
 	| 'firstName'
@@ -15,7 +14,6 @@ export type DriverData = Pick<
 		year: number;
 		team?: {
 			id: string;
-			rowId: string;
 			colors?: { primaryHex?: string | null } | null;
 		} | null;
 	}[];

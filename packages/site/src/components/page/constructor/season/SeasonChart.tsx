@@ -52,7 +52,7 @@ export default function SeasonChart({ data, loading }: SeasonChartProps) {
 	);
 
 	return (
-		<Box className="h-[132px] w-full" aria-hidden>
+		<Box className="h-33 w-full" aria-hidden>
 			<ResponsiveLine
 				{...RequiredByPropTypes.Line}
 				theme={nivoTheme}

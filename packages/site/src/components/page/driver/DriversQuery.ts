@@ -4,7 +4,6 @@ const DriversQuery = gql`
 query DriversQuery {
   drivers(orderBy: LAST_NAME_ASC) {
     id
-    rowId
     firstName
     lastName
     nationalityCountryId
@@ -15,7 +14,6 @@ query DriversQuery {
     }
     seasonDrivers {
       season {
-        id
         year
       }
     }

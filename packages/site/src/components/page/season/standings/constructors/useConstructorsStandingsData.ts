@@ -11,7 +11,7 @@ type ConstructorColors = {
 };
 
 type ConstructorNode = {
-	rowId: string;
+	id: string;
 	name: string | null;
 	colors: ConstructorColors | null;
 };
@@ -39,7 +39,7 @@ const useMapConstructorToEntity = () => {
 
 	return useCallback(
 		(constructor: ConstructorNode): Entity => ({
-			id: constructor.rowId,
+			id: constructor.id,
 			name: constructor.name || '',
 			color: constructor.colors?.primaryHex || fallbackColor
 		}),
@@ -50,21 +50,20 @@ const useMapConstructorToEntity = () => {
 const query = gql`
 	query constructorStandingsQuery($season: Int!) {
 		season(year: $season) {
-			id
+			year
 			racesByYear(orderBy: ROUND_ASC) {
-				id
+				year
 				round
 				raceTeamStandings(orderBy: POSITION_NUMBER_ASC) {
-					id
+					raceId
 					teamId
 					positionNumber
 					points
 					team {
 						id
-						rowId
 						name
 						colors {
-							id
+							teamId
 							primaryHex
 						}
 					}

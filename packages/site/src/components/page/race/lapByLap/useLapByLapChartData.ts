@@ -12,9 +12,10 @@ const lapsQuery = gql`
 	#graphql
 	query lapsSeasonRound($season: Int!, $round: Int!) {
 		race: raceByYearAndRound(year: $season, round: $round) {
-			id
+			year
+			round
 			lapTimes(orderBy: LAP_ASC) {
-				id
+				raceId
 				lap
 				position
 				timeText
@@ -22,7 +23,7 @@ const lapsQuery = gql`
 				driverId
 			}
 			raceResults(orderBy: POSITION_DISPLAY_ORDER_ASC) {
-				id
+				raceId
 				positionDisplayOrder
 				positionNumber
 				driverId
@@ -33,7 +34,7 @@ const lapsQuery = gql`
 				team {
 					id
 					colors {
-						id
+						teamId
 						primaryHex
 					}
 				}

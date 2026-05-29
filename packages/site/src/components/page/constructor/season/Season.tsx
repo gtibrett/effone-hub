@@ -1,12 +1,12 @@
 import { PropsWithChildren } from 'react';
+import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { Alert, Grid, Link, Skeleton, Typography, TypographyProps } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
-import type { SimpleApolloResult } from '@/app/lib/apollo-types';
 import { DriverByLine } from '@/components/app';
-
-import { ConstructorPageData } from '../types';
-import SeasonChart from './SeasonChart';
+import { DriverPageData } from '@/components/page/driver';
+import { Team } from '@/gql/graphql';
 
 const CellValueWrapper = ({
 	align = 'center',
@@ -17,15 +17,40 @@ const CellValueWrapper = ({
 	</Typography>
 );
 
-type SeasonProps = SimpleApolloResult<ConstructorPageData> & { season: number };
+const query = gql`
+	query ConstructorSeasonQuery($teamId: String!, $season: Int!) {
+		races(condition: { year: $season }, orderBy: ROUND_ASC) {
+			rowId
+			year
+			round
+			officialName
+			date
+			time
 
-export default function Season({ data, loading, season }: SeasonProps) {
+			raceResults(condition: { teamId: $teamId }) {
+				raceId
+				gridPositionNumber
+				positionNumber
+				points
+				timeMillis
+				driverId
+				teamId
+				reasonRetired
+			}
+		}
+	}
+`;
+
+type SeasonProps = { teamId: Team['id']; season: number };
+
+export default function Season({ teamId, season }: SeasonProps) {
+	const { data, loading } = useQuery<DriverPageData>(query, { variables: { teamId, season } });
+
 	if (loading || !data) {
 		return <Skeleton variant="rectangular" height={400} />;
 	}
 
 	const races = data.races;
-	const results = data.team.raceResults;
 
 	if (!races?.length) {
 		return (
@@ -37,7 +62,7 @@ export default function Season({ data, loading, season }: SeasonProps) {
 
 	return (
 		<>
-			<SeasonChart data={data} loading={loading} season={season} />
+			{/*<SeasonChart data={data} loading={loading} season={season} />*/}
 			<DataGrid
 				rows={races}
 				rowHeight={100}
@@ -75,19 +100,17 @@ export default function Season({ data, loading, season }: SeasonProps) {
 						flex: 1,
 						renderCell: ({ row }) => (
 							<>
-								{results
-									.filter(r => r.raceId === row.rowId)
-									.map(result => (
-										<CellValueWrapper
-											key={result.driverId ?? undefined}
-											align="left"
-										>
-											<DriverByLine
-												id={result.driverId ?? undefined}
-												variant="link"
-											/>
-										</CellValueWrapper>
-									))}
+								{row.raceResults.map(result => (
+									<CellValueWrapper
+										key={result.driverId ?? undefined}
+										align="left"
+									>
+										<DriverByLine
+											id={result.driverId ?? undefined}
+											variant="link"
+										/>
+									</CellValueWrapper>
+								))}
 							</>
 						)
 					},
@@ -98,13 +121,11 @@ export default function Season({ data, loading, season }: SeasonProps) {
 						align: 'center',
 						renderCell: ({ row }) => (
 							<>
-								{results
-									.filter(r => r.raceId === row.rowId)
-									.map(result => (
-										<CellValueWrapper key={result.driverId ?? ''}>
-											{result.gridPositionNumber}
-										</CellValueWrapper>
-									))}
+								{row.raceResults.map(result => (
+									<CellValueWrapper key={result.driverId ?? ''}>
+										{result.gridPositionNumber}
+									</CellValueWrapper>
+								))}
 							</>
 						)
 					},
@@ -116,13 +137,11 @@ export default function Season({ data, loading, season }: SeasonProps) {
 						renderCell: ({ row }) => {
 							return (
 								<>
-									{results
-										.filter(r => r.raceId === row.rowId)
-										.map(result => (
-											<CellValueWrapper key={result.driverId ?? ''}>
-												{result.positionNumber}
-											</CellValueWrapper>
-										))}
+									{row.raceResults.map(result => (
+										<CellValueWrapper key={result.driverId ?? ''}>
+											{result.positionNumber}
+										</CellValueWrapper>
+									))}
 								</>
 							);
 						}
@@ -135,15 +154,11 @@ export default function Season({ data, loading, season }: SeasonProps) {
 						renderCell: ({ row }) => {
 							return (
 								<Grid container spacing={0} className="justify-center">
-									{results
-										.filter(r => r.raceId === row.rowId)
-										.map(result => (
-											<Grid key={result.driverId ?? ''} size={12}>
-												<Typography align="center">
-													{result.points}
-												</Typography>
-											</Grid>
-										))}
+									{row.raceResults.map(result => (
+										<Grid key={result.driverId ?? ''} size={12}>
+											<Typography align="center">{result.points}</Typography>
+										</Grid>
+									))}
 								</Grid>
 							);
 						}

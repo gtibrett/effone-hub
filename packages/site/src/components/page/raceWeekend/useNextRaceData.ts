@@ -85,7 +85,6 @@ const query = gql`
 			condition: {year: $season},
 			orderBy: ROUND_ASC
 		) {
-			id
 			rowId
 			year
 			round
@@ -111,7 +110,6 @@ const query = gql`
 			sprintRaceTime
 			circuit {
 				id
-				rowId
 				fullName
 				placeName
 				countryId

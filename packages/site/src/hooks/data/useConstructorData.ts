@@ -5,25 +5,26 @@ import { ConstructorPageData } from '@/components/page/constructor/types';
 
 const ConstructorDataQuery = gql`
 	query ConstructorDataQuery($constructorRef: String!, $season: Int!) {
-		team(rowId: $constructorRef) {
+		team(id: $constructorRef) {
 			id
 			name
 			countryId
 			colors {
-				id
+				teamId
 				primaryHex
 			}
 
 			drivers: seasonEntrantDrivers(orderBy: YEAR_ASC) {
-				id
 				year
+				driverId
+				teamId
 				driver {
 					id
 					firstName
 					lastName
-					driverStandings: seasonDriverStandings(orderBy: YEAR_ASC) {
-						id
+					seasonDriverStandings(orderBy: YEAR_ASC) {
 						year
+						driverId
 						points
 						positionNumber
 					}
@@ -31,7 +32,7 @@ const ConstructorDataQuery = gql`
 			}
 
 			standings: seasonTeamStandings(orderBy: YEAR_ASC) {
-				id
+				teamId
 				points
 				positionNumber
 				positionText
@@ -39,7 +40,7 @@ const ConstructorDataQuery = gql`
 			}
 
 			antecedents {
-				id
+				teamId
 				antecedentTeamId
 				startYear
 				endYear
@@ -47,11 +48,11 @@ const ConstructorDataQuery = gql`
 					id
 					name
 					colors {
-						id
+						teamId
 						primaryHex
 					}
 					standings: seasonTeamStandings(orderBy: YEAR_ASC) {
-						id
+						teamId
 						points
 						positionNumber
 						positionText
@@ -61,10 +62,9 @@ const ConstructorDataQuery = gql`
 			}
 
 			raceResults {
-				id
 				raceId
 				race {
-					id
+					year
 					round
 				}
 				driverId
@@ -79,8 +79,8 @@ const ConstructorDataQuery = gql`
 		}
 
 		races(condition: { year: $season }, orderBy: ROUND_ASC) {
-			id
 			rowId
+			year
 			round
 			officialName
 			date

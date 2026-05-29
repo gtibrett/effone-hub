@@ -42,10 +42,10 @@ type ScheduleQueryResponse = {
 const query = gql`
 	query scheduleQuery($season: Int!) {
 		season(year: $season) {
-			id
+			year
 			racesByYear(orderBy: ROUND_ASC) {
-				id
 				rowId
+				year
 				round
 				date
 				officialName
@@ -55,9 +55,11 @@ const query = gql`
 					longitude
 				}
 				raceResults(condition: {positionNumber: 1}, first: 1) {
+					raceId
 					driverId
 				}
 				sprintRaceResults(condition: {positionNumber: 1}, first: 1) {
+					raceId
 					driverId
 				}
 			}

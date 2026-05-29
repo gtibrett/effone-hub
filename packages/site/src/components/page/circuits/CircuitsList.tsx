@@ -22,14 +22,14 @@ export default function CircuitsList({ filters }: CircuitsListProps) {
 			rows={filteredCircuits}
 			autoHeight
 			density="compact"
-			getRowId={c => c.rowId}
+			getRowId={c => c.id}
 			columns={[
 				{
 					field: 'name',
 					headerName: 'Circuit',
 					flex: 1,
 					renderCell: ({ row }) => (
-						<Link href={`/circuits/${row.rowId}`}>{row.fullName}</Link>
+						<Link href={`/circuits/${row.id}`}>{row.fullName}</Link>
 					)
 				},
 				{

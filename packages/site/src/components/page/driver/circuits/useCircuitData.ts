@@ -16,7 +16,7 @@ type RaceResultData = {
 	reasonRetired?: string | null;
 };
 
-export type CircuitWithResults = Pick<Circuit, 'rowId' | 'fullName' | 'longitude' | 'latitude'> & {
+export type CircuitWithResults = Pick<Circuit, 'id' | 'fullName' | 'longitude' | 'latitude'> & {
 	results: RaceResultData[];
 	averagePosition?: number;
 	averageTime?: number;
@@ -25,18 +25,17 @@ export type CircuitWithResults = Pick<Circuit, 'rowId' | 'fullName' | 'longitude
 
 const query = gql`
 	query DriverCircuitQuery($driverId: String!) {
-		driver(rowId: $driverId) {
+		driver(id: $driverId) {
 			id
 			raceResults {
-				id
+				raceId
+				driverId
 				race {
-					id
 					rowId
 					year
 					round
 					circuit {
 						id
-						rowId
 						fullName
 						longitude
 						latitude
@@ -74,8 +73,8 @@ export default function useCircuitData(
 			return;
 		}
 
-		const { rowId } = race.circuit;
-		let index = resultsByCircuit.findIndex(c => c.rowId === rowId);
+		const { id } = race.circuit;
+		let index = resultsByCircuit.findIndex(c => c.id === id);
 
 		if (index === -1) {
 			resultsByCircuit.push({

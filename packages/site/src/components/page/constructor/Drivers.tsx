@@ -89,14 +89,9 @@ export default function Drivers({ data, loading }: DriversProps) {
 						headerAlign: 'center',
 						align: 'center',
 						renderCell: ({ row }) =>
-							row.drivers[0]
-								? findFinalStandings(
-										row.year,
-										row.drivers[0].seasonDriverStandings?.filter(
-											(s): s is SeasonDriverStanding => s != null
-										)
-									)?.positionNumber
-								: ''
+							(row.drivers[0]?.seasonDriverStandings || []).find(
+								s => s.year === row.year
+							)?.positionNumber || ''
 					},
 
 					{
@@ -106,14 +101,9 @@ export default function Drivers({ data, loading }: DriversProps) {
 						headerAlign: 'center',
 						align: 'center',
 						renderCell: ({ row }) =>
-							row.drivers[0]
-								? findFinalStandings(
-										row.year,
-										row.drivers[0].seasonDriverStandings?.filter(
-											(s): s is SeasonDriverStanding => s != null
-										)
-									)?.points
-								: ''
+							(row.drivers[0]?.seasonDriverStandings || []).find(
+								s => s.year === row.year
+							)?.points || ''
 					},
 					{
 						field: 'driver2',
@@ -134,14 +124,9 @@ export default function Drivers({ data, loading }: DriversProps) {
 						headerAlign: 'center',
 						align: 'center',
 						renderCell: ({ row }) =>
-							row.drivers[1]
-								? findFinalStandings(
-										row.year,
-										row.drivers[1].seasonDriverStandings?.filter(
-											(s): s is SeasonDriverStanding => s != null
-										)
-									)?.positionNumber
-								: ''
+							(row.drivers[1]?.seasonDriverStandings || []).find(
+								s => s.year === row.year
+							)?.positionNumber || ''
 					},
 					{
 						field: 'points2',
@@ -150,14 +135,9 @@ export default function Drivers({ data, loading }: DriversProps) {
 						headerAlign: 'center',
 						align: 'center',
 						renderCell: ({ row }) =>
-							row.drivers[1]
-								? findFinalStandings(
-										row.year,
-										row.drivers[1].seasonDriverStandings?.filter(
-											(s): s is SeasonDriverStanding => s != null
-										)
-									)?.points
-								: ''
+							(row.drivers[1]?.seasonDriverStandings || []).find(
+								s => s.year === row.year
+							)?.points || ''
 					}
 				]}
 			/>

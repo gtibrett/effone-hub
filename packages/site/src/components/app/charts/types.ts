@@ -12,7 +12,7 @@ export type ChartSwitcherChart = {
 };
 
 export type DataWithTeamInfo = {
-	teamId: Team['rowId'];
+	teamId: Team['id'];
 	color: AppTeamColor['primaryHex'];
 	[key: string]: any;
 };

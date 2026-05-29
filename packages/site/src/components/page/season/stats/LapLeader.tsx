@@ -19,14 +19,15 @@ type Data = {
 const query = gql`
 	query SeasonLapLeaderQuery($season: Int!) {
 		season(year: $season) {
-			id
+			year
 			racesByYear {
-				id
 				rowId
+				year
 				round
 				lapTimes {
-					id
+					raceId
 					driverId
+					lap
 					position
 				}
 			}

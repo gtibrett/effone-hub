@@ -6,8 +6,8 @@ import { DriverPageData } from '../types';
 const query = gql`
 	query DriverSeasonQuery($driverId: String!, $season: Int!) {
 		races(condition: {year: $season}, orderBy: ROUND_ASC) {
-			id
 			rowId
+			year
 			round
 			officialName
 			date

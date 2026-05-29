@@ -5,11 +5,11 @@ import { DriverPageData } from '../types';
 
 const query = gql`
 	query DriverCareerQuery($driverId: String!) {
-		driver(rowId: $driverId) {
+		driver(id: $driverId) {
 			id
 			standings: seasonDriverStandings(orderBy: YEAR_ASC) {
-				id
 				year
+				driverId
 				positionNumber
 				positionText
 				points
@@ -17,15 +17,14 @@ const query = gql`
 
 			# for CareerPerformance.tsx
 			raceResults {
-				id
+				raceId
+				driverId
 				race {
-					id
 					rowId
 					year
 					round
 					circuit {
 						id
-						rowId
 						fullName
 						longitude
 						latitude

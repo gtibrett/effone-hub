@@ -31,7 +31,7 @@ import {
 	Zandvoort
 } from './index';
 
-export default function getMapSVG(circuitRef: Circuit['rowId'], svgProps: SVGProps<any>) {
+export default function getMapSVG(circuitRef: Circuit['id'], svgProps: SVGProps<any>) {
 	switch (circuitRef) {
 		case 'albert_park':
 			return <AlbertPark {...svgProps} />;

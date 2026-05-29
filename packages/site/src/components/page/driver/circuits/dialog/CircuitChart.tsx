@@ -18,7 +18,7 @@ export default function CircuitChart({ data }: CircuitChartProps) {
 	const races = (data?.circuit.races || []).filter(r => r?.results?.length);
 
 	const chartData: DataWithTeamInfo[] = races.map(r => ({
-		teamId: r.results[0].constructor?.rowId ?? '',
+		teamId: r.results[0].constructor?.id ?? '',
 		color: getTeamColor(r.results[0].constructor?.colors, 'primaryHex'),
 		year: Number(r.year),
 		points: Number(r.results[0].points),

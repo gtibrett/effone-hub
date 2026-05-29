@@ -7,7 +7,6 @@ import { Season } from '@/gql/graphql';
 export const SeasonsQuery = gql`
 	query SeasonMenuQuery {
 		seasons(orderBy: YEAR_DESC) {
-			id
 			year
 		}
 	}

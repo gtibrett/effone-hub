@@ -63,7 +63,7 @@ export default function ConstructorStandingsDialog({
 						headerName: 'Constructor',
 						flex: 1,
 						renderCell: ({ row }) => (
-							<ConstructorByLine id={row.team?.rowId} variant="link" />
+							<ConstructorByLine id={row.team?.id} variant="link" />
 						)
 					},
 					{

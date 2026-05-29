@@ -19,7 +19,7 @@ type DriverSeasonEntrantNode = {
 };
 
 type DriverNode = {
-	rowId: string;
+	id: string;
 	lastName: string;
 	seasonEntrantDrivers: DriverSeasonEntrantNode[];
 };
@@ -58,7 +58,7 @@ const useMapDriverToEntity = () => {
 			const color = primaryHex || fallbackColor;
 
 			return {
-				id: driver.rowId,
+				id: driver.id,
 				name: driver.lastName,
 				color
 			};
@@ -70,31 +70,32 @@ const useMapDriverToEntity = () => {
 const query = gql`
 	query driverStandingsQuery($season: Int!) {
 		season(year: $season) {
-			id
+			year
 			seasonDriverStandingsByYear(orderBy: POSITION_NUMBER_ASC) {
-				id
+				year
 				driverId
 				positionNumber
 				points
 			}
 			racesByYear(orderBy: ROUND_ASC) {
-				id
+				year
 				round
 				raceDriverStandings(orderBy: POSITION_NUMBER_ASC) {
-					id
+					raceId
 					driverId
 					positionNumber
 					points
 					driver {
 						id
-						rowId
 						lastName
 						seasonEntrantDrivers(condition: {year: $season}, first: 1) {
-							id
+							year
+							driverId
+							teamId
 							team {
 								id
 								colors {
-									id
+									teamId
 									primaryHex
 								}
 							}

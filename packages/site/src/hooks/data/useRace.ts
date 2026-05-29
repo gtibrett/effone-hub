@@ -7,12 +7,12 @@ const raceQuery = gql`
 	#graphql
 	query raceBySeasonRound($season: Int!, $round: Int!) {
 		races(condition: { year: $season, round: $round }) {
-			id
+			year
+			round
 			raceResults {
-				id
+				raceId
 				driver {
 					id
-					rowId
 				}
 				driverId
 				teamId
@@ -27,10 +27,9 @@ const raceQuery = gql`
 				reasonRetired
 			}
 			sprintRaceResults {
-				id
+				raceId
 				driver {
 					id
-					rowId
 				}
 				driverId
 				teamId

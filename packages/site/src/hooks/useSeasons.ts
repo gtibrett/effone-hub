@@ -6,7 +6,6 @@ import { ApolloError } from '@apollo/client/v4-migration';
 export const SeasonsListQuery = gql`
 	query SeasonsListQuery {
 		seasons(orderBy: YEAR_DESC) {
-			id
 			year
 			hasResults
 		}

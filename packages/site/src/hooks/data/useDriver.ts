@@ -7,7 +7,6 @@ import { Driver } from '@/gql/graphql';
 const DriverFields = gql`
 	fragment DriverFields on Driver {
 		id
-		rowId
 		dateOfBirth
 		firstName
 		lastName
@@ -28,24 +27,26 @@ const DriverFields = gql`
 		}
 
 		seasonEntrantDrivers(orderBy: YEAR_DESC, first: 1) {
-			id
 			year
+			driverId
+			teamId
 			team {
 				id
 				colors {
-					id
+					teamId
 					primaryHex
 				}
 			}
 		}
 
 		teamsByYear: seasonEntrantDrivers(orderBy: YEAR_DESC) {
-			id
 			year
+			driverId
+			teamId
 			team {
 				id
 				colors {
-					id
+					teamId
 					primaryHex
 				}
 			}
@@ -56,7 +57,7 @@ const DriverFields = gql`
 export const DriverQuery = gql`
 	${DriverFields}
 	query DriverQuery($id: String!) {
-		driver(rowId: $id) {
+		driver(id: $id) {
 			...DriverFields
 		}
 	}

@@ -25,13 +25,13 @@ type Data = {
 const query = gql`
 	query ConstructorDriverQualifyingQuery($season: Int!, $constructorId: String!) {
 		season(year: $season) {
-			id
+			year
 			racesByYear {
-				id
 				rowId
+				year
 				round
 				qualifyingResults(condition: {teamId: $constructorId}, orderBy: POSITION_NUMBER_ASC) {
-					id
+					raceId
 					driverId
 					positionNumber
 					driver { id fullName }

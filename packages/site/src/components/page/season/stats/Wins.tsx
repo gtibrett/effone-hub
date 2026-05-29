@@ -13,12 +13,13 @@ type Data = {
 const query = gql`
 	query SeasonWinsQuery($season: Int!) {
 		season(year: $season) {
-			id
+			year
 			racesByYear {
-				id
 				rowId
+				year
+				round
 				raceResults(condition: {positionNumber: 1}, first: 1) {
-					id
+					raceId
 					driverId
 				}
 			}

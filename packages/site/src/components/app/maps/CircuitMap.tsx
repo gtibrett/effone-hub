@@ -12,7 +12,7 @@ import styles from './CircuitMap.module.css';
 
 type CircuitMapProps = SVGProps<any> & {
 	variant?: 'interactive' | 'simple';
-	circuitRef: Circuit['rowId'];
+	circuitRef: Circuit['id'];
 };
 
 const buildStrokeVars = (

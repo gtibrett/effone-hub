@@ -14,7 +14,7 @@ const TeamFields = gql`
 	      alpha2Code
 	    }
 		colors {
-			id
+			teamId
 			primaryHex
 			secondaryHex
 		}
@@ -30,7 +30,7 @@ const TeamFields = gql`
 export const TeamQuery = gql`
 	${TeamFields}
 	query teamById($rowId: String!) {
-		team(rowId: $rowId) {
+		team(id: $rowId) {
 			...TeamFields
 		}
 	}
