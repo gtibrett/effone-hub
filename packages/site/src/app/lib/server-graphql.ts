@@ -28,8 +28,33 @@ const GLOBAL_KEY = Symbol.for('effone.serverGrafast');
 type GlobalCache = { schemaResult?: Promise<SchemaResult> };
 const globalCache: GlobalCache = ((globalThis as any)[GLOBAL_KEY] ??= {});
 
+const REQUIRED_ROOT_FIELDS = ['seasons', 'drivers', 'teams', 'circuits'] as const;
+
+// Fail fast on an empty/wrong-schema introspection (e.g. POSTGRES_SCHEMA pointed
+// at a schema with no f1db tables). Without this every query just errors and the
+// callers' fallbacks would mask it — silent blank site, green build.
+function assertSchemaPopulated(schema: SchemaResult['schema']): void {
+	const fields = schema.getQueryType()?.getFields() ?? {};
+	const missing = REQUIRED_ROOT_FIELDS.filter(f => !(f in fields));
+	if (missing.length) {
+		throw new Error(
+			`PostGraphile introspected an unexpected schema: missing root field(s) ${missing.join(', ')}. Check POSTGRES_SCHEMA (expected f1db,app).`
+		);
+	}
+}
+
 function getSchemaResult(): Promise<SchemaResult> {
-	globalCache.schemaResult ??= Promise.resolve(postgraphile(preset).getSchemaResult());
+	// Reset cache on rejection: a cold-start DB blip must not pin a rejected promise
+	// for the process lifetime (every later query would then fail).
+	globalCache.schemaResult ??= Promise.resolve(postgraphile(preset).getSchemaResult())
+		.then(result => {
+			assertSchemaPopulated(result.schema);
+			return result;
+		})
+		.catch((err: unknown) => {
+			globalCache.schemaResult = undefined;
+			throw err;
+		});
 	return globalCache.schemaResult;
 }
 
