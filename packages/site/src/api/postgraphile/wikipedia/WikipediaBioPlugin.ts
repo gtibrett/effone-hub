@@ -13,6 +13,7 @@ type TeamSpec = { id: string; name: string };
 
 const WIKI_BASE = 'https://en.wikipedia.org/api/rest_v1/page/summary';
 const USER_AGENT = 'effone-hub/1.0 (https://effone-hub.vercel.app; gtibrett@gmail.com)';
+const FETCH_TIMEOUT_MS = 5_000;
 
 // Tiny per-process TTL+max-size cache. Lives for the life of the Node process,
 // re-warms on cold start. No deps; one Map for value, one for ordering.
@@ -87,16 +88,14 @@ function teamCandidates(spec: TeamSpec): string[] {
 	return [`${spec.name} (Formula One team)`, `${spec.name} Formula One`, spec.name];
 }
 
+// Throws on network error / timeout (transient — caller skips caching). Returns
+// null only on a legit miss (404 / disambiguation), which IS safe to cache.
 async function fetchSummary(title: string): Promise<Bio | null> {
 	const url = `${WIKI_BASE}/${encodeURIComponent(title.replace(/\s+/g, '_'))}`;
-	let res: Response;
-	try {
-		res = await fetch(url, {
-			headers: { 'User-Agent': USER_AGENT, Accept: 'application/json' }
-		});
-	} catch {
-		return null;
-	}
+	const res = await fetch(url, {
+		headers: { 'User-Agent': USER_AGENT, Accept: 'application/json' },
+		signal: AbortSignal.timeout(FETCH_TIMEOUT_MS)
+	});
 	if (!res.ok) return null;
 	let data: any;
 	try {
@@ -118,14 +117,24 @@ async function fetchSummary(title: string): Promise<Bio | null> {
 async function resolveOne(cacheKey: string, candidates: string[]): Promise<Bio | null> {
 	const cached = cacheGet(cacheKey);
 	if (cached !== undefined) return cached;
+	let transient = false;
 	for (const title of candidates) {
-		const bio = await fetchSummary(title);
+		let bio: Bio | null = null;
+		try {
+			bio = await fetchSummary(title);
+		} catch {
+			// network/timeout — try next candidate; don't poison the 24h cache
+			transient = true;
+			continue;
+		}
 		if (bio) {
 			cacheSet(cacheKey, bio);
 			return bio;
 		}
 	}
-	cacheSet(cacheKey, null);
+	// Cache only a definitive miss. Transient failures stay uncached so a later
+	// request retries instead of serving null for 24h.
+	if (!transient) cacheSet(cacheKey, null);
 	return null;
 }
 
