@@ -19,7 +19,6 @@ const black = 'oklch(0.200 0.018 244)';
 
 const lightPalette: ThemeOptions['palette'] = {
 	mode: 'light',
-	contrastThreshold: 4.5,
 	primary: { main: blue[500], light: blue[300], dark: blue[700], contrastText: white },
 	secondary: { main: red[500], light: red[300], dark: red[700], contrastText: black },
 	background: { default: blueGrey[200], paper: white },
@@ -37,7 +36,6 @@ const lightPalette: ThemeOptions['palette'] = {
 
 const darkPalette: ThemeOptions['palette'] = {
 	mode: 'dark',
-	contrastThreshold: 4.5,
 	primary: { main: blue[500], light: blue[300], dark: blue[700], contrastText: white },
 	secondary: { main: red[500], light: red[300], dark: red[700], contrastText: black },
 	background: { default: blueGrey[800], paper: blueGrey[900] },

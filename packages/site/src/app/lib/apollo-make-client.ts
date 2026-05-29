@@ -11,8 +11,7 @@ export function makeClient() {
 	return new ApolloClient({
 		cache: new InMemoryCache({ typePolicies }),
 		link: new HttpLink({
-			uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? '/api/graphql',
-			fetchOptions: { cache: 'force-cache' }
+			uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? '/api/graphql'
 		}),
 		defaultOptions: {
 			// v4 flipped watchQuery's notifyOnNetworkStatusChange default to
