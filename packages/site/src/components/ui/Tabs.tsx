@@ -37,13 +37,25 @@ export default function Tabs({ tabs, active: initial, color = 'secondary' }: Tab
 						indicatorColor={color}
 					>
 						{tabs.map(t => (
-							<Tab key={t.id} label={t.label} value={t.id} />
+							<Tab
+								key={t.id}
+								label={t.label}
+								value={t.id}
+								id={`tab-${t.id}`}
+								aria-controls={`tabpanel-${t.id}`}
+							/>
 						))}
 					</MuiTabs>
 				</Grid>
 				{activeTab?.actions && <Grid className="pr-2">{activeTab.actions}</Grid>}
 			</Grid>
-			<Box className={activeTab?.disableGutters ? 'p-0 pt-4' : 'p-4'}>
+			<Box
+				role="tabpanel"
+				id={`tabpanel-${active}`}
+				aria-labelledby={`tab-${active}`}
+				tabIndex={0}
+				className={activeTab?.disableGutters ? 'p-0 pt-4' : 'p-4'}
+			>
 				{activeTab?.content}
 			</Box>
 		</>
