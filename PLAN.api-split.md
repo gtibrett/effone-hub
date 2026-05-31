@@ -1,6 +1,11 @@
 # PLAN — Split GraphQL API into standalone Fastify + PostGraphile (Vercel Fluid)
 
-**Status:** queued for next big phase. Not started.
+**Status:** KICKOFF. Branch `feature/api-split` off `main`. Tracking issue: #41.
+(`develop` is dead/stale — main is base.)
+**Post-PR#37 deltas to carry in:** SEC-1 landed → `graphile.config.ts`
+`disablePlugins` already drops the CRUD mutation plugins (schema is read-only),
+and `src/schema.graphql` is the read-only SDL (no `type Mutation`). Both move to
+`packages/api` as-is.
 **Goal:** Move PostGraphile out of the Next site into its own always-on
 Fastify service. Isolates the heavy schema build (root-cause fix for the dev
 OOM class), and because the API is reachable during the site's `next build`,
