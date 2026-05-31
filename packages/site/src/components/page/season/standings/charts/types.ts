@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { BumpComputedSerie, BumpDatum, BumpSerie } from '@nivo/bump';
-import { Point } from '@nivo/line';
+import { LineSeries, Point } from '@nivo/line';
 
 import { Race } from '@/gql/graphql';
 
@@ -48,8 +48,8 @@ export type PositionsChartTooltipProps = {
 };
 
 export type PointTooltipProps = {
-	point: Point & {
-		data: Point['data'] & {
+	point: Point<LineSeries> & {
+		data: Point<LineSeries>['data'] & {
 			data: StandingWithEntity;
 		};
 	};

@@ -26,6 +26,7 @@ type SchemaResult = Awaited<ReturnType<ReturnType<typeof postgraphile>['getSchem
 
 const GLOBAL_KEY = Symbol.for('effone.serverGrafast');
 type GlobalCache = { schemaResult?: Promise<SchemaResult> };
+// biome-ignore lint/suspicious/noExplicitAny: generic
 const globalCache: GlobalCache = ((globalThis as any)[GLOBAL_KEY] ??= {});
 
 const REQUIRED_ROOT_FIELDS = ['seasons', 'drivers', 'teams', 'circuits'] as const;

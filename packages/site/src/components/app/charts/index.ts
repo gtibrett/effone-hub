@@ -1,6 +1,4 @@
-import { Serie } from '@nivo/line';
-
-import { MutableSerie, MutableSerieDataKey } from './types';
+import { MutableSerie, MutableSerieDataKey, Serie } from './types';
 
 export { default as ChartSwitcher } from './ChartSwitcher';
 export type { LineChartByTeamProps } from './LineChartByTeam';

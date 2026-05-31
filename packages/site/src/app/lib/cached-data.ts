@@ -221,7 +221,7 @@ export async function getDriverRowIds(): Promise<string[]> {
 	const { data } = await getClient().query<{ drivers: DriverT[] }>({
 		query: DriversQuery
 	});
-	return data?.drivers.map(d => d.id!).filter(Boolean) ?? [];
+	return data?.drivers.map(d => d.id || '').filter(Boolean) ?? [];
 }
 
 export async function getDriver(rowId: string): Promise<DriverT | null> {
@@ -285,7 +285,8 @@ export async function getCircuitRowIds(): Promise<string[]> {
 	const { data } = await getClient().query<{ circuits: Circuit[] }>({
 		query: AllCircuitsQuery
 	});
-	return data?.circuits.map(c => c.id!).filter(Boolean) ?? [];
+
+	return data?.circuits.map(c => c?.id || '').filter(Boolean) ?? [];
 }
 
 export async function getCurrentSeasonCircuitIds(): Promise<string[]> {

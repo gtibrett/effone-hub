@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { AppBar, Grid, Link, Toolbar, Typography } from '@mui/material';
 
 import { CarbonFiberOverlay } from '@/components/ui';

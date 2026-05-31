@@ -72,7 +72,7 @@
 				"useBlockStatements": "off"
 			},
 			"suspicious": {
-				"noEmptyBlockStatements": "warn",
+				"noEmptyBlockStatements": "off",
 				"noEmptyInterface": "warn",
 				"noExplicitAny": "warn",
 				"noExtraNonNullAssertion": "error",

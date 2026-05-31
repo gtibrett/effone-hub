@@ -1,12 +1,12 @@
 import { Card, CardHeader } from '@mui/material';
-import { PointTooltipProps } from '@nivo/line';
+import { LineSeries, PointTooltipProps } from '@nivo/line';
 
 import { PropertiesTable, PropertiesTableRow } from '@/components/ui';
 import { useTeamHeaderSx } from '@/hooks';
 import { useTeam } from '@/hooks/data';
 
-export default function CareerTooltip({ point }: PointTooltipProps) {
-	const { serieId: teamId, data } = point;
+export default function CareerTooltip({ point }: PointTooltipProps<LineSeries>) {
+	const { seriesId: teamId, data } = point;
 
 	// @ts-ignore
 	const { points, wins, position, grid } = data; // extra added to make tooltip better

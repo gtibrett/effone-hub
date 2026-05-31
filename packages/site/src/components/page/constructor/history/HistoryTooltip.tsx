@@ -1,10 +1,10 @@
 import { Card, CardHeader } from '@mui/material';
-import { PointTooltipProps } from '@nivo/line';
+import { LineSeries, PointTooltipProps } from '@nivo/line';
 
 import { PropertiesTable, PropertiesTableRow } from '@/components/ui';
 import { useTeamHeaderSx } from '@/hooks';
 
-export default function HistoryTooltip(props: PointTooltipProps) {
+export default function HistoryTooltip(props: PointTooltipProps<LineSeries>) {
 	const { point } = props;
 	const { data } = point;
 	// @ts-ignore

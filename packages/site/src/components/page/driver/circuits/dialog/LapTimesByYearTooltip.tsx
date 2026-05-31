@@ -1,5 +1,5 @@
 import { Card, CardHeader } from '@mui/material';
-import { ComputedBoxPlotSummary } from '@nivo/boxplot/dist/types/types';
+import { ComputedBoxPlotSummary } from '@nivo/boxplot';
 
 import { PropertiesTable, PropertiesTableRow } from '@/components/ui';
 import { getTimeStringFromDate } from '@/helpers';

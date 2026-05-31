@@ -24,8 +24,6 @@ export default function CircuitPerformance({ data, loading }: CircuitPerformance
 	})) as any;
 	const performanceData = usePerformanceData(circuitResults);
 
-	console.log(rawResults, circuitResults, performanceData);
-
 	if (!performanceData || loading) {
 		return null;
 	}

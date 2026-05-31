@@ -1,14 +1,16 @@
-import { useMemo } from 'react';
+import { CSSProperties, useMemo } from 'react';
 import { useTheme } from '@mui/material';
-import { BoxPlotDatum } from '@nivo/boxplot/dist/types/types';
-import { Theme } from '@nivo/core';
+import { BoxPlotDatum } from '@nivo/boxplot';
+import { PartialTheme } from '@nivo/theming';
 
 import { useInvertedTheme } from '@/components/ui';
 import { alpha } from '@/components/ui/colors';
 import { cssVar } from '@/lib/tokens';
 
-type NivoTheme = Theme & {
+// nivo 0.92 split theming into @nivo/theming; tooltip.wrapper dropped from Theme but kept here for backdrop styling
+type NivoTheme = Omit<PartialTheme, 'tooltip'> & {
 	translation: BoxPlotDatum;
+	tooltip?: NonNullable<PartialTheme['tooltip']> & { wrapper?: CSSProperties };
 };
 
 // cssVar.X (not theme.palette.X) so Nivo SVG attrs flip at paint — theme.palette would freeze to default scheme.

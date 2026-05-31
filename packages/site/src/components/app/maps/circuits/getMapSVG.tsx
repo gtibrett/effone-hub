@@ -31,6 +31,7 @@ import {
 	Zandvoort
 } from './index';
 
+// biome-ignore lint/suspicious/noExplicitAny: expected
 export default function getMapSVG(circuitRef: Circuit['id'], svgProps: SVGProps<any>) {
 	switch (circuitRef) {
 		case 'albert_park':
