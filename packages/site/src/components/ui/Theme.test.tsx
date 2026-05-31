@@ -1,59 +1,47 @@
-import {setDarkMode} from '@/jest';
-import {ThemeProvider} from '@mui/material';
-import {renderHook} from '@testing-library/react';
-import {PropsWithChildren} from 'react';
-import {useDarkMode, useEffTheme, useInvertedTheme} from './Theme';
+import { renderHook } from '@testing-library/react';
 
-const LightModeWrapper = ({children}: PropsWithChildren) => {
-	const theme = useEffTheme('light');
-	return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
-};
+import { setDarkMode } from '@/jest';
 
-const DarkModeWrapper = ({children}: PropsWithChildren) => {
-	const theme = useEffTheme('dark');
-	return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
-};
+import { effTheme, useDarkMode, useFallbackColor, useInvertedTheme } from './Theme';
 
 describe('Theme.ts', () => {
-	describe('useEffTheme', () => {
-		test('light mode', async () => {
-			const {result} = renderHook(() => useEffTheme('light'));
-			
-			expect(result.current.palette.primary.main).toBe('#37474f');
-			expect(result.current.palette.secondary.main).toBe('#bf360c');
+	describe('effTheme', () => {
+		test('exposes theme.vars CSS-var strings so components paint via vars', () => {
+			const vars = (effTheme as any).vars;
+			expect(vars).toBeDefined();
+			expect(vars.palette.primary.main).toMatch(/^var\(--mui-palette-primary-main/);
+			expect(vars.palette.background.paper).toMatch(/^var\(--mui-palette-background-paper/);
 		});
-		
-		test('real dark mode', async () => {
-			setDarkMode(true);
-			
-			const {result} = renderHook(() => useEffTheme('dark'));
-			
-			expect(result.current.palette.primary.main).toBe('#78909c');
-			expect(result.current.palette.secondary.main).toBe('#ffab91');
-		});
-		
-		test('forced dark mode', async () => {
-			const {result} = renderHook(() => useEffTheme('dark'));
-			
-			expect(result.current.palette.primary.main).toBe('#78909c');
-			expect(result.current.palette.secondary.main).toBe('#ffab91');
+
+		test('emits both light and dark colorSchemes', () => {
+			const schemes = (effTheme as any).colorSchemes;
+			expect(schemes?.light).toBeDefined();
+			expect(schemes?.dark).toBeDefined();
 		});
 	});
-	
-	test('useInvertedTheme', async () => {
-		const {result: light} = renderHook(() => useInvertedTheme(), {wrapper: LightModeWrapper});
-		const {result: dark}  = renderHook(() => useInvertedTheme(), {wrapper: DarkModeWrapper});
-		
-		expect(light.current.palette.mode).toBe('dark');
-		expect(dark.current.palette.mode).toBe('light');
+
+	test('useInvertedTheme returns opposite mode of OS preference', () => {
+		setDarkMode(false);
+		const { result: lightOs } = renderHook(() => useInvertedTheme());
+		expect(lightOs.current.palette.mode).toBe('dark');
+
+		setDarkMode(true);
+		const { result: darkOs } = renderHook(() => useInvertedTheme());
+		expect(darkOs.current.palette.mode).toBe('light');
 	});
-	
-	test('useDarkMode', async () => {
-		const {result: light} = renderHook(() => useDarkMode(), {wrapper: LightModeWrapper});
-		const {result: dark}  = renderHook(() => useDarkMode(), {wrapper: DarkModeWrapper});
-		
+
+	test('useDarkMode reflects OS preference', () => {
+		setDarkMode(false);
+		const { result: light } = renderHook(() => useDarkMode());
 		expect(light.current).toBe(false);
+
+		setDarkMode(true);
+		const { result: dark } = renderHook(() => useDarkMode());
 		expect(dark.current).toBe(true);
 	});
-});
 
+	test('useFallbackColor returns the MUI palette primary var', () => {
+		const { result } = renderHook(() => useFallbackColor());
+		expect(result.current).toBe('var(--mui-palette-primary-main)');
+	});
+});

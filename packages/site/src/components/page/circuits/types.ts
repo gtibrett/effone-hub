@@ -1,4 +1,4 @@
 export type CircuitsListFilters = {
-	season: number,
-	search: '',
-}
+	season: number;
+	search: '';
+};

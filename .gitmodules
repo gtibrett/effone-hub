@@ -1,0 +1,4 @@
+[submodule ".vendor/mui"]
+	path = .vendor/mui
+	url = https://github.com/mui/material-ui.git
+	branch = master

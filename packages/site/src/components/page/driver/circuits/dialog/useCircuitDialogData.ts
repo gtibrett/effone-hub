@@ -1,63 +1,58 @@
-import {DriverId} from '@/types';
 import { gql } from '@apollo/client';
-import { useQuery } from "@apollo/client/react";
-import {CircuitDialogData} from './types';
+import { useQuery } from '@apollo/client/react';
+
+import { DriverId } from '@/types';
+
+import { CircuitDialogData } from './types';
 
 const CircuitDataQuery = gql`
 	query CircuitDataQuery($circuitId: String!, $driverId: String!) {
-		circuit(rowId: $circuitId) {
+		circuit(id: $circuitId) {
 			id
-			rowId
 			fullName
 			longitude
 			latitude
 			races {
-				nodes {
-					id
-					rowId
-					year
-					date
-					raceResults(condition: {driverId: $driverId}) {
-						nodes {
-							id
-							gridPositionNumber
-							positionDisplayOrder
-							positionText
-							points
-							timeMillis
-							reasonRetired
-							team {
-								id
-								rowId
-								colors {
-									id
-									primaryHex
-								}
-							}
-						}
-					}
-					lapTimes(condition: {driverId: $driverId}) {
-						nodes {
-							id
-							lap
-							milliseconds
-						}
-					}
-				}
-			}
-		}
-		driver(rowId: $driverId) {
-			id
-			seasonEntrantDrivers {
-				nodes {
-					id
-					year
+				rowId
+				year
+				round
+				date
+				raceResults(condition: {driverId: $driverId}) {
+					raceId
+					driverId
+					gridPositionNumber
+					positionDisplayOrder
+					positionText
+					points
+					timeMillis
+					reasonRetired
 					team {
 						id
 						colors {
-							id
+							teamId
 							primaryHex
 						}
+					}
+				}
+				lapTimes(condition: {driverId: $driverId}) {
+					raceId
+					driverId
+					lap
+					milliseconds
+				}
+			}
+		}
+		driver(id: $driverId) {
+			id
+			seasonEntrantDrivers {
+				year
+				driverId
+				teamId
+				team {
+					id
+					colors {
+						teamId
+						primaryHex
 					}
 				}
 			}
@@ -66,5 +61,8 @@ const CircuitDataQuery = gql`
 `;
 
 export default function useCircuitDialogData(circuitId?: string, driverId?: DriverId) {
-	return useQuery<CircuitDialogData>(CircuitDataQuery, {variables: {circuitId, driverId}});
+	return useQuery<CircuitDialogData>(CircuitDataQuery, {
+		variables: { circuitId, driverId },
+		skip: !circuitId || !driverId
+	});
 }

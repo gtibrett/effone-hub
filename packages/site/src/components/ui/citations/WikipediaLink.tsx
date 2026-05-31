@@ -1,23 +1,27 @@
-import {faWikipediaW} from '@fortawesome/free-brands-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Maybe} from '@/gql/graphql';
-import {Link} from '@gtibrett/mui-additions';
-import {LinkProps, Typography} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
+import { faWikipediaW } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link, LinkProps, Typography } from '@mui/material';
+
+import { Maybe } from '@/gql/graphql';
 
 type WikipediaLinkProps = {
 	href: Maybe<LinkProps['href']> | undefined;
-}
+};
 
-export default function WikipediaLink({href}: WikipediaLinkProps) {
+export default function WikipediaLink({ href }: WikipediaLinkProps) {
 	if (!href) {
 		return null;
 	}
-	
+
 	return (
 		<Link href={href} target="_blank">
-			<Typography component="span" variant="caption"><FontAwesomeIcon icon={faWikipediaW}/> more on wikipedia</Typography>
-			<Typography component="span" sx={visuallyHidden}> (opens in a new window)</Typography>
+			<Typography component="span" variant="caption">
+				<FontAwesomeIcon icon={faWikipediaW} /> more on wikipedia
+			</Typography>
+			<Typography component="span" className="sr-only">
+				{' '}
+				(opens in a new window)
+			</Typography>
 		</Link>
 	);
 }

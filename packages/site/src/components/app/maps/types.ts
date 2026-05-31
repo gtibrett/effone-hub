@@ -1,4 +1,4 @@
-import {Circuit} from '@/gql/graphql';
+import { Circuit } from '@/gql/graphql';
 
 export type Point = {
 	id: string | number;
@@ -7,6 +7,6 @@ export type Point = {
 	name: string;
 	pointRadius?: number;
 	properties: {
-		[key: string]: any
-	}
-}
+		[key: string]: any;
+	};
+};

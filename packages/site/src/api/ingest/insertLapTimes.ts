@@ -1,13 +1,14 @@
-import {Client} from 'pg';
-import {fetchAllLaps, parseTimeToMillis} from './fetchJolpicaLaps';
-import {DriverResolver} from './resolveDriverId';
+import { Client } from 'pg';
+
+import { fetchAllLaps, parseTimeToMillis } from './fetchJolpicaLaps';
+import { DriverResolver } from './resolveDriverId';
 
 export type LapInsertReport = {
-	raceId:        number;
-	year:          number;
-	round:         number;
-	rowsInserted:  number;
-	rowsSkipped:   number;
+	raceId: number;
+	year: number;
+	round: number;
+	rowsInserted: number;
+	rowsSkipped: number;
 	skippedDriverIds: string[]; // unresolved Ergast refs
 };
 
@@ -16,9 +17,9 @@ export type LapInsertReport = {
  * app.lap_times. Idempotent: ON CONFLICT DO NOTHING means a re-run is safe.
  */
 export async function ingestLapTimesForRace(
-	client:   Client,
-	resolve:  DriverResolver,
-	race:     {raceId: number; year: number; round: number}
+	client: Client,
+	resolve: DriverResolver,
+	race: { raceId: number; year: number; round: number }
 ): Promise<LapInsertReport> {
 	const laps = await fetchAllLaps(race.year, race.round);
 	const skippedSet = new Set<string>();
@@ -27,19 +28,35 @@ export async function ingestLapTimesForRace(
 
 	for (const lap of laps) {
 		for (const t of lap.timings) {
-			const driverId = await resolve(t.driverId, {year: race.year, round: race.round});
+			const driverId = await resolve(t.driverId, { year: race.year, round: race.round });
 			if (!driverId) {
 				skippedSet.add(t.driverId);
 				continue;
 			}
 			const idx = params.length;
-			params.push(race.raceId, driverId, lap.lap, parseInt(t.position, 10), t.time, parseTimeToMillis(t.time));
-			tuples.push(`($${idx + 1},$${idx + 2},$${idx + 3},$${idx + 4},$${idx + 5},$${idx + 6})`);
+			params.push(
+				race.raceId,
+				driverId,
+				lap.lap,
+				parseInt(t.position, 10),
+				t.time,
+				parseTimeToMillis(t.time)
+			);
+			tuples.push(
+				`($${idx + 1},$${idx + 2},$${idx + 3},$${idx + 4},$${idx + 5},$${idx + 6})`
+			);
 		}
 	}
 
 	if (tuples.length === 0) {
-		return {raceId: race.raceId, year: race.year, round: race.round, rowsInserted: 0, rowsSkipped: skippedSet.size, skippedDriverIds: [...skippedSet]};
+		return {
+			raceId: race.raceId,
+			year: race.year,
+			round: race.round,
+			rowsInserted: 0,
+			rowsSkipped: skippedSet.size,
+			skippedDriverIds: [...skippedSet]
+		};
 	}
 
 	// Batch in chunks to keep statement size reasonable. ~70 laps × 20 drivers = 1400 rows;
@@ -67,11 +84,11 @@ export async function ingestLapTimesForRace(
 	}
 
 	return {
-		raceId:           race.raceId,
-		year:             race.year,
-		round:            race.round,
-		rowsInserted:     inserted,
-		rowsSkipped:      skippedSet.size,
+		raceId: race.raceId,
+		year: race.year,
+		round: race.round,
+		rowsInserted: inserted,
+		rowsSkipped: skippedSet.size,
 		skippedDriverIds: [...skippedSet]
 	};
 }

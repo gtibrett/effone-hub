@@ -1,6 +1,7 @@
-import {AppTeamColor, Team} from '@/gql/graphql';
-import {Datum, Serie} from '@nivo/line';
-import {ReactNode} from 'react';
+import { ReactNode } from 'react';
+import { Datum, Serie } from '@nivo/line';
+
+import { AppTeamColor, Team } from '@/gql/graphql';
 
 export type ActiveChart = string | number;
 
@@ -8,19 +9,19 @@ export type ChartSwitcherChart = {
 	id: string | number;
 	label: string;
 	chart: ReactNode;
-}
+};
 
 export type DataWithTeamInfo = {
-	teamId: Team['rowId'];
+	teamId: Team['id'];
 	color: AppTeamColor['primaryHex'];
 	[key: string]: any;
-}
+};
 
 export type SerieWithTeamAndData = Serie & {
 	teamId: DataWithTeamInfo['teamId'];
 	color: DataWithTeamInfo['color'];
-	rawData: Omit<DataWithTeamInfo, 'teamId' | 'color'>
-}
+	rawData: Omit<DataWithTeamInfo, 'teamId' | 'color'>;
+};
 
 export interface MutableSerie extends Serie {
 	data: Datum[];

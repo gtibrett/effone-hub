@@ -1,6 +1,9 @@
-import {Typography} from '@mui/material';
-import {visuallyHidden} from '@mui/utils';
+import { Typography } from '@mui/material';
 
-const OpensInNewWindow = () => <Typography paragraph={false} component="span" sx={visuallyHidden}>(opens in a new window)</Typography>;
+const OpensInNewWindow = () => (
+	<Typography component="span" className="sr-only">
+		(opens in a new window)
+	</Typography>
+);
 
 export default OpensInNewWindow;

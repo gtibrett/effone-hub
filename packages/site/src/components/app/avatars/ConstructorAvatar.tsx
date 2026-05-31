@@ -1,45 +1,54 @@
-import {Team} from '@/gql/graphql';
-import {AvatarSizes, useAvatarSize, useGetTeamColor} from '@/hooks';
-import {useTeam} from '@/hooks/data';
-import {faIndustry} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Avatar, useTheme} from '@mui/material';
-import {useMemo} from 'react';
+import { useMemo } from 'react';
+import { faIndustry } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Avatar } from '@mui/material';
+
+import { Team } from '@/gql/graphql';
+import { AvatarSizes, useAvatarSize, useGetTeamColor } from '@/hooks';
+import { useTeam } from '@/hooks/data';
 
 export type TeamAvatarProps = {
 	teamId?: Team['id'];
-	size?: AvatarSizes
-}
+	size?: AvatarSizes;
+};
 
-export default function TeamAvatar({teamId, size = 'small'}: TeamAvatarProps) {
-	const theme        = useTheme();
-	const sizeSx       = useAvatarSize(size);
-	const {team}       = useTeam(teamId);
+export default function TeamAvatar({ teamId, size = 'small' }: TeamAvatarProps) {
+	const { className, style } = useAvatarSize(size);
+	const { team } = useTeam(teamId);
 	const getTeamColor = useGetTeamColor();
+	const primary = team ? getTeamColor(team.colors, 'primaryHex') : '';
 
 	return useMemo(() => {
 		if (!team) {
-			return <Avatar variant="rounded" sx={sizeSx}><FontAwesomeIcon icon={faIndustry}/></Avatar>;
+			return (
+				<Avatar variant="rounded" className={className} style={style}>
+					<FontAwesomeIcon icon={faIndustry} />
+				</Avatar>
+			);
 		}
 
-		const {name, colors, bio} = team;
-		const primary             = getTeamColor(colors, 'primaryHex', false);
-		const textColor           = theme.palette.getContrastText(primary);
+		const { name, bio } = team;
 
-		const initials = name?.replace('F1 Team', '')
-		                     .replace(/[ -]/i, '')
-		                     .split('')
-		                     .filter(l => l.toUpperCase() === l);
+		const initials = name
+			?.replace('F1 Team', '')
+			.replace(/[ -]/i, '')
+			.split('')
+			.filter(l => l.toUpperCase() === l);
 
 		return (
 			<Avatar
 				variant="rounded"
-				sx={{...sizeSx, background: primary, color: textColor}}
+				className={className}
+				style={{
+					...style,
+					background: primary,
+					color: `contrast-color(${primary})`
+				}}
 				src={bio?.thumbnailUrl ?? undefined}
 				alt={name ?? ''}
 			>
 				{initials?.join('')}
 			</Avatar>
 		);
-	}, [team, getTeamColor, theme, sizeSx]);
+	}, [team, className, style, primary]);
 }

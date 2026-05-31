@@ -1,5 +1,6 @@
-import {Maybe} from '@/gql/graphql';
-import {NextRace} from './useNextRaceData';
+import { Maybe } from '@/gql/graphql';
+
+import { NextRace } from './useNextRaceData';
 
 export type ScheduleEvent = {
 	label: string;
@@ -8,33 +9,42 @@ export type ScheduleEvent = {
 	conditional?: boolean;
 	asDate: Date;
 	timeTo: number;
-}
+};
 
-const getTimeTo = (date?: Maybe<string>, time?: Maybe<string>) => Math.floor(((new Date(`${date}T${time}`)).getTime() - (new Date()).getTime()) / 1000);
+const getTimeTo = (date?: Maybe<string>, time?: Maybe<string>) =>
+	Math.floor((new Date(`${date}T${time}`).getTime() - new Date().getTime()) / 1000);
 
-export default function useRaceScheduleEvents(race: NextRace): Omit<ScheduleEvent, 'conditional'>[] {
+export default function useRaceScheduleEvents(
+	race: NextRace
+): Omit<ScheduleEvent, 'conditional'>[] {
 	const {
-		      fp1Date, fp1Time,
-		      fp2Date, fp2Time,
-		      fp3Date, fp3Time,
-		      qualiDate, qualiTime,
-		      sprintDate, sprintTime,
-		      date, time
-	      } = race;
-	
-	const isSprint = (!!sprintDate && !!sprintTime);
-	
+		fp1Date,
+		fp1Time,
+		fp2Date,
+		fp2Time,
+		fp3Date,
+		fp3Time,
+		qualiDate,
+		qualiTime,
+		sprintDate,
+		sprintTime,
+		date,
+		time
+	} = race;
+
+	const isSprint = !!sprintDate && !!sprintTime;
+
 	return [
-		{label: 'FP1', date: fp1Date, time: fp1Time, conditional: isSprint || !isSprint},
-		{label: 'FP2', date: fp2Date, time: fp2Time, conditional: !isSprint},
-		{label: 'FP3', date: fp3Date, time: fp3Time, conditional: !isSprint},
-		{label: 'Sprint Qual', date: fp2Date, time: fp2Time, conditional: isSprint},
-		{label: 'Sprint', date: sprintDate, time: sprintTime, conditional: isSprint},
-		{label: 'Qual', date: qualiDate, time: qualiTime, conditional: isSprint || !isSprint},
-		{label: 'Race', date, time, conditional: isSprint || !isSprint}
+		{ label: 'FP1', date: fp1Date, time: fp1Time, conditional: isSprint || !isSprint },
+		{ label: 'FP2', date: fp2Date, time: fp2Time, conditional: !isSprint },
+		{ label: 'FP3', date: fp3Date, time: fp3Time, conditional: !isSprint },
+		{ label: 'Sprint Qual', date: fp2Date, time: fp2Time, conditional: isSprint },
+		{ label: 'Sprint', date: sprintDate, time: sprintTime, conditional: isSprint },
+		{ label: 'Qual', date: qualiDate, time: qualiTime, conditional: isSprint || !isSprint },
+		{ label: 'Race', date, time, conditional: isSprint || !isSprint }
 	]
-		.filter(({conditional}) => conditional)
-		.map(({conditional, ...ev}) => ({
+		.filter(({ conditional }) => conditional)
+		.map(({ conditional, ...ev }) => ({
 			...ev,
 			asDate: new Date(`${ev.date}T${ev.time}`),
 			timeTo: getTimeTo(ev.date, ev.time)

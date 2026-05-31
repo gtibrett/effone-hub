@@ -1,9 +1,20 @@
 'use client';
 
-import {useSeasons} from '@/hooks';
-import {Backdrop} from '@mui/material';
-import {createContext, Dispatch, FC, PropsWithChildren, SetStateAction, useContext, useEffect, useState} from 'react';
-import {ErrorCard} from './ErrorBoundary';
+import {
+	createContext,
+	Dispatch,
+	FC,
+	PropsWithChildren,
+	SetStateAction,
+	useContext,
+	useEffect,
+	useState
+} from 'react';
+import { Backdrop } from '@mui/material';
+
+import { useSeasons } from '@/hooks';
+
+import { ErrorCard } from './ErrorBoundary';
 
 type AppStateType = {
 	currentSeason: number;
@@ -16,34 +27,36 @@ type SetAppStateType = Dispatch<SetStateAction<AppStateType>>;
 
 const BLANK_STATE: AppStateType = {
 	currentSeason: 0,
-	seasonToShow:  0,
-	lastSeason:    0,
-	ready:         false
+	seasonToShow: 0,
+	lastSeason: 0,
+	ready: false
 };
 
-const Context = createContext<[AppStateType, SetAppStateType]>([
-	BLANK_STATE, () => null
-]);
+const Context = createContext<[AppStateType, SetAppStateType]>([BLANK_STATE, () => null]);
 
-const AppStateProvider: FC<PropsWithChildren> = ({children}) => {
+const AppStateProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [state, setState] = useState<AppStateType>(BLANK_STATE);
-	const {seasons, error}  = useSeasons();
-	
+	const { seasons, error } = useSeasons();
+
 	useEffect(() => {
 		if (!state.ready && seasons) {
 			setState({
 				currentSeason: Math.max(...seasons.filter(s => !s.ended).map(s => s.year)),
-				seasonToShow:  Math.max(...seasons.filter(s => s.hasResults).map(s => s.year)),
-				lastSeason:    Math.max(...seasons.filter(s => s.ended).map(s => s.year)),
-				ready:         true
+				seasonToShow: Math.max(...seasons.filter(s => s.hasResults).map(s => s.year)),
+				lastSeason: Math.max(...seasons.filter(s => s.ended).map(s => s.year)),
+				ready: true
 			});
 		}
 	}, [seasons, state.ready, state]);
-	
+
 	if (!state || !state.ready || !state.currentSeason) {
-		return <Backdrop open>{error ? <ErrorCard message="Could not connect to the data API"/> : null}</Backdrop>;
+		return (
+			<Backdrop open>
+				{error ? <ErrorCard message="Could not connect to the data API" /> : null}
+			</Backdrop>
+		);
 	}
-	
+
 	return <Context.Provider value={[state, setState]}>{children}</Context.Provider>;
 };
 

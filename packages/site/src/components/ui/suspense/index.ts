@@ -1,1 +1,1 @@
-export {default as SuspendedTable} from './SuspendedTable';
+export { default as SuspendedTable } from './SuspendedTable';

@@ -1,4 +1,5 @@
-import type {Metadata} from 'next';
+import type { Metadata } from 'next';
+
 import SeasonsContent from './SeasonsContent';
 
 export const metadata: Metadata = {
@@ -6,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function SeasonsPage() {
-	return <SeasonsContent/>;
+	return <SeasonsContent />;
 }

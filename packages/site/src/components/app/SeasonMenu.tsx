@@ -1,68 +1,60 @@
 import { gql } from '@apollo/client';
-import { useQuery } from "@apollo/client/react";
-import {Season} from '@/gql/graphql';
-import {alpha, FormControl, InputLabel, MenuItem, Select, useTheme} from '@mui/material';
+import { useQuery } from '@apollo/client/react';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+
+import { Season } from '@/gql/graphql';
 
 export const SeasonsQuery = gql`
 	query SeasonMenuQuery {
 		seasons(orderBy: YEAR_DESC) {
-			nodes {
-				id
-				year
-			}
+			year
 		}
 	}
 `;
 
-const useSelectSx = () => {
-	const theme = useTheme();
-
-	return {
-		m:            0,
-		minWidth:     120,
-		borderRadius: 1,
-		border:       `1px solid ${theme.palette.text.primary}`,
-		'&:hover':    {
-			backgroundColor: alpha(theme.palette.divider, 0.05)
-		},
-
-		'& > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
-			border: 0
-		}
-	};
-};
+const SELECT_CLASS =
+	'min-w-30 rounded border border-text-primary hover:bg-divider/5 [&>.MuiInputBase-root>.MuiOutlinedInput-notchedOutline]:border-0';
 
 type SeasonMenuProps = {
 	id: string;
-	variant?: 'normal' | 'simple',
+	variant?: 'normal' | 'simple';
 	season: number;
 	setSeason: (season: number) => void;
 	required?: boolean;
-}
+};
 
-export default function SeasonMenu({variant = 'simple', id, season, setSeason, required = true}: SeasonMenuProps) {
-	const sx              = useSelectSx();
-	const {data, loading} = useQuery<{ seasons: { nodes: Pick<Season, 'year'>[] } }>(SeasonsQuery);
+export default function SeasonMenu({
+	variant = 'simple',
+	id,
+	season,
+	setSeason,
+	required = true
+}: SeasonMenuProps) {
+	const { data, loading } = useQuery<{ seasons: Pick<Season, 'year'>[] }>(SeasonsQuery);
 
-	const seasons = (data?.seasons.nodes ?? [{year: (new Date()).getFullYear()}]).map(s => s.year);
+	const seasons = (data?.seasons ?? [{ year: new Date().getFullYear() }]).map(s => s.year);
 
 	if (!seasons.length || loading) {
 		return null;
 	}
 
-	const seasonOptions = seasons.map(year => <MenuItem key={year} value={year}>{year}</MenuItem>);
+	const seasonOptions = seasons.map(year => (
+		<MenuItem key={year} value={year}>
+			{year}
+		</MenuItem>
+	));
 
 	switch (variant) {
 		case 'simple':
 			return (
-				<FormControl fullWidth sx={sx} size="small">
+				<FormControl fullWidth className={SELECT_CLASS} size="small">
 					<Select
-						inputProps={{'aria-label': 'Season'}}
-						sx={{color: 'inherit', p: 0, border: 0}}
+						inputProps={{ 'aria-label': 'Season' }}
+						className="text-inherit p-0 border-0"
 						id={id}
 						value={season}
 						label="Season"
-						onChange={(ev) => setSeason(ev.target.value as number)}
+						onChange={ev => setSeason(ev.target.value as number)}
 					>
 						{!required && <MenuItem value={-1}>Any</MenuItem>}
 						{seasonOptions}
@@ -79,7 +71,7 @@ export default function SeasonMenu({variant = 'simple', id, season, setSeason, r
 						labelId={`${id}-label`}
 						id={id}
 						value={season}
-						onChange={(ev) => setSeason(ev.target.value as number)}
+						onChange={ev => setSeason(ev.target.value as number)}
 					>
 						{!required && <MenuItem value={-1}>Any</MenuItem>}
 						{seasonOptions}
@@ -89,14 +81,13 @@ export default function SeasonMenu({variant = 'simple', id, season, setSeason, r
 	}
 
 	return (
-		<FormControl fullWidth sx={variant === 'simple' ? sx : undefined} size="small">
+		<FormControl fullWidth size="small">
 			<Select
-				inputProps={{'aria-label': 'Season'}}
-				sx={variant === 'simple' ? {color: 'inherit', p: 0, border: 0} : undefined}
+				inputProps={{ 'aria-label': 'Season' }}
 				id={id}
 				value={season}
 				label="Season"
-				onChange={(ev) => setSeason(ev.target.value as number)}
+				onChange={ev => setSeason(ev.target.value as number)}
 			>
 				{seasonOptions}
 			</Select>

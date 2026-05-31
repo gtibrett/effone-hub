@@ -1,0 +1,129 @@
+/*
+ * MUI owns palette + surface tokens (Theme.ts emits `--mui-palette-*` for both schemes).
+ * Tailwind `@theme inline` below aliases them into `--color-*`.
+ * Chart-bucket + circuit-map sector colors are standalone `--results-*` / `--map-sector-*`.
+ * Layer order: `mui` before `utilities` so utilities win without `!important`
+ * (requires `enableCssLayer: true` on AppRouterCacheProvider).
+ */
+
+@layer theme, base, mui, components, utilities;
+@import "tailwindcss";
+
+/* Alias next/font CSS vars into Tailwind font tokens. */
+@theme {
+	--font-sans: var(--font-titillium), system-ui, sans-serif;
+	--font-display: var(--font-anton), sans-serif;
+	--font-racing: var(--font-racing), sans-serif;
+}
+
+/*
+ * Standalone shade scales (plain `@theme` so `bg-primary-950` etc. resolve).
+ * primary/secondary MUST mirror `blueGrey`/`red` in src/components/ui/colors.ts
+ * (MUI primary.main=blue[500], secondary.main=red[500]) — CSS can't import the
+ * TS, so keep literals in sync by hand. tertiary is a standalone blue (there is
+ * no MUI tertiary token; distinct hue from the primary-accent blue).
+ */
+@theme {
+	--color-white: oklch(0.968 0.003 286.81);
+	--color-black: oklch(0.2 0.018 244);
+
+	/* primary = blueGrey (colors.ts blueGrey) */
+	--color-primary-50: oklch(0.951 0.005 236);
+	--color-primary-100: oklch(0.864 0.014 230);
+	--color-primary-200: oklch(0.78 0.02 232);
+	--color-primary-300: oklch(0.675 0.027 234);
+	--color-primary-400: oklch(0.6 0.033 236);
+	--color-primary-500: oklch(0.53 0.039 240);
+	--color-primary-600: oklch(0.47 0.038 242);
+	--color-primary-700: oklch(0.4 0.034 244);
+	--color-primary-800: oklch(0.33 0.027 244);
+	--color-primary-900: oklch(0.25 0.02 244);
+	--color-primary-950: oklch(0.2 0.018 244);
+
+	/* secondary = red (colors.ts red; secondary-500 == MUI secondary.main) */
+	--color-secondary-50: oklch(0.96 0.018 17.57);
+	--color-secondary-100: oklch(0.918 0.039 14.02);
+	--color-secondary-200: oklch(0.845 0.078 15.89);
+	--color-secondary-300: oklch(0.766 0.127 17.46);
+	--color-secondary-400: oklch(0.686 0.187 19.32);
+	--color-secondary-500: oklch(0.612 0.231 22.61);
+	--color-secondary-600: oklch(0.516 0.194 22.56);
+	--color-secondary-700: oklch(0.424 0.16 22.53);
+	--color-secondary-800: oklch(0.335 0.127 22.49);
+	--color-secondary-900: oklch(0.234 0.089 22.84);
+	--color-secondary-950: oklch(0.187 0.069 23.49);
+
+	/* tertiary = blue (standalone scale; distinct from the MUI primary-accent blue) */
+	--color-tertiary-50: oklch(0.957 0.019 266.01);
+	--color-tertiary-100: oklch(0.914 0.037 265.15);
+	--color-tertiary-200: oklch(0.829 0.077 264.37);
+	--color-tertiary-300: oklch(0.735 0.124 259.15);
+	--color-tertiary-400: oklch(0.649 0.17 253.56);
+	--color-tertiary-500: oklch(0.562 0.147 253.39);
+	--color-tertiary-600: oklch(0.475 0.125 253.46);
+	--color-tertiary-700: oklch(0.398 0.104 253.1);
+	--color-tertiary-800: oklch(0.311 0.081 253.43);
+	--color-tertiary-900: oklch(0.225 0.058 253.41);
+	--color-tertiary-950: oklch(0.177 0.048 253.48);
+}
+
+/* Semantic aliases → MUI palette vars. `bg-tertiary` falls back to shade-500 (no MUI tertiary). */
+@theme inline {
+	--color-primary: var(--mui-palette-primary-main);
+	--color-primary-light: var(--mui-palette-primary-light);
+	--color-primary-dark: var(--mui-palette-primary-dark);
+	--color-primary-contrast: var(--mui-palette-primary-contrastText);
+
+	--color-secondary: var(--mui-palette-secondary-main);
+	--color-secondary-light: var(--mui-palette-secondary-light);
+	--color-secondary-dark: var(--mui-palette-secondary-dark);
+	--color-secondary-contrast: var(--mui-palette-secondary-contrastText);
+
+	--color-tertiary: var(--color-tertiary-500);
+
+	--color-background: var(--mui-palette-background-default);
+	--color-background-paper: var(--mui-palette-background-paper);
+
+	--color-text-primary: var(--mui-palette-text-primary);
+	--color-text-secondary: var(--mui-palette-text-secondary);
+	--color-text-disabled: var(--mui-palette-text-disabled);
+
+	--color-divider: var(--mui-palette-divider);
+
+	--color-success: var(--mui-palette-success-main);
+	--color-warning: var(--mui-palette-warning-main);
+	--color-error: var(--mui-palette-error-main);
+	--color-info: var(--mui-palette-info-main);
+}
+
+/* Chart bucket + map sector colors. Light = darker shades on white; dark = lighter shades. */
+:root {
+	--results-appearances: #455a64; /* blueGrey 700 */
+	--results-wins: #512da8; /* deepPurple 700 */
+	--results-podiums: #4caf50; /* green 500 */
+	--results-in-points: #ffc107; /* amber 500 */
+	--results-out-points: #607d8b; /* blueGrey 500 */
+	--results-out-of-points: #b0bec5; /* blueGrey 200 */
+	--results-dnfs: #d32f2f; /* red 700 */
+
+	/* Circuit map sector overlays. */
+	--map-sector-1: #f44336; /* red 500 */
+	--map-sector-2: #2196f3; /* blue 500 */
+	--map-sector-3: #ffeb3b; /* yellow 500 */
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--results-appearances: #607d8b; /* blueGrey 500 */
+		--results-wins: #b39ddb; /* deepPurple 200 */
+		--results-podiums: #a5d6a7; /* green 200 */
+		--results-in-points: #ffe082; /* amber 200 */
+		--results-out-points: #90a4ae; /* blueGrey 300 */
+		--results-out-of-points: #cfd8dc; /* blueGrey 100 */
+		--results-dnfs: #ef9a9a; /* red 200 */
+
+		--map-sector-1: #c62828; /* red 800 */
+		--map-sector-2: #1565c0; /* blue 800 */
+		--map-sector-3: #f9a825; /* yellow 800 */
+	}
+}

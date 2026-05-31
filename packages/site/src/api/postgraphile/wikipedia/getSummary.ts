@@ -1,5 +1,5 @@
-import {CanonicalId} from './getCanonicalId';
-import {WikipediaSummary} from './WikipediaSummary';
+import { CanonicalId } from './getCanonicalId';
+import { WikipediaSummary } from './WikipediaSummary';
 
 export default function getSummary(canonicalId?: CanonicalId): Promise<WikipediaSummary> {
 	return new Promise((resolve, reject) => {

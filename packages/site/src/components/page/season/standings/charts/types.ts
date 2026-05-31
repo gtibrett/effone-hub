@@ -1,20 +1,21 @@
-import {Race} from '@/gql/graphql';
-import {BumpComputedSerie, BumpDatum, BumpSerie} from '@nivo/bump';
-import {Point} from '@nivo/line';
-import {FC} from 'react';
+import { FC } from 'react';
+import { BumpComputedSerie, BumpDatum, BumpSerie } from '@nivo/bump';
+import { Point } from '@nivo/line';
+
+import { Race } from '@/gql/graphql';
 
 export type Entity = {
 	id: string;
 	name: string;
 	color?: string;
-}
+};
 
 export type StandingWithEntity = {
 	id: string | number;
 	entity: Entity;
 	points: number;
 	position: number;
-}
+};
 
 export interface RaceStandingsWithEntities {
 	round: Race['round'];
@@ -26,30 +27,30 @@ export type ChartMode = 'position' | 'points';
 
 export type ChartProps = {
 	data: RaceStandingsWithEntities[];
-	TooltipComponent: FC<any>
-}
+	TooltipComponent: FC<any>;
+};
 
 type BumpChartExtraProps = {
 	entity: {
 		id: string;
 		name: string;
-	}
+	};
 	color: string;
-}
+};
 
 type StandingsWithEntityBumpDatum = BumpDatum & {
-	data?: StandingWithEntity
-}
+	data?: StandingWithEntity;
+};
 
 export type StandingsChartSerie = BumpSerie<StandingsWithEntityBumpDatum, BumpChartExtraProps>;
 export type PositionsChartTooltipProps = {
-	serie: BumpComputedSerie<StandingsWithEntityBumpDatum, BumpChartExtraProps>
+	serie: BumpComputedSerie<StandingsWithEntityBumpDatum, BumpChartExtraProps>;
 };
 
 export type PointTooltipProps = {
 	point: Point & {
 		data: Point['data'] & {
-			data: StandingWithEntity
-		}
-	}
-}
+			data: StandingWithEntity;
+		};
+	};
+};

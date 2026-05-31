@@ -1,16 +1,17 @@
-import {useFallbackColor} from '@/components/ui';
-import {useGetAccessibleColor} from '@/hooks';
+import { useCallback } from 'react';
 import { gql } from '@apollo/client';
-import { useSuspenseQuery } from "@apollo/client/react";
-import {useCallback} from 'react';
-import {Entity, RaceStandingsWithEntities} from '../charts';
+import { useSuspenseQuery } from '@apollo/client/react';
+
+import { useFallbackColor } from '@/components/ui';
+
+import { Entity, RaceStandingsWithEntities } from '../charts';
 
 type ConstructorColors = {
 	primaryHex: string | null;
 };
 
 type ConstructorNode = {
-	rowId: string;
+	id: string;
 	name: string | null;
 	colors: ConstructorColors | null;
 };
@@ -24,48 +25,47 @@ type RaceConstructorStandingNode = {
 
 type RaceNode = {
 	round: number;
-	raceTeamStandings: { nodes: RaceConstructorStandingNode[] };
+	raceTeamStandings: RaceConstructorStandingNode[];
 };
 
 type ConstructorStandingsQueryData = {
 	season: {
-		racesByYear: { nodes: RaceNode[] };
+		racesByYear: RaceNode[];
 	} | null;
 };
 
 const useMapConstructorToEntity = () => {
-	const getAccessibleColor = useGetAccessibleColor();
-	const fallbackColor      = useFallbackColor();
+	const fallbackColor = useFallbackColor();
 
-	return useCallback((constructor: ConstructorNode): Entity => ({
-		id:    constructor.rowId,
-		name:  constructor.name || '',
-		color: getAccessibleColor(constructor.colors?.primaryHex || fallbackColor, false)
-	}), [getAccessibleColor, fallbackColor]);
+	return useCallback(
+		(constructor: ConstructorNode): Entity => ({
+			id: constructor.id,
+			name: constructor.name || '',
+			color: constructor.colors?.primaryHex || fallbackColor
+		}),
+		[fallbackColor]
+	);
 };
 
 const query = gql`
 	query constructorStandingsQuery($season: Int!) {
 		season(year: $season) {
+			year
 			racesByYear(orderBy: ROUND_ASC) {
-				nodes {
-					id
-					round
-					raceTeamStandings(orderBy: POSITION_NUMBER_ASC) {
-						nodes {
-							id
+				year
+				round
+				raceTeamStandings(orderBy: POSITION_NUMBER_ASC) {
+					raceId
+					teamId
+					engineManufacturerId
+					positionNumber
+					points
+					team {
+						id
+						name
+						colors {
 							teamId
-							positionNumber
-							points
-							team {
-								id
-								rowId
-								name
-								colors {
-									id
-									primaryHex
-								}
-							}
+							primaryHex
 						}
 					}
 				}
@@ -75,17 +75,19 @@ const query = gql`
 `;
 
 export default function useConstructorStandingsData(season: number) {
-	const {data}                  = useSuspenseQuery<ConstructorStandingsQueryData>(query, {variables: {season}});
-	const mapConstructorToEntity  = useMapConstructorToEntity();
+	const { data } = useSuspenseQuery<ConstructorStandingsQueryData>(query, {
+		variables: { season }
+	});
+	const mapConstructorToEntity = useMapConstructorToEntity();
 
-	const chartData: RaceStandingsWithEntities[] = (data?.season?.racesByYear?.nodes ?? []).map(r => {
-		const standings = r.raceTeamStandings.nodes
+	const chartData: RaceStandingsWithEntities[] = (data?.season?.racesByYear ?? []).map(r => {
+		const standings = r.raceTeamStandings
 			.filter(cs => cs.team)
-			.map(({teamId, positionNumber, points, team}) => ({
-				id:       teamId,
+			.map(({ teamId, positionNumber, points, team }) => ({
+				id: teamId,
 				position: Number(positionNumber),
-				points:   Number(points),
-				entity:   mapConstructorToEntity(team as ConstructorNode)
+				points: Number(points),
+				entity: mapConstructorToEntity(team as ConstructorNode)
 			}));
 
 		return {
@@ -94,5 +96,5 @@ export default function useConstructorStandingsData(season: number) {
 		};
 	});
 
-	return {data, chartData};
+	return { data, chartData };
 }
