@@ -1,4 +1,4 @@
-import { BarDatum } from '@nivo/bar/dist/types/types';
+import { BarDatum } from '@nivo/bar';
 
 import { RaceResult } from '@/gql/graphql';
 

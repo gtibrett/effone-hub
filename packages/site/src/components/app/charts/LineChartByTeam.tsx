@@ -1,20 +1,29 @@
 import { AxisProps } from '@nivo/axes';
-import { Datum, Layer, LineProps, PointTooltip, ResponsiveLine, Serie } from '@nivo/line';
+import {
+	LineSeries,
+	LineSvgLayer,
+	LineSvgProps,
+	PointTooltipComponent,
+	ResponsiveLine
+} from '@nivo/line';
 
 import { NivoTooltipFactory, RequiredByPropTypes, useNivoTheme } from '@/components/ui/nivo';
 
 import BaseLineChartLayer from './BaseLineChartLayer';
 import { mapLineSerieValues, maxValue } from './index';
-import { DataWithTeamInfo, MutableSerie, MutableSerieDataKey } from './types';
+import { DataWithTeamInfo, Datum, MutableSerie, MutableSerieDataKey, Serie } from './types';
 import useSplitSeriesByTeam from './useSplitLineSeriesByTeam';
 
+// nivo line types are generic now; team series carries the `color` the `colors` accessor reads
+type TeamLineSeries = LineSeries & { color: string };
+
 const useBaseProps = (
-	tooltip: PointTooltip,
-	baseLayer: Layer | undefined
-): Omit<LineProps, 'data'> => {
+	tooltip: PointTooltipComponent<LineSeries>,
+	baseLayer: LineSvgLayer<TeamLineSeries> | undefined
+): Omit<LineSvgProps<TeamLineSeries>, 'data' | 'width' | 'height'> => {
 	const nivoTheme = useNivoTheme();
 
-	const layers: Layer[] = [
+	const layers: LineSvgLayer<TeamLineSeries>[] = [
 		'grid',
 		'markers',
 		'axes',
@@ -33,16 +42,14 @@ const useBaseProps = (
 
 	return {
 		theme: nivoTheme,
-		colors: serie => {
-			return serie.color;
-		},
+		colors: serie => serie.color,
 		axisLeft: null,
 		axisTop: null,
 		enableGridX: false,
 		enableGridY: false,
 		lineWidth: 4,
 		pointSize: 12,
-		// @ts-ignore
+		pointColor: d => d.series.color,
 		useMesh: true,
 		margin: { top: 20, left: 28, right: 32, bottom: 40 },
 		tooltip: NivoTooltipFactory(tooltip),
@@ -55,7 +62,7 @@ export type LineChartByTeamProps = {
 	xKey: MutableSerieDataKey;
 	yKey: MutableSerieDataKey;
 	data: DataWithTeamInfo[];
-	tooltip: PointTooltip;
+	tooltip: PointTooltipComponent<LineSeries>;
 	axisBottomFormat?: AxisProps['format'];
 	invert?: boolean;
 	min?: number;
@@ -78,15 +85,21 @@ export default function LineChartByTeam({
 	const [teamSeries, baseSerie] = splitSeriesByTeam(xKey, data);
 	const baseProps = useBaseProps(
 		tooltip,
-		!noBase ? BaseLineChartLayer(mapLineSerieValues(xKey, yKey)(baseSerie as Serie)) : undefined
+		!noBase
+			? (BaseLineChartLayer(
+					mapLineSerieValues(xKey, yKey)(baseSerie as Serie)
+				) as unknown as LineSvgLayer<TeamLineSeries>)
+			: undefined
 	);
 	const axisMax = Math.max(max, maxValue(baseSerie as MutableSerie, yKey));
 
 	return (
 		<ResponsiveLine
-			{...RequiredByPropTypes.Line}
+			{...(RequiredByPropTypes.Line as Partial<LineSvgProps<TeamLineSeries>>)}
 			{...baseProps}
-			data={[...teamSeries.map(mapLineSerieValues(xKey, yKey))]}
+			data={
+				[...teamSeries.map(mapLineSerieValues(xKey, yKey))] as unknown as TeamLineSeries[]
+			}
 			axisRight={{
 				tickSize: 0,
 				tickRotation: 0,

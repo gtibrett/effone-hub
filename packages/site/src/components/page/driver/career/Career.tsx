@@ -8,6 +8,7 @@ import { ConstructorByLine } from '@/components/app';
 import SeasonDialog from '../season/SeasonDialog';
 import Stats from '../stats';
 import CareerChart from './CareerChart';
+import { getSeasonEndTeamByYear } from './seasonEndTeam';
 import useCareerData from './useCareerData';
 
 type CareerProps = { driverId: string };
@@ -34,6 +35,13 @@ export default function Career({ driverId }: CareerProps) {
 		r => r.race?.year && (racesByYear[r.race?.year] = (racesByYear[r.race?.year] || 0) + 1)
 	);
 
+	const teamByYear = getSeasonEndTeamByYear(data?.driver.raceResults);
+	const standingsRows = careerStandings.map(s => ({
+		...s,
+		team: s.year != null ? (teamByYear.get(s.year) ?? null) : null,
+		races: s.year != null ? (racesByYear[s.year] ?? 0) : 0
+	}));
+
 	return (
 		<>
 			<Grid container spacing={2} className="items-center justify-around">
@@ -49,7 +57,7 @@ export default function Career({ driverId }: CareerProps) {
 						onClose={() => setActive(undefined)}
 					/>
 					<DataGrid
-						rows={careerStandings}
+						rows={standingsRows}
 						autoHeight
 						density="compact"
 						getRowId={r => r.year || ''}

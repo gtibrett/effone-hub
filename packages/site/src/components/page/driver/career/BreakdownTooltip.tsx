@@ -1,5 +1,5 @@
 import { Card, CardHeader } from '@mui/material';
-import { BarTooltipProps } from '@nivo/bar';
+import { BarDatum, BarTooltipProps } from '@nivo/bar';
 
 import { DriverAvatar, DriverByLine } from '@/components/app';
 import { PropertiesTable, PropertiesTableRow, PropertiesTableRowProps } from '@/components/ui';
@@ -9,8 +9,8 @@ import { useDriverHeaderSx } from '@/hooks';
 import { breakdownMetrics } from './CareerBreakdownChart';
 import { BreakdownDatum } from './useBreakdownData';
 
-export default function BreakdownTooltip({ data }: BarTooltipProps<BreakdownDatum>) {
-	const { driverId, year, raw: metrics } = data;
+export default function BreakdownTooltip({ data }: BarTooltipProps<BarDatum>) {
+	const { driverId, year, raw: metrics } = data as unknown as BreakdownDatum;
 	const headerSx = useDriverHeaderSx(driverId);
 
 	const rows: PropertiesTableRowProps[] = breakdownMetrics.map(key => ({

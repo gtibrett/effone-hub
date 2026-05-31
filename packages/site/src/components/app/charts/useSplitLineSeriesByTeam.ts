@@ -1,10 +1,9 @@
 import { useCallback } from 'react';
-import { Serie } from '@nivo/line';
 
 import { alpha } from '@/components/ui/colors';
 import { cssVar } from '@/lib/tokens';
 
-import { DataWithTeamInfo, MutableSerie, SerieWithTeamAndData } from './types';
+import { DataWithTeamInfo, MutableSerie, Serie, SerieWithTeamAndData } from './types';
 
 export default function useSplitSeriesByTeam() {
 	return useCallback(

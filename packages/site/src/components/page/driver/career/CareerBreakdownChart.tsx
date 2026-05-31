@@ -1,4 +1,4 @@
-import { ResponsiveBar } from '@nivo/bar';
+import { BarDatum, ResponsiveBar } from '@nivo/bar';
 
 import { NivoTooltipFactory, useNivoTheme } from '@/components/ui/nivo';
 import { capitalizeCamelCase } from '@/helpers';
@@ -14,13 +14,13 @@ type CareerBreakdownChartProps = {
 };
 
 export type BreakdownMetric = ResultsBucket;
-export const breakdownMetrics: BreakdownMetric[] = [
+export const breakdownMetrics = [
 	'wins',
 	'podiums',
 	'inPoints',
 	'outOfPoints',
 	'DNFs'
-];
+] as const satisfies readonly BreakdownMetric[];
 
 const findRawKey = (percentageKey: string | number) =>
 	String(percentageKey).replace('Percentage', '') as BreakdownMetric;
@@ -32,17 +32,17 @@ export default function CareerBreakdownChart({ driverId, season }: CareerBreakdo
 	const isSingleSeason = chartData?.length === 1;
 
 	return (
-		<ResponsiveBar<BreakdownDatum>
+		<ResponsiveBar
 			theme={nivoTheme}
 			layout={isSingleSeason ? 'horizontal' : 'vertical'}
 			indexBy="year"
 			keys={[...keys].map(k => `${k}Percentage`).reverse()}
-			data={chartData}
+			data={chartData as unknown as BarDatum[]}
 			colors={({ id }) => RESULTS_COLORS[findRawKey(id)].background}
 			enableLabel={isSingleSeason}
 			label={({ id, data }) => {
 				const key = findRawKey(id);
-				return `${capitalizeCamelCase(key as string)}: ${data.raw[key]}`;
+				return `${capitalizeCamelCase(key as string)}: ${(data as unknown as BreakdownDatum).raw[key]}`;
 			}}
 			labelTextColor={({ data: { id } }) => RESULTS_COLORS[findRawKey(id)].color}
 			labelSkipWidth={55}

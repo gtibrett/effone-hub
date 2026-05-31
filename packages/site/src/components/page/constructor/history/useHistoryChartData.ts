@@ -1,6 +1,5 @@
-import { Serie as LineSerie } from '@nivo/line';
-
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
+import { Serie as LineSerie } from '@/components/app/charts/types';
 import { Team } from '@/gql/graphql';
 import { useGetTeamColor } from '@/hooks';
 

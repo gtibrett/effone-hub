@@ -1,12 +1,13 @@
 import { GeoMapProps } from '@nivo/geo';
-import { LineSvgProps } from '@nivo/line';
+import { DefaultSeries, LineSvgProps } from '@nivo/line';
 
 import { noop } from '@/helpers';
 
 // PropTypes vs TS mismatches
 type RequiredByPropTypesType = {
 	GeoMap: Partial<GeoMapProps>;
-	Line: Partial<LineSvgProps>;
+	// typed with DefaultSeries so the literal checks; each spread site casts to its own Series
+	Line: Partial<LineSvgProps<DefaultSeries>>;
 };
 
 const RequiredByPropTypes: RequiredByPropTypesType = {

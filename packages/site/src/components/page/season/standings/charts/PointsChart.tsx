@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Point, ResponsiveLine } from '@nivo/line';
+import { isPoint, LineSvgProps, ResponsiveLine } from '@nivo/line';
 
 import { alpha } from '@/components/ui/colors';
 import { NivoTooltipFactory, RequiredByPropTypes, useNivoTheme } from '@/components/ui/nivo';
 
-import { ChartProps } from './types';
+import { ChartProps, StandingsChartSerie } from './types';
 import useChartData from './useChartData';
 
 const getTicks = (rounds: number) => new Array<number>(rounds).fill(0).map((v, i) => i + 1);
@@ -22,7 +22,7 @@ export default function PointsChart({ data, TooltipComponent }: ChartProps) {
 
 	return (
 		<ResponsiveLine
-			{...RequiredByPropTypes.Line}
+			{...(RequiredByPropTypes.Line as Partial<LineSvgProps<StandingsChartSerie>>)}
 			theme={nivoTheme}
 			data={chartData}
 			colors={({ color, id }) =>
@@ -56,8 +56,14 @@ export default function PointsChart({ data, TooltipComponent }: ChartProps) {
 			useMesh={true}
 			isInteractive={true}
 			tooltip={NivoTooltipFactory(TooltipComponent)}
-			onClick={({ serieId }: Point) =>
-				highlight === serieId ? setHighlight(undefined) : setHighlight(serieId)
+			onClick={datum =>
+				setHighlight(
+					isPoint(datum)
+						? highlight === datum.seriesId
+							? undefined
+							: datum.seriesId
+						: undefined
+				)
 			}
 		/>
 	);

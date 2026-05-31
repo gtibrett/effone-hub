@@ -7,15 +7,15 @@ const query = gql`
 	query DriverCareerQuery($driverId: String!) {
 		driver(id: $driverId) {
 			id
-			standings: seasonDriverStandings(orderBy: YEAR_ASC) {
+			# season summary: positionNumber/totalPoints/totalRaceWins per year (team lives on raceResults)
+			standings: seasonDrivers(orderBy: YEAR_ASC) {
 				year
-				driverId
 				positionNumber
-				positionText
-				points
+				points: totalPoints
+				wins: totalRaceWins
 			}
 
-			# for CareerPerformance.tsx
+			# for CareerPerformance.tsx; team here drives per-season team coloring (season-end team)
 			raceResults {
 				raceId
 				driverId
@@ -36,6 +36,14 @@ const query = gql`
 				points
 				positionText
 				teamId
+				team {
+					id
+					colors {
+						teamId
+						primaryHex
+						secondaryHex
+					}
+				}
 				timeMillis
 				reasonRetired
 			}

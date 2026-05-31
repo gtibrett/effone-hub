@@ -1,5 +1,5 @@
 import { Card, CardHeader } from '@mui/material';
-import { BumpSerie } from '@nivo/bump/dist/types/bump/types';
+import { BumpSerie } from '@nivo/bump';
 
 import { DriverAvatar, DriverByLine } from '@/components/app';
 import { useDriverHeaderSx } from '@/hooks';

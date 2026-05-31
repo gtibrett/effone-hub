@@ -30,7 +30,9 @@ export function ErrorCard({ message }: { message?: string }) {
 	);
 }
 
+// biome-ignore lint/suspicious/noExplicitAny: generic
 export default class ErrorBoundary extends Component<any, ErrorBoundaryState> {
+	// biome-ignore lint/suspicious/noExplicitAny: generic
 	constructor(props: ComponentProps<any>) {
 		super(props);
 		this.state = { hasError: false };

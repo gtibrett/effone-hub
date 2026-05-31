@@ -1,5 +1,6 @@
-import { Serie as LineSerie, ResponsiveLine } from '@nivo/line';
+import { LineSeries, LineSvgProps, ResponsiveLine } from '@nivo/line';
 
+import { Serie as LineSerie } from '@/components/app/charts/types';
 import { NivoTooltipFactory, RequiredByPropTypes, useNivoTheme } from '@/components/ui/nivo';
 import { TeamStandingData } from '@/hooks/data';
 
@@ -42,9 +43,9 @@ export default function HistoryChart({
 
 	return (
 		<ResponsiveLine
-			{...RequiredByPropTypes.Line}
+			{...(RequiredByPropTypes.Line as Partial<LineSvgProps<LineSeries>>)}
 			theme={nivoTheme}
-			data={series}
+			data={series as unknown as LineSeries[]}
 			colors={chartColors}
 			lineWidth={4}
 			pointSize={12}

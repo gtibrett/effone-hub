@@ -1,7 +1,8 @@
 import { Box, Skeleton } from '@mui/material';
-import { Serie as LineSerie, ResponsiveLine } from '@nivo/line';
+import { LineSeries, LineSvgProps, ResponsiveLine } from '@nivo/line';
 
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
+import { Serie as LineSerie } from '@/components/app/charts/types';
 import { alpha } from '@/components/ui/colors';
 import { RequiredByPropTypes, useNivoTheme } from '@/components/ui/nivo';
 import { useGetTeamColor } from '@/hooks';
@@ -54,9 +55,9 @@ export default function SeasonChart({ data, loading }: SeasonChartProps) {
 	return (
 		<Box className="h-33 w-full" aria-hidden>
 			<ResponsiveLine
-				{...RequiredByPropTypes.Line}
+				{...(RequiredByPropTypes.Line as Partial<LineSvgProps<LineSeries>>)}
 				theme={nivoTheme}
-				data={drivers}
+				data={drivers as unknown as LineSeries[]}
 				colors={colors}
 				lineWidth={4}
 				pointSize={12}

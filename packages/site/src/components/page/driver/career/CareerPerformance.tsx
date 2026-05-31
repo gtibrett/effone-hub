@@ -12,7 +12,9 @@ import usePerformanceData from '../usePerformanceData';
 
 type CareerPerformanceProps = SimpleApolloResult<DriverPageData>;
 
-const CareerPerformanceTooltip = ({ datum }: PieTooltipProps<any>) => {
+type PerformanceDatum = { id: string; label: string; value: number; color: string };
+
+const CareerPerformanceTooltip = ({ datum }: PieTooltipProps<PerformanceDatum>) => {
 	return <Typography>{datum.label}</Typography>;
 };
 

@@ -124,7 +124,7 @@ export default function RaceMap(props: RaceMapProps) {
 								? cssVar.background.paper
 								: cssVar.secondary.main;
 						} else {
-							return `color-mix(in oklch, ${cssVar.background.paper} 75%, ${cssVar.background.default} 25%)`;
+							return cssVar.background.default; //`color-mix(in oklch, ${cssVar.background.paper} 75%, ${cssVar.background.default} 25%)`;
 						}
 					}}
 					tooltip={NivoTooltipFactory(MapTooltip)}
