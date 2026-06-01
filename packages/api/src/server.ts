@@ -21,6 +21,24 @@ function getPostgraphile() {
 	return (cache.instance ??= postgraphile(preset));
 }
 
+type SchemaResult = Awaited<ReturnType<ReturnType<typeof postgraphile>['getSchemaResult']>>;
+
+const REQUIRED_ROOT_FIELDS = ['seasons', 'drivers', 'teams', 'circuits'] as const;
+
+// Fail fast on an empty/wrong-schema introspection (POSTGRES_SCHEMA pointed at a
+// schema with no f1db tables). Otherwise every query errors at runtime — a
+// silent blank site behind a green build. Ported from the former in-process
+// server-graphql.ts when the site became a pure HTTP consumer.
+function assertSchemaPopulated(schema: SchemaResult['schema']): void {
+	const fields = schema.getQueryType()?.getFields() ?? {};
+	const missing = REQUIRED_ROOT_FIELDS.filter(f => !(f in fields));
+	if (missing.length) {
+		throw new Error(
+			`PostGraphile introspected an unexpected schema: missing root field(s) ${missing.join(', ')}. Check POSTGRES_SCHEMA (expected f1db,app).`
+		);
+	}
+}
+
 async function main() {
 	const app = Fastify({ logger: true });
 
@@ -30,7 +48,13 @@ async function main() {
 
 	app.get('/health', async () => ({ status: 'ok' }));
 
-	const serv = getPostgraphile().createServ(grafserv);
+	const pgl = getPostgraphile();
+	// Build + validate the schema at boot, not on first request: fail fast on a
+	// bad DB / wrong schema and warm the first query. grafserv reuses this build.
+	const { schema } = await pgl.getSchemaResult();
+	assertSchemaPopulated(schema);
+
+	const serv = pgl.createServ(grafserv);
 	await serv.addTo(app);
 
 	await app.listen({ port: PORT, host: HOST });

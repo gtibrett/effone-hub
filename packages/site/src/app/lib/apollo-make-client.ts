@@ -4,14 +4,14 @@ import { ApolloClient, InMemoryCache } from '@apollo/client-integration-nextjs';
 import { typePolicies } from './apollo-type-policies';
 
 /**
- * Browser Apollo client — talks to the /api/graphql HTTP endpoint. Server
- * rendering uses the in-process grafast client in apollo-rsc.ts instead.
+ * Browser Apollo client — talks to the standalone GraphQL api over HTTP. Server
+ * rendering uses apollo-rsc.ts (also HTTP, plus the preview-bypass header).
  */
 export function makeClient() {
 	return new ApolloClient({
 		cache: new InMemoryCache({ typePolicies }),
 		link: new HttpLink({
-			uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? '/api/graphql'
+			uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? 'http://localhost:4000/graphql'
 		}),
 		defaultOptions: {
 			// v4 flipped watchQuery's notifyOnNetworkStatusChange default to

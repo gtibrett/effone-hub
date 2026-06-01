@@ -87,9 +87,6 @@ importers:
       '@fortawesome/react-fontawesome':
         specifier: ^3.3.1
         version: 3.3.1(@fortawesome/fontawesome-svg-core@7.2.0)(react@19.2.6)
-      '@graphile/simplify-inflection':
-        specifier: ^8.0.0
-        version: 8.0.0
       '@graphql-typed-document-node/core':
         specifier: ^3.2.0
         version: 3.2.0(graphql@16.14.0)
@@ -177,9 +174,6 @@ importers:
       pg:
         specifier: ^8.21.0
         version: 8.21.0
-      postgraphile:
-        specifier: ^5.0.3
-        version: 5.0.3(5e1bb7140865803478af867575643ed8)
       react:
         specifier: ^19.2.6
         version: 19.2.6
