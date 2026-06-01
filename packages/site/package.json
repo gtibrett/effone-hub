@@ -40,8 +40,6 @@
 		"@types/topojson-client": "^3.1.5",
 		"axe-core": "^4.11.4",
 		"css-mediaquery": "^0.1.2",
-		"eslint": "^9.39.4",
-		"eslint-config-next": "^16.2.6",
 		"jest": "^30.4.2",
 		"jest-canvas-mock": "^2.5.2",
 		"jest-environment-jsdom": "^30.4.1",
