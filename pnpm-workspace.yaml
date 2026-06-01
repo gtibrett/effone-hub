@@ -1,6 +1,7 @@
 packages:
   - 'packages/database'
   - 'packages/site'
+  - 'packages/api'
 allowBuilds:
   esbuild: true
   sharp: true

@@ -1,0 +1,7168 @@
+"""The root query type which gives access points into the data universe."""
+type Query {
+  """
+  Exposes the root query type nested one level down. This is helpful for Relay 1
+  which can only query top level fields if they are in a particular form.
+  """
+  query: Query!
+
+  """Get a single `Season`."""
+  season(year: Int!): Season
+
+  """Get a single `Entrant`."""
+  entrant(id: String!): Entrant
+
+  """Get a single `SeasonEntrant`."""
+  seasonEntrant(year: Int!, entrantId: String!): SeasonEntrant
+
+  """Get a single `AppTeamColor`."""
+  appTeamColor(teamId: String!): AppTeamColor
+
+  """Get a single `AppTeamHistory`."""
+  appTeamHistory(teamId: String!, antecedentTeamId: String!, startYear: Int!): AppTeamHistory
+
+  """Get a single `Chassis`."""
+  chassis(id: String!): Chassis
+
+  """Get a single `Continent`."""
+  continent(id: String!): Continent
+
+  """Get a single `Continent`."""
+  continentByCode(code: String!): Continent
+
+  """Get a single `Continent`."""
+  continentByName(name: String!): Continent
+
+  """Get a single `DriverFamilyRelationship`."""
+  driverFamilyRelationship(driverId: String!, positionDisplayOrder: Int!): DriverFamilyRelationship
+
+  """Get a single `DriverFamilyRelationship`."""
+  driverFamilyRelationshipByDriverIdAndOtherDriverIdAndType(driverId: String!, otherDriverId: String!, type: String!): DriverFamilyRelationship
+
+  """Get a single `SeasonEntrantTeam`."""
+  seasonEntrantTeam(year: Int!, entrantId: String!, teamId: String!, engineManufacturerId: String!): SeasonEntrantTeam
+
+  """Get a single `AppCircuitDescription`."""
+  appCircuitDescription(circuitId: String!): AppCircuitDescription
+
+  """Get a single `AppIngestState`."""
+  appIngestState(key: String!): AppIngestState
+
+  """Get a single `TeamChronology`."""
+  teamChronology(teamId: String!, positionDisplayOrder: Int!): TeamChronology
+
+  """Get a single `TeamChronology`."""
+  teamChronologyByTeamIdAndOtherTeamIdAndYearFromAndYearTo(teamId: String!, otherTeamId: String!, yearFrom: Int!, yearTo: Int!): TeamChronology
+
+  """Get a single `SeasonEntrantChassis`."""
+  seasonEntrantChassis(year: Int!, entrantId: String!, teamId: String!, engineManufacturerId: String!, chassisId: String!): SeasonEntrantChassis
+
+  """Get a single `SeasonEntrantEngine`."""
+  seasonEntrantEngine(year: Int!, entrantId: String!, teamId: String!, engineManufacturerId: String!, engineId: String!): SeasonEntrantEngine
+
+  """Get a single `SeasonEntrantTyreManufacturer`."""
+  seasonEntrantTyreManufacturer(year: Int!, entrantId: String!, teamId: String!, engineManufacturerId: String!, tyreManufacturerId: String!): SeasonEntrantTyreManufacturer
+
+  """Get a single `AppLapTime`."""
+  appLapTime(raceId: Int!, driverId: String!, lap: Int!): AppLapTime
+
+  """Get a single `CircuitLayout`."""
+  circuitLayout(id: String!): CircuitLayout
+
+  """Get a single `AppConstructorBio`."""
+  appConstructorBio(teamId: String!): AppConstructorBio
+
+  """Get a single `AppDriverBio`."""
+  appDriverBio(driverId: String!): AppDriverBio
+
+  """Get a single `Country`."""
+  country(id: String!): Country
+
+  """Get a single `Country`."""
+  countryByAlpha2Code(alpha2Code: String!): Country
+
+  """Get a single `Country`."""
+  countryByAlpha3Code(alpha3Code: String!): Country
+
+  """Get a single `Country`."""
+  countryByName(name: String!): Country
+
+  """Get a single `GrandPrix`."""
+  grandPrix(id: String!): GrandPrix
+
+  """Get a single `SeasonDriverStanding`."""
+  seasonDriverStanding(year: Int!, positionDisplayOrder: Int!): SeasonDriverStanding
+
+  """Get a single `Engine`."""
+  engine(id: String!): Engine
+
+  """Get a single `RaceDriverStanding`."""
+  raceDriverStanding(raceId: Int!, positionDisplayOrder: Int!): RaceDriverStanding
+
+  """Get a single `SeasonEntrantDriver`."""
+  seasonEntrantDriver(year: Int!, entrantId: String!, teamId: String!, engineManufacturerId: String!, driverId: String!): SeasonEntrantDriver
+
+  """Get a single `SeasonTeamStanding`."""
+  seasonTeamStanding(year: Int!, positionDisplayOrder: Int!): SeasonTeamStanding
+
+  """Get a single `RaceTeamStanding`."""
+  raceTeamStanding(raceId: Int!, positionDisplayOrder: Int!): RaceTeamStanding
+
+  """Get a single `DriverOfTheDayResult`."""
+  driverOfTheDayResult(raceId: Int!, positionDisplayOrder: Int!): DriverOfTheDayResult
+
+  """Get a single `Circuit`."""
+  circuit(id: String!): Circuit
+
+  """Get a single `PitStop`."""
+  pitStop(raceId: Int!, driverId: String!, stop: Int!): PitStop
+
+  """Get a single `SeasonTyreManufacturer`."""
+  seasonTyreManufacturer(year: Int!, tyreManufacturerId: String!): SeasonTyreManufacturer
+
+  """Get a single `SprintStartingGridPosition`."""
+  sprintStartingGridPosition(raceId: Int!, positionDisplayOrder: Int!): SprintStartingGridPosition
+
+  """Get a single `StartingGridPosition`."""
+  startingGridPosition(raceId: Int!, positionDisplayOrder: Int!): StartingGridPosition
+
+  """Get a single `TyreManufacturer`."""
+  tyreManufacturer(id: String!): TyreManufacturer
+
+  """Get a single `FastestLap`."""
+  fastestLap(raceId: Int!, positionDisplayOrder: Int!): FastestLap
+
+  """Get a single `SeasonEngineManufacturer`."""
+  seasonEngineManufacturer(year: Int!, engineManufacturerId: String!): SeasonEngineManufacturer
+
+  """Get a single `SeasonDriver`."""
+  seasonDriver(year: Int!, driverId: String!): SeasonDriver
+
+  """Get a single `SeasonTeam`."""
+  seasonTeam(year: Int!, teamId: String!): SeasonTeam
+
+  """Get a single `EngineManufacturer`."""
+  engineManufacturer(id: String!): EngineManufacturer
+
+  """Get a single `Team`."""
+  team(id: String!): Team
+
+  """Get a single `QualifyingResult`."""
+  qualifyingResult(raceId: Int!, positionDisplayOrder: Int!): QualifyingResult
+
+  """Get a single `SprintQualifyingResult`."""
+  sprintQualifyingResult(raceId: Int!, positionDisplayOrder: Int!): SprintQualifyingResult
+
+  """Get a single `SprintRaceResult`."""
+  sprintRaceResult(raceId: Int!, positionDisplayOrder: Int!): SprintRaceResult
+
+  """Get a single `Driver`."""
+  driver(id: String!): Driver
+
+  """Get a single `RaceResult`."""
+  raceResult(raceId: Int!, positionDisplayOrder: Int!): RaceResult
+
+  """Get a single `Race`."""
+  race(rowId: Int!): Race
+
+  """Get a single `Race`."""
+  raceByYearAndRound(year: Int!, round: Int!): Race
+
+  """Get a single `RaceDatum`."""
+  raceDatum(raceId: Int!, type: String!, positionDisplayOrder: Int!): RaceDatum
+
+  """Reads a set of `Season`."""
+  seasons(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonCondition
+
+    """The method to use when ordering `Season`."""
+    orderBy: [SeasonOrderBy!]
+  ): [Season!]
+
+  """Reads a set of `Entrant`."""
+  entrants(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EntrantCondition
+
+    """The method to use when ordering `Entrant`."""
+    orderBy: [EntrantOrderBy!]
+  ): [Entrant!]
+
+  """Reads a set of `SeasonEntrant`."""
+  seasonEntrants(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantCondition
+
+    """The method to use when ordering `SeasonEntrant`."""
+    orderBy: [SeasonEntrantOrderBy!]
+  ): [SeasonEntrant!]
+
+  """Reads a set of `AppTeamColor`."""
+  appTeamColors(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AppTeamColorCondition
+
+    """The method to use when ordering `AppTeamColor`."""
+    orderBy: [AppTeamColorOrderBy!]
+  ): [AppTeamColor!]
+
+  """Reads a set of `AppTeamHistory`."""
+  appTeamHistories(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AppTeamHistoryCondition
+
+    """The method to use when ordering `AppTeamHistory`."""
+    orderBy: [AppTeamHistoryOrderBy!]
+  ): [AppTeamHistory!]
+
+  """Reads a set of `Chassis`."""
+  chassises(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChassisCondition
+
+    """The method to use when ordering `Chassis`."""
+    orderBy: [ChassisOrderBy!]
+  ): [Chassis!]
+
+  """Reads a set of `Continent`."""
+  continents(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ContinentCondition
+
+    """The method to use when ordering `Continent`."""
+    orderBy: [ContinentOrderBy!]
+  ): [Continent!]
+
+  """Reads a set of `DriverFamilyRelationship`."""
+  driverFamilyRelationships(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: DriverFamilyRelationshipCondition
+
+    """The method to use when ordering `DriverFamilyRelationship`."""
+    orderBy: [DriverFamilyRelationshipOrderBy!]
+  ): [DriverFamilyRelationship!]
+
+  """Reads a set of `SeasonEntrantTeam`."""
+  seasonEntrantTeams(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantTeamCondition
+
+    """The method to use when ordering `SeasonEntrantTeam`."""
+    orderBy: [SeasonEntrantTeamOrderBy!]
+  ): [SeasonEntrantTeam!]
+
+  """Reads a set of `AppCircuitDescription`."""
+  appCircuitDescriptions(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AppCircuitDescriptionCondition
+
+    """The method to use when ordering `AppCircuitDescription`."""
+    orderBy: [AppCircuitDescriptionOrderBy!]
+  ): [AppCircuitDescription!]
+
+  """Reads a set of `AppIngestState`."""
+  appIngestStates(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AppIngestStateCondition
+
+    """The method to use when ordering `AppIngestState`."""
+    orderBy: [AppIngestStateOrderBy!]
+  ): [AppIngestState!]
+
+  """Reads a set of `TeamChronology`."""
+  teamChronologies(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TeamChronologyCondition
+
+    """The method to use when ordering `TeamChronology`."""
+    orderBy: [TeamChronologyOrderBy!]
+  ): [TeamChronology!]
+
+  """Reads a set of `SeasonEntrantChassis`."""
+  seasonEntrantChassises(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantChassisCondition
+
+    """The method to use when ordering `SeasonEntrantChassis`."""
+    orderBy: [SeasonEntrantChassisOrderBy!]
+  ): [SeasonEntrantChassis!]
+
+  """Reads a set of `SeasonEntrantEngine`."""
+  seasonEntrantEngines(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantEngineCondition
+
+    """The method to use when ordering `SeasonEntrantEngine`."""
+    orderBy: [SeasonEntrantEngineOrderBy!]
+  ): [SeasonEntrantEngine!]
+
+  """Reads a set of `SeasonEntrantTyreManufacturer`."""
+  seasonEntrantTyreManufacturers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantTyreManufacturerCondition
+
+    """The method to use when ordering `SeasonEntrantTyreManufacturer`."""
+    orderBy: [SeasonEntrantTyreManufacturerOrderBy!]
+  ): [SeasonEntrantTyreManufacturer!]
+
+  """Reads a set of `AppLapTime`."""
+  appLapTimes(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AppLapTimeCondition
+
+    """The method to use when ordering `AppLapTime`."""
+    orderBy: [AppLapTimeOrderBy!]
+  ): [AppLapTime!]
+
+  """Reads a set of `CircuitLayout`."""
+  circuitLayouts(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CircuitLayoutCondition
+
+    """The method to use when ordering `CircuitLayout`."""
+    orderBy: [CircuitLayoutOrderBy!]
+  ): [CircuitLayout!]
+
+  """Reads a set of `AppConstructorBio`."""
+  appConstructorBios(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AppConstructorBioCondition
+
+    """The method to use when ordering `AppConstructorBio`."""
+    orderBy: [AppConstructorBioOrderBy!]
+  ): [AppConstructorBio!]
+
+  """Reads a set of `AppDriverBio`."""
+  appDriverBios(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AppDriverBioCondition
+
+    """The method to use when ordering `AppDriverBio`."""
+    orderBy: [AppDriverBioOrderBy!]
+  ): [AppDriverBio!]
+
+  """Reads a set of `Country`."""
+  countries(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CountryCondition
+
+    """The method to use when ordering `Country`."""
+    orderBy: [CountryOrderBy!]
+  ): [Country!]
+
+  """Reads a set of `GrandPrix`."""
+  grandPrixes(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: GrandPrixCondition
+
+    """The method to use when ordering `GrandPrix`."""
+    orderBy: [GrandPrixOrderBy!]
+  ): [GrandPrix!]
+
+  """Reads a set of `SeasonDriverStanding`."""
+  seasonDriverStandings(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonDriverStandingCondition
+
+    """The method to use when ordering `SeasonDriverStanding`."""
+    orderBy: [SeasonDriverStandingOrderBy!]
+  ): [SeasonDriverStanding!]
+
+  """Reads a set of `Engine`."""
+  engines(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EngineCondition
+
+    """The method to use when ordering `Engine`."""
+    orderBy: [EngineOrderBy!]
+  ): [Engine!]
+
+  """Reads a set of `RaceDriverStanding`."""
+  raceDriverStandings(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceDriverStandingCondition
+
+    """The method to use when ordering `RaceDriverStanding`."""
+    orderBy: [RaceDriverStandingOrderBy!]
+  ): [RaceDriverStanding!]
+
+  """Reads a set of `SeasonEntrantDriver`."""
+  seasonEntrantDrivers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantDriverCondition
+
+    """The method to use when ordering `SeasonEntrantDriver`."""
+    orderBy: [SeasonEntrantDriverOrderBy!]
+  ): [SeasonEntrantDriver!]
+
+  """Reads a set of `SeasonTeamStanding`."""
+  seasonTeamStandings(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonTeamStandingCondition
+
+    """The method to use when ordering `SeasonTeamStanding`."""
+    orderBy: [SeasonTeamStandingOrderBy!]
+  ): [SeasonTeamStanding!]
+
+  """Reads a set of `RaceTeamStanding`."""
+  raceTeamStandings(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceTeamStandingCondition
+
+    """The method to use when ordering `RaceTeamStanding`."""
+    orderBy: [RaceTeamStandingOrderBy!]
+  ): [RaceTeamStanding!]
+
+  """Reads a set of `DriverOfTheDayResult`."""
+  driverOfTheDayResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: DriverOfTheDayResultCondition
+
+    """The method to use when ordering `DriverOfTheDayResult`."""
+    orderBy: [DriverOfTheDayResultOrderBy!]
+  ): [DriverOfTheDayResult!]
+
+  """Reads a set of `Circuit`."""
+  circuits(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CircuitCondition
+
+    """The method to use when ordering `Circuit`."""
+    orderBy: [CircuitOrderBy!]
+  ): [Circuit!]
+
+  """Reads a set of `PitStop`."""
+  pitStops(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PitStopCondition
+
+    """The method to use when ordering `PitStop`."""
+    orderBy: [PitStopOrderBy!]
+  ): [PitStop!]
+
+  """Reads a set of `SeasonTyreManufacturer`."""
+  seasonTyreManufacturers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonTyreManufacturerCondition
+
+    """The method to use when ordering `SeasonTyreManufacturer`."""
+    orderBy: [SeasonTyreManufacturerOrderBy!]
+  ): [SeasonTyreManufacturer!]
+
+  """Reads a set of `SprintStartingGridPosition`."""
+  sprintStartingGridPositions(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SprintStartingGridPositionCondition
+
+    """The method to use when ordering `SprintStartingGridPosition`."""
+    orderBy: [SprintStartingGridPositionOrderBy!]
+  ): [SprintStartingGridPosition!]
+
+  """Reads a set of `StartingGridPosition`."""
+  startingGridPositions(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: StartingGridPositionCondition
+
+    """The method to use when ordering `StartingGridPosition`."""
+    orderBy: [StartingGridPositionOrderBy!]
+  ): [StartingGridPosition!]
+
+  """Reads a set of `FreePractice1Result`."""
+  freePractice1Results(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: FreePractice1ResultCondition
+
+    """The method to use when ordering `FreePractice1Result`."""
+    orderBy: [FreePractice1ResultOrderBy!]
+  ): [FreePractice1Result!]
+
+  """Reads a set of `FreePractice2Result`."""
+  freePractice2Results(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: FreePractice2ResultCondition
+
+    """The method to use when ordering `FreePractice2Result`."""
+    orderBy: [FreePractice2ResultOrderBy!]
+  ): [FreePractice2Result!]
+
+  """Reads a set of `FreePractice3Result`."""
+  freePractice3Results(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: FreePractice3ResultCondition
+
+    """The method to use when ordering `FreePractice3Result`."""
+    orderBy: [FreePractice3ResultOrderBy!]
+  ): [FreePractice3Result!]
+
+  """Reads a set of `FreePractice4Result`."""
+  freePractice4Results(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: FreePractice4ResultCondition
+
+    """The method to use when ordering `FreePractice4Result`."""
+    orderBy: [FreePractice4ResultOrderBy!]
+  ): [FreePractice4Result!]
+
+  """Reads a set of `PreQualifyingResult`."""
+  preQualifyingResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PreQualifyingResultCondition
+
+    """The method to use when ordering `PreQualifyingResult`."""
+    orderBy: [PreQualifyingResultOrderBy!]
+  ): [PreQualifyingResult!]
+
+  """Reads a set of `Qualifying1Result`."""
+  qualifying1Results(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: Qualifying1ResultCondition
+
+    """The method to use when ordering `Qualifying1Result`."""
+    orderBy: [Qualifying1ResultOrderBy!]
+  ): [Qualifying1Result!]
+
+  """Reads a set of `Qualifying2Result`."""
+  qualifying2Results(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: Qualifying2ResultCondition
+
+    """The method to use when ordering `Qualifying2Result`."""
+    orderBy: [Qualifying2ResultOrderBy!]
+  ): [Qualifying2Result!]
+
+  """Reads a set of `WarmingUpResult`."""
+  warmingUpResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: WarmingUpResultCondition
+
+    """The method to use when ordering `WarmingUpResult`."""
+    orderBy: [WarmingUpResultOrderBy!]
+  ): [WarmingUpResult!]
+
+  """Reads a set of `TyreManufacturer`."""
+  tyreManufacturers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TyreManufacturerCondition
+
+    """The method to use when ordering `TyreManufacturer`."""
+    orderBy: [TyreManufacturerOrderBy!]
+  ): [TyreManufacturer!]
+
+  """Reads a set of `FastestLap`."""
+  fastestLaps(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: FastestLapCondition
+
+    """The method to use when ordering `FastestLap`."""
+    orderBy: [FastestLapOrderBy!]
+  ): [FastestLap!]
+
+  """Reads a set of `SeasonEngineManufacturer`."""
+  seasonEngineManufacturers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEngineManufacturerCondition
+
+    """The method to use when ordering `SeasonEngineManufacturer`."""
+    orderBy: [SeasonEngineManufacturerOrderBy!]
+  ): [SeasonEngineManufacturer!]
+
+  """Reads a set of `SeasonDriver`."""
+  seasonDrivers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonDriverCondition
+
+    """The method to use when ordering `SeasonDriver`."""
+    orderBy: [SeasonDriverOrderBy!]
+  ): [SeasonDriver!]
+
+  """Reads a set of `SeasonTeam`."""
+  seasonTeams(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonTeamCondition
+
+    """The method to use when ordering `SeasonTeam`."""
+    orderBy: [SeasonTeamOrderBy!]
+  ): [SeasonTeam!]
+
+  """Reads a set of `EngineManufacturer`."""
+  engineManufacturers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EngineManufacturerCondition
+
+    """The method to use when ordering `EngineManufacturer`."""
+    orderBy: [EngineManufacturerOrderBy!]
+  ): [EngineManufacturer!]
+
+  """Reads a set of `Team`."""
+  teams(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TeamCondition
+
+    """The method to use when ordering `Team`."""
+    orderBy: [TeamOrderBy!]
+  ): [Team!]
+
+  """Reads a set of `QualifyingResult`."""
+  qualifyingResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: QualifyingResultCondition
+
+    """The method to use when ordering `QualifyingResult`."""
+    orderBy: [QualifyingResultOrderBy!]
+  ): [QualifyingResult!]
+
+  """Reads a set of `SprintQualifyingResult`."""
+  sprintQualifyingResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SprintQualifyingResultCondition
+
+    """The method to use when ordering `SprintQualifyingResult`."""
+    orderBy: [SprintQualifyingResultOrderBy!]
+  ): [SprintQualifyingResult!]
+
+  """Reads a set of `SprintRaceResult`."""
+  sprintRaceResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SprintRaceResultCondition
+
+    """The method to use when ordering `SprintRaceResult`."""
+    orderBy: [SprintRaceResultOrderBy!]
+  ): [SprintRaceResult!]
+
+  """Reads a set of `Driver`."""
+  drivers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: DriverCondition
+
+    """The method to use when ordering `Driver`."""
+    orderBy: [DriverOrderBy!]
+  ): [Driver!]
+
+  """Reads a set of `RaceResult`."""
+  raceResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceResultCondition
+
+    """The method to use when ordering `RaceResult`."""
+    orderBy: [RaceResultOrderBy!]
+  ): [RaceResult!]
+
+  """Reads a set of `Race`."""
+  races(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceCondition
+
+    """The method to use when ordering `Race`."""
+    orderBy: [RaceOrderBy!]
+  ): [Race!]
+
+  """Reads a set of `RaceDatum`."""
+  raceData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceDatumCondition
+
+    """The method to use when ordering `RaceDatum`."""
+    orderBy: [RaceDatumOrderBy!]
+  ): [RaceDatum!]
+}
+
+type Season {
+  ended: Boolean
+  hasResults: Boolean
+  year: Int!
+
+  """Reads and enables pagination through a set of `SeasonEntrant`."""
+  seasonEntrantsByYear(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantCondition
+
+    """The method to use when ordering `SeasonEntrant`."""
+    orderBy: [SeasonEntrantOrderBy!]
+  ): [SeasonEntrant!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrantTeam`."""
+  seasonEntrantTeamsByYear(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantTeamCondition
+
+    """The method to use when ordering `SeasonEntrantTeam`."""
+    orderBy: [SeasonEntrantTeamOrderBy!]
+  ): [SeasonEntrantTeam!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrantChassis`."""
+  seasonEntrantChassisByYear(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantChassisCondition
+
+    """The method to use when ordering `SeasonEntrantChassis`."""
+    orderBy: [SeasonEntrantChassisOrderBy!]
+  ): [SeasonEntrantChassis!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrantEngine`."""
+  seasonEntrantEnginesByYear(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantEngineCondition
+
+    """The method to use when ordering `SeasonEntrantEngine`."""
+    orderBy: [SeasonEntrantEngineOrderBy!]
+  ): [SeasonEntrantEngine!]!
+
+  """
+  Reads and enables pagination through a set of `SeasonEntrantTyreManufacturer`.
+  """
+  seasonEntrantTyreManufacturersByYear(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantTyreManufacturerCondition
+
+    """The method to use when ordering `SeasonEntrantTyreManufacturer`."""
+    orderBy: [SeasonEntrantTyreManufacturerOrderBy!]
+  ): [SeasonEntrantTyreManufacturer!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrantDriver`."""
+  seasonEntrantDriversByYear(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantDriverCondition
+
+    """The method to use when ordering `SeasonEntrantDriver`."""
+    orderBy: [SeasonEntrantDriverOrderBy!]
+  ): [SeasonEntrantDriver!]!
+
+  """Reads and enables pagination through a set of `SeasonTeam`."""
+  seasonTeamsByYear(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonTeamCondition
+
+    """The method to use when ordering `SeasonTeam`."""
+    orderBy: [SeasonTeamOrderBy!]
+  ): [SeasonTeam!]!
+
+  """
+  Reads and enables pagination through a set of `SeasonEngineManufacturer`.
+  """
+  seasonEngineManufacturersByYear(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEngineManufacturerCondition
+
+    """The method to use when ordering `SeasonEngineManufacturer`."""
+    orderBy: [SeasonEngineManufacturerOrderBy!]
+  ): [SeasonEngineManufacturer!]!
+
+  """
+  Reads and enables pagination through a set of `SeasonTyreManufacturer`.
+  """
+  seasonTyreManufacturersByYear(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonTyreManufacturerCondition
+
+    """The method to use when ordering `SeasonTyreManufacturer`."""
+    orderBy: [SeasonTyreManufacturerOrderBy!]
+  ): [SeasonTyreManufacturer!]!
+
+  """Reads and enables pagination through a set of `SeasonDriver`."""
+  seasonDriversByYear(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonDriverCondition
+
+    """The method to use when ordering `SeasonDriver`."""
+    orderBy: [SeasonDriverOrderBy!]
+  ): [SeasonDriver!]!
+
+  """Reads and enables pagination through a set of `SeasonDriverStanding`."""
+  seasonDriverStandingsByYear(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonDriverStandingCondition
+
+    """The method to use when ordering `SeasonDriverStanding`."""
+    orderBy: [SeasonDriverStandingOrderBy!]
+  ): [SeasonDriverStanding!]!
+
+  """Reads and enables pagination through a set of `SeasonTeamStanding`."""
+  seasonTeamStandingsByYear(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonTeamStandingCondition
+
+    """The method to use when ordering `SeasonTeamStanding`."""
+    orderBy: [SeasonTeamStandingOrderBy!]
+  ): [SeasonTeamStanding!]!
+
+  """Reads and enables pagination through a set of `Race`."""
+  racesByYear(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceCondition
+
+    """The method to use when ordering `Race`."""
+    orderBy: [RaceOrderBy!]
+  ): [Race!]!
+}
+
+type SeasonEntrant {
+  year: Int!
+  entrantId: String!
+  countryId: String!
+
+  """Reads a single `Country` that is related to this `SeasonEntrant`."""
+  country: Country
+
+  """Reads a single `Entrant` that is related to this `SeasonEntrant`."""
+  entrant: Entrant
+
+  """Reads a single `Season` that is related to this `SeasonEntrant`."""
+  season: Season
+}
+
+type Country {
+  id: String!
+  alpha2Code: String!
+  alpha3Code: String!
+  iocCode: String
+  name: String!
+  demonym: String
+  continentId: String!
+
+  """Reads a single `Continent` that is related to this `Country`."""
+  continent: Continent
+
+  """Reads and enables pagination through a set of `Driver`."""
+  driversByCountryOfBirthCountryId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: DriverCondition
+
+    """The method to use when ordering `Driver`."""
+    orderBy: [DriverOrderBy!]
+  ): [Driver!]!
+
+  """Reads and enables pagination through a set of `Driver`."""
+  driversByNationalityCountryId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: DriverCondition
+
+    """The method to use when ordering `Driver`."""
+    orderBy: [DriverOrderBy!]
+  ): [Driver!]!
+
+  """Reads and enables pagination through a set of `Driver`."""
+  driversBySecondNationalityCountryId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: DriverCondition
+
+    """The method to use when ordering `Driver`."""
+    orderBy: [DriverOrderBy!]
+  ): [Driver!]!
+
+  """Reads and enables pagination through a set of `Team`."""
+  teams(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TeamCondition
+
+    """The method to use when ordering `Team`."""
+    orderBy: [TeamOrderBy!]
+  ): [Team!]!
+
+  """Reads and enables pagination through a set of `EngineManufacturer`."""
+  engineManufacturers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EngineManufacturerCondition
+
+    """The method to use when ordering `EngineManufacturer`."""
+    orderBy: [EngineManufacturerOrderBy!]
+  ): [EngineManufacturer!]!
+
+  """Reads and enables pagination through a set of `TyreManufacturer`."""
+  tyreManufacturers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TyreManufacturerCondition
+
+    """The method to use when ordering `TyreManufacturer`."""
+    orderBy: [TyreManufacturerOrderBy!]
+  ): [TyreManufacturer!]!
+
+  """Reads and enables pagination through a set of `Circuit`."""
+  circuits(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CircuitCondition
+
+    """The method to use when ordering `Circuit`."""
+    orderBy: [CircuitOrderBy!]
+  ): [Circuit!]!
+
+  """Reads and enables pagination through a set of `GrandPrix`."""
+  grandPrixes(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: GrandPrixCondition
+
+    """The method to use when ordering `GrandPrix`."""
+    orderBy: [GrandPrixOrderBy!]
+  ): [GrandPrix!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrant`."""
+  seasonEntrants(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantCondition
+
+    """The method to use when ordering `SeasonEntrant`."""
+    orderBy: [SeasonEntrantOrderBy!]
+  ): [SeasonEntrant!]!
+}
+
+type Continent {
+  id: String!
+  code: String!
+  name: String!
+  demonym: String!
+
+  """Reads and enables pagination through a set of `Country`."""
+  countries(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CountryCondition
+
+    """The method to use when ordering `Country`."""
+    orderBy: [CountryOrderBy!]
+  ): [Country!]!
+}
+
+"""
+A condition to be used against `Country` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input CountryCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `alpha2Code` field."""
+  alpha2Code: String
+
+  """Checks for equality with the object’s `alpha3Code` field."""
+  alpha3Code: String
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `continentId` field."""
+  continentId: String
+}
+
+"""Methods to use when ordering `Country`."""
+enum CountryOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  ID_ASC
+  ID_DESC
+  ALPHA2_CODE_ASC
+  ALPHA2_CODE_DESC
+  ALPHA3_CODE_ASC
+  ALPHA3_CODE_DESC
+  NAME_ASC
+  NAME_DESC
+  CONTINENT_ID_ASC
+  CONTINENT_ID_DESC
+}
+
+type Driver {
+  id: String!
+  name: String!
+  firstName: String!
+  lastName: String!
+  fullName: String!
+  abbreviation: String!
+  permanentNumber: String
+  gender: String!
+  dateOfBirth: Date!
+  dateOfDeath: Date
+  placeOfBirth: String!
+  countryOfBirthCountryId: String!
+  nationalityCountryId: String!
+  secondNationalityCountryId: String
+  bestChampionshipPosition: Int
+  bestStartingGridPosition: Int
+  bestRaceResult: Int
+  bestSprintRaceResult: Int
+  totalChampionshipWins: Int!
+  totalRaceEntries: Int!
+  totalRaceStarts: Int!
+  totalRaceWins: Int!
+  totalRaceLaps: Int!
+  totalPodiums: Int!
+  totalPoints: BigFloat!
+  totalChampionshipPoints: BigFloat!
+  totalPolePositions: Int!
+  totalFastestLaps: Int!
+  totalSprintRaceStarts: Int!
+  totalSprintRaceWins: Int!
+  totalDriverOfTheDay: Int!
+  totalGrandSlams: Int!
+
+  """Reads a single `Country` that is related to this `Driver`."""
+  countryOfBirthCountry: Country
+
+  """Reads a single `Country` that is related to this `Driver`."""
+  nationalityCountry: Country
+
+  """Reads a single `Country` that is related to this `Driver`."""
+  secondNationalityCountry: Country
+
+  """
+  Reads and enables pagination through a set of `DriverFamilyRelationship`.
+  """
+  driverFamilyRelationships(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: DriverFamilyRelationshipCondition
+
+    """The method to use when ordering `DriverFamilyRelationship`."""
+    orderBy: [DriverFamilyRelationshipOrderBy!]
+  ): [DriverFamilyRelationship!]!
+
+  """
+  Reads and enables pagination through a set of `DriverFamilyRelationship`.
+  """
+  driverFamilyRelationshipsByOtherDriverId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: DriverFamilyRelationshipCondition
+
+    """The method to use when ordering `DriverFamilyRelationship`."""
+    orderBy: [DriverFamilyRelationshipOrderBy!]
+  ): [DriverFamilyRelationship!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrantDriver`."""
+  seasonEntrantDrivers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantDriverCondition
+
+    """The method to use when ordering `SeasonEntrantDriver`."""
+    orderBy: [SeasonEntrantDriverOrderBy!]
+  ): [SeasonEntrantDriver!]!
+
+  """Reads and enables pagination through a set of `SeasonDriver`."""
+  seasonDrivers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonDriverCondition
+
+    """The method to use when ordering `SeasonDriver`."""
+    orderBy: [SeasonDriverOrderBy!]
+  ): [SeasonDriver!]!
+
+  """Reads and enables pagination through a set of `SeasonDriverStanding`."""
+  seasonDriverStandings(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonDriverStandingCondition
+
+    """The method to use when ordering `SeasonDriverStanding`."""
+    orderBy: [SeasonDriverStandingOrderBy!]
+  ): [SeasonDriverStanding!]!
+
+  """Reads and enables pagination through a set of `RaceDatum`."""
+  raceData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceDatumCondition
+
+    """The method to use when ordering `RaceDatum`."""
+    orderBy: [RaceDatumOrderBy!]
+  ): [RaceDatum!]!
+
+  """Reads and enables pagination through a set of `RaceDriverStanding`."""
+  raceDriverStandings(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceDriverStandingCondition
+
+    """The method to use when ordering `RaceDriverStanding`."""
+    orderBy: [RaceDriverStandingOrderBy!]
+  ): [RaceDriverStanding!]!
+
+  """Reads and enables pagination through a set of `AppLapTime`."""
+  lapTimes(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AppLapTimeCondition
+
+    """The method to use when ordering `AppLapTime`."""
+    orderBy: [AppLapTimeOrderBy!]
+  ): [AppLapTime!]!
+
+  """Reads and enables pagination through a set of `DriverOfTheDayResult`."""
+  driverOfTheDayResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: DriverOfTheDayResultCondition
+
+    """The method to use when ordering `DriverOfTheDayResult`."""
+    orderBy: [DriverOfTheDayResultOrderBy!]
+  ): [DriverOfTheDayResult!]!
+
+  """Reads and enables pagination through a set of `FastestLap`."""
+  fastestLaps(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: FastestLapCondition
+
+    """The method to use when ordering `FastestLap`."""
+    orderBy: [FastestLapOrderBy!]
+  ): [FastestLap!]!
+
+  """Reads and enables pagination through a set of `PitStop`."""
+  pitStops(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PitStopCondition
+
+    """The method to use when ordering `PitStop`."""
+    orderBy: [PitStopOrderBy!]
+  ): [PitStop!]!
+
+  """Reads and enables pagination through a set of `QualifyingResult`."""
+  qualifyingResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: QualifyingResultCondition
+
+    """The method to use when ordering `QualifyingResult`."""
+    orderBy: [QualifyingResultOrderBy!]
+  ): [QualifyingResult!]!
+
+  """Reads and enables pagination through a set of `RaceResult`."""
+  raceResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceResultCondition
+
+    """The method to use when ordering `RaceResult`."""
+    orderBy: [RaceResultOrderBy!]
+  ): [RaceResult!]!
+
+  """
+  Reads and enables pagination through a set of `SprintQualifyingResult`.
+  """
+  sprintQualifyingResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SprintQualifyingResultCondition
+
+    """The method to use when ordering `SprintQualifyingResult`."""
+    orderBy: [SprintQualifyingResultOrderBy!]
+  ): [SprintQualifyingResult!]!
+
+  """Reads and enables pagination through a set of `SprintRaceResult`."""
+  sprintRaceResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SprintRaceResultCondition
+
+    """The method to use when ordering `SprintRaceResult`."""
+    orderBy: [SprintRaceResultOrderBy!]
+  ): [SprintRaceResult!]!
+
+  """
+  Reads and enables pagination through a set of `SprintStartingGridPosition`.
+  """
+  sprintStartingGridPositions(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SprintStartingGridPositionCondition
+
+    """The method to use when ordering `SprintStartingGridPosition`."""
+    orderBy: [SprintStartingGridPositionOrderBy!]
+  ): [SprintStartingGridPosition!]!
+
+  """Reads and enables pagination through a set of `StartingGridPosition`."""
+  startingGridPositions(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: StartingGridPositionCondition
+
+    """The method to use when ordering `StartingGridPosition`."""
+    orderBy: [StartingGridPositionOrderBy!]
+  ): [StartingGridPosition!]!
+  bio: WikipediaBio
+}
+
+"""A calendar date in YYYY-MM-DD format."""
+scalar Date
+
+"""
+A floating point number that requires more precision than IEEE 754 binary 64
+"""
+scalar BigFloat
+
+type DriverFamilyRelationship {
+  driverId: String!
+  positionDisplayOrder: Int!
+  otherDriverId: String!
+  type: String!
+
+  """
+  Reads a single `Driver` that is related to this `DriverFamilyRelationship`.
+  """
+  driver: Driver
+
+  """
+  Reads a single `Driver` that is related to this `DriverFamilyRelationship`.
+  """
+  otherDriver: Driver
+}
+
+"""
+A condition to be used against `DriverFamilyRelationship` object types. All
+fields are tested for equality and combined with a logical ‘and.’
+"""
+input DriverFamilyRelationshipCondition {
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `otherDriverId` field."""
+  otherDriverId: String
+
+  """Checks for equality with the object’s `type` field."""
+  type: String
+}
+
+"""Methods to use when ordering `DriverFamilyRelationship`."""
+enum DriverFamilyRelationshipOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  OTHER_DRIVER_ID_ASC
+  OTHER_DRIVER_ID_DESC
+  TYPE_ASC
+  TYPE_DESC
+}
+
+type SeasonEntrantDriver {
+  year: Int!
+  entrantId: String!
+  teamId: String!
+  engineManufacturerId: String!
+  driverId: String!
+  rounds: String
+  roundsText: String
+  testDriver: Boolean!
+
+  """Reads a single `Team` that is related to this `SeasonEntrantDriver`."""
+  team: Team
+
+  """Reads a single `Driver` that is related to this `SeasonEntrantDriver`."""
+  driver: Driver
+
+  """
+  Reads a single `EngineManufacturer` that is related to this `SeasonEntrantDriver`.
+  """
+  engineManufacturer: EngineManufacturer
+
+  """
+  Reads a single `Entrant` that is related to this `SeasonEntrantDriver`.
+  """
+  entrant: Entrant
+
+  """Reads a single `Season` that is related to this `SeasonEntrantDriver`."""
+  season: Season
+}
+
+type Team {
+  id: String!
+  name: String!
+  fullName: String!
+  countryId: String!
+  bestChampionshipPosition: Int
+  bestStartingGridPosition: Int
+  bestRaceResult: Int
+  bestSprintRaceResult: Int
+  totalChampionshipWins: Int!
+  totalRaceEntries: Int!
+  totalRaceStarts: Int!
+  totalRaceWins: Int!
+  total1And2Finishes: Int!
+  totalRaceLaps: Int!
+  totalPodiums: Int!
+  totalPodiumRaces: Int!
+  totalPoints: BigFloat!
+  totalChampionshipPoints: BigFloat!
+  totalPolePositions: Int!
+  totalFastestLaps: Int!
+  totalSprintRaceStarts: Int!
+  totalSprintRaceWins: Int!
+
+  """Reads a single `Country` that is related to this `Team`."""
+  country: Country
+
+  """Reads and enables pagination through a set of `TeamChronology`."""
+  teamChronologies(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TeamChronologyCondition
+
+    """The method to use when ordering `TeamChronology`."""
+    orderBy: [TeamChronologyOrderBy!]
+  ): [TeamChronology!]!
+
+  """Reads and enables pagination through a set of `TeamChronology`."""
+  teamChronologiesByOtherTeamId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TeamChronologyCondition
+
+    """The method to use when ordering `TeamChronology`."""
+    orderBy: [TeamChronologyOrderBy!]
+  ): [TeamChronology!]!
+
+  """Reads and enables pagination through a set of `Chassis`."""
+  chassises(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChassisCondition
+
+    """The method to use when ordering `Chassis`."""
+    orderBy: [ChassisOrderBy!]
+  ): [Chassis!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrantTeam`."""
+  seasonEntrantTeams(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantTeamCondition
+
+    """The method to use when ordering `SeasonEntrantTeam`."""
+    orderBy: [SeasonEntrantTeamOrderBy!]
+  ): [SeasonEntrantTeam!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrantChassis`."""
+  seasonEntrantChassises(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantChassisCondition
+
+    """The method to use when ordering `SeasonEntrantChassis`."""
+    orderBy: [SeasonEntrantChassisOrderBy!]
+  ): [SeasonEntrantChassis!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrantEngine`."""
+  seasonEntrantEngines(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantEngineCondition
+
+    """The method to use when ordering `SeasonEntrantEngine`."""
+    orderBy: [SeasonEntrantEngineOrderBy!]
+  ): [SeasonEntrantEngine!]!
+
+  """
+  Reads and enables pagination through a set of `SeasonEntrantTyreManufacturer`.
+  """
+  seasonEntrantTyreManufacturers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantTyreManufacturerCondition
+
+    """The method to use when ordering `SeasonEntrantTyreManufacturer`."""
+    orderBy: [SeasonEntrantTyreManufacturerOrderBy!]
+  ): [SeasonEntrantTyreManufacturer!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrantDriver`."""
+  seasonEntrantDrivers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantDriverCondition
+
+    """The method to use when ordering `SeasonEntrantDriver`."""
+    orderBy: [SeasonEntrantDriverOrderBy!]
+  ): [SeasonEntrantDriver!]!
+
+  """Reads and enables pagination through a set of `SeasonTeam`."""
+  seasonTeams(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonTeamCondition
+
+    """The method to use when ordering `SeasonTeam`."""
+    orderBy: [SeasonTeamOrderBy!]
+  ): [SeasonTeam!]!
+
+  """Reads and enables pagination through a set of `SeasonTeamStanding`."""
+  seasonTeamStandings(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonTeamStandingCondition
+
+    """The method to use when ordering `SeasonTeamStanding`."""
+    orderBy: [SeasonTeamStandingOrderBy!]
+  ): [SeasonTeamStanding!]!
+
+  """Reads and enables pagination through a set of `RaceDatum`."""
+  raceData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceDatumCondition
+
+    """The method to use when ordering `RaceDatum`."""
+    orderBy: [RaceDatumOrderBy!]
+  ): [RaceDatum!]!
+
+  """Reads and enables pagination through a set of `RaceTeamStanding`."""
+  raceTeamStandings(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceTeamStandingCondition
+
+    """The method to use when ordering `RaceTeamStanding`."""
+    orderBy: [RaceTeamStandingOrderBy!]
+  ): [RaceTeamStanding!]!
+
+  """Reads a single `AppTeamColor` that is related to this `Team`."""
+  colors: AppTeamColor
+
+  """Reads and enables pagination through a set of `AppTeamHistory`."""
+  antecedents(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AppTeamHistoryCondition
+
+    """The method to use when ordering `AppTeamHistory`."""
+    orderBy: [AppTeamHistoryOrderBy!]
+  ): [AppTeamHistory!]!
+
+  """Reads and enables pagination through a set of `AppTeamHistory`."""
+  successors(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AppTeamHistoryCondition
+
+    """The method to use when ordering `AppTeamHistory`."""
+    orderBy: [AppTeamHistoryOrderBy!]
+  ): [AppTeamHistory!]!
+
+  """Reads and enables pagination through a set of `DriverOfTheDayResult`."""
+  driverOfTheDayResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: DriverOfTheDayResultCondition
+
+    """The method to use when ordering `DriverOfTheDayResult`."""
+    orderBy: [DriverOfTheDayResultOrderBy!]
+  ): [DriverOfTheDayResult!]!
+
+  """Reads and enables pagination through a set of `FastestLap`."""
+  fastestLaps(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: FastestLapCondition
+
+    """The method to use when ordering `FastestLap`."""
+    orderBy: [FastestLapOrderBy!]
+  ): [FastestLap!]!
+
+  """Reads and enables pagination through a set of `PitStop`."""
+  pitStops(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PitStopCondition
+
+    """The method to use when ordering `PitStop`."""
+    orderBy: [PitStopOrderBy!]
+  ): [PitStop!]!
+
+  """Reads and enables pagination through a set of `QualifyingResult`."""
+  qualifyingResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: QualifyingResultCondition
+
+    """The method to use when ordering `QualifyingResult`."""
+    orderBy: [QualifyingResultOrderBy!]
+  ): [QualifyingResult!]!
+
+  """Reads and enables pagination through a set of `RaceResult`."""
+  raceResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceResultCondition
+
+    """The method to use when ordering `RaceResult`."""
+    orderBy: [RaceResultOrderBy!]
+  ): [RaceResult!]!
+
+  """
+  Reads and enables pagination through a set of `SprintQualifyingResult`.
+  """
+  sprintQualifyingResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SprintQualifyingResultCondition
+
+    """The method to use when ordering `SprintQualifyingResult`."""
+    orderBy: [SprintQualifyingResultOrderBy!]
+  ): [SprintQualifyingResult!]!
+
+  """Reads and enables pagination through a set of `SprintRaceResult`."""
+  sprintRaceResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SprintRaceResultCondition
+
+    """The method to use when ordering `SprintRaceResult`."""
+    orderBy: [SprintRaceResultOrderBy!]
+  ): [SprintRaceResult!]!
+
+  """
+  Reads and enables pagination through a set of `SprintStartingGridPosition`.
+  """
+  sprintStartingGridPositions(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SprintStartingGridPositionCondition
+
+    """The method to use when ordering `SprintStartingGridPosition`."""
+    orderBy: [SprintStartingGridPositionOrderBy!]
+  ): [SprintStartingGridPosition!]!
+
+  """Reads and enables pagination through a set of `StartingGridPosition`."""
+  startingGridPositions(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: StartingGridPositionCondition
+
+    """The method to use when ordering `StartingGridPosition`."""
+    orderBy: [StartingGridPositionOrderBy!]
+  ): [StartingGridPosition!]!
+  bio: WikipediaBio
+}
+
+type TeamChronology {
+  teamId: String!
+  positionDisplayOrder: Int!
+  otherTeamId: String!
+  yearFrom: Int!
+  yearTo: Int
+
+  """Reads a single `Team` that is related to this `TeamChronology`."""
+  team: Team
+
+  """Reads a single `Team` that is related to this `TeamChronology`."""
+  otherTeam: Team
+}
+
+"""
+A condition to be used against `TeamChronology` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input TeamChronologyCondition {
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `otherTeamId` field."""
+  otherTeamId: String
+
+  """Checks for equality with the object’s `yearFrom` field."""
+  yearFrom: Int
+
+  """Checks for equality with the object’s `yearTo` field."""
+  yearTo: Int
+}
+
+"""Methods to use when ordering `TeamChronology`."""
+enum TeamChronologyOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  OTHER_TEAM_ID_ASC
+  OTHER_TEAM_ID_DESC
+  YEAR_FROM_ASC
+  YEAR_FROM_DESC
+  YEAR_TO_ASC
+  YEAR_TO_DESC
+}
+
+type Chassis {
+  id: String!
+  teamId: String!
+  name: String!
+  fullName: String!
+
+  """Reads a single `Team` that is related to this `Chassis`."""
+  team: Team
+
+  """Reads and enables pagination through a set of `SeasonEntrantChassis`."""
+  seasonEntrantChassises(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantChassisCondition
+
+    """The method to use when ordering `SeasonEntrantChassis`."""
+    orderBy: [SeasonEntrantChassisOrderBy!]
+  ): [SeasonEntrantChassis!]!
+}
+
+type SeasonEntrantChassis {
+  year: Int!
+  entrantId: String!
+  teamId: String!
+  engineManufacturerId: String!
+  chassisId: String!
+
+  """
+  Reads a single `Chassis` that is related to this `SeasonEntrantChassis`.
+  """
+  chassis: Chassis
+
+  """Reads a single `Team` that is related to this `SeasonEntrantChassis`."""
+  team: Team
+
+  """
+  Reads a single `EngineManufacturer` that is related to this `SeasonEntrantChassis`.
+  """
+  engineManufacturer: EngineManufacturer
+
+  """
+  Reads a single `Entrant` that is related to this `SeasonEntrantChassis`.
+  """
+  entrant: Entrant
+
+  """
+  Reads a single `Season` that is related to this `SeasonEntrantChassis`.
+  """
+  season: Season
+}
+
+type EngineManufacturer {
+  id: String!
+  name: String!
+  countryId: String!
+  bestChampionshipPosition: Int
+  bestStartingGridPosition: Int
+  bestRaceResult: Int
+  bestSprintRaceResult: Int
+  totalChampionshipWins: Int!
+  totalRaceEntries: Int!
+  totalRaceStarts: Int!
+  totalRaceWins: Int!
+  totalRaceLaps: Int!
+  totalPodiums: Int!
+  totalPodiumRaces: Int!
+  totalPoints: BigFloat!
+  totalChampionshipPoints: BigFloat!
+  totalPolePositions: Int!
+  totalFastestLaps: Int!
+  totalSprintRaceStarts: Int!
+  totalSprintRaceWins: Int!
+
+  """Reads a single `Country` that is related to this `EngineManufacturer`."""
+  country: Country
+
+  """Reads and enables pagination through a set of `Engine`."""
+  engines(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EngineCondition
+
+    """The method to use when ordering `Engine`."""
+    orderBy: [EngineOrderBy!]
+  ): [Engine!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrantTeam`."""
+  seasonEntrantTeams(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantTeamCondition
+
+    """The method to use when ordering `SeasonEntrantTeam`."""
+    orderBy: [SeasonEntrantTeamOrderBy!]
+  ): [SeasonEntrantTeam!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrantChassis`."""
+  seasonEntrantChassises(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantChassisCondition
+
+    """The method to use when ordering `SeasonEntrantChassis`."""
+    orderBy: [SeasonEntrantChassisOrderBy!]
+  ): [SeasonEntrantChassis!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrantEngine`."""
+  seasonEntrantEngines(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantEngineCondition
+
+    """The method to use when ordering `SeasonEntrantEngine`."""
+    orderBy: [SeasonEntrantEngineOrderBy!]
+  ): [SeasonEntrantEngine!]!
+
+  """
+  Reads and enables pagination through a set of `SeasonEntrantTyreManufacturer`.
+  """
+  seasonEntrantTyreManufacturers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantTyreManufacturerCondition
+
+    """The method to use when ordering `SeasonEntrantTyreManufacturer`."""
+    orderBy: [SeasonEntrantTyreManufacturerOrderBy!]
+  ): [SeasonEntrantTyreManufacturer!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrantDriver`."""
+  seasonEntrantDrivers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantDriverCondition
+
+    """The method to use when ordering `SeasonEntrantDriver`."""
+    orderBy: [SeasonEntrantDriverOrderBy!]
+  ): [SeasonEntrantDriver!]!
+
+  """
+  Reads and enables pagination through a set of `SeasonEngineManufacturer`.
+  """
+  seasonEngineManufacturers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEngineManufacturerCondition
+
+    """The method to use when ordering `SeasonEngineManufacturer`."""
+    orderBy: [SeasonEngineManufacturerOrderBy!]
+  ): [SeasonEngineManufacturer!]!
+
+  """Reads and enables pagination through a set of `SeasonTeamStanding`."""
+  seasonTeamStandings(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonTeamStandingCondition
+
+    """The method to use when ordering `SeasonTeamStanding`."""
+    orderBy: [SeasonTeamStandingOrderBy!]
+  ): [SeasonTeamStanding!]!
+
+  """Reads and enables pagination through a set of `RaceDatum`."""
+  raceData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceDatumCondition
+
+    """The method to use when ordering `RaceDatum`."""
+    orderBy: [RaceDatumOrderBy!]
+  ): [RaceDatum!]!
+
+  """Reads and enables pagination through a set of `RaceTeamStanding`."""
+  raceTeamStandings(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceTeamStandingCondition
+
+    """The method to use when ordering `RaceTeamStanding`."""
+    orderBy: [RaceTeamStandingOrderBy!]
+  ): [RaceTeamStanding!]!
+}
+
+type Engine {
+  id: String!
+  engineManufacturerId: String!
+  name: String!
+  fullName: String!
+  capacity: BigFloat
+  configuration: String
+  aspiration: String
+
+  """Reads a single `EngineManufacturer` that is related to this `Engine`."""
+  engineManufacturer: EngineManufacturer
+
+  """Reads and enables pagination through a set of `SeasonEntrantEngine`."""
+  seasonEntrantEngines(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantEngineCondition
+
+    """The method to use when ordering `SeasonEntrantEngine`."""
+    orderBy: [SeasonEntrantEngineOrderBy!]
+  ): [SeasonEntrantEngine!]!
+}
+
+type SeasonEntrantEngine {
+  year: Int!
+  entrantId: String!
+  teamId: String!
+  engineManufacturerId: String!
+  engineId: String!
+
+  """Reads a single `Team` that is related to this `SeasonEntrantEngine`."""
+  team: Team
+
+  """Reads a single `Engine` that is related to this `SeasonEntrantEngine`."""
+  engine: Engine
+
+  """
+  Reads a single `EngineManufacturer` that is related to this `SeasonEntrantEngine`.
+  """
+  engineManufacturer: EngineManufacturer
+
+  """
+  Reads a single `Entrant` that is related to this `SeasonEntrantEngine`.
+  """
+  entrant: Entrant
+
+  """Reads a single `Season` that is related to this `SeasonEntrantEngine`."""
+  season: Season
+}
+
+type Entrant {
+  id: String!
+  name: String!
+
+  """Reads and enables pagination through a set of `SeasonEntrant`."""
+  seasonEntrants(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantCondition
+
+    """The method to use when ordering `SeasonEntrant`."""
+    orderBy: [SeasonEntrantOrderBy!]
+  ): [SeasonEntrant!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrantTeam`."""
+  seasonEntrantTeams(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantTeamCondition
+
+    """The method to use when ordering `SeasonEntrantTeam`."""
+    orderBy: [SeasonEntrantTeamOrderBy!]
+  ): [SeasonEntrantTeam!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrantChassis`."""
+  seasonEntrantChassises(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantChassisCondition
+
+    """The method to use when ordering `SeasonEntrantChassis`."""
+    orderBy: [SeasonEntrantChassisOrderBy!]
+  ): [SeasonEntrantChassis!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrantEngine`."""
+  seasonEntrantEngines(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantEngineCondition
+
+    """The method to use when ordering `SeasonEntrantEngine`."""
+    orderBy: [SeasonEntrantEngineOrderBy!]
+  ): [SeasonEntrantEngine!]!
+
+  """
+  Reads and enables pagination through a set of `SeasonEntrantTyreManufacturer`.
+  """
+  seasonEntrantTyreManufacturers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantTyreManufacturerCondition
+
+    """The method to use when ordering `SeasonEntrantTyreManufacturer`."""
+    orderBy: [SeasonEntrantTyreManufacturerOrderBy!]
+  ): [SeasonEntrantTyreManufacturer!]!
+
+  """Reads and enables pagination through a set of `SeasonEntrantDriver`."""
+  seasonEntrantDrivers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantDriverCondition
+
+    """The method to use when ordering `SeasonEntrantDriver`."""
+    orderBy: [SeasonEntrantDriverOrderBy!]
+  ): [SeasonEntrantDriver!]!
+}
+
+"""
+A condition to be used against `SeasonEntrant` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input SeasonEntrantCondition {
+  """Checks for equality with the object’s `year` field."""
+  year: Int
+
+  """Checks for equality with the object’s `entrantId` field."""
+  entrantId: String
+
+  """Checks for equality with the object’s `countryId` field."""
+  countryId: String
+}
+
+"""Methods to use when ordering `SeasonEntrant`."""
+enum SeasonEntrantOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  YEAR_ASC
+  YEAR_DESC
+  ENTRANT_ID_ASC
+  ENTRANT_ID_DESC
+  COUNTRY_ID_ASC
+  COUNTRY_ID_DESC
+}
+
+type SeasonEntrantTeam {
+  year: Int!
+  entrantId: String!
+  teamId: String!
+  engineManufacturerId: String!
+
+  """Reads a single `Team` that is related to this `SeasonEntrantTeam`."""
+  team: Team
+
+  """
+  Reads a single `EngineManufacturer` that is related to this `SeasonEntrantTeam`.
+  """
+  engineManufacturer: EngineManufacturer
+
+  """Reads a single `Entrant` that is related to this `SeasonEntrantTeam`."""
+  entrant: Entrant
+
+  """Reads a single `Season` that is related to this `SeasonEntrantTeam`."""
+  season: Season
+}
+
+"""
+A condition to be used against `SeasonEntrantTeam` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input SeasonEntrantTeamCondition {
+  """Checks for equality with the object’s `year` field."""
+  year: Int
+
+  """Checks for equality with the object’s `entrantId` field."""
+  entrantId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+}
+
+"""Methods to use when ordering `SeasonEntrantTeam`."""
+enum SeasonEntrantTeamOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  YEAR_ASC
+  YEAR_DESC
+  ENTRANT_ID_ASC
+  ENTRANT_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+}
+
+"""
+A condition to be used against `SeasonEntrantChassis` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input SeasonEntrantChassisCondition {
+  """Checks for equality with the object’s `year` field."""
+  year: Int
+
+  """Checks for equality with the object’s `entrantId` field."""
+  entrantId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `chassisId` field."""
+  chassisId: String
+}
+
+"""Methods to use when ordering `SeasonEntrantChassis`."""
+enum SeasonEntrantChassisOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  YEAR_ASC
+  YEAR_DESC
+  ENTRANT_ID_ASC
+  ENTRANT_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  CHASSIS_ID_ASC
+  CHASSIS_ID_DESC
+}
+
+"""
+A condition to be used against `SeasonEntrantEngine` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input SeasonEntrantEngineCondition {
+  """Checks for equality with the object’s `year` field."""
+  year: Int
+
+  """Checks for equality with the object’s `entrantId` field."""
+  entrantId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `engineId` field."""
+  engineId: String
+}
+
+"""Methods to use when ordering `SeasonEntrantEngine`."""
+enum SeasonEntrantEngineOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  YEAR_ASC
+  YEAR_DESC
+  ENTRANT_ID_ASC
+  ENTRANT_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  ENGINE_ID_ASC
+  ENGINE_ID_DESC
+}
+
+type SeasonEntrantTyreManufacturer {
+  year: Int!
+  entrantId: String!
+  teamId: String!
+  engineManufacturerId: String!
+  tyreManufacturerId: String!
+
+  """
+  Reads a single `Team` that is related to this `SeasonEntrantTyreManufacturer`.
+  """
+  team: Team
+
+  """
+  Reads a single `EngineManufacturer` that is related to this `SeasonEntrantTyreManufacturer`.
+  """
+  engineManufacturer: EngineManufacturer
+
+  """
+  Reads a single `Entrant` that is related to this `SeasonEntrantTyreManufacturer`.
+  """
+  entrant: Entrant
+
+  """
+  Reads a single `TyreManufacturer` that is related to this `SeasonEntrantTyreManufacturer`.
+  """
+  tyreManufacturer: TyreManufacturer
+
+  """
+  Reads a single `Season` that is related to this `SeasonEntrantTyreManufacturer`.
+  """
+  season: Season
+}
+
+type TyreManufacturer {
+  id: String!
+  name: String!
+  countryId: String!
+  bestStartingGridPosition: Int
+  bestRaceResult: Int
+  bestSprintRaceResult: Int
+  totalRaceEntries: Int!
+  totalRaceStarts: Int!
+  totalRaceWins: Int!
+  totalRaceLaps: Int!
+  totalPodiums: Int!
+  totalPodiumRaces: Int!
+  totalPolePositions: Int!
+  totalFastestLaps: Int!
+  totalSprintRaceStarts: Int!
+  totalSprintRaceWins: Int!
+
+  """Reads a single `Country` that is related to this `TyreManufacturer`."""
+  country: Country
+
+  """
+  Reads and enables pagination through a set of `SeasonEntrantTyreManufacturer`.
+  """
+  seasonEntrantTyreManufacturers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonEntrantTyreManufacturerCondition
+
+    """The method to use when ordering `SeasonEntrantTyreManufacturer`."""
+    orderBy: [SeasonEntrantTyreManufacturerOrderBy!]
+  ): [SeasonEntrantTyreManufacturer!]!
+
+  """
+  Reads and enables pagination through a set of `SeasonTyreManufacturer`.
+  """
+  seasonTyreManufacturers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SeasonTyreManufacturerCondition
+
+    """The method to use when ordering `SeasonTyreManufacturer`."""
+    orderBy: [SeasonTyreManufacturerOrderBy!]
+  ): [SeasonTyreManufacturer!]!
+
+  """Reads and enables pagination through a set of `RaceDatum`."""
+  raceData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceDatumCondition
+
+    """The method to use when ordering `RaceDatum`."""
+    orderBy: [RaceDatumOrderBy!]
+  ): [RaceDatum!]!
+}
+
+"""
+A condition to be used against `SeasonEntrantTyreManufacturer` object types. All
+fields are tested for equality and combined with a logical ‘and.’
+"""
+input SeasonEntrantTyreManufacturerCondition {
+  """Checks for equality with the object’s `year` field."""
+  year: Int
+
+  """Checks for equality with the object’s `entrantId` field."""
+  entrantId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+}
+
+"""Methods to use when ordering `SeasonEntrantTyreManufacturer`."""
+enum SeasonEntrantTyreManufacturerOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  YEAR_ASC
+  YEAR_DESC
+  ENTRANT_ID_ASC
+  ENTRANT_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+}
+
+type SeasonTyreManufacturer {
+  year: Int!
+  tyreManufacturerId: String!
+  bestStartingGridPosition: Int
+  bestRaceResult: Int
+  bestSprintRaceResult: Int
+  totalRaceEntries: Int!
+  totalRaceStarts: Int!
+  totalRaceWins: Int!
+  totalRaceLaps: Int!
+  totalPodiums: Int!
+  totalPodiumRaces: Int!
+  totalPolePositions: Int!
+  totalFastestLaps: Int!
+  totalSprintRaceStarts: Int!
+  totalSprintRaceWins: Int!
+
+  """
+  Reads a single `TyreManufacturer` that is related to this `SeasonTyreManufacturer`.
+  """
+  tyreManufacturer: TyreManufacturer
+
+  """
+  Reads a single `Season` that is related to this `SeasonTyreManufacturer`.
+  """
+  season: Season
+}
+
+"""
+A condition to be used against `SeasonTyreManufacturer` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input SeasonTyreManufacturerCondition {
+  """Checks for equality with the object’s `year` field."""
+  year: Int
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+}
+
+"""Methods to use when ordering `SeasonTyreManufacturer`."""
+enum SeasonTyreManufacturerOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  YEAR_ASC
+  YEAR_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+}
+
+type RaceDatum {
+  raceId: Int!
+  type: String!
+  positionDisplayOrder: Int!
+  positionNumber: Int
+  positionText: String!
+  driverNumber: String!
+  driverId: String!
+  teamId: String!
+  engineManufacturerId: String!
+  tyreManufacturerId: String!
+  practiceTime: String
+  practiceTimeMillis: Int
+  practiceGap: String
+  practiceGapMillis: Int
+  practiceInterval: String
+  practiceIntervalMillis: Int
+  practiceLaps: Int
+  qualifyingTime: String
+  qualifyingTimeMillis: Int
+  qualifyingQ1: String
+  qualifyingQ1Millis: Int
+  qualifyingQ2: String
+  qualifyingQ2Millis: Int
+  qualifyingQ3: String
+  qualifyingQ3Millis: Int
+  qualifyingGap: String
+  qualifyingGapMillis: Int
+  qualifyingInterval: String
+  qualifyingIntervalMillis: Int
+  qualifyingLaps: Int
+  startingGridPositionQualificationPositionNumber: Int
+  startingGridPositionQualificationPositionText: String
+  startingGridPositionGridPenalty: String
+  startingGridPositionGridPenaltyPositions: Int
+  startingGridPositionTime: String
+  startingGridPositionTimeMillis: Int
+  raceSharedCar: Boolean
+  raceLaps: Int
+  raceTime: String
+  raceTimeMillis: Int
+  raceTimePenalty: String
+  raceTimePenaltyMillis: Int
+  raceGap: String
+  raceGapMillis: Int
+  raceGapLaps: Int
+  raceInterval: String
+  raceIntervalMillis: Int
+  raceReasonRetired: String
+  racePoints: BigFloat
+  racePolePosition: Boolean
+  raceQualificationPositionNumber: Int
+  raceQualificationPositionText: String
+  raceGridPositionNumber: Int
+  raceGridPositionText: String
+  racePositionsGained: Int
+  racePitStops: Int
+  raceFastestLap: Boolean
+  raceDriverOfTheDay: Boolean
+  raceGrandSlam: Boolean
+  fastestLapLap: Int
+  fastestLapTime: String
+  fastestLapTimeMillis: Int
+  fastestLapGap: String
+  fastestLapGapMillis: Int
+  fastestLapInterval: String
+  fastestLapIntervalMillis: Int
+  pitStopStop: Int
+  pitStopLap: Int
+  pitStopTime: String
+  pitStopTimeMillis: Int
+  driverOfTheDayPercentage: BigFloat
+
+  """Reads a single `Team` that is related to this `RaceDatum`."""
+  team: Team
+
+  """Reads a single `Driver` that is related to this `RaceDatum`."""
+  driver: Driver
+
+  """
+  Reads a single `EngineManufacturer` that is related to this `RaceDatum`.
+  """
+  engineManufacturer: EngineManufacturer
+
+  """Reads a single `Race` that is related to this `RaceDatum`."""
+  race: Race
+
+  """Reads a single `TyreManufacturer` that is related to this `RaceDatum`."""
+  tyreManufacturer: TyreManufacturer
+}
+
+type Race {
+  rowId: Int!
+  year: Int!
+  round: Int!
+  date: Date!
+  time: String
+  grandPrixId: String!
+  officialName: String!
+  qualifyingFormat: String!
+  sprintQualifyingFormat: String
+  circuitId: String!
+  circuitLayoutId: String!
+  circuitType: String!
+  direction: String!
+  courseLength: BigFloat!
+  turns: Int!
+  laps: Int!
+  distance: BigFloat!
+  scheduledLaps: Int
+  scheduledDistance: BigFloat
+  driversChampionshipDecider: Boolean!
+  constructorsChampionshipDecider: Boolean!
+  preQualifyingDate: Date
+  preQualifyingTime: String
+  freePractice1Date: Date
+  freePractice1Time: String
+  freePractice2Date: Date
+  freePractice2Time: String
+  freePractice3Date: Date
+  freePractice3Time: String
+  freePractice4Date: Date
+  freePractice4Time: String
+  qualifying1Date: Date
+  qualifying1Time: String
+  qualifying2Date: Date
+  qualifying2Time: String
+  qualifyingDate: Date
+  qualifyingTime: String
+  sprintQualifyingDate: Date
+  sprintQualifyingTime: String
+  sprintRaceDate: Date
+  sprintRaceTime: String
+  warmingUpDate: Date
+  warmingUpTime: String
+
+  """Reads a single `Circuit` that is related to this `Race`."""
+  circuit: Circuit
+
+  """Reads a single `CircuitLayout` that is related to this `Race`."""
+  circuitLayout: CircuitLayout
+
+  """Reads a single `GrandPrix` that is related to this `Race`."""
+  grandPrix: GrandPrix
+
+  """Reads a single `Season` that is related to this `Race`."""
+  season: Season
+
+  """Reads and enables pagination through a set of `RaceDatum`."""
+  raceData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceDatumCondition
+
+    """The method to use when ordering `RaceDatum`."""
+    orderBy: [RaceDatumOrderBy!]
+  ): [RaceDatum!]!
+
+  """Reads and enables pagination through a set of `RaceDriverStanding`."""
+  raceDriverStandings(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceDriverStandingCondition
+
+    """The method to use when ordering `RaceDriverStanding`."""
+    orderBy: [RaceDriverStandingOrderBy!]
+  ): [RaceDriverStanding!]!
+
+  """Reads and enables pagination through a set of `RaceTeamStanding`."""
+  raceTeamStandings(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceTeamStandingCondition
+
+    """The method to use when ordering `RaceTeamStanding`."""
+    orderBy: [RaceTeamStandingOrderBy!]
+  ): [RaceTeamStanding!]!
+
+  """Reads and enables pagination through a set of `AppLapTime`."""
+  lapTimes(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AppLapTimeCondition
+
+    """The method to use when ordering `AppLapTime`."""
+    orderBy: [AppLapTimeOrderBy!]
+  ): [AppLapTime!]!
+
+  """Reads and enables pagination through a set of `DriverOfTheDayResult`."""
+  driverOfTheDayResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: DriverOfTheDayResultCondition
+
+    """The method to use when ordering `DriverOfTheDayResult`."""
+    orderBy: [DriverOfTheDayResultOrderBy!]
+  ): [DriverOfTheDayResult!]!
+
+  """Reads and enables pagination through a set of `FastestLap`."""
+  fastestLaps(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: FastestLapCondition
+
+    """The method to use when ordering `FastestLap`."""
+    orderBy: [FastestLapOrderBy!]
+  ): [FastestLap!]!
+
+  """Reads and enables pagination through a set of `PitStop`."""
+  pitStops(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PitStopCondition
+
+    """The method to use when ordering `PitStop`."""
+    orderBy: [PitStopOrderBy!]
+  ): [PitStop!]!
+
+  """Reads and enables pagination through a set of `QualifyingResult`."""
+  qualifyingResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: QualifyingResultCondition
+
+    """The method to use when ordering `QualifyingResult`."""
+    orderBy: [QualifyingResultOrderBy!]
+  ): [QualifyingResult!]!
+
+  """Reads and enables pagination through a set of `RaceResult`."""
+  raceResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceResultCondition
+
+    """The method to use when ordering `RaceResult`."""
+    orderBy: [RaceResultOrderBy!]
+  ): [RaceResult!]!
+
+  """
+  Reads and enables pagination through a set of `SprintQualifyingResult`.
+  """
+  sprintQualifyingResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SprintQualifyingResultCondition
+
+    """The method to use when ordering `SprintQualifyingResult`."""
+    orderBy: [SprintQualifyingResultOrderBy!]
+  ): [SprintQualifyingResult!]!
+
+  """Reads and enables pagination through a set of `SprintRaceResult`."""
+  sprintRaceResults(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SprintRaceResultCondition
+
+    """The method to use when ordering `SprintRaceResult`."""
+    orderBy: [SprintRaceResultOrderBy!]
+  ): [SprintRaceResult!]!
+
+  """
+  Reads and enables pagination through a set of `SprintStartingGridPosition`.
+  """
+  sprintStartingGridPositions(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SprintStartingGridPositionCondition
+
+    """The method to use when ordering `SprintStartingGridPosition`."""
+    orderBy: [SprintStartingGridPositionOrderBy!]
+  ): [SprintStartingGridPosition!]!
+
+  """Reads and enables pagination through a set of `StartingGridPosition`."""
+  startingGridPositions(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: StartingGridPositionCondition
+
+    """The method to use when ordering `StartingGridPosition`."""
+    orderBy: [StartingGridPositionOrderBy!]
+  ): [StartingGridPosition!]!
+}
+
+type Circuit {
+  id: String!
+  name: String!
+  fullName: String!
+  previousNames: String
+  type: String!
+  direction: String!
+  placeName: String!
+  countryId: String!
+  latitude: BigFloat!
+  longitude: BigFloat!
+  length: BigFloat!
+  turns: Int!
+  totalRacesHeld: Int!
+
+  """Reads a single `Country` that is related to this `Circuit`."""
+  country: Country
+
+  """Reads and enables pagination through a set of `CircuitLayout`."""
+  circuitLayouts(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CircuitLayoutCondition
+
+    """The method to use when ordering `CircuitLayout`."""
+    orderBy: [CircuitLayoutOrderBy!]
+  ): [CircuitLayout!]!
+
+  """Reads and enables pagination through a set of `Race`."""
+  races(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceCondition
+
+    """The method to use when ordering `Race`."""
+    orderBy: [RaceOrderBy!]
+  ): [Race!]!
+
+  """
+  Reads a single `AppCircuitDescription` that is related to this `Circuit`.
+  """
+  description: AppCircuitDescription
+}
+
+type CircuitLayout {
+  id: String!
+  circuitId: String!
+  effective: Boolean!
+  length: BigFloat!
+  turns: Int!
+
+  """Reads a single `Circuit` that is related to this `CircuitLayout`."""
+  circuit: Circuit
+
+  """Reads and enables pagination through a set of `Race`."""
+  races(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceCondition
+
+    """The method to use when ordering `Race`."""
+    orderBy: [RaceOrderBy!]
+  ): [Race!]!
+}
+
+"""
+A condition to be used against `Race` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input RaceCondition {
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: Int
+
+  """Checks for equality with the object’s `year` field."""
+  year: Int
+
+  """Checks for equality with the object’s `round` field."""
+  round: Int
+
+  """Checks for equality with the object’s `date` field."""
+  date: Date
+
+  """Checks for equality with the object’s `grandPrixId` field."""
+  grandPrixId: String
+
+  """Checks for equality with the object’s `officialName` field."""
+  officialName: String
+
+  """Checks for equality with the object’s `qualifyingFormat` field."""
+  qualifyingFormat: String
+
+  """Checks for equality with the object’s `sprintQualifyingFormat` field."""
+  sprintQualifyingFormat: String
+
+  """Checks for equality with the object’s `circuitId` field."""
+  circuitId: String
+
+  """Checks for equality with the object’s `circuitLayoutId` field."""
+  circuitLayoutId: String
+
+  """Checks for equality with the object’s `circuitType` field."""
+  circuitType: String
+
+  """Checks for equality with the object’s `direction` field."""
+  direction: String
+}
+
+"""Methods to use when ordering `Race`."""
+enum RaceOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  ROW_ID_ASC
+  ROW_ID_DESC
+  YEAR_ASC
+  YEAR_DESC
+  ROUND_ASC
+  ROUND_DESC
+  DATE_ASC
+  DATE_DESC
+  GRAND_PRIX_ID_ASC
+  GRAND_PRIX_ID_DESC
+  OFFICIAL_NAME_ASC
+  OFFICIAL_NAME_DESC
+  QUALIFYING_FORMAT_ASC
+  QUALIFYING_FORMAT_DESC
+  SPRINT_QUALIFYING_FORMAT_ASC
+  SPRINT_QUALIFYING_FORMAT_DESC
+  CIRCUIT_ID_ASC
+  CIRCUIT_ID_DESC
+  CIRCUIT_LAYOUT_ID_ASC
+  CIRCUIT_LAYOUT_ID_DESC
+  CIRCUIT_TYPE_ASC
+  CIRCUIT_TYPE_DESC
+  DIRECTION_ASC
+  DIRECTION_DESC
+}
+
+"""
+A condition to be used against `CircuitLayout` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input CircuitLayoutCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `circuitId` field."""
+  circuitId: String
+}
+
+"""Methods to use when ordering `CircuitLayout`."""
+enum CircuitLayoutOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  ID_ASC
+  ID_DESC
+  CIRCUIT_ID_ASC
+  CIRCUIT_ID_DESC
+}
+
+type AppCircuitDescription {
+  circuitId: String!
+  description: String!
+  updatedAt: Datetime!
+
+  """
+  Reads a single `Circuit` that is related to this `AppCircuitDescription`.
+  """
+  circuit: Circuit
+}
+
+"""
+A point in time as described by the [ISO
+8601](https://en.wikipedia.org/wiki/ISO_8601) and, if it has a timezone, [RFC
+3339](https://datatracker.ietf.org/doc/html/rfc3339) standards. Input values
+that do not conform to both ISO 8601 and RFC 3339 may be coerced, which may lead
+to unexpected results.
+"""
+scalar Datetime
+
+type GrandPrix {
+  id: String!
+  name: String!
+  fullName: String!
+  shortName: String!
+  abbreviation: String!
+  countryId: String
+  totalRacesHeld: Int!
+
+  """Reads a single `Country` that is related to this `GrandPrix`."""
+  country: Country
+
+  """Reads and enables pagination through a set of `Race`."""
+  races(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RaceCondition
+
+    """The method to use when ordering `Race`."""
+    orderBy: [RaceOrderBy!]
+  ): [Race!]!
+}
+
+"""
+A condition to be used against `RaceDatum` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input RaceDatumCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `type` field."""
+  type: String
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+}
+
+"""Methods to use when ordering `RaceDatum`."""
+enum RaceDatumOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  RACE_ID_ASC
+  RACE_ID_DESC
+  TYPE_ASC
+  TYPE_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+}
+
+type RaceDriverStanding {
+  raceId: Int!
+  positionDisplayOrder: Int!
+  positionNumber: Int
+  positionText: String!
+  driverId: String!
+  points: BigFloat!
+  positionsGained: Int
+  championshipWon: Boolean!
+
+  """Reads a single `Driver` that is related to this `RaceDriverStanding`."""
+  driver: Driver
+
+  """Reads a single `Race` that is related to this `RaceDriverStanding`."""
+  race: Race
+}
+
+"""
+A condition to be used against `RaceDriverStanding` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input RaceDriverStandingCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+}
+
+"""Methods to use when ordering `RaceDriverStanding`."""
+enum RaceDriverStandingOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+}
+
+type RaceTeamStanding {
+  raceId: Int!
+  positionDisplayOrder: Int!
+  positionNumber: Int
+  positionText: String!
+  teamId: String!
+  engineManufacturerId: String!
+  points: BigFloat!
+  positionsGained: Int
+  championshipWon: Boolean!
+
+  """Reads a single `Team` that is related to this `RaceTeamStanding`."""
+  team: Team
+
+  """
+  Reads a single `EngineManufacturer` that is related to this `RaceTeamStanding`.
+  """
+  engineManufacturer: EngineManufacturer
+
+  """Reads a single `Race` that is related to this `RaceTeamStanding`."""
+  race: Race
+}
+
+"""
+A condition to be used against `RaceTeamStanding` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input RaceTeamStandingCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+}
+
+"""Methods to use when ordering `RaceTeamStanding`."""
+enum RaceTeamStandingOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+}
+
+type AppLapTime {
+  raceId: Int!
+  driverId: String!
+  lap: Int!
+  position: Int
+  timeText: String
+  milliseconds: Int
+
+  """Reads a single `Race` that is related to this `AppLapTime`."""
+  race: Race
+
+  """Reads a single `Driver` that is related to this `AppLapTime`."""
+  driver: Driver
+}
+
+"""
+A condition to be used against `AppLapTime` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input AppLapTimeCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `lap` field."""
+  lap: Int
+}
+
+"""Methods to use when ordering `AppLapTime`."""
+enum AppLapTimeOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  RACE_ID_ASC
+  RACE_ID_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  LAP_ASC
+  LAP_DESC
+}
+
+type DriverOfTheDayResult {
+  raceId: Int!
+  positionDisplayOrder: Int!
+  positionNumber: Int
+  positionText: String
+  driverNumber: String
+  driverId: String
+  teamId: String
+  engineManufacturerId: String
+  tyreManufacturerId: String
+  percentage: BigFloat
+
+  """Reads a single `Race` that is related to this `DriverOfTheDayResult`."""
+  race: Race
+
+  """
+  Reads a single `Driver` that is related to this `DriverOfTheDayResult`.
+  """
+  driver: Driver
+
+  """Reads a single `Team` that is related to this `DriverOfTheDayResult`."""
+  team: Team
+}
+
+"""
+A condition to be used against `DriverOfTheDayResult` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input DriverOfTheDayResultCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+
+  """Checks for equality with the object’s `percentage` field."""
+  percentage: BigFloat
+}
+
+"""Methods to use when ordering `DriverOfTheDayResult`."""
+enum DriverOfTheDayResultOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+  PERCENTAGE_ASC
+  PERCENTAGE_DESC
+}
+
+type FastestLap {
+  raceId: Int!
+  positionDisplayOrder: Int!
+  positionNumber: Int
+  positionText: String
+  driverNumber: String
+  driverId: String
+  teamId: String
+  engineManufacturerId: String
+  tyreManufacturerId: String
+  lap: Int
+  time: String
+  timeMillis: Int
+  gap: String
+  gapMillis: Int
+  interval: String
+  intervalMillis: Int
+
+  """Reads a single `Race` that is related to this `FastestLap`."""
+  race: Race
+
+  """Reads a single `Driver` that is related to this `FastestLap`."""
+  driver: Driver
+
+  """Reads a single `Team` that is related to this `FastestLap`."""
+  team: Team
+}
+
+"""
+A condition to be used against `FastestLap` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input FastestLapCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+
+  """Checks for equality with the object’s `lap` field."""
+  lap: Int
+
+  """Checks for equality with the object’s `time` field."""
+  time: String
+
+  """Checks for equality with the object’s `timeMillis` field."""
+  timeMillis: Int
+
+  """Checks for equality with the object’s `gap` field."""
+  gap: String
+
+  """Checks for equality with the object’s `gapMillis` field."""
+  gapMillis: Int
+
+  """Checks for equality with the object’s `interval` field."""
+  interval: String
+
+  """Checks for equality with the object’s `intervalMillis` field."""
+  intervalMillis: Int
+}
+
+"""Methods to use when ordering `FastestLap`."""
+enum FastestLapOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+  LAP_ASC
+  LAP_DESC
+  TIME_ASC
+  TIME_DESC
+  TIME_MILLIS_ASC
+  TIME_MILLIS_DESC
+  GAP_ASC
+  GAP_DESC
+  GAP_MILLIS_ASC
+  GAP_MILLIS_DESC
+  INTERVAL_ASC
+  INTERVAL_DESC
+  INTERVAL_MILLIS_ASC
+  INTERVAL_MILLIS_DESC
+}
+
+type PitStop {
+  raceId: Int!
+  positionDisplayOrder: Int
+  positionNumber: Int
+  positionText: String
+  driverNumber: String
+  driverId: String!
+  teamId: String
+  engineManufacturerId: String
+  tyreManufacturerId: String
+  stop: Int!
+  lap: Int
+  time: String
+  timeMillis: Int
+
+  """Reads a single `Race` that is related to this `PitStop`."""
+  race: Race
+
+  """Reads a single `Driver` that is related to this `PitStop`."""
+  driver: Driver
+
+  """Reads a single `Team` that is related to this `PitStop`."""
+  team: Team
+}
+
+"""
+A condition to be used against `PitStop` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input PitStopCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+
+  """Checks for equality with the object’s `stop` field."""
+  stop: Int
+
+  """Checks for equality with the object’s `lap` field."""
+  lap: Int
+
+  """Checks for equality with the object’s `time` field."""
+  time: String
+
+  """Checks for equality with the object’s `timeMillis` field."""
+  timeMillis: Int
+}
+
+"""Methods to use when ordering `PitStop`."""
+enum PitStopOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+  STOP_ASC
+  STOP_DESC
+  LAP_ASC
+  LAP_DESC
+  TIME_ASC
+  TIME_DESC
+  TIME_MILLIS_ASC
+  TIME_MILLIS_DESC
+}
+
+type QualifyingResult {
+  raceId: Int!
+  positionDisplayOrder: Int!
+  positionNumber: Int
+  positionText: String
+  driverNumber: String
+  driverId: String
+  teamId: String
+  engineManufacturerId: String
+  tyreManufacturerId: String
+  time: String
+  timeMillis: Int
+  q1: String
+  q1Millis: Int
+  q2: String
+  q2Millis: Int
+  q3: String
+  q3Millis: Int
+  gap: String
+  gapMillis: Int
+  interval: String
+  intervalMillis: Int
+  laps: Int
+
+  """Reads a single `Race` that is related to this `QualifyingResult`."""
+  race: Race
+
+  """Reads a single `Driver` that is related to this `QualifyingResult`."""
+  driver: Driver
+
+  """Reads a single `Team` that is related to this `QualifyingResult`."""
+  team: Team
+}
+
+"""
+A condition to be used against `QualifyingResult` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input QualifyingResultCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+
+  """Checks for equality with the object’s `time` field."""
+  time: String
+
+  """Checks for equality with the object’s `timeMillis` field."""
+  timeMillis: Int
+
+  """Checks for equality with the object’s `q1` field."""
+  q1: String
+
+  """Checks for equality with the object’s `q1Millis` field."""
+  q1Millis: Int
+
+  """Checks for equality with the object’s `q2` field."""
+  q2: String
+
+  """Checks for equality with the object’s `q2Millis` field."""
+  q2Millis: Int
+
+  """Checks for equality with the object’s `q3` field."""
+  q3: String
+
+  """Checks for equality with the object’s `q3Millis` field."""
+  q3Millis: Int
+
+  """Checks for equality with the object’s `gap` field."""
+  gap: String
+
+  """Checks for equality with the object’s `gapMillis` field."""
+  gapMillis: Int
+
+  """Checks for equality with the object’s `interval` field."""
+  interval: String
+
+  """Checks for equality with the object’s `intervalMillis` field."""
+  intervalMillis: Int
+
+  """Checks for equality with the object’s `laps` field."""
+  laps: Int
+}
+
+"""Methods to use when ordering `QualifyingResult`."""
+enum QualifyingResultOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+  TIME_ASC
+  TIME_DESC
+  TIME_MILLIS_ASC
+  TIME_MILLIS_DESC
+  Q1_ASC
+  Q1_DESC
+  Q1_MILLIS_ASC
+  Q1_MILLIS_DESC
+  Q2_ASC
+  Q2_DESC
+  Q2_MILLIS_ASC
+  Q2_MILLIS_DESC
+  Q3_ASC
+  Q3_DESC
+  Q3_MILLIS_ASC
+  Q3_MILLIS_DESC
+  GAP_ASC
+  GAP_DESC
+  GAP_MILLIS_ASC
+  GAP_MILLIS_DESC
+  INTERVAL_ASC
+  INTERVAL_DESC
+  INTERVAL_MILLIS_ASC
+  INTERVAL_MILLIS_DESC
+  LAPS_ASC
+  LAPS_DESC
+}
+
+type RaceResult {
+  raceId: Int!
+  positionDisplayOrder: Int!
+  positionNumber: Int
+  positionText: String
+  driverNumber: String
+  driverId: String
+  teamId: String
+  engineManufacturerId: String
+  tyreManufacturerId: String
+  sharedCar: Boolean
+  laps: Int
+  time: String
+  timeMillis: Int
+  timePenalty: String
+  timePenaltyMillis: Int
+  gap: String
+  gapMillis: Int
+  gapLaps: Int
+  interval: String
+  intervalMillis: Int
+  reasonRetired: String
+  points: BigFloat
+  polePosition: Boolean
+  qualificationPositionNumber: Int
+  qualificationPositionText: String
+  gridPositionNumber: Int
+  gridPositionText: String
+  positionsGained: Int
+  pitStops: Int
+  fastestLap: Boolean
+  driverOfTheDay: Boolean
+  grandSlam: Boolean
+
+  """Reads a single `Race` that is related to this `RaceResult`."""
+  race: Race
+
+  """Reads a single `Driver` that is related to this `RaceResult`."""
+  driver: Driver
+
+  """Reads a single `Team` that is related to this `RaceResult`."""
+  team: Team
+}
+
+"""
+A condition to be used against `RaceResult` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input RaceResultCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+
+  """Checks for equality with the object’s `sharedCar` field."""
+  sharedCar: Boolean
+
+  """Checks for equality with the object’s `laps` field."""
+  laps: Int
+
+  """Checks for equality with the object’s `time` field."""
+  time: String
+
+  """Checks for equality with the object’s `timeMillis` field."""
+  timeMillis: Int
+
+  """Checks for equality with the object’s `timePenalty` field."""
+  timePenalty: String
+
+  """Checks for equality with the object’s `timePenaltyMillis` field."""
+  timePenaltyMillis: Int
+
+  """Checks for equality with the object’s `gap` field."""
+  gap: String
+
+  """Checks for equality with the object’s `gapMillis` field."""
+  gapMillis: Int
+
+  """Checks for equality with the object’s `gapLaps` field."""
+  gapLaps: Int
+
+  """Checks for equality with the object’s `interval` field."""
+  interval: String
+
+  """Checks for equality with the object’s `intervalMillis` field."""
+  intervalMillis: Int
+
+  """Checks for equality with the object’s `reasonRetired` field."""
+  reasonRetired: String
+
+  """Checks for equality with the object’s `points` field."""
+  points: BigFloat
+
+  """Checks for equality with the object’s `polePosition` field."""
+  polePosition: Boolean
+
+  """
+  Checks for equality with the object’s `qualificationPositionNumber` field.
+  """
+  qualificationPositionNumber: Int
+
+  """
+  Checks for equality with the object’s `qualificationPositionText` field.
+  """
+  qualificationPositionText: String
+
+  """Checks for equality with the object’s `gridPositionNumber` field."""
+  gridPositionNumber: Int
+
+  """Checks for equality with the object’s `gridPositionText` field."""
+  gridPositionText: String
+
+  """Checks for equality with the object’s `positionsGained` field."""
+  positionsGained: Int
+
+  """Checks for equality with the object’s `pitStops` field."""
+  pitStops: Int
+
+  """Checks for equality with the object’s `fastestLap` field."""
+  fastestLap: Boolean
+
+  """Checks for equality with the object’s `driverOfTheDay` field."""
+  driverOfTheDay: Boolean
+
+  """Checks for equality with the object’s `grandSlam` field."""
+  grandSlam: Boolean
+}
+
+"""Methods to use when ordering `RaceResult`."""
+enum RaceResultOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+  SHARED_CAR_ASC
+  SHARED_CAR_DESC
+  LAPS_ASC
+  LAPS_DESC
+  TIME_ASC
+  TIME_DESC
+  TIME_MILLIS_ASC
+  TIME_MILLIS_DESC
+  TIME_PENALTY_ASC
+  TIME_PENALTY_DESC
+  TIME_PENALTY_MILLIS_ASC
+  TIME_PENALTY_MILLIS_DESC
+  GAP_ASC
+  GAP_DESC
+  GAP_MILLIS_ASC
+  GAP_MILLIS_DESC
+  GAP_LAPS_ASC
+  GAP_LAPS_DESC
+  INTERVAL_ASC
+  INTERVAL_DESC
+  INTERVAL_MILLIS_ASC
+  INTERVAL_MILLIS_DESC
+  REASON_RETIRED_ASC
+  REASON_RETIRED_DESC
+  POINTS_ASC
+  POINTS_DESC
+  POLE_POSITION_ASC
+  POLE_POSITION_DESC
+  QUALIFICATION_POSITION_NUMBER_ASC
+  QUALIFICATION_POSITION_NUMBER_DESC
+  QUALIFICATION_POSITION_TEXT_ASC
+  QUALIFICATION_POSITION_TEXT_DESC
+  GRID_POSITION_NUMBER_ASC
+  GRID_POSITION_NUMBER_DESC
+  GRID_POSITION_TEXT_ASC
+  GRID_POSITION_TEXT_DESC
+  POSITIONS_GAINED_ASC
+  POSITIONS_GAINED_DESC
+  PIT_STOPS_ASC
+  PIT_STOPS_DESC
+  FASTEST_LAP_ASC
+  FASTEST_LAP_DESC
+  DRIVER_OF_THE_DAY_ASC
+  DRIVER_OF_THE_DAY_DESC
+  GRAND_SLAM_ASC
+  GRAND_SLAM_DESC
+}
+
+type SprintQualifyingResult {
+  raceId: Int!
+  positionDisplayOrder: Int!
+  positionNumber: Int
+  positionText: String
+  driverNumber: String
+  driverId: String
+  teamId: String
+  engineManufacturerId: String
+  tyreManufacturerId: String
+  time: String
+  timeMillis: Int
+  q1: String
+  q1Millis: Int
+  q2: String
+  q2Millis: Int
+  q3: String
+  q3Millis: Int
+  gap: String
+  gapMillis: Int
+  interval: String
+  intervalMillis: Int
+  laps: Int
+
+  """
+  Reads a single `Race` that is related to this `SprintQualifyingResult`.
+  """
+  race: Race
+
+  """
+  Reads a single `Driver` that is related to this `SprintQualifyingResult`.
+  """
+  driver: Driver
+
+  """
+  Reads a single `Team` that is related to this `SprintQualifyingResult`.
+  """
+  team: Team
+}
+
+"""
+A condition to be used against `SprintQualifyingResult` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input SprintQualifyingResultCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+
+  """Checks for equality with the object’s `time` field."""
+  time: String
+
+  """Checks for equality with the object’s `timeMillis` field."""
+  timeMillis: Int
+
+  """Checks for equality with the object’s `q1` field."""
+  q1: String
+
+  """Checks for equality with the object’s `q1Millis` field."""
+  q1Millis: Int
+
+  """Checks for equality with the object’s `q2` field."""
+  q2: String
+
+  """Checks for equality with the object’s `q2Millis` field."""
+  q2Millis: Int
+
+  """Checks for equality with the object’s `q3` field."""
+  q3: String
+
+  """Checks for equality with the object’s `q3Millis` field."""
+  q3Millis: Int
+
+  """Checks for equality with the object’s `gap` field."""
+  gap: String
+
+  """Checks for equality with the object’s `gapMillis` field."""
+  gapMillis: Int
+
+  """Checks for equality with the object’s `interval` field."""
+  interval: String
+
+  """Checks for equality with the object’s `intervalMillis` field."""
+  intervalMillis: Int
+
+  """Checks for equality with the object’s `laps` field."""
+  laps: Int
+}
+
+"""Methods to use when ordering `SprintQualifyingResult`."""
+enum SprintQualifyingResultOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+  TIME_ASC
+  TIME_DESC
+  TIME_MILLIS_ASC
+  TIME_MILLIS_DESC
+  Q1_ASC
+  Q1_DESC
+  Q1_MILLIS_ASC
+  Q1_MILLIS_DESC
+  Q2_ASC
+  Q2_DESC
+  Q2_MILLIS_ASC
+  Q2_MILLIS_DESC
+  Q3_ASC
+  Q3_DESC
+  Q3_MILLIS_ASC
+  Q3_MILLIS_DESC
+  GAP_ASC
+  GAP_DESC
+  GAP_MILLIS_ASC
+  GAP_MILLIS_DESC
+  INTERVAL_ASC
+  INTERVAL_DESC
+  INTERVAL_MILLIS_ASC
+  INTERVAL_MILLIS_DESC
+  LAPS_ASC
+  LAPS_DESC
+}
+
+type SprintRaceResult {
+  raceId: Int!
+  positionDisplayOrder: Int!
+  positionNumber: Int
+  positionText: String
+  driverNumber: String
+  driverId: String
+  teamId: String
+  engineManufacturerId: String
+  tyreManufacturerId: String
+  laps: Int
+  time: String
+  timeMillis: Int
+  timePenalty: String
+  timePenaltyMillis: Int
+  gap: String
+  gapMillis: Int
+  gapLaps: Int
+  interval: String
+  intervalMillis: Int
+  reasonRetired: String
+  points: BigFloat
+  qualificationPositionNumber: Int
+  qualificationPositionText: String
+  gridPositionNumber: Int
+  gridPositionText: String
+  positionsGained: Int
+
+  """Reads a single `Race` that is related to this `SprintRaceResult`."""
+  race: Race
+
+  """Reads a single `Driver` that is related to this `SprintRaceResult`."""
+  driver: Driver
+
+  """Reads a single `Team` that is related to this `SprintRaceResult`."""
+  team: Team
+}
+
+"""
+A condition to be used against `SprintRaceResult` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input SprintRaceResultCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+
+  """Checks for equality with the object’s `laps` field."""
+  laps: Int
+
+  """Checks for equality with the object’s `time` field."""
+  time: String
+
+  """Checks for equality with the object’s `timeMillis` field."""
+  timeMillis: Int
+
+  """Checks for equality with the object’s `timePenalty` field."""
+  timePenalty: String
+
+  """Checks for equality with the object’s `timePenaltyMillis` field."""
+  timePenaltyMillis: Int
+
+  """Checks for equality with the object’s `gap` field."""
+  gap: String
+
+  """Checks for equality with the object’s `gapMillis` field."""
+  gapMillis: Int
+
+  """Checks for equality with the object’s `gapLaps` field."""
+  gapLaps: Int
+
+  """Checks for equality with the object’s `interval` field."""
+  interval: String
+
+  """Checks for equality with the object’s `intervalMillis` field."""
+  intervalMillis: Int
+
+  """Checks for equality with the object’s `reasonRetired` field."""
+  reasonRetired: String
+
+  """Checks for equality with the object’s `points` field."""
+  points: BigFloat
+
+  """
+  Checks for equality with the object’s `qualificationPositionNumber` field.
+  """
+  qualificationPositionNumber: Int
+
+  """
+  Checks for equality with the object’s `qualificationPositionText` field.
+  """
+  qualificationPositionText: String
+
+  """Checks for equality with the object’s `gridPositionNumber` field."""
+  gridPositionNumber: Int
+
+  """Checks for equality with the object’s `gridPositionText` field."""
+  gridPositionText: String
+
+  """Checks for equality with the object’s `positionsGained` field."""
+  positionsGained: Int
+}
+
+"""Methods to use when ordering `SprintRaceResult`."""
+enum SprintRaceResultOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+  LAPS_ASC
+  LAPS_DESC
+  TIME_ASC
+  TIME_DESC
+  TIME_MILLIS_ASC
+  TIME_MILLIS_DESC
+  TIME_PENALTY_ASC
+  TIME_PENALTY_DESC
+  TIME_PENALTY_MILLIS_ASC
+  TIME_PENALTY_MILLIS_DESC
+  GAP_ASC
+  GAP_DESC
+  GAP_MILLIS_ASC
+  GAP_MILLIS_DESC
+  GAP_LAPS_ASC
+  GAP_LAPS_DESC
+  INTERVAL_ASC
+  INTERVAL_DESC
+  INTERVAL_MILLIS_ASC
+  INTERVAL_MILLIS_DESC
+  REASON_RETIRED_ASC
+  REASON_RETIRED_DESC
+  POINTS_ASC
+  POINTS_DESC
+  QUALIFICATION_POSITION_NUMBER_ASC
+  QUALIFICATION_POSITION_NUMBER_DESC
+  QUALIFICATION_POSITION_TEXT_ASC
+  QUALIFICATION_POSITION_TEXT_DESC
+  GRID_POSITION_NUMBER_ASC
+  GRID_POSITION_NUMBER_DESC
+  GRID_POSITION_TEXT_ASC
+  GRID_POSITION_TEXT_DESC
+  POSITIONS_GAINED_ASC
+  POSITIONS_GAINED_DESC
+}
+
+type SprintStartingGridPosition {
+  raceId: Int!
+  positionDisplayOrder: Int!
+  positionNumber: Int
+  positionText: String
+  driverNumber: String
+  driverId: String
+  teamId: String
+  engineManufacturerId: String
+  tyreManufacturerId: String
+  qualificationPositionNumber: Int
+  qualificationPositionText: String
+  gridPenalty: String
+  gridPenaltyPositions: Int
+  time: String
+  timeMillis: Int
+
+  """
+  Reads a single `Race` that is related to this `SprintStartingGridPosition`.
+  """
+  race: Race
+
+  """
+  Reads a single `Driver` that is related to this `SprintStartingGridPosition`.
+  """
+  driver: Driver
+
+  """
+  Reads a single `Team` that is related to this `SprintStartingGridPosition`.
+  """
+  team: Team
+}
+
+"""
+A condition to be used against `SprintStartingGridPosition` object types. All
+fields are tested for equality and combined with a logical ‘and.’
+"""
+input SprintStartingGridPositionCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+
+  """
+  Checks for equality with the object’s `qualificationPositionNumber` field.
+  """
+  qualificationPositionNumber: Int
+
+  """
+  Checks for equality with the object’s `qualificationPositionText` field.
+  """
+  qualificationPositionText: String
+
+  """Checks for equality with the object’s `gridPenalty` field."""
+  gridPenalty: String
+
+  """Checks for equality with the object’s `gridPenaltyPositions` field."""
+  gridPenaltyPositions: Int
+
+  """Checks for equality with the object’s `time` field."""
+  time: String
+
+  """Checks for equality with the object’s `timeMillis` field."""
+  timeMillis: Int
+}
+
+"""Methods to use when ordering `SprintStartingGridPosition`."""
+enum SprintStartingGridPositionOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+  QUALIFICATION_POSITION_NUMBER_ASC
+  QUALIFICATION_POSITION_NUMBER_DESC
+  QUALIFICATION_POSITION_TEXT_ASC
+  QUALIFICATION_POSITION_TEXT_DESC
+  GRID_PENALTY_ASC
+  GRID_PENALTY_DESC
+  GRID_PENALTY_POSITIONS_ASC
+  GRID_PENALTY_POSITIONS_DESC
+  TIME_ASC
+  TIME_DESC
+  TIME_MILLIS_ASC
+  TIME_MILLIS_DESC
+}
+
+type StartingGridPosition {
+  raceId: Int!
+  positionDisplayOrder: Int!
+  positionNumber: Int
+  positionText: String
+  driverNumber: String
+  driverId: String
+  teamId: String
+  engineManufacturerId: String
+  tyreManufacturerId: String
+  qualificationPositionNumber: Int
+  qualificationPositionText: String
+  gridPenalty: String
+  gridPenaltyPositions: Int
+  time: String
+  timeMillis: Int
+
+  """Reads a single `Race` that is related to this `StartingGridPosition`."""
+  race: Race
+
+  """
+  Reads a single `Driver` that is related to this `StartingGridPosition`.
+  """
+  driver: Driver
+
+  """Reads a single `Team` that is related to this `StartingGridPosition`."""
+  team: Team
+}
+
+"""
+A condition to be used against `StartingGridPosition` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input StartingGridPositionCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+
+  """
+  Checks for equality with the object’s `qualificationPositionNumber` field.
+  """
+  qualificationPositionNumber: Int
+
+  """
+  Checks for equality with the object’s `qualificationPositionText` field.
+  """
+  qualificationPositionText: String
+
+  """Checks for equality with the object’s `gridPenalty` field."""
+  gridPenalty: String
+
+  """Checks for equality with the object’s `gridPenaltyPositions` field."""
+  gridPenaltyPositions: Int
+
+  """Checks for equality with the object’s `time` field."""
+  time: String
+
+  """Checks for equality with the object’s `timeMillis` field."""
+  timeMillis: Int
+}
+
+"""Methods to use when ordering `StartingGridPosition`."""
+enum StartingGridPositionOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+  QUALIFICATION_POSITION_NUMBER_ASC
+  QUALIFICATION_POSITION_NUMBER_DESC
+  QUALIFICATION_POSITION_TEXT_ASC
+  QUALIFICATION_POSITION_TEXT_DESC
+  GRID_PENALTY_ASC
+  GRID_PENALTY_DESC
+  GRID_PENALTY_POSITIONS_ASC
+  GRID_PENALTY_POSITIONS_DESC
+  TIME_ASC
+  TIME_DESC
+  TIME_MILLIS_ASC
+  TIME_MILLIS_DESC
+}
+
+"""
+A condition to be used against `SeasonEntrantDriver` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input SeasonEntrantDriverCondition {
+  """Checks for equality with the object’s `year` field."""
+  year: Int
+
+  """Checks for equality with the object’s `entrantId` field."""
+  entrantId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+}
+
+"""Methods to use when ordering `SeasonEntrantDriver`."""
+enum SeasonEntrantDriverOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  YEAR_ASC
+  YEAR_DESC
+  ENTRANT_ID_ASC
+  ENTRANT_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+}
+
+"""
+A condition to be used against `Engine` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input EngineCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `fullName` field."""
+  fullName: String
+
+  """Checks for equality with the object’s `capacity` field."""
+  capacity: BigFloat
+
+  """Checks for equality with the object’s `configuration` field."""
+  configuration: String
+
+  """Checks for equality with the object’s `aspiration` field."""
+  aspiration: String
+}
+
+"""Methods to use when ordering `Engine`."""
+enum EngineOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  ID_ASC
+  ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  NAME_ASC
+  NAME_DESC
+  FULL_NAME_ASC
+  FULL_NAME_DESC
+  CAPACITY_ASC
+  CAPACITY_DESC
+  CONFIGURATION_ASC
+  CONFIGURATION_DESC
+  ASPIRATION_ASC
+  ASPIRATION_DESC
+}
+
+type SeasonEngineManufacturer {
+  year: Int!
+  engineManufacturerId: String!
+  positionNumber: Int
+  positionText: String
+  bestStartingGridPosition: Int
+  bestRaceResult: Int
+  bestSprintRaceResult: Int
+  totalRaceEntries: Int!
+  totalRaceStarts: Int!
+  totalRaceWins: Int!
+  totalRaceLaps: Int!
+  totalPodiums: Int!
+  totalPodiumRaces: Int!
+  totalPoints: BigFloat!
+  totalPolePositions: Int!
+  totalFastestLaps: Int!
+  totalSprintRaceStarts: Int!
+  totalSprintRaceWins: Int!
+
+  """
+  Reads a single `EngineManufacturer` that is related to this `SeasonEngineManufacturer`.
+  """
+  engineManufacturer: EngineManufacturer
+
+  """
+  Reads a single `Season` that is related to this `SeasonEngineManufacturer`.
+  """
+  season: Season
+}
+
+"""
+A condition to be used against `SeasonEngineManufacturer` object types. All
+fields are tested for equality and combined with a logical ‘and.’
+"""
+input SeasonEngineManufacturerCondition {
+  """Checks for equality with the object’s `year` field."""
+  year: Int
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+}
+
+"""Methods to use when ordering `SeasonEngineManufacturer`."""
+enum SeasonEngineManufacturerOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  YEAR_ASC
+  YEAR_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+}
+
+type SeasonTeamStanding {
+  year: Int!
+  positionDisplayOrder: Int!
+  positionNumber: Int
+  positionText: String!
+  teamId: String!
+  engineManufacturerId: String!
+  points: BigFloat!
+  championshipWon: Boolean!
+
+  """Reads a single `Team` that is related to this `SeasonTeamStanding`."""
+  team: Team
+
+  """
+  Reads a single `EngineManufacturer` that is related to this `SeasonTeamStanding`.
+  """
+  engineManufacturer: EngineManufacturer
+
+  """Reads a single `Season` that is related to this `SeasonTeamStanding`."""
+  season: Season
+}
+
+"""
+A condition to be used against `SeasonTeamStanding` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input SeasonTeamStandingCondition {
+  """Checks for equality with the object’s `year` field."""
+  year: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+}
+
+"""Methods to use when ordering `SeasonTeamStanding`."""
+enum SeasonTeamStandingOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  YEAR_ASC
+  YEAR_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+}
+
+"""
+A condition to be used against `Chassis` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input ChassisCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `fullName` field."""
+  fullName: String
+}
+
+"""Methods to use when ordering `Chassis`."""
+enum ChassisOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  ID_ASC
+  ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  NAME_ASC
+  NAME_DESC
+  FULL_NAME_ASC
+  FULL_NAME_DESC
+}
+
+type SeasonTeam {
+  year: Int!
+  teamId: String!
+  positionNumber: Int
+  positionText: String
+  bestStartingGridPosition: Int
+  bestRaceResult: Int
+  bestSprintRaceResult: Int
+  totalRaceEntries: Int!
+  totalRaceStarts: Int!
+  totalRaceWins: Int!
+  total1And2Finishes: Int!
+  totalRaceLaps: Int!
+  totalPodiums: Int!
+  totalPodiumRaces: Int!
+  totalPoints: BigFloat!
+  totalPolePositions: Int!
+  totalFastestLaps: Int!
+  totalSprintRaceStarts: Int!
+  totalSprintRaceWins: Int!
+
+  """Reads a single `Team` that is related to this `SeasonTeam`."""
+  team: Team
+
+  """Reads a single `Season` that is related to this `SeasonTeam`."""
+  season: Season
+}
+
+"""
+A condition to be used against `SeasonTeam` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input SeasonTeamCondition {
+  """Checks for equality with the object’s `year` field."""
+  year: Int
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+}
+
+"""Methods to use when ordering `SeasonTeam`."""
+enum SeasonTeamOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  YEAR_ASC
+  YEAR_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+}
+
+type AppTeamColor {
+  teamId: String!
+  primaryHex: String
+  secondaryHex: String
+  logo: String
+
+  """Reads a single `Team` that is related to this `AppTeamColor`."""
+  team: Team
+}
+
+type AppTeamHistory {
+  teamId: String!
+  antecedentTeamId: String!
+  startYear: Int!
+  endYear: Int
+
+  """Reads a single `Team` that is related to this `AppTeamHistory`."""
+  team: Team
+
+  """Reads a single `Team` that is related to this `AppTeamHistory`."""
+  antecedentTeam: Team
+}
+
+"""
+A condition to be used against `AppTeamHistory` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input AppTeamHistoryCondition {
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `antecedentTeamId` field."""
+  antecedentTeamId: String
+
+  """Checks for equality with the object’s `startYear` field."""
+  startYear: Int
+}
+
+"""Methods to use when ordering `AppTeamHistory`."""
+enum AppTeamHistoryOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ANTECEDENT_TEAM_ID_ASC
+  ANTECEDENT_TEAM_ID_DESC
+  START_YEAR_ASC
+  START_YEAR_DESC
+}
+
+type SeasonDriver {
+  year: Int!
+  driverId: String!
+  positionNumber: Int
+  positionText: String
+  bestStartingGridPosition: Int
+  bestRaceResult: Int
+  bestSprintRaceResult: Int
+  totalRaceEntries: Int!
+  totalRaceStarts: Int!
+  totalRaceWins: Int!
+  totalRaceLaps: Int!
+  totalPodiums: Int!
+  totalPoints: BigFloat!
+  totalPolePositions: Int!
+  totalFastestLaps: Int!
+  totalSprintRaceStarts: Int!
+  totalSprintRaceWins: Int!
+  totalDriverOfTheDay: Int!
+  totalGrandSlams: Int!
+
+  """Reads a single `Driver` that is related to this `SeasonDriver`."""
+  driver: Driver
+
+  """Reads a single `Season` that is related to this `SeasonDriver`."""
+  season: Season
+}
+
+"""
+A condition to be used against `SeasonDriver` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input SeasonDriverCondition {
+  """Checks for equality with the object’s `year` field."""
+  year: Int
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+}
+
+"""Methods to use when ordering `SeasonDriver`."""
+enum SeasonDriverOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  YEAR_ASC
+  YEAR_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+}
+
+type SeasonDriverStanding {
+  year: Int!
+  positionDisplayOrder: Int!
+  positionNumber: Int
+  positionText: String!
+  driverId: String!
+  points: BigFloat!
+  championshipWon: Boolean!
+
+  """
+  Reads a single `Driver` that is related to this `SeasonDriverStanding`.
+  """
+  driver: Driver
+
+  """
+  Reads a single `Season` that is related to this `SeasonDriverStanding`.
+  """
+  season: Season
+}
+
+"""
+A condition to be used against `SeasonDriverStanding` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input SeasonDriverStandingCondition {
+  """Checks for equality with the object’s `year` field."""
+  year: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+}
+
+"""Methods to use when ordering `SeasonDriverStanding`."""
+enum SeasonDriverStandingOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  YEAR_ASC
+  YEAR_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+}
+
+"""
+A condition to be used against `Driver` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input DriverCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `firstName` field."""
+  firstName: String
+
+  """Checks for equality with the object’s `lastName` field."""
+  lastName: String
+
+  """Checks for equality with the object’s `fullName` field."""
+  fullName: String
+
+  """Checks for equality with the object’s `abbreviation` field."""
+  abbreviation: String
+
+  """Checks for equality with the object’s `permanentNumber` field."""
+  permanentNumber: String
+
+  """Checks for equality with the object’s `gender` field."""
+  gender: String
+
+  """Checks for equality with the object’s `dateOfBirth` field."""
+  dateOfBirth: Date
+
+  """Checks for equality with the object’s `dateOfDeath` field."""
+  dateOfDeath: Date
+
+  """Checks for equality with the object’s `placeOfBirth` field."""
+  placeOfBirth: String
+
+  """Checks for equality with the object’s `countryOfBirthCountryId` field."""
+  countryOfBirthCountryId: String
+
+  """Checks for equality with the object’s `nationalityCountryId` field."""
+  nationalityCountryId: String
+
+  """
+  Checks for equality with the object’s `secondNationalityCountryId` field.
+  """
+  secondNationalityCountryId: String
+}
+
+"""Methods to use when ordering `Driver`."""
+enum DriverOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  FIRST_NAME_ASC
+  FIRST_NAME_DESC
+  LAST_NAME_ASC
+  LAST_NAME_DESC
+  FULL_NAME_ASC
+  FULL_NAME_DESC
+  ABBREVIATION_ASC
+  ABBREVIATION_DESC
+  PERMANENT_NUMBER_ASC
+  PERMANENT_NUMBER_DESC
+  GENDER_ASC
+  GENDER_DESC
+  DATE_OF_BIRTH_ASC
+  DATE_OF_BIRTH_DESC
+  DATE_OF_DEATH_ASC
+  DATE_OF_DEATH_DESC
+  PLACE_OF_BIRTH_ASC
+  PLACE_OF_BIRTH_DESC
+  COUNTRY_OF_BIRTH_COUNTRY_ID_ASC
+  COUNTRY_OF_BIRTH_COUNTRY_ID_DESC
+  NATIONALITY_COUNTRY_ID_ASC
+  NATIONALITY_COUNTRY_ID_DESC
+  SECOND_NATIONALITY_COUNTRY_ID_ASC
+  SECOND_NATIONALITY_COUNTRY_ID_DESC
+}
+
+"""
+A condition to be used against `Team` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input TeamCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `fullName` field."""
+  fullName: String
+
+  """Checks for equality with the object’s `countryId` field."""
+  countryId: String
+}
+
+"""Methods to use when ordering `Team`."""
+enum TeamOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  FULL_NAME_ASC
+  FULL_NAME_DESC
+  COUNTRY_ID_ASC
+  COUNTRY_ID_DESC
+}
+
+"""
+A condition to be used against `EngineManufacturer` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input EngineManufacturerCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `countryId` field."""
+  countryId: String
+}
+
+"""Methods to use when ordering `EngineManufacturer`."""
+enum EngineManufacturerOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  COUNTRY_ID_ASC
+  COUNTRY_ID_DESC
+}
+
+"""
+A condition to be used against `TyreManufacturer` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input TyreManufacturerCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `countryId` field."""
+  countryId: String
+}
+
+"""Methods to use when ordering `TyreManufacturer`."""
+enum TyreManufacturerOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  COUNTRY_ID_ASC
+  COUNTRY_ID_DESC
+}
+
+"""
+A condition to be used against `Circuit` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input CircuitCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `fullName` field."""
+  fullName: String
+
+  """Checks for equality with the object’s `type` field."""
+  type: String
+
+  """Checks for equality with the object’s `direction` field."""
+  direction: String
+
+  """Checks for equality with the object’s `placeName` field."""
+  placeName: String
+
+  """Checks for equality with the object’s `countryId` field."""
+  countryId: String
+}
+
+"""Methods to use when ordering `Circuit`."""
+enum CircuitOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  FULL_NAME_ASC
+  FULL_NAME_DESC
+  TYPE_ASC
+  TYPE_DESC
+  DIRECTION_ASC
+  DIRECTION_DESC
+  PLACE_NAME_ASC
+  PLACE_NAME_DESC
+  COUNTRY_ID_ASC
+  COUNTRY_ID_DESC
+}
+
+"""
+A condition to be used against `GrandPrix` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input GrandPrixCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `fullName` field."""
+  fullName: String
+
+  """Checks for equality with the object’s `shortName` field."""
+  shortName: String
+
+  """Checks for equality with the object’s `abbreviation` field."""
+  abbreviation: String
+
+  """Checks for equality with the object’s `countryId` field."""
+  countryId: String
+}
+
+"""Methods to use when ordering `GrandPrix`."""
+enum GrandPrixOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  FULL_NAME_ASC
+  FULL_NAME_DESC
+  SHORT_NAME_ASC
+  SHORT_NAME_DESC
+  ABBREVIATION_ASC
+  ABBREVIATION_DESC
+  COUNTRY_ID_ASC
+  COUNTRY_ID_DESC
+}
+
+type AppIngestState {
+  key: String!
+  value: String
+  updatedAt: Datetime!
+}
+
+type AppConstructorBio {
+  teamId: String!
+  description: String
+  title: String
+  extract: String
+  source: String
+  updatedAt: Datetime!
+  thumbnailUrl: String
+}
+
+type AppDriverBio {
+  driverId: String!
+  description: String
+  title: String
+  extract: String
+  source: String
+  updatedAt: Datetime!
+  thumbnailUrl: String
+}
+
+"""
+A condition to be used against `Season` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input SeasonCondition {
+  """Checks for equality with the object’s `year` field."""
+  year: Int
+}
+
+"""Methods to use when ordering `Season`."""
+enum SeasonOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  YEAR_ASC
+  YEAR_DESC
+}
+
+"""
+A condition to be used against `Entrant` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input EntrantCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+}
+
+"""Methods to use when ordering `Entrant`."""
+enum EntrantOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+}
+
+"""
+A condition to be used against `AppTeamColor` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input AppTeamColorCondition {
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+}
+
+"""Methods to use when ordering `AppTeamColor`."""
+enum AppTeamColorOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+}
+
+"""
+A condition to be used against `Continent` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input ContinentCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `code` field."""
+  code: String
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+}
+
+"""Methods to use when ordering `Continent`."""
+enum ContinentOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  ID_ASC
+  ID_DESC
+  CODE_ASC
+  CODE_DESC
+  NAME_ASC
+  NAME_DESC
+}
+
+"""
+A condition to be used against `AppCircuitDescription` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input AppCircuitDescriptionCondition {
+  """Checks for equality with the object’s `circuitId` field."""
+  circuitId: String
+}
+
+"""Methods to use when ordering `AppCircuitDescription`."""
+enum AppCircuitDescriptionOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  CIRCUIT_ID_ASC
+  CIRCUIT_ID_DESC
+}
+
+"""
+A condition to be used against `AppIngestState` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input AppIngestStateCondition {
+  """Checks for equality with the object’s `key` field."""
+  key: String
+}
+
+"""Methods to use when ordering `AppIngestState`."""
+enum AppIngestStateOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  KEY_ASC
+  KEY_DESC
+}
+
+"""
+A condition to be used against `AppConstructorBio` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input AppConstructorBioCondition {
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+}
+
+"""Methods to use when ordering `AppConstructorBio`."""
+enum AppConstructorBioOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+}
+
+"""
+A condition to be used against `AppDriverBio` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input AppDriverBioCondition {
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+}
+
+"""Methods to use when ordering `AppDriverBio`."""
+enum AppDriverBioOrderBy {
+  NATURAL
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+}
+
+type FreePractice1Result {
+  raceId: Int
+  positionDisplayOrder: Int
+  positionNumber: Int
+  positionText: String
+  driverNumber: String
+  driverId: String
+  teamId: String
+  engineManufacturerId: String
+  tyreManufacturerId: String
+  time: String
+  timeMillis: Int
+  gap: String
+  gapMillis: Int
+  interval: String
+  intervalMillis: Int
+  laps: Int
+}
+
+"""
+A condition to be used against `FreePractice1Result` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input FreePractice1ResultCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+
+  """Checks for equality with the object’s `time` field."""
+  time: String
+
+  """Checks for equality with the object’s `timeMillis` field."""
+  timeMillis: Int
+
+  """Checks for equality with the object’s `gap` field."""
+  gap: String
+
+  """Checks for equality with the object’s `gapMillis` field."""
+  gapMillis: Int
+
+  """Checks for equality with the object’s `interval` field."""
+  interval: String
+
+  """Checks for equality with the object’s `intervalMillis` field."""
+  intervalMillis: Int
+
+  """Checks for equality with the object’s `laps` field."""
+  laps: Int
+}
+
+"""Methods to use when ordering `FreePractice1Result`."""
+enum FreePractice1ResultOrderBy {
+  NATURAL
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+  TIME_ASC
+  TIME_DESC
+  TIME_MILLIS_ASC
+  TIME_MILLIS_DESC
+  GAP_ASC
+  GAP_DESC
+  GAP_MILLIS_ASC
+  GAP_MILLIS_DESC
+  INTERVAL_ASC
+  INTERVAL_DESC
+  INTERVAL_MILLIS_ASC
+  INTERVAL_MILLIS_DESC
+  LAPS_ASC
+  LAPS_DESC
+}
+
+type FreePractice2Result {
+  raceId: Int
+  positionDisplayOrder: Int
+  positionNumber: Int
+  positionText: String
+  driverNumber: String
+  driverId: String
+  teamId: String
+  engineManufacturerId: String
+  tyreManufacturerId: String
+  time: String
+  timeMillis: Int
+  gap: String
+  gapMillis: Int
+  interval: String
+  intervalMillis: Int
+  laps: Int
+}
+
+"""
+A condition to be used against `FreePractice2Result` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input FreePractice2ResultCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+
+  """Checks for equality with the object’s `time` field."""
+  time: String
+
+  """Checks for equality with the object’s `timeMillis` field."""
+  timeMillis: Int
+
+  """Checks for equality with the object’s `gap` field."""
+  gap: String
+
+  """Checks for equality with the object’s `gapMillis` field."""
+  gapMillis: Int
+
+  """Checks for equality with the object’s `interval` field."""
+  interval: String
+
+  """Checks for equality with the object’s `intervalMillis` field."""
+  intervalMillis: Int
+
+  """Checks for equality with the object’s `laps` field."""
+  laps: Int
+}
+
+"""Methods to use when ordering `FreePractice2Result`."""
+enum FreePractice2ResultOrderBy {
+  NATURAL
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+  TIME_ASC
+  TIME_DESC
+  TIME_MILLIS_ASC
+  TIME_MILLIS_DESC
+  GAP_ASC
+  GAP_DESC
+  GAP_MILLIS_ASC
+  GAP_MILLIS_DESC
+  INTERVAL_ASC
+  INTERVAL_DESC
+  INTERVAL_MILLIS_ASC
+  INTERVAL_MILLIS_DESC
+  LAPS_ASC
+  LAPS_DESC
+}
+
+type FreePractice3Result {
+  raceId: Int
+  positionDisplayOrder: Int
+  positionNumber: Int
+  positionText: String
+  driverNumber: String
+  driverId: String
+  teamId: String
+  engineManufacturerId: String
+  tyreManufacturerId: String
+  time: String
+  timeMillis: Int
+  gap: String
+  gapMillis: Int
+  interval: String
+  intervalMillis: Int
+  laps: Int
+}
+
+"""
+A condition to be used against `FreePractice3Result` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input FreePractice3ResultCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+
+  """Checks for equality with the object’s `time` field."""
+  time: String
+
+  """Checks for equality with the object’s `timeMillis` field."""
+  timeMillis: Int
+
+  """Checks for equality with the object’s `gap` field."""
+  gap: String
+
+  """Checks for equality with the object’s `gapMillis` field."""
+  gapMillis: Int
+
+  """Checks for equality with the object’s `interval` field."""
+  interval: String
+
+  """Checks for equality with the object’s `intervalMillis` field."""
+  intervalMillis: Int
+
+  """Checks for equality with the object’s `laps` field."""
+  laps: Int
+}
+
+"""Methods to use when ordering `FreePractice3Result`."""
+enum FreePractice3ResultOrderBy {
+  NATURAL
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+  TIME_ASC
+  TIME_DESC
+  TIME_MILLIS_ASC
+  TIME_MILLIS_DESC
+  GAP_ASC
+  GAP_DESC
+  GAP_MILLIS_ASC
+  GAP_MILLIS_DESC
+  INTERVAL_ASC
+  INTERVAL_DESC
+  INTERVAL_MILLIS_ASC
+  INTERVAL_MILLIS_DESC
+  LAPS_ASC
+  LAPS_DESC
+}
+
+type FreePractice4Result {
+  raceId: Int
+  positionDisplayOrder: Int
+  positionNumber: Int
+  positionText: String
+  driverNumber: String
+  driverId: String
+  teamId: String
+  engineManufacturerId: String
+  tyreManufacturerId: String
+  time: String
+  timeMillis: Int
+  gap: String
+  gapMillis: Int
+  interval: String
+  intervalMillis: Int
+  laps: Int
+}
+
+"""
+A condition to be used against `FreePractice4Result` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input FreePractice4ResultCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+
+  """Checks for equality with the object’s `time` field."""
+  time: String
+
+  """Checks for equality with the object’s `timeMillis` field."""
+  timeMillis: Int
+
+  """Checks for equality with the object’s `gap` field."""
+  gap: String
+
+  """Checks for equality with the object’s `gapMillis` field."""
+  gapMillis: Int
+
+  """Checks for equality with the object’s `interval` field."""
+  interval: String
+
+  """Checks for equality with the object’s `intervalMillis` field."""
+  intervalMillis: Int
+
+  """Checks for equality with the object’s `laps` field."""
+  laps: Int
+}
+
+"""Methods to use when ordering `FreePractice4Result`."""
+enum FreePractice4ResultOrderBy {
+  NATURAL
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+  TIME_ASC
+  TIME_DESC
+  TIME_MILLIS_ASC
+  TIME_MILLIS_DESC
+  GAP_ASC
+  GAP_DESC
+  GAP_MILLIS_ASC
+  GAP_MILLIS_DESC
+  INTERVAL_ASC
+  INTERVAL_DESC
+  INTERVAL_MILLIS_ASC
+  INTERVAL_MILLIS_DESC
+  LAPS_ASC
+  LAPS_DESC
+}
+
+type PreQualifyingResult {
+  raceId: Int
+  positionDisplayOrder: Int
+  positionNumber: Int
+  positionText: String
+  driverNumber: String
+  driverId: String
+  teamId: String
+  engineManufacturerId: String
+  tyreManufacturerId: String
+  time: String
+  timeMillis: Int
+  gap: String
+  gapMillis: Int
+  interval: String
+  intervalMillis: Int
+  laps: Int
+}
+
+"""
+A condition to be used against `PreQualifyingResult` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input PreQualifyingResultCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+
+  """Checks for equality with the object’s `time` field."""
+  time: String
+
+  """Checks for equality with the object’s `timeMillis` field."""
+  timeMillis: Int
+
+  """Checks for equality with the object’s `gap` field."""
+  gap: String
+
+  """Checks for equality with the object’s `gapMillis` field."""
+  gapMillis: Int
+
+  """Checks for equality with the object’s `interval` field."""
+  interval: String
+
+  """Checks for equality with the object’s `intervalMillis` field."""
+  intervalMillis: Int
+
+  """Checks for equality with the object’s `laps` field."""
+  laps: Int
+}
+
+"""Methods to use when ordering `PreQualifyingResult`."""
+enum PreQualifyingResultOrderBy {
+  NATURAL
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+  TIME_ASC
+  TIME_DESC
+  TIME_MILLIS_ASC
+  TIME_MILLIS_DESC
+  GAP_ASC
+  GAP_DESC
+  GAP_MILLIS_ASC
+  GAP_MILLIS_DESC
+  INTERVAL_ASC
+  INTERVAL_DESC
+  INTERVAL_MILLIS_ASC
+  INTERVAL_MILLIS_DESC
+  LAPS_ASC
+  LAPS_DESC
+}
+
+type Qualifying1Result {
+  raceId: Int
+  positionDisplayOrder: Int
+  positionNumber: Int
+  positionText: String
+  driverNumber: String
+  driverId: String
+  teamId: String
+  engineManufacturerId: String
+  tyreManufacturerId: String
+  time: String
+  timeMillis: Int
+  gap: String
+  gapMillis: Int
+  interval: String
+  intervalMillis: Int
+  laps: Int
+}
+
+"""
+A condition to be used against `Qualifying1Result` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input Qualifying1ResultCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+
+  """Checks for equality with the object’s `time` field."""
+  time: String
+
+  """Checks for equality with the object’s `timeMillis` field."""
+  timeMillis: Int
+
+  """Checks for equality with the object’s `gap` field."""
+  gap: String
+
+  """Checks for equality with the object’s `gapMillis` field."""
+  gapMillis: Int
+
+  """Checks for equality with the object’s `interval` field."""
+  interval: String
+
+  """Checks for equality with the object’s `intervalMillis` field."""
+  intervalMillis: Int
+
+  """Checks for equality with the object’s `laps` field."""
+  laps: Int
+}
+
+"""Methods to use when ordering `Qualifying1Result`."""
+enum Qualifying1ResultOrderBy {
+  NATURAL
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+  TIME_ASC
+  TIME_DESC
+  TIME_MILLIS_ASC
+  TIME_MILLIS_DESC
+  GAP_ASC
+  GAP_DESC
+  GAP_MILLIS_ASC
+  GAP_MILLIS_DESC
+  INTERVAL_ASC
+  INTERVAL_DESC
+  INTERVAL_MILLIS_ASC
+  INTERVAL_MILLIS_DESC
+  LAPS_ASC
+  LAPS_DESC
+}
+
+type Qualifying2Result {
+  raceId: Int
+  positionDisplayOrder: Int
+  positionNumber: Int
+  positionText: String
+  driverNumber: String
+  driverId: String
+  teamId: String
+  engineManufacturerId: String
+  tyreManufacturerId: String
+  time: String
+  timeMillis: Int
+  gap: String
+  gapMillis: Int
+  interval: String
+  intervalMillis: Int
+  laps: Int
+}
+
+"""
+A condition to be used against `Qualifying2Result` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input Qualifying2ResultCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+
+  """Checks for equality with the object’s `time` field."""
+  time: String
+
+  """Checks for equality with the object’s `timeMillis` field."""
+  timeMillis: Int
+
+  """Checks for equality with the object’s `gap` field."""
+  gap: String
+
+  """Checks for equality with the object’s `gapMillis` field."""
+  gapMillis: Int
+
+  """Checks for equality with the object’s `interval` field."""
+  interval: String
+
+  """Checks for equality with the object’s `intervalMillis` field."""
+  intervalMillis: Int
+
+  """Checks for equality with the object’s `laps` field."""
+  laps: Int
+}
+
+"""Methods to use when ordering `Qualifying2Result`."""
+enum Qualifying2ResultOrderBy {
+  NATURAL
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+  TIME_ASC
+  TIME_DESC
+  TIME_MILLIS_ASC
+  TIME_MILLIS_DESC
+  GAP_ASC
+  GAP_DESC
+  GAP_MILLIS_ASC
+  GAP_MILLIS_DESC
+  INTERVAL_ASC
+  INTERVAL_DESC
+  INTERVAL_MILLIS_ASC
+  INTERVAL_MILLIS_DESC
+  LAPS_ASC
+  LAPS_DESC
+}
+
+type WarmingUpResult {
+  raceId: Int
+  positionDisplayOrder: Int
+  positionNumber: Int
+  positionText: String
+  driverNumber: String
+  driverId: String
+  teamId: String
+  engineManufacturerId: String
+  tyreManufacturerId: String
+  time: String
+  timeMillis: Int
+  gap: String
+  gapMillis: Int
+  interval: String
+  intervalMillis: Int
+  laps: Int
+}
+
+"""
+A condition to be used against `WarmingUpResult` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input WarmingUpResultCondition {
+  """Checks for equality with the object’s `raceId` field."""
+  raceId: Int
+
+  """Checks for equality with the object’s `positionDisplayOrder` field."""
+  positionDisplayOrder: Int
+
+  """Checks for equality with the object’s `positionNumber` field."""
+  positionNumber: Int
+
+  """Checks for equality with the object’s `positionText` field."""
+  positionText: String
+
+  """Checks for equality with the object’s `driverNumber` field."""
+  driverNumber: String
+
+  """Checks for equality with the object’s `driverId` field."""
+  driverId: String
+
+  """Checks for equality with the object’s `teamId` field."""
+  teamId: String
+
+  """Checks for equality with the object’s `engineManufacturerId` field."""
+  engineManufacturerId: String
+
+  """Checks for equality with the object’s `tyreManufacturerId` field."""
+  tyreManufacturerId: String
+
+  """Checks for equality with the object’s `time` field."""
+  time: String
+
+  """Checks for equality with the object’s `timeMillis` field."""
+  timeMillis: Int
+
+  """Checks for equality with the object’s `gap` field."""
+  gap: String
+
+  """Checks for equality with the object’s `gapMillis` field."""
+  gapMillis: Int
+
+  """Checks for equality with the object’s `interval` field."""
+  interval: String
+
+  """Checks for equality with the object’s `intervalMillis` field."""
+  intervalMillis: Int
+
+  """Checks for equality with the object’s `laps` field."""
+  laps: Int
+}
+
+"""Methods to use when ordering `WarmingUpResult`."""
+enum WarmingUpResultOrderBy {
+  NATURAL
+  RACE_ID_ASC
+  RACE_ID_DESC
+  POSITION_DISPLAY_ORDER_ASC
+  POSITION_DISPLAY_ORDER_DESC
+  POSITION_NUMBER_ASC
+  POSITION_NUMBER_DESC
+  POSITION_TEXT_ASC
+  POSITION_TEXT_DESC
+  DRIVER_NUMBER_ASC
+  DRIVER_NUMBER_DESC
+  DRIVER_ID_ASC
+  DRIVER_ID_DESC
+  TEAM_ID_ASC
+  TEAM_ID_DESC
+  ENGINE_MANUFACTURER_ID_ASC
+  ENGINE_MANUFACTURER_ID_DESC
+  TYRE_MANUFACTURER_ID_ASC
+  TYRE_MANUFACTURER_ID_DESC
+  TIME_ASC
+  TIME_DESC
+  TIME_MILLIS_ASC
+  TIME_MILLIS_DESC
+  GAP_ASC
+  GAP_DESC
+  GAP_MILLIS_ASC
+  GAP_MILLIS_DESC
+  INTERVAL_ASC
+  INTERVAL_DESC
+  INTERVAL_MILLIS_ASC
+  INTERVAL_MILLIS_DESC
+  LAPS_ASC
+  LAPS_DESC
+}
+
+type WikipediaBio {
+  title: String!
+  extract: String
+  thumbnailUrl: String
+  sourceUrl: String!
+}
