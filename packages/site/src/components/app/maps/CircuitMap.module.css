@@ -7,8 +7,6 @@
 	stroke-width: 8;
 }
 
-/* !important: the inline SVG ships its own unlayered <style> (.stN{stroke-width:…});
-   our rules live in a cascade layer, so without !important the SVG's widths win. */
 .map svg .st0 {
 	stroke: var(--color-text-primary);
 }
