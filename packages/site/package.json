@@ -40,15 +40,13 @@
 		"@types/topojson-client": "^3.1.5",
 		"axe-core": "^4.11.4",
 		"css-mediaquery": "^0.1.2",
-		"eslint": "^9.39.4",
-		"eslint-config-next": "^16.2.6",
 		"jest": "^30.4.2",
 		"jest-canvas-mock": "^2.5.2",
 		"jest-environment-jsdom": "^30.4.1",
 		"jest-localstorage-mock": "^2.4.26",
 		"postcss": "^8.5.15",
 		"tailwindcss": "^4.3.0",
-		"typescript": "^5.9.3"
+		"typescript": "^6.0.3"
 	},
 	"dependencies": {
 		"@apollo/client": "^4.2.0",
