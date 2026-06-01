@@ -3,7 +3,6 @@ import { DataGrid } from '@mui/x-data-grid';
 
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
 import { DriverByLine } from '@/components/app';
-import { SeasonDriverStanding } from '@/gql/graphql';
 
 import { ConstructorPageData, DriverByYear } from './types';
 
@@ -12,10 +11,6 @@ type DriversProps = SimpleApolloResult<ConstructorPageData>;
 type RowData = {
 	year: DriverByYear['year'];
 	drivers: DriverByYear['driver'][];
-};
-
-const findFinalStandings = (year: number, standings: SeasonDriverStanding[]) => {
-	return standings.filter(s => s.year === year)[0];
 };
 
 export default function Drivers({ data, loading }: DriversProps) {
