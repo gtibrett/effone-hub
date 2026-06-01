@@ -12,7 +12,7 @@ export default function TableFilter({ handleSearch, children }: TableFilterProps
 	return (
 		<form onSubmit={handleSearch}>
 			<CardActions className="p-4 border-b-4 border-secondary bg-background/15">
-				<Grid container spacing={1}>
+				<Grid container spacing={1} className="w-full">
 					{Array.isArray(children) ? (
 						children.map((c, i) => (
 							<Grid key={i} size="grow">

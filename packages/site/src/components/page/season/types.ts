@@ -4,11 +4,11 @@ import { DriverId } from '@/types';
 
 export type SeasonData = {
 	year: number;
-	racesByYear: {
-		round: number;
-		teamStandings: Pick<SeasonTeamStanding, 'teamId' | 'points'>[];
-		driverStandings: Pick<SeasonDriverStanding, 'driverId' | 'points'>[];
-	}[];
+	seasonDriverStandingsByYear: Pick<
+		SeasonDriverStanding,
+		'driverId' | 'points' | 'positionNumber'
+	>[];
+	seasonTeamStandingsByYear: Pick<SeasonTeamStanding, 'teamId' | 'points' | 'positionNumber'>[];
 };
 
 export type Data = {
@@ -18,13 +18,11 @@ export type Data = {
 export type DriverChampionData = DataWithValue & {
 	driverId: DriverId;
 	points: number;
-	wins: number;
 };
 
 export type TeamChampionData = DataWithValue & {
 	teamId: string;
 	points: number;
-	wins: number;
 };
 
 export type ChampionData = DriverChampionData | TeamChampionData;

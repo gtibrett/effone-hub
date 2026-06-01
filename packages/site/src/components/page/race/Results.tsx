@@ -6,7 +6,7 @@ import { DataGrid } from '@mui/x-data-grid';
 
 import { ConstructorByLine, DriverByLine } from '@/components/app';
 import { Race, RaceResult } from '@/gql/graphql';
-import { getPositionTextOutcome } from '@/helpers';
+import { getPositionTextOutcome, toPoints } from '@/helpers';
 
 import Podium from './Podium';
 import PositionChange from './PositionChange';
@@ -100,7 +100,8 @@ export default function Results({ results }: { results?: Race['raceResults'] | n
 						headerName: 'Points',
 						type: 'number',
 						headerAlign: 'center',
-						align: 'center'
+						align: 'center',
+						valueGetter: value => toPoints(value)
 					},
 					{
 						field: 'time',

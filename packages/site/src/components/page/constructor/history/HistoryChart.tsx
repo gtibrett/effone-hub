@@ -47,6 +47,7 @@ export default function HistoryChart({
 			theme={nivoTheme}
 			data={series as unknown as LineSeries[]}
 			colors={chartColors}
+			pointColor={d => d.series.color}
 			lineWidth={4}
 			pointSize={12}
 			yScale={{

@@ -8,17 +8,16 @@
 	},
 	"packageManager": "pnpm@11.1.2",
 	"scripts": {
-		"start:db": "pnpm --filter @gtibrett/effone-hub-graph-db start",
-		"stop:db": "pnpm --filter @gtibrett/effone-hub-graph-db stop",
-		"build": "pnpm --filter @gtibrett/effone-hub-site build",
-		"dev:site": "pnpm --filter @gtibrett/effone-hub-site dev",
-		"build:site": "pnpm --filter @gtibrett/effone-hub-site build",
-		"start:site": "pnpm --filter @gtibrett/effone-hub-site start",
+		"prepare": "husky",
+		"db:start": "pnpm --filter @gtibrett/effone-hub-graph-db start",
+		"db:stop": "pnpm --filter @gtibrett/effone-hub-graph-db stop",
+		"site:dev": "pnpm --filter @gtibrett/effone-hub-site dev",
+		"site:build": "pnpm --filter @gtibrett/effone-hub-site build",
+		"site:start": "pnpm --filter @gtibrett/effone-hub-site start",
 		"lint": "biome check",
 		"lint:fix": "biome check --write",
 		"format": "biome format",
-		"format:fix": "biome format --write",
-		"prepare": "husky"
+		"format:fix": "biome format --write"
 	},
 	"lint-staged": {
 		"packages/site/src/**/*.{js,jsx,ts,tsx,json,css}": [

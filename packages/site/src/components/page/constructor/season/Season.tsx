@@ -7,6 +7,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { DriverByLine } from '@/components/app';
 import { DriverPageData } from '@/components/page/driver';
 import { Team } from '@/gql/graphql';
+import { toPoints } from '@/helpers';
 
 const CellValueWrapper = ({
 	align = 'center',
@@ -156,7 +157,9 @@ export default function Season({ teamId, season }: SeasonProps) {
 								<Grid container spacing={0} className="justify-center">
 									{row.raceResults.map(result => (
 										<Grid key={result.driverId ?? ''} size={12}>
-											<Typography align="center">{result.points}</Typography>
+											<Typography align="center">
+												{toPoints(result.points)}
+											</Typography>
 										</Grid>
 									))}
 								</Grid>

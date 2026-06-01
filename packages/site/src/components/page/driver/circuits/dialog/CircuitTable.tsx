@@ -3,7 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
 import { PositionChange } from '@/components/page/race';
-import { getPositionTextOutcome, getTimeStringFromDate } from '@/helpers';
+import { getPositionTextOutcome, getTimeStringFromDate, toPoints } from '@/helpers';
 
 import { CircuitDialogData } from './types';
 
@@ -104,7 +104,7 @@ export default function CircuitTable({ data, loading }: CircuitTableProps) {
 						headerAlign: 'center',
 						align: 'center',
 						valueGetter: (_value: unknown, row: (typeof races)[number]) => {
-							return row.results[0].points;
+							return toPoints(row.results[0]?.points);
 						},
 						flex: 1
 					},

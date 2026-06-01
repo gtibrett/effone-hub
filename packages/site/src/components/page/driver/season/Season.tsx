@@ -3,7 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 
 import { useAppState } from '@/components/app';
 import { PositionChange } from '@/components/page/race';
-import { getPositionTextOutcome, getTimeStringFromDate } from '@/helpers';
+import { getPositionTextOutcome, getTimeStringFromDate, toPoints } from '@/helpers';
 
 import SeasonChart from './SeasonChart';
 import useSeasonData from './useSeasonData';
@@ -121,7 +121,7 @@ export default function Season({ season, driverId }: SeasonProps) {
 							type: 'number',
 							headerAlign: 'center',
 							align: 'center',
-							valueGetter: (value, row) => row.raceResults?.[0]?.points || '--'
+							valueGetter: (value, row) => toPoints(row.raceResults?.[0]?.points)
 						},
 						{
 							field: 'time',

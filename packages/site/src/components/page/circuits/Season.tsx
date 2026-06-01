@@ -2,7 +2,7 @@ import { Grid, Skeleton, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { ConstructorByLine, DriverByLine } from '@/components/app';
-import { getPositionTextOutcome } from '@/helpers';
+import { getPositionTextOutcome, toPoints } from '@/helpers';
 import { CircuitDataProps } from '@/hooks/data';
 
 import PositionChange from '../race/PositionChange';
@@ -96,7 +96,8 @@ export default function Season({ data, loading }: CircuitDataProps) {
 					headerName: 'Points',
 					type: 'number',
 					headerAlign: 'center',
-					align: 'center'
+					align: 'center',
+					valueGetter: value => toPoints(value)
 				},
 				{
 					field: 'reasonRetired',

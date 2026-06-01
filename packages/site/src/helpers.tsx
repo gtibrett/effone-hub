@@ -61,6 +61,16 @@ export const getMillisecondsFromTimeString = (timeString?: Maybe<string>): numbe
 	return Date.parse(`01 Jan 1970 ${hmsParts.join(':')}.${ms} GMT`);
 };
 
+// DB numeric/BigFloat scalars deserialize as strings like "25.00"; coerce so DataGrid
+// shows integers/half-points (not "25.00") and sorts numerically. null -> blank cell.
+export const toPoints = (value: unknown): number | null => {
+	if (value === null || value === undefined || value === '') {
+		return null;
+	}
+	const n = Number(value);
+	return Number.isNaN(n) ? null : n;
+};
+
 export const round = (num: number, precision = 2) =>
 	num > 0 ? Math.trunc(num * Math.pow(10, precision)) / Math.pow(10, precision) : 0;
 

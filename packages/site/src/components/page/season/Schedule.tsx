@@ -57,6 +57,7 @@ export default function Schedule({ season }: ScheduleProps) {
 						sortModel: [{ field: 'date', sort: 'asc' }]
 					}
 				}}
+				hideFooterPagination
 				columns={[
 					{
 						field: 'date',

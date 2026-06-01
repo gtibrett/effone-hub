@@ -59,14 +59,14 @@ export default function DriversList({ filters }: DriversTableProps) {
 					headerName: 'Seasons',
 					flex: 0.25,
 					type: 'number',
-					valueGetter: (value, row) => row.seasonEntrantDrivers?.length ?? 0
+					valueGetter: (value, row) => row.seasonDrivers?.length ?? 0
 				},
 				{
 					field: 'races',
 					headerName: 'Races',
 					flex: 0.25,
 					type: 'number',
-					valueGetter: (value, row) => row.raceResults?.length ?? 0
+					valueGetter: (value, row) => row.totalRaceStarts ?? 0
 				},
 				// {
 				// 	field:       'championships',
@@ -80,18 +80,14 @@ export default function DriversList({ filters }: DriversTableProps) {
 					headerName: 'Wins',
 					flex: 0.25,
 					type: 'number',
-					valueGetter: (value, row) =>
-						(row.raceResults ?? []).filter((r: any) => Number(r.positionOrder) === 1)
-							.length
+					valueGetter: (value, row) => row.totalRaceWins ?? 0
 				},
 				{
 					field: 'podiums',
 					headerName: 'Podiums',
 					flex: 0.25,
 					type: 'number',
-					valueGetter: (value, row) =>
-						(row.raceResults ?? []).filter((r: any) => Number(r.positionOrder) <= 3)
-							.length
+					valueGetter: (value, row) => row.totalPodiums ?? 0
 				}
 			]}
 			initialState={{

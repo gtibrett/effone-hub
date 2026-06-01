@@ -108,6 +108,15 @@ export const effTheme = createTheme({
 				paper: { background: 'var(--mui-palette-background-paper)' }
 			}
 		},
+		MuiDialogTitle: {
+			styleOverrides: {
+				root: {
+					'&>.MuiGrid-root': {
+						justifyContent: 'space-between'
+					}
+				}
+			}
+		},
 		MuiBackdrop: {
 			defaultProps: {
 				className: 'bg-primary-900'

@@ -59,6 +59,7 @@ export default function SeasonChart({ data, loading }: SeasonChartProps) {
 				theme={nivoTheme}
 				data={drivers as unknown as LineSeries[]}
 				colors={colors}
+				pointColor={d => d.series.color}
 				lineWidth={4}
 				pointSize={12}
 				yScale={{

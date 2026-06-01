@@ -9,20 +9,16 @@
 
 .map svg .st0 {
 	stroke: var(--color-text-primary);
-	stroke-width: var(--cm-st0-sw);
 }
 
 .map svg .st1 {
 	stroke: var(--map-sector-1);
-	stroke-width: var(--cm-st1-sw);
 }
 
 .map svg .st2 {
 	stroke: var(--map-sector-2);
-	stroke-width: var(--cm-st2-sw);
 }
 
 .map svg .st3 {
 	stroke: var(--map-sector-3);
-	stroke-width: var(--cm-st3-sw);
 }
