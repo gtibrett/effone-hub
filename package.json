@@ -8,7 +8,7 @@
 	},
 	"packageManager": "pnpm@11.1.2",
 	"scripts": {
-		"prepare": "husky",
+		"prepare": "[ -n \"$VERCEL\" ] || husky",
 		"db:start": "pnpm --filter @gtibrett/effone-hub-graph-db start",
 		"db:stop": "pnpm --filter @gtibrett/effone-hub-graph-db stop",
 		"site:dev": "pnpm --filter @gtibrett/effone-hub-site dev",
