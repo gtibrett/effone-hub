@@ -1,4 +1,4 @@
-import { CSSProperties, Suspense, SVGProps, SyntheticEvent, useState } from 'react';
+import { Suspense, SVGProps } from 'react';
 import { faSquareFull } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, Grid, ToggleButton, ToggleButtonGroup } from '@mui/material';
@@ -15,19 +15,6 @@ type CircuitMapProps = SVGProps<any> & {
 	circuitRef: Circuit['id'];
 };
 
-const buildStrokeVars = (
-	variant: CircuitMapProps['variant'],
-	sector: string | undefined
-): CSSProperties => {
-	const divisor = variant === 'simple' ? 1.75 : 1;
-	return {
-		['--cm-st0-sw' as any]: `${15 / divisor}`,
-		['--cm-st1-sw' as any]: `${(sector === '1' ? 15 : 7) / divisor}`,
-		['--cm-st2-sw' as any]: `${(sector === '2' ? 15 : 7) / divisor}`,
-		['--cm-st3-sw' as any]: `${(sector === '3' ? 15 : 7) / divisor}`
-	};
-};
-
 export default function CircuitMap({
 	variant = 'interactive',
 	circuitRef,
@@ -35,8 +22,6 @@ export default function CircuitMap({
 	width,
 	...svgProps
 }: CircuitMapProps) {
-	const [sector, setSector] = useState<string | undefined>();
-	const strokeVars = buildStrokeVars(variant, sector);
 	const {
 		data: { circuit }
 	} = useCircuitByRef(circuitRef);
@@ -55,30 +40,16 @@ export default function CircuitMap({
 	if (variant === 'simple') {
 		return (
 			<Suspense>
-				<Box className={styles.map} style={strokeVars}>
-					{mapSVG}
-				</Box>
+				<Box className={styles.map}>{mapSVG}</Box>
 			</Suspense>
 		);
 	}
-
-	const handleChange = (event: SyntheticEvent<HTMLElement>, sector: string) => {
-		event.currentTarget.blur();
-		setSector(sector);
-		return false;
-	};
 
 	return (
 		<Suspense>
 			<Grid container spacing={2} className="justify-end">
 				<Grid>
-					<ToggleButtonGroup
-						size="small"
-						value={sector}
-						onChange={handleChange}
-						exclusive
-						aria-hidden
-					>
+					<ToggleButtonGroup size="small" exclusive aria-hidden disabled>
 						<ToggleButton value="1">
 							<FontAwesomeIcon
 								icon={faSquareFull}
@@ -102,7 +73,7 @@ export default function CircuitMap({
 						</ToggleButton>
 					</ToggleButtonGroup>
 				</Grid>
-				<Grid className={styles.map} style={strokeVars} size={12}>
+				<Grid className={styles.map} size={12}>
 					{mapSVG}
 				</Grid>
 			</Grid>

@@ -3,6 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
 import { ChartSwitcher, ChartSwitcherChart } from '@/components/app';
+import { toPoints } from '@/helpers';
 
 import { ConstructorPageData } from '../types';
 import HistoryChart from './HistoryChart';
@@ -103,7 +104,8 @@ export default function History({ data, loading }: HistoryProps) {
 						type: 'number',
 						headerAlign: 'center',
 						align: 'center',
-						flex: 0.5
+						flex: 0.5,
+						valueGetter: value => toPoints(value)
 					}
 				]}
 			/>

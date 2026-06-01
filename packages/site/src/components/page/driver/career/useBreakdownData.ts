@@ -32,50 +32,57 @@ export default function useBreakdownData(
 	}
 
 	// @ts-ignore
-	return data?.driver.standings.map(({ year }) => {
-		const seasonResults = careerResults.filter((r: RaceResult) => r.race?.year === year);
-		const appearances = seasonResults.length;
+	return (
+		data?.driver.standings
+			// drop seasons with no race starts (e.g. practice-only entries); also avoids /0 -> NaN below
+			.filter(({ year }) => careerResults.some((r: RaceResult) => r.race?.year === year))
+			.map(({ year }) => {
+				const seasonResults = careerResults.filter(
+					(r: RaceResult) => r.race?.year === year
+				);
+				const appearances = seasonResults.length;
 
-		const raw: BreakdownMetrics = {
-			wins: 0,
-			podiums: 0,
-			inPoints: 0,
-			outOfPoints: 0,
-			DNFs: 0,
-			appearances
-		};
+				const raw: BreakdownMetrics = {
+					wins: 0,
+					podiums: 0,
+					inPoints: 0,
+					outOfPoints: 0,
+					DNFs: 0,
+					appearances
+				};
 
-		seasonResults.forEach((r: RaceResult) => {
-			switch (true) {
-				case r.positionNumber === 1:
-					raw.wins++;
-					break;
-				case r.positionNumber && r.positionNumber <= 3:
-					raw.podiums++;
-					break;
-				case r.positionNumber && r.positionNumber <= 10:
-					raw.inPoints++;
-					break;
-				case r.positionText !== String(r.positionNumber):
-					raw.DNFs++;
-					break;
-				default:
-					raw.outOfPoints++;
-			}
-		});
+				seasonResults.forEach((r: RaceResult) => {
+					switch (true) {
+						case r.positionNumber === 1:
+							raw.wins++;
+							break;
+						case r.positionNumber && r.positionNumber <= 3:
+							raw.podiums++;
+							break;
+						case r.positionNumber && r.positionNumber <= 10:
+							raw.inPoints++;
+							break;
+						case r.positionText !== String(r.positionNumber):
+							raw.DNFs++;
+							break;
+						default:
+							raw.outOfPoints++;
+					}
+				});
 
-		const asPercentage: BreakdownMetrics = Object.entries(raw)
-			.map(([key, value]) => ({ key, value: (Number(value) / appearances) * 100 }))
-			.reduce(
-				(cur, { key, value }) => ({ ...cur, [`${key}Percentage`]: value }),
-				{}
-			) as BreakdownMetrics;
+				const asPercentage: BreakdownMetrics = Object.entries(raw)
+					.map(([key, value]) => ({ key, value: (Number(value) / appearances) * 100 }))
+					.reduce(
+						(cur, { key, value }) => ({ ...cur, [`${key}Percentage`]: value }),
+						{}
+					) as BreakdownMetrics;
 
-		return {
-			year,
-			driverId,
-			raw,
-			...asPercentage
-		};
-	});
+				return {
+					year,
+					driverId,
+					raw,
+					...asPercentage
+				};
+			})
+	);
 }

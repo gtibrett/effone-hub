@@ -153,7 +153,7 @@ export default function ConstructorContent({ teamRef, team }: Props) {
 								component="img"
 								src={bio.thumbnailUrl}
 								alt={team.name ?? ''}
-								className="w-full aspect-square object-cover rounded"
+								className="w-full aspect-square object-contain rounded"
 							/>
 						</Grid>
 					)}

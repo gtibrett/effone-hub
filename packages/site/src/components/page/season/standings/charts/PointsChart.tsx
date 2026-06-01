@@ -32,6 +32,7 @@ export default function PointsChart({ data, TooltipComponent }: ChartProps) {
 						: alpha(color, 0.25)
 					: 'transparent'
 			}
+			pointColor={d => d.series.color}
 			lineWidth={4}
 			pointSize={8}
 			margin={{ top: 20, right: 48, bottom: 28, left: 16 }}

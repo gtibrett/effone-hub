@@ -7,6 +7,7 @@ import { DataGrid } from '@mui/x-data-grid';
 
 import { DriverByLine } from '@/components/app';
 import { Place } from '@/components/page/race';
+import { toPoints } from '@/helpers';
 
 import useDriverStandingsData from './useDriversStandingsData';
 
@@ -103,7 +104,7 @@ export default function DriverStandingsDialog({
 							}}
 							columns={[
 								{
-									field: 'position',
+									field: 'positionNumber',
 									headerName: 'P',
 									headerAlign: 'center',
 									type: 'number',
@@ -126,7 +127,8 @@ export default function DriverStandingsDialog({
 								{
 									field: 'points',
 									headerName: 'Points',
-									type: 'number'
+									type: 'number',
+									valueGetter: value => toPoints(value)
 								}
 							]}
 						/>

@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { Card, CardContent, CardHeader, Grid } from '@mui/material';
+import { Card, CardContent, CardHeader, Grid, Stack } from '@mui/material';
 
 import RaceWeekend from '@/components/page/raceWeekend/RaceWeekend';
 import { Schedule } from '@/components/page/season/index';
@@ -61,7 +61,7 @@ export default function Season({ season }: SeasonProps) {
 							<Card>
 								<CardHeader title="Season Stats" />
 								<CardContent>
-									<Grid container spacing={2}>
+									<Stack spacing={2}>
 										<Wins size="small" season={season.year} />
 										<SprintWins size="small" season={season.year} />
 										<Grid size={12} className="block lg:hidden" />
@@ -73,7 +73,7 @@ export default function Season({ season }: SeasonProps) {
 										<Grid size={12} className="block lg:hidden" />
 										<PositionsGained size="small" season={season.year} />
 										<DNFs size="small" season={season.year} />
-									</Grid>
+									</Stack>
 								</CardContent>
 							</Card>
 						</Grid>

@@ -3,8 +3,9 @@ import { useSuspenseQuery } from '@apollo/client/react';
 import { Box, Link, Skeleton } from '@mui/material';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
-import { StatCard, StatCardStat } from '@/components/app';
+import { StatCard } from '@/components/app';
 import SeasonsQuery from '@/components/page/season/SeasonsQuery';
+import { toPoints } from '@/helpers';
 
 import {
 	ChampionData,
@@ -22,10 +23,10 @@ function getAtPlace(
 	place: number
 ): DriverChampionData | TeamChampionData | undefined {
 	return variant === 'driver'
-		? ((season.racesByYear?.[0]?.driverStandings?.[place - 1] || undefined) as
+		? ((season.seasonDriverStandingsByYear?.[place - 1] || undefined) as
 				| DriverChampionData
 				| undefined)
-		: ((season.racesByYear?.[0]?.teamStandings?.[place - 1] || undefined) as
+		: ((season.seasonTeamStandingsByYear?.[place - 1] || undefined) as
 				| TeamChampionData
 				| undefined);
 }
@@ -49,14 +50,7 @@ const PlaceColumnRenderer = memo(function PlaceColumnRenderer({ data }: PlaceCol
 				size="small"
 				label="Points"
 				loading={false}
-				data={new Map([[key as string, { ...data, value: data.points }]])}
-				extra={
-					<StatCardStat<ChampionData>
-						label="Wins"
-						data={{ ...data, value: 1 }}
-						format={({ wins }) => wins}
-					/>
-				}
+				data={new Map([[key as string, { ...data, value: toPoints(data.points) ?? 0 }]])}
 			/>
 		</Box>
 	);

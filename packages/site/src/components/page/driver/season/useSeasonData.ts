@@ -13,6 +13,8 @@ const query = gql`
 			date
 			time
 			raceResults(condition: {driverId: $driverId}) {
+				raceId
+				driverId
 				gridPositionNumber
 				positionDisplayOrder
 				points

@@ -34,7 +34,7 @@ export default function CircuitDialog({ driverId, circuitId, onClose }: CircuitP
 	return (
 		<Dialog
 			open={!!circuitId}
-			closeIcon={<FontAwesomeIcon fixedWidth icon={faTimes} />}
+			closeIcon={<FontAwesomeIcon icon={faTimes} />}
 			onClose={onClose}
 			maxWidth="lg"
 			fullWidth

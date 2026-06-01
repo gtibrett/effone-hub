@@ -5,6 +5,7 @@ import { Dialog } from '@gtibrett/mui-additions';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { ConstructorByLine } from '@/components/app';
+import { toPoints } from '@/helpers';
 
 import useConstructorStandingsData from './useConstructorsStandingsData';
 
@@ -36,7 +37,7 @@ export default function ConstructorStandingsDialog({
 			maxWidth="lg"
 			fullWidth
 			title={`${season} Constructor Standings`}
-			closeIcon={<FontAwesomeIcon fixedWidth icon={faTimes} />}
+			closeIcon={<FontAwesomeIcon icon={faTimes} className="self-end" />}
 		>
 			<DataGrid
 				rows={lastRaceStandings}
@@ -69,7 +70,8 @@ export default function ConstructorStandingsDialog({
 					{
 						field: 'points',
 						headerName: 'Points',
-						type: 'number'
+						type: 'number',
+						valueGetter: value => toPoints(value)
 					}
 				]}
 			/>

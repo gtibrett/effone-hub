@@ -7,6 +7,9 @@ query DriversQuery {
     firstName
     lastName
     nationalityCountryId
+    totalRaceStarts
+    totalRaceWins
+    totalPodiums
     nationalityCountry {
       id
       name

@@ -4,6 +4,7 @@ import { Alert, Grid, Link, Skeleton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { ConstructorByLine } from '@/components/app';
+import { toPoints } from '@/helpers';
 
 import SeasonDialog from '../season/SeasonDialog';
 import Stats from '../stats';
@@ -36,11 +37,14 @@ export default function Career({ driverId }: CareerProps) {
 	);
 
 	const teamByYear = getSeasonEndTeamByYear(data?.driver.raceResults);
-	const standingsRows = careerStandings.map(s => ({
-		...s,
-		team: s.year != null ? (teamByYear.get(s.year) ?? null) : null,
-		races: s.year != null ? (racesByYear[s.year] ?? 0) : 0
-	}));
+	const standingsRows = careerStandings
+		.map(s => ({
+			...s,
+			team: s.year != null ? (teamByYear.get(s.year) ?? null) : null,
+			races: s.year != null ? (racesByYear[s.year] ?? 0) : 0
+		}))
+		// hide seasons with no race starts (e.g. practice-only entries)
+		.filter(row => row.races > 0);
 
 	return (
 		<>
@@ -108,7 +112,8 @@ export default function Career({ driverId }: CareerProps) {
 								headerAlign: 'center',
 								align: 'center',
 								flex: 1,
-								minWidth: 100
+								minWidth: 100,
+								valueGetter: value => toPoints(value)
 							},
 							{
 								field: 'team',
