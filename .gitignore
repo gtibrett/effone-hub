@@ -38,3 +38,5 @@ console-*.txt
 # Claude (entire .claude/ dir is per-developer machine state)
 /.claude/
 SESSION_CONTEXT.md
+# Added by code-review-graph
+.code-review-graph/
