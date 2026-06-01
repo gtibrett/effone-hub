@@ -1,7 +1,6 @@
 .next
 node_modules
 packages/database
-packages/api
 seeds-archived
 **/yarn-error.log
 *.log
