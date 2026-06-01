@@ -44,9 +44,7 @@
 			"!packages/site/src/gql/**",
 			"!**/node_modules/**",
 			"!**/.next/**",
-			"!**/build/**",
-			"!.vendor/**",
-			"!skills/**"
+			"!**/build/**"
 		]
 	},
 	"linter": {
