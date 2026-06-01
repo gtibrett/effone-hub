@@ -103,7 +103,7 @@ without re-discovery.
 | `Driver.dob`                 | `Driver.dateOfBirth` |
 | `Driver.nationality`         | `Driver.nationalityCountryId` *(string id; join to Country for label)* |
 | `Driver.url`                 | gone |
-| `Driver.bio` *(Wikipedia)*   | gone — needs a v5 `extendSchema` plugin (helpers in `src/api/postgraphile/wikipedia/` are still present but the Driver/ConstructorBioPlugin glue was deleted in `9b552ab`; rewrite using `extendSchema` from `postgraphile/utils`) |
+| `Driver.bio` *(Wikipedia)*   | now resolved at query time by `WikipediaBioPlugin` (`packages/api/src/postgraphile/wikipedia/`); the old site-side `src/api/postgraphile/wikipedia/` helpers were removed in the api-split (Driver/ConstructorBioPlugin glue deleted earlier in `9b552ab`) |
 | `Driver.teamsByYear`         | derive via `Driver.seasonEntrantDrivers(condition: {year})` → walk to `seasonEntrantConstructor.constructor` |
 | `Driver.currentTeam`         | derive via `Driver.seasonEntrantDrivers(orderBy: YEAR_DESC, first: 1)` → similar |
 
@@ -146,11 +146,13 @@ to type `AppLapTime` with fields `raceId`, `driverId`, `lap`, `position`,
 ## Bio plugins (DriverBioPlugin / ConstructorBioPlugin)
 
 These were deleted in commit `9b552ab` because their v4 `makeExtendSchemaPlugin`
-API is gone. The Wikipedia helpers in
-`packages/site/src/api/postgraphile/wikipedia/` (`getCanonicalId`,
-`getSummary`, `WikipediaSummary`) are still present.
+API is gone. The v5 revival has since landed as `WikipediaBioPlugin` in
+`packages/api/src/postgraphile/wikipedia/`; the old site-side helpers
+(`getCanonicalId`, `getSummary`, `WikipediaSummary`) were removed in the
+api-split.
 
-To revive in v5:
+The original revival sketch (superseded by `WikipediaBioPlugin`, kept for
+reference):
 ```ts
 import { extendSchema, gql } from 'postgraphile/utils';
 import { getSummary, getCanonicalId } from './wikipedia';
