@@ -33,6 +33,9 @@ importers:
       '@graphile/simplify-inflection':
         specifier: ^8.0.0
         version: 8.0.0
+      adm-zip:
+        specifier: ^0.5.17
+        version: 0.5.17
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
@@ -46,6 +49,9 @@ importers:
         specifier: ^5.0.3
         version: 5.0.3(5e1bb7140865803478af867575643ed8)
     devDependencies:
+      '@types/adm-zip':
+        specifier: ^0.5.8
+        version: 0.5.8
       '@types/node':
         specifier: ^24.12.4
         version: 24.12.4
@@ -150,9 +156,6 @@ importers:
       '@nivo/theming':
         specifier: ^0.99.0
         version: 0.99.0(react@19.2.6)
-      adm-zip:
-        specifier: ^0.5.17
-        version: 0.5.17
       d3-shape:
         specifier: ^3.2.0
         version: 3.2.0
@@ -171,9 +174,6 @@ importers:
       next:
         specifier: ^16.2.6
         version: 16.2.6(@babel/core@7.29.7)(babel-plugin-macros@3.1.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
-      pg:
-        specifier: ^8.21.0
-        version: 8.21.0
       react:
         specifier: ^19.2.6
         version: 19.2.6
@@ -214,9 +214,6 @@ importers:
       '@testing-library/react':
         specifier: ^16.3.2
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.15))(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
-      '@types/adm-zip':
-        specifier: ^0.5.8
-        version: 0.5.8
       '@types/css-mediaquery':
         specifier: ^0.1.4
         version: 0.1.4
@@ -232,9 +229,6 @@ importers:
       '@types/node':
         specifier: ^24.12.4
         version: 24.12.4
-      '@types/pg':
-        specifier: ^8.20.0
-        version: 8.20.0
       '@types/react':
         specifier: ^19.2.15
         version: 19.2.15

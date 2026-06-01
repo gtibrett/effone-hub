@@ -1,7 +1,7 @@
 import { Client } from 'pg';
 
 import { fetchAllLaps, parseTimeToMillis } from './fetchJolpicaLaps';
-import { DriverResolver } from './resolveDriverId';
+import type { DriverResolver } from './resolveDriverId';
 
 export type LapInsertReport = {
 	raceId: number;

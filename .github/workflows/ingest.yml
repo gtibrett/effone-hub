@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     # Real work: dump apply ~45s on Neon + lap-times backfill + setup. Lap
     # backfill is now governed by Jolpica's 500/hour sustained rate cap (see
-    # packages/site/src/api/ingest/fetchJolpicaLaps.ts) — a saturated run that
+    # packages/api/src/ingest/fetchJolpicaLaps.ts) — a saturated run that
     # hits the hourly window then sleeps must be allowed to complete or it
     # leaves rows half-ingested. 60 min lets us sleep up to one full Jolpica
     # hour after burst exhaustion while still bounded for free-tier safety.
@@ -58,7 +58,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run ingest
-        run: pnpm exec tsx scripts/run-ingest.ts
+        run: pnpm --filter @gtibrett/effone-hub-api ingest
 
     permissions:
       contents: read
