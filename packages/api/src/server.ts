@@ -4,7 +4,7 @@ import Fastify from 'fastify';
 import { postgraphile } from 'postgraphile';
 import { grafserv } from 'postgraphile/grafserv/fastify/v5';
 
-import preset from '../graphile.config';
+import preset from './graphile.config.js';
 
 const PORT = Number(process.env.PORT ?? 4000);
 const HOST = process.env.HOST ?? '0.0.0.0';

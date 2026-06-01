@@ -2,8 +2,8 @@ import type {} from 'postgraphile';
 import { PostGraphileAmberPreset } from 'postgraphile/presets/amber';
 import { makePgService } from 'postgraphile/adaptors/pg';
 import { PgSimplifyInflectionPreset } from '@graphile/simplify-inflection';
-import F1dbSmartTags from './src/postgraphile/F1dbSmartTags';
-import WikipediaBioPlugin from './src/postgraphile/wikipedia/WikipediaBioPlugin';
+import F1dbSmartTags from './postgraphile/F1dbSmartTags.js';
+import WikipediaBioPlugin from './postgraphile/wikipedia/WikipediaBioPlugin.js';
 
 const POSTGRES_URL = process.env.POSTGRES_URL;
 const POSTGRES_SCHEMA = process.env.POSTGRES_SCHEMA ?? 'f1db,app';

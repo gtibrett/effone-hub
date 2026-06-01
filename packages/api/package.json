@@ -9,7 +9,7 @@
 	"scripts": {
 		"dev": "tsx watch src/server.ts",
 		"start": "tsx src/server.ts",
-		"build": "tsc",
+		"typecheck": "tsc",
 		"ingest": "tsx scripts/run-ingest.ts"
 	},
 	"dependencies": {
