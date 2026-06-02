@@ -1,71 +1,119 @@
-import { useState } from 'react';
-import { isPoint, LineSvgProps, ResponsiveLine } from '@nivo/line';
+'use client';
 
+import { useMemo, useState } from 'react';
+import type { LineSeriesType } from '@mui/x-charts';
+import { LineChart } from '@mui/x-charts/LineChart';
+
+import { ChartsTooltipBody, useChartsTheme } from '@/components/ui/charts';
 import { alpha } from '@/components/ui/colors';
-import { NivoTooltipFactory, RequiredByPropTypes, useNivoTheme } from '@/components/ui/nivo';
 
-import { ChartProps, StandingsChartSerie } from './types';
+import type { ChartProps, StandingWithEntity } from './types';
 import useChartData from './useChartData';
 
-const getTicks = (rounds: number) => new Array<number>(rounds).fill(0).map((v, i) => i + 1);
+const range = (n: number) => Array.from({ length: n }, (_, i) => i + 1);
 
 export default function PointsChart({ data, TooltipComponent }: ChartProps) {
 	const chartData = useChartData(data, 'points');
-	const nivoTheme = useNivoTheme();
-	const [highlight, setHighlight] = useState<string | number | undefined>();
-	const rounds = Math.max(...chartData.map(s => Math.max(...s.data.map(d => Number(d.x)))));
-	const maxPoints = Math.max(...chartData.map(s => Math.max(...s.data.map(d => Number(d.y)))));
+	const { sx } = useChartsTheme();
+	const [highlight, setHighlight] = useState<string | undefined>();
 
-	if (!data.length || !rounds || !maxPoints) {
+	const { series, lookup, ticks, maxPoints } = useMemo(() => {
+		const rounds = Math.max(...chartData.map(s => Math.max(...s.data.map(d => Number(d.x)))));
+		const maxY = Math.max(
+			...chartData.map(s => Math.max(...s.data.map(d => Number(d.y ?? 0))))
+		);
+		const lkup = new Map<string, Array<StandingWithEntity | undefined>>();
+		const built: LineSeriesType[] = chartData.map(s => {
+			const standings: Array<StandingWithEntity | undefined> = new Array(rounds).fill(
+				undefined
+			);
+			const values: Array<number | null> = new Array(rounds).fill(null);
+			s.data.forEach(d => {
+				const i = Number(d.x) - 1;
+				if (i >= 0 && i < rounds) {
+					values[i] = d.y == null ? null : Number(d.y);
+					const standing = (d as { data?: StandingWithEntity }).data;
+					if (standing) {
+						standings[i] = standing;
+					}
+				}
+			});
+			lkup.set(String(s.id), standings);
+			const fade = highlight && s.id !== highlight;
+			return {
+				id: String(s.id),
+				label: s.entity.name,
+				data: values,
+				color: fade ? alpha(s.color, 0.25) : s.color,
+				showMark: true,
+				curve: 'linear'
+			};
+		});
+		return { series: built, lookup: lkup, ticks: range(rounds), maxPoints: maxY };
+	}, [chartData, highlight]);
+
+	if (!data.length || !ticks.length || !maxPoints) {
 		return null;
 	}
 
+	function ItemTooltip(props: { itemData?: { seriesId?: string; dataIndex?: number } }) {
+		const itemData = props?.itemData;
+		if (!itemData?.seriesId || itemData.dataIndex == null) {
+			return null;
+		}
+		const standing = lookup.get(itemData.seriesId)?.[itemData.dataIndex];
+		if (!standing) {
+			return null;
+		}
+		const synthesized = {
+			point: {
+				data: {
+					x: itemData.dataIndex + 1,
+					y: standing.points,
+					data: standing
+				}
+			}
+		};
+		return (
+			<ChartsTooltipBody>
+				<TooltipComponent {...synthesized} />
+			</ChartsTooltipBody>
+		);
+	}
+
 	return (
-		<ResponsiveLine
-			{...(RequiredByPropTypes.Line as Partial<LineSvgProps<StandingsChartSerie>>)}
-			theme={nivoTheme}
-			data={chartData}
-			colors={({ color, id }) =>
-				color
-					? !highlight || id === highlight
-						? color
-						: alpha(color, 0.25)
-					: 'transparent'
-			}
-			pointColor={d => d.series.color}
-			lineWidth={4}
-			pointSize={8}
+		<LineChart
+			series={series}
+			xAxis={[
+				{
+					data: ticks,
+					scaleType: 'point',
+					tickInterval: ticks,
+					label: 'Round'
+				}
+			]}
+			yAxis={[
+				{
+					min: 0,
+					max: maxPoints,
+					position: 'right',
+					tickInterval: [0, maxPoints]
+				}
+			]}
 			margin={{ top: 20, right: 48, bottom: 28, left: 16 }}
-			enableGridX={true}
-			gridXValues={getTicks(rounds)}
-			enableGridY={false}
-			axisTop={null}
-			axisRight={{
-				tickSize: 2,
-				tickPadding: 8,
-				tickRotation: 0,
-				tickValues: [0, maxPoints]
+			grid={{ vertical: true, horizontal: false }}
+			sx={sx}
+			slots={{ itemContent: ItemTooltip }}
+			slotProps={{ tooltip: { trigger: 'item' } }}
+			onLineClick={(_e, params) => {
+				const id = String(params.seriesId);
+				setHighlight(highlight === id ? undefined : id);
 			}}
-			axisBottom={{
-				tickSize: 2,
-				tickPadding: 2,
-				tickRotation: 0,
-				tickValues: getTicks(rounds)
+			onMarkClick={(_e, params) => {
+				const id = String(params.seriesId);
+				setHighlight(highlight === id ? undefined : id);
 			}}
-			axisLeft={null}
-			crosshairType="bottom"
-			useMesh={true}
-			isInteractive={true}
-			tooltip={NivoTooltipFactory(TooltipComponent)}
-			onClick={datum =>
-				setHighlight(
-					isPoint(datum)
-						? highlight === datum.seriesId
-							? undefined
-							: datum.seriesId
-						: undefined
-				)
-			}
+			skipAnimation={false}
 		/>
 	);
 }
