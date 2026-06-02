@@ -1,24 +1,22 @@
-import { BarDatum } from '@nivo/bar';
-
 import { RaceResult } from '@/gql/graphql';
 
 import useCareerData from './useCareerData';
 
-export interface BreakdownMetrics extends BarDatum {
+export interface BreakdownMetrics {
 	wins: number;
 	podiums: number;
 	inPoints: number;
 	outOfPoints: number;
 	DNFs: number;
 	appearances: number;
+	[key: string]: number;
 }
 
-export interface BreakdownDatum extends BarDatum {
-	// @ts-ignore
+export interface BreakdownDatum {
 	driverId: string | undefined;
 	year: number;
-	// @ts-ignore
-	raw: BreakdownMetrics; // this works, but doesn't pass ts check
+	raw: BreakdownMetrics;
+	[key: string]: unknown;
 }
 
 export default function useBreakdownData(
