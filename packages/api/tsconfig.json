@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"lib": ["esnext", "dom"],
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"target": "esnext",
+		"types": ["node"],
+		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
+		"noEmit": true,
+		"incremental": true
+	},
+	"include": ["src/**/*.ts", "scripts/**/*.ts"],
+	"exclude": ["node_modules"]
+}

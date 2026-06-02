@@ -8,9 +8,11 @@
 	},
 	"packageManager": "pnpm@11.1.2",
 	"scripts": {
-		"prepare": "husky",
+		"prepare": "node -e \"process.exit(process.env.VERCEL?0:1)\" || husky",
 		"db:start": "pnpm --filter @gtibrett/effone-hub-graph-db start",
 		"db:stop": "pnpm --filter @gtibrett/effone-hub-graph-db stop",
+		"dev": "pnpm --parallel --filter @gtibrett/effone-hub-api --filter @gtibrett/effone-hub-site dev",
+		"api:dev": "pnpm --filter @gtibrett/effone-hub-api dev",
 		"site:dev": "pnpm --filter @gtibrett/effone-hub-site dev",
 		"site:build": "pnpm --filter @gtibrett/effone-hub-site build",
 		"site:start": "pnpm --filter @gtibrett/effone-hub-site start",

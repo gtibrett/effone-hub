@@ -23,11 +23,11 @@
  */
 
 import {Client} from 'pg';
-import {applyDumpAndSwap} from '../packages/site/src/api/ingest/applyDump';
-import {downloadDump, getLatestRelease, readDump} from '../packages/site/src/api/ingest/fetchF1DB';
-import {ingestLapTimesForRace, type LapInsertReport} from '../packages/site/src/api/ingest/insertLapTimes';
-import {pickRacesNeedingLapTimes} from '../packages/site/src/api/ingest/pickNewRaces';
-import {buildDriverResolver} from '../packages/site/src/api/ingest/resolveDriverId';
+import {applyDumpAndSwap} from '../src/ingest/applyDump';
+import {downloadDump, getLatestRelease, readDump} from '../src/ingest/fetchF1DB';
+import {ingestLapTimesForRace, type LapInsertReport} from '../src/ingest/insertLapTimes';
+import {pickRacesNeedingLapTimes} from '../src/ingest/pickNewRaces';
+import {buildDriverResolver} from '../src/ingest/resolveDriverId';
 
 const REVALIDATE_URL = process.env.REVALIDATE_URL ?? 'https://effonehub.com/api/cron/revalidate';
 const MAX_RACES      = Number(process.env.MAX_LAP_RACES ?? '500');

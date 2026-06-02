@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS app.team_colors (
 
 -- Driver/constructor bios are NOT stored in our DB — they resolve at GraphQL
 -- execution time via WikipediaBioPlugin (postgraphile/utils makeExtendSchemaPlugin)
--- with a per-process LRU cache. See packages/site/src/api/postgraphile/wikipedia/.
+-- with a per-process LRU cache. See packages/api/src/postgraphile/wikipedia/WikipediaBioPlugin.ts.
 
 -- Manually-curated team lineage edges. F1DB has constructor_chronology; this stays
 -- as an editorial layer for the timeline UI to express things F1DB does not model.

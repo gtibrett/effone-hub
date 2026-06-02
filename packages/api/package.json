@@ -1,0 +1,31 @@
+{
+	"name": "@gtibrett/effone-hub-api",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"engines": {
+		"node": "^24.0.0"
+	},
+	"scripts": {
+		"dev": "tsx watch src/server.ts",
+		"start": "tsx src/server.ts",
+		"typecheck": "tsc",
+		"ingest": "tsx scripts/run-ingest.ts"
+	},
+	"dependencies": {
+		"@fastify/cors": "^11.2.0",
+		"@graphile/simplify-inflection": "^8.0.0",
+		"adm-zip": "^0.5.17",
+		"dotenv": "^17.4.2",
+		"fastify": "^5.8.5",
+		"pg": "^8.21.0",
+		"postgraphile": "^5.0.3"
+	},
+	"devDependencies": {
+		"@types/adm-zip": "^0.5.8",
+		"@types/node": "^24.12.4",
+		"@types/pg": "^8.20.0",
+		"tsx": "^4.22.3",
+		"typescript": "^6.0.3"
+	}
+}

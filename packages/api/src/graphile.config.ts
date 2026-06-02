@@ -1,18 +1,20 @@
 import type {} from 'postgraphile';
-import {PostGraphileAmberPreset} from 'postgraphile/presets/amber';
-import {makePgService} from 'postgraphile/adaptors/pg';
-import {PgSimplifyInflectionPreset} from '@graphile/simplify-inflection';
-import F1dbSmartTags from './src/api/postgraphile/F1dbSmartTags';
-import WikipediaBioPlugin from './src/api/postgraphile/wikipedia/WikipediaBioPlugin';
+import { PostGraphileAmberPreset } from 'postgraphile/presets/amber';
+import { makePgService } from 'postgraphile/adaptors/pg';
+import { PgSimplifyInflectionPreset } from '@graphile/simplify-inflection';
+import F1dbSmartTags from './postgraphile/F1dbSmartTags.js';
+import WikipediaBioPlugin from './postgraphile/wikipedia/WikipediaBioPlugin.js';
 
-const POSTGRES_URL    = process.env.POSTGRES_URL;
+const POSTGRES_URL = process.env.POSTGRES_URL;
 const POSTGRES_SCHEMA = process.env.POSTGRES_SCHEMA ?? 'f1db,app';
 
 if (!POSTGRES_URL) {
 	throw new Error('POSTGRES_URL is required');
 }
 
-const schemas = POSTGRES_SCHEMA.split(',').map(s => s.trim()).filter(Boolean);
+const schemas = POSTGRES_SCHEMA.split(',')
+	.map(s => s.trim())
+	.filter(Boolean);
 
 // Surface single-column `id` PKs as GraphQL `id` (undo core's id→rowId rename,
 // which only existed to avoid the now-removed Node `id` collision). Must live
@@ -30,7 +32,7 @@ const IdRemapPlugin: GraphileConfig.Plugin = {
 		replace: {
 			_attributeName(previous, _options, details) {
 				const name = previous!(details as any);
-				const {codec, attributeName} = details as any;
+				const { codec, attributeName } = details as any;
 				if (!details.skipRowId && name === 'row_id' && !ID_REMAP_EXCLUDE.has(codec?.name)) {
 					const attribute = codec.attributes[attributeName];
 					const baseName = attribute?.extensions?.tags?.name || attributeName;
@@ -71,17 +73,19 @@ const preset: GraphileConfig.Preset = {
 		explain: false
 	},
 	grafserv: {
-		graphqlPath: '/api/graphql',
-		eventStreamPath: '/api/graphql/stream',
-		graphiql:           process.env.ENABLE_GRAPHIQL === 'true',
-		graphiqlPath:       '/api/graphiql',
-		graphiqlStaticPath: '/api/ruru-static/',
+		graphqlPath: '/graphql',
+		eventStreamPath: '/graphql/stream',
+		graphiql: process.env.ENABLE_GRAPHIQL === 'true',
+		graphiqlPath: '/graphiql',
+		graphiqlStaticPath: '/ruru-static/',
 		// DB schema is static during a dev session; the watcher holds a LISTEN
 		// connection + rebuild machinery we don't need. Run codegen manually.
-		watch:              false
+		watch: false
 	},
 	schema: {
-		exportSchemaSDLPath: process.env.NODE_ENV === 'production' ? undefined : './src/schema.graphql',
+		// Emit SDL for codegen consumption (committed in this package; site
+		// codegen reads it). Skipped in production — disk is ephemeral there.
+		exportSchemaSDLPath: process.env.NODE_ENV === 'production' ? undefined : './schema.graphql',
 		defaultBehavior: '-connection +list',
 		pgOmitListSuffix: true
 	}

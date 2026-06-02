@@ -40,7 +40,6 @@
 			"packages/site/next.config.mjs",
 			"packages/site/postcss.config.mjs",
 			"packages/site/tsconfig.json",
-			"!packages/site/src/schema.graphql",
 			"!packages/site/src/gql/**",
 			"!**/node_modules/**",
 			"!**/.next/**",
