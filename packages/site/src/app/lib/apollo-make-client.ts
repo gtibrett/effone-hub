@@ -35,8 +35,8 @@ export function makeClient() {
 			// v4 flipped watchQuery's notifyOnNetworkStatusChange default to
 			// true, emitting an extra "loading" render on every refetch. Shared
 			// cache reads across sibling components on the driver page then
-			// re-fire the underlying queries — a constant /api/graphql loop on
-			// the Career tab. Restoring the v3 default ends the loop.
+			// re-fire the underlying queries — a constant request loop on the
+			// Career tab. Restoring the v3 default ends the loop.
 			watchQuery: { notifyOnNetworkStatusChange: false }
 		}
 	});

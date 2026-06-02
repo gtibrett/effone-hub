@@ -88,30 +88,55 @@ function teamCandidates(spec: TeamSpec): string[] {
 	return [`${spec.name} (Formula One team)`, `${spec.name} Formula One`, spec.name];
 }
 
+// Cap concurrent outbound Wikipedia fetches per process. A cold-cache query over
+// every driver/team would otherwise fan out one fetch each (~900 drivers) at
+// once — socket pressure + risk of Wikipedia rate-limiting our egress IP. Slot
+// held across the whole call (incl. body read); released on throw too.
+const FETCH_CONCURRENCY = 8;
+let inFlightFetches = 0;
+const fetchWaiters: Array<() => void> = [];
+
+async function acquireFetchSlot(): Promise<void> {
+	if (inFlightFetches >= FETCH_CONCURRENCY) {
+		await new Promise<void>(resolve => fetchWaiters.push(resolve));
+	}
+	inFlightFetches++;
+}
+
+function releaseFetchSlot(): void {
+	inFlightFetches--;
+	fetchWaiters.shift()?.();
+}
+
 // Throws on network error / timeout (transient — caller skips caching). Returns
 // null only on a legit miss (404 / disambiguation), which IS safe to cache.
 async function fetchSummary(title: string): Promise<Bio | null> {
 	const url = `${WIKI_BASE}/${encodeURIComponent(title.replace(/\s+/g, '_'))}`;
-	const res = await fetch(url, {
-		headers: { 'User-Agent': USER_AGENT, Accept: 'application/json' },
-		signal: AbortSignal.timeout(FETCH_TIMEOUT_MS)
-	});
-	if (!res.ok) return null;
-	let data: any;
+	await acquireFetchSlot();
 	try {
-		data = await res.json();
-	} catch {
-		return null;
+		const res = await fetch(url, {
+			headers: { 'User-Agent': USER_AGENT, Accept: 'application/json' },
+			signal: AbortSignal.timeout(FETCH_TIMEOUT_MS)
+		});
+		if (!res.ok) return null;
+		let data: any;
+		try {
+			data = await res.json();
+		} catch {
+			return null;
+		}
+		if (data.type === 'disambiguation') return null;
+		return {
+			title: data.title ?? title,
+			extract: data.extract ?? null,
+			thumbnailUrl: data.thumbnail?.source ?? null,
+			sourceUrl:
+				data.content_urls?.desktop?.page ??
+				`https://en.wikipedia.org/wiki/${encodeURIComponent(title)}`
+		};
+	} finally {
+		releaseFetchSlot();
 	}
-	if (data.type === 'disambiguation') return null;
-	return {
-		title: data.title ?? title,
-		extract: data.extract ?? null,
-		thumbnailUrl: data.thumbnail?.source ?? null,
-		sourceUrl:
-			data.content_urls?.desktop?.page ??
-			`https://en.wikipedia.org/wiki/${encodeURIComponent(title)}`
-	};
 }
 
 async function resolveOne(cacheKey: string, candidates: string[]): Promise<Bio | null> {
