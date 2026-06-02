@@ -1,33 +1,49 @@
+'use client';
+
 import { Paper, Typography } from '@mui/material';
 import { deepPurple, green, red } from '@mui/material/colors';
-import { PieTooltipProps, ResponsivePie } from '@nivo/pie';
+import { PieChart } from '@mui/x-charts/PieChart';
 
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
 import { useDarkMode } from '@/components/ui';
+import { ChartsTooltipBody, useChartsTheme } from '@/components/ui/charts';
 import { blueGrey } from '@/components/ui/colors';
-import { NivoTooltipFactory, useNivoTheme } from '@/components/ui/nivo';
 
-import { DriverPageData } from '../types';
+import type { DriverPageData } from '../types';
 import usePerformanceData from '../usePerformanceData';
 
 type CareerPerformanceProps = SimpleApolloResult<DriverPageData>;
 
-type PerformanceDatum = { id: string; label: string; value: number; color: string };
+type Slice = { id: string; label: string; value: number; color: string };
 
-const CareerPerformanceTooltip = ({ datum }: PieTooltipProps<PerformanceDatum>) => {
-	return <Typography>{datum.label}</Typography>;
-};
+function CareerPerformanceTooltip(props: { itemData?: { seriesId?: string; dataIndex?: number } }) {
+	const { itemData } = props;
+	if (!itemData || itemData.dataIndex == null) {
+		return null;
+	}
+	const slice = (props as unknown as { series?: { data?: Slice[] } }).series?.data?.[
+		itemData.dataIndex
+	];
+	if (!slice) {
+		return null;
+	}
+	return (
+		<ChartsTooltipBody>
+			<Typography variant="caption">{slice.label}</Typography>
+		</ChartsTooltipBody>
+	);
+}
 
 export default function CareerPerformance({ data }: CareerPerformanceProps) {
-	const nivoTheme = useNivoTheme();
 	const summaryData = usePerformanceData(data?.driver.raceResults);
 	const prefersDarkMode = useDarkMode();
+	const { sx } = useChartsTheme();
 
 	if (!summaryData) {
 		return null;
 	}
 
-	const chartData = [
+	const chartData: Slice[] = [
 		{
 			id: 'wins',
 			label: `Wins: ${summaryData.wins}`,
@@ -58,36 +74,37 @@ export default function CareerPerformance({ data }: CareerPerformanceProps) {
 			value: summaryData.DNFs,
 			color: red[prefersDarkMode ? 200 : 600]
 		}
-	];
+	].filter(s => s.value > 0);
 
 	return (
 		<Paper variant="outlined" className="h-[132px] p-2" aria-hidden>
-			<ResponsivePie
-				enableArcLinkLabels={false}
-				enableArcLabels={false}
-				theme={nivoTheme}
-				data={chartData.filter(s => s.value > 0)}
-				colors={{ datum: 'data.color' }}
-				innerRadius={0.1}
-				padAngle={3}
-				cornerRadius={3}
-				margin={{ top: 0, right: 110, bottom: 0, left: 0 }}
-				tooltip={NivoTooltipFactory(CareerPerformanceTooltip)}
-				legends={[
+			<PieChart
+				height={116}
+				series={[
 					{
-						anchor: 'right',
-						direction: 'column',
-						justify: false,
-						translateX: 40,
-						translateY: 0,
-						itemsSpacing: 0,
-						itemWidth: 50,
-						itemHeight: 18,
-						itemDirection: 'left-to-right',
-						symbolSize: 10,
-						symbolShape: 'circle'
+						data: chartData.map(s => ({
+							id: s.id,
+							label: s.label,
+							value: s.value,
+							color: s.color
+						})),
+						innerRadius: 12,
+						paddingAngle: 3,
+						cornerRadius: 3,
+						arcLabel: () => '',
+						highlightScope: { fade: 'global', highlight: 'item' }
 					}
 				]}
+				margin={{ top: 0, right: 110, bottom: 0, left: 0 }}
+				slotProps={{
+					legend: {
+						direction: 'vertical',
+						position: { vertical: 'middle', horizontal: 'end' }
+					},
+					tooltip: { trigger: 'item' }
+				}}
+				slots={{ itemContent: CareerPerformanceTooltip }}
+				sx={sx}
 			/>
 		</Paper>
 	);
