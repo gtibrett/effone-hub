@@ -81,6 +81,21 @@ export async function applyDumpAndSwap(
 			$$;
 		`);
 
+		// Re-grant read access to the read-only API role. The f1db schema is
+		// replaced every ingest (the swap above) and the app computed-column
+		// functions are DROP-CASCADEd + recreated, so their grants are lost each
+		// cycle and must be re-applied. Role-guarded → no-ops on a DB without the
+		// role (local dev, CI). Mirrors the one-time grant at role creation.
+		await client.query(`
+			do $$ begin
+				if exists (select 1 from pg_roles where rolname = 'effone_api_ro') then
+					execute 'grant usage on schema f1db, app, public to effone_api_ro';
+					execute 'grant select on all tables in schema f1db, app to effone_api_ro';
+					execute 'grant execute on all functions in schema f1db, app to effone_api_ro';
+				end if;
+			end $$;
+		`);
+
 		await client.query('commit');
 		return { durationMs: Date.now() - startedAt };
 	} catch (err) {
