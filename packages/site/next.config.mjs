@@ -5,6 +5,7 @@ const nextConfig = {
 	// src/app/lib/cached-data.ts for the cached helpers and
 	// src/pages/api/cron/revalidate.ts for the corresponding `updateTag` calls.
 	cacheComponents: true,
+	transpilePackages: ['@mui/x-charts'],
 	experimental: {
 		// Use both build-container vCPUs on Vercel Hobby (default may pick 1).
 		// Capped by container hardware — Pro Enhanced Build Machines raise this.
