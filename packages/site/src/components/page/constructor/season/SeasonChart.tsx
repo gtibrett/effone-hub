@@ -1,10 +1,13 @@
+'use client';
+
+import { useMemo } from 'react';
 import { Box, Skeleton } from '@mui/material';
-import { LineSeries, LineSvgProps, ResponsiveLine } from '@nivo/line';
+import type { LineSeriesType } from '@mui/x-charts';
+import { LineChart } from '@mui/x-charts/LineChart';
 
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
-import { Serie as LineSerie } from '@/components/app/charts/types';
+import { useChartsTheme } from '@/components/ui/charts';
 import { alpha } from '@/components/ui/colors';
-import { RequiredByPropTypes, useNivoTheme } from '@/components/ui/nivo';
 import { useGetTeamColor } from '@/hooks';
 
 import { ConstructorPageData } from '../types';
@@ -12,89 +15,89 @@ import { ConstructorPageData } from '../types';
 type SeasonChartProps = SimpleApolloResult<ConstructorPageData> & { season: number };
 
 export default function SeasonChart({ data, loading }: SeasonChartProps) {
-	const nivoTheme = useNivoTheme();
 	const getTeamColor = useGetTeamColor();
+	const { sx } = useChartsTheme();
+
+	const built = useMemo(() => {
+		if (!data) {
+			return null;
+		}
+		const colorPalette = [
+			getTeamColor(data.team.colors, 'primaryHex'),
+			getTeamColor(data.team.colors, 'secondaryHex'),
+			alpha(getTeamColor(data.team.colors, 'primaryHex'), 0.75),
+			alpha(getTeamColor(data.team.colors, 'secondaryHex'), 0.75)
+		];
+		const raceResults = data.team.raceResults;
+		const rounds = Math.max(...raceResults.map(rs => rs.race?.round || 0));
+		const xData: number[] = Array.from({ length: rounds }, (_, i) => i + 1);
+
+		const driverIds: string[] = raceResults
+			.map(r => String(r.driver?.abbreviation))
+			.removeDuplicates();
+
+		const series: LineSeriesType[] = driverIds.map((id, idx) => {
+			const values: Array<number | null> = xData.map(round => {
+				const match = raceResults.find(
+					rs => String(rs.driver?.abbreviation) === id && rs.race?.round === round
+				);
+				return match?.positionNumber ?? null;
+			});
+			return {
+				id,
+				label: id,
+				data: values,
+				color: colorPalette[idx % colorPalette.length],
+				curve: 'linear',
+				showMark: true,
+				connectNulls: false
+			};
+		});
+
+		const maxPosition = Math.max(
+			20,
+			...series.flatMap(s => s.data?.map(v => (typeof v === 'number' ? v : 0)) || [])
+		);
+		return { series, xData, maxPosition };
+	}, [data, getTeamColor]);
 
 	if (loading || !data) {
 		return <Skeleton variant="rectangular" height={132} />;
 	}
-
-	const colors = [
-		getTeamColor(data.team.colors, 'primaryHex'),
-		getTeamColor(data.team.colors, 'secondaryHex'),
-		alpha(getTeamColor(data.team.colors, 'primaryHex'), 0.75),
-		alpha(getTeamColor(data.team.colors, 'secondaryHex'), 0.75)
-	];
-	const raceResults = data.team.raceResults;
-	const rounds = Math.max(...raceResults.map(rs => rs.race?.round || 0));
-	const blankData = new Array<number>(rounds).fill(0).map((v, i) => ({ x: i + 1, y: null }));
-
-	const drivers: LineSerie[] = raceResults
-		.map(r => String(r.driver?.abbreviation))
-		.removeDuplicates()
-		.map(id => ({
-			id,
-			data: blankData.map(d => ({
-				x: d.x,
-				y:
-					raceResults.find(
-						rs => String(rs.driver?.abbreviation) === id && rs.race?.round === d.x
-					)?.positionNumber || null
-			}))
-		}));
-
-	// Compute maxPosition from the populated series rather than mutating a
-	// `let` inside the .map() — react-hooks/immutability flags the mutation
-	// and Nivo only needs the final value to set the y-scale. Nivo's DatumValue
-	// is number | string | null; the only y values we set are number | null.
-	const maxPosition = Math.max(
-		20,
-		...drivers.flatMap(d => d.data.map(p => (typeof p.y === 'number' ? p.y : 0)))
-	);
+	if (!built) {
+		return null;
+	}
 
 	return (
 		<Box className="h-33 w-full" aria-hidden>
-			<ResponsiveLine
-				{...(RequiredByPropTypes.Line as Partial<LineSvgProps<LineSeries>>)}
-				theme={nivoTheme}
-				data={drivers as unknown as LineSeries[]}
-				colors={colors}
-				pointColor={d => d.series.color}
-				lineWidth={4}
-				pointSize={12}
-				yScale={{
-					type: 'linear',
-					min: maxPosition,
-					max: 1
-				}}
-				axisLeft={null}
-				axisRight={{
-					tickSize: 0,
-					tickPadding: 10,
-					tickRotation: 0,
-					tickValues: [1, 20]
-				}}
-				axisTop={null}
-				axisBottom={null}
-				enableGridX={false}
-				gridYValues={[1, 5, 10, 15, 20]}
-				margin={{ top: 24, right: 36, bottom: 32, left: 16 }}
-				legends={[
+			<LineChart
+				series={built.series}
+				xAxis={[
 					{
-						anchor: 'bottom',
-						direction: 'row',
-						justify: false,
-						translateX: 0,
-						translateY: 24,
-						itemsSpacing: 0,
-						itemDirection: 'left-to-right',
-						itemWidth: 80,
-						itemHeight: 20,
-						itemOpacity: 0.75,
-						symbolSize: 10,
-						symbolShape: 'circle'
+						data: built.xData,
+						scaleType: 'point',
+						position: 'none'
 					}
 				]}
+				yAxis={[
+					{
+						min: 1,
+						max: built.maxPosition,
+						reverse: true,
+						position: 'right',
+						tickInterval: [1, 20]
+					}
+				]}
+				margin={{ top: 24, right: 36, bottom: 32, left: 16 }}
+				grid={{ horizontal: true, vertical: false }}
+				slotProps={{
+					legend: {
+						direction: 'horizontal',
+						position: { vertical: 'bottom', horizontal: 'center' }
+					}
+				}}
+				sx={sx}
+				skipAnimation={false}
 			/>
 		</Box>
 	);
