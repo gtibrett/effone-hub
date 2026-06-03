@@ -1,6 +1,4 @@
 import { FC } from 'react';
-import { BumpComputedSerie, BumpDatum, BumpSerie } from '@nivo/bump';
-import { LineSeries, Point } from '@nivo/line';
 
 import { Race } from '@/gql/graphql';
 
@@ -30,26 +28,33 @@ export type ChartProps = {
 	TooltipComponent: FC<any>;
 };
 
-type BumpChartExtraProps = {
-	entity: {
-		id: string;
-		name: string;
-	};
-	color: string;
-};
-
-type StandingsWithEntityBumpDatum = BumpDatum & {
+// Per-round chart datum (synthesized inside the per-chart hook). Each datum
+// keeps a back-reference to its source StandingWithEntity so tooltips can
+// recover the full row from a (seriesId, dataIndex) pair.
+type StandingsChartDatum = {
+	x: number;
+	y: number | null;
 	data?: StandingWithEntity;
 };
 
-export type StandingsChartSerie = BumpSerie<StandingsWithEntityBumpDatum, BumpChartExtraProps>;
+export type StandingsChartSerie = {
+	id: string;
+	entity: Entity;
+	color: string;
+	data: StandingsChartDatum[];
+};
+
+// Synthesized by Positions/PointsChart tooltip slots. Keep the same shape
+// the legacy nivo BumpSerie / Point tooltips received so the per-page
+// tooltip components don't need to change beyond their import lines.
 export type PositionsChartTooltipProps = {
-	serie: BumpComputedSerie<StandingsWithEntityBumpDatum, BumpChartExtraProps>;
+	serie: { data: StandingWithEntity };
 };
 
 export type PointTooltipProps = {
-	point: Point<LineSeries> & {
-		data: Point<LineSeries>['data'] & {
+	point: {
+		data: {
+			x: number | string;
 			data: StandingWithEntity;
 		};
 	};
