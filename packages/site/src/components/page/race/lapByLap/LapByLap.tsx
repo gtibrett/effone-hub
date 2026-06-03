@@ -3,9 +3,10 @@
 import { useMemo } from 'react';
 import { Box, Skeleton } from '@mui/material';
 import type { LineSeriesType } from '@mui/x-charts';
+import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 import { LineChart } from '@mui/x-charts/LineChart';
 
-import { ChartsTooltipBody, useChartsTheme } from '@/components/ui/charts';
+import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
 import { Maybe } from '@/gql/graphql';
 import { DriverId } from '@/types';
 
@@ -61,6 +62,7 @@ function LapByLap({ season, round }: LapByLapProps) {
 			const id = String(s.id);
 			driverByKey.set(id, s);
 			return {
+				type: 'line',
 				id,
 				label: s.name || id,
 				data: values,
@@ -82,21 +84,25 @@ function LapByLap({ season, round }: LapByLapProps) {
 		);
 	}
 
-	function ItemTooltip(props: { itemData?: { seriesId?: string } }) {
-		const id = props?.itemData?.seriesId;
-		if (!id || !built) {
-			return null;
+	const TooltipSlot = useMemo(() => {
+		function ItemTooltipContent() {
+			const tt = useItemTooltip<'line'>();
+			if (!tt || !built) {
+				return null;
+			}
+			const id = String(tt.identifier.seriesId);
+			const serie = built.driverByKey.get(id);
+			if (!serie) {
+				return null;
+			}
+			return (
+				<ChartsTooltipBody>
+					<LapByLapTooltip serie={{ data: { driverId: String(serie.driverId) } }} />
+				</ChartsTooltipBody>
+			);
 		}
-		const serie = built.driverByKey.get(id);
-		if (!serie) {
-			return null;
-		}
-		return (
-			<ChartsTooltipBody>
-				<LapByLapTooltip serie={{ data: { driverId: serie.driverId } }} />
-			</ChartsTooltipBody>
-		);
-	}
+		return createItemTooltipSlot(ItemTooltipContent);
+	}, [built]);
 
 	return (
 		<Box className="w-full" style={{ height }} aria-hidden>
@@ -124,10 +130,9 @@ function LapByLap({ season, round }: LapByLapProps) {
 					legend: {
 						direction: 'vertical',
 						position: { vertical: 'middle', horizontal: 'end' }
-					},
-					tooltip: { trigger: 'item' }
+					}
 				}}
-				slots={{ itemContent: ItemTooltip }}
+				slots={{ tooltip: TooltipSlot }}
 				sx={sx}
 				skipAnimation={false}
 			/>

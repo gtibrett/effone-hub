@@ -3,8 +3,9 @@
 import { useMemo } from 'react';
 import type { BarSeriesType } from '@mui/x-charts';
 import { BarChart } from '@mui/x-charts/BarChart';
+import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 
-import { ChartsTooltipBody, useChartsTheme } from '@/components/ui/charts';
+import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
 import { capitalizeCamelCase } from '@/helpers';
 import { RESULTS_COLORS, type ResultsBucket } from '@/lib/resultsColors';
 import { DriverId } from '@/types';
@@ -56,22 +57,29 @@ export default function CareerBreakdownChart({ driverId, season }: CareerBreakdo
 		return null;
 	}
 
-	function ItemTooltip(props: { itemData?: { seriesId?: string; dataIndex?: number } }) {
-		const itemData = props?.itemData;
-		if (!itemData || itemData.dataIndex == null) {
-			return null;
+	const TooltipSlot = useMemo(() => {
+		function ItemTooltipContent() {
+			const tt = useItemTooltip<'bar'>();
+			if (!tt) {
+				return null;
+			}
+			const dataIndex = (tt.identifier as { dataIndex?: number }).dataIndex;
+			if (dataIndex == null) {
+				return null;
+			}
+			const year = xAxisData[dataIndex];
+			const datum = lookup.get(year);
+			if (!datum) {
+				return null;
+			}
+			return (
+				<ChartsTooltipBody>
+					<BreakdownTooltip datum={datum} />
+				</ChartsTooltipBody>
+			);
 		}
-		const year = xAxisData[itemData.dataIndex];
-		const datum = lookup.get(year);
-		if (!datum) {
-			return null;
-		}
-		return (
-			<ChartsTooltipBody>
-				<BreakdownTooltip datum={datum} />
-			</ChartsTooltipBody>
-		);
-	}
+		return createItemTooltipSlot(ItemTooltipContent);
+	}, [xAxisData, lookup]);
 
 	return (
 		<BarChart
@@ -93,10 +101,8 @@ export default function CareerBreakdownChart({ driverId, season }: CareerBreakdo
 			margin={{ top: 20, left: 10, right: 10, bottom: isSingleSeason ? 8 : 40 }}
 			grid={{ horizontal: false, vertical: false }}
 			borderRadius={1}
-			barLabel={isSingleSeason ? 'value' : undefined}
 			sx={sx}
-			slotProps={{ tooltip: { trigger: 'item' } }}
-			slots={{ itemContent: ItemTooltip }}
+			slots={{ tooltip: TooltipSlot }}
 			skipAnimation={false}
 		/>
 	);

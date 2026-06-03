@@ -9,8 +9,7 @@ import { PointTooltipProps, PositionsChartTooltipProps } from '../charts';
 export function DriverStandingsPositionTooltip({ serie }: PositionsChartTooltipProps) {
 	const {
 		data: {
-			entity: { id },
-			color
+			entity: { id, color }
 		}
 	} = serie;
 	const headerSx = useDriverHeaderSx(id, color);

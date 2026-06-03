@@ -5,20 +5,13 @@ import { useTeamHeaderSx } from '@/hooks';
 import { useTeam } from '@/hooks/data';
 
 // Synthesized by LineChartByTeam's tooltip slot — same shape its nivo
-// predecessor produced (seriesId + data with x/y/raw fields).
+// predecessor produced (seriesId + data with x/y/raw fields). Inner data
+// stays `any` to keep PropertiesTable's strict ReactElement children type
+// happy with conditional rows (same trick as the legacy nivo version).
 export type CareerTooltipProps = {
 	point: {
 		seriesId: string | number;
-		data: {
-			x?: unknown;
-			xFormatted?: string;
-			y?: unknown;
-			points?: number;
-			wins?: number;
-			position?: number;
-			grid?: number;
-			[key: string]: unknown;
-		};
+		data: any;
 	};
 };
 

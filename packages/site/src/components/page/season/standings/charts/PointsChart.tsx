@@ -2,9 +2,10 @@
 
 import { useMemo, useState } from 'react';
 import type { LineSeriesType } from '@mui/x-charts';
+import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 import { LineChart } from '@mui/x-charts/LineChart';
 
-import { ChartsTooltipBody, useChartsTheme } from '@/components/ui/charts';
+import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
 import { alpha } from '@/components/ui/colors';
 
 import type { ChartProps, StandingWithEntity } from './types';
@@ -41,6 +42,7 @@ export default function PointsChart({ data, TooltipComponent }: ChartProps) {
 			lkup.set(String(s.id), standings);
 			const fade = highlight && s.id !== highlight;
 			return {
+				type: 'line',
 				id: String(s.id),
 				label: s.entity.name,
 				data: values,
@@ -56,30 +58,38 @@ export default function PointsChart({ data, TooltipComponent }: ChartProps) {
 		return null;
 	}
 
-	function ItemTooltip(props: { itemData?: { seriesId?: string; dataIndex?: number } }) {
-		const itemData = props?.itemData;
-		if (!itemData?.seriesId || itemData.dataIndex == null) {
-			return null;
-		}
-		const standing = lookup.get(itemData.seriesId)?.[itemData.dataIndex];
-		if (!standing) {
-			return null;
-		}
-		const synthesized = {
-			point: {
-				data: {
-					x: itemData.dataIndex + 1,
-					y: standing.points,
-					data: standing
-				}
+	const TooltipSlot = useMemo(() => {
+		function ItemTooltipContent() {
+			const tt = useItemTooltip<'line'>();
+			if (!tt) {
+				return null;
 			}
-		};
-		return (
-			<ChartsTooltipBody>
-				<TooltipComponent {...synthesized} />
-			</ChartsTooltipBody>
-		);
-	}
+			const seriesId = String(tt.identifier.seriesId);
+			const dataIndex = (tt.identifier as { dataIndex?: number }).dataIndex;
+			if (dataIndex == null) {
+				return null;
+			}
+			const standing = lookup.get(seriesId)?.[dataIndex];
+			if (!standing) {
+				return null;
+			}
+			const synthesized = {
+				point: {
+					data: {
+						x: dataIndex + 1,
+						y: standing.points,
+						data: standing
+					}
+				}
+			};
+			return (
+				<ChartsTooltipBody>
+					<TooltipComponent {...synthesized} />
+				</ChartsTooltipBody>
+			);
+		}
+		return createItemTooltipSlot(ItemTooltipContent);
+	}, [lookup, TooltipComponent]);
 
 	return (
 		<LineChart
@@ -103,8 +113,7 @@ export default function PointsChart({ data, TooltipComponent }: ChartProps) {
 			margin={{ top: 20, right: 48, bottom: 28, left: 16 }}
 			grid={{ vertical: true, horizontal: false }}
 			sx={sx}
-			slots={{ itemContent: ItemTooltip }}
-			slotProps={{ tooltip: { trigger: 'item' } }}
+			slots={{ tooltip: TooltipSlot }}
 			onLineClick={(_e, params) => {
 				const id = String(params.seriesId);
 				setHighlight(highlight === id ? undefined : id);

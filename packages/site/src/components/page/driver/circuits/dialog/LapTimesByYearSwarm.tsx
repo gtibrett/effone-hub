@@ -87,7 +87,7 @@ export default function LapTimesByYearSwarm({ data, loading }: LapTimesChartProp
 						min: Math.min(...numericYears) - 0.5,
 						max: Math.max(...numericYears) + 0.5,
 						tickInterval: numericYears,
-						valueFormatter: v =>
+						valueFormatter: (v: unknown) =>
 							numericYears.includes(Number(v)) ? String(Math.round(Number(v))) : ''
 					}
 				]}

@@ -3,16 +3,17 @@
 import { useMemo } from 'react';
 import { Alert, Card, Skeleton } from '@mui/material';
 import {
-	ChartDataProvider,
 	ChartsAxisHighlight,
-	ChartsOverlay,
+	ChartsDataProvider,
 	ChartsSurface,
-	ChartsTooltip,
+	ChartsTooltipContainer,
 	ChartsXAxis,
-	ChartsYAxis,
-	ScatterPlot
+	ChartsYAxis
 } from '@mui/x-charts';
+import { ChartsOverlay } from '@mui/x-charts/ChartsOverlay';
+import { useAxesTooltip } from '@mui/x-charts/ChartsTooltip';
 import { useXScale, useYScale } from '@mui/x-charts/hooks';
+import { ScatterPlot } from '@mui/x-charts/ScatterChart';
 
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
 import { ChartsTooltipBody, useChartsTheme } from '@/components/ui/charts';
@@ -185,8 +186,9 @@ export default function LapTimesByYearBox({ data }: LapTimesChartProps) {
 		);
 	}
 
-	function AxisTooltip(props: { axisValue?: string | number | Date }) {
-		const yr = props?.axisValue == null ? '' : String(props.axisValue);
+	function AxisTooltipContent() {
+		const axes = useAxesTooltip();
+		const yr = axes?.[0]?.axisValue == null ? '' : String(axes[0].axisValue);
 		const stats = built?.lookup.get(yr);
 		if (!stats) {
 			return null;
@@ -199,8 +201,8 @@ export default function LapTimesByYearBox({ data }: LapTimesChartProps) {
 	}
 
 	return (
-		<Card variant="outlined" className="h-[60vh] w-full" aria-hidden>
-			<ChartDataProvider
+		<Card variant="outlined" className="h-[60vh] w-full" aria-hidden sx={sx}>
+			<ChartsDataProvider
 				series={[
 					{
 						id: 'lap-cloud',
@@ -208,7 +210,7 @@ export default function LapTimesByYearBox({ data }: LapTimesChartProps) {
 						label: 'Lap times',
 						markerSize: 1.5,
 						color: 'rgba(255,255,255,0)',
-						data: built.seriesData.map((p, i) => ({
+						data: built.seriesData.map(p => ({
 							id: p.id,
 							x: built.years.indexOf(p.x),
 							y: p.y
@@ -227,11 +229,10 @@ export default function LapTimesByYearBox({ data }: LapTimesChartProps) {
 						id: 'ms',
 						min: built.min,
 						max: built.max,
-						valueFormatter: v => getTimeStringFromDate(new Date(Number(v)))
+						valueFormatter: (v: unknown) => getTimeStringFromDate(new Date(Number(v)))
 					}
 				]}
 				margin={{ top: 16, right: 16, bottom: 40, left: 72 }}
-				sx={sx}
 			>
 				<ChartsSurface>
 					<ChartsXAxis axisId="year-band" />
@@ -241,8 +242,10 @@ export default function LapTimesByYearBox({ data }: LapTimesChartProps) {
 					<ChartsAxisHighlight x="band" />
 					<ChartsOverlay />
 				</ChartsSurface>
-				<ChartsTooltip trigger="axis" slots={{ axisContent: AxisTooltip }} />
-			</ChartDataProvider>
+				<ChartsTooltipContainer trigger="axis">
+					<AxisTooltipContent />
+				</ChartsTooltipContainer>
+			</ChartsDataProvider>
 		</Card>
 	);
 }

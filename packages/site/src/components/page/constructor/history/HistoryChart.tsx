@@ -2,9 +2,10 @@
 
 import { useMemo } from 'react';
 import type { LineSeriesType } from '@mui/x-charts';
+import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 import { LineChart } from '@mui/x-charts/LineChart';
 
-import { ChartsTooltipBody, useChartsTheme } from '@/components/ui/charts';
+import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
 import { TeamStandingData } from '@/hooks/data';
 
 import { HistoryProps } from './History';
@@ -67,6 +68,7 @@ export default function HistoryChart({
 			});
 			lookup.set(String(s.id), entries);
 			return {
+				type: 'line',
 				id: String(s.id),
 				label: String(s.id),
 				data: values,
@@ -90,32 +92,40 @@ export default function HistoryChart({
 		return null;
 	}
 
-	function ItemTooltip(props: { itemData?: { seriesId?: string; dataIndex?: number } }) {
-		const itemData = props?.itemData;
-		if (!itemData?.seriesId || itemData.dataIndex == null || !built) {
-			return null;
-		}
-		const entry = built.lookup.get(itemData.seriesId)?.[itemData.dataIndex];
-		if (!entry) {
-			return null;
-		}
-		const x = built.xData[itemData.dataIndex];
-		const synthesized = {
-			point: {
-				data: {
-					x,
-					xFormatted: String(x),
-					y: entry[dataKey],
-					data: entry
-				}
+	const TooltipSlot = useMemo(() => {
+		function ItemTooltipContent() {
+			const tt = useItemTooltip<'line'>();
+			if (!tt || !built) {
+				return null;
 			}
-		} as unknown as Parameters<typeof HistoryTooltip>[0];
-		return (
-			<ChartsTooltipBody>
-				<HistoryTooltip {...synthesized} />
-			</ChartsTooltipBody>
-		);
-	}
+			const seriesId = String(tt.identifier.seriesId);
+			const dataIndex = (tt.identifier as { dataIndex?: number }).dataIndex;
+			if (dataIndex == null) {
+				return null;
+			}
+			const entry = built.lookup.get(seriesId)?.[dataIndex];
+			if (!entry) {
+				return null;
+			}
+			const x = built.xData[dataIndex];
+			const synthesized = {
+				point: {
+					data: {
+						x,
+						xFormatted: String(x),
+						y: entry[dataKey],
+						data: entry
+					}
+				}
+			} as unknown as Parameters<typeof HistoryTooltip>[0];
+			return (
+				<ChartsTooltipBody>
+					<HistoryTooltip {...synthesized} />
+				</ChartsTooltipBody>
+			);
+		}
+		return createItemTooltipSlot(ItemTooltipContent);
+	}, [built, dataKey]);
 
 	return (
 		<LineChart
@@ -142,8 +152,7 @@ export default function HistoryChart({
 			margin={{ top: 25, left: 20, right: 28, bottom: 36 }}
 			grid={{ horizontal: false, vertical: false }}
 			sx={sx}
-			slots={{ itemContent: ItemTooltip }}
-			slotProps={{ tooltip: { trigger: 'item' } }}
+			slots={{ tooltip: TooltipSlot }}
 			skipAnimation={false}
 		/>
 	);

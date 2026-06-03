@@ -11,7 +11,9 @@ export type HistoryTooltipProps = {
 			x: number | string;
 			xFormatted?: string;
 			y: number | null | undefined;
-			data: { id: string; name?: string; points?: number; positionNumber?: number };
+			// any: keeps PropertiesTable's strict ReactElement children type
+			// happy with conditional rows (same trick as the legacy nivo version)
+			data: any;
 		};
 	};
 };

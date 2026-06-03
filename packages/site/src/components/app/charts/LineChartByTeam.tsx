@@ -1,21 +1,22 @@
 'use client';
 
 import { type ComponentType, type ReactNode, useMemo } from 'react';
+import { Box } from '@mui/material';
 import type { LineSeriesType } from '@mui/x-charts';
 import {
-	ChartDataProvider,
 	ChartsAxisHighlight,
 	ChartsClipPath,
+	ChartsDataProvider,
 	ChartsGrid,
 	ChartsLegend,
-	ChartsOverlay,
 	ChartsSurface,
-	ChartsTooltip,
+	ChartsTooltipContainer,
 	ChartsXAxis,
-	ChartsYAxis,
-	LinePlot,
-	MarkPlot
+	ChartsYAxis
 } from '@mui/x-charts';
+import { ChartsOverlay } from '@mui/x-charts/ChartsOverlay';
+import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
+import { LinePlot, MarkPlot } from '@mui/x-charts/LineChart';
 
 import { ChartsTooltipBody, useChartsTheme } from '@/components/ui/charts';
 
@@ -86,6 +87,7 @@ export default function LineChartByTeam({
 			const color = String((s as { color?: string }).color || '');
 			lookup.set(String(s.id), entries);
 			return {
+				type: 'line',
 				id: String(s.id),
 				label: String(s.id),
 				data: values,
@@ -105,19 +107,24 @@ export default function LineChartByTeam({
 		};
 	}, [splitSeriesByTeam, xKey, yKey, data, max, noBase]);
 
-	function ItemTooltip(props: { itemData?: { seriesId?: string; dataIndex?: number } }) {
-		const itemData = props?.itemData;
-		if (!itemData?.seriesId || itemData.dataIndex == null) {
+	function ItemTooltipContent() {
+		const tt = useItemTooltip<'line' | 'scatter'>();
+		if (!tt) {
 			return null;
 		}
-		const entry = built.lookup.get(itemData.seriesId)?.[itemData.dataIndex];
+		const seriesId = String(tt.identifier.seriesId);
+		const dataIndex = (tt.identifier as { dataIndex?: number }).dataIndex;
+		if (dataIndex == null) {
+			return null;
+		}
+		const entry = built.lookup.get(seriesId)?.[dataIndex];
 		if (!entry) {
 			return null;
 		}
-		const x = built.xData[itemData.dataIndex];
+		const x = built.xData[dataIndex];
 		const synthesized: SynthesizedPoint = {
 			point: {
-				seriesId: itemData.seriesId,
+				seriesId,
 				data: {
 					...entry,
 					xFormatted: axisBottomFormat ? String(axisBottomFormat(x)) : String(x)
@@ -132,54 +139,53 @@ export default function LineChartByTeam({
 	}
 
 	return (
-		<ChartDataProvider
-			series={built.series}
-			xAxis={[
-				{
-					id: 'x',
-					data: built.xData,
-					scaleType: 'linear',
-					min: built.xData[0],
-					max: built.xData[built.xData.length - 1],
-					tickInterval: built.xData,
-					valueFormatter: (v, ctx) =>
-						ctx?.location === 'tick' && axisBottomFormat
-							? String(axisBottomFormat(v))
-							: String(v)
-				}
-			]}
-			yAxis={[
-				{
-					id: 'y',
-					min: invert ? min : 0,
-					max: built.axisMax,
-					reverse: invert,
-					position: 'right',
-					tickInterval: invert ? [min, built.axisMax] : [built.axisMax, min]
-				}
-			]}
-			margin={{ top: 20, left: 28, right: 32, bottom: 40 }}
-			sx={sx}
-		>
-			<ChartsSurface>
-				<ChartsClipPath id="lcbt-clip" />
-				<g clipPath="url(#lcbt-clip)">
-					<ChartsGrid horizontal vertical={false} />
-					{built.base ? <BaseLineChartLayer series={built.base} /> : null}
-					<LinePlot />
-					<MarkPlot />
-					<ChartsAxisHighlight x="line" />
-				</g>
-				<ChartsXAxis />
-				<ChartsYAxis position="right" />
-				<ChartsOverlay />
-			</ChartsSurface>
-			<ChartsLegend />
-			<ChartsTooltip
-				trigger="item"
-				slots={{ itemContent: ItemTooltip }}
-				slotProps={slotProps?.tooltip}
-			/>
-		</ChartDataProvider>
+		<Box sx={{ width: '100%', height: '100%', ...sx }}>
+			<ChartsDataProvider
+				series={built.series}
+				xAxis={[
+					{
+						id: 'x',
+						data: built.xData,
+						scaleType: 'linear',
+						min: built.xData[0],
+						max: built.xData[built.xData.length - 1],
+						tickInterval: built.xData,
+						valueFormatter: (v, ctx) =>
+							ctx?.location === 'tick' && axisBottomFormat
+								? String(axisBottomFormat(v))
+								: String(v)
+					}
+				]}
+				yAxis={[
+					{
+						id: 'y',
+						min: invert ? min : 0,
+						max: built.axisMax,
+						reverse: invert,
+						position: 'right',
+						tickInterval: invert ? [min, built.axisMax] : [built.axisMax, min]
+					}
+				]}
+				margin={{ top: 20, left: 28, right: 32, bottom: 40 }}
+			>
+				<ChartsSurface>
+					<ChartsClipPath id="lcbt-clip" />
+					<g clipPath="url(#lcbt-clip)">
+						<ChartsGrid horizontal vertical={false} />
+						{built.base ? <BaseLineChartLayer series={built.base} /> : null}
+						<LinePlot />
+						<MarkPlot />
+						<ChartsAxisHighlight x="line" />
+					</g>
+					<ChartsXAxis />
+					<ChartsYAxis />
+					<ChartsOverlay />
+				</ChartsSurface>
+				<ChartsLegend />
+				<ChartsTooltipContainer trigger="item">
+					<ItemTooltipContent />
+				</ChartsTooltipContainer>
+			</ChartsDataProvider>
+		</Box>
 	);
 }

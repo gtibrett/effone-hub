@@ -4,8 +4,9 @@ import { useMemo } from 'react';
 import { Box, Skeleton, useMediaQuery, useTheme } from '@mui/material';
 import type { BarSeriesType } from '@mui/x-charts';
 import { BarChart } from '@mui/x-charts/BarChart';
+import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 
-import { ChartsTooltipBody, useChartsTheme } from '@/components/ui/charts';
+import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
 
 import { PitStopTableRow } from './PitStops';
 import PitStopTooltip from './PitStopTooltip';
@@ -65,26 +66,33 @@ export default function PitStopsChart({ maxStops, pitStops }: PitStopsChartProps
 		return null;
 	}
 
-	function ItemTooltip(props: { itemData?: { seriesId?: string; dataIndex?: number } }) {
-		const itemData = props?.itemData;
-		if (!itemData?.seriesId || itemData.dataIndex == null || !built) {
-			return null;
+	const TooltipSlot = useMemo(() => {
+		function ItemTooltipContent() {
+			const tt = useItemTooltip<'bar'>();
+			if (!tt || !built) {
+				return null;
+			}
+			const seriesId = String(tt.identifier.seriesId);
+			const dataIndex = (tt.identifier as { dataIndex?: number }).dataIndex;
+			if (dataIndex == null) {
+				return null;
+			}
+			const driver = built.drivers[dataIndex];
+			if (!driver) {
+				return null;
+			}
+			const value = driver[seriesId];
+			if (typeof value !== 'number') {
+				return null;
+			}
+			return (
+				<ChartsTooltipBody>
+					<PitStopTooltip value={value} id={seriesId} data={driver} />
+				</ChartsTooltipBody>
+			);
 		}
-		const driver = built.drivers[itemData.dataIndex];
-		if (!driver) {
-			return null;
-		}
-		const stopKey = itemData.seriesId;
-		const value = driver[stopKey];
-		if (typeof value !== 'number') {
-			return null;
-		}
-		return (
-			<ChartsTooltipBody>
-				<PitStopTooltip value={value} id={stopKey} data={driver} />
-			</ChartsTooltipBody>
-		);
-	}
+		return createItemTooltipSlot(ItemTooltipContent);
+	}, [built]);
 
 	const axisConfig = {
 		data: built.codes,
@@ -111,8 +119,7 @@ export default function PitStopsChart({ maxStops, pitStops }: PitStopsChartProps
 				}}
 				grid={{ horizontal: false, vertical: false }}
 				borderRadius={2}
-				slots={{ itemContent: ItemTooltip }}
-				slotProps={{ tooltip: { trigger: 'item' } }}
+				slots={{ tooltip: TooltipSlot }}
 				sx={sx}
 				skipAnimation={false}
 			/>

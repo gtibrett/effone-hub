@@ -1,12 +1,14 @@
 'use client';
 
+import { useMemo } from 'react';
 import { Paper, Typography } from '@mui/material';
 import { deepPurple, green, red } from '@mui/material/colors';
+import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 import { PieChart } from '@mui/x-charts/PieChart';
 
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
 import { useDarkMode } from '@/components/ui';
-import { ChartsTooltipBody, useChartsTheme } from '@/components/ui/charts';
+import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
 import { blueGrey } from '@/components/ui/colors';
 
 import type { DriverPageData } from '../types';
@@ -15,24 +17,6 @@ import usePerformanceData from '../usePerformanceData';
 type CareerPerformanceProps = SimpleApolloResult<DriverPageData>;
 
 type Slice = { id: string; label: string; value: number; color: string };
-
-function CareerPerformanceTooltip(props: { itemData?: { seriesId?: string; dataIndex?: number } }) {
-	const { itemData } = props;
-	if (!itemData || itemData.dataIndex == null) {
-		return null;
-	}
-	const slice = (props as unknown as { series?: { data?: Slice[] } }).series?.data?.[
-		itemData.dataIndex
-	];
-	if (!slice) {
-		return null;
-	}
-	return (
-		<ChartsTooltipBody>
-			<Typography variant="caption">{slice.label}</Typography>
-		</ChartsTooltipBody>
-	);
-}
 
 export default function CareerPerformance({ data }: CareerPerformanceProps) {
 	const summaryData = usePerformanceData(data?.driver.raceResults);
@@ -76,6 +60,29 @@ export default function CareerPerformance({ data }: CareerPerformanceProps) {
 		}
 	].filter(s => s.value > 0);
 
+	const TooltipSlot = useMemo(() => {
+		function CareerPerformanceTooltip() {
+			const tt = useItemTooltip<'pie'>();
+			if (!tt) {
+				return null;
+			}
+			const dataIndex = (tt.identifier as { dataIndex?: number }).dataIndex;
+			if (dataIndex == null) {
+				return null;
+			}
+			const slice = chartData[dataIndex];
+			if (!slice) {
+				return null;
+			}
+			return (
+				<ChartsTooltipBody>
+					<Typography variant="caption">{slice.label}</Typography>
+				</ChartsTooltipBody>
+			);
+		}
+		return createItemTooltipSlot(CareerPerformanceTooltip);
+	}, [chartData]);
+
 	return (
 		<Paper variant="outlined" className="h-[132px] p-2" aria-hidden>
 			<PieChart
@@ -100,10 +107,9 @@ export default function CareerPerformance({ data }: CareerPerformanceProps) {
 					legend: {
 						direction: 'vertical',
 						position: { vertical: 'middle', horizontal: 'end' }
-					},
-					tooltip: { trigger: 'item' }
+					}
 				}}
-				slots={{ itemContent: CareerPerformanceTooltip }}
+				slots={{ tooltip: TooltipSlot }}
 				sx={sx}
 			/>
 		</Paper>

@@ -44,6 +44,7 @@ export default function SeasonChart({ data, loading }: SeasonChartProps) {
 				return match?.positionNumber ?? null;
 			});
 			return {
+				type: 'line',
 				id,
 				label: id,
 				data: values,

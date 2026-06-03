@@ -2,9 +2,10 @@
 
 import { useMemo } from 'react';
 import type { LineSeriesType } from '@mui/x-charts';
+import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 import { LineChart } from '@mui/x-charts/LineChart';
 
-import { ChartsTooltipBody, useChartsTheme } from '@/components/ui/charts';
+import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
 
 import type { ChartProps, StandingWithEntity } from './types';
 import useChartData from './useChartData';
@@ -38,6 +39,7 @@ export default function PositionsChart({ data, TooltipComponent }: ChartProps) {
 			const id = String(s.id);
 			lookup.set(id, standings);
 			return {
+				type: 'line',
 				id,
 				label: s.entity.name,
 				data: values,
@@ -55,21 +57,29 @@ export default function PositionsChart({ data, TooltipComponent }: ChartProps) {
 		return null;
 	}
 
-	function ItemTooltip(props: { itemData?: { seriesId?: string; dataIndex?: number } }) {
-		const itemData = props?.itemData;
-		if (!itemData?.seriesId || itemData.dataIndex == null || !built) {
-			return null;
+	const TooltipSlot = useMemo(() => {
+		function ItemTooltipContent() {
+			const tt = useItemTooltip<'line'>();
+			if (!tt || !built) {
+				return null;
+			}
+			const seriesId = String(tt.identifier.seriesId);
+			const dataIndex = (tt.identifier as { dataIndex?: number }).dataIndex;
+			if (dataIndex == null) {
+				return null;
+			}
+			const standing = built.lookup.get(seriesId)?.[dataIndex];
+			if (!standing) {
+				return null;
+			}
+			return (
+				<ChartsTooltipBody>
+					<TooltipComponent serie={{ data: standing }} />
+				</ChartsTooltipBody>
+			);
 		}
-		const standing = built.lookup.get(itemData.seriesId)?.[itemData.dataIndex];
-		if (!standing) {
-			return null;
-		}
-		return (
-			<ChartsTooltipBody>
-				<TooltipComponent serie={{ data: standing }} />
-			</ChartsTooltipBody>
-		);
-	}
+		return createItemTooltipSlot(ItemTooltipContent);
+	}, [built, TooltipComponent]);
 
 	return (
 		<LineChart
@@ -96,10 +106,9 @@ export default function PositionsChart({ data, TooltipComponent }: ChartProps) {
 				legend: {
 					direction: 'vertical',
 					position: { vertical: 'middle', horizontal: 'end' }
-				},
-				tooltip: { trigger: 'item' }
+				}
 			}}
-			slots={{ itemContent: ItemTooltip }}
+			slots={{ tooltip: TooltipSlot }}
 			sx={sx}
 			skipAnimation={false}
 		/>
