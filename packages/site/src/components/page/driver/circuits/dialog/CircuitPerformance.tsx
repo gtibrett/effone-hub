@@ -1,10 +1,12 @@
+'use client';
+
 import { useComponentDimensionsWithRef } from '@gtibrett/mui-additions';
 import { Paper, useTheme } from '@mui/material';
-import { ResponsiveRadar } from '@nivo/radar';
+import { RadarChart } from '@mui/x-charts/RadarChart';
 
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
 import { usePerformanceData } from '@/components/page/driver';
-import { useNivoTheme } from '@/components/ui/nivo';
+import { useChartsTheme } from '@/components/ui/charts';
 
 import { CircuitDialogData } from './types';
 
@@ -12,7 +14,7 @@ type CircuitPerformanceProps = SimpleApolloResult<CircuitDialogData>;
 
 export default function CircuitPerformance({ data, loading }: CircuitPerformanceProps) {
 	const theme = useTheme();
-	const nivoTheme = useNivoTheme();
+	const { sx } = useChartsTheme();
 	const {
 		ref,
 		dimensions: { width }
@@ -28,46 +30,34 @@ export default function CircuitPerformance({ data, loading }: CircuitPerformance
 		return null;
 	}
 
-	const chartData = [
-		{
-			stat: 'Wins',
-			value: performanceData.wins
-		},
-		{
-			stat: 'Podiums',
-			value: performanceData.podiums
-		},
-		{
-			stat: 'In Points',
-			value: performanceData.inPoints
-		},
-		{
-			stat: 'DNFs',
-			value: performanceData.DNFs
-		}
+	const values = [
+		performanceData.wins,
+		performanceData.podiums,
+		performanceData.inPoints,
+		performanceData.DNFs
 	];
-
-	const color = theme.palette.primary.main;
 
 	return (
 		<Paper variant="outlined" ref={ref} className="p-0" style={{ aspectRatio: 1, width }}>
-			<ResponsiveRadar
-				theme={nivoTheme}
-				data={chartData}
-				keys={['value']}
-				maxValue={performanceData.appearances}
-				indexBy="stat"
-				valueFormat=">-,.2"
+			<RadarChart
+				height={width}
+				series={[
+					{
+						label: 'Performance',
+						data: values,
+						fillArea: true,
+						color: theme.palette.primary.main
+					}
+				]}
+				radar={{
+					metrics: ['Wins', 'Podiums', 'In Points', 'DNFs'],
+					max: Math.max(performanceData.appearances, 1)
+				}}
+				divisions={3}
+				shape="circular"
 				margin={{ top: 10, right: 60, bottom: 10, left: 60 }}
-				borderColor={{ from: 'color' }}
-				borderWidth={1}
-				dotSize={6}
-				dotColor={{ from: 'color' }}
-				gridLevels={3}
-				gridLabelOffset={8}
-				colors={[color]}
-				blendMode="normal"
-				fillOpacity={0.5}
+				sx={sx}
+				skipAnimation={false}
 			/>
 		</Paper>
 	);
