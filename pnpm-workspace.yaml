@@ -15,3 +15,10 @@ allowBuilds:
 overrides:
   lodash: ^4.18.0
   postcss: ^8.5.10
+# react-simple-maps upstream stopped at React 18 in its peer dep but the
+# runtime is React-version-agnostic (d3-geo + SVG, no React internals).
+# Suppress the peer warning rather than papering over with --legacy-peer-deps.
+peerDependencyRules:
+  allowedVersions:
+    'react-simple-maps>react': '19'
+    'react-simple-maps>react-dom': '19'
