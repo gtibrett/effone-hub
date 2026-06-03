@@ -59,13 +59,6 @@ export default function PitStopsChart({ maxStops, pitStops }: PitStopsChartProps
 		return { series, codes, colors, drivers, stops };
 	}, [pitStops, maxStops, theme.palette.primary.main]);
 
-	if (!pitStops) {
-		return <Skeleton variant="rectangular" height={isSmall ? 400 : 150} />;
-	}
-	if (!built) {
-		return null;
-	}
-
 	const TooltipSlot = useMemo(() => {
 		function ItemTooltipContent() {
 			const tt = useItemTooltip<'bar'>();
@@ -93,6 +86,13 @@ export default function PitStopsChart({ maxStops, pitStops }: PitStopsChartProps
 		}
 		return createItemTooltipSlot(ItemTooltipContent);
 	}, [built]);
+
+	if (!pitStops) {
+		return <Skeleton variant="rectangular" height={isSmall ? 400 : 150} />;
+	}
+	if (!built) {
+		return null;
+	}
 
 	const axisConfig = {
 		data: built.codes,

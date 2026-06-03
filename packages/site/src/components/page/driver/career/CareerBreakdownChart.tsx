@@ -53,10 +53,6 @@ export default function CareerBreakdownChart({ driverId, season }: CareerBreakdo
 		return { series: built, xAxisData: years, lookup: lkup };
 	}, [chartData]);
 
-	if (!chartData.length) {
-		return null;
-	}
-
 	const TooltipSlot = useMemo(() => {
 		function ItemTooltipContent() {
 			const tt = useItemTooltip<'bar'>();
@@ -80,6 +76,10 @@ export default function CareerBreakdownChart({ driverId, season }: CareerBreakdo
 		}
 		return createItemTooltipSlot(ItemTooltipContent);
 	}, [xAxisData, lookup]);
+
+	if (!chartData.length) {
+		return null;
+	}
 
 	return (
 		<BarChart

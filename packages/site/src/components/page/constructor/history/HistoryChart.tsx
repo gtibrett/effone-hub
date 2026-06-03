@@ -88,10 +88,6 @@ export default function HistoryChart({
 		};
 	}, [historyChartData, dataKey, dataMaxKey, chartColors, invert, min, max]);
 
-	if (!historyChartData || !data || loading || !built) {
-		return null;
-	}
-
 	const TooltipSlot = useMemo(() => {
 		function ItemTooltipContent() {
 			const tt = useItemTooltip<'line'>();
@@ -126,6 +122,10 @@ export default function HistoryChart({
 		}
 		return createItemTooltipSlot(ItemTooltipContent);
 	}, [built, dataKey]);
+
+	if (!historyChartData || !data || loading || !built) {
+		return null;
+	}
 
 	return (
 		<LineChart

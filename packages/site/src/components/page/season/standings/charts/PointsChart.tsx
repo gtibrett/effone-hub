@@ -54,10 +54,6 @@ export default function PointsChart({ data, TooltipComponent }: ChartProps) {
 		return { series: built, lookup: lkup, ticks: range(rounds), maxPoints: maxY };
 	}, [chartData, highlight]);
 
-	if (!data.length || !ticks.length || !maxPoints) {
-		return null;
-	}
-
 	const TooltipSlot = useMemo(() => {
 		function ItemTooltipContent() {
 			const tt = useItemTooltip<'line'>();
@@ -90,6 +86,10 @@ export default function PointsChart({ data, TooltipComponent }: ChartProps) {
 		}
 		return createItemTooltipSlot(ItemTooltipContent);
 	}, [lookup, TooltipComponent]);
+
+	if (!data.length || !ticks.length || !maxPoints) {
+		return null;
+	}
 
 	return (
 		<LineChart

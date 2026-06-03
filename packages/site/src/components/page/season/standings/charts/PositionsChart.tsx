@@ -53,10 +53,6 @@ export default function PositionsChart({ data, TooltipComponent }: ChartProps) {
 		return { series, xData, lookup, maxPos };
 	}, [chartData]);
 
-	if (!data.length || !built) {
-		return null;
-	}
-
 	const TooltipSlot = useMemo(() => {
 		function ItemTooltipContent() {
 			const tt = useItemTooltip<'line'>();
@@ -80,6 +76,10 @@ export default function PositionsChart({ data, TooltipComponent }: ChartProps) {
 		}
 		return createItemTooltipSlot(ItemTooltipContent);
 	}, [built, TooltipComponent]);
+
+	if (!data.length || !built) {
+		return null;
+	}
 
 	return (
 		<LineChart

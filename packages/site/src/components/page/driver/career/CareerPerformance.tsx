@@ -23,42 +23,40 @@ export default function CareerPerformance({ data }: CareerPerformanceProps) {
 	const prefersDarkMode = useDarkMode();
 	const { sx } = useChartsTheme();
 
-	if (!summaryData) {
-		return null;
-	}
-
-	const chartData: Slice[] = [
-		{
-			id: 'wins',
-			label: `Wins: ${summaryData.wins}`,
-			value: summaryData.wins,
-			color: deepPurple[prefersDarkMode ? 200 : 600]
-		},
-		{
-			id: 'podiums',
-			label: `Podiums: ${summaryData.podiums}`,
-			value: summaryData.podiums - summaryData.wins,
-			color: green[prefersDarkMode ? 200 : 600]
-		},
-		{
-			id: 'inPoints',
-			label: `In Points: ${summaryData.inPoints}`,
-			value: summaryData.inPoints - summaryData.podiums,
-			color: blueGrey[prefersDarkMode ? 200 : 600]
-		},
-		{
-			id: 'appearances',
-			label: `Out of Points: ${summaryData.appearances}`,
-			value: summaryData.appearances - summaryData.inPoints - summaryData.DNFs,
-			color: blueGrey[prefersDarkMode ? 100 : 300]
-		},
-		{
-			id: 'DNFs',
-			label: `DNFs: ${summaryData.DNFs}`,
-			value: summaryData.DNFs,
-			color: red[prefersDarkMode ? 200 : 600]
-		}
-	].filter(s => s.value > 0);
+	const chartData: Slice[] = summaryData
+		? [
+				{
+					id: 'wins',
+					label: `Wins: ${summaryData.wins}`,
+					value: summaryData.wins,
+					color: deepPurple[prefersDarkMode ? 200 : 600]
+				},
+				{
+					id: 'podiums',
+					label: `Podiums: ${summaryData.podiums}`,
+					value: summaryData.podiums - summaryData.wins,
+					color: green[prefersDarkMode ? 200 : 600]
+				},
+				{
+					id: 'inPoints',
+					label: `In Points: ${summaryData.inPoints}`,
+					value: summaryData.inPoints - summaryData.podiums,
+					color: blueGrey[prefersDarkMode ? 200 : 600]
+				},
+				{
+					id: 'appearances',
+					label: `Out of Points: ${summaryData.appearances}`,
+					value: summaryData.appearances - summaryData.inPoints - summaryData.DNFs,
+					color: blueGrey[prefersDarkMode ? 100 : 300]
+				},
+				{
+					id: 'DNFs',
+					label: `DNFs: ${summaryData.DNFs}`,
+					value: summaryData.DNFs,
+					color: red[prefersDarkMode ? 200 : 600]
+				}
+			].filter(s => s.value > 0)
+		: [];
 
 	const TooltipSlot = useMemo(() => {
 		function CareerPerformanceTooltip() {
@@ -82,6 +80,10 @@ export default function CareerPerformance({ data }: CareerPerformanceProps) {
 		}
 		return createItemTooltipSlot(CareerPerformanceTooltip);
 	}, [chartData]);
+
+	if (!summaryData) {
+		return null;
+	}
 
 	return (
 		<Paper variant="outlined" className="h-[132px] p-2" aria-hidden>

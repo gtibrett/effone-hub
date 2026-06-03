@@ -76,14 +76,6 @@ function LapByLap({ season, round }: LapByLapProps) {
 		return { series, laps, driverByKey, maxPos };
 	}, [data, totalLaps]);
 
-	if (loading || !built) {
-		return (
-			<Box className="w-full" style={{ height }} aria-hidden>
-				<Skeleton variant="rectangular" className="w-full" height="100%" />
-			</Box>
-		);
-	}
-
 	const TooltipSlot = useMemo(() => {
 		function ItemTooltipContent() {
 			const tt = useItemTooltip<'line'>();
@@ -103,6 +95,14 @@ function LapByLap({ season, round }: LapByLapProps) {
 		}
 		return createItemTooltipSlot(ItemTooltipContent);
 	}, [built]);
+
+	if (loading || !built) {
+		return (
+			<Box className="w-full" style={{ height }} aria-hidden>
+				<Skeleton variant="rectangular" className="w-full" height="100%" />
+			</Box>
+		);
+	}
 
 	return (
 		<Box className="w-full" style={{ height }} aria-hidden>
