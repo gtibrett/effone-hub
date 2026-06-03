@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { GeoMapEventHandler } from '@nivo/geo';
 
 import { Circuit } from '@/gql/graphql';
 
 import { Point } from './types';
+import type { MapPointEventHandler } from './useMapSeasonRacesToMapPoints';
 
 export default function useMapCircuitsToMapPoints() {
 	const router = useRouter();
@@ -12,7 +12,7 @@ export default function useMapCircuitsToMapPoints() {
 	return useCallback(
 		(
 			circuits: Pick<Circuit, 'id' | 'latitude' | 'longitude' | 'fullName'>[]
-		): { points: Point[]; onClick: GeoMapEventHandler } => {
+		): { points: Point[]; onClick: MapPointEventHandler } => {
 			const points: Point[] = circuits
 				.filter(c => c.longitude && c.latitude)
 				.map(circuit => ({
@@ -25,10 +25,8 @@ export default function useMapCircuitsToMapPoints() {
 					}
 				}));
 
-			const onClick: GeoMapEventHandler = feature => {
-				if (feature?.geometry?.type === 'Point') {
-					router.push(`/circuits/${feature.id}`);
-				}
+			const onClick: MapPointEventHandler = point => {
+				router.push(`/circuits/${point.id}`);
 			};
 
 			return { points, onClick };
