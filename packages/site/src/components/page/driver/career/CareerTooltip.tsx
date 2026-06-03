@@ -1,15 +1,30 @@
 import { Card, CardHeader } from '@mui/material';
-import { LineSeries, PointTooltipProps } from '@nivo/line';
 
 import { PropertiesTable, PropertiesTableRow } from '@/components/ui';
 import { useTeamHeaderSx } from '@/hooks';
 import { useTeam } from '@/hooks/data';
 
-export default function CareerTooltip({ point }: PointTooltipProps<LineSeries>) {
-	const { seriesId: teamId, data } = point;
+// Synthesized by LineChartByTeam's tooltip slot — same shape its nivo
+// predecessor produced (seriesId + data with x/y/raw fields).
+export type CareerTooltipProps = {
+	point: {
+		seriesId: string | number;
+		data: {
+			x?: unknown;
+			xFormatted?: string;
+			y?: unknown;
+			points?: number;
+			wins?: number;
+			position?: number;
+			grid?: number;
+			[key: string]: unknown;
+		};
+	};
+};
 
-	// @ts-ignore
-	const { points, wins, position, grid } = data; // extra added to make tooltip better
+export default function CareerTooltip({ point }: CareerTooltipProps) {
+	const { seriesId: teamId, data } = point;
+	const { points, wins, position, grid } = data;
 	const { team } = useTeam(String(teamId));
 	const headerSx = useTeamHeaderSx(String(teamId));
 
