@@ -1,4 +1,5 @@
 import { memo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@mui/material';
 
 import { ChartSwitcher, ChartSwitcherChart } from '@/components/app';
@@ -30,6 +31,8 @@ const DriversStandingsActions = ({ season }: DriversStandingsProps) => {
 function DriversStandings({ season }: DriversStandingsProps) {
 	const { chartData } = useDriverStandingsData(season);
 	const height = Math.max(...chartData.map(s => s.standings.length), 20) * 20;
+	const router = useRouter();
+	const onLabelClick = (driverId: string) => router.push(`/drivers/${driverId}`);
 
 	if (!chartData?.length) {
 		return null;
@@ -44,6 +47,7 @@ function DriversStandings({ season }: DriversStandingsProps) {
 					data={chartData}
 					TooltipComponent={DriverStandingsPositionTooltip}
 					height={height}
+					onLabelClick={onLabelClick}
 				/>
 			)
 		},
@@ -55,6 +59,7 @@ function DriversStandings({ season }: DriversStandingsProps) {
 					data={chartData}
 					TooltipComponent={DriverStandingsPointsTooltip}
 					height={height}
+					onLabelClick={onLabelClick}
 				/>
 			)
 		}

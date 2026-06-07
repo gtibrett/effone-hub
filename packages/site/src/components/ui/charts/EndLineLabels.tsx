@@ -6,6 +6,8 @@ type EndLineLabelsProps = {
 	xData: number[];
 	xPadding?: number;
 	fontSize?: number;
+	onLabelHoverChange?: (seriesId: string | null) => void;
+	onLabelClick?: (seriesId: string) => void;
 };
 
 // Composition-mode layer: draws each line series' label at the y of its
@@ -16,7 +18,9 @@ export default function EndLineLabels({
 	series,
 	xData,
 	xPadding = 32,
-	fontSize = 11
+	fontSize = 11,
+	onLabelHoverChange,
+	onLabelClick
 }: EndLineLabelsProps) {
 	const xScale = useXScale<'point'>();
 	const yScale = useYScale<'linear'>();
@@ -28,6 +32,7 @@ export default function EndLineLabels({
 	if (xPos == null) {
 		return null;
 	}
+	const interactive = Boolean(onLabelHoverChange || onLabelClick);
 	return (
 		<g>
 			{series.map(s => {
@@ -50,15 +55,22 @@ export default function EndLineLabels({
 					return null;
 				}
 				const label = typeof s.label === 'function' ? s.label('legend') : s.label;
+				const id = String(s.id);
 				return (
 					<text
-						key={s.id}
+						key={id}
 						x={Number(xPos) + xPadding}
 						y={Number(y)}
 						fill={(s.color as string) || 'currentColor'}
 						fontSize={fontSize}
 						dominantBaseline="middle"
 						textAnchor="start"
+						style={interactive ? { cursor: 'pointer' } : undefined}
+						onMouseEnter={onLabelHoverChange ? () => onLabelHoverChange(id) : undefined}
+						onMouseLeave={
+							onLabelHoverChange ? () => onLabelHoverChange(null) : undefined
+						}
+						onClick={onLabelClick ? () => onLabelClick(id) : undefined}
 					>
 						{label ?? ''}
 					</text>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Box } from '@mui/material';
 import type { LineSeriesType } from '@mui/x-charts';
 import {
@@ -23,10 +23,12 @@ import useChartData from './useChartData';
 export default function PositionsChart({
 	data,
 	TooltipComponent,
-	height
-}: ChartProps & { height?: number }) {
+	height,
+	onLabelClick
+}: ChartProps & { height?: number; onLabelClick?: (seriesId: string) => void }) {
 	const chartData = useChartData(data, 'position');
 	const { sx } = useChartsTheme();
+	const [hovered, setHovered] = useState<string | null>(null);
 
 	const built = useMemo(() => {
 		if (!chartData.length) {
@@ -99,6 +101,8 @@ export default function PositionsChart({
 			<ChartsDataProvider
 				series={built.series}
 				height={height}
+				highlightedItem={hovered ? { seriesId: hovered, type: 'line' } : null}
+				onHighlightChange={item => setHovered(item ? String(item.seriesId) : null)}
 				xAxis={[
 					{
 						id: 'x',
@@ -126,7 +130,12 @@ export default function PositionsChart({
 					<MarkPlot />
 					<LineHighlightPlot />
 					<ChartsAxisHighlight x="line" />
-					<EndLineLabels series={built.series} xData={built.xData} />
+					<EndLineLabels
+						series={built.series}
+						xData={built.xData}
+						onLabelHoverChange={setHovered}
+						onLabelClick={onLabelClick}
+					/>
 					<ChartsXAxis />
 					<ChartsYAxis />
 				</ChartsSurface>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Box } from '@mui/material';
 import type { LineSeriesType } from '@mui/x-charts';
 import {
@@ -25,9 +25,11 @@ const range = (n: number) => Array.from({ length: n }, (_, i) => i + 1);
 export default function PointsChart({
 	data,
 	TooltipComponent,
-	height
-}: ChartProps & { height?: number }) {
+	height,
+	onLabelClick
+}: ChartProps & { height?: number; onLabelClick?: (seriesId: string) => void }) {
 	const chartData = useChartData(data, 'points');
+	const [hovered, setHovered] = useState<string | null>(null);
 	const { sx } = useChartsTheme();
 
 	const { series, lookup, ticks, maxPoints } = useMemo(() => {
@@ -106,6 +108,8 @@ export default function PointsChart({
 			<ChartsDataProvider
 				series={series}
 				height={height}
+				highlightedItem={hovered ? { seriesId: hovered, type: 'line' } : null}
+				onHighlightChange={item => setHovered(item ? String(item.seriesId) : null)}
 				xAxis={[
 					{
 						id: 'x',
@@ -133,7 +137,12 @@ export default function PointsChart({
 					<MarkPlot />
 					<LineHighlightPlot />
 					<ChartsAxisHighlight x="line" />
-					<EndLineLabels series={series} xData={ticks} />
+					<EndLineLabels
+						series={series}
+						xData={ticks}
+						onLabelHoverChange={setHovered}
+						onLabelClick={onLabelClick}
+					/>
 					<ChartsXAxis />
 					<ChartsYAxis />
 				</ChartsSurface>
