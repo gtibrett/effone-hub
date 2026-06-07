@@ -3,22 +3,23 @@
 import { useMemo, useState } from 'react';
 import { Box } from '@mui/material';
 import type { LineSeriesType } from '@mui/x-charts';
-import {
-	ChartsAxisHighlight,
-	ChartsDataProvider,
-	ChartsGrid,
-	ChartsSurface,
-	ChartsTooltipContainer,
-	ChartsXAxis,
-	ChartsYAxis
-} from '@mui/x-charts';
 import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
-import { LineHighlightPlot, LinePlot, MarkPlot } from '@mui/x-charts/LineChart';
+import { LineChart } from '@mui/x-charts/LineChart';
 
-import { ChartsTooltipBody, EndLineLabels, useChartsTheme } from '@/components/ui/charts';
+import {
+	ChartsTooltipBody,
+	createItemTooltipSlot,
+	EndLineLabelsOverlay,
+	useChartsTheme
+} from '@/components/ui/charts';
 
 import type { ChartProps, StandingWithEntity } from './types';
 import useChartData from './useChartData';
+
+const MARGIN_TOP = 12;
+const MARGIN_RIGHT = 168;
+const MARGIN_BOTTOM = 28;
+const MARGIN_LEFT = 16;
 
 export default function PositionsChart({
 	data,
@@ -71,41 +72,43 @@ export default function PositionsChart({
 		return { series, xData, lookup, maxPos };
 	}, [chartData]);
 
-	function ItemTooltipContent() {
-		const tt = useItemTooltip<'line'>();
-		if (!tt || !built) {
-			return null;
+	const TooltipSlot = useMemo(() => {
+		function ItemTooltipContent() {
+			const tt = useItemTooltip<'line'>();
+			if (!tt || !built) {
+				return null;
+			}
+			const seriesId = String(tt.identifier.seriesId);
+			const dataIndex = (tt.identifier as { dataIndex?: number }).dataIndex;
+			if (dataIndex == null) {
+				return null;
+			}
+			const standing = built.lookup.get(seriesId)?.[dataIndex];
+			if (!standing) {
+				return null;
+			}
+			return (
+				<ChartsTooltipBody>
+					<TooltipComponent serie={{ data: standing }} />
+				</ChartsTooltipBody>
+			);
 		}
-		const seriesId = String(tt.identifier.seriesId);
-		const dataIndex = (tt.identifier as { dataIndex?: number }).dataIndex;
-		if (dataIndex == null) {
-			return null;
-		}
-		const standing = built.lookup.get(seriesId)?.[dataIndex];
-		if (!standing) {
-			return null;
-		}
-		return (
-			<ChartsTooltipBody>
-				<TooltipComponent serie={{ data: standing }} />
-			</ChartsTooltipBody>
-		);
-	}
+		return createItemTooltipSlot(ItemTooltipContent);
+	}, [built, TooltipComponent]);
 
 	if (!data.length || !built) {
 		return null;
 	}
 
 	return (
-		<Box sx={{ width: '100%', height: height ?? '100%', ...sx }}>
-			<ChartsDataProvider
-				series={built.series}
+		<Box sx={{ position: 'relative', width: '100%', height: height ?? '100%' }}>
+			<LineChart
 				height={height}
+				series={built.series}
 				highlightedItem={hovered ? { seriesId: hovered, type: 'line' } : null}
 				onHighlightChange={item => setHovered(item ? String(item.seriesId) : null)}
 				xAxis={[
 					{
-						id: 'x',
 						data: built.xData,
 						scaleType: 'point',
 						tickInterval: built.xData
@@ -113,7 +116,6 @@ export default function PositionsChart({
 				]}
 				yAxis={[
 					{
-						id: 'y',
 						scaleType: 'linear',
 						min: 1,
 						max: built.maxPos,
@@ -122,27 +124,34 @@ export default function PositionsChart({
 						tickInterval: Array.from({ length: built.maxPos }, (_, i) => i + 1)
 					}
 				]}
-				margin={{ top: 12, right: 48, bottom: 28, left: 16 }}
-			>
-				<ChartsSurface>
-					<ChartsGrid vertical horizontal={false} />
-					<LinePlot />
-					<MarkPlot />
-					<LineHighlightPlot />
-					<ChartsAxisHighlight x="line" />
-					<EndLineLabels
-						series={built.series}
-						xData={built.xData}
-						onLabelHoverChange={setHovered}
-						onLabelClick={onLabelClick}
-					/>
-					<ChartsXAxis />
-					<ChartsYAxis />
-				</ChartsSurface>
-				<ChartsTooltipContainer trigger="item">
-					<ItemTooltipContent />
-				</ChartsTooltipContainer>
-			</ChartsDataProvider>
+				margin={{
+					top: MARGIN_TOP,
+					right: MARGIN_RIGHT,
+					bottom: MARGIN_BOTTOM,
+					left: MARGIN_LEFT
+				}}
+				grid={{ vertical: true, horizontal: false }}
+				hideLegend
+				sx={sx}
+				slots={{ tooltip: TooltipSlot }}
+				skipAnimation={false}
+			/>
+			{height ? (
+				<EndLineLabelsOverlay
+					series={built.series}
+					yMin={1}
+					yMax={built.maxPos}
+					yReversed
+					height={height}
+					marginTop={MARGIN_TOP}
+					marginBottom={MARGIN_BOTTOM}
+					marginLeft={MARGIN_LEFT}
+					marginRight={MARGIN_RIGHT}
+					hoveredSeriesId={hovered}
+					onHoverChange={setHovered}
+					onClick={onLabelClick}
+				/>
+			) : null}
 		</Box>
 	);
 }
