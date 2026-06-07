@@ -83,6 +83,7 @@ export default function SeasonChart({ data, loading }: SeasonChartProps) {
 				]}
 				yAxis={[
 					{
+						scaleType: 'linear',
 						min: 1,
 						max: built.maxPosition,
 						reverse: true,

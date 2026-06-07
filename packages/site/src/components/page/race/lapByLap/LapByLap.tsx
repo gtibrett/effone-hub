@@ -117,6 +117,7 @@ function LapByLap({ season, round }: LapByLapProps) {
 				]}
 				yAxis={[
 					{
+						scaleType: 'linear',
 						min: 1,
 						max: built.maxPos,
 						reverse: true,

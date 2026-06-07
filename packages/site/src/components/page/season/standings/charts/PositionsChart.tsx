@@ -99,6 +99,7 @@ export default function PositionsChart({
 			]}
 			yAxis={[
 				{
+					scaleType: 'linear',
 					min: 1,
 					max: built.maxPos,
 					reverse: true,
@@ -107,12 +108,7 @@ export default function PositionsChart({
 				}
 			]}
 			grid={{ vertical: true, horizontal: false }}
-			slotProps={{
-				legend: {
-					direction: 'vertical',
-					position: { vertical: 'middle', horizontal: 'end' }
-				}
-			}}
+			hideLegend
 			slots={{ tooltip: TooltipSlot }}
 			sx={sx}
 			skipAnimation={false}

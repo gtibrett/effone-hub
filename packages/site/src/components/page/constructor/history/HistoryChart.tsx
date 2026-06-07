@@ -143,6 +143,7 @@ export default function HistoryChart({
 			]}
 			yAxis={[
 				{
+					scaleType: 'linear',
 					min: invert ? min : 0,
 					max: built.axisMax,
 					reverse: invert,

@@ -110,6 +110,7 @@ export default function PointsChart({
 			]}
 			yAxis={[
 				{
+					scaleType: 'linear',
 					min: 0,
 					max: maxPoints,
 					position: 'right',
@@ -118,6 +119,7 @@ export default function PointsChart({
 			]}
 			margin={{ top: 20, right: 48, bottom: 28, left: 16 }}
 			grid={{ vertical: true, horizontal: false }}
+			hideLegend
 			sx={sx}
 			slots={{ tooltip: TooltipSlot }}
 			onLineClick={(_e, params) => {
