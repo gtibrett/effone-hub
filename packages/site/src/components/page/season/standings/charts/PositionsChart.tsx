@@ -114,10 +114,10 @@ export default function PositionsChart({
 						max: built.maxPos,
 						reverse: true,
 						position: 'right',
-						tickInterval: 'auto'
+						tickInterval: Array.from({ length: built.maxPos }, (_, i) => i + 1)
 					}
 				]}
-				margin={{ top: 12, right: 96, bottom: 28, left: 16 }}
+				margin={{ top: 12, right: 168, bottom: 28, left: 16 }}
 			>
 				<ChartsSurface>
 					<ChartsGrid vertical horizontal={false} />

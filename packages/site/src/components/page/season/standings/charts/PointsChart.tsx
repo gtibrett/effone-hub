@@ -124,7 +124,7 @@ export default function PointsChart({
 						tickInterval: [0, maxPoints]
 					}
 				]}
-				margin={{ top: 20, right: 96, bottom: 28, left: 16 }}
+				margin={{ top: 20, right: 168, bottom: 28, left: 16 }}
 			>
 				<ChartsSurface>
 					<ChartsGrid vertical horizontal={false} />
