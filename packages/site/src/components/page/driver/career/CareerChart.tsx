@@ -28,6 +28,7 @@ export default function CareerChart({ driverId, size }: CareerChartProps) {
 					yKey="position"
 					data={data}
 					tooltip={CareerTooltip}
+					height={size}
 					invert
 					min={1}
 				/>
@@ -36,12 +37,28 @@ export default function CareerChart({ driverId, size }: CareerChartProps) {
 		{
 			id: 'points',
 			label: 'Points',
-			chart: <LineChartByTeam xKey="year" yKey="points" data={data} tooltip={CareerTooltip} />
+			chart: (
+				<LineChartByTeam
+					xKey="year"
+					yKey="points"
+					data={data}
+					tooltip={CareerTooltip}
+					height={size}
+				/>
+			)
 		},
 		{
 			id: 'wins',
 			label: 'Wins',
-			chart: <LineChartByTeam xKey="year" yKey="wins" data={data} tooltip={CareerTooltip} />
+			chart: (
+				<LineChartByTeam
+					xKey="year"
+					yKey="wins"
+					data={data}
+					tooltip={CareerTooltip}
+					height={size}
+				/>
+			)
 		}
 	];
 

@@ -17,7 +17,7 @@ const CircuitDataQuery = gql`
 				year
 				round
 				date
-				raceResults(condition: {driverId: $driverId}) {
+				results: raceResults(condition: {driverId: $driverId}) {
 					raceId
 					driverId
 					gridPositionNumber
@@ -26,7 +26,7 @@ const CircuitDataQuery = gql`
 					points
 					timeMillis
 					reasonRetired
-					team {
+					constructor: team {
 						id
 						colors {
 							teamId
@@ -38,7 +38,7 @@ const CircuitDataQuery = gql`
 					raceId
 					driverId
 					lap
-					milliseconds
+					timeMillis: milliseconds
 				}
 			}
 		}
@@ -48,7 +48,7 @@ const CircuitDataQuery = gql`
 				year
 				driverId
 				teamId
-				team {
+				constructor: team {
 					id
 					colors {
 						teamId

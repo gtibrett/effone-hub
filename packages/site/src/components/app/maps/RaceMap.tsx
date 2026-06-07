@@ -52,7 +52,7 @@ export default function RaceMap(props: RaceMapProps) {
 				<ComposableMap
 					projection="geoEquirectangular"
 					projectionConfig={{
-						scale: zoom ? 500 : 100,
+						scale: zoom ? 500 : 200,
 						rotate
 					}}
 					style={{ width: '100%', height: '100%' }}
@@ -89,9 +89,7 @@ export default function RaceMap(props: RaceMapProps) {
 					</Geographies>
 					{points.map(point => {
 						const isNext = Boolean(highlightNext && point.properties?.next);
-						const fill = isNext ? cssVar.background.paper : cssVar.secondary.main;
-						const stroke = isNext ? cssVar.secondary.dark : cssVar.background.paper;
-						const strokeWidth = isNext ? 5 : 1;
+						const fill = isNext ? cssVar.primary.main : cssVar.secondary.main;
 						return (
 							<Marker
 								key={point.id}
@@ -105,12 +103,7 @@ export default function RaceMap(props: RaceMapProps) {
 									pressed: { cursor: onClick ? 'pointer' : 'default' }
 								}}
 							>
-								<circle
-									r={point.pointRadius ?? 4}
-									fill={fill}
-									stroke={stroke}
-									strokeWidth={strokeWidth}
-								/>
+								<circle r={point.pointRadius ?? 8} fill={fill} strokeWidth={0} />
 							</Marker>
 						);
 					})}

@@ -75,6 +75,7 @@ export default function HistoryChart({
 				color: chartColors[idx] || undefined,
 				curve: 'linear',
 				showMark: true,
+				shape: 'circle',
 				connectNulls: false
 			};
 		});

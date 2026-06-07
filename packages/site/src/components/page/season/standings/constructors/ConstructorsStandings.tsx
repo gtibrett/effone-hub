@@ -35,6 +35,7 @@ export default function ConstructorsStandings({ season }: ConstructorsStandingsP
 				<PositionsChart
 					data={chartData}
 					TooltipComponent={ConstructorStandingsPositionTooltip}
+					height={height}
 				/>
 			)
 		},
@@ -45,6 +46,7 @@ export default function ConstructorsStandings({ season }: ConstructorsStandingsP
 				<PointsChart
 					data={chartData}
 					TooltipComponent={ConstructorStandingsPointsTooltip}
+					height={height}
 				/>
 			)
 		}

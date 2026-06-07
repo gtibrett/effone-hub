@@ -29,7 +29,8 @@ export default function CircuitChart({ data }: CircuitChartProps) {
 	const baseProps: Omit<LineChartByTeamProps, 'yKey'> = {
 		xKey: 'year',
 		data: chartData,
-		tooltip: CareerTooltip
+		tooltip: CareerTooltip,
+		height: 200
 	};
 
 	const charts: ChartSwitcherChart[] = [

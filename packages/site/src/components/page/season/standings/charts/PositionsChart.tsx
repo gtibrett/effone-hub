@@ -10,7 +10,11 @@ import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/comp
 import type { ChartProps, StandingWithEntity } from './types';
 import useChartData from './useChartData';
 
-export default function PositionsChart({ data, TooltipComponent }: ChartProps) {
+export default function PositionsChart({
+	data,
+	TooltipComponent,
+	height
+}: ChartProps & { height?: number }) {
 	const chartData = useChartData(data, 'position');
 	const { sx } = useChartsTheme();
 
@@ -46,6 +50,7 @@ export default function PositionsChart({ data, TooltipComponent }: ChartProps) {
 				color: s.color,
 				curve: 'monotoneX',
 				showMark: false,
+				shape: 'circle',
 				connectNulls: false
 			};
 		});
@@ -83,6 +88,7 @@ export default function PositionsChart({ data, TooltipComponent }: ChartProps) {
 
 	return (
 		<LineChart
+			height={height}
 			series={built.series}
 			xAxis={[
 				{
@@ -100,7 +106,6 @@ export default function PositionsChart({ data, TooltipComponent }: ChartProps) {
 					tickInterval: 'auto'
 				}
 			]}
-			margin={{ top: 12, right: 116, bottom: 28, left: 16 }}
 			grid={{ vertical: true, horizontal: false }}
 			slotProps={{
 				legend: {

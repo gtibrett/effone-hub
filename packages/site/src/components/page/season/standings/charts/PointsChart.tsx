@@ -13,7 +13,11 @@ import useChartData from './useChartData';
 
 const range = (n: number) => Array.from({ length: n }, (_, i) => i + 1);
 
-export default function PointsChart({ data, TooltipComponent }: ChartProps) {
+export default function PointsChart({
+	data,
+	TooltipComponent,
+	height
+}: ChartProps & { height?: number }) {
 	const chartData = useChartData(data, 'points');
 	const { sx } = useChartsTheme();
 	const [highlight, setHighlight] = useState<string | undefined>();
@@ -48,6 +52,7 @@ export default function PointsChart({ data, TooltipComponent }: ChartProps) {
 				data: values,
 				color: fade ? alpha(s.color, 0.25) : s.color,
 				showMark: true,
+				shape: 'circle',
 				curve: 'linear'
 			};
 		});
@@ -93,6 +98,7 @@ export default function PointsChart({ data, TooltipComponent }: ChartProps) {
 
 	return (
 		<LineChart
+			height={height}
 			series={series}
 			xAxis={[
 				{

@@ -50,6 +50,7 @@ export default function SeasonChart({ data, loading }: SeasonChartProps) {
 				data: values,
 				color: colorPalette[idx % colorPalette.length],
 				curve: 'linear',
+				shape: 'circle' as const,
 				showMark: true,
 				connectNulls: false
 			};

@@ -43,13 +43,20 @@ function DriversStandings({ season }: DriversStandingsProps) {
 				<PositionsChart
 					data={chartData}
 					TooltipComponent={DriverStandingsPositionTooltip}
+					height={height}
 				/>
 			)
 		},
 		{
 			id: 'points',
 			label: 'Points',
-			chart: <PointsChart data={chartData} TooltipComponent={DriverStandingsPointsTooltip} />
+			chart: (
+				<PointsChart
+					data={chartData}
+					TooltipComponent={DriverStandingsPointsTooltip}
+					height={height}
+				/>
+			)
 		}
 	];
 

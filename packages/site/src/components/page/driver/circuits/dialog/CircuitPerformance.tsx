@@ -21,7 +21,7 @@ export default function CircuitPerformance({ data, loading }: CircuitPerformance
 	} = useComponentDimensionsWithRef();
 	const rawResults = data?.circuit.races?.flatMap(r => r.results);
 	const circuitResults = rawResults?.filter(Boolean).map(r => ({
-		positionOrder: r.positionDisplayOrder ?? undefined,
+		positionDisplayOrder: r.positionDisplayOrder ?? undefined,
 		positionText: r.positionText ?? undefined
 	})) as any;
 	const performanceData = usePerformanceData(circuitResults);

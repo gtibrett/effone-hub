@@ -45,6 +45,7 @@ export type LineChartByTeamProps = {
 	min?: number;
 	max?: number;
 	noBase?: boolean;
+	height?: number;
 };
 
 export default function LineChartByTeam({
@@ -56,7 +57,8 @@ export default function LineChartByTeam({
 	invert = false,
 	min = 0,
 	max = 0,
-	noBase = false
+	noBase = false,
+	height
 }: LineChartByTeamProps) {
 	const splitSeriesByTeam = useSplitSeriesByTeam();
 	const { sx, slotProps } = useChartsTheme();
@@ -94,6 +96,7 @@ export default function LineChartByTeam({
 				color,
 				curve: 'linear',
 				showMark: true,
+				shape: 'circle',
 				connectNulls: false
 			};
 		});
@@ -138,10 +141,15 @@ export default function LineChartByTeam({
 		);
 	}
 
+	if (!built.xData.length) {
+		return null;
+	}
+
 	return (
-		<Box sx={{ width: '100%', height: '100%', ...sx }}>
+		<Box sx={{ width: '100%', height: height ?? '100%', ...sx }}>
 			<ChartsDataProvider
 				series={built.series}
+				height={height}
 				xAxis={[
 					{
 						id: 'x',
