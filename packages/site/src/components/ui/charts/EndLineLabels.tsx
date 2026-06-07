@@ -15,7 +15,7 @@ type EndLineLabelsProps = {
 export default function EndLineLabels({
 	series,
 	xData,
-	xPadding = 64,
+	xPadding = 32,
 	fontSize = 11
 }: EndLineLabelsProps) {
 	const xScale = useXScale<'point'>();

@@ -13,7 +13,7 @@ import {
 	ChartsYAxis
 } from '@mui/x-charts';
 import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
-import { LinePlot, MarkPlot } from '@mui/x-charts/LineChart';
+import { LineHighlightPlot, LinePlot, MarkPlot } from '@mui/x-charts/LineChart';
 
 import { ChartsTooltipBody, EndLineLabels, useChartsTheme } from '@/components/ui/charts';
 
@@ -61,7 +61,8 @@ export default function PositionsChart({
 				curve: 'monotoneX',
 				showMark: false,
 				shape: 'circle',
-				connectNulls: false
+				connectNulls: false,
+				highlightScope: { fade: 'global', highlight: 'series' }
 			};
 		});
 		const maxPos = Math.max(...chartData.flatMap(s => s.data.map(d => Number(d.y || 0))));
@@ -117,12 +118,13 @@ export default function PositionsChart({
 						tickInterval: Array.from({ length: built.maxPos }, (_, i) => i + 1)
 					}
 				]}
-				margin={{ top: 12, right: 168, bottom: 28, left: 16 }}
+				margin={{ top: 12, right: 48, bottom: 28, left: 16 }}
 			>
 				<ChartsSurface>
 					<ChartsGrid vertical horizontal={false} />
 					<LinePlot />
 					<MarkPlot />
+					<LineHighlightPlot />
 					<ChartsAxisHighlight x="line" />
 					<EndLineLabels series={built.series} xData={built.xData} />
 					<ChartsXAxis />

@@ -13,7 +13,7 @@ import {
 	ChartsYAxis
 } from '@mui/x-charts';
 import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
-import { LinePlot, MarkPlot } from '@mui/x-charts/LineChart';
+import { LineHighlightPlot, LinePlot, MarkPlot } from '@mui/x-charts/LineChart';
 
 import { ChartsTooltipBody, EndLineLabels, useChartsTheme } from '@/components/ui/charts';
 
@@ -60,7 +60,8 @@ export default function PointsChart({
 				color: s.color,
 				showMark: true,
 				shape: 'circle',
-				curve: 'linear'
+				curve: 'linear',
+				highlightScope: { fade: 'global', highlight: 'series' }
 			};
 		});
 		return { series: built, lookup: lkup, ticks: range(rounds), maxPoints: maxY };
@@ -130,6 +131,7 @@ export default function PointsChart({
 					<ChartsGrid vertical horizontal={false} />
 					<LinePlot />
 					<MarkPlot />
+					<LineHighlightPlot />
 					<ChartsAxisHighlight x="line" />
 					<EndLineLabels series={series} xData={ticks} />
 					<ChartsXAxis />
