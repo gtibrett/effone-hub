@@ -49,6 +49,7 @@ export default function EndLineLabels({
 				if (y == null) {
 					return null;
 				}
+				const label = typeof s.label === 'function' ? s.label('legend') : s.label;
 				return (
 					<text
 						key={s.id}
@@ -59,7 +60,7 @@ export default function EndLineLabels({
 						dominantBaseline="middle"
 						textAnchor="start"
 					>
-						{s.label}
+						{label ?? ''}
 					</text>
 				);
 			})}
