@@ -1,12 +1,21 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
+import { Box } from '@mui/material';
 import type { LineSeriesType } from '@mui/x-charts';
+import {
+	ChartsAxisHighlight,
+	ChartsDataProvider,
+	ChartsGrid,
+	ChartsSurface,
+	ChartsTooltipContainer,
+	ChartsXAxis,
+	ChartsYAxis
+} from '@mui/x-charts';
 import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
-import { LineChart } from '@mui/x-charts/LineChart';
+import { LinePlot, MarkPlot } from '@mui/x-charts/LineChart';
 
-import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
-import { alpha } from '@/components/ui/colors';
+import { ChartsTooltipBody, EndLineLabels, useChartsTheme } from '@/components/ui/charts';
 
 import type { ChartProps, StandingWithEntity } from './types';
 import useChartData from './useChartData';
@@ -20,7 +29,6 @@ export default function PointsChart({
 }: ChartProps & { height?: number }) {
 	const chartData = useChartData(data, 'points');
 	const { sx } = useChartsTheme();
-	const [highlight, setHighlight] = useState<string | undefined>();
 
 	const { series, lookup, ticks, maxPoints } = useMemo(() => {
 		const rounds = Math.max(...chartData.map(s => Math.max(...s.data.map(d => Number(d.x)))));
@@ -44,93 +52,93 @@ export default function PointsChart({
 				}
 			});
 			lkup.set(String(s.id), standings);
-			const fade = highlight && s.id !== highlight;
 			return {
 				type: 'line',
 				id: String(s.id),
 				label: s.entity.name,
 				data: values,
-				color: fade ? alpha(s.color, 0.25) : s.color,
+				color: s.color,
 				showMark: true,
 				shape: 'circle',
 				curve: 'linear'
 			};
 		});
 		return { series: built, lookup: lkup, ticks: range(rounds), maxPoints: maxY };
-	}, [chartData, highlight]);
+	}, [chartData]);
 
-	const TooltipSlot = useMemo(() => {
-		function ItemTooltipContent() {
-			const tt = useItemTooltip<'line'>();
-			if (!tt) {
-				return null;
-			}
-			const seriesId = String(tt.identifier.seriesId);
-			const dataIndex = (tt.identifier as { dataIndex?: number }).dataIndex;
-			if (dataIndex == null) {
-				return null;
-			}
-			const standing = lookup.get(seriesId)?.[dataIndex];
-			if (!standing) {
-				return null;
-			}
-			const synthesized = {
-				point: {
-					data: {
-						x: dataIndex + 1,
-						y: standing.points,
-						data: standing
-					}
-				}
-			};
-			return (
-				<ChartsTooltipBody>
-					<TooltipComponent {...synthesized} />
-				</ChartsTooltipBody>
-			);
+	function ItemTooltipContent() {
+		const tt = useItemTooltip<'line'>();
+		if (!tt) {
+			return null;
 		}
-		return createItemTooltipSlot(ItemTooltipContent);
-	}, [lookup, TooltipComponent]);
+		const seriesId = String(tt.identifier.seriesId);
+		const dataIndex = (tt.identifier as { dataIndex?: number }).dataIndex;
+		if (dataIndex == null) {
+			return null;
+		}
+		const standing = lookup.get(seriesId)?.[dataIndex];
+		if (!standing) {
+			return null;
+		}
+		const synthesized = {
+			point: {
+				data: {
+					x: dataIndex + 1,
+					y: standing.points,
+					data: standing
+				}
+			}
+		};
+		return (
+			<ChartsTooltipBody>
+				<TooltipComponent {...synthesized} />
+			</ChartsTooltipBody>
+		);
+	}
 
 	if (!data.length || !ticks.length || !maxPoints) {
 		return null;
 	}
 
 	return (
-		<LineChart
-			height={height}
-			series={series}
-			xAxis={[
-				{
-					data: ticks,
-					scaleType: 'point',
-					tickInterval: ticks,
-					label: 'Round'
-				}
-			]}
-			yAxis={[
-				{
-					scaleType: 'linear',
-					min: 0,
-					max: maxPoints,
-					position: 'right',
-					tickInterval: [0, maxPoints]
-				}
-			]}
-			margin={{ top: 20, right: 48, bottom: 28, left: 16 }}
-			grid={{ vertical: true, horizontal: false }}
-			hideLegend
-			sx={sx}
-			slots={{ tooltip: TooltipSlot }}
-			onLineClick={(_e, params) => {
-				const id = String(params.seriesId);
-				setHighlight(highlight === id ? undefined : id);
-			}}
-			onMarkClick={(_e, params) => {
-				const id = String(params.seriesId);
-				setHighlight(highlight === id ? undefined : id);
-			}}
-			skipAnimation={false}
-		/>
+		<Box sx={{ width: '100%', height: height ?? '100%', ...sx }}>
+			<ChartsDataProvider
+				series={series}
+				height={height}
+				xAxis={[
+					{
+						id: 'x',
+						data: ticks,
+						scaleType: 'point',
+						tickInterval: ticks,
+						label: 'Round'
+					}
+				]}
+				yAxis={[
+					{
+						id: 'y',
+						scaleType: 'linear',
+						min: 0,
+						max: maxPoints,
+						position: 'right',
+						tickInterval: [0, maxPoints]
+					}
+				]}
+				margin={{ top: 20, right: 96, bottom: 28, left: 16 }}
+			>
+				<ChartsSurface>
+					<ChartsGrid vertical horizontal={false} />
+					<LinePlot />
+					<MarkPlot />
+					<ChartsAxisHighlight x="line" />
+					<EndLineLabels series={series} xData={ticks} />
+					<ChartsXAxis />
+					<ChartsYAxis />
+				</ChartsSurface>
+				<ChartsTooltipContainer trigger="item">
+					<ItemTooltipContent />
+				</ChartsTooltipContainer>
+			</ChartsDataProvider>
+		</Box>
 	);
 }

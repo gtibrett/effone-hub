@@ -1,0 +1,68 @@
+import type { LineSeriesType } from '@mui/x-charts';
+import { useXScale, useYScale } from '@mui/x-charts/hooks';
+
+type EndLineLabelsProps = {
+	series: LineSeriesType[];
+	xData: number[];
+	xPadding?: number;
+	fontSize?: number;
+};
+
+// Composition-mode layer: draws each line series' label at the y of its
+// last non-null data point, just past the rightmost x tick. Replaces the
+// MUI X vertical legend on standings / lap-by-lap charts so the labels
+// track the line endpoints in current-rank order.
+export default function EndLineLabels({
+	series,
+	xData,
+	xPadding = 6,
+	fontSize = 11
+}: EndLineLabelsProps) {
+	const xScale = useXScale<'point'>();
+	const yScale = useYScale<'linear'>();
+	if (!xScale || !yScale || !xData.length) {
+		return null;
+	}
+	const lastX = xData[xData.length - 1];
+	const xPos = xScale(lastX);
+	if (xPos == null) {
+		return null;
+	}
+	return (
+		<g>
+			{series.map(s => {
+				if (!s.data) {
+					return null;
+				}
+				let lastValue: number | null = null;
+				for (let i = s.data.length - 1; i >= 0; i--) {
+					const v = s.data[i];
+					if (typeof v === 'number') {
+						lastValue = v;
+						break;
+					}
+				}
+				if (lastValue == null) {
+					return null;
+				}
+				const y = yScale(lastValue);
+				if (y == null) {
+					return null;
+				}
+				return (
+					<text
+						key={s.id}
+						x={Number(xPos) + xPadding}
+						y={Number(y)}
+						fill={(s.color as string) || 'currentColor'}
+						fontSize={fontSize}
+						dominantBaseline="middle"
+						textAnchor="start"
+					>
+						{s.label}
+					</text>
+				);
+			})}
+		</g>
+	);
+}

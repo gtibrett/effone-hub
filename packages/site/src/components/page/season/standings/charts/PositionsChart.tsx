@@ -1,11 +1,21 @@
 'use client';
 
 import { useMemo } from 'react';
+import { Box } from '@mui/material';
 import type { LineSeriesType } from '@mui/x-charts';
+import {
+	ChartsAxisHighlight,
+	ChartsDataProvider,
+	ChartsGrid,
+	ChartsSurface,
+	ChartsTooltipContainer,
+	ChartsXAxis,
+	ChartsYAxis
+} from '@mui/x-charts';
 import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
-import { LineChart } from '@mui/x-charts/LineChart';
+import { LinePlot, MarkPlot } from '@mui/x-charts/LineChart';
 
-import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
+import { ChartsTooltipBody, EndLineLabels, useChartsTheme } from '@/components/ui/charts';
 
 import type { ChartProps, StandingWithEntity } from './types';
 import useChartData from './useChartData';
@@ -58,60 +68,70 @@ export default function PositionsChart({
 		return { series, xData, lookup, maxPos };
 	}, [chartData]);
 
-	const TooltipSlot = useMemo(() => {
-		function ItemTooltipContent() {
-			const tt = useItemTooltip<'line'>();
-			if (!tt || !built) {
-				return null;
-			}
-			const seriesId = String(tt.identifier.seriesId);
-			const dataIndex = (tt.identifier as { dataIndex?: number }).dataIndex;
-			if (dataIndex == null) {
-				return null;
-			}
-			const standing = built.lookup.get(seriesId)?.[dataIndex];
-			if (!standing) {
-				return null;
-			}
-			return (
-				<ChartsTooltipBody>
-					<TooltipComponent serie={{ data: standing }} />
-				</ChartsTooltipBody>
-			);
+	function ItemTooltipContent() {
+		const tt = useItemTooltip<'line'>();
+		if (!tt || !built) {
+			return null;
 		}
-		return createItemTooltipSlot(ItemTooltipContent);
-	}, [built, TooltipComponent]);
+		const seriesId = String(tt.identifier.seriesId);
+		const dataIndex = (tt.identifier as { dataIndex?: number }).dataIndex;
+		if (dataIndex == null) {
+			return null;
+		}
+		const standing = built.lookup.get(seriesId)?.[dataIndex];
+		if (!standing) {
+			return null;
+		}
+		return (
+			<ChartsTooltipBody>
+				<TooltipComponent serie={{ data: standing }} />
+			</ChartsTooltipBody>
+		);
+	}
 
 	if (!data.length || !built) {
 		return null;
 	}
 
 	return (
-		<LineChart
-			height={height}
-			series={built.series}
-			xAxis={[
-				{
-					data: built.xData,
-					scaleType: 'point',
-					tickInterval: built.xData
-				}
-			]}
-			yAxis={[
-				{
-					scaleType: 'linear',
-					min: 1,
-					max: built.maxPos,
-					reverse: true,
-					position: 'right',
-					tickInterval: 'auto'
-				}
-			]}
-			grid={{ vertical: true, horizontal: false }}
-			hideLegend
-			slots={{ tooltip: TooltipSlot }}
-			sx={sx}
-			skipAnimation={false}
-		/>
+		<Box sx={{ width: '100%', height: height ?? '100%', ...sx }}>
+			<ChartsDataProvider
+				series={built.series}
+				height={height}
+				xAxis={[
+					{
+						id: 'x',
+						data: built.xData,
+						scaleType: 'point',
+						tickInterval: built.xData
+					}
+				]}
+				yAxis={[
+					{
+						id: 'y',
+						scaleType: 'linear',
+						min: 1,
+						max: built.maxPos,
+						reverse: true,
+						position: 'right',
+						tickInterval: 'auto'
+					}
+				]}
+				margin={{ top: 12, right: 96, bottom: 28, left: 16 }}
+			>
+				<ChartsSurface>
+					<ChartsGrid vertical horizontal={false} />
+					<LinePlot />
+					<MarkPlot />
+					<ChartsAxisHighlight x="line" />
+					<EndLineLabels series={built.series} xData={built.xData} />
+					<ChartsXAxis />
+					<ChartsYAxis />
+				</ChartsSurface>
+				<ChartsTooltipContainer trigger="item">
+					<ItemTooltipContent />
+				</ChartsTooltipContainer>
+			</ChartsDataProvider>
+		</Box>
 	);
 }
