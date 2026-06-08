@@ -17,7 +17,7 @@ import type { ChartProps, StandingWithEntity } from './types';
 import useChartData from './useChartData';
 
 const MARGIN_TOP = 12;
-const MARGIN_RIGHT = 168;
+const MARGIN_RIGHT = 48;
 const MARGIN_BOTTOM = 28;
 const MARGIN_LEFT = 16;
 
@@ -144,9 +144,9 @@ export default function PositionsChart({
 					yReversed
 					height={height}
 					marginTop={MARGIN_TOP}
-					marginBottom={MARGIN_BOTTOM}
+					marginBottom={MARGIN_BOTTOM + 24}
 					marginLeft={MARGIN_LEFT}
-					marginRight={MARGIN_RIGHT}
+					marginRight={90}
 					hoveredSeriesId={hovered}
 					onHoverChange={setHovered}
 					onClick={onLabelClick}

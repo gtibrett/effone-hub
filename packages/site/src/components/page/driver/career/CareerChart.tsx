@@ -31,6 +31,8 @@ export default function CareerChart({ driverId, size }: CareerChartProps) {
 					height={size}
 					invert
 					min={1}
+					xOffset={0.5}
+					yOffset={0.5}
 				/>
 			)
 		},
@@ -44,6 +46,8 @@ export default function CareerChart({ driverId, size }: CareerChartProps) {
 					data={data}
 					tooltip={CareerTooltip}
 					height={size}
+					xOffset={1}
+					yOffset={25}
 				/>
 			)
 		},
@@ -57,6 +61,8 @@ export default function CareerChart({ driverId, size }: CareerChartProps) {
 					data={data}
 					tooltip={CareerTooltip}
 					height={size}
+					xOffset={1}
+					yOffset={0.5}
 				/>
 			)
 		}

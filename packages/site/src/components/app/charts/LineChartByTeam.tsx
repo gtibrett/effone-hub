@@ -46,6 +46,8 @@ export type LineChartByTeamProps = {
 	max?: number;
 	noBase?: boolean;
 	height?: number;
+	xOffset?: number;
+	yOffset?: number;
 };
 
 export default function LineChartByTeam({
@@ -58,10 +60,12 @@ export default function LineChartByTeam({
 	min = 0,
 	max = 0,
 	noBase = false,
-	height
+	height,
+	xOffset = 0.5,
+	yOffset = 0.5
 }: LineChartByTeamProps) {
 	const splitSeriesByTeam = useSplitSeriesByTeam();
-	const { sx, slotProps } = useChartsTheme();
+	const { sx } = useChartsTheme();
 
 	const built = useMemo(() => {
 		const [teamSeries, baseSerie] = splitSeriesByTeam(xKey, data);
@@ -155,8 +159,8 @@ export default function LineChartByTeam({
 						id: 'x',
 						data: built.xData,
 						scaleType: 'linear',
-						min: built.xData[0],
-						max: built.xData[built.xData.length - 1],
+						min: built.xData[0] - xOffset,
+						max: built.xData[built.xData.length - 1] + xOffset,
 						tickInterval: built.xData,
 						valueFormatter: (v, ctx) =>
 							ctx?.location === 'tick' && axisBottomFormat
@@ -168,16 +172,16 @@ export default function LineChartByTeam({
 					{
 						id: 'y',
 						scaleType: 'linear',
-						min: invert ? min : 0,
-						max: built.axisMax,
+						min: invert ? min - yOffset : 0,
+						max: built.axisMax + yOffset,
 						reverse: invert,
 						position: 'right',
 						tickInterval: invert ? [min, built.axisMax] : [built.axisMax, min]
 					}
 				]}
-				margin={{ top: 20, left: 28, right: 32, bottom: 40 }}
+				margin={{ top: 0, left: 28, right: 32, bottom: 40 }}
 			>
-				<ChartsSurface>
+				<ChartsSurface className="overflow-visible">
 					<ChartsClipPath id="lcbt-clip" />
 					<g clipPath="url(#lcbt-clip)">
 						<ChartsGrid horizontal vertical={false} />
