@@ -3,13 +3,13 @@
 import { useMemo, useState } from 'react';
 import { Box } from '@mui/material';
 import type { LineSeriesType } from '@mui/x-charts';
-import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 import { LineChart } from '@mui/x-charts/LineChart';
 
 import {
 	ChartsTooltipBody,
-	createItemTooltipSlot,
 	EndLineLabelsOverlay,
+	LineHoverHitLayer,
+	type LineHoverInfo,
 	useChartsTheme
 } from '@/components/ui/charts';
 
@@ -29,7 +29,8 @@ export default function PositionsChart({
 }: ChartProps & { height?: number; onLabelClick?: (seriesId: string) => void }) {
 	const chartData = useChartData(data, 'position');
 	const { sx } = useChartsTheme();
-	const [hovered, setHovered] = useState<string | null>(null);
+	const [hover, setHover] = useState<LineHoverInfo>(null);
+	const [labelHover, setLabelHover] = useState<string | null>(null);
 
 	const built = useMemo(() => {
 		if (!chartData.length) {
@@ -61,9 +62,8 @@ export default function PositionsChart({
 				label: s.entity.name,
 				data: values,
 				color: s.color,
-				curve: 'monotoneX',
+				curve: 'bumpX',
 				showMark: false,
-				shape: 'circle',
 				connectNulls: false,
 				highlightScope: { fade: 'global', highlight: 'series' }
 			};
@@ -72,41 +72,28 @@ export default function PositionsChart({
 		return { series, xData, lookup, maxPos };
 	}, [chartData]);
 
-	const TooltipSlot = useMemo(() => {
-		function ItemTooltipContent() {
-			const tt = useItemTooltip<'line'>();
-			if (!tt || !built) {
-				return null;
-			}
-			const seriesId = String(tt.identifier.seriesId);
-			const dataIndex = (tt.identifier as { dataIndex?: number }).dataIndex;
-			if (dataIndex == null) {
-				return null;
-			}
-			const standing = built.lookup.get(seriesId)?.[dataIndex];
-			if (!standing) {
-				return null;
-			}
-			return (
-				<ChartsTooltipBody>
-					<TooltipComponent serie={{ data: standing }} />
-				</ChartsTooltipBody>
-			);
-		}
-		return createItemTooltipSlot(ItemTooltipContent);
-	}, [built, TooltipComponent]);
+	const hoverSeries = useMemo(
+		() =>
+			(built?.series ?? []).map(s => ({
+				id: String(s.id),
+				data: (s.data ?? []) as (number | null)[]
+			})),
+		[built]
+	);
 
 	if (!data.length || !built) {
 		return null;
 	}
+
+	const activeSeriesId = hover?.seriesId ?? labelHover;
+	const hoveredStanding = hover ? built.lookup.get(hover.seriesId)?.[hover.dataIndex] : undefined;
 
 	return (
 		<Box sx={{ position: 'relative', width: '100%', height: height ?? '100%' }}>
 			<LineChart
 				height={height}
 				series={built.series}
-				highlightedItem={hovered ? { seriesId: hovered, type: 'line' } : null}
-				onHighlightChange={item => setHovered(item ? String(item.seriesId) : null)}
+				highlightedItem={activeSeriesId ? { seriesId: activeSeriesId, type: 'line' } : null}
 				xAxis={[
 					{
 						data: built.xData,
@@ -133,9 +120,11 @@ export default function PositionsChart({
 				grid={{ vertical: true, horizontal: false }}
 				hideLegend
 				sx={sx}
-				slots={{ tooltip: TooltipSlot }}
+				slots={{ tooltip: () => null }}
 				skipAnimation={false}
-			/>
+			>
+				<LineHoverHitLayer series={hoverSeries} xValues={built.xData} onHover={setHover} />
+			</LineChart>
 			{height ? (
 				<EndLineLabelsOverlay
 					series={built.series}
@@ -147,10 +136,25 @@ export default function PositionsChart({
 					marginBottom={MARGIN_BOTTOM + 24}
 					marginLeft={MARGIN_LEFT}
 					marginRight={90}
-					hoveredSeriesId={hovered}
-					onHoverChange={setHovered}
+					hoveredSeriesId={activeSeriesId}
+					onHoverChange={setLabelHover}
 					onClick={onLabelClick}
 				/>
+			) : null}
+			{hover && hoveredStanding ? (
+				<Box
+					sx={{
+						position: 'absolute',
+						left: `${hover.left + 12}px`,
+						top: `${hover.top + 12}px`,
+						pointerEvents: 'none',
+						zIndex: 5
+					}}
+				>
+					<ChartsTooltipBody>
+						<TooltipComponent serie={{ data: hoveredStanding }} />
+					</ChartsTooltipBody>
+				</Box>
 			) : null}
 		</Box>
 	);

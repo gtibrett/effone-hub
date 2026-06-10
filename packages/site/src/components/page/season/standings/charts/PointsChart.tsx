@@ -3,13 +3,12 @@
 import { useMemo, useState } from 'react';
 import { Box } from '@mui/material';
 import type { LineSeriesType } from '@mui/x-charts';
-import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 import { LineChart } from '@mui/x-charts/LineChart';
 
 import {
 	ChartsTooltipBody,
-	createItemTooltipSlot,
-	EndLineLabelsOverlay,
+	LineHoverHitLayer,
+	type LineHoverInfo,
 	useChartsTheme
 } from '@/components/ui/charts';
 
@@ -18,10 +17,10 @@ import useChartData from './useChartData';
 
 const range = (n: number) => Array.from({ length: n }, (_, i) => i + 1);
 
-const MARGIN_TOP = 20;
-const MARGIN_RIGHT = 168;
-const MARGIN_BOTTOM = 28;
-const MARGIN_LEFT = 16;
+const MARGIN_TOP = 12;
+const MARGIN_RIGHT = 12;
+const MARGIN_BOTTOM = 12;
+const MARGIN_LEFT = 12;
 
 export default function PointsChart({
 	data,
@@ -31,7 +30,7 @@ export default function PointsChart({
 }: ChartProps & { height?: number; onLabelClick?: (seriesId: string) => void }) {
 	const chartData = useChartData(data, 'points');
 	const { sx } = useChartsTheme();
-	const [hovered, setHovered] = useState<string | null>(null);
+	const [hover, setHover] = useState<LineHoverInfo>(null);
 
 	const { series, lookup, ticks, maxPoints } = useMemo(() => {
 		const rounds = Math.max(...chartData.map(s => Math.max(...s.data.map(d => Number(d.x)))));
@@ -61,59 +60,32 @@ export default function PointsChart({
 				label: s.entity.name,
 				data: values,
 				color: s.color,
-				showMark: true,
-				shape: 'circle',
-				curve: 'linear',
+				curve: 'bumpX',
+				showMark: false,
+				connectNulls: false,
 				highlightScope: { fade: 'global', highlight: 'series' }
 			};
 		});
 		return { series: built, lookup: lkup, ticks: range(rounds), maxPoints: maxY };
 	}, [chartData]);
 
-	const TooltipSlot = useMemo(() => {
-		function ItemTooltipContent() {
-			const tt = useItemTooltip<'line'>();
-			if (!tt) {
-				return null;
-			}
-			const seriesId = String(tt.identifier.seriesId);
-			const dataIndex = (tt.identifier as { dataIndex?: number }).dataIndex;
-			if (dataIndex == null) {
-				return null;
-			}
-			const standing = lookup.get(seriesId)?.[dataIndex];
-			if (!standing) {
-				return null;
-			}
-			const synthesized = {
-				point: {
-					data: {
-						x: dataIndex + 1,
-						y: standing.points,
-						data: standing
-					}
-				}
-			};
-			return (
-				<ChartsTooltipBody>
-					<TooltipComponent {...synthesized} />
-				</ChartsTooltipBody>
-			);
-		}
-		return createItemTooltipSlot(ItemTooltipContent);
-	}, [lookup, TooltipComponent]);
+	const hoverSeries = useMemo(
+		() => series.map(s => ({ id: String(s.id), data: (s.data ?? []) as (number | null)[] })),
+		[series]
+	);
 
 	if (!data.length || !ticks.length || !maxPoints) {
 		return null;
 	}
+
+	const hoveredStanding = hover ? lookup.get(hover.seriesId)?.[hover.dataIndex] : undefined;
 
 	return (
 		<Box sx={{ position: 'relative', width: '100%', height: height ?? '100%' }}>
 			<LineChart
 				height={height}
 				series={series}
-				highlightedItem={hovered ? { seriesId: hovered, type: 'line' } : null}
-				onHighlightChange={item => setHovered(item ? String(item.seriesId) : null)}
+				highlightedItem={hover ? { seriesId: hover.seriesId, type: 'line' } : null}
 				xAxis={[
 					{
 						data: ticks,
@@ -140,23 +112,33 @@ export default function PointsChart({
 				grid={{ vertical: true, horizontal: false }}
 				hideLegend
 				sx={sx}
-				slots={{ tooltip: TooltipSlot }}
+				slots={{ tooltip: () => null }}
 				skipAnimation={false}
-			/>
-			{height ? (
-				<EndLineLabelsOverlay
-					series={series}
-					yMin={0}
-					yMax={maxPoints}
-					height={height}
-					marginTop={MARGIN_TOP}
-					marginBottom={MARGIN_BOTTOM}
-					marginLeft={MARGIN_LEFT}
-					marginRight={MARGIN_RIGHT}
-					hoveredSeriesId={hovered}
-					onHoverChange={setHovered}
-					onClick={onLabelClick}
-				/>
+			>
+				<LineHoverHitLayer series={hoverSeries} xValues={ticks} onHover={setHover} />
+			</LineChart>
+			{hover && hoveredStanding ? (
+				<Box
+					sx={{
+						position: 'absolute',
+						left: `${hover.left + 12}px`,
+						top: `${hover.top + 12}px`,
+						pointerEvents: 'none',
+						zIndex: 5
+					}}
+				>
+					<ChartsTooltipBody>
+						<TooltipComponent
+							point={{
+								data: {
+									x: hover.dataIndex + 1,
+									y: hoveredStanding.points,
+									data: hoveredStanding
+								}
+							}}
+						/>
+					</ChartsTooltipBody>
+				</Box>
 			) : null}
 		</Box>
 	);
