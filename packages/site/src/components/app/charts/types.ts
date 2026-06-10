@@ -1,12 +1,12 @@
 import { ReactNode } from 'react';
-import { AllowedValue } from '@nivo/line';
 
 import { AppTeamColor, Team } from '@/gql/graphql';
 
-// nivo 0.88 dropped exported Serie/Datum; app uses loose data bags (x/y projected later via mapLineSerieValues)
+// Loose data bags; x/y projected later via mapLineSerieValues
+export type AllowedAxisValue = string | number | Date;
 export type Datum = {
-	x?: AllowedValue;
-	y?: AllowedValue;
+	x?: AllowedAxisValue;
+	y?: AllowedAxisValue;
 	[key: string]: any;
 };
 

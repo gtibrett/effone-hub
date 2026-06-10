@@ -42,7 +42,8 @@ export default function SeasonChart({ driverId, season, data, loading }: SeasonC
 	const baseProps: Omit<LineChartByTeamProps, 'yKey'> = {
 		xKey: 'round',
 		data: chartData,
-		tooltip: CareerTooltip
+		tooltip: CareerTooltip,
+		height: 250
 	};
 
 	const charts: ChartSwitcherChart[] = [

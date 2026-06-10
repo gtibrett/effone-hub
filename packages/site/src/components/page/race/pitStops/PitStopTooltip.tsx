@@ -1,5 +1,4 @@
 import { Card, CardHeader } from '@mui/material';
-import { BarTooltipProps } from '@nivo/bar';
 
 import { DriverAvatar, DriverByLine } from '@/components/app';
 import { PropertiesTable, PropertiesTableRow } from '@/components/ui';
@@ -8,12 +7,15 @@ import { useDriverHeaderSx } from '@/hooks';
 
 import { PitStopSerie } from './PitStopsChart';
 
-export default function PitStopTooltip(props: BarTooltipProps<PitStopSerie>) {
-	const {
-		value,
-		id,
-		data: { driverId }
-	} = props;
+type PitStopTooltipProps = {
+	value: number;
+	id: string | number;
+	data: PitStopSerie;
+};
+
+export default function PitStopTooltip(props: PitStopTooltipProps) {
+	const { value, id, data } = props;
+	const { driverId } = data;
 	const headerSx = useDriverHeaderSx(driverId);
 
 	return (

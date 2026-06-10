@@ -1,53 +1,163 @@
-import { ResponsiveBump } from '@nivo/bump';
+'use client';
 
-import { NivoTooltipFactory, useNivoTheme } from '@/components/ui/nivo';
+import { useMemo, useState } from 'react';
+import { Box } from '@mui/material';
+import type { LineSeriesType } from '@mui/x-charts';
+import { LineChart } from '@mui/x-charts/LineChart';
 
-import { ChartProps } from './types';
+import {
+	ChartsTooltipBody,
+	EndLineLabelsOverlay,
+	LineHoverHitLayer,
+	type LineHoverInfo,
+	useChartsTheme
+} from '@/components/ui/charts';
+
+import type { ChartProps, StandingWithEntity } from './types';
 import useChartData from './useChartData';
 
-export default function PositionsChart({ data, TooltipComponent }: ChartProps) {
-	const chartData = useChartData(data, 'position');
-	const nivoTheme = useNivoTheme();
+const MARGIN_TOP = 12;
+const MARGIN_RIGHT = 48;
+const MARGIN_BOTTOM = 28;
+const MARGIN_LEFT = 16;
 
-	if (!data.length) {
+export default function PositionsChart({
+	data,
+	TooltipComponent,
+	height,
+	onLabelClick
+}: ChartProps & { height?: number; onLabelClick?: (seriesId: string) => void }) {
+	const chartData = useChartData(data, 'position');
+	const { sx } = useChartsTheme();
+	const [hover, setHover] = useState<LineHoverInfo>(null);
+	const [labelHover, setLabelHover] = useState<string | null>(null);
+
+	const built = useMemo(() => {
+		if (!chartData.length) {
+			return null;
+		}
+		const rounds = Math.max(...chartData.map(s => Math.max(...s.data.map(d => Number(d.x)))));
+		const xData = Array.from({ length: rounds }, (_, i) => i + 1);
+		const lookup = new Map<string, Array<StandingWithEntity | undefined>>();
+		const series: LineSeriesType[] = chartData.map(s => {
+			const standings: Array<StandingWithEntity | undefined> = new Array(rounds).fill(
+				undefined
+			);
+			const values: Array<number | null> = new Array(rounds).fill(null);
+			s.data.forEach(d => {
+				const i = Number(d.x) - 1;
+				if (i >= 0 && i < rounds) {
+					values[i] = d.y == null ? null : Number(d.y);
+					const standing = (d as { data?: StandingWithEntity }).data;
+					if (standing) {
+						standings[i] = standing;
+					}
+				}
+			});
+			const id = String(s.id);
+			lookup.set(id, standings);
+			return {
+				type: 'line',
+				id,
+				label: s.entity.name,
+				data: values,
+				color: s.color,
+				curve: 'bumpX',
+				showMark: false,
+				connectNulls: false,
+				highlightScope: { fade: 'global', highlight: 'series' }
+			};
+		});
+		const maxPos = Math.max(...chartData.flatMap(s => s.data.map(d => Number(d.y || 0))));
+		return { series, xData, lookup, maxPos };
+	}, [chartData]);
+
+	const hoverSeries = useMemo(
+		() =>
+			(built?.series ?? []).map(s => ({
+				id: String(s.id),
+				data: (s.data ?? []) as (number | null)[]
+			})),
+		[built]
+	);
+
+	if (!data.length || !built) {
 		return null;
 	}
 
+	const activeSeriesId = hover?.seriesId ?? labelHover;
+	const hoveredStanding = hover ? built.lookup.get(hover.seriesId)?.[hover.dataIndex] : undefined;
+
 	return (
-		// @ts-ignore
-		<ResponsiveBump
-			theme={nivoTheme}
-			data={chartData}
-			colors={({ color }) => color || 'transparent'}
-			lineWidth={4}
-			activeLineWidth={6}
-			inactiveLineWidth={3}
-			inactiveOpacity={0.25}
-			pointSize={0}
-			activePointSize={12}
-			inactivePointSize={0}
-			pointBorderWidth={0}
-			activePointBorderWidth={0}
-			startLabel={false}
-			endLabel={({ entity }) => entity.name || ''}
-			endLabelPadding={32}
-			margin={{ top: 12, right: 116, bottom: 28, left: 16 }}
-			enableGridX={true}
-			enableGridY={false}
-			axisTop={null}
-			axisRight={{
-				tickSize: 0,
-				tickPadding: 10,
-				tickRotation: 0
-			}}
-			axisBottom={{
-				tickSize: 0,
-				tickPadding: 5,
-				tickRotation: 0
-			}}
-			axisLeft={null}
-			pointTooltip={NivoTooltipFactory(TooltipComponent)}
-			lineTooltip={NivoTooltipFactory(TooltipComponent)}
-		/>
+		<Box sx={{ position: 'relative', width: '100%', height: height ?? '100%' }}>
+			<LineChart
+				height={height}
+				series={built.series}
+				highlightedItem={activeSeriesId ? { seriesId: activeSeriesId, type: 'line' } : null}
+				disableLineItemHighlight
+				axisHighlight={{ x: 'none' }}
+				xAxis={[
+					{
+						data: built.xData,
+						scaleType: 'point',
+						tickInterval: built.xData
+					}
+				]}
+				yAxis={[
+					{
+						scaleType: 'linear',
+						min: 1,
+						max: built.maxPos,
+						reverse: true,
+						position: 'right',
+						tickInterval: Array.from({ length: built.maxPos }, (_, i) => i + 1)
+					}
+				]}
+				margin={{
+					top: MARGIN_TOP,
+					right: MARGIN_RIGHT,
+					bottom: MARGIN_BOTTOM,
+					left: MARGIN_LEFT
+				}}
+				grid={{ vertical: true, horizontal: false }}
+				hideLegend
+				sx={sx}
+				slots={{ tooltip: () => null }}
+				skipAnimation={false}
+			>
+				<LineHoverHitLayer series={hoverSeries} xValues={built.xData} onHover={setHover} />
+			</LineChart>
+			{height ? (
+				<EndLineLabelsOverlay
+					series={built.series}
+					yMin={1}
+					yMax={built.maxPos}
+					yReversed
+					height={height}
+					marginTop={MARGIN_TOP}
+					marginBottom={MARGIN_BOTTOM + 24}
+					marginLeft={MARGIN_LEFT}
+					marginRight={90}
+					hoveredSeriesId={activeSeriesId}
+					onHoverChange={setLabelHover}
+					onClick={onLabelClick}
+				/>
+			) : null}
+			{hover && hoveredStanding ? (
+				<Box
+					sx={{
+						position: 'absolute',
+						left: `${hover.left + 12}px`,
+						top: `${hover.top + 12}px`,
+						pointerEvents: 'none',
+						zIndex: 5
+					}}
+				>
+					<ChartsTooltipBody>
+						<TooltipComponent serie={{ data: hoveredStanding }} />
+					</ChartsTooltipBody>
+				</Box>
+			) : null}
+		</Box>
 	);
 }

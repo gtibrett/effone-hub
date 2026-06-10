@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { GeoMapEventHandler } from '@nivo/geo';
 
 import { Circuit, Race } from '@/gql/graphql';
 
@@ -9,6 +8,8 @@ import { Point } from './types';
 type RaceData = Pick<Race, 'officialName' | 'round'> &
 	Pick<Circuit, 'latitude' | 'longitude'> & { hasResults: boolean };
 
+export type MapPointEventHandler = (point: Point) => void;
+
 export default function useMapSeasonRacesToMapPoints() {
 	const router = useRouter();
 
@@ -16,7 +17,7 @@ export default function useMapSeasonRacesToMapPoints() {
 		(
 			season: string | number,
 			races: RaceData[]
-		): { points: Point[]; onClick: GeoMapEventHandler } => {
+		): { points: Point[]; onClick: MapPointEventHandler } => {
 			let foundNext = false;
 			const points: Point[] = [];
 
@@ -41,10 +42,8 @@ export default function useMapSeasonRacesToMapPoints() {
 				}
 			});
 
-			const onClick: GeoMapEventHandler = feature => {
-				if (feature?.geometry?.type === 'Point') {
-					router.push(`/${season}/${feature.properties.round}`);
-				}
+			const onClick: MapPointEventHandler = point => {
+				router.push(`/${season}/${point.properties.round}`);
 			};
 
 			return { points, onClick };

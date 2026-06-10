@@ -1,14 +1,26 @@
 import { Card, CardHeader } from '@mui/material';
-import { LineSeries, PointTooltipProps } from '@nivo/line';
 
 import { PropertiesTable, PropertiesTableRow } from '@/components/ui';
 import { useTeamHeaderSx } from '@/hooks';
 
-export default function HistoryTooltip(props: PointTooltipProps<LineSeries>) {
-	const { point } = props;
+// Synthesized by HistoryChart's tooltip slot — mirrors nivo's PointTooltipProps
+// shape so this component stays close to its previous structure.
+export type HistoryTooltipProps = {
+	point: {
+		data: {
+			x: number | string;
+			xFormatted?: string;
+			y: number | null | undefined;
+			// any: keeps PropertiesTable's strict ReactElement children type
+			// happy with conditional rows (same trick as the legacy nivo version)
+			data: any;
+		};
+	};
+};
+
+export default function HistoryTooltip({ point }: HistoryTooltipProps) {
 	const { data } = point;
-	// @ts-ignore
-	const { points, positionNumber, name, id } = data.data; // extra added to make tooltip better
+	const { points, positionNumber, name, id } = data.data;
 	const headerSx = useTeamHeaderSx(id);
 
 	return (
@@ -17,7 +29,7 @@ export default function HistoryTooltip(props: PointTooltipProps<LineSeries>) {
 				className={headerSx.className}
 				style={headerSx.style}
 				title={name}
-				subheader={point.data.xFormatted}
+				subheader={data.xFormatted ?? String(data.x)}
 			/>
 			<PropertiesTable>
 				{positionNumber && (

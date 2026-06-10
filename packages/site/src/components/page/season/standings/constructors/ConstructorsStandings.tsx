@@ -1,4 +1,5 @@
 import { Suspense, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Alert, Button, Skeleton } from '@mui/material';
 
 import { ChartSwitcher, ChartSwitcherChart } from '@/components/app';
@@ -18,6 +19,8 @@ export default function ConstructorsStandings({ season }: ConstructorsStandingsP
 	const [open, setOpen] = useState(false);
 	const { data, chartData } = useConstructorStandingsData(season);
 	const height = Math.max(...chartData.map(s => s.standings.length), 10) * 24;
+	const router = useRouter();
+	const onLabelClick = (teamId: string) => router.push(`/constructors/${teamId}`);
 
 	if (!data?.season?.racesByYear?.length) {
 		return (
@@ -35,6 +38,8 @@ export default function ConstructorsStandings({ season }: ConstructorsStandingsP
 				<PositionsChart
 					data={chartData}
 					TooltipComponent={ConstructorStandingsPositionTooltip}
+					height={height}
+					onLabelClick={onLabelClick}
 				/>
 			)
 		},
@@ -45,6 +50,8 @@ export default function ConstructorsStandings({ season }: ConstructorsStandingsP
 				<PointsChart
 					data={chartData}
 					TooltipComponent={ConstructorStandingsPointsTooltip}
+					height={height}
+					onLabelClick={onLabelClick}
 				/>
 			)
 		}

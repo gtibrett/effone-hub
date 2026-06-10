@@ -1,50 +1,26 @@
-import { useEffect, useState } from 'react';
+'use client';
+
+import { useState } from 'react';
+import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
 import { useComponentDimensionsWithRef } from '@gtibrett/mui-additions';
 import { Box } from '@mui/material';
-import { GeoMapEventHandler, ResponsiveGeoMap } from '@nivo/geo';
 
-import { alpha } from '@/components/ui/colors';
-import { NivoTooltipFactory, RequiredByPropTypes, useNivoTheme } from '@/components/ui/nivo';
 import { Circuit } from '@/gql/graphql';
 import { cssVar } from '@/lib/tokens';
 
 import MapTooltip from './MapTooltip';
 import { Point } from './types';
 import useLand from './useLand';
+import type { MapPointEventHandler } from './useMapSeasonRacesToMapPoints';
 
 type RaceMapProps = {
 	points: Point[];
-	onClick?: GeoMapEventHandler;
+	onClick?: MapPointEventHandler;
 	height?: number | 'auto';
 	width?: number | 'auto';
 	centerOn?: Pick<Circuit, 'longitude' | 'latitude'>;
 	zoom?: boolean;
 	highlightNext?: boolean;
-};
-
-const mapPointsToFeatures = (points: Point[]) => {
-	return points.map(feature => ({
-		id: String(feature.id),
-		type: 'Feature',
-		properties: {
-			name: feature.name,
-			...feature.properties
-		},
-		geometry: {
-			type: 'Point',
-			coordinates: [feature.lng, feature.lat]
-		}
-	}));
-};
-
-type Translation = [number, number];
-
-const calculateXTranslation = (long: number, scale = 1) => {
-	return 0.5 + ((long * -1) / 180) * scale;
-};
-
-const calculateYTranslation = (lat: number, scale = 1) => {
-	return 0.5 + (lat / 90) * scale;
 };
 
 export default function RaceMap(props: RaceMapProps) {
@@ -58,78 +34,93 @@ export default function RaceMap(props: RaceMapProps) {
 		highlightNext = false
 	} = props;
 
-	const nivoTheme = useNivoTheme();
 	const land = useLand();
-	const { ref, dimensions, node } = useComponentDimensionsWithRef();
-	const [lastDimensions, setLastDimensions] = useState(dimensions);
-	const pointFeatures = mapPointsToFeatures(points);
-	const [translation, setTranslation] = useState<Translation>([0.5, 0.5]);
+	const { ref } = useComponentDimensionsWithRef();
+	const [hovered, setHovered] = useState<Point | null>(null);
 
-	useEffect(() => {
-		if (
-			node &&
-			(dimensions.width !== lastDimensions.width ||
-				dimensions.height !== lastDimensions.height)
-		) {
-			setTimeout(() => {
-				const g = node.querySelector('svg>g:first-of-type');
-				if (g && dimensions.width) {
-					const { width, height } = g.getBoundingClientRect();
-					const xScale = width / 2 / dimensions.width;
-					const yScale = height / 2 / dimensions.height;
+	// react-simple-maps centers via projectionConfig.rotate (longitude is
+	// inverted compared to translate-based math; latitude flips sign too).
+	const rotate: [number, number, number] = [
+		-Number(centerOn?.longitude ?? 0),
+		-Number(centerOn?.latitude ?? 0),
+		0
+	];
 
-					setTranslation([
-						calculateXTranslation(Number(centerOn?.longitude), xScale),
-						calculateYTranslation(Number(centerOn?.latitude), yScale)
-					]);
-				}
-
-				setLastDimensions(dimensions);
-			}, 200);
-		}
-	}, [centerOn, node, dimensions, lastDimensions]);
-
-	// PropTypes vs TS mismatches
 	return (
 		<Box ref={ref} className="relative" aria-hidden>
-			<Box style={{ height, width }}>
-				<ResponsiveGeoMap
-					{...RequiredByPropTypes.GeoMap}
-					theme={nivoTheme}
-					features={[land, ...pointFeatures]}
-					margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-					projectionType="equirectangular"
-					projectionTranslation={translation}
-					projectionScale={zoom ? 500 : 100}
-					// @ts-ignore
-					borderColor={(feature: any) => {
-						if (feature?.geometry?.type === 'Point') {
-							return highlightNext && feature.properties.next
-								? cssVar.secondary.dark
-								: cssVar.background.paper;
-						} else {
-							return cssVar.background.paper;
-						}
+			<Box style={{ height, width, position: 'relative' }}>
+				<ComposableMap
+					projection="geoEquirectangular"
+					projectionConfig={{
+						scale: zoom ? 500 : 200,
+						rotate
 					}}
-					borderWidth={(feature: any) => {
-						if (feature?.geometry?.type === 'Point') {
-							return highlightNext && feature.properties.next ? 5 : 1;
-						} else {
-							return 0.5;
+					style={{ width: '100%', height: '100%' }}
+				>
+					<Geographies geography={land}>
+						{({ geographies }) =>
+							geographies.map(geo => (
+								<Geography
+									key={geo.rsmKey}
+									geography={geo}
+									style={{
+										default: {
+											fill: cssVar.background.default,
+											stroke: cssVar.background.paper,
+											strokeWidth: 0.5,
+											outline: 'none'
+										},
+										hover: {
+											fill: cssVar.background.default,
+											stroke: cssVar.background.paper,
+											strokeWidth: 0.5,
+											outline: 'none'
+										},
+										pressed: {
+											fill: cssVar.background.default,
+											stroke: cssVar.background.paper,
+											strokeWidth: 0.5,
+											outline: 'none'
+										}
+									}}
+								/>
+							))
 						}
-					}}
-					fillColor={(feature: any) => {
-						if (feature?.geometry?.type === 'Point') {
-							return highlightNext && feature.properties.next
-								? cssVar.background.paper
-								: cssVar.secondary.main;
-						} else {
-							return cssVar.background.default; //`color-mix(in oklch, ${cssVar.background.paper} 75%, ${cssVar.background.default} 25%)`;
-						}
-					}}
-					tooltip={NivoTooltipFactory(MapTooltip)}
-					onClick={onClick}
-				/>
+					</Geographies>
+					{points.map(point => {
+						const isNext = Boolean(highlightNext && point.properties?.next);
+						const fill = isNext ? cssVar.primary.main : cssVar.secondary.main;
+						return (
+							<Marker
+								key={point.id}
+								coordinates={[Number(point.lng), Number(point.lat)]}
+								onMouseEnter={() => setHovered(point)}
+								onMouseLeave={() => setHovered(null)}
+								onClick={() => onClick?.(point)}
+								style={{
+									default: { cursor: onClick ? 'pointer' : 'default' },
+									hover: { cursor: onClick ? 'pointer' : 'default' },
+									pressed: { cursor: onClick ? 'pointer' : 'default' }
+								}}
+							>
+								<circle r={point.pointRadius ?? 8} fill={fill} strokeWidth={0} />
+							</Marker>
+						);
+					})}
+				</ComposableMap>
+				{hovered ? (
+					<Box
+						className="absolute top-1 left-1 pointer-events-none"
+						sx={{
+							backdropFilter: 'blur(4px)',
+							background: cssVar.background.paper,
+							borderRadius: 0.5,
+							boxShadow: 2
+						}}
+					>
+						<MapTooltip point={hovered} />
+					</Box>
+				) : null}
 			</Box>
 		</Box>
 	);

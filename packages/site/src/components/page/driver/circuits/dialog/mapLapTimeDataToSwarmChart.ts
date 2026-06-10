@@ -1,5 +1,3 @@
-import { SwarmPlotSvgProps } from '@nivo/swarmplot';
-
 import { CircuitDialogData } from './types';
 import useGetTeamColorsByYear from './useGetTeamColorsByYear';
 
@@ -26,8 +24,8 @@ function getStandardDeviation(data: number[]) {
 export function useMapLapTimeDataToSwarmChart() {
 	const getColorsByYear = useGetTeamColorsByYear();
 
-	return (data: CircuitDialogData): SwarmPlotSvgProps<SwarmData>['data'] => {
-		const mappedData: SwarmPlotSvgProps<SwarmData>['data'] = [];
+	return (data: CircuitDialogData): SwarmData[] => {
+		const mappedData: SwarmData[] = [];
 		const colorsByYear = getColorsByYear(data.driver.seasonEntrantDrivers);
 
 		data?.circuit.races?.forEach(race => {

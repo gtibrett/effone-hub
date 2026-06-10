@@ -1,12 +1,17 @@
-import { BarDatum, ResponsiveBar } from '@nivo/bar';
+'use client';
 
-import { NivoTooltipFactory, useNivoTheme } from '@/components/ui/nivo';
+import { useMemo } from 'react';
+import type { BarSeriesType } from '@mui/x-charts';
+import { BarChart } from '@mui/x-charts/BarChart';
+import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
+
+import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
 import { capitalizeCamelCase } from '@/helpers';
 import { RESULTS_COLORS, type ResultsBucket } from '@/lib/resultsColors';
 import { DriverId } from '@/types';
 
 import BreakdownTooltip from './BreakdownTooltip';
-import useBreakdownData, { BreakdownDatum } from './useBreakdownData';
+import useBreakdownData, { type BreakdownDatum } from './useBreakdownData';
 
 type CareerBreakdownChartProps = {
 	driverId: DriverId;
@@ -22,51 +27,91 @@ export const breakdownMetrics = [
 	'DNFs'
 ] as const satisfies readonly BreakdownMetric[];
 
-const findRawKey = (percentageKey: string | number) =>
-	String(percentageKey).replace('Percentage', '') as BreakdownMetric;
-
 export default function CareerBreakdownChart({ driverId, season }: CareerBreakdownChartProps) {
-	const nivoTheme = useNivoTheme();
+	const { sx } = useChartsTheme();
 	const chartData = (useBreakdownData(driverId) || []).filter(s => !season || s.year === season);
-	const keys = [...breakdownMetrics];
-	const isSingleSeason = chartData?.length === 1;
+	const isSingleSeason = chartData.length === 1;
+
+	const { series, xAxisData, lookup } = useMemo(() => {
+		const years = chartData.map(d => d.year);
+		const lkup = new Map<number, BreakdownDatum>(chartData.map(d => [d.year, d]));
+		// Stack order matches nivo's keys.reverse(): DNFs first (bottom), then outOfPoints, inPoints, podiums, wins on top
+		const ordered = [...breakdownMetrics].reverse();
+		const built: BarSeriesType[] = ordered.map(metric => {
+			const colors = RESULTS_COLORS[metric];
+			return {
+				id: metric,
+				label: capitalizeCamelCase(String(metric)),
+				type: 'bar',
+				data: chartData.map(d =>
+					Number(d[`${metric}Percentage` as keyof BreakdownDatum] ?? 0)
+				),
+				color: colors.background,
+				stack: 'breakdown'
+			};
+		});
+		return { series: built, xAxisData: years, lookup: lkup };
+	}, [chartData]);
+
+	const TooltipSlot = useMemo(() => {
+		function ItemTooltipContent() {
+			const tt = useItemTooltip<'bar'>();
+			if (!tt) {
+				return null;
+			}
+			const dataIndex = (tt.identifier as { dataIndex?: number }).dataIndex;
+			if (dataIndex == null) {
+				return null;
+			}
+			const year = xAxisData[dataIndex];
+			const datum = lookup.get(year);
+			if (!datum) {
+				return null;
+			}
+			return (
+				<ChartsTooltipBody>
+					<BreakdownTooltip datum={datum} />
+				</ChartsTooltipBody>
+			);
+		}
+		return createItemTooltipSlot(ItemTooltipContent);
+	}, [xAxisData, lookup]);
+
+	if (!chartData.length) {
+		return null;
+	}
 
 	return (
-		<ResponsiveBar
-			theme={nivoTheme}
+		<BarChart
+			height={isSingleSeason ? 64 : undefined}
 			layout={isSingleSeason ? 'horizontal' : 'vertical'}
-			indexBy="year"
-			keys={[...keys].map(k => `${k}Percentage`).reverse()}
-			data={chartData as unknown as BarDatum[]}
-			colors={({ id }) => RESULTS_COLORS[findRawKey(id)].background}
-			enableLabel={isSingleSeason}
-			label={({ id, data }) => {
-				const key = findRawKey(id);
-				return `${capitalizeCamelCase(key as string)}: ${(data as unknown as BreakdownDatum).raw[key]}`;
-			}}
-			labelTextColor={({ data: { id } }) => RESULTS_COLORS[findRawKey(id)].color}
-			labelSkipWidth={55}
-			enableGridX={false}
-			enableGridY={false}
-			padding={0.1}
-			innerPadding={1.5}
-			margin={{ top: 20, left: 10, right: 10, bottom: 40 }}
-			axisLeft={null}
-			axisRight={null}
-			axisTop={null}
-			axisBottom={
-				!isSingleSeason
-					? { tickSize: 0, tickPadding: 10 }
-					: {
-							tickSize: 0,
-							tickPadding: 0,
-							legend: season,
-							legendPosition: 'middle',
-							legendOffset: 20,
-							renderTick: () => <></>
-						}
+			series={series}
+			// Band axis must carry `data`; the value axis must be explicit linear.
+			// Horizontal layout swaps which axis is the category (band) — Y for
+			// horizontal, X for vertical. A band axis with no data builds
+			// scaleBand(undefined) → "_ is not iterable" at provider mount.
+			xAxis={
+				isSingleSeason
+					? [{ scaleType: 'linear', position: 'none' }]
+					: [
+							{
+								data: xAxisData,
+								scaleType: 'band',
+								tickLabelStyle: { fontSize: 11 }
+							}
+						]
 			}
-			tooltip={NivoTooltipFactory(BreakdownTooltip)}
+			yAxis={
+				isSingleSeason
+					? [{ data: xAxisData, scaleType: 'band', position: 'none' }]
+					: [{ scaleType: 'linear', position: 'none' }]
+			}
+			margin={{ top: 20, left: 10, right: 10, bottom: isSingleSeason ? 8 : 40 }}
+			grid={{ horizontal: false, vertical: false }}
+			borderRadius={1}
+			sx={sx}
+			slots={{ tooltip: TooltipSlot }}
+			skipAnimation={false}
 		/>
 	);
 }

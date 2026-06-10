@@ -1,33 +1,42 @@
 import { line } from 'd3-shape';
-import { LineSeries } from '@nivo/line';
-import { AnyScale } from '@nivo/scales';
+import { useXScale, useYScale } from '@mui/x-charts/hooks';
 
 import { cssVar } from '@/lib/tokens';
 
-type LineDatum = LineSeries['data'][number];
+import type { Serie } from './types';
 
-type CareerChartLineLayerProps = {
-	xScale: AnyScale;
-	yScale: AnyScale;
-};
+type Pt = { x: number; y: number };
 
-export default function BaseLineChartLayer(series: LineSeries) {
-	const stroke = cssVar.divider;
+type BaseLineChartLayerProps = { series: Serie };
 
-	return function LineLayer({ xScale, yScale }: CareerChartLineLayerProps) {
-		const lineGenerator = line<LineDatum>()
-			.x(d => xScale(Number(d.x)))
-			.y(d => yScale(Number(d.y)));
+// Composition-mode layer for MUI X Charts: draws the supplied baseline series
+// as a single grey reference path on top of the team-coloured lines.
+export default function BaseLineChartLayer({ series }: BaseLineChartLayerProps) {
+	const xScale = useXScale<'linear'>();
+	const yScale = useYScale<'linear'>();
 
-		return (
-			<>
-				<path
-					d={lineGenerator(series.data) || undefined}
-					stroke={stroke}
-					fill="transparent"
-					strokeWidth={2}
-				/>
-			</>
-		);
-	};
+	if (!xScale || !yScale) {
+		return null;
+	}
+
+	const points: Pt[] = (series.data || [])
+		.map(d => ({ x: Number((d as { x?: unknown }).x), y: Number((d as { y?: unknown }).y) }))
+		.filter(p => Number.isFinite(p.x) && Number.isFinite(p.y));
+
+	if (points.length === 0) {
+		return null;
+	}
+
+	const gen = line<Pt>()
+		.x(d => xScale(d.x) as number)
+		.y(d => yScale(d.y) as number);
+
+	return (
+		<path
+			d={gen(points) || undefined}
+			stroke={cssVar.divider}
+			fill="transparent"
+			strokeWidth={2}
+		/>
+	);
 }

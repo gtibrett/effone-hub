@@ -1,7 +1,12 @@
-import { Box, Skeleton } from '@mui/material';
-import { ResponsiveBump } from '@nivo/bump';
+'use client';
 
-import { NivoTooltipFactory, useNivoTheme } from '@/components/ui/nivo';
+import { useMemo } from 'react';
+import { Box, Skeleton } from '@mui/material';
+import type { LineSeriesType } from '@mui/x-charts';
+import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
+import { LineChart } from '@mui/x-charts/LineChart';
+
+import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
 import { Maybe } from '@/gql/graphql';
 import { DriverId } from '@/types';
 
@@ -33,62 +38,105 @@ const getTicks = (laps: number) => {
 			ticks.push(i);
 		}
 	}
-
 	return [...ticks, laps];
 };
 
 function LapByLap({ season, round }: LapByLapProps) {
-	const nivoTheme = useNivoTheme();
 	const lapByLapData = useLapByLapData(season, round);
 	const data = useLapByLapChartData(lapByLapData);
 	const { loading, totalLaps } = lapByLapData;
+	const { sx } = useChartsTheme();
 	const height = data.length * 20;
 
-	let content = <Skeleton variant="rectangular" className="w-full" height="100%" />;
-	if (!loading && lapByLapData.data?.length) {
-		content = (
-			// @ts-ignore
-			<ResponsiveBump
-				theme={nivoTheme}
-				data={data.map(s => ({ ...s, id: String(s.id) }))}
-				colors={({ color }) => color || 'transparent'}
-				lineWidth={4}
-				activeLineWidth={6}
-				inactiveLineWidth={3}
-				inactiveOpacity={0.25}
-				pointSize={0}
-				activePointSize={0}
-				inactivePointSize={0}
-				pointBorderWidth={0}
-				activePointBorderWidth={0}
-				startLabel={false}
-				endLabel={({ name }) => name || ''}
-				endLabelPadding={32}
-				enableGridX={true}
-				enableGridY={false}
-				axisTop={null}
-				axisRight={{
-					tickSize: 0,
-					tickPadding: 10,
-					tickRotation: 0
-				}}
-				axisBottom={{
-					tickSize: 0,
-					tickPadding: 10,
-					tickRotation: 0,
-					tickValues: getTicks(totalLaps || 0)
-				}}
-				axisLeft={null}
-				margin={{ top: 16, right: 120, bottom: 42, left: 24 }}
-				pointTooltip={NivoTooltipFactory(LapByLapTooltip)}
-				lineTooltip={NivoTooltipFactory(LapByLapTooltip)}
-			/>
+	const built = useMemo(() => {
+		if (!data.length || !totalLaps) {
+			return null;
+		}
+		const laps = Array.from({ length: totalLaps }, (_, i) => i + 1);
+		const driverByKey = new Map<string, LapChartSeries>();
+		const series: LineSeriesType[] = data.map(s => {
+			const values: Array<number | null> = laps.map(lap => {
+				const point = s.data.find(d => Number(d.x) === lap);
+				return point && point.y != null ? Number(point.y) : null;
+			});
+			const id = String(s.id);
+			driverByKey.set(id, s);
+			return {
+				type: 'line',
+				id,
+				label: s.name || id,
+				data: values,
+				color: s.color || 'transparent',
+				curve: 'monotoneX',
+				showMark: false,
+				connectNulls: false
+			};
+		});
+		const maxPos = Math.max(...data.flatMap(s => s.data.map(d => Number(d.y || 0))));
+		return { series, laps, driverByKey, maxPos };
+	}, [data, totalLaps]);
+
+	const TooltipSlot = useMemo(() => {
+		function ItemTooltipContent() {
+			const tt = useItemTooltip<'line'>();
+			if (!tt || !built) {
+				return null;
+			}
+			const id = String(tt.identifier.seriesId);
+			const serie = built.driverByKey.get(id);
+			if (!serie) {
+				return null;
+			}
+			return (
+				<ChartsTooltipBody>
+					<LapByLapTooltip serie={{ data: { driverId: String(serie.driverId) } }} />
+				</ChartsTooltipBody>
+			);
+		}
+		return createItemTooltipSlot(ItemTooltipContent);
+	}, [built]);
+
+	if (loading || !built) {
+		return (
+			<Box className="w-full" style={{ height }} aria-hidden>
+				<Skeleton variant="rectangular" className="w-full" height="100%" />
+			</Box>
 		);
 	}
 
 	return (
 		<Box className="w-full" style={{ height }} aria-hidden>
-			{content}
+			<LineChart
+				series={built.series}
+				xAxis={[
+					{
+						data: built.laps,
+						scaleType: 'point',
+						tickInterval: getTicks(totalLaps || 0)
+					}
+				]}
+				yAxis={[
+					{
+						scaleType: 'linear',
+						min: 1,
+						max: built.maxPos,
+						reverse: true,
+						position: 'right',
+						tickInterval: 'auto'
+					}
+				]}
+				margin={{ top: 16, right: 120, bottom: 42, left: 24 }}
+				grid={{ vertical: true, horizontal: false }}
+				slotProps={{
+					legend: {
+						direction: 'vertical',
+						position: { vertical: 'middle', horizontal: 'end' }
+					}
+				}}
+				slots={{ tooltip: TooltipSlot }}
+				sx={sx}
+				skipAnimation={false}
+			/>
 		</Box>
 	);
 }

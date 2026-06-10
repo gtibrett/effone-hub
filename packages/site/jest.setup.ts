@@ -9,6 +9,11 @@ import '@testing-library/jest-dom';
 import 'jest-canvas-mock';
 import 'jest-localstorage-mock';
 
+// jsdom env hides Node globals; @mui/x-charts gestures use structuredClone.
+if (typeof globalThis.structuredClone !== 'function') {
+	globalThis.structuredClone = (val: unknown) => JSON.parse(JSON.stringify(val));
+}
+
 jest.mock('next/navigation', () => ({
 	useRouter:       () => ({
 		push:     jest.fn(),

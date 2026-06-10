@@ -1,25 +1,74 @@
+'use client';
+
+import { useMemo } from 'react';
 import { Alert, Box, Skeleton } from '@mui/material';
-import { ResponsiveSwarmPlot } from '@nivo/swarmplot';
+import type { ScatterSeriesType } from '@mui/x-charts';
+import { ScatterChart } from '@mui/x-charts/ScatterChart';
 
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
-import { useNivoTheme } from '@/components/ui/nivo';
+import { useChartsTheme } from '@/components/ui/charts';
 
-import { SwarmData, useMapLapTimeDataToSwarmChart } from './mapLapTimeDataToSwarmChart';
+import { type SwarmData, useMapLapTimeDataToSwarmChart } from './mapLapTimeDataToSwarmChart';
 import { CircuitDialogData } from './types';
 
 type LapTimesChartProps = SimpleApolloResult<CircuitDialogData>;
 
+// Deterministic per-id jitter so the swarm geometry is stable across renders
+// (Date.now / Math.random would re-place points each frame).
+function hashedJitter(id: string): number {
+	let h = 0;
+	for (let i = 0; i < id.length; i++) {
+		h = (h << 5) - h + id.charCodeAt(i);
+		h |= 0;
+	}
+	return ((h % 1000) / 1000 - 0.5) * 0.7;
+}
+
 export default function LapTimesByYearSwarm({ data, loading }: LapTimesChartProps) {
-	const nivoTheme = useNivoTheme();
 	const mapLapTimeDataToSwarmChart = useMapLapTimeDataToSwarmChart();
+	const { sx } = useChartsTheme();
+
+	const built = useMemo(() => {
+		if (!data) {
+			return null;
+		}
+		const chartData = mapLapTimeDataToSwarmChart(data).filter(d => d.deviations < 3);
+		if (!chartData.length) {
+			return null;
+		}
+		const min = Math.min(...chartData.map(d => d.milliseconds));
+		const max = Math.max(...chartData.map(d => d.milliseconds));
+		const byYear = new Map<string, SwarmData[]>();
+		chartData.forEach(d => {
+			const yr = String(d.group);
+			if (!byYear.has(yr)) {
+				byYear.set(yr, []);
+			}
+			byYear.get(yr)?.push(d);
+		});
+		const years = Array.from(byYear.keys()).sort();
+		const series: ScatterSeriesType[] = years.map(year => {
+			const points = byYear.get(year) || [];
+			return {
+				id: year,
+				type: 'scatter',
+				label: year,
+				color: points[0]?.color || undefined,
+				markerSize: 4,
+				data: points.map(p => ({
+					id: p.id,
+					x: Number(year) + hashedJitter(p.id),
+					y: p.milliseconds
+				}))
+			};
+		});
+		return { series, min, max, years };
+	}, [data, mapLapTimeDataToSwarmChart]);
 
 	if (!data || loading) {
 		return <Skeleton variant="rectangular" height={400} />;
 	}
-
-	const chartData = mapLapTimeDataToSwarmChart(data).filter(d => d.deviations < 3);
-
-	if (!chartData.length) {
+	if (!built) {
 		return (
 			<Alert variant="outlined" severity="info">
 				Lap Time Data Not Available
@@ -27,53 +76,34 @@ export default function LapTimesByYearSwarm({ data, loading }: LapTimesChartProp
 		);
 	}
 
-	function findUniqueYears(value: SwarmData, index: number, self: SwarmData[]) {
-		return self.findIndex(v => v.group === value.group) === index;
-	}
-
-	const years = chartData
-		.filter(findUniqueYears)
-		.map(y => String(y.group))
-		.sort();
-	const min = Math.min(...chartData.map(d => d.milliseconds));
-	const max = Math.max(...chartData.map(d => d.milliseconds));
+	const numericYears = built.years.map(y => Number(y));
 
 	return (
 		<Box className="h-[60vh] w-full" aria-hidden>
-			<ResponsiveSwarmPlot
-				theme={nivoTheme}
-				data={chartData}
-				groups={years}
-				colors={({ data }) => data.color}
-				gap={10}
-				spacing={0}
-				value="milliseconds"
-				valueScale={{ type: 'linear', min, max }}
-				size={6}
-				forceStrength={1}
-				simulationIterations={50}
-				isInteractive={false}
-				borderColor={{
-					from: 'color',
-					modifiers: [
-						['darker', 0.6],
-						['opacity', 0.5]
-					]
-				}}
+			<ScatterChart
+				series={built.series}
+				xAxis={[
+					{
+						min: Math.min(...numericYears) - 0.5,
+						max: Math.max(...numericYears) + 0.5,
+						tickInterval: numericYears,
+						valueFormatter: (v: unknown) =>
+							numericYears.includes(Number(v)) ? String(Math.round(Number(v))) : ''
+					}
+				]}
+				yAxis={[
+					{
+						min: built.min,
+						max: built.max,
+						position: 'none'
+					}
+				]}
 				margin={{ top: 10, right: 10, bottom: 80, left: 10 }}
-				axisTop={null}
-				axisRight={null}
-				axisBottom={{
-					tickSize: 10,
-					tickPadding: 5,
-					tickRotation: 0
-				}}
-				axisLeft={{
-					tickSize: 0,
-					tickPadding: 0,
-					tickRotation: 0,
-					tickValues: 0
-				}}
+				grid={{ horizontal: false, vertical: false }}
+				sx={sx}
+				disableAxisListener
+				skipAnimation
+				slotProps={{ tooltip: { trigger: 'none' } }}
 			/>
 		</Box>
 	);

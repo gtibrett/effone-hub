@@ -1,13 +1,12 @@
 import { Card, CardHeader } from '@mui/material';
-import { BumpSerie } from '@nivo/bump';
 
 import { DriverAvatar, DriverByLine } from '@/components/app';
 import { useDriverHeaderSx } from '@/hooks';
 
-export default function LapByLapTooltip({ serie }: { serie: BumpSerie<any, any> }) {
-	const {
-		data: { driverId }
-	} = serie;
+type LapByLapTooltipProps = { serie: { data: { driverId: string } } };
+
+export default function LapByLapTooltip({ serie }: LapByLapTooltipProps) {
+	const { driverId } = serie.data;
 	const headerSx = useDriverHeaderSx(driverId);
 
 	return (

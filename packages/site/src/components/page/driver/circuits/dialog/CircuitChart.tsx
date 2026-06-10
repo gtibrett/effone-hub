@@ -13,11 +13,18 @@ import { CircuitDialogData } from './types';
 
 type CircuitChartProps = SimpleApolloResult<CircuitDialogData>;
 
+type CircuitChartData = DataWithTeamInfo & {
+	year: number;
+	points: number;
+	position: number;
+	grid: number;
+};
+
 export default function CircuitChart({ data }: CircuitChartProps) {
 	const getTeamColor = useGetTeamColor();
 	const races = (data?.circuit.races || []).filter(r => r?.results?.length);
 
-	const chartData: DataWithTeamInfo[] = races.map(r => ({
+	const chartData: CircuitChartData[] = races.map(r => ({
 		teamId: r.results[0].constructor?.id ?? '',
 		color: getTeamColor(r.results[0].constructor?.colors, 'primaryHex'),
 		year: Number(r.year),
@@ -26,27 +33,30 @@ export default function CircuitChart({ data }: CircuitChartProps) {
 		grid: Number(r.results[0].gridPositionNumber)
 	}));
 
+	const maxPoints = Math.max(...chartData.map(d => d.points));
+
 	const baseProps: Omit<LineChartByTeamProps, 'yKey'> = {
 		xKey: 'year',
 		data: chartData,
-		tooltip: CareerTooltip
+		tooltip: CareerTooltip,
+		height: 200
 	};
 
 	const charts: ChartSwitcherChart[] = [
 		{
 			id: 'position',
 			label: 'Position',
-			chart: <LineChartByTeam {...baseProps} yKey="position" invert min={1} />
+			chart: <LineChartByTeam {...baseProps} yKey="position" invert min={1} yOffset={2} />
 		},
 		{
 			id: 'qualifying',
 			label: 'Qualifying',
-			chart: <LineChartByTeam {...baseProps} yKey="grid" invert min={1} />
+			chart: <LineChartByTeam {...baseProps} yKey="grid" invert min={1} yOffset={2} />
 		},
 		{
 			id: 'points',
 			label: 'Points',
-			chart: <LineChartByTeam {...baseProps} yKey="points" />
+			chart: <LineChartByTeam {...baseProps} yKey="points" yOffset={maxPoints * 0.1} />
 		}
 	];
 

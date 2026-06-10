@@ -20,7 +20,9 @@ export default function useChartData(data: RaceStandingsWithEntities[] = [], mod
 
 		data.forEach(({ round, standings }) => {
 			standings.forEach(standing => {
-				const id = mode === 'position' ? standing.id : standing.entity.name;
+				// entity.id is the driverId / teamId — route-friendly slug and
+				// stable across rounds; used by EndLineLabels click → router.push.
+				const id = standing.entity.id;
 				let index = chartSeries.findIndex(s => s.id === String(id));
 
 				if (index === -1) {
