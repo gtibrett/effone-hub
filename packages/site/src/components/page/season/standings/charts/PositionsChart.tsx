@@ -94,6 +94,8 @@ export default function PositionsChart({
 				height={height}
 				series={built.series}
 				highlightedItem={activeSeriesId ? { seriesId: activeSeriesId, type: 'line' } : null}
+				disableLineItemHighlight
+				axisHighlight={{ x: 'none' }}
 				xAxis={[
 					{
 						data: built.xData,

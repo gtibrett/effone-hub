@@ -86,6 +86,8 @@ export default function PointsChart({
 				height={height}
 				series={series}
 				highlightedItem={hover ? { seriesId: hover.seriesId, type: 'line' } : null}
+				disableLineItemHighlight
+				axisHighlight={{ x: 'none' }}
 				xAxis={[
 					{
 						data: ticks,
