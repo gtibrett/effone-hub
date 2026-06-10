@@ -86,9 +86,13 @@ export default function CareerBreakdownChart({ driverId, season }: CareerBreakdo
 			height={isSingleSeason ? 64 : undefined}
 			layout={isSingleSeason ? 'horizontal' : 'vertical'}
 			series={series}
+			// Band axis must carry `data`; the value axis must be explicit linear.
+			// Horizontal layout swaps which axis is the category (band) — Y for
+			// horizontal, X for vertical. A band axis with no data builds
+			// scaleBand(undefined) → "_ is not iterable" at provider mount.
 			xAxis={
 				isSingleSeason
-					? [{ position: 'none' }]
+					? [{ scaleType: 'linear', position: 'none' }]
 					: [
 							{
 								data: xAxisData,
@@ -97,7 +101,11 @@ export default function CareerBreakdownChart({ driverId, season }: CareerBreakdo
 							}
 						]
 			}
-			yAxis={[{ position: 'none' }]}
+			yAxis={
+				isSingleSeason
+					? [{ data: xAxisData, scaleType: 'band', position: 'none' }]
+					: [{ scaleType: 'linear', position: 'none' }]
+			}
 			margin={{ top: 20, left: 10, right: 10, bottom: isSingleSeason ? 8 : 40 }}
 			grid={{ horizontal: false, vertical: false }}
 			borderRadius={1}

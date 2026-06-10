@@ -109,8 +109,8 @@ export default function PitStopsChart({ maxStops, pitStops }: PitStopsChartProps
 			<BarChart
 				layout={isSmall ? 'horizontal' : 'vertical'}
 				series={built.series}
-				xAxis={isSmall ? [{ position: 'none' }] : [axisConfig]}
-				yAxis={isSmall ? [axisConfig] : [{ position: 'none' }]}
+				xAxis={isSmall ? [{ scaleType: 'linear', position: 'none' }] : [axisConfig]}
+				yAxis={isSmall ? [axisConfig] : [{ scaleType: 'linear', position: 'none' }]}
 				margin={{
 					top: 16,
 					right: 16,
