@@ -1,19 +1,21 @@
 'use client';
 
-import { Suspense } from 'react';
-import { Card, Skeleton } from '@mui/material';
+import { Card } from '@mui/material';
 
 import { SeasonsList } from '@/components/page/season';
+import type { SeasonData } from '@/components/page/season/types';
 import { Page } from '@/components/ui';
 
-export default function SeasonsContent() {
+type Props = {
+	seasons: SeasonData[];
+};
+
+export default function SeasonsContent({ seasons }: Props) {
 	return (
 		<Page title="Past Seasons">
-			<Suspense fallback={<Skeleton variant="rectangular" height="65vh" />}>
-				<Card>
-					<SeasonsList />
-				</Card>
-			</Suspense>
+			<Card>
+				<SeasonsList seasons={seasons} />
+			</Card>
 		</Page>
 	);
 }

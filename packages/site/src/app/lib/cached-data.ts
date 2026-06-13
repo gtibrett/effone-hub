@@ -17,8 +17,12 @@
 import { cacheLife, cacheTag } from 'next/cache';
 import { gql } from '@apollo/client';
 
+import CircuitsListDoc from '@/components/page/circuits/CircuitsQuery';
 import ConstructorsQuery from '@/components/page/constructor/ConstructorsQuery';
+import type { TeamWithSeasons } from '@/components/page/constructor/useConstructorsList';
 import DriversQuery from '@/components/page/driver/DriversQuery';
+import SeasonsListDoc from '@/components/page/season/SeasonsQuery';
+import type { SeasonData } from '@/components/page/season/types';
 import { PastSeasonsQuery, SingleSeasonQuery } from '@/data/query/season.graphql';
 import type { Circuit, Driver as DriverT, Race } from '@/gql/graphql';
 import { DriverQuery } from '@/hooks/data/useDriver';
@@ -159,7 +163,12 @@ export const ConstructorDataQuery = gql`
 // Seasons
 // ---------------------------------------------------------------------------
 
-export type AppSeasonState = { currentSeason: number; seasonToShow: number; lastSeason: number };
+export type AppSeasonState = {
+	currentSeason: number;
+	seasonToShow: number;
+	lastSeason: number;
+	seasons: number[];
+};
 
 const AppSeasonStateQuery = gql`
 	query AppSeasonStateQuery {
@@ -188,7 +197,17 @@ export async function getAppSeasonState(): Promise<AppSeasonState> {
 	const seasonToShow = withResults.length ? Math.max(...withResults) : currentSeason;
 	const endedYears = years.filter(y => y < currentYear);
 	const lastSeason = endedYears.length ? Math.max(...endedYears) : currentSeason;
-	return { currentSeason, seasonToShow, lastSeason };
+	return { currentSeason, seasonToShow, lastSeason, seasons: years };
+}
+
+export async function getSeasons(): Promise<SeasonData[]> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('seasons');
+	const { data } = await getClient().query<{ seasons: SeasonData[] }>({
+		query: SeasonsListDoc
+	});
+	return data?.seasons ?? [];
 }
 
 export async function getCurrentSeason(): Promise<{ year: number }> {
@@ -246,6 +265,16 @@ export async function getCurrentSeasonRaceParams(): Promise<{ season: string; ro
 // Drivers
 // ---------------------------------------------------------------------------
 
+export async function getDrivers(): Promise<DriverT[]> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('drivers');
+	const { data } = await getClient().query<{ drivers: DriverT[] }>({
+		query: DriversQuery
+	});
+	return data?.drivers ?? [];
+}
+
 export async function getDriverRowIds(): Promise<string[]> {
 	'use cache';
 	cacheLife('max');
@@ -284,6 +313,18 @@ export async function getCurrentSeasonDriverIds(): Promise<string[]> {
 // Teams
 // ---------------------------------------------------------------------------
 
+export async function getConstructors(): Promise<TeamWithSeasons[]> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('teams');
+	// ConstructorsQuery aliases seasonTeams -> seasons, so the real selection shape
+	// is TeamWithSeasons, not the codegen Team.
+	const { data } = await getClient().query<{ teams: TeamWithSeasons[] }>({
+		query: ConstructorsQuery
+	});
+	return data?.teams ?? [];
+}
+
 export async function getTeamRowIds(): Promise<string[]> {
 	'use cache';
 	cacheLife('max');
@@ -309,6 +350,16 @@ export async function getCurrentSeasonTeamIds(): Promise<string[]> {
 // ---------------------------------------------------------------------------
 // Circuits
 // ---------------------------------------------------------------------------
+
+export async function getCircuits(): Promise<Circuit[]> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('circuits');
+	const { data } = await getClient().query<{ circuits: Circuit[] }>({
+		query: CircuitsListDoc
+	});
+	return data?.circuits ?? [];
+}
 
 export async function getCircuitRowIds(): Promise<string[]> {
 	'use cache';

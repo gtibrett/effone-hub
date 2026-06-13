@@ -1,13 +1,18 @@
 'use client';
 
-import { Suspense, useState } from 'react';
-import { Card, CardContent, Skeleton } from '@mui/material';
+import { useState } from 'react';
+import { Card, CardContent } from '@mui/material';
 
 import { useAppState } from '@/components/app';
 import { DriversFilters, DriversList, type DriversListFilters } from '@/components/page/driver';
 import { Page } from '@/components/ui';
+import type { Driver } from '@/gql/graphql';
 
-export default function DriversContent() {
+type DriversContentProps = {
+	drivers: Driver[];
+};
+
+export default function DriversContent({ drivers }: DriversContentProps) {
 	const [{ currentSeason }] = useAppState();
 	const [filters, setFilters] = useState<DriversListFilters>({
 		season: currentSeason,
@@ -19,11 +24,9 @@ export default function DriversContent() {
 		<Page title="Drivers">
 			<Card>
 				<DriversFilters filters={filters} setFilters={setFilters} />
-				<Suspense fallback={<Skeleton variant="rectangular" height="65vh" />}>
-					<CardContent>
-						<DriversList filters={filters} />
-					</CardContent>
-				</Suspense>
+				<CardContent>
+					<DriversList drivers={drivers} filters={filters} />
+				</CardContent>
 			</Card>
 		</Page>
 	);

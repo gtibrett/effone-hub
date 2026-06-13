@@ -1,7 +1,7 @@
 'use client';
 
-import { Suspense, useState } from 'react';
-import { Card, CardContent, Skeleton } from '@mui/material';
+import { useState } from 'react';
+import { Card, CardContent } from '@mui/material';
 
 import { useAppState } from '@/components/app';
 import {
@@ -10,8 +10,13 @@ import {
 	type CircuitsListFilters
 } from '@/components/page/circuits';
 import { Page } from '@/components/ui';
+import type { Circuit } from '@/gql/graphql';
 
-export default function CircuitsContent() {
+type CircuitsContentProps = {
+	circuits: Circuit[];
+};
+
+export default function CircuitsContent({ circuits }: CircuitsContentProps) {
 	const [{ currentSeason }] = useAppState();
 	const [filters, setFilters] = useState<CircuitsListFilters>({
 		season: currentSeason,
@@ -22,11 +27,9 @@ export default function CircuitsContent() {
 		<Page title="Circuits">
 			<Card>
 				<CircuitsFilters filters={filters} setFilters={setFilters} />
-				<Suspense fallback={<Skeleton variant="rectangular" height="65vh" />}>
-					<CardContent>
-						<CircuitsList filters={filters} />
-					</CardContent>
-				</Suspense>
+				<CardContent>
+					<CircuitsList circuits={circuits} filters={filters} />
+				</CardContent>
 			</Card>
 		</Page>
 	);

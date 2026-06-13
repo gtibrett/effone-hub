@@ -16,6 +16,7 @@ type AppStateType = {
 	currentSeason: number;
 	seasonToShow: number;
 	lastSeason: number;
+	seasons: number[];
 	ready: boolean;
 };
 
@@ -25,6 +26,7 @@ const BLANK_STATE: AppStateType = {
 	currentSeason: 0,
 	seasonToShow: 0,
 	lastSeason: 0,
+	seasons: [],
 	ready: false
 };
 
