@@ -9,21 +9,24 @@ import { Layout } from '@/components/app';
 import { effTheme } from '@/components/ui/Theme';
 
 import ApolloWrapper from './ApolloWrapper';
+import type { AppSeasonState } from './lib/cached-data';
 
 config.autoAddCss = false;
 
-export default function Providers({ children }: PropsWithChildren) {
+export default function Providers({
+	children,
+	appSeasonState
+}: PropsWithChildren<{ appSeasonState: AppSeasonState }>) {
 	// Wrap the whole Layout tree in Suspense so Cache Components accepts the
 	// `new Date()` reads scattered across the client components (race-weekend
-	// "is this in the future?" checks, AppStateProvider's currentYear fallback,
-	// etc.). Without this, /_not-found prerender fails.
+	// "is this in the future?" checks, etc.). Without this, /_not-found prerender fails.
 	return (
 		<AppRouterCacheProvider options={{ enableCssLayer: true }}>
 			<ApolloWrapper>
 				<ThemeProvider theme={effTheme}>
 					<CssBaseline />
 					<Suspense>
-						<Layout>{children}</Layout>
+						<Layout appSeasonState={appSeasonState}>{children}</Layout>
 					</Suspense>
 				</ThemeProvider>
 			</ApolloWrapper>

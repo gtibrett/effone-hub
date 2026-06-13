@@ -4,6 +4,7 @@ import { type PropsWithChildren, Suspense } from 'react';
 import { UkraineButton } from '@gtibrett/mui-additions';
 import { Box, Container } from '@mui/material';
 
+import type { AppSeasonState } from '@/app/lib/cached-data';
 import { SkipNav } from '@/components/ui';
 
 import AppStateProvider from './AppStateProvider';
@@ -11,10 +12,13 @@ import ErrorBoundary from './ErrorBoundary';
 import Footer from './footer/Footer';
 import Header from './header/Header';
 
-export default function Layout({ children }: PropsWithChildren) {
+export default function Layout({
+	children,
+	appSeasonState
+}: PropsWithChildren<{ appSeasonState: AppSeasonState }>) {
 	// Cache Components: leaf `new Date()` reads ("is race in future?") must live inside Suspense.
 	return (
-		<AppStateProvider>
+		<AppStateProvider initialState={appSeasonState}>
 			<SkipNav selector="main" />
 
 			<Box className="fixed inset-0 overflow-auto bg-background">

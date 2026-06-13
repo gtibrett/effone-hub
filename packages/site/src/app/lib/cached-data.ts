@@ -159,6 +159,38 @@ export const ConstructorDataQuery = gql`
 // Seasons
 // ---------------------------------------------------------------------------
 
+export type AppSeasonState = { currentSeason: number; seasonToShow: number; lastSeason: number };
+
+const AppSeasonStateQuery = gql`
+	query AppSeasonStateQuery {
+		seasons(orderBy: YEAR_DESC) {
+			year
+			hasResults
+		}
+	}
+`;
+
+export async function getAppSeasonState(): Promise<AppSeasonState> {
+	'use cache';
+	cacheLife('hours');
+	cacheTag('seasons', 'current-season');
+	const { data } = await getClient().query<{
+		seasons: { year: number; hasResults: boolean | null }[];
+	}>({
+		query: AppSeasonStateQuery
+	});
+	const seasons = data?.seasons ?? [];
+	if (!seasons.length) throw new Error('AppSeasonStateQuery returned no seasons');
+	const currentYear = new Date().getFullYear();
+	const years = seasons.map(s => s.year);
+	const currentSeason = Math.max(...years);
+	const withResults = seasons.filter(s => s.hasResults).map(s => s.year);
+	const seasonToShow = withResults.length ? Math.max(...withResults) : currentSeason;
+	const endedYears = years.filter(y => y < currentYear);
+	const lastSeason = endedYears.length ? Math.max(...endedYears) : currentSeason;
+	return { currentSeason, seasonToShow, lastSeason };
+}
+
 export async function getCurrentSeason(): Promise<{ year: number }> {
 	'use cache';
 	cacheLife('hours');

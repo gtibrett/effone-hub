@@ -6,6 +6,7 @@ import type { Metadata, Viewport } from 'next';
 import { Anton, Racing_Sans_One, Titillium_Web } from 'next/font/google';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
+import { getAppSeasonState } from './lib/cached-data';
 import Providers from './Providers';
 
 const titillium = Titillium_Web({
@@ -40,11 +41,12 @@ export const viewport: Viewport = {
 	initialScale: 1
 };
 
-export default function RootLayout({ children }: PropsWithChildren) {
+export default async function RootLayout({ children }: PropsWithChildren) {
+	const appSeasonState = await getAppSeasonState();
 	return (
 		<html lang="en" className={`${titillium.variable} ${anton.variable} ${racing.variable}`}>
 			<body>
-				<Providers>{children}</Providers>
+				<Providers appSeasonState={appSeasonState}>{children}</Providers>
 				{process.env.NEXT_PUBLIC_GA_TRACKING_ID && (
 					<GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_TRACKING_ID} />
 				)}
