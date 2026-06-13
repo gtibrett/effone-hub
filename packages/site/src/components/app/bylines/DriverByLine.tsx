@@ -1,6 +1,11 @@
 import { memo } from 'react';
 import { Grid, Link, Skeleton, Typography } from '@mui/material';
 
+import {
+	type DriverDisplay,
+	driverToDisplay,
+	useDriverDisplay
+} from '@/components/app/EntityDisplayProvider';
 import { Flag, type FlagProps } from '@/components/ui';
 import type { Driver } from '@/gql/graphql';
 import { useDriver } from '@/hooks/data';
@@ -19,8 +24,11 @@ type ByLinePropsById = BaseByLineProps & {
 	id?: DriverId;
 };
 
+// Widened: accepts a full Driver, the slim Pick callers historically used, or DriverDisplay
 type ByLinePropsByDriver = BaseByLineProps & {
-	driver?: Pick<Driver, 'id' | 'firstName' | 'lastName' | 'nationalityCountry' | 'abbreviation'>;
+	driver?:
+		| Pick<Driver, 'id' | 'firstName' | 'lastName' | 'nationalityCountry' | 'abbreviation'>
+		| DriverDisplay;
 };
 
 const DriverSkeleton = ({ variant = 'full', avatarProps = {} }: BaseByLineProps) => {
@@ -50,7 +58,9 @@ const DriverSkeleton = ({ variant = 'full', avatarProps = {} }: BaseByLineProps)
 };
 
 const ById = ({ id, ...props }: ByLinePropsById) => {
-	const driver = useDriver(id);
+	const ctx = useDriverDisplay(id);
+	const hookDriver = useDriver(ctx ? undefined : id);
+	const driver: ByLinePropsByDriver['driver'] = ctx ?? driverToDisplay(hookDriver);
 
 	return <ByDriver driver={driver} {...props} />;
 };

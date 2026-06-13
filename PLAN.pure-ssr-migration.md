@@ -60,6 +60,92 @@ Refined phase order (dependency-driven):
 
 Tailwind stays (out of scope, per user).
 
+## Phase C — detailed plan (detail pages → props)
+
+Status of A/B: ✅ committed (`7f459c3`, `aa4ce92`), tsc+jest green.
+
+### The crux: shared display data (`useDriver`/`useTeam`)
+
+`DriverAvatar`, `ConstructorAvatar`, the `ById` paths of `DriverByLine`/`ConstructorByLine`,
+and `StatCard` (`DriverVariant`/`TeamVariant`) all fetch an entity **by id at render** purely
+for display (name, abbreviation, `bio.thumbnailUrl`, team colors). `StatCard` is the hard one:
+it receives `Map<id, {value}>`, picks the leader via `useLeaderData` at render, then fetches
+that leader 3× (variant + avatar + byline). The leader can't be pre-resolved server-side.
+
+Investigation verdict: **no** season/race stat query nests display today; `driverStandings`/
+`constructorStandings`/`lapsSeasonRound`/`pitStops` nest *partial* display (lastName/abbr +
+primary color), never `firstName`/`thumbnailUrl`/`nationalityCountry`.
+
+**Chosen design — `EntityDisplayProvider` (server-seeded display context):**
+- New context exposing `useDriverDisplay(id)` / `useTeamDisplay(id)` over
+  `Map<id, DriverDisplay>` / `Map<id, TeamDisplay>`.
+  - `DriverDisplay = { id, firstName, lastName, abbreviation, thumbnailUrl?, nationalityCountry?, teamColor? }`
+  - `TeamDisplay = { id, name, primaryHex?, secondaryHex? }`
+- Each page derives the lookup from its own consolidated server fetch (the entities already
+  appear in standings/results — extend those selections to full display, build the map, no
+  extra round-trip) and wraps its content in the provider.
+- Shared components resolve display in priority order: explicit object prop → display context
+  → **fallback to existing `useDriver`/`useTeam` hook**. The fallback keeps every
+  not-yet-migrated surface working during C; it is deleted in Phase F once all pages seed the
+  provider. This makes C0 a pure no-op refactor (nothing mounts the provider yet → identical
+  behavior).
+
+Rejected alternatives: prop-threading display through ~14 stat components + every avatar
+(too invasive); a single global all-drivers/all-teams lookup at root (~120KB on every page,
+incl. pages that need none).
+
+### Sub-phases
+
+- **C0 — shared display layer (foundation, single agent, no behavior change).**
+  Add `EntityDisplayProvider` + `useDriverDisplay`/`useTeamDisplay` + the two display types.
+  Make `DriverAvatar`/`ConstructorAvatar` accept an optional entity object prop; add the
+  context-then-hook fallback chain to both avatars, both byline `ById` paths, and
+  `StatCard` `DriverVariant`/`TeamVariant`. Gate: tsc+jest green AND no rendered output
+  change (provider unmounted everywhere → all paths fall through to the existing hooks).
+
+- **C1 — driver detail `/drivers/[driverRef]`.** Page already passes `driver`. Move tab data
+  server-side: `getDriverCareer`, `getDriverCircuits`, `getDriverSeason`, `getDriverStats`
+  fetchers (reuse existing query docs); thread to `DriverContent` → Career/Circuits/Season/
+  stats as props. Driver-page stat cards are `variant="icon"` → **no display lookup needed**.
+  Circuit dialog (`useCircuitDialogData`) is lazy on row-click — **DECISION (user):**
+  implement as a Next.js **parallel + intercepting route** (`@dialog` slot with `(.)`
+  interception under the driver route). The dialog becomes a server-rendered, URL-addressable
+  route segment fetching its data via a cached fetcher — lazy, zero browser GraphQL, shareable
+  URL, native back-button dismiss.
+
+- **C2 — constructor detail `/constructors/[teamRef]`.** Consolidate `useConstructorData`
+  + team bio (`useTeam`) into a server fetch; stats (`DriverPoints`/`DriverPodiums`/
+  `DriverQualifying`, `variant="driver"`) receive id+value via props; mount
+  `EntityDisplayProvider` seeded with the team's drivers' display (derived from the
+  consolidated fetch).
+
+- **C3 — circuit detail `/circuits/[circuitRef]`.** One consolidated fetch with aliased
+  `currentSeason`/`priorSeason` (replaces the two `useCircuitByRef` calls); History/Season/
+  stats as props; provider seeded from history drivers.
+
+- **C4 — season (`/` home + `/[season]`).** Largest. One consolidated season fetch:
+  schedule + driver/constructor standings + the ~11 stat sources + driver/team display.
+  Convert standings (2), schedule, and all stat components to props; mount provider.
+  `RaceWeekend` (wall-clock countdown) **deferred to Phase D**. Both `HomeContent` and
+  `SeasonContent` reuse the shared season `Season` component — handle both entry pages.
+
+- **C5 — race/round `/[season]/[round]`.** Page already prefetches `getRaceFullData`.
+  Consolidate qualifying + pitstops + lap-by-lap + race stats into the server fetch (or
+  sibling cached fetchers), pass as props; mount provider for the race's drivers/teams;
+  remove the `useRace` CSR fallback in `RoundContent` (page always prefetches).
+
+### Execution shape per sub-phase
+
+Each Cn = one Workflow invocation: **stage 1** (one agent: add cached-data fetcher(s) +,
+where relevant, the provider seed) → barrier → **stage 2** (parallel agents: wire route
+files + convert components to props). Advisor reviews the diff, runs tsc+jest, commits
+between sub-phases. Recommended order: **C0 → {C1, C3} → C2 → C4 → C5** (C0 strictly first;
+C1/C3 are the most independent; C4/C5 last as they exercise the provider hardest).
+
+Escalation triggers specific to C: a stat component whose query can't be sourced from the
+consolidated fetch; a display field the provider type lacks; a component that mutates app
+state. Worker stops, returns `blocked:true`; advisor resolves.
+
 ## Orchestration model
 
 - **Advisor (main thread, Fable/Opus):** authors each phase's Workflow script + task

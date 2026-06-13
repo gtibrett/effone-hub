@@ -1,6 +1,11 @@
 import type { ReactNode } from 'react';
 import { Link, Skeleton } from '@mui/material';
 
+import {
+	type TeamDisplay,
+	teamToDisplay,
+	useTeamDisplay
+} from '@/components/app/EntityDisplayProvider';
 import type { Team } from '@/gql/graphql';
 import { useTeam } from '@/hooks/data';
 import type { TeamId } from '@/types';
@@ -14,8 +19,9 @@ type ByLinePropsById = BaseByLineProps & {
 	id?: TeamId;
 };
 
+// Widened: accepts full Team, slim Pick callers used, or TeamDisplay
 type ByLinePropsByTeam = BaseByLineProps & {
-	team?: Pick<Team, 'id' | 'name' | 'colors'>;
+	team?: Pick<Team, 'id' | 'name' | 'colors'> | TeamDisplay;
 };
 
 export function isByTeam(props: ByLinePropsById | ByLinePropsByTeam): props is ByLinePropsByTeam {
@@ -23,7 +29,9 @@ export function isByTeam(props: ByLinePropsById | ByLinePropsByTeam): props is B
 }
 
 const ById = ({ id, ...props }: ByLinePropsById) => {
-	const { team } = useTeam(id);
+	const ctx = useTeamDisplay(id);
+	const { team: hookTeam } = useTeam(ctx ? undefined : id);
+	const team: ByLinePropsByTeam['team'] = ctx ?? teamToDisplay(hookTeam);
 
 	return <ByTeam {...props} team={team} />;
 };

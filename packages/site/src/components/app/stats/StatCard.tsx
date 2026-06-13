@@ -5,6 +5,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, Card, type CardProps, Grid, Link, Typography } from '@mui/material';
 
 import { ConstructorAvatar, DriverAvatar, DriverByLine } from '@/components/app';
+import {
+	driverToDisplay,
+	teamToDisplay,
+	useDriverDisplay,
+	useTeamDisplay
+} from '@/components/app/EntityDisplayProvider';
 import type { Maybe } from '@/gql/graphql';
 import { useGetTeamColor, useLeaderData } from '@/hooks';
 import { useDriver, useTeam } from '@/hooks/data';
@@ -61,20 +67,26 @@ const DriverVariant = <T extends DataWithValue>({
 	extra
 }: DriverStatCardProps<T, T>) => {
 	const getTeamColor = useGetTeamColor();
-	const [driverId, value] = useLeaderData<T>(data);
-	const driver = useDriver(driverId);
+	const [leaderId, value] = useLeaderData<T>(data);
 
-	if (!driver) {
+	// resolve-then-skip: suppress fetches via undefined id
+	const ctx = useDriverDisplay(leaderId);
+	const hookDriver = useDriver(ctx ? undefined : leaderId);
+	const display = ctx ?? driverToDisplay(hookDriver);
+
+	if (!display) {
 		return null;
 	}
 
 	return (
 		<StatCardContent<T>
 			size={size}
-			avatar={<DriverAvatar driverId={driverId} size={64} />}
-			title={<DriverByLine id={driverId} variant={size === 'small' ? 'code-link' : 'link'} />}
+			avatar={<DriverAvatar driver={display} size={64} />}
+			title={
+				<DriverByLine driver={display} variant={size === 'small' ? 'code-link' : 'link'} />
+			}
 			label={label}
-			color={getTeamColor(driver?.seasonEntrantDrivers?.[0]?.team?.colors, 'primaryHex')}
+			color={getTeamColor(display.teamColors, 'primaryHex')}
 			data={value}
 			format={format}
 			extra={extra}
@@ -90,19 +102,21 @@ const TeamVariant = <T extends DataWithValue>({
 	extra
 }: TeamStatCardProps<T, T>) => {
 	const [teamId, value] = useLeaderData<T>(data);
-	const { team } = useTeam(teamId);
 
-	if (!team) {
+	// resolve-then-skip: suppress fetches via undefined id
+	const ctx = useTeamDisplay(teamId);
+	const { team: hookTeam } = useTeam(ctx ? undefined : teamId);
+	const display = ctx ?? teamToDisplay(hookTeam);
+
+	if (!display) {
 		return null;
 	}
-
-	const { name, id: constructorRef } = team;
 
 	return (
 		<StatCardContent<T>
 			size={size}
-			avatar={<ConstructorAvatar teamId={teamId} size={64} />}
-			title={<Link href={`/constructors/${constructorRef}`}>{name}</Link>}
+			avatar={<ConstructorAvatar team={display} size={64} />}
+			title={<Link href={`/constructors/${display.id}`}>{display.name}</Link>}
 			label={label}
 			data={value}
 			format={format}
