@@ -1,6 +1,6 @@
 'use client';
 
-import { type PropsWithChildren, Suspense } from 'react';
+import type { PropsWithChildren } from 'react';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
@@ -17,17 +17,15 @@ export default function Providers({
 	children,
 	appSeasonState
 }: PropsWithChildren<{ appSeasonState: AppSeasonState }>) {
-	// Wrap the whole Layout tree in Suspense so Cache Components accepts the
-	// `new Date()` reads scattered across the client components (race-weekend
-	// "is this in the future?" checks, etc.). Without this, /_not-found prerender fails.
+	// Wall-clock reads are isolated in their own narrow boundaries (race-weekend
+	// countdown) or run post-hydration in client components, so the Layout tree no
+	// longer needs a broad Suspense wrapper here — keeping the static shell large.
 	return (
 		<AppRouterCacheProvider options={{ enableCssLayer: true }}>
 			<ApolloWrapper>
 				<ThemeProvider theme={effTheme}>
 					<CssBaseline />
-					<Suspense>
-						<Layout appSeasonState={appSeasonState}>{children}</Layout>
-					</Suspense>
+					<Layout appSeasonState={appSeasonState}>{children}</Layout>
 				</ThemeProvider>
 			</ApolloWrapper>
 		</AppRouterCacheProvider>
