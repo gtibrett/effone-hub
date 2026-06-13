@@ -1,11 +1,11 @@
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Dialog } from '@gtibrett/mui-additions';
 import { Card, Grid, Typography } from '@mui/material';
 
 import { DriverByLine, RaceMap, useMapCircuitsToMapPoints } from '@/components/app';
 import ErrorBoundary from '@/components/app/ErrorBoundary';
 import { Tabs } from '@/components/ui';
+import { Dialog } from '@/lib/mui-additions';
 import type { DriverId } from '@/types';
 
 import CircuitChart from './CircuitChart';

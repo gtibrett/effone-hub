@@ -1,6 +1,5 @@
 'use client';
 
-import { useComponentDimensionsWithRef } from '@gtibrett/mui-additions';
 import { Paper, useTheme } from '@mui/material';
 import { RadarChart } from '@mui/x-charts/RadarChart';
 
@@ -15,10 +14,6 @@ type CircuitPerformanceProps = SimpleApolloResult<CircuitDialogData>;
 export default function CircuitPerformance({ data, loading }: CircuitPerformanceProps) {
 	const theme = useTheme();
 	const { sx } = useChartsTheme();
-	const {
-		ref,
-		dimensions: { width }
-	} = useComponentDimensionsWithRef();
 	const rawResults = data?.circuit.races?.flatMap(r => r.results);
 	const circuitResults = rawResults?.filter(Boolean).map(r => ({
 		positionDisplayOrder: r.positionDisplayOrder ?? undefined,
@@ -38,9 +33,9 @@ export default function CircuitPerformance({ data, loading }: CircuitPerformance
 	];
 
 	return (
-		<Paper variant="outlined" ref={ref} className="p-0" style={{ aspectRatio: 1, width }}>
+		<Paper variant="outlined" className="p-0" style={{ aspectRatio: 1 }}>
 			<RadarChart
-				height={width}
+				className="h-full"
 				series={[
 					{
 						label: 'Performance',

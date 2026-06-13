@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
-import { useComponentDimensionsWithRef } from '@gtibrett/mui-additions';
 import { Box } from '@mui/material';
 
 import type { Circuit } from '@/gql/graphql';
@@ -16,7 +15,7 @@ import type { MapPointEventHandler } from './useMapSeasonRacesToMapPoints';
 type RaceMapProps = {
 	points: Point[];
 	onClick?: MapPointEventHandler;
-	height?: number | 'auto';
+	height?: number | string;
 	width?: number | 'auto';
 	centerOn?: Pick<Circuit, 'longitude' | 'latitude'>;
 	zoom?: boolean;
@@ -35,7 +34,6 @@ export default function RaceMap(props: RaceMapProps) {
 	} = props;
 
 	const land = useLand();
-	const { ref } = useComponentDimensionsWithRef();
 	const [hovered, setHovered] = useState<Point | null>(null);
 
 	// react-simple-maps centers via projectionConfig.rotate (longitude is
@@ -47,7 +45,7 @@ export default function RaceMap(props: RaceMapProps) {
 	];
 
 	return (
-		<Box ref={ref} className="relative" aria-hidden>
+		<Box className="relative" aria-hidden>
 			<Box style={{ height, width, position: 'relative' }}>
 				<ComposableMap
 					projection="geoEquirectangular"

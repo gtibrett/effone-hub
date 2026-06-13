@@ -83,7 +83,7 @@ export default function PointsChart({
 	const hoveredStanding = hover ? lookup.get(hover.seriesId)?.[hover.dataIndex] : undefined;
 
 	return (
-		<Box sx={{ position: 'relative', width: '100%', height: height ?? '100%' }}>
+		<Box className="relative w-full" sx={{ height: height ?? '100%' }}>
 			<LineChart
 				height={height}
 				series={series}
