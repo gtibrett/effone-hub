@@ -1,23 +1,10 @@
 import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
 
+import type { ConstructorDriverPointsData } from '@/app/lib/cached-data';
 import { StatCard } from '@/components/app';
 
-type ResultNode = {
-	driverId: string | null;
-	points: string | null;
-};
-
-type Data = {
-	season: {
-		racesByYear: {
-			raceResults: ResultNode[];
-			sprintRaceResults: ResultNode[];
-		}[];
-	} | null;
-};
-
-const query = gql`
+// Exported for cached-data.ts import
+export const ConstructorDriverPointsQuery = gql`
 	query ConstructorDriverPointsQuery($season: Int!, $constructorId: String!) {
 		season(year: $season) {
 			year
@@ -40,13 +27,11 @@ const query = gql`
 `;
 
 type DriverPointsProps = {
-	constructorId: string;
-	season: number;
+	data: ConstructorDriverPointsData;
 	place: 1 | 2;
 };
 
-export default function DriverPoints({ constructorId, season, place }: DriverPointsProps) {
-	const { data, loading } = useQuery<Data>(query, { variables: { constructorId, season } });
+export default function DriverPoints({ data, place }: DriverPointsProps) {
 	const leaders = new Map<string, number>();
 
 	(data?.season?.racesByYear || []).forEach(r => {
@@ -62,7 +47,7 @@ export default function DriverPoints({ constructorId, season, place }: DriverPoi
 
 	return (
 		<StatCard
-			loading={loading}
+			loading={false}
 			data={
 				new Map([...leaders.entries()].sort((a, b) => b[1] - a[1]).slice(place - 1, place))
 			}

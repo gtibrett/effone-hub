@@ -19,6 +19,11 @@ import { gql } from '@apollo/client';
 
 import CircuitsListDoc from '@/components/page/circuits/CircuitsQuery';
 import ConstructorsQuery from '@/components/page/constructor/ConstructorsQuery';
+import { ConstructorSeasonQuery } from '@/components/page/constructor/season/Season';
+import { ConstructorDriverPodiumsQuery } from '@/components/page/constructor/stats/DriverPodiums';
+import { ConstructorDriverPointsQuery } from '@/components/page/constructor/stats/DriverPoints';
+import { ConstructorDriverQualifyingQuery } from '@/components/page/constructor/stats/DriverQualifying';
+import type { ConstructorPageData } from '@/components/page/constructor/types';
 import type { TeamWithSeasons } from '@/components/page/constructor/useConstructorsList';
 import { DriverCareerQuery } from '@/components/page/driver/career/useCareerData';
 import { DriverCircuitQuery } from '@/components/page/driver/circuits/useCircuitData';
@@ -33,6 +38,7 @@ import type { SeasonData } from '@/components/page/season/types';
 import { PastSeasonsQuery, SingleSeasonQuery } from '@/data/query/season.graphql';
 import type { Circuit, Driver as DriverT, Race, RaceResult, SeasonDriver } from '@/gql/graphql';
 import { type CircuitPageData, CircuitQuery } from '@/hooks/data/useCircuitByRef';
+import { ConstructorDataQuery as ConstructorPageQuery } from '@/hooks/data/useConstructorData';
 import { DriverQuery } from '@/hooks/data/useDriver';
 
 import { getClient } from './apollo-rsc';
@@ -144,8 +150,14 @@ export type TeamRecord = {
 	id: string;
 	name?: string | null;
 	countryId?: string | null;
-	country?: { alpha2Code?: string | null; name?: string | null } | null;
-	colors?: { primaryHex?: string | null } | null;
+	country?: { id?: string | null; alpha2Code?: string | null; name?: string | null } | null;
+	colors?: { primaryHex?: string | null; secondaryHex?: string | null } | null;
+	bio?: {
+		title?: string | null;
+		extract?: string | null;
+		thumbnailUrl?: string | null;
+		sourceUrl?: string | null;
+	} | null;
 };
 
 export const ConstructorDataQuery = gql`
@@ -162,6 +174,13 @@ export const ConstructorDataQuery = gql`
 			colors {
 				teamId
 				primaryHex
+				secondaryHex
+			}
+			bio {
+				title
+				extract
+				thumbnailUrl
+				sourceUrl
 			}
 		}
 	}
@@ -645,4 +664,131 @@ export async function getTeam(rowId: string): Promise<TeamRecord | null> {
 		variables: { constructorRef: rowId }
 	});
 	return data?.teams[0] ?? null;
+}
+
+export async function getConstructorData(
+	teamRef: string,
+	season: number
+): Promise<ConstructorPageData | null> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('teams', `team:${teamRef}`, `season:${season}`);
+	const { data } = await getClient().query<ConstructorPageData>({
+		query: ConstructorPageQuery,
+		variables: { constructorRef: teamRef, season }
+	});
+	return data ?? null;
+}
+
+// Exact selection shapes for the three season-stat queries.
+export type ConstructorDriverPointsRaceResult = {
+	driverId: string | null;
+	points: string | null;
+};
+
+export type ConstructorDriverPointsData = {
+	season: {
+		racesByYear: {
+			raceResults: ConstructorDriverPointsRaceResult[];
+			sprintRaceResults: ConstructorDriverPointsRaceResult[];
+		}[];
+	} | null;
+};
+
+export type ConstructorDriverPodiumsRaceResult = {
+	driverId: string | null;
+	positionNumber: number | null;
+};
+
+export type ConstructorDriverPodiumsData = {
+	season: {
+		racesByYear: {
+			rowId: number;
+			raceResults: ConstructorDriverPodiumsRaceResult[];
+		}[];
+	} | null;
+};
+
+export type ConstructorDriverQualifyingResult = {
+	driverId: string;
+	positionNumber: number | null;
+	driver: { id: string; fullName: string } | null;
+};
+
+export type ConstructorDriverQualifyingData = {
+	season: {
+		racesByYear: {
+			rowId: number;
+			round: number;
+			qualifyingResults: ConstructorDriverQualifyingResult[];
+		}[];
+	} | null;
+};
+
+export type ConstructorSeasonRaceResult = {
+	raceId: string;
+	gridPositionNumber: number | null;
+	positionDisplayOrder: number | null;
+	points: string | null;
+	timeMillis: number | null;
+	driverId: string | null;
+	teamId: string | null;
+	reasonRetired: string | null;
+};
+
+export type ConstructorSeasonRace = {
+	rowId: number;
+	year: number;
+	round: number;
+	officialName: string;
+	date: string;
+	time: string | null;
+	raceResults: ConstructorSeasonRaceResult[];
+};
+
+export async function getConstructorSeasonStats(
+	constructorId: string,
+	season: number
+): Promise<{
+	points: ConstructorDriverPointsData;
+	podiums: ConstructorDriverPodiumsData;
+	qualifying: ConstructorDriverQualifyingData;
+}> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('teams', `team:${constructorId}`, `season:${season}`);
+	const client = getClient();
+	const [{ data: points }, { data: podiums }, { data: qualifying }] = await Promise.all([
+		client.query<ConstructorDriverPointsData>({
+			query: ConstructorDriverPointsQuery,
+			variables: { constructorId, season }
+		}),
+		client.query<ConstructorDriverPodiumsData>({
+			query: ConstructorDriverPodiumsQuery,
+			variables: { constructorId, season }
+		}),
+		client.query<ConstructorDriverQualifyingData>({
+			query: ConstructorDriverQualifyingQuery,
+			variables: { constructorId, season }
+		})
+	]);
+	return {
+		points: points ?? { season: null },
+		podiums: podiums ?? { season: null },
+		qualifying: qualifying ?? { season: null }
+	};
+}
+
+export async function getConstructorSeason(
+	teamRef: string,
+	season: number
+): Promise<ConstructorSeasonRace[]> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('teams', `team:${teamRef}`, `season:${season}`);
+	const { data } = await getClient().query<{ races: ConstructorSeasonRace[] }>({
+		query: ConstructorSeasonQuery,
+		variables: { teamId: teamRef, season }
+	});
+	return data?.races ?? [];
 }

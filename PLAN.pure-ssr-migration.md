@@ -134,6 +134,18 @@ incl. pages that need none).
   sibling cached fetchers), pass as props; mount provider for the race's drivers/teams;
   remove the `useRace` CSR fallback in `RoundContent` (page always prefetches).
 
+### Progress + residuals (live)
+
+- C0 ✅ `d722869` · C1a ✅ + C3 ✅ `2ce02b1` (tsc+jest green each).
+- **Residual browser fetches** to clear before Phase F's zero-GraphQL gate:
+  - driver `SeasonDialog` (`useSeasonData`) + `CircuitDialog` (`useCircuitDialogData`) —
+    lazy on-demand → **C1b** as parallel/intercepting routes.
+  - shared `CircuitMap` (`components/app/maps/CircuitMap.tsx`, `useCircuitByRef`) — used on
+    circuit detail + elsewhere → **shared-components pass** (add geo prop + hook fallback,
+    callers pass from their consolidated fetch). Fold into C1b or a dedicated step.
+  - dead hook bodies `useCareerData`/`useCircuitData`/`useDriverStatsData` (no longer called;
+    gql doc export retained) → **Phase H** dead-code sweep.
+
 ### Execution shape per sub-phase
 
 Each Cn = one Workflow invocation: **stage 1** (one agent: add cached-data fetcher(s) +,
