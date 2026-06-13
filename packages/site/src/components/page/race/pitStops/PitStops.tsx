@@ -1,17 +1,18 @@
 import { useCallback } from 'react';
 import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
-import { Alert, Skeleton } from '@mui/material';
+import { Alert } from '@mui/material';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 
+import type { RacePitStopResult } from '@/app/lib/cached-data';
 import { DriverByLine } from '@/components/app';
-import type { Driver, PitStop, Race } from '@/gql/graphql';
+import type { Driver, PitStop } from '@/gql/graphql';
 import { getTimeStringFromDate } from '@/helpers';
 import { useGetTeamColor } from '@/hooks';
 
 import PitStopsChart from './PitStopsChart';
 
-const pitStopsQuery = gql`
+// Exported so cached-data.ts can reuse the same document for SSR prefetch.
+export const pitStopsQuery = gql`
 	#graphql
 	query pitStopsBySeasonRound($season: Int!, $round: Int!) {
 		race: raceByYearAndRound(year: $season, round: $round) {
@@ -41,8 +42,7 @@ const pitStopsQuery = gql`
 `;
 
 type PitStopsProps = {
-	season: Race['year'];
-	round: Race['round'];
+	nodes: RacePitStopResult[];
 };
 
 export type PitStopTableRow = {
@@ -56,7 +56,7 @@ const useMapTableData = () => {
 	const getTeamColor = useGetTeamColor();
 
 	return useCallback(
-		(pitStops: PitStop[]) => {
+		(pitStops: RacePitStopResult[]) => {
 			const tableData: PitStopTableRow[] = [];
 
 			pitStops.forEach(p => {
@@ -81,7 +81,7 @@ const useMapTableData = () => {
 				tableData[index].stops.push({
 					...p,
 					stop: tableData[index].stops.length + 1
-				});
+				} as PitStop);
 			});
 
 			return { tableData, maxStops: Math.max(0, ...tableData.map(d => d.stops.length)) };
@@ -90,17 +90,9 @@ const useMapTableData = () => {
 	);
 };
 
-export default function PitStops({ season, round }: PitStopsProps) {
-	const { loading, data } = useQuery<{ race: { pitStops: PitStop[] } }>(pitStopsQuery, {
-		variables: { season, round }
-	});
+export default function PitStops({ nodes }: PitStopsProps) {
 	const mapTableData = useMapTableData();
 
-	if (loading) {
-		return <Skeleton variant="rectangular" height={400} />;
-	}
-
-	const nodes = data?.race?.pitStops ?? [];
 	if (!nodes.length) {
 		return (
 			<Alert variant="outlined" severity="info">

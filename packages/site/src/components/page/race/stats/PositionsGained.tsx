@@ -1,16 +1,13 @@
 import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
 
+import type { RacePositionsGainedData } from '@/app/lib/cached-data';
 import { StatCard } from '@/components/app';
-import type { Race, RaceResult } from '@/gql/graphql';
+import type { RaceResult } from '@/gql/graphql';
 
 import type { RaceStatProps } from './types';
 
-type Data = {
-	race: Pick<Race, 'raceResults'> | null;
-};
-
-const query = gql`
+// Exported so cached-data.ts can reuse the same document for SSR prefetch.
+export const racePositionsGainedLeaderQuery = gql`
 	query racePositionsGainedLeaderQuery($season: Int!, $round: Int!) {
 		race: raceByYearAndRound(year: $season, round: $round) {
 			year
@@ -27,8 +24,9 @@ const query = gql`
 
 type ResultNode = Pick<RaceResult, 'driverId' | 'gridPositionNumber' | 'positionNumber'>;
 
-export default function PositionsGained({ season, round, size }: RaceStatProps) {
-	const { data, loading } = useQuery<Data>(query, { variables: { season, round } });
+type Props = RaceStatProps & { data: RacePositionsGainedData };
+
+export default function PositionsGained({ data, size }: Props) {
 	const leaders = new Map<string, number>();
 
 	((data?.race?.raceResults || []) as Array<ResultNode | null>)
@@ -43,5 +41,5 @@ export default function PositionsGained({ season, round, size }: RaceStatProps) 
 			}
 		});
 
-	return <StatCard size={size} loading={loading} data={leaders} label="Most Positions Gained" />;
+	return <StatCard size={size} loading={false} data={leaders} label="Most Positions Gained" />;
 }

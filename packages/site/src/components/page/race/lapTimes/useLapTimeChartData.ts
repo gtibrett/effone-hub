@@ -45,7 +45,7 @@ export default function useLapTimeChartData(lapByLapData: LapByLapData) {
 							: Math.min(lt.milliseconds, personalBest);
 
 						return {
-							x: lt.lap,
+							x: lt.lap ?? 0,
 							y: lt.milliseconds,
 							color: getColorWithAlt(lt.milliseconds, personalBest, fastestLapTime)
 								.color,

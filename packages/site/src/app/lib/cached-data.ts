@@ -33,10 +33,28 @@ import {
 	type DriverStatsData,
 	driverStats
 } from '@/components/page/driver/stats/useDriverStatsData';
+import { lapsQuery } from '@/components/page/race/lapByLap/useLapByLapChartData';
+import { pitStopsQuery } from '@/components/page/race/pitStops/PitStops';
+import { qualifyingQuery } from '@/components/page/race/Qualifying';
+import { raceFastestLapQuery } from '@/components/page/race/stats/FastestLap';
+import { raceLapLeaderQuery } from '@/components/page/race/stats/LapLeader';
+import { racePolesLeaderQuery } from '@/components/page/race/stats/Pole';
+import { racePositionsGainedLeaderQuery } from '@/components/page/race/stats/PositionsGained';
 import SeasonsListDoc from '@/components/page/season/SeasonsQuery';
 import type { SeasonData } from '@/components/page/season/types';
 import { PastSeasonsQuery, SingleSeasonQuery } from '@/data/query/season.graphql';
-import type { Circuit, Driver as DriverT, Race, RaceResult, SeasonDriver } from '@/gql/graphql';
+import type {
+	AppLapTime,
+	Circuit,
+	Driver as DriverT,
+	FastestLap as FastestLapNode,
+	Maybe,
+	PitStop,
+	QualifyingResult,
+	Race,
+	RaceResult,
+	SeasonDriver
+} from '@/gql/graphql';
 import { type CircuitPageData, CircuitQuery } from '@/hooks/data/useCircuitByRef';
 import { ConstructorDataQuery as ConstructorPageQuery } from '@/hooks/data/useConstructorData';
 import { DriverQuery } from '@/hooks/data/useDriver';
@@ -611,7 +629,21 @@ const RaceFullDataQuery = gql`
 			round
 			raceResults {
 				raceId
-				driver {id}
+				driver {
+					id
+					firstName
+					lastName
+					abbreviation
+					bio { thumbnailUrl }
+				}
+				team {
+					id
+					colors {
+						teamId
+						primaryHex
+						secondaryHex
+					}
+				}
 				driverId
 				teamId
 				gridPositionNumber
@@ -626,7 +658,21 @@ const RaceFullDataQuery = gql`
 			}
 			sprintRaceResults {
 				raceId
-				driver {id}
+				driver {
+					id
+					firstName
+					lastName
+					abbreviation
+					bio { thumbnailUrl }
+				}
+				team {
+					id
+					colors {
+						teamId
+						primaryHex
+						secondaryHex
+					}
+				}
 				driverId
 				teamId
 				gridPositionNumber
@@ -791,4 +837,166 @@ export async function getConstructorSeason(
 		variables: { teamId: teamRef, season }
 	});
 	return data?.races ?? [];
+}
+
+// ---------------------------------------------------------------------------
+// Race — round page supplemental data
+// ---------------------------------------------------------------------------
+
+// Qualifying selection anchored to qualifyingQuery's real selection.
+export type RaceQualifyingResult = Pick<
+	QualifyingResult,
+	'raceId' | 'driverId' | 'teamId' | 'positionNumber' | 'q1' | 'q2' | 'q3'
+>;
+
+export type RaceQualifyingData = {
+	race: { year: number; round: number; qualifyingResults: RaceQualifyingResult[] } | null;
+};
+
+export async function getRaceQualifying(
+	season: number,
+	round: number
+): Promise<RaceQualifyingData['race']> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('races', `race:${season}:${round}`, `race-data:${season}:${round}`);
+	const { data } = await getClient().query<RaceQualifyingData>({
+		query: qualifyingQuery,
+		variables: { season, round }
+	});
+	return data?.race ?? null;
+}
+
+// PitStops selection anchored to pitStopsQuery's real selection.
+export type RacePitStopResult = Pick<
+	PitStop,
+	'raceId' | 'lap' | 'stop' | 'time' | 'timeMillis' | 'driverId'
+> & {
+	driver: { id: string; abbreviation: string } | null;
+	team: { id: string; colors: { teamId: string; primaryHex: string | null } | null } | null;
+};
+
+export type RacePitStopsData = {
+	race: { year: number; round: number; pitStops: RacePitStopResult[] } | null;
+};
+
+export async function getRacePitStops(
+	season: number,
+	round: number
+): Promise<RacePitStopsData['race']> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('races', `race:${season}:${round}`, `race-data:${season}:${round}`);
+	const { data } = await getClient().query<RacePitStopsData>({
+		query: pitStopsQuery,
+		variables: { season, round }
+	});
+	return data?.race ?? null;
+}
+
+// Lap-by-lap selection anchored to lapsQuery's real selection.
+export type RaceLapTimeResult = Pick<
+	AppLapTime,
+	'raceId' | 'lap' | 'position' | 'timeText' | 'milliseconds' | 'driverId'
+>;
+
+export type RaceLapByLapRaceResult = Pick<
+	RaceResult,
+	'raceId' | 'positionDisplayOrder' | 'positionNumber' | 'driverId'
+> & {
+	driver: { id: string; lastName: string } | null;
+	team: { id: string; colors: { teamId: string; primaryHex: Maybe<string> } | null } | null;
+};
+
+export type RaceLapByLapData = {
+	race: {
+		year: number;
+		round: number;
+		lapTimes: RaceLapTimeResult[];
+		raceResults: RaceLapByLapRaceResult[];
+	} | null;
+};
+
+export async function getRaceLapByLap(
+	season: number,
+	round: number
+): Promise<RaceLapByLapData['race']> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('races', `race:${season}:${round}`, `race-data:${season}:${round}`);
+	const { data } = await getClient().query<RaceLapByLapData>({
+		query: lapsQuery,
+		variables: { season, round }
+	});
+	return data?.race ?? null;
+}
+
+// Race stats — four queries fetched in parallel, typed per-query selection.
+export type RacePoleResult = { driverId: string };
+
+export type RacePoleData = {
+	races: { year: number; round: number; qualifyingResults: RacePoleResult[] }[];
+};
+
+export type RaceFastestLapResult = Pick<
+	FastestLapNode,
+	'raceId' | 'driverId' | 'lap' | 'time' | 'timeMillis'
+>;
+
+export type RaceFastestLapData = {
+	race: { year: number; round: number; fastestLaps: RaceFastestLapResult[] } | null;
+};
+
+export type RaceLapLeaderLapTime = Pick<AppLapTime, 'raceId' | 'driverId' | 'lap' | 'position'>;
+
+export type RaceLapLeaderData = {
+	race: { year: number; round: number; lapTimes: RaceLapLeaderLapTime[] } | null;
+};
+
+export type RacePositionsGainedResult = Pick<
+	RaceResult,
+	'raceId' | 'driverId' | 'gridPositionNumber' | 'positionNumber'
+>;
+
+export type RacePositionsGainedData = {
+	race: { year: number; round: number; raceResults: RacePositionsGainedResult[] } | null;
+};
+
+export type RaceStatsBundle = {
+	poles: RacePoleData;
+	fastestLap: RaceFastestLapData;
+	lapLeader: RaceLapLeaderData;
+	positionsGained: RacePositionsGainedData;
+};
+
+export async function getRaceStats(season: number, round: number): Promise<RaceStatsBundle> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('races', `race:${season}:${round}`, `race-data:${season}:${round}`);
+	const client = getClient();
+	const [{ data: poles }, { data: fastestLap }, { data: lapLeader }, { data: positionsGained }] =
+		await Promise.all([
+			client.query<RacePoleData>({
+				query: racePolesLeaderQuery,
+				variables: { season, round }
+			}),
+			client.query<RaceFastestLapData>({
+				query: raceFastestLapQuery,
+				variables: { season, round }
+			}),
+			client.query<RaceLapLeaderData>({
+				query: raceLapLeaderQuery,
+				variables: { season, round }
+			}),
+			client.query<RacePositionsGainedData>({
+				query: racePositionsGainedLeaderQuery,
+				variables: { season, round }
+			})
+		]);
+	return {
+		poles: poles ?? { races: [] },
+		fastestLap: fastestLap ?? { race: null },
+		lapLeader: lapLeader ?? { race: null },
+		positionsGained: positionsGained ?? { race: null }
+	};
 }

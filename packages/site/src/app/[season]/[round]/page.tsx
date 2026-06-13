@@ -1,7 +1,15 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { getCurrentSeasonRaceParams, getRace, getRaceFullData } from '../../lib/cached-data';
+import {
+	getCurrentSeasonRaceParams,
+	getRace,
+	getRaceFullData,
+	getRaceLapByLap,
+	getRacePitStops,
+	getRaceQualifying,
+	getRaceStats
+} from '../../lib/cached-data';
 import RoundContent from './RoundContent';
 
 type Params = Promise<{ season: string; round: string }>;
@@ -22,9 +30,13 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 
 export default async function RoundPage({ params }: { params: Params }) {
 	const { season, round } = await params;
-	const [race, prefetchedRaceData] = await Promise.all([
+	const [race, raceData, qualifying, pitStops, lapByLap, stats] = await Promise.all([
 		getRace(Number(season), Number(round)),
-		getRaceFullData(Number(season), Number(round))
+		getRaceFullData(Number(season), Number(round)),
+		getRaceQualifying(Number(season), Number(round)),
+		getRacePitStops(Number(season), Number(round)),
+		getRaceLapByLap(Number(season), Number(round)),
+		getRaceStats(Number(season), Number(round))
 	]);
 
 	if (race.year == null) notFound();
@@ -34,7 +46,11 @@ export default async function RoundPage({ params }: { params: Params }) {
 			season={season}
 			round={round}
 			race={race}
-			prefetchedRaceData={prefetchedRaceData}
+			raceData={raceData}
+			qualifying={qualifying}
+			pitStops={pitStops}
+			lapByLap={lapByLap}
+			stats={stats}
 		/>
 	);
 }

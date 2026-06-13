@@ -12,31 +12,91 @@ import {
 	Typography
 } from '@mui/material';
 
-import { RaceMap, useMapSeasonRacesToMapPoints } from '@/components/app';
+import type {
+	RaceLapByLapData,
+	RacePitStopsData,
+	RaceQualifyingData,
+	RaceStatsBundle
+} from '@/app/lib/cached-data';
+import { EntityDisplayProvider, RaceMap, useMapSeasonRacesToMapPoints } from '@/components/app';
+import type { DriverDisplay, TeamDisplay } from '@/components/app/EntityDisplayProvider';
 import { Laps, PitStops, Qualifying, Results, SprintResults } from '@/components/page/race';
+import { useLapByLapData } from '@/components/page/race/lapByLap/useLapByLapChartData';
 import { FastestLap, LapLeader, Pole, PositionsGained } from '@/components/page/race/stats';
 import { OpenAILink, Page, type TabContent, Tabs } from '@/components/ui';
 import type { Race } from '@/gql/graphql';
-import useRace from '@/hooks/data/useRace';
 
 type Props = {
 	season: string;
 	round: string;
 	race: Partial<Race>;
-	/** When supplied, skips client useRace — past-race tree renders without Apollo round-trip on hydration. */
-	prefetchedRaceData?: Race | null;
+	raceData: Race | null;
+	qualifying: RaceQualifyingData['race'];
+	pitStops: RacePitStopsData['race'];
+	lapByLap: RaceLapByLapData['race'];
+	stats: RaceStatsBundle;
 };
 
-type RenderProps = Props & { raceData: Race | null | undefined };
+function buildEntityDisplays(raceData: Race | null): {
+	drivers: DriverDisplay[];
+	teams: TeamDisplay[];
+} {
+	if (!raceData?.raceResults) return { drivers: [], teams: [] };
 
-function RoundContentRender({ season: seasonStr, round: roundStr, race, raceData }: RenderProps) {
+	const driverMap = new Map<string, DriverDisplay>();
+	const teamMap = new Map<string, TeamDisplay>();
+
+	for (const r of raceData.raceResults) {
+		if (!r) continue;
+
+		const d = r.driver;
+		if (d?.id && !driverMap.has(d.id)) {
+			driverMap.set(d.id, {
+				id: d.id,
+				firstName: d.firstName,
+				lastName: d.lastName,
+				abbreviation: d.abbreviation,
+				thumbnailUrl: d.bio?.thumbnailUrl,
+				teamColors: r.team?.colors ?? undefined
+			});
+		}
+
+		const t = r.team;
+		if (t?.id && !teamMap.has(t.id)) {
+			teamMap.set(t.id, {
+				id: t.id,
+				colors: t.colors ?? undefined
+			});
+		}
+	}
+
+	return { drivers: [...driverMap.values()], teams: [...teamMap.values()] };
+}
+
+export default function RoundContent({
+	season: seasonStr,
+	round: roundStr,
+	race,
+	raceData,
+	qualifying,
+	pitStops,
+	lapByLap,
+	stats
+}: Props) {
 	const season = Number(seasonStr);
 	const round = Number(roundStr);
 	const mapSeasonRacesToFeatures = useMapSeasonRacesToMapPoints();
+
 	const results = raceData?.raceResults;
 	const sprintResults = (raceData?.sprintRaceResults ?? []).filter(
 		(r): r is NonNullable<typeof r> => r != null
 	);
+
+	const qualifyingRows = qualifying?.qualifyingResults ?? [];
+	const pitStopNodes = pitStops?.pitStops ?? [];
+
+	// Build LapByLapData from server payload (no Apollo query).
+	const lapByLapData = useLapByLapData(lapByLap);
 
 	const circuitDescription = race?.circuit?.description?.description || '';
 	const hasResults = Number(results?.length) > 0;
@@ -50,6 +110,8 @@ function RoundContentRender({ season: seasonStr, round: roundStr, race, raceData
 			hasResults
 		}
 	]);
+
+	const { drivers: driverDisplays, teams: teamDisplays } = buildEntityDisplays(raceData);
 
 	const tabs: TabContent[] = [
 		{
@@ -65,17 +127,17 @@ function RoundContentRender({ season: seasonStr, round: roundStr, race, raceData
 		{
 			id: 'quali',
 			label: 'Qualifying',
-			content: <Qualifying season={season} round={round} />
+			content: <Qualifying rows={qualifyingRows} />
 		},
 		{
 			id: 'laps',
 			label: 'Laps',
-			content: <Laps season={season} round={round} />
+			content: <Laps lapByLapData={lapByLapData} />
 		},
 		{
 			id: 'pit-stops',
 			label: 'Pit Stops',
-			content: <PitStops season={season} round={round} />
+			content: <PitStops nodes={pitStopNodes} />
 		},
 		{
 			id: 'circuit',
@@ -119,113 +181,103 @@ function RoundContentRender({ season: seasonStr, round: roundStr, race, raceData
 	}
 
 	return (
-		<Page
-			title={race.officialName}
-			subheader={
-				<Typography>
-					Round {race.round}, {race.date ? new Date(race.date).toLocaleDateString() : ''}
-				</Typography>
-			}
-			extra={null}
-			action={
-				race.circuit && (
-					<Card className="hidden md:block">
-						<CardMedia>
-							<RaceMap
-								points={points}
-								onClick={onClick}
-								height={140}
-								centerOn={{
-									latitude: race.circuit.latitude,
-									longitude: race.circuit.longitude
-								}}
-								zoom
-							/>
-						</CardMedia>
-						<CardHeader
-							title={
-								<Link href={`/circuits/${race.circuit.id}`}>
-									{race.circuit.fullName}
-								</Link>
-							}
-						/>
-					</Card>
-				)
-			}
-			actionProps={{ size: { xs: 0, md: 3 } }}
-		>
-			<Grid container spacing={2}>
-				<Grid
-					size={{
-						xs: 12,
-						md: 8,
-						lg: 9
-					}}
-					className="order-2 md:order-1"
-				>
-					<Card>
-						{hasResults ? (
-							<Tabs active="race" tabs={tabs} />
-						) : (
-							<CardContent>
-								<Typography variant="h5">
-									<Link href={`/circuits/${race.circuit?.id}`}>
-										{race.circuit?.fullName}
+		<EntityDisplayProvider drivers={driverDisplays} teams={teamDisplays}>
+			<Page
+				title={race.officialName}
+				subheader={
+					<Typography>
+						Round {race.round},{' '}
+						{race.date ? new Date(race.date).toLocaleDateString() : ''}
+					</Typography>
+				}
+				extra={null}
+				action={
+					race.circuit && (
+						<Card className="hidden md:block">
+							<CardMedia>
+								<RaceMap
+									points={points}
+									onClick={onClick}
+									height={140}
+									centerOn={{
+										latitude: race.circuit.latitude,
+										longitude: race.circuit.longitude
+									}}
+									zoom
+								/>
+							</CardMedia>
+							<CardHeader
+								title={
+									<Link href={`/circuits/${race.circuit.id}`}>
+										{race.circuit.fullName}
 									</Link>
-								</Typography>
-								<Typography variant="h6">
-									{race.circuit?.placeName}, {race.circuit?.countryId}
-								</Typography>
-								{circuitDescription && (
-									<>
-										<Typography variant="body2">
-											{circuitDescription}
-										</Typography>
-										<Box className="text-right block">
-											<OpenAILink />
-										</Box>
-									</>
-								)}
+								}
+							/>
+						</Card>
+					)
+				}
+				actionProps={{ size: { xs: 0, md: 3 } }}
+			>
+				<Grid container spacing={2}>
+					<Grid
+						size={{
+							xs: 12,
+							md: 8,
+							lg: 9
+						}}
+						className="order-2 md:order-1"
+					>
+						<Card>
+							{hasResults ? (
+								<Tabs active="race" tabs={tabs} />
+							) : (
+								<CardContent>
+									<Typography variant="h5">
+										<Link href={`/circuits/${race.circuit?.id}`}>
+											{race.circuit?.fullName}
+										</Link>
+									</Typography>
+									<Typography variant="h6">
+										{race.circuit?.placeName}, {race.circuit?.countryId}
+									</Typography>
+									{circuitDescription && (
+										<>
+											<Typography variant="body2">
+												{circuitDescription}
+											</Typography>
+											<Box className="text-right block">
+												<OpenAILink />
+											</Box>
+										</>
+									)}
+								</CardContent>
+							)}
+						</Card>
+					</Grid>
+
+					<Grid
+						size={{
+							xs: 12,
+							md: 4,
+							lg: 3
+						}}
+						className="order-1 md:order-2"
+					>
+						<Card className="h-full">
+							<CardContent>
+								<Stack spacing={2}>
+									<CardHeader title={`${seasonToShow} Season`} />
+									<Pole data={stats.poles} size="small" />
+									<FastestLap data={stats.fastestLap} size="small" />
+									<Grid size={12} className="block lg:hidden" />
+									<LapLeader data={stats.lapLeader} size="small" />
+									<PositionsGained data={stats.positionsGained} size="small" />
+								</Stack>
 							</CardContent>
-						)}
-					</Card>
+						</Card>
+					</Grid>
 				</Grid>
-
-				<Grid
-					size={{
-						xs: 12,
-						md: 4,
-						lg: 3
-					}}
-					className="order-1 md:order-2"
-				>
-					<Card className="h-full">
-						<CardContent>
-							<Stack spacing={2}>
-								<CardHeader title={`${seasonToShow} Season`} />
-								<Pole season={seasonToShow} round={round} size="small" />
-								<FastestLap season={seasonToShow} round={round} size="small" />
-								<Grid size={12} className="block lg:hidden" />
-								<LapLeader season={seasonToShow} round={round} size="small" />
-								<PositionsGained season={seasonToShow} round={round} size="small" />
-							</Stack>
-						</CardContent>
-					</Card>
-				</Grid>
-			</Grid>
-		</Page>
+			</Page>
+		</EntityDisplayProvider>
 	);
-}
-
-function RoundContentClientFetch(props: Props) {
-	const raceData = useRace(Number(props.season), Number(props.round));
-	return <RoundContentRender {...props} raceData={raceData} />;
-}
-
-export default function RoundContent(props: Props) {
-	// Hooks-rule split: useRace lives in separate component so prefetched path skips it.
-	if (props.prefetchedRaceData) {
-		return <RoundContentRender {...props} raceData={props.prefetchedRaceData} />;
-	}
-	return <RoundContentClientFetch {...props} />;
 }

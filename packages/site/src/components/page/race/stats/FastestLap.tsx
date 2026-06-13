@@ -1,18 +1,15 @@
 import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
 import { Typography } from '@mui/material';
 
+import type { RaceFastestLapData } from '@/app/lib/cached-data';
 import { type DataWithValue, StatCard } from '@/components/app';
-import type { FastestLap as FastestLapNode, Race } from '@/gql/graphql';
+import type { FastestLap as FastestLapNode } from '@/gql/graphql';
 import { getTimeStringFromDate } from '@/helpers';
 
 import type { RaceStatProps } from './types';
 
-type FastestLapQueryData = {
-	race: Pick<Race, 'fastestLaps'> | null;
-};
-
-const query = gql`
+// Exported so cached-data.ts can reuse the same document for SSR prefetch.
+export const raceFastestLapQuery = gql`
 	query raceFastestLapQuery($season: Int!, $round: Int!) {
 		race: raceByYearAndRound(year: $season, round: $round) {
 			year
@@ -33,11 +30,9 @@ interface FastestRaceLap extends DataWithValue {
 	driverId: FastestLapNode['driverId'];
 }
 
-export default function FastestLap({ season, round, size = 'small' }: RaceStatProps) {
-	const { loading, data } = useQuery<FastestLapQueryData>(query, {
-		variables: { season, round }
-	});
+type Props = RaceStatProps & { data: RaceFastestLapData };
 
+export default function FastestLap({ data, size = 'small' }: Props) {
 	const node = data?.race?.fastestLaps?.[0];
 
 	if (!node || node.timeMillis == null || node.driverId == null) {
@@ -61,7 +56,7 @@ export default function FastestLap({ season, round, size = 'small' }: RaceStatPr
 		<StatCard<FastestRaceLap, FastestRaceLap>
 			label="Fastest Lap"
 			size={size}
-			loading={loading}
+			loading={false}
 			data={fastestDriver}
 			format={t => getTimeStringFromDate(new Date(t.value))}
 			extra={formatExtra}
