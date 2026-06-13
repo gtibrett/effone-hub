@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { gql } from '@apollo/client';
 import { Alert } from '@mui/material';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 
@@ -11,35 +10,7 @@ import { useGetTeamColor } from '@/hooks';
 
 import PitStopsChart from './PitStopsChart';
 
-// Exported so cached-data.ts can reuse the same document for SSR prefetch.
-export const pitStopsQuery = gql`
-	#graphql
-	query pitStopsBySeasonRound($season: Int!, $round: Int!) {
-		race: raceByYearAndRound(year: $season, round: $round) {
-			year
-			round
-			pitStops {
-				raceId
-				lap
-				stop
-				time
-				timeMillis
-				driverId
-				driver {
-					id
-					abbreviation
-				}
-				team {
-					id
-					colors {
-						teamId
-						primaryHex
-					}
-				}
-			}
-		}
-	}
-`;
+export { pitStopsQuery } from './queries';
 
 type PitStopsProps = {
 	nodes: RacePitStopResult[];

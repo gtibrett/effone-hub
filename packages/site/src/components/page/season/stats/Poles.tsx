@@ -1,26 +1,7 @@
-import { gql } from '@apollo/client';
-
 import type { SeasonPolesData } from '@/app/lib/cached-data';
 import { StatCard } from '@/components/app';
 
 import type { SeasonStatProps } from './index';
-
-export const seasonPolesQuery = gql`
-	query SeasonPolesQuery($season: Int!) {
-		season(year: $season) {
-			year
-			racesByYear {
-				rowId
-				year
-				round
-				qualifyingResults(condition: {positionNumber: 1}, first: 1) {
-					raceId
-					driverId
-				}
-			}
-		}
-	}
-`;
 
 type PolesProps = SeasonStatProps & { data: SeasonPolesData };
 

@@ -1,6 +1,6 @@
 import { StatCard } from '@/components/app';
 
-import type { FastestLapQueryData } from './FastestLap';
+import type { FastestLapQueryData } from './queries';
 import type { SeasonStatProps } from './types';
 
 type FastestLapsProps = SeasonStatProps & { data: FastestLapQueryData };

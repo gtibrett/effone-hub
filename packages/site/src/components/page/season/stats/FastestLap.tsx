@@ -1,42 +1,11 @@
-import { gql } from '@apollo/client';
 import { Typography } from '@mui/material';
 
 import { type DataWithValue, StatCard } from '@/components/app';
-import type { FastestLap as FastestLapNode, Race, Season } from '@/gql/graphql';
+import type { FastestLap as FastestLapNode, Race } from '@/gql/graphql';
 import { getTimeStringFromDate } from '@/helpers';
 
+import type { FastestLapQueryData } from './queries';
 import type { SeasonStatProps } from './types';
-
-export type FastestLapQueryData = {
-	season:
-		| (Pick<Season, 'year'> & {
-				racesByYear: (Pick<Race, 'rowId' | 'round' | 'officialName'> & {
-					fastestLaps: Pick<FastestLapNode, 'driverId' | 'lap' | 'time' | 'timeMillis'>[];
-				})[];
-		  })
-		| null;
-};
-
-export const seasonFastestLapQuery = gql`
-	query seasonFastestLapQuery($season: Int!) {
-		season(year: $season) {
-			year
-			racesByYear {
-				rowId
-				year
-				round
-				officialName
-				fastestLaps(orderBy: TIME_MILLIS_ASC, first: 1) {
-					raceId
-					driverId
-					lap
-					time
-					timeMillis
-				}
-			}
-		}
-	}
-`;
 
 interface FastestSeasonLap extends DataWithValue {
 	quali: boolean;

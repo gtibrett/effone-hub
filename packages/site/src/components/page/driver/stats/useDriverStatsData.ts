@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
 
 import type { RaceResult } from '@/gql/graphql';
 
@@ -8,8 +7,6 @@ export type DriverStatsData = {
 		raceResults: Pick<RaceResult, 'positionNumber' | 'positionDisplayOrder' | 'points'>[];
 	};
 };
-
-type Data = DriverStatsData;
 
 export const driverStats = gql`
 	query driverStats($driverId: String!) {
@@ -25,8 +22,3 @@ export const driverStats = gql`
 		}
 	}
 `;
-
-const useDriverStatsData = (driverId?: string) =>
-	useQuery<Data>(driverStats, { variables: { driverId } });
-
-export default useDriverStatsData;

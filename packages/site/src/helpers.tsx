@@ -1,13 +1,8 @@
-import { useRouter } from 'next/router';
 import { capitalize } from '@mui/material';
 
 import type { Maybe, RaceResult } from '@/gql/graphql';
 
 export const noop = () => null;
-
-export function useSlugs<T extends {}>() {
-	return (useRouter().query || {}) as T;
-}
 
 export function getPositionTextOutcome(
 	positionText: RaceResult['positionText'] | null | undefined,

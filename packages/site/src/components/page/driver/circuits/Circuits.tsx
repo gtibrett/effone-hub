@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import NextLink from 'next/link';
 import { Alert, Card, Grid, Link } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
@@ -9,7 +9,6 @@ import { RaceMap, useMapCircuitsToMapPoints } from '@/components/app';
 import { getTimeStringFromDate } from '@/helpers';
 import type { DriverId } from '@/types';
 
-import CircuitDialog from './dialog/CircuitDialog';
 import type { CircuitWithResults } from './useCircuitData';
 
 type CircuitsProps = {
@@ -72,7 +71,6 @@ function buildCircuitRows(rawData: DriverCircuitRawData['driver'] | null): Circu
 
 export default function Circuits({ driverId, circuitRawData }: CircuitsProps) {
 	const mapCircuitsToMapPoints = useMapCircuitsToMapPoints();
-	const [active, setActive] = useState<CircuitWithResults['id'] | undefined>();
 
 	const data = buildCircuitRows(circuitRawData);
 
@@ -94,11 +92,6 @@ export default function Circuits({ driverId, circuitRawData }: CircuitsProps) {
 				</Card>
 			</Grid>
 			<Grid size={12}>
-				<CircuitDialog
-					driverId={driverId}
-					circuitId={active}
-					onClose={() => setActive(undefined)}
-				/>
 				<DataGrid
 					className="mt-4"
 					rows={data}
@@ -118,7 +111,11 @@ export default function Circuits({ driverId, circuitRawData }: CircuitsProps) {
 							flex: 1,
 							minWidth: 250,
 							renderCell: ({ row }) => (
-								<Link href="#" color="secondary" onClick={() => setActive(row.id)}>
+								<Link
+									component={NextLink}
+									href={`/drivers/${driverId}/circuits/${row.id}`}
+									color="secondary"
+								>
 									{row.fullName}
 								</Link>
 							)

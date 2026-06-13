@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { gql } from '@apollo/client';
 
 import { useFallbackColor } from '@/components/ui';
 import type { AppLapTime, Maybe } from '@/gql/graphql';
@@ -7,40 +6,7 @@ import type { DriverId } from '@/types';
 
 import type { LapChartSeries } from './LapByLap';
 
-export const lapsQuery = gql`
-	#graphql
-	query lapsSeasonRound($season: Int!, $round: Int!) {
-		race: raceByYearAndRound(year: $season, round: $round) {
-			year
-			round
-			lapTimes(orderBy: LAP_ASC) {
-				raceId
-				lap
-				position
-				timeText
-				milliseconds
-				driverId
-			}
-			raceResults(orderBy: POSITION_DISPLAY_ORDER_ASC) {
-				raceId
-				positionDisplayOrder
-				positionNumber
-				driverId
-				driver {
-					id
-					lastName
-				}
-				team {
-					id
-					colors {
-						teamId
-						primaryHex
-					}
-				}
-			}
-		}
-	}
-`;
+export { lapsQuery } from './queries';
 
 // Pick keeps this assignable to Partial<AppLapTime>, which the lapTimes/ consumers require.
 export type LapTimeRow = Pick<

@@ -1,20 +1,5 @@
-import { gql } from '@apollo/client';
-
 import type { SeasonConstructorChampionData } from '@/app/lib/cached-data';
 import { StatCard, useAppState } from '@/components/app';
-
-export const seasonConstructorChampionQuery = gql`
-	query seasonConstructorChampionQuery($season: Int!) {
-		season(year: $season) {
-			year
-			seasonTeamStandingsByYear(orderBy: POSITION_NUMBER_ASC, first: 1) {
-				year
-				teamId
-				engineManufacturerId
-			}
-		}
-	}
-`;
 
 type ConstructorChampionProps = { season: number; data: SeasonConstructorChampionData };
 

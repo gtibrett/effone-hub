@@ -1,4 +1,3 @@
-import { gql } from '@apollo/client';
 import { Typography } from '@mui/material';
 
 import type { RaceFastestLapData } from '@/app/lib/cached-data';
@@ -8,22 +7,7 @@ import { getTimeStringFromDate } from '@/helpers';
 
 import type { RaceStatProps } from './types';
 
-// Exported so cached-data.ts can reuse the same document for SSR prefetch.
-export const raceFastestLapQuery = gql`
-	query raceFastestLapQuery($season: Int!, $round: Int!) {
-		race: raceByYearAndRound(year: $season, round: $round) {
-			year
-			round
-			fastestLaps(first: 1) {
-				raceId
-				driverId
-				lap
-				time
-				timeMillis
-			}
-		}
-	}
-`;
+export { raceFastestLapQuery } from './queries';
 
 interface FastestRaceLap extends DataWithValue {
 	lap: FastestLapNode['lap'];

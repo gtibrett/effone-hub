@@ -19,13 +19,17 @@ import { gql } from '@apollo/client';
 
 import CircuitsListDoc from '@/components/page/circuits/CircuitsQuery';
 import ConstructorsQuery from '@/components/page/constructor/ConstructorsQuery';
-import { ConstructorSeasonQuery } from '@/components/page/constructor/season/Season';
-import { ConstructorDriverPodiumsQuery } from '@/components/page/constructor/stats/DriverPodiums';
-import { ConstructorDriverPointsQuery } from '@/components/page/constructor/stats/DriverPoints';
-import { ConstructorDriverQualifyingQuery } from '@/components/page/constructor/stats/DriverQualifying';
+import { ConstructorSeasonQuery } from '@/components/page/constructor/season/queries';
+import {
+	ConstructorDriverPodiumsQuery,
+	ConstructorDriverPointsQuery,
+	ConstructorDriverQualifyingQuery
+} from '@/components/page/constructor/stats/queries';
 import type { ConstructorPageData } from '@/components/page/constructor/types';
 import type { TeamWithSeasons } from '@/components/page/constructor/useConstructorsList';
 import { DriverCareerQuery } from '@/components/page/driver/career/useCareerData';
+import type { CircuitDialogData } from '@/components/page/driver/circuits/dialog/types';
+import { CircuitDataQuery } from '@/components/page/driver/circuits/dialog/useCircuitDialogData';
 import { DriverCircuitQuery } from '@/components/page/driver/circuits/useCircuitData';
 import DriversQuery from '@/components/page/driver/DriversQuery';
 import { DriverSeasonQuery } from '@/components/page/driver/season/useSeasonData';
@@ -33,28 +37,36 @@ import {
 	type DriverStatsData,
 	driverStats
 } from '@/components/page/driver/stats/useDriverStatsData';
-import { lapsQuery } from '@/components/page/race/lapByLap/useLapByLapChartData';
-import { pitStopsQuery } from '@/components/page/race/pitStops/PitStops';
-import { qualifyingQuery } from '@/components/page/race/Qualifying';
-import { raceFastestLapQuery } from '@/components/page/race/stats/FastestLap';
-import { raceLapLeaderQuery } from '@/components/page/race/stats/LapLeader';
-import { racePolesLeaderQuery } from '@/components/page/race/stats/Pole';
-import { racePositionsGainedLeaderQuery } from '@/components/page/race/stats/PositionsGained';
+import { lapsQuery } from '@/components/page/race/lapByLap/queries';
+import { pitStopsQuery } from '@/components/page/race/pitStops/queries';
+import { qualifyingQuery } from '@/components/page/race/queries';
+import {
+	raceFastestLapQuery,
+	raceLapLeaderQuery,
+	racePolesLeaderQuery,
+	racePositionsGainedLeaderQuery
+} from '@/components/page/race/stats/queries';
 import SeasonsListDoc from '@/components/page/season/SeasonsQuery';
-import type { SeasonTeamStandingNode } from '@/components/page/season/standings/constructors/useConstructorsStandingsData';
-import { constructorStandingsQuery } from '@/components/page/season/standings/constructors/useConstructorsStandingsData';
-import type { SeasonDriverStandingNode } from '@/components/page/season/standings/drivers/useDriversStandingsData';
-import { driverStandingsQuery } from '@/components/page/season/standings/drivers/useDriversStandingsData';
-import { seasonConstructorChampionQuery } from '@/components/page/season/stats/ConstructorChampion';
-import { seasonDNFsQuery } from '@/components/page/season/stats/DNFs';
-import { seasonDriverChampionQuery } from '@/components/page/season/stats/DriverChampion';
-import type { FastestLapQueryData } from '@/components/page/season/stats/FastestLap';
-import { seasonFastestLapQuery } from '@/components/page/season/stats/FastestLap';
-import { seasonLapLeaderQuery } from '@/components/page/season/stats/LapLeader';
-import { seasonPolesQuery } from '@/components/page/season/stats/Poles';
-import { seasonPositionsGainedQuery } from '@/components/page/season/stats/PositionsGained';
-import { seasonSprintWinsQuery } from '@/components/page/season/stats/SprintWins';
-import { seasonWinsQuery } from '@/components/page/season/stats/Wins';
+import {
+	constructorStandingsQuery,
+	type SeasonTeamStandingNode
+} from '@/components/page/season/standings/constructors/queries';
+import {
+	driverStandingsQuery,
+	type SeasonDriverStandingNode
+} from '@/components/page/season/standings/drivers/queries';
+import {
+	type FastestLapQueryData,
+	seasonConstructorChampionQuery,
+	seasonDNFsQuery,
+	seasonDriverChampionQuery,
+	seasonFastestLapQuery,
+	seasonLapLeaderQuery,
+	seasonPolesQuery,
+	seasonPositionsGainedQuery,
+	seasonSprintWinsQuery,
+	seasonWinsQuery
+} from '@/components/page/season/stats/queries';
 import type { SeasonData } from '@/components/page/season/types';
 import { scheduleQuery } from '@/components/page/season/useScheduleData';
 import { PastSeasonsQuery, SingleSeasonQuery } from '@/data/query/season.graphql';
@@ -479,6 +491,20 @@ export async function getDriverSeason(driverId: string, season: number): Promise
 		variables: { driverId, season }
 	});
 	return data?.races ?? [];
+}
+
+export async function getDriverCircuitDialog(
+	driverId: string,
+	circuitId: string
+): Promise<CircuitDialogData | null> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('drivers', `driver:${driverId}`, 'circuits', `circuit:${circuitId}`);
+	const { data } = await getClient().query<CircuitDialogData>({
+		query: CircuitDataQuery,
+		variables: { circuitId, driverId }
+	});
+	return data?.circuit ? data : null;
 }
 
 export async function getDriverStats(driverId: string): Promise<DriverStatsData['driver'] | null> {

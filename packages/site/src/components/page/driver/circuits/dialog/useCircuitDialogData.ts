@@ -1,11 +1,7 @@
 import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
 
-import type { DriverId } from '@/types';
-
-import type { CircuitDialogData } from './types';
-
-const CircuitDataQuery = gql`
+// Exported so cached-data.ts can reuse the same document for the SSR dialog route.
+export const CircuitDataQuery = gql`
 	query CircuitDataQuery($circuitId: String!, $driverId: String!) {
 		circuit(id: $circuitId) {
 			id
@@ -59,10 +55,3 @@ const CircuitDataQuery = gql`
 		}
 	}
 `;
-
-export default function useCircuitDialogData(circuitId?: string, driverId?: DriverId) {
-	return useQuery<CircuitDialogData>(CircuitDataQuery, {
-		variables: { circuitId, driverId },
-		skip: !circuitId || !driverId
-	});
-}

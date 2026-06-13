@@ -1,27 +1,7 @@
-import { gql } from '@apollo/client';
-
 import type { ConstructorDriverQualifyingData } from '@/app/lib/cached-data';
 import { StatCard } from '@/components/app';
 
-// Exported for cached-data.ts import
-export const ConstructorDriverQualifyingQuery = gql`
-	query ConstructorDriverQualifyingQuery($season: Int!, $constructorId: String!) {
-		season(year: $season) {
-			year
-			racesByYear {
-				rowId
-				year
-				round
-				qualifyingResults(condition: {teamId: $constructorId}, orderBy: POSITION_NUMBER_ASC) {
-					raceId
-					driverId
-					positionNumber
-					driver { id fullName }
-				}
-			}
-		}
-	}
-`;
+export { ConstructorDriverQualifyingQuery } from './queries';
 
 type DriverQualifyingProps = {
 	data: ConstructorDriverQualifyingData;

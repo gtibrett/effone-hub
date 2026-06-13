@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import NextLink from 'next/link';
 import { Alert, Grid, Link, Skeleton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
@@ -8,7 +8,6 @@ import type { DriverCareerData } from '@/app/lib/cached-data';
 import { ConstructorByLine } from '@/components/app';
 import { toPoints } from '@/helpers';
 
-import SeasonDialog from '../season/SeasonDialog';
 import Stats from '../stats';
 import CareerChart from './CareerChart';
 import { getSeasonEndTeamByYear } from './seasonEndTeam';
@@ -22,7 +21,6 @@ type CareerProps = {
 export default function Career({ driverId, careerData, statsData }: CareerProps) {
 	const careerStandings = careerData?.standings;
 	const racesByYear: { [key: number]: number } = {};
-	const [active, setActive] = useState<number | undefined>();
 
 	if (!careerStandings) {
 		return <Skeleton variant="rectangular" height={400} />;
@@ -61,11 +59,6 @@ export default function Career({ driverId, careerData, statsData }: CareerProps)
 				<CareerChart driverId={driverId} careerData={careerData} size={200} />
 			</Grid>
 			<Grid size={12}>
-				<SeasonDialog
-					season={active}
-					driverId={driverId}
-					onClose={() => setActive(undefined)}
-				/>
 				<DataGrid
 					rows={standingsRows}
 					autoHeight
@@ -85,9 +78,9 @@ export default function Career({ driverId, careerData, statsData }: CareerProps)
 							width: 100,
 							renderCell: ({ row }) => (
 								<Link
-									href="#"
+									component={NextLink}
+									href={`/drivers/${driverId}/seasons/${row.year}`}
 									color="secondary"
-									onClick={() => setActive(row.year)}
 								>
 									{row.year}
 								</Link>

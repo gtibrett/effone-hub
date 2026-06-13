@@ -1,26 +1,10 @@
-import { gql } from '@apollo/client';
-
 import type { RacePositionsGainedData } from '@/app/lib/cached-data';
 import { StatCard } from '@/components/app';
 import type { RaceResult } from '@/gql/graphql';
 
 import type { RaceStatProps } from './types';
 
-// Exported so cached-data.ts can reuse the same document for SSR prefetch.
-export const racePositionsGainedLeaderQuery = gql`
-	query racePositionsGainedLeaderQuery($season: Int!, $round: Int!) {
-		race: raceByYearAndRound(year: $season, round: $round) {
-			year
-			round
-			raceResults {
-				raceId
-				driverId
-				gridPositionNumber
-				positionNumber
-			}
-		}
-	}
-`;
+export { racePositionsGainedLeaderQuery } from './queries';
 
 type ResultNode = Pick<RaceResult, 'driverId' | 'gridPositionNumber' | 'positionNumber'>;
 

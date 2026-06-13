@@ -1,28 +1,10 @@
-import { gql } from '@apollo/client';
 import { Alert } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import type { RaceQualifyingResult } from '@/app/lib/cached-data';
 import { ConstructorByLine, DriverByLine } from '@/components/app';
 
-// Exported so cached-data.ts can reuse the same document for SSR prefetch.
-export const qualifyingQuery = gql`
-	query qualifyingQuery($season: Int!, $round: Int!) {
-		race: raceByYearAndRound(year: $season, round: $round) {
-			year
-			round
-			qualifyingResults {
-				raceId
-				driverId
-				teamId
-				positionNumber
-				q1
-				q2
-				q3
-			}
-		}
-	}
-`;
+export { qualifyingQuery } from './queries';
 
 type QualifyingProps = {
 	rows: RaceQualifyingResult[];
