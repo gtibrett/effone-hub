@@ -1,11 +1,9 @@
 import { useMemo } from 'react';
-import { useSuspenseQuery } from '@apollo/client/react';
 
 import { filterByFreeformText, filterByNumber } from '@/components/ui';
-import { Driver } from '@/gql/graphql';
+import type { Driver } from '@/gql/graphql';
 
-import DriversQuery from './DriversQuery';
-import { DriversListFilters } from './types';
+import type { DriversListFilters } from './types';
 
 export default function useDriversList(unfilteredDrivers: Driver[], filters: DriversListFilters) {
 	return useMemo(() => {

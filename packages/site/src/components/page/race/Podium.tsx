@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
 
-import { RaceResult } from '@/gql/graphql';
+import type { RaceResult } from '@/gql/graphql';
 
 import Place from './Place';
 

@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { alpha } from '@/components/ui/colors';
 import { cssVar } from '@/lib/tokens';
 
-import { DataWithTeamInfo, MutableSerie, Serie, SerieWithTeamAndData } from './types';
+import type { DataWithTeamInfo, MutableSerie, Serie, SerieWithTeamAndData } from './types';
 
 export default function useSplitSeriesByTeam() {
 	return useCallback(

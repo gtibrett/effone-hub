@@ -7,7 +7,7 @@ import { useAppState } from '@/components/app';
 import {
 	ConstructorsFilters,
 	ConstructorsList,
-	ConstructorsListFilters
+	type ConstructorsListFilters
 } from '@/components/page/constructor';
 import { Page } from '@/components/ui';
 

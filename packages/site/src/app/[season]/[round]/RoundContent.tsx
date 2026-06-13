@@ -16,7 +16,7 @@ import { RaceMap, useMapSeasonRacesToMapPoints } from '@/components/app';
 import { Laps, PitStops, Qualifying, Results, SprintResults } from '@/components/page/race';
 import { FastestLap, LapLeader, Pole, PositionsGained } from '@/components/page/race/stats';
 import { OpenAILink, Page, type TabContent, Tabs } from '@/components/ui';
-import { Race } from '@/gql/graphql';
+import type { Race } from '@/gql/graphql';
 import useRace from '@/hooks/data/useRace';
 
 type Props = {

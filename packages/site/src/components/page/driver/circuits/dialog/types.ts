@@ -1,4 +1,4 @@
-import { Circuit, Driver } from '@/gql/graphql';
+import type { Circuit, Driver } from '@/gql/graphql';
 
 export type CircuitData = Pick<Circuit, 'id' | 'fullName' | 'longitude' | 'latitude'> & {
 	races: {

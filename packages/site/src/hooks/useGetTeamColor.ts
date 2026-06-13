@@ -5,7 +5,7 @@
 
 import { useCallback } from 'react';
 
-import { AppTeamColor } from '@/gql/graphql';
+import type { AppTeamColor } from '@/gql/graphql';
 
 type ColorVariants = 'primaryHex' | 'secondaryHex';
 

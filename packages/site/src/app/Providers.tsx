@@ -1,6 +1,6 @@
 'use client';
 
-import { PropsWithChildren, Suspense } from 'react';
+import { type PropsWithChildren, Suspense } from 'react';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';

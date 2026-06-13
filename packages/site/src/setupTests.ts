@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import axe from 'axe-core';
-import mediaQuery, { MediaValues } from 'css-mediaquery';
+import mediaQuery, { type MediaValues } from 'css-mediaquery';
 import 'jest-canvas-mock';
 import 'jest-localstorage-mock';
 
@@ -30,12 +30,12 @@ function createMatchMedia(mock: Partial<MediaValues>) {
 	};
 }
 
-// @ts-ignore
+// @ts-expect-error
 global.resizeScreenSize = (width: number) => {
 	window.matchMedia = createMatchMedia({ width });
 };
 
-// @ts-ignore
+// @ts-expect-error
 global.setDarkMode = (on: boolean) => {
 	window.matchMedia = createMatchMedia({ 'prefers-color-scheme': on ? 'dark' : 'light' });
 };

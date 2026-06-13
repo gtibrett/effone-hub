@@ -4,7 +4,7 @@ import { Dialog } from '@gtibrett/mui-additions';
 import { Typography } from '@mui/material';
 
 import { DriverByLine } from '@/components/app';
-import { DriverId } from '@/types';
+import type { DriverId } from '@/types';
 
 import Season from './Season';
 

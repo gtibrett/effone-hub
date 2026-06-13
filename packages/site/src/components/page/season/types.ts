@@ -1,6 +1,6 @@
-import { DataWithValue } from '@/components/app';
-import { SeasonDriverStanding, SeasonTeamStanding } from '@/gql/graphql';
-import { DriverId } from '@/types';
+import type { DataWithValue } from '@/components/app';
+import type { SeasonDriverStanding, SeasonTeamStanding } from '@/gql/graphql';
+import type { DriverId } from '@/types';
 
 export type SeasonData = {
 	year: number;

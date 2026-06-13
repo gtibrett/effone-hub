@@ -6,7 +6,7 @@ import { DriverAvatar, useAppState } from '@/components/app';
 import { Career, Circuits, Season } from '@/components/page/driver';
 import { Flag, Page, Tabs } from '@/components/ui';
 import { Header } from '@/components/ui/page/Header';
-import { Driver } from '@/gql/graphql';
+import type { Driver } from '@/gql/graphql';
 
 /**
  * The subset of `Driver` fields DriverContent reads at the top level.

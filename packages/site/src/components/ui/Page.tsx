@@ -1,7 +1,7 @@
-import { PropsWithChildren, ReactNode } from 'react';
+import type { PropsWithChildren, ReactNode } from 'react';
 import { Grid } from '@mui/material';
 
-import { Header, HeaderProps } from './page/Header';
+import { Header, type HeaderProps } from './page/Header';
 
 type PageProps = PropsWithChildren<
 	| {

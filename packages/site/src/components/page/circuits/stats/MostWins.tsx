@@ -1,5 +1,5 @@
 import { StatCard } from '@/components/app';
-import { CircuitDataProps } from '@/hooks/data';
+import type { CircuitDataProps } from '@/hooks/data';
 
 export default function MostWins({ data, loading }: CircuitDataProps) {
 	const winsLeaders = new Map<string, number>();

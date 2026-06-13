@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 
-import { Team } from '@/gql/graphql';
+import type { Team } from '@/gql/graphql';
 
 const TeamFields = gql`
 	fragment TeamFields on Team {

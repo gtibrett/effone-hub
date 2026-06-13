@@ -2,9 +2,9 @@ import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 
 import { StatCard } from '@/components/app';
-import { AppLapTime, Race } from '@/gql/graphql';
+import type { AppLapTime, Race } from '@/gql/graphql';
 
-import { RaceStatProps } from './types';
+import type { RaceStatProps } from './types';
 
 type Data = {
 	race: Pick<Race, 'lapTimes'> | null;

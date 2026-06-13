@@ -161,7 +161,7 @@ export default function useNextRaceData(season: number) {
 					: null
 			}
 		};
-	}, [result.data]);
+	}, [result.data, today]);
 
 	return { ...result, data };
 }

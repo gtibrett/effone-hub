@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import { useSuspenseQuery } from '@apollo/client/react';
 
-import { DriverId } from '@/types';
+import type { DriverId } from '@/types';
 
 type DriverResult = {
 	driverId: DriverId;

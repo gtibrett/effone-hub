@@ -3,7 +3,7 @@ import { Card, CardHeader } from '@mui/material';
 import { PropertiesTable, PropertiesTableRow } from '@/components/ui';
 import { useTeamHeaderSx } from '@/hooks';
 
-import { PointTooltipProps, PositionsChartTooltipProps } from '../charts';
+import type { PointTooltipProps, PositionsChartTooltipProps } from '../charts';
 
 export function ConstructorStandingsPositionTooltip({ serie }: PositionsChartTooltipProps) {
 	const {

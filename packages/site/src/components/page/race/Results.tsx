@@ -5,7 +5,7 @@ import { purple } from '@mui/material/colors';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { ConstructorByLine, DriverByLine } from '@/components/app';
-import { Race, RaceResult } from '@/gql/graphql';
+import type { Race, RaceResult } from '@/gql/graphql';
 import { getPositionTextOutcome, toPoints } from '@/helpers';
 
 import Podium from './Podium';
@@ -67,7 +67,7 @@ export default function Results({ results }: { results?: Race['raceResults'] | n
 							<Typography className="sr-only">Position Changes</Typography>
 						),
 						renderCell: ({ row }) => <PositionChange {...row} />,
-						valueGetter: (value, row) => {
+						valueGetter: (_value, row) => {
 							const { gridPositionNumber, positionDisplayOrder } = row;
 							if (!gridPositionNumber || !positionDisplayOrder) {
 								return 0;

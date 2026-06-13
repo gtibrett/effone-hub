@@ -3,9 +3,9 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar } from '@mui/material';
 
-import { AvatarSizes, useAvatarSize } from '@/hooks';
+import { type AvatarSizes, useAvatarSize } from '@/hooks';
 import { useDriver } from '@/hooks/data';
-import { DriverId } from '@/types';
+import type { DriverId } from '@/types';
 
 export type DriverAvatarProps = {
 	driverId?: DriverId;

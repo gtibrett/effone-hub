@@ -1,4 +1,4 @@
-import mediaQuery, { MediaValues } from 'css-mediaquery';
+import mediaQuery, { type MediaValues } from 'css-mediaquery';
 
 function createMatchMedia(mock: Partial<MediaValues>) {
 	return (query: string) => {

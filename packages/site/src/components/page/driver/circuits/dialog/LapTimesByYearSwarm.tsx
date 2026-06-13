@@ -9,7 +9,7 @@ import type { SimpleApolloResult } from '@/app/lib/apollo-types';
 import { useChartsTheme } from '@/components/ui/charts';
 
 import { type SwarmData, useMapLapTimeDataToSwarmChart } from './mapLapTimeDataToSwarmChart';
-import { CircuitDialogData } from './types';
+import type { CircuitDialogData } from './types';
 
 type LapTimesChartProps = SimpleApolloResult<CircuitDialogData>;
 

@@ -9,7 +9,7 @@
  * is why this thin handler stays on Vercel even though the heavy ingest work
  * lives in the GitHub Action.
  */
-import { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { updateTag } from 'next/cache';
 
 export const config = {
@@ -34,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 		res.status(500).json({ status: 'unauthorized' });
 		return;
 	}
-	const authHeader = req.headers['authorization'] ?? '';
+	const authHeader = req.headers.authorization ?? '';
 	if (authHeader !== `Bearer ${cronSecret}`) {
 		res.status(401).json({ status: 'unauthorized' });
 		return;

@@ -2,7 +2,7 @@ import { Suspense, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Alert, Button, Skeleton } from '@mui/material';
 
-import { ChartSwitcher, ChartSwitcherChart } from '@/components/app';
+import { ChartSwitcher, type ChartSwitcherChart } from '@/components/app';
 
 import { ConstructorChampion } from '../../stats';
 import { PointsChart, PositionsChart } from '../charts';

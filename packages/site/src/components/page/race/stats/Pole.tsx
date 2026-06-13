@@ -2,9 +2,9 @@ import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 
 import { StatCard } from '@/components/app';
-import { DriverId } from '@/types';
+import type { DriverId } from '@/types';
 
-import { RaceStatProps } from './index';
+import type { RaceStatProps } from './index';
 
 type Data = {
 	races: {

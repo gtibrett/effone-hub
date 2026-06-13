@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
 
-import { PropsWithClassName } from '@/types';
+import type { PropsWithClassName } from '@/types';
 
 import carbonFiberTexture from './images/carbon-fiber-texture.png';
 

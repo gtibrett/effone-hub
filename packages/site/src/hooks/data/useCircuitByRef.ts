@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import { useSuspenseQuery } from '@apollo/client/react';
 
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
-import { Circuit as CircuitT, Race } from '@/gql/graphql';
+import type { Circuit as CircuitT, Race } from '@/gql/graphql';
 
 const CircuitQuery = gql`
 	query CircuitQuery($circuitRef: String!, $showCurrentSeason: Boolean!, $season: Int) {

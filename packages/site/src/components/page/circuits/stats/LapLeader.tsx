@@ -1,5 +1,5 @@
 import { StatCard } from '@/components/app';
-import { CircuitDataProps } from '@/hooks/data';
+import type { CircuitDataProps } from '@/hooks/data';
 
 export default function LapLeader({ data, loading }: CircuitDataProps) {
 	const lapLeaders = new Map<string, number>();

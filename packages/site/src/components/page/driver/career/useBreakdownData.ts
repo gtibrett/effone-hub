@@ -1,4 +1,4 @@
-import { RaceResult } from '@/gql/graphql';
+import type { RaceResult } from '@/gql/graphql';
 
 import useCareerData from './useCareerData';
 
@@ -29,7 +29,6 @@ export default function useBreakdownData(
 		return undefined;
 	}
 
-	// @ts-ignore
 	return (
 		data?.driver.standings
 			// drop seasons with no race starts (e.g. practice-only entries); also avoids /0 -> NaN below
@@ -70,10 +69,10 @@ export default function useBreakdownData(
 
 				const asPercentage: BreakdownMetrics = Object.entries(raw)
 					.map(([key, value]) => ({ key, value: (Number(value) / appearances) * 100 }))
-					.reduce(
-						(cur, { key, value }) => ({ ...cur, [`${key}Percentage`]: value }),
-						{}
-					) as BreakdownMetrics;
+					.reduce<Record<string, number>>((cur, { key, value }) => {
+						cur[`${key}Percentage`] = value;
+						return cur;
+					}, {}) as BreakdownMetrics;
 
 				return {
 					year,

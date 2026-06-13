@@ -2,7 +2,7 @@ import { memo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@mui/material';
 
-import { ChartSwitcher, ChartSwitcherChart } from '@/components/app';
+import { ChartSwitcher, type ChartSwitcherChart } from '@/components/app';
 
 import { DriverChampion } from '../../stats';
 import { PointsChart, PositionsChart } from '../charts';

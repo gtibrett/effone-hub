@@ -2,9 +2,9 @@ import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
-import { Circuit } from '@/gql/graphql';
+import type { Circuit } from '@/gql/graphql';
 
-import { DriverPageData } from '../types';
+import type { DriverPageData } from '../types';
 
 type RaceResultData = {
 	gridPositionNumber?: number | null;
@@ -108,7 +108,7 @@ export default function useCircuitData(
 					if (time) {
 						raceTimes.push(time);
 					}
-				} catch (e) {
+				} catch {
 					// time could not be calculated
 				}
 			});

@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 
-import { RaceResult } from '@/gql/graphql';
+import type { RaceResult } from '@/gql/graphql';
 
 type Data = {
 	driver: {

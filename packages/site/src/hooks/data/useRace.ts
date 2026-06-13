@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import { useSuspenseQuery } from '@apollo/client/react';
 
-import { Race as RaceT } from '@/gql/graphql';
+import type { Race as RaceT } from '@/gql/graphql';
 
 const raceQuery = gql`
 	#graphql

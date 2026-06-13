@@ -1,5 +1,5 @@
-import { CSSProperties } from 'react';
-import { Link, LinkProps, Typography, useTheme } from '@mui/material';
+import type { CSSProperties } from 'react';
+import { Link, type LinkProps, Typography, useTheme } from '@mui/material';
 
 import { lighten } from '@/components/ui/colors';
 

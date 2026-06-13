@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 
 import { filterByFreeformText, filterByNumber } from '@/components/ui';
-import { Circuit } from '@/gql/graphql';
+import type { Circuit } from '@/gql/graphql';
 
-import { CircuitsListFilters } from './types';
+import type { CircuitsListFilters } from './types';
 
 export default function useCircuitsList(
 	unfilteredCircuits: Circuit[],

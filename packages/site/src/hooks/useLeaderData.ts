@@ -1,4 +1,4 @@
-import { DataWithValue } from '@/components/app';
+import type { DataWithValue } from '@/components/app';
 
 type StatData<T extends DataWithValue = DataWithValue> = Map<string, T>;
 

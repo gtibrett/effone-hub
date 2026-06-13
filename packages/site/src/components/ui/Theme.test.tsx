@@ -7,14 +7,15 @@ import { effTheme, useDarkMode, useFallbackColor, useInvertedTheme } from './The
 describe('Theme.ts', () => {
 	describe('effTheme', () => {
 		test('exposes theme.vars CSS-var strings so components paint via vars', () => {
-			const vars = (effTheme as any).vars;
+			const vars = effTheme.vars;
 			expect(vars).toBeDefined();
-			expect(vars.palette.primary.main).toMatch(/^var\(--mui-palette-primary-main/);
-			expect(vars.palette.background.paper).toMatch(/^var\(--mui-palette-background-paper/);
+			expect(vars?.palette.primary.main).toMatch(/^var\(--mui-palette-primary-main/);
+			expect(vars?.palette.background.paper).toMatch(/^var\(--mui-palette-background-paper/);
 		});
 
 		test('emits both light and dark colorSchemes', () => {
-			const schemes = (effTheme as any).colorSchemes;
+			const schemes = (effTheme as { colorSchemes?: { light?: unknown; dark?: unknown } })
+				.colorSchemes;
 			expect(schemes?.light).toBeDefined();
 			expect(schemes?.dark).toBeDefined();
 		});

@@ -7,8 +7,8 @@ import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 import { LineChart } from '@mui/x-charts/LineChart';
 
 import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
-import { Maybe } from '@/gql/graphql';
-import { DriverId } from '@/types';
+import type { Maybe } from '@/gql/graphql';
+import type { DriverId } from '@/types';
 
 import LapByLapTooltip from './LapByLapTooltip';
 import useLapByLapChartData, { useLapByLapData } from './useLapByLapChartData';

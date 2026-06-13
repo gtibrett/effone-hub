@@ -4,7 +4,7 @@ import { Card, CardHeader, Divider, Link, Typography } from '@mui/material';
 
 import { DriverAvatar } from '@/components/app';
 import { useDriver } from '@/hooks/data';
-import { DriverId } from '@/types';
+import type { DriverId } from '@/types';
 
 type PlaceProps = {
 	driverId?: DriverId;

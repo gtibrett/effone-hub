@@ -1,6 +1,6 @@
 'use client';
 
-import { Component, ComponentProps, ErrorInfo, ReactNode } from 'react';
+import { Component, type ComponentProps, type ErrorInfo, type ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { faFlag } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

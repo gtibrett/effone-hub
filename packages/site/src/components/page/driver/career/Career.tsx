@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useComponentDimensionsWithRef } from '@gtibrett/mui-additions';
 import { Alert, Grid, Link, Skeleton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
@@ -32,9 +31,12 @@ export default function Career({ driverId }: CareerProps) {
 		);
 	}
 
-	data?.driver.raceResults?.forEach(
-		r => r.race?.year && (racesByYear[r.race?.year] = (racesByYear[r.race?.year] || 0) + 1)
-	);
+	data?.driver.raceResults?.forEach(r => {
+		const year = r.race?.year;
+		if (year) {
+			racesByYear[year] = (racesByYear[year] || 0) + 1;
+		}
+	});
 
 	const teamByYear = getSeasonEndTeamByYear(data?.driver.raceResults);
 	const standingsRows = careerStandings
@@ -47,88 +49,86 @@ export default function Career({ driverId }: CareerProps) {
 		.filter(row => row.races > 0);
 
 	return (
-		<>
-			<Grid container spacing={2} className="items-center justify-around">
-				<Stats driverId={driverId} />
-				<Grid size={12} />
-				<Grid size={12}>
-					<CareerChart driverId={driverId} size={200} />
-				</Grid>
-				<Grid size={12}>
-					<SeasonDialog
-						season={active}
-						driverId={driverId}
-						onClose={() => setActive(undefined)}
-					/>
-					<DataGrid
-						rows={standingsRows}
-						autoHeight
-						density="compact"
-						getRowId={r => r.year || ''}
-						initialState={{
-							sorting: {
-								sortModel: [{ field: 'year', sort: 'desc' }]
-							}
-						}}
-						columns={[
-							{
-								field: 'year',
-								headerName: 'Season',
-								headerAlign: 'center',
-								align: 'center',
-								width: 100,
-								renderCell: ({ row }) => (
-									<Link
-										href="#"
-										color="secondary"
-										onClick={() => setActive(row.year)}
-									>
-										{row.year}
-									</Link>
-								)
-							},
-							{
-								field: 'races',
-								headerName: 'Races',
-								type: 'number',
-								headerAlign: 'center',
-								align: 'center',
-								flex: 1,
-								minWidth: 100
-							},
-							{
-								field: 'positionNumber',
-								headerName: 'Position',
-								type: 'number',
-								headerAlign: 'center',
-								align: 'center',
-								flex: 1,
-								minWidth: 100
-							},
-							{
-								field: 'points',
-								headerName: 'Points',
-								type: 'number',
-								headerAlign: 'center',
-								align: 'center',
-								flex: 1,
-								minWidth: 100,
-								valueGetter: value => toPoints(value)
-							},
-							{
-								field: 'team',
-								headerName: 'Constructor',
-								filterable: false,
-								renderCell: ({ row }) => (
-									<ConstructorByLine id={row.team?.id} variant="link" />
-								),
-								flex: 1,
-								minWidth: 150
-							}
-						]}
-					/>
-				</Grid>
+		<Grid container spacing={2} className="items-center justify-around">
+			<Stats driverId={driverId} />
+			<Grid size={12} />
+			<Grid size={12}>
+				<CareerChart driverId={driverId} size={200} />
 			</Grid>
-		</>
+			<Grid size={12}>
+				<SeasonDialog
+					season={active}
+					driverId={driverId}
+					onClose={() => setActive(undefined)}
+				/>
+				<DataGrid
+					rows={standingsRows}
+					autoHeight
+					density="compact"
+					getRowId={r => r.year || ''}
+					initialState={{
+						sorting: {
+							sortModel: [{ field: 'year', sort: 'desc' }]
+						}
+					}}
+					columns={[
+						{
+							field: 'year',
+							headerName: 'Season',
+							headerAlign: 'center',
+							align: 'center',
+							width: 100,
+							renderCell: ({ row }) => (
+								<Link
+									href="#"
+									color="secondary"
+									onClick={() => setActive(row.year)}
+								>
+									{row.year}
+								</Link>
+							)
+						},
+						{
+							field: 'races',
+							headerName: 'Races',
+							type: 'number',
+							headerAlign: 'center',
+							align: 'center',
+							flex: 1,
+							minWidth: 100
+						},
+						{
+							field: 'positionNumber',
+							headerName: 'Position',
+							type: 'number',
+							headerAlign: 'center',
+							align: 'center',
+							flex: 1,
+							minWidth: 100
+						},
+						{
+							field: 'points',
+							headerName: 'Points',
+							type: 'number',
+							headerAlign: 'center',
+							align: 'center',
+							flex: 1,
+							minWidth: 100,
+							valueGetter: value => toPoints(value)
+						},
+						{
+							field: 'team',
+							headerName: 'Constructor',
+							filterable: false,
+							renderCell: ({ row }) => (
+								<ConstructorByLine id={row.team?.id} variant="link" />
+							),
+							flex: 1,
+							minWidth: 150
+						}
+					]}
+				/>
+			</Grid>
+		</Grid>
 	);
 }

@@ -57,6 +57,7 @@ export default function EndLineLabels({
 				const label = typeof s.label === 'function' ? s.label('legend') : s.label;
 				const id = String(s.id);
 				return (
+					// biome-ignore lint/a11y/noStaticElementInteractions: decorative SVG end-label; hover/click is a visual affordance mirroring the line series — the same data is reachable via the chart and the standings table
 					<text
 						key={id}
 						x={Number(xPos) + xPadding}

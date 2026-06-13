@@ -5,7 +5,7 @@ import type { SimpleApolloResult } from '@/app/lib/apollo-types';
 import { PositionChange } from '@/components/page/race';
 import { getPositionTextOutcome, getTimeStringFromDate, toPoints } from '@/helpers';
 
-import { CircuitDialogData } from './types';
+import type { CircuitDialogData } from './types';
 
 type CircuitTableProps = SimpleApolloResult<CircuitDialogData>;
 

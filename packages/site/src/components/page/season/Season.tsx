@@ -16,7 +16,7 @@ import {
 	Wins
 } from '@/components/page/season/stats';
 import { Page } from '@/components/ui';
-import { Season as SeasonT } from '@/gql/graphql';
+import type { Season as SeasonT } from '@/gql/graphql';
 
 type SeasonProps = {
 	season: Pick<SeasonT, 'year'>;

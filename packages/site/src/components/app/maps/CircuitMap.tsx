@@ -1,16 +1,16 @@
-import { Suspense, SVGProps } from 'react';
+import { Suspense, type SVGProps } from 'react';
 import { faSquareFull } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, Grid, ToggleButton, ToggleButtonGroup } from '@mui/material';
 
-import { Circuit } from '@/gql/graphql';
+import type { Circuit } from '@/gql/graphql';
 import { useCircuitByRef } from '@/hooks/data';
 
 import getMapSVG from './circuits/getMapSVG';
 
 import styles from './CircuitMap.module.css';
 
-type CircuitMapProps = SVGProps<any> & {
+type CircuitMapProps = SVGProps<SVGSVGElement> & {
 	variant?: 'interactive' | 'simple';
 	circuitRef: Circuit['id'];
 };

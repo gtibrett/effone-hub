@@ -1,5 +1,5 @@
 import '@/polyfills';
-import { DataWithTeamInfo } from '@/components/app';
+import type { DataWithTeamInfo } from '@/components/app';
 import { useGetTeamColor } from '@/hooks';
 
 import { getSeasonEndTeamByYear } from './seasonEndTeam';

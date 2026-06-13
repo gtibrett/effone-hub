@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, ReactNode, SetStateAction, SyntheticEvent } from 'react';
+import type { ChangeEvent, Dispatch, ReactNode, SetStateAction, SyntheticEvent } from 'react';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, CardActions, Grid, Tooltip, Typography } from '@mui/material';
@@ -15,6 +15,7 @@ export default function TableFilter({ handleSearch, children }: TableFilterProps
 				<Grid container spacing={1} className="w-full">
 					{Array.isArray(children) ? (
 						children.map((c, i) => (
+							// biome-ignore lint/suspicious/noArrayIndexKey: static filter controls passed as children, never reordered — no stable id available
 							<Grid key={i} size="grow">
 								{c}
 							</Grid>
@@ -98,7 +99,7 @@ export function filterByNumber<T extends object>(
 		} else {
 			return data.filter(d => {
 				for (const field of fieldsOrComparator) {
-					if (Object.prototype.hasOwnProperty.call(d, field)) {
+					if (Object.hasOwn(d, field)) {
 						if (Number(d[field]) === query) {
 							return true;
 						}

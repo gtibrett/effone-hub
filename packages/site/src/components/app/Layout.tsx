@@ -1,6 +1,6 @@
 'use client';
 
-import { PropsWithChildren, Suspense } from 'react';
+import { type PropsWithChildren, Suspense } from 'react';
 import { UkraineButton } from '@gtibrett/mui-additions';
 import { Box, Container } from '@mui/material';
 

@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { Circuit } from '@/gql/graphql';
+import type { Circuit } from '@/gql/graphql';
 
-import { Point } from './types';
+import type { Point } from './types';
 import type { MapPointEventHandler } from './useMapSeasonRacesToMapPoints';
 
 export default function useMapCircuitsToMapPoints() {

@@ -1,12 +1,12 @@
 import { memo } from 'react';
 import { Grid, Link, Skeleton, Typography } from '@mui/material';
 
-import { Flag, FlagProps } from '@/components/ui';
-import { Driver } from '@/gql/graphql';
+import { Flag, type FlagProps } from '@/components/ui';
+import type { Driver } from '@/gql/graphql';
 import { useDriver } from '@/hooks/data';
-import { DriverId } from '@/types';
+import type { DriverId } from '@/types';
 
-import { DriverAvatar, DriverAvatarProps } from '../avatars';
+import { DriverAvatar, type DriverAvatarProps } from '../avatars';
 
 type BaseByLineProps = {
 	variant?: 'code' | 'code-link' | 'name' | 'full' | 'link';

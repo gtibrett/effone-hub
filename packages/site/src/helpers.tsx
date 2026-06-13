@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { capitalize } from '@mui/material';
 
-import { Maybe, RaceResult } from '@/gql/graphql';
+import type { Maybe, RaceResult } from '@/gql/graphql';
 
 export const noop = () => null;
 
@@ -72,7 +72,7 @@ export const toPoints = (value: unknown): number | null => {
 };
 
 export const round = (num: number, precision = 2) =>
-	num > 0 ? Math.trunc(num * Math.pow(10, precision)) / Math.pow(10, precision) : 0;
+	num > 0 ? Math.trunc(num * 10 ** precision) / 10 ** precision : 0;
 
 export const capitalizeCamelCase = (value: string) =>
 	capitalize(value.replace(/([a-z])([A-Z])/g, '$1 $2'));

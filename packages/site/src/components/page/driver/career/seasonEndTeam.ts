@@ -1,4 +1,4 @@
-import { RaceResult } from '@/gql/graphql';
+import type { RaceResult } from '@/gql/graphql';
 
 export type SeasonTeam = {
 	id: string;
@@ -26,6 +26,8 @@ export function getSeasonEndTeamByYear(raceResults: RaceResult[] = []): Map<numb
 	});
 
 	const byYear = new Map<number, SeasonTeam>();
-	latest.forEach(({ team }, year) => byYear.set(year, team));
+	latest.forEach(({ team }, year) => {
+		byYear.set(year, team);
+	});
 	return byYear;
 }

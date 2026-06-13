@@ -1,4 +1,11 @@
-import { RaceResult } from '@/gql/graphql';
+import type { RaceResult } from '@/gql/graphql';
+
+// usePerformanceData only reads these two fields; accept any result-shaped object
+// (full RaceResult rows or a projected subset) without an `any` cast at call sites.
+type PerformanceResult = {
+	positionDisplayOrder?: RaceResult['positionDisplayOrder'];
+	positionText?: RaceResult['positionText'];
+};
 
 type Stats = {
 	wins: number;
@@ -8,7 +15,7 @@ type Stats = {
 	appearances: number;
 };
 
-export default function usePerformanceData(results?: RaceResult[]): Stats | undefined {
+export default function usePerformanceData(results?: PerformanceResult[]): Stats | undefined {
 	if (!results) {
 		return undefined;
 	}

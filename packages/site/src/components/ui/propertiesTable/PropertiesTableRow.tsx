@@ -1,5 +1,5 @@
-import { PropsWithChildren } from 'react';
-import { TableCell, TableCellProps, TableRow, TableRowProps } from '@mui/material';
+import type { PropsWithChildren } from 'react';
+import { TableCell, type TableCellProps, TableRow, type TableRowProps } from '@mui/material';
 
 export type PropertiesTableRowProps = TableRowProps &
 	PropsWithChildren<{

@@ -1,4 +1,4 @@
-import { MutableSerie, MutableSerieDataKey, Serie } from './types';
+import type { MutableSerie, MutableSerieDataKey, Serie } from './types';
 
 export { default as ChartSwitcher } from './ChartSwitcher';
 export type { LineChartByTeamProps } from './LineChartByTeam';

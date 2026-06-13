@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
-import { ApolloError } from '@apollo/client/v4-migration';
+import type { ApolloError } from '@apollo/client/v4-migration';
 
 export const SeasonsListQuery = gql`
 	query SeasonsListQuery {

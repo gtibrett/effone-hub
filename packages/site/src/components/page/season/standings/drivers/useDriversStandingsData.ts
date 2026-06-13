@@ -4,7 +4,7 @@ import { useSuspenseQuery } from '@apollo/client/react';
 
 import { useFallbackColor } from '@/components/ui';
 
-import { Entity, RaceStandingsWithEntities, StandingWithEntity } from '../charts';
+import type { Entity, RaceStandingsWithEntities, StandingWithEntity } from '../charts';
 
 type DriverColors = {
 	primaryHex: string | null;

@@ -1,10 +1,10 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import {
 	Badge,
-	BadgeOrigin,
+	type BadgeOrigin,
 	Box,
 	CardHeader,
-	CardHeaderProps,
+	type CardHeaderProps,
 	Grid,
 	Typography,
 	useTheme
@@ -12,8 +12,8 @@ import {
 
 import { alpha } from '@/components/ui/colors';
 
-import { StatCardBaseProps } from './StatCard';
-import { DataWithValue, StatFormatter } from './types';
+import type { StatCardBaseProps } from './StatCard';
+import type { DataWithValue, StatFormatter } from './types';
 
 type StateCardContentProps<T extends DataWithValue> = Pick<CardHeaderProps, 'avatar'> & {
 	size: StatCardBaseProps<T>['size'];
@@ -57,7 +57,7 @@ export default function StatCardContent<T extends DataWithValue>({
 	const theme = useTheme();
 
 	switch (size) {
-		case 'small':
+		case 'small': {
 			const badgeAlignment: BadgeOrigin = {
 				vertical: 'bottom',
 				horizontal: 'right'
@@ -116,8 +116,8 @@ export default function StatCardContent<T extends DataWithValue>({
 					}
 				/>
 			);
+		}
 
-		case 'regular':
 		default:
 			return (
 				<CardHeader

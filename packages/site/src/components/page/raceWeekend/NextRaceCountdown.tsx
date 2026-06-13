@@ -1,9 +1,9 @@
 import '@/polyfills';
 import { Card } from '@mui/material';
-import { PaletteColor } from '@mui/material/styles';
+import type { PaletteColor } from '@mui/material/styles';
 
 import CountdownClock from './CountdownClock';
-import { NextRace } from './useNextRaceData';
+import type { NextRace } from './useNextRaceData';
 import useRaceScheduleEvents from './useRaceScheduleEvents';
 
 type NextRaceCountdownProps = {
@@ -11,7 +11,9 @@ type NextRaceCountdownProps = {
 	variant: keyof Pick<PaletteColor, 'dark' | 'main'>;
 };
 
-export default function NextRaceCountdown({ race, variant }: NextRaceCountdownProps) {
+// `variant` is part of the props contract (callers pass main/dark) but the card
+// color is currently hardcoded; not consumed here. Kept in the type for callers.
+export default function NextRaceCountdown({ race }: NextRaceCountdownProps) {
 	const scheduleEvents = useRaceScheduleEvents(race);
 
 	scheduleEvents.sortByAttribute('timeTo');

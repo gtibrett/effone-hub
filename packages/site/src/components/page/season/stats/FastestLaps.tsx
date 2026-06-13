@@ -1,10 +1,10 @@
 import { useQuery } from '@apollo/client/react';
 
 import { StatCard } from '@/components/app';
-import { FastestLap, Race } from '@/gql/graphql';
+import type { FastestLap, Race } from '@/gql/graphql';
 
-import { FastestLapQueryData, seasonFastestLapQuery } from './FastestLap';
-import { SeasonStatProps } from './types';
+import { type FastestLapQueryData, seasonFastestLapQuery } from './FastestLap';
+import type { SeasonStatProps } from './types';
 
 type RaceNode = Pick<Race, 'rowId' | 'round' | 'officialName'> & {
 	fastestLaps: Pick<FastestLap, 'driverId' | 'lap' | 'time' | 'timeMillis'>[];

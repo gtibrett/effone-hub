@@ -1,12 +1,12 @@
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
-import { Alert, Grid, Link, Skeleton, Typography, TypographyProps } from '@mui/material';
+import { Alert, Grid, Link, Skeleton, Typography, type TypographyProps } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { DriverByLine } from '@/components/app';
-import { DriverPageData } from '@/components/page/driver';
-import { Team } from '@/gql/graphql';
+import type { DriverPageData } from '@/components/page/driver';
+import type { Team } from '@/gql/graphql';
 import { toPoints } from '@/helpers';
 
 const CellValueWrapper = ({

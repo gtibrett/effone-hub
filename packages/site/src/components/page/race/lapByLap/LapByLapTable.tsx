@@ -1,9 +1,9 @@
 import { Box } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 
 import { DriverByLine } from '@/components/app';
 
-import { LapByLapProps, LapChartSeries } from './LapByLap';
+import type { LapByLapProps, LapChartSeries } from './LapByLap';
 import useLapByLapChartData, { useLapByLapData } from './useLapByLapChartData';
 
 type LapByLapTableRow = {
@@ -44,7 +44,7 @@ export default function LapByLapTable({ season, round }: LapByLapProps) {
 			align: 'center',
 			headerAlign: 'center',
 			width: 32,
-			valueGetter: (value, row, column) => {
+			valueGetter: (_value, row, column) => {
 				return row.laps[column.field];
 			}
 		});

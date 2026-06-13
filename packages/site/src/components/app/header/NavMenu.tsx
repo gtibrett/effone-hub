@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+import { type MouseEvent, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -85,9 +85,9 @@ export default function NavMenu() {
 	return (
 		<>
 			<Box className="hidden md:contents">
-				{navLinks.map(({ path, label, active }, i) => {
+				{navLinks.map(({ path, label, active }) => {
 					return (
-						<Grid key={i}>
+						<Grid key={path}>
 							<Link
 								color="inherit"
 								className={`${navLinkClass}${active ? ' active' : ''}`}

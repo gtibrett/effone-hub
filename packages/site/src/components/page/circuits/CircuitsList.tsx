@@ -4,8 +4,8 @@ import { DataGrid } from '@mui/x-data-grid';
 
 import CircuitQuery from '@/components/page/circuits/CircuitsQuery';
 import { useCircuitsList } from '@/components/page/circuits/index';
-import { CircuitsListFilters } from '@/components/page/circuits/types';
-import { Circuit } from '@/gql/graphql';
+import type { CircuitsListFilters } from '@/components/page/circuits/types';
+import type { Circuit } from '@/gql/graphql';
 
 type CircuitsListProps = {
 	filters: CircuitsListFilters;
@@ -44,7 +44,7 @@ export default function CircuitsList({ filters }: CircuitsListProps) {
 					headerAlign: 'right',
 					align: 'right',
 					flex: 0.25,
-					valueGetter: (value, row) => row.races.length
+					valueGetter: (_value, row) => row.races.length
 				}
 			]}
 			initialState={{

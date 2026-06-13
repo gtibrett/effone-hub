@@ -2,10 +2,10 @@ import { Alert, Link, Skeleton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
-import { ChartSwitcher, ChartSwitcherChart } from '@/components/app';
+import { ChartSwitcher, type ChartSwitcherChart } from '@/components/app';
 import { toPoints } from '@/helpers';
 
-import { ConstructorPageData } from '../types';
+import type { ConstructorPageData } from '../types';
 import HistoryChart from './HistoryChart';
 
 export type HistoryProps = SimpleApolloResult<ConstructorPageData>;
@@ -19,7 +19,9 @@ export default function History({ data, loading }: HistoryProps) {
 	data?.team.antecedents.forEach(({ antecedentTeam, startYear, endYear }) => {
 		antecedentTeam.standings
 			.filter(s => s.year && s.year >= (startYear ?? 0) && (!endYear || s.year <= endYear))
-			.forEach(s => standings.push({ ...s, name: antecedentTeam.name }));
+			.forEach(s => {
+				standings.push({ ...s, name: antecedentTeam.name });
+			});
 	});
 
 	if (!standings.length) {

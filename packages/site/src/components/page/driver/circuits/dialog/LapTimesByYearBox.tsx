@@ -22,7 +22,7 @@ import { getTimeStringFromDate } from '@/helpers';
 
 import LapTimesByYearTooltip, { type LapTimesYearStats } from './LapTimesByYearTooltip';
 import { mapLapTimeDataToBoxChart } from './mapLapTimeDataToSwarmChart';
-import { CircuitDialogData } from './types';
+import type { CircuitDialogData } from './types';
 import useGetTeamColorsByYear from './useGetTeamColorsByYear';
 
 type LapTimesChartProps = SimpleApolloResult<CircuitDialogData>;
@@ -64,8 +64,8 @@ function IqrOverlay({ summaries }: IqrOverlayProps) {
 	if (!xScale || !yScale) {
 		return null;
 	}
-	const bandWidth =
-		typeof (xScale as any).bandwidth === 'function' ? (xScale as any).bandwidth() : 32;
+	const scaleBand = xScale as { bandwidth?: () => number };
+	const bandWidth = typeof scaleBand.bandwidth === 'function' ? scaleBand.bandwidth() : 32;
 	const halfWidth = bandWidth * 0.35;
 	return (
 		<g>

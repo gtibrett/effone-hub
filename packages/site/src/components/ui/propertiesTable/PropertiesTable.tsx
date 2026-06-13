@@ -1,7 +1,7 @@
-import { ReactElement, ReactNode } from 'react';
-import { Table, TableBody, TableProps } from '@mui/material';
+import type { ReactElement, ReactNode } from 'react';
+import { Table, TableBody, type TableProps } from '@mui/material';
 
-import PropertiesTableRow, { PropertiesTableRowProps } from './PropertiesTableRow';
+import PropertiesTableRow, { type PropertiesTableRowProps } from './PropertiesTableRow';
 
 type PropertiesTableProps = TableProps & {
 	data?: Map<string, ReactNode>;

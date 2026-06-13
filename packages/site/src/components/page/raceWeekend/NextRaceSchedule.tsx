@@ -2,8 +2,8 @@ import { Card, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/mat
 
 import { getDateWithTime } from '@/helpers';
 
-import { NextRace } from './useNextRaceData';
-import useRaceScheduleEvents, { ScheduleEvent } from './useRaceScheduleEvents';
+import type { NextRace } from './useNextRaceData';
+import useRaceScheduleEvents, { type ScheduleEvent } from './useRaceScheduleEvents';
 
 const ScheduleCell = ({ date, time, asDate }: Pick<ScheduleEvent, 'date' | 'time' | 'asDate'>) => {
 	return date && time ? getDateWithTime(asDate) : '--';

@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
-import { Season } from '@/gql/graphql';
+import type { Season } from '@/gql/graphql';
 
 export const SeasonsQuery = gql`
 	query SeasonMenuQuery {

@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { Circuit, Race } from '@/gql/graphql';
+import type { Circuit, Race } from '@/gql/graphql';
 
-import { Point } from './types';
+import type { Point } from './types';
 
 type RaceData = Pick<Race, 'officialName' | 'round'> &
 	Pick<Circuit, 'latitude' | 'longitude'> & { hasResults: boolean };
@@ -25,7 +25,6 @@ export default function useMapSeasonRacesToMapPoints() {
 				if (longitude && latitude) {
 					const next = !race.hasResults && !foundNext;
 					points.push({
-						// @ts-ignore
 						id: race.round,
 						name: race.officialName || '',
 						lng: Number(longitude),

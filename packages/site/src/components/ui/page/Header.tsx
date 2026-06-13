@@ -1,13 +1,13 @@
-import { ReactNode, RefObject, Suspense } from 'react';
+import { type ReactNode, type RefObject, Suspense } from 'react';
 import { twMerge } from 'tailwind-merge';
 import {
 	Grid,
-	GridProps,
+	type GridProps,
 	Paper,
-	PaperProps,
+	type PaperProps,
 	Skeleton,
 	Typography,
-	TypographyProps
+	type TypographyProps
 } from '@mui/material';
 
 type Skeletons = {

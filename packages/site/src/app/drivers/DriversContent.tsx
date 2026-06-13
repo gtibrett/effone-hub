@@ -4,7 +4,7 @@ import { Suspense, useState } from 'react';
 import { Card, CardContent, Skeleton } from '@mui/material';
 
 import { useAppState } from '@/components/app';
-import { DriversFilters, DriversList, DriversListFilters } from '@/components/page/driver';
+import { DriversFilters, DriversList, type DriversListFilters } from '@/components/page/driver';
 import { Page } from '@/components/ui';
 
 export default function DriversContent() {

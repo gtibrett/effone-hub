@@ -2,11 +2,11 @@ import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import { Typography } from '@mui/material';
 
-import { DataWithValue, StatCard } from '@/components/app';
-import { FastestLap as FastestLapNode, Race } from '@/gql/graphql';
+import { type DataWithValue, StatCard } from '@/components/app';
+import type { FastestLap as FastestLapNode, Race } from '@/gql/graphql';
 import { getTimeStringFromDate } from '@/helpers';
 
-import { RaceStatProps } from './types';
+import type { RaceStatProps } from './types';
 
 type FastestLapQueryData = {
 	race: Pick<Race, 'fastestLaps'> | null;

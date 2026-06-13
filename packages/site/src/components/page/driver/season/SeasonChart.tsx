@@ -1,11 +1,11 @@
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
 import {
 	ChartSwitcher,
-	ChartSwitcherChart,
+	type ChartSwitcherChart,
 	LineChartByTeam,
-	LineChartByTeamProps
+	type LineChartByTeamProps
 } from '@/components/app';
-import { DriverPageData } from '@/components/page/driver';
+import type { DriverPageData } from '@/components/page/driver';
 import { useGetTeamColor } from '@/hooks';
 import { useDriver } from '@/hooks/data';
 

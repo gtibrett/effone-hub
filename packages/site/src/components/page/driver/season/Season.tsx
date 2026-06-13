@@ -70,7 +70,7 @@ export default function Season({ season, driverId }: SeasonProps) {
 							type: 'number',
 							headerAlign: 'center',
 							align: 'center',
-							valueGetter: (value, row) =>
+							valueGetter: (_value, row) =>
 								row.raceResults?.[0]?.gridPositionNumber || '--'
 						},
 						{
@@ -79,7 +79,7 @@ export default function Season({ season, driverId }: SeasonProps) {
 							type: 'number',
 							headerAlign: 'center',
 							align: 'center',
-							valueGetter: (value, row) =>
+							valueGetter: (_value, row) =>
 								row.raceResults?.[0]?.positionDisplayOrder || '--'
 						},
 						{
@@ -100,7 +100,7 @@ export default function Season({ season, driverId }: SeasonProps) {
 								}
 								return '--';
 							},
-							valueGetter: (value, row) => {
+							valueGetter: (_value, row) => {
 								const result = row.raceResults?.[0];
 								if (result) {
 									const { gridPositionNumber, positionDisplayOrder } = result;
@@ -121,7 +121,7 @@ export default function Season({ season, driverId }: SeasonProps) {
 							type: 'number',
 							headerAlign: 'center',
 							align: 'center',
-							valueGetter: (value, row) => toPoints(row.raceResults?.[0]?.points)
+							valueGetter: (_value, row) => toPoints(row.raceResults?.[0]?.points)
 						},
 						{
 							field: 'time',
@@ -130,7 +130,7 @@ export default function Season({ season, driverId }: SeasonProps) {
 							headerAlign: 'left',
 							align: 'left',
 							flex: 0.5,
-							valueGetter: (value, row) => {
+							valueGetter: (_value, row) => {
 								const result = row.raceResults?.[0];
 								if (result) {
 									const time = result.timeMillis;

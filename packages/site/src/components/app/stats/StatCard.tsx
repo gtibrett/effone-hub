@@ -1,17 +1,17 @@
-import { ReactNode } from 'react';
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import type { ReactNode } from 'react';
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Box, Card, CardProps, Grid, Link, Typography } from '@mui/material';
+import { Box, Card, type CardProps, Grid, Link, Typography } from '@mui/material';
 
 import { ConstructorAvatar, DriverAvatar, DriverByLine } from '@/components/app';
-import { Maybe } from '@/gql/graphql';
+import type { Maybe } from '@/gql/graphql';
 import { useGetTeamColor, useLeaderData } from '@/hooks';
 import { useDriver, useTeam } from '@/hooks/data';
 
 import convertGenericMapToDataWithValueMap from './convertGenericMapToDataWithValueMap';
 import StatCardContent from './StatCardContent';
-import { DataWithValue, StatFormatter } from './types';
+import type { DataWithValue, StatFormatter } from './types';
 
 export type StatCardData = DataWithValue | number | Maybe<number>;
 
@@ -159,7 +159,6 @@ export default function StatCard<
 			content = <TeamVariant {...props} data={normalizedData} />;
 			break;
 
-		case 'driver':
 		default:
 			content = <DriverVariant {...props} data={normalizedData} />;
 			break;
@@ -179,7 +178,6 @@ export default function StatCard<
 			);
 			break;
 
-		case 'regular':
 		default:
 			card = (
 				<Card

@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { Race } from '@/gql/graphql';
+import type { Race } from '@/gql/graphql';
 
 export type Entity = {
 	id: string;
@@ -25,6 +25,7 @@ export type ChartMode = 'position' | 'points';
 
 export type ChartProps = {
 	data: RaceStandingsWithEntities[];
+	// biome-ignore lint/suspicious/noExplicitAny: polymorphic tooltip slot — PointsChart passes `point`, PositionsChart passes `serie`; FC<unknown> rejects both and a generic would thread through every chart and caller
 	TooltipComponent: FC<any>;
 };
 
