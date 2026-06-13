@@ -1,13 +1,13 @@
 import { Box, Card, CardHeader, Link, Skeleton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
+import type { SeasonScheduleData } from '@/app/lib/cached-data';
 import { DriverByLine, RaceMap, useMapSeasonRacesToMapPoints } from '@/components/app';
 import type { Season } from '@/gql/graphql';
 
-import useScheduleData from './useScheduleData';
-
 type ScheduleProps = {
 	season: Season['year'];
+	data: SeasonScheduleData['season'];
 };
 
 export const ScheduleSkeleton = () => (
@@ -20,10 +20,16 @@ export const ScheduleSkeleton = () => (
 	</Card>
 );
 
-export default function Schedule({ season }: ScheduleProps) {
-	const { data } = useScheduleData(season);
+export default function Schedule({ season, data: seasonData }: ScheduleProps) {
 	const mapSeasonRacesToFeatures = useMapSeasonRacesToMapPoints();
-	const races = data?.races;
+	const races = (seasonData?.racesByYear ?? []).map(r => ({
+		date: r.date,
+		name: r.officialName,
+		round: r.round,
+		circuit: { lat: r.circuit?.latitude ?? null, lng: r.circuit?.longitude ?? null },
+		results: r.raceResults ?? [],
+		sprintResults: r.sprintRaceResults ?? []
+	}));
 
 	const { points, onClick } = mapSeasonRacesToFeatures(
 		season,

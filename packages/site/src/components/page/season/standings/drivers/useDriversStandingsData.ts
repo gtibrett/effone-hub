@@ -36,10 +36,31 @@ type RaceNode = {
 	raceDriverStandings: RaceDriverStandingNode[];
 };
 
-type SeasonDriverStandingNode = {
+// Extended fields fetched for server-side display seed (EntityDisplayProvider).
+type SeasonDriverStandingDriverColors = {
+	teamId: string;
+	primaryHex: string | null;
+	secondaryHex: string | null;
+};
+
+type SeasonDriverStandingEntrant = {
+	team: { id: string; colors: SeasonDriverStandingDriverColors | null } | null;
+};
+
+export type SeasonDriverStandingDriverNode = {
+	id: string;
+	firstName: string | null;
+	lastName: string | null;
+	abbreviation: string | null;
+	bio: { thumbnailUrl: string | null } | null;
+	seasonEntrantDrivers: SeasonDriverStandingEntrant[];
+};
+
+export type SeasonDriverStandingNode = {
 	driverId: string;
 	positionNumber: number | null;
 	points: string;
+	driver: SeasonDriverStandingDriverNode | null;
 };
 
 type DriverStandingsQueryData = {
@@ -67,7 +88,7 @@ const useMapDriverToEntity = () => {
 	);
 };
 
-const query = gql`
+export const driverStandingsQuery = gql`
 	query driverStandingsQuery($season: Int!) {
 		season(year: $season) {
 			year
@@ -76,6 +97,23 @@ const query = gql`
 				driverId
 				positionNumber
 				points
+				driver {
+					id
+					firstName
+					lastName
+					abbreviation
+					bio { thumbnailUrl }
+					seasonEntrantDrivers(condition: {year: $season}, first: 1) {
+						team {
+							id
+							colors {
+								teamId
+								primaryHex
+								secondaryHex
+							}
+						}
+					}
+				}
 			}
 			racesByYear(orderBy: ROUND_ASC) {
 				year
@@ -108,7 +146,9 @@ const query = gql`
 `;
 
 export default function useDriverStandingsData(season: number) {
-	const { data } = useSuspenseQuery<DriverStandingsQueryData>(query, { variables: { season } });
+	const { data } = useSuspenseQuery<DriverStandingsQueryData>(driverStandingsQuery, {
+		variables: { season }
+	});
 	const mapDriverToEntity = useMapDriverToEntity();
 
 	const chartData: RaceStandingsWithEntities[] = (data?.season?.racesByYear ?? []).map(r => {

@@ -28,8 +28,30 @@ type RaceNode = {
 	raceTeamStandings: RaceConstructorStandingNode[];
 };
 
+// Extended colors for server-side display seed.
+export type SeasonTeamStandingColors = {
+	teamId: string;
+	primaryHex: string | null;
+	secondaryHex: string | null;
+};
+
+export type SeasonTeamStandingTeamNode = {
+	id: string;
+	name: string | null;
+	bio: { thumbnailUrl: string | null } | null;
+	colors: SeasonTeamStandingColors | null;
+};
+
+export type SeasonTeamStandingNode = {
+	teamId: string;
+	positionNumber: number | null;
+	points: string;
+	team: SeasonTeamStandingTeamNode | null;
+};
+
 type ConstructorStandingsQueryData = {
 	season: {
+		seasonTeamStandingsByYear: SeasonTeamStandingNode[];
 		racesByYear: RaceNode[];
 	} | null;
 };
@@ -47,10 +69,25 @@ const useMapConstructorToEntity = () => {
 	);
 };
 
-const query = gql`
+export const constructorStandingsQuery = gql`
 	query constructorStandingsQuery($season: Int!) {
 		season(year: $season) {
 			year
+			seasonTeamStandingsByYear(orderBy: POSITION_NUMBER_ASC) {
+				teamId
+				positionNumber
+				points
+				team {
+					id
+					name
+					bio { thumbnailUrl }
+					colors {
+						teamId
+						primaryHex
+						secondaryHex
+					}
+				}
+			}
 			racesByYear(orderBy: ROUND_ASC) {
 				year
 				round
@@ -75,7 +112,7 @@ const query = gql`
 `;
 
 export default function useConstructorStandingsData(season: number) {
-	const { data } = useSuspenseQuery<ConstructorStandingsQueryData>(query, {
+	const { data } = useSuspenseQuery<ConstructorStandingsQueryData>(constructorStandingsQuery, {
 		variables: { season }
 	});
 	const mapConstructorToEntity = useMapConstructorToEntity();

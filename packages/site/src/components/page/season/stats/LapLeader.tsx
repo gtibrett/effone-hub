@@ -1,22 +1,11 @@
 import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
 
+import type { SeasonLapLeaderData } from '@/app/lib/cached-data';
 import { StatCard } from '@/components/app';
-import type { AppLapTime, Race, Season } from '@/gql/graphql';
 
 import type { SeasonStatProps } from './index';
 
-type Data = {
-	season:
-		| (Pick<Season, 'year'> & {
-				racesByYear: (Pick<Race, 'rowId' | 'round'> & {
-					lapTimes: Pick<AppLapTime, 'driverId' | 'position'>[];
-				})[];
-		  })
-		| null;
-};
-
-const query = gql`
+export const seasonLapLeaderQuery = gql`
 	query SeasonLapLeaderQuery($season: Int!) {
 		season(year: $season) {
 			year
@@ -35,17 +24,18 @@ const query = gql`
 	}
 `;
 
-export default function LapLeader({ season, size }: SeasonStatProps) {
-	const { data, loading } = useQuery<Data>(query, { variables: { season } });
+type LapLeaderProps = SeasonStatProps & { data: SeasonLapLeaderData };
+
+export default function LapLeader({ size, data }: LapLeaderProps) {
 	const leaders = new Map<string, number>();
 
 	(data?.season?.racesByYear || []).forEach(r => {
-		(r.lapTimes || []).forEach((lt: Pick<AppLapTime, 'driverId' | 'position'>) => {
+		(r.lapTimes || []).forEach(lt => {
 			if (lt.driverId && lt.position === 1) {
 				leaders.set(lt.driverId, (leaders.get(lt.driverId) || 0) + 1);
 			}
 		});
 	});
 
-	return <StatCard size={size} loading={loading} data={leaders} label="Most Laps Led" />;
+	return <StatCard size={size} loading={false} data={leaders} label="Most Laps Led" />;
 }

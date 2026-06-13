@@ -1,15 +1,9 @@
 import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
 
+import type { SeasonConstructorChampionData } from '@/app/lib/cached-data';
 import { StatCard, useAppState } from '@/components/app';
 
-type Data = {
-	season: {
-		seasonTeamStandingsByYear: Array<{ teamId: string }>;
-	} | null;
-};
-
-const query = gql`
+export const seasonConstructorChampionQuery = gql`
 	query seasonConstructorChampionQuery($season: Int!) {
 		season(year: $season) {
 			year
@@ -22,9 +16,9 @@ const query = gql`
 	}
 `;
 
-export default function ConstructorChampion({ season }: { season: number }) {
-	const { loading, data } = useQuery<Data>(query, { variables: { season } });
+type ConstructorChampionProps = { season: number; data: SeasonConstructorChampionData };
 
+export default function ConstructorChampion({ season, data }: ConstructorChampionProps) {
 	const [{ currentSeason }] = useAppState();
 	const champion = new Map<string, number>();
 	const label = season === currentSeason ? 'Constructor Leader' : 'Constructor Champion';
@@ -43,7 +37,7 @@ export default function ConstructorChampion({ season }: { season: number }) {
 	return (
 		<StatCard
 			label={label}
-			loading={loading}
+			loading={false}
 			data={champion}
 			format={() => ''}
 			variant="team"

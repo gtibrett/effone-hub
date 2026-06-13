@@ -1,7 +1,13 @@
 import type { Metadata } from 'next';
 
 import HomeContent from './HomeContent';
-import { getCurrentSeason } from './lib/cached-data';
+import {
+	getConstructorStandings,
+	getCurrentSeason,
+	getDriverStandings,
+	getSeasonSchedule,
+	getSeasonStats
+} from './lib/cached-data';
 
 export const metadata: Metadata = {
 	title: 'effOne Hub',
@@ -11,5 +17,21 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
 	const season = await getCurrentSeason();
-	return <HomeContent season={season} />;
+	const [scheduleData, driverStandingsData, constructorStandingsData, statsBundle] =
+		await Promise.all([
+			getSeasonSchedule(season.year),
+			getDriverStandings(season.year),
+			getConstructorStandings(season.year),
+			getSeasonStats(season.year)
+		]);
+
+	return (
+		<HomeContent
+			season={season}
+			scheduleData={scheduleData}
+			driverStandingsData={driverStandingsData}
+			constructorStandingsData={constructorStandingsData}
+			statsBundle={statsBundle}
+		/>
+	);
 }

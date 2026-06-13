@@ -39,7 +39,7 @@ type ScheduleQueryResponse = {
 	} | null;
 };
 
-const query = gql`
+export const scheduleQuery = gql`
 	query scheduleQuery($season: Int!) {
 		season(year: $season) {
 			year
@@ -68,7 +68,9 @@ const query = gql`
 `;
 
 export default function useScheduleData(season: number) {
-	const result = useSuspenseQuery<ScheduleQueryResponse>(query, { variables: { season } });
+	const result = useSuspenseQuery<ScheduleQueryResponse>(scheduleQuery, {
+		variables: { season }
+	});
 	const nodes = result.data?.season?.racesByYear ?? [];
 
 	const races: RaceData[] = nodes.map(race => ({

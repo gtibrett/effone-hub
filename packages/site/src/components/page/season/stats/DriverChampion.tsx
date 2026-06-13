@@ -1,15 +1,9 @@
 import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
 
+import type { SeasonDriverChampionData } from '@/app/lib/cached-data';
 import { StatCard, useAppState } from '@/components/app';
 
-type Data = {
-	seasonDriverStandings: {
-		driverId: string;
-	}[];
-};
-
-const query = gql`
+export const seasonDriverChampionQuery = gql`
 	query SeasonDriverChampionQuery($season: Int!) {
 		seasonDriverStandings(condition: {year: $season}, orderBy: POSITION_NUMBER_ASC, first: 1) {
 			year
@@ -18,15 +12,14 @@ const query = gql`
 	}
 `;
 
-export default function DriverChampion({ season }: { season: number }) {
-	const { loading, data: { seasonDriverStandings = [] } = {} } = useQuery<Data>(query, {
-		variables: { season }
-	});
+type DriverChampionProps = { season: number; data: SeasonDriverChampionData };
 
+export default function DriverChampion({ season, data }: DriverChampionProps) {
 	const [{ currentSeason }] = useAppState();
 	const champion = new Map<string, number>();
 	const label = season === currentSeason ? 'Driver Leader' : 'Driver Champion';
 
+	const seasonDriverStandings = data?.seasonDriverStandings ?? [];
 	if (!seasonDriverStandings.length) {
 		return null;
 	}
@@ -41,7 +34,7 @@ export default function DriverChampion({ season }: { season: number }) {
 	return (
 		<StatCard
 			label={label}
-			loading={loading}
+			loading={false}
 			data={champion}
 			format={() => ''}
 			noGrid

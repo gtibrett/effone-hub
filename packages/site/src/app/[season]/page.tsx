@@ -1,6 +1,13 @@
 import type { Metadata } from 'next';
 
-import { getCurrentSeason, getSeason } from '../lib/cached-data';
+import {
+	getConstructorStandings,
+	getCurrentSeason,
+	getDriverStandings,
+	getSeason,
+	getSeasonSchedule,
+	getSeasonStats
+} from '../lib/cached-data';
 import SeasonContent from './SeasonContent';
 
 type Params = Promise<{ season: string }>;
@@ -18,6 +25,22 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function SeasonPage({ params }: { params: Params }) {
 	const { season: seasonParam } = await params;
 	const year = Number(seasonParam);
-	const season = await getSeason(year);
-	return <SeasonContent season={season} />;
+	const [season, scheduleData, driverStandingsData, constructorStandingsData, statsBundle] =
+		await Promise.all([
+			getSeason(year),
+			getSeasonSchedule(year),
+			getDriverStandings(year),
+			getConstructorStandings(year),
+			getSeasonStats(year)
+		]);
+
+	return (
+		<SeasonContent
+			season={season}
+			scheduleData={scheduleData}
+			driverStandingsData={driverStandingsData}
+			constructorStandingsData={constructorStandingsData}
+			statsBundle={statsBundle}
+		/>
+	);
 }

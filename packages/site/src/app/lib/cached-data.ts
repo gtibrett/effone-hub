@@ -41,7 +41,22 @@ import { raceLapLeaderQuery } from '@/components/page/race/stats/LapLeader';
 import { racePolesLeaderQuery } from '@/components/page/race/stats/Pole';
 import { racePositionsGainedLeaderQuery } from '@/components/page/race/stats/PositionsGained';
 import SeasonsListDoc from '@/components/page/season/SeasonsQuery';
+import type { SeasonTeamStandingNode } from '@/components/page/season/standings/constructors/useConstructorsStandingsData';
+import { constructorStandingsQuery } from '@/components/page/season/standings/constructors/useConstructorsStandingsData';
+import type { SeasonDriverStandingNode } from '@/components/page/season/standings/drivers/useDriversStandingsData';
+import { driverStandingsQuery } from '@/components/page/season/standings/drivers/useDriversStandingsData';
+import { seasonConstructorChampionQuery } from '@/components/page/season/stats/ConstructorChampion';
+import { seasonDNFsQuery } from '@/components/page/season/stats/DNFs';
+import { seasonDriverChampionQuery } from '@/components/page/season/stats/DriverChampion';
+import type { FastestLapQueryData } from '@/components/page/season/stats/FastestLap';
+import { seasonFastestLapQuery } from '@/components/page/season/stats/FastestLap';
+import { seasonLapLeaderQuery } from '@/components/page/season/stats/LapLeader';
+import { seasonPolesQuery } from '@/components/page/season/stats/Poles';
+import { seasonPositionsGainedQuery } from '@/components/page/season/stats/PositionsGained';
+import { seasonSprintWinsQuery } from '@/components/page/season/stats/SprintWins';
+import { seasonWinsQuery } from '@/components/page/season/stats/Wins';
 import type { SeasonData } from '@/components/page/season/types';
+import { scheduleQuery } from '@/components/page/season/useScheduleData';
 import { PastSeasonsQuery, SingleSeasonQuery } from '@/data/query/season.graphql';
 import type {
 	AppLapTime,
@@ -968,6 +983,242 @@ export type RaceStatsBundle = {
 	lapLeader: RaceLapLeaderData;
 	positionsGained: RacePositionsGainedData;
 };
+
+// ---------------------------------------------------------------------------
+// Season page — schedule, standings, and stat-card bundle
+// ---------------------------------------------------------------------------
+
+// Exact selection shape of scheduleQuery's racesByYear nodes.
+export type SeasonScheduleRace = {
+	rowId: number;
+	round: number;
+	date: string;
+	officialName: string;
+	circuit: { latitude: number | null; longitude: number | null } | null;
+	raceResults: { raceId: string; driverId: string }[];
+	sprintRaceResults: { raceId: string; driverId: string }[];
+};
+
+export type SeasonScheduleData = {
+	season: { racesByYear: SeasonScheduleRace[] } | null;
+};
+
+export async function getSeasonSchedule(season: number): Promise<SeasonScheduleData['season']> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('seasons', `season:${season}`, 'races');
+	const { data } = await getClient().query<SeasonScheduleData>({
+		query: scheduleQuery,
+		variables: { season }
+	});
+	return data?.season ?? null;
+}
+
+// Driver standings — exact selection shape from driverStandingsQuery.
+export type SeasonDriverStandingsData = {
+	season: {
+		seasonDriverStandingsByYear: SeasonDriverStandingNode[];
+		racesByYear: {
+			round: number;
+			raceDriverStandings: {
+				driverId: string;
+				positionNumber: number | null;
+				points: string;
+				driver: {
+					id: string;
+					lastName: string;
+					seasonEntrantDrivers: {
+						team: {
+							id: string;
+							colors: { teamId: string; primaryHex: string | null } | null;
+						} | null;
+					}[];
+				} | null;
+			}[];
+		}[];
+	} | null;
+};
+
+export async function getDriverStandings(
+	season: number
+): Promise<SeasonDriverStandingsData['season']> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('seasons', `season:${season}`, 'drivers');
+	const { data } = await getClient().query<SeasonDriverStandingsData>({
+		query: driverStandingsQuery,
+		variables: { season }
+	});
+	return data?.season ?? null;
+}
+
+// Constructor standings — exact selection shape from constructorStandingsQuery.
+export type SeasonConstructorStandingsData = {
+	season: {
+		seasonTeamStandingsByYear: SeasonTeamStandingNode[];
+		racesByYear: {
+			round: number;
+			raceTeamStandings: {
+				teamId: string;
+				positionNumber: number | null;
+				points: string;
+				team: {
+					id: string;
+					name: string | null;
+					colors: { teamId: string; primaryHex: string | null } | null;
+				} | null;
+			}[];
+		}[];
+	} | null;
+};
+
+export async function getConstructorStandings(
+	season: number
+): Promise<SeasonConstructorStandingsData['season']> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('seasons', `season:${season}`, 'teams');
+	const { data } = await getClient().query<SeasonConstructorStandingsData>({
+		query: constructorStandingsQuery,
+		variables: { season }
+	});
+	return data?.season ?? null;
+}
+
+// Season stat-card bundle — parallel fetch of all ~11 season-stat queries.
+
+export type SeasonWinsRaceNode = {
+	rowId: number;
+	raceResults: { raceId: string; driverId: string }[];
+};
+
+export type SeasonWinsData = {
+	season: { racesByYear: SeasonWinsRaceNode[] } | null;
+};
+
+export type SeasonSprintWinsRaceNode = {
+	rowId: number;
+	sprintRaceResults: { raceId: string; driverId: string }[];
+};
+
+export type SeasonSprintWinsData = {
+	season: { racesByYear: SeasonSprintWinsRaceNode[] } | null;
+};
+
+export type SeasonPolesRaceNode = {
+	rowId: number;
+	qualifyingResults: { raceId: string; driverId: string }[];
+};
+
+export type SeasonPolesData = {
+	season: { racesByYear: SeasonPolesRaceNode[] } | null;
+};
+
+export type SeasonLapLeaderRaceNode = {
+	rowId: number;
+	lapTimes: { raceId: string; driverId: string; lap: number; position: number }[];
+};
+
+export type SeasonLapLeaderData = {
+	season: { racesByYear: SeasonLapLeaderRaceNode[] } | null;
+};
+
+export type SeasonPositionsGainedRaceNode = {
+	rowId: number;
+	raceResults: {
+		raceId: string;
+		driverId: string;
+		gridPositionNumber: number | null;
+		positionNumber: number | null;
+	}[];
+};
+
+export type SeasonPositionsGainedData = {
+	season: { racesByYear: SeasonPositionsGainedRaceNode[] } | null;
+};
+
+export type SeasonDNFsRaceNode = {
+	rowId: number;
+	raceResults: { raceId: string; driverId: string; reasonRetired: string | null }[];
+};
+
+export type SeasonDNFsData = {
+	season: { racesByYear: SeasonDNFsRaceNode[] } | null;
+};
+
+export type SeasonDriverChampionData = {
+	seasonDriverStandings: { year: number; driverId: string }[];
+};
+
+export type SeasonConstructorChampionData = {
+	season: {
+		seasonTeamStandingsByYear: {
+			year: number;
+			teamId: string;
+			engineManufacturerId: string | null;
+		}[];
+	} | null;
+};
+
+export type SeasonStatsBundle = {
+	wins: SeasonWinsData;
+	sprintWins: SeasonSprintWinsData;
+	poles: SeasonPolesData;
+	lapLeader: SeasonLapLeaderData;
+	fastestLap: FastestLapQueryData;
+	positionsGained: SeasonPositionsGainedData;
+	dnfs: SeasonDNFsData;
+	driverChampion: SeasonDriverChampionData;
+	constructorChampion: SeasonConstructorChampionData;
+};
+
+export async function getSeasonStats(season: number): Promise<SeasonStatsBundle> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('seasons', `season:${season}`, 'races', 'drivers');
+	const client = getClient();
+	const [
+		{ data: wins },
+		{ data: sprintWins },
+		{ data: poles },
+		{ data: lapLeader },
+		{ data: fastestLap },
+		{ data: positionsGained },
+		{ data: dnfs },
+		{ data: driverChampion },
+		{ data: constructorChampion }
+	] = await Promise.all([
+		client.query<SeasonWinsData>({ query: seasonWinsQuery, variables: { season } }),
+		client.query<SeasonSprintWinsData>({ query: seasonSprintWinsQuery, variables: { season } }),
+		client.query<SeasonPolesData>({ query: seasonPolesQuery, variables: { season } }),
+		client.query<SeasonLapLeaderData>({ query: seasonLapLeaderQuery, variables: { season } }),
+		client.query<FastestLapQueryData>({ query: seasonFastestLapQuery, variables: { season } }),
+		client.query<SeasonPositionsGainedData>({
+			query: seasonPositionsGainedQuery,
+			variables: { season }
+		}),
+		client.query<SeasonDNFsData>({ query: seasonDNFsQuery, variables: { season } }),
+		client.query<SeasonDriverChampionData>({
+			query: seasonDriverChampionQuery,
+			variables: { season }
+		}),
+		client.query<SeasonConstructorChampionData>({
+			query: seasonConstructorChampionQuery,
+			variables: { season }
+		})
+	]);
+	return {
+		wins: wins ?? { season: null },
+		sprintWins: sprintWins ?? { season: null },
+		poles: poles ?? { season: null },
+		lapLeader: lapLeader ?? { season: null },
+		fastestLap: fastestLap ?? { season: null },
+		positionsGained: positionsGained ?? { season: null },
+		dnfs: dnfs ?? { season: null },
+		driverChampion: driverChampion ?? { seasonDriverStandings: [] },
+		constructorChampion: constructorChampion ?? { season: null }
+	};
+}
 
 export async function getRaceStats(season: number, round: number): Promise<RaceStatsBundle> {
 	'use cache';

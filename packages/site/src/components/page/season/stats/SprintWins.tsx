@@ -1,22 +1,11 @@
 import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
 
+import type { SeasonSprintWinsData } from '@/app/lib/cached-data';
 import { StatCard } from '@/components/app';
 
 import type { SeasonStatProps } from './index';
 
-type Data = {
-	season: {
-		racesByYear: {
-			rowId: number;
-			sprintRaceResults: {
-				driverId: string;
-			}[];
-		}[];
-	} | null;
-};
-
-const query = gql`
+export const seasonSprintWinsQuery = gql`
 	query SeasonSprintWinsQuery($season: Int!) {
 		season(year: $season) {
 			year
@@ -33,8 +22,9 @@ const query = gql`
 	}
 `;
 
-export default function SprintWins({ season, size }: SeasonStatProps) {
-	const { data, loading } = useQuery<Data>(query, { variables: { season } });
+type SprintWinsProps = SeasonStatProps & { data: SeasonSprintWinsData };
+
+export default function SprintWins({ size, data }: SprintWinsProps) {
 	const leaders = new Map<string, number>();
 
 	(data?.season?.racesByYear || []).forEach(r => {
@@ -45,5 +35,5 @@ export default function SprintWins({ season, size }: SeasonStatProps) {
 		});
 	});
 
-	return <StatCard size={size} loading={loading} data={leaders} label="Most Sprint Wins" />;
+	return <StatCard size={size} loading={false} data={leaders} label="Most Sprint Wins" />;
 }
