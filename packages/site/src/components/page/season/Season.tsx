@@ -11,6 +11,7 @@ import type {
 } from '@/app/lib/cached-data';
 import { EntityDisplayProvider } from '@/components/app';
 import type { DriverDisplay, TeamDisplay } from '@/components/app/EntityDisplayProvider';
+import type { NextRaceQueryNode } from '@/components/page/raceWeekend/queries';
 import RaceWeekend from '@/components/page/raceWeekend/RaceWeekend';
 import { Schedule } from '@/components/page/season/index';
 import { ScheduleSkeleton } from '@/components/page/season/Schedule';
@@ -30,6 +31,7 @@ import type { Season as SeasonT } from '@/gql/graphql';
 
 type SeasonProps = {
 	season: Pick<SeasonT, 'year'>;
+	races: NextRaceQueryNode[];
 	scheduleData: SeasonScheduleData['season'];
 	driverStandingsData: SeasonDriverStandingsData['season'];
 	constructorStandingsData: SeasonConstructorStandingsData['season'];
@@ -73,6 +75,7 @@ function buildEntityDisplays(
 
 export default function Season({
 	season,
+	races,
 	scheduleData,
 	driverStandingsData,
 	constructorStandingsData,
@@ -95,7 +98,7 @@ export default function Season({
 					>
 						<Grid container spacing={2} className="items-stretch">
 							<Suspense>
-								<RaceWeekend season={season.year} />
+								<RaceWeekend races={races} />
 							</Suspense>
 							<Grid size={12}>
 								<Schedule season={season.year} data={scheduleData} />

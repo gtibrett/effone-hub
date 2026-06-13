@@ -14,12 +14,15 @@ import {
 import type { DriverDisplay } from '@/components/app/EntityDisplayProvider';
 import { History, Season } from '@/components/page/circuits';
 import { FastestLap, LapLeader, MostWins } from '@/components/page/circuits/stats';
+import type { NextRaceQueryNode } from '@/components/page/raceWeekend/queries';
+import { selectNextRace } from '@/components/page/raceWeekend/useNextRaceData';
 import { OpenAILink, Page, Tabs } from '@/components/ui';
 import type { CircuitHistoryData, CircuitPageData } from '@/hooks/data/useCircuitByRef';
 
 type Props = CircuitPageDataPair & {
 	circuitRef: string;
 	currentSeason: number;
+	races: NextRaceQueryNode[];
 };
 
 function buildDriverDisplays(history: CircuitHistoryData[]): DriverDisplay[] {
@@ -40,7 +43,13 @@ function buildDriverDisplays(history: CircuitHistoryData[]): DriverDisplay[] {
 	return [...seen.values()];
 }
 
-export default function CircuitContent({ circuitRef, current, prior, currentSeason }: Props) {
+export default function CircuitContent({
+	circuitRef,
+	current,
+	prior,
+	currentSeason,
+	races
+}: Props) {
 	const mapCircuitsToMapPoints = useMapCircuitsToMapPoints();
 	const {
 		ref,
@@ -58,6 +67,10 @@ export default function CircuitContent({ circuitRef, current, prior, currentSeas
 	// Wrap server data in the shape sub-components expect
 	const data: CircuitPageData = { circuit: current };
 	const lastSeasonData: CircuitPageData | undefined = prior ? { circuit: prior } : undefined;
+
+	// wall-clock stays client-side; circuit page already has the server races
+	const today = new Date().toISOString().slice(0, 10);
+	const nextRace = selectNextRace(races, today);
 
 	const seasonToShow = data.circuit.season?.[0]?.raceResults?.length
 		? currentSeason
@@ -129,7 +142,13 @@ export default function CircuitContent({ circuitRef, current, prior, currentSeas
 										{
 											id: 'season',
 											label: `${currentSeason} Season`,
-											content: <Season data={data} loading={false} />
+											content: (
+												<Season
+													data={data}
+													loading={false}
+													nextRace={nextRace}
+												/>
+											)
 										}
 									]}
 								/>

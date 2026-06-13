@@ -46,6 +46,7 @@ import {
 	racePolesLeaderQuery,
 	racePositionsGainedLeaderQuery
 } from '@/components/page/race/stats/queries';
+import { NextRaceBySeasonDoc, type NextRaceQueryNode } from '@/components/page/raceWeekend/queries';
 import SeasonsListDoc from '@/components/page/season/SeasonsQuery';
 import {
 	constructorStandingsQuery,
@@ -1038,6 +1039,17 @@ export async function getSeasonSchedule(season: number): Promise<SeasonScheduleD
 		variables: { season }
 	});
 	return data?.season ?? null;
+}
+
+export async function getSeasonRaceSchedule(season: number): Promise<NextRaceQueryNode[]> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('seasons', `season:${season}`, 'races');
+	const { data } = await getClient().query<{ races: NextRaceQueryNode[] }>({
+		query: NextRaceBySeasonDoc,
+		variables: { season }
+	});
+	return data?.races ?? [];
 }
 
 // Driver standings — exact selection shape from driverStandingsQuery.

@@ -5,7 +5,8 @@ import {
 	getCircuit,
 	getCircuitPageData,
 	getCurrentSeason,
-	getCurrentSeasonCircuitIds
+	getCurrentSeasonCircuitIds,
+	getSeasonRaceSchedule
 } from '../../lib/cached-data';
 import CircuitContent from './CircuitContent';
 
@@ -30,11 +31,10 @@ export default async function CircuitPage({ params }: { params: Params }) {
 	if (!circuit) notFound();
 
 	const { year: currentSeason } = await getCurrentSeason();
-	const { current, prior } = await getCircuitPageData(
-		circuitRef,
-		currentSeason,
-		currentSeason - 1
-	);
+	const [{ current, prior }, races] = await Promise.all([
+		getCircuitPageData(circuitRef, currentSeason, currentSeason - 1),
+		getSeasonRaceSchedule(currentSeason)
+	]);
 
 	return (
 		<CircuitContent
@@ -42,6 +42,7 @@ export default async function CircuitPage({ params }: { params: Params }) {
 			current={current}
 			prior={prior}
 			currentSeason={currentSeason}
+			races={races}
 		/>
 	);
 }

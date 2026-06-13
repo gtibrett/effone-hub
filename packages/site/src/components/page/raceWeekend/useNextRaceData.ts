@@ -1,44 +1,4 @@
-import { useMemo } from 'react';
-import { gql } from '@apollo/client';
-import { useSuspenseQuery } from '@apollo/client/react';
-
-type NextRaceQueryResult = {
-	races: Array<{
-		id: string;
-		rowId: number;
-		year: number;
-		round: number;
-		date: string;
-		time: string | null;
-		officialName: string;
-		grandPrixId: string;
-		preQualifyingDate: string | null;
-		preQualifyingTime: string | null;
-		freePractice1Date: string | null;
-		freePractice1Time: string | null;
-		freePractice2Date: string | null;
-		freePractice2Time: string | null;
-		freePractice3Date: string | null;
-		freePractice3Time: string | null;
-		freePractice4Date: string | null;
-		freePractice4Time: string | null;
-		qualifyingDate: string | null;
-		qualifyingTime: string | null;
-		sprintQualifyingDate: string | null;
-		sprintQualifyingTime: string | null;
-		sprintRaceDate: string | null;
-		sprintRaceTime: string | null;
-		circuit: {
-			id: string;
-			rowId: string;
-			fullName: string;
-			placeName: string | null;
-			countryId: string | null;
-			latitude: number | null;
-			longitude: number | null;
-		} | null;
-	}>;
-};
+import type { NextRaceQueryNode } from './queries';
 
 // Shape kept compatible with the old Ergast-shaped consumers
 // (RaceWeekend.tsx, useRaceScheduleEvents.ts, NextRaceCountdown.tsx,
@@ -79,89 +39,43 @@ export type NextRaceData = {
 	race: NextRace | null;
 };
 
-const query = gql`
-	query NextRaceBySeason($season: Int!) {
-		races(
-			condition: {year: $season},
-			orderBy: ROUND_ASC
-		) {
-			rowId
-			year
-			round
-			date
-			time
-			officialName
-			grandPrixId
-			preQualifyingDate
-			preQualifyingTime
-			freePractice1Date
-			freePractice1Time
-			freePractice2Date
-			freePractice2Time
-			freePractice3Date
-			freePractice3Time
-			freePractice4Date
-			freePractice4Time
-			qualifyingDate
-			qualifyingTime
-			sprintQualifyingDate
-			sprintQualifyingTime
-			sprintRaceDate
-			sprintRaceTime
-			circuit {
-				id
-				fullName
-				placeName
-				countryId
-				latitude
-				longitude
-			}
-		}
-	}
-`;
+// Maps a raw query node to the NextRace shape.
+export function mapToNextRace(node: NextRaceQueryNode): NextRace {
+	return {
+		id: node.id,
+		rowId: node.rowId,
+		year: node.year,
+		round: node.round,
+		name: node.officialName,
+		date: node.date,
+		time: node.time,
+		fp1Date: node.freePractice1Date,
+		fp1Time: node.freePractice1Time,
+		fp2Date: node.freePractice2Date,
+		fp2Time: node.freePractice2Time,
+		fp3Date: node.freePractice3Date,
+		fp3Time: node.freePractice3Time,
+		qualiDate: node.qualifyingDate,
+		qualiTime: node.qualifyingTime,
+		sprintDate: node.sprintRaceDate,
+		sprintTime: node.sprintRaceTime,
+		circuit: node.circuit
+			? {
+					id: node.circuit.id,
+					circuitRef: node.circuit.rowId,
+					fullName: node.circuit.fullName,
+					location: node.circuit.placeName,
+					country: node.circuit.countryId,
+					lat: node.circuit.latitude,
+					lng: node.circuit.longitude
+				}
+			: null
+	};
+}
 
-export default function useNextRaceData(season: number) {
-	const today = new Date().toISOString().slice(0, 10);
-	const result = useSuspenseQuery<NextRaceQueryResult>(query, { variables: { season } });
-
-	const data = useMemo<NextRaceData>(() => {
-		const node = (result.data?.races ?? []).find(r => r.date && r.date >= today) ?? null;
-		if (!node) {
-			return { race: null };
-		}
-		return {
-			race: {
-				id: node.id,
-				rowId: node.rowId,
-				year: node.year,
-				round: node.round,
-				name: node.officialName,
-				date: node.date,
-				time: node.time,
-				fp1Date: node.freePractice1Date,
-				fp1Time: node.freePractice1Time,
-				fp2Date: node.freePractice2Date,
-				fp2Time: node.freePractice2Time,
-				fp3Date: node.freePractice3Date,
-				fp3Time: node.freePractice3Time,
-				qualiDate: node.qualifyingDate,
-				qualiTime: node.qualifyingTime,
-				sprintDate: node.sprintRaceDate,
-				sprintTime: node.sprintRaceTime,
-				circuit: node.circuit
-					? {
-							id: node.circuit.id,
-							circuitRef: node.circuit.rowId,
-							fullName: node.circuit.fullName,
-							location: node.circuit.placeName,
-							country: node.circuit.countryId,
-							lat: node.circuit.latitude,
-							lng: node.circuit.longitude
-						}
-					: null
-			}
-		};
-	}, [result.data, today]);
-
-	return { ...result, data };
+// Finds the first upcoming race (date >= todayISO) and maps it.
+// todayISO must be YYYY-MM-DD; wall-clock new Date() is caller's responsibility.
+export function selectNextRace(races: NextRaceQueryNode[], todayISO: string): NextRace | null {
+	const node = races.find(r => r.date && r.date >= todayISO) ?? null;
+	return node ? mapToNextRace(node) : null;
 }

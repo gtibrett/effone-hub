@@ -9,7 +9,9 @@ import PositionChange from '../race/PositionChange';
 import NextRaceCountdown from '../raceWeekend/NextRaceCountdown';
 import type { NextRace } from '../raceWeekend/useNextRaceData';
 
-export default function Season({ data, loading }: CircuitDataProps) {
+type SeasonProps = CircuitDataProps & { nextRace?: NextRace | null };
+
+export default function Season({ data, loading, nextRace }: SeasonProps) {
 	if (loading) {
 		return <Skeleton variant="rectangular" height={400} />;
 	}
@@ -19,14 +21,11 @@ export default function Season({ data, loading }: CircuitDataProps) {
 	}
 
 	if (data.circuit.season.length) {
-		if (!data.circuit.season[0].raceResults.length) {
+		if (!data.circuit.season[0].raceResults.length && nextRace) {
 			return (
 				<>
 					<Typography variant="h5">Countdown</Typography>
-					<NextRaceCountdown
-						variant="main"
-						race={data.circuit.season[0] as unknown as NextRace}
-					/>
+					<NextRaceCountdown variant="main" race={nextRace} />
 				</>
 			);
 		}

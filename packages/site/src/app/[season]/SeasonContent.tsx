@@ -6,10 +6,12 @@ import type {
 	SeasonScheduleData,
 	SeasonStatsBundle
 } from '@/app/lib/cached-data';
+import type { NextRaceQueryNode } from '@/components/page/raceWeekend/queries';
 import SeasonView from '@/components/page/season/Season';
 
 type SeasonContentProps = {
 	season: { year: number };
+	races: NextRaceQueryNode[];
 	scheduleData: SeasonScheduleData['season'];
 	driverStandingsData: SeasonDriverStandingsData['season'];
 	constructorStandingsData: SeasonConstructorStandingsData['season'];
@@ -18,6 +20,7 @@ type SeasonContentProps = {
 
 export default function SeasonContent({
 	season,
+	races,
 	scheduleData,
 	driverStandingsData,
 	constructorStandingsData,
@@ -26,6 +29,7 @@ export default function SeasonContent({
 	return (
 		<SeasonView
 			season={season}
+			races={races}
 			scheduleData={scheduleData}
 			driverStandingsData={driverStandingsData}
 			constructorStandingsData={constructorStandingsData}

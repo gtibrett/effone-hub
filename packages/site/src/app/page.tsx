@@ -5,6 +5,7 @@ import {
 	getConstructorStandings,
 	getCurrentSeason,
 	getDriverStandings,
+	getSeasonRaceSchedule,
 	getSeasonSchedule,
 	getSeasonStats
 } from './lib/cached-data';
@@ -17,8 +18,9 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
 	const season = await getCurrentSeason();
-	const [scheduleData, driverStandingsData, constructorStandingsData, statsBundle] =
+	const [races, scheduleData, driverStandingsData, constructorStandingsData, statsBundle] =
 		await Promise.all([
+			getSeasonRaceSchedule(season.year),
 			getSeasonSchedule(season.year),
 			getDriverStandings(season.year),
 			getConstructorStandings(season.year),
@@ -28,6 +30,7 @@ export default async function HomePage() {
 	return (
 		<HomeContent
 			season={season}
+			races={races}
 			scheduleData={scheduleData}
 			driverStandingsData={driverStandingsData}
 			constructorStandingsData={constructorStandingsData}

@@ -13,14 +13,16 @@ import { getDateWithTime } from '@/helpers';
 
 import NextRaceCountdown from './NextRaceCountdown';
 import NextRaceSchedule from './NextRaceSchedule';
-import useNextRaceData from './useNextRaceData';
+import type { NextRaceQueryNode } from './queries';
+import { selectNextRace } from './useNextRaceData';
 
-type RaceWeekendProps = { season: number };
+type RaceWeekendProps = { races: NextRaceQueryNode[] };
 
-export default function RaceWeekend({ season }: RaceWeekendProps) {
+export default function RaceWeekend({ races }: RaceWeekendProps) {
 	const darkTheme = useDarkTheme();
-	const { data } = useNextRaceData(season);
-	const race = data?.race;
+	// wall-clock stays client-side; server passes the full season schedule
+	const today = new Date().toISOString().slice(0, 10);
+	const race = selectNextRace(races, today);
 
 	if (!race) {
 		return null;
