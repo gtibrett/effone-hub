@@ -1,7 +1,10 @@
+'use client';
+
 import { useState } from 'react';
 import { Alert, Grid, Link, Skeleton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
+import type { DriverCareerData } from '@/app/lib/cached-data';
 import { ConstructorByLine } from '@/components/app';
 import { toPoints } from '@/helpers';
 
@@ -9,17 +12,19 @@ import SeasonDialog from '../season/SeasonDialog';
 import Stats from '../stats';
 import CareerChart from './CareerChart';
 import { getSeasonEndTeamByYear } from './seasonEndTeam';
-import useCareerData from './useCareerData';
 
-type CareerProps = { driverId: string };
+type CareerProps = {
+	driverId: string;
+	careerData: DriverCareerData['driver'] | null;
+	statsData: import('../stats/useDriverStatsData').DriverStatsData['driver'] | null;
+};
 
-export default function Career({ driverId }: CareerProps) {
-	const { data, loading } = useCareerData(driverId);
-	const careerStandings = data?.driver.standings;
+export default function Career({ driverId, careerData, statsData }: CareerProps) {
+	const careerStandings = careerData?.standings;
 	const racesByYear: { [key: number]: number } = {};
 	const [active, setActive] = useState<number | undefined>();
 
-	if (loading || !careerStandings) {
+	if (!careerStandings) {
 		return <Skeleton variant="rectangular" height={400} />;
 	}
 
@@ -31,14 +36,14 @@ export default function Career({ driverId }: CareerProps) {
 		);
 	}
 
-	data?.driver.raceResults?.forEach(r => {
+	careerData?.raceResults?.forEach(r => {
 		const year = r.race?.year;
 		if (year) {
 			racesByYear[year] = (racesByYear[year] || 0) + 1;
 		}
 	});
 
-	const teamByYear = getSeasonEndTeamByYear(data?.driver.raceResults);
+	const teamByYear = getSeasonEndTeamByYear(careerData?.raceResults);
 	const standingsRows = careerStandings
 		.map(s => ({
 			...s,
@@ -50,10 +55,10 @@ export default function Career({ driverId }: CareerProps) {
 
 	return (
 		<Grid container spacing={2} className="items-center justify-around">
-			<Stats driverId={driverId} />
+			<Stats driverId={driverId} statsData={statsData} />
 			<Grid size={12} />
 			<Grid size={12}>
-				<CareerChart driverId={driverId} size={200} />
+				<CareerChart driverId={driverId} careerData={careerData} size={200} />
 			</Grid>
 			<Grid size={12}>
 				<SeasonDialog

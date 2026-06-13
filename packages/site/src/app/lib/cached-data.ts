@@ -20,11 +20,19 @@ import { gql } from '@apollo/client';
 import CircuitsListDoc from '@/components/page/circuits/CircuitsQuery';
 import ConstructorsQuery from '@/components/page/constructor/ConstructorsQuery';
 import type { TeamWithSeasons } from '@/components/page/constructor/useConstructorsList';
+import { DriverCareerQuery } from '@/components/page/driver/career/useCareerData';
+import { DriverCircuitQuery } from '@/components/page/driver/circuits/useCircuitData';
 import DriversQuery from '@/components/page/driver/DriversQuery';
+import { DriverSeasonQuery } from '@/components/page/driver/season/useSeasonData';
+import {
+	type DriverStatsData,
+	driverStats
+} from '@/components/page/driver/stats/useDriverStatsData';
 import SeasonsListDoc from '@/components/page/season/SeasonsQuery';
 import type { SeasonData } from '@/components/page/season/types';
 import { PastSeasonsQuery, SingleSeasonQuery } from '@/data/query/season.graphql';
-import type { Circuit, Driver as DriverT, Race } from '@/gql/graphql';
+import type { Circuit, Driver as DriverT, Race, RaceResult, SeasonDriver } from '@/gql/graphql';
+import { type CircuitPageData, CircuitQuery } from '@/hooks/data/useCircuitByRef';
 import { DriverQuery } from '@/hooks/data/useDriver';
 
 import { getClient } from './apollo-rsc';
@@ -309,6 +317,129 @@ export async function getCurrentSeasonDriverIds(): Promise<string[]> {
 	return [...new Set(current.seasonDriverStandingsByYear.map(s => s.driverId).filter(Boolean))];
 }
 
+// Career query aliases seasonDrivers -> standings; define exact selection shape.
+export type DriverCareerStanding = {
+	year: SeasonDriver['year'];
+	positionNumber: SeasonDriver['positionNumber'];
+	points: SeasonDriver['totalPoints'];
+	wins: SeasonDriver['totalRaceWins'];
+};
+
+export type DriverCareerRaceResult = {
+	raceId: RaceResult['raceId'];
+	driverId: RaceResult['driverId'];
+	gridPositionNumber: RaceResult['gridPositionNumber'];
+	positionNumber: RaceResult['positionNumber'];
+	positionDisplayOrder: RaceResult['positionDisplayOrder'];
+	points: RaceResult['points'];
+	positionText: RaceResult['positionText'];
+	teamId: RaceResult['teamId'];
+	timeMillis: RaceResult['timeMillis'];
+	reasonRetired: RaceResult['reasonRetired'];
+	race: {
+		rowId: string;
+		year: number;
+		round: number;
+		circuit: {
+			id: string;
+			fullName: string;
+			longitude: number | null;
+			latitude: number | null;
+		};
+	} | null;
+	team: {
+		id: string;
+		colors: { teamId: string; primaryHex: string | null; secondaryHex: string | null } | null;
+	} | null;
+};
+
+export type DriverCareerData = {
+	driver: {
+		id: string;
+		standings: DriverCareerStanding[];
+		raceResults: DriverCareerRaceResult[];
+	};
+};
+
+export async function getDriverCareer(
+	driverId: string
+): Promise<DriverCareerData['driver'] | null> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('drivers', `driver:${driverId}`);
+	const { data } = await getClient().query<DriverCareerData>({
+		query: DriverCareerQuery,
+		variables: { driverId }
+	});
+	return data?.driver ?? null;
+}
+
+// Circuit query returns driver.raceResults; exact selection shape (no aliases).
+export type DriverCircuitRaceResult = {
+	raceId: RaceResult['raceId'];
+	driverId: RaceResult['driverId'];
+	gridPositionNumber: RaceResult['gridPositionNumber'];
+	positionDisplayOrder: RaceResult['positionDisplayOrder'];
+	points: RaceResult['points'];
+	positionText: RaceResult['positionText'];
+	teamId: RaceResult['teamId'];
+	timeMillis: RaceResult['timeMillis'];
+	reasonRetired: RaceResult['reasonRetired'];
+	race: {
+		rowId: string;
+		year: number;
+		round: number;
+		circuit: {
+			id: string;
+			fullName: string;
+			longitude: number | null;
+			latitude: number | null;
+		};
+	} | null;
+};
+
+export type DriverCircuitRawData = {
+	driver: {
+		id: string;
+		raceResults: DriverCircuitRaceResult[];
+	};
+};
+
+export async function getDriverCircuits(
+	driverId: string
+): Promise<DriverCircuitRawData['driver'] | null> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('drivers', `driver:${driverId}`);
+	const { data } = await getClient().query<DriverCircuitRawData>({
+		query: DriverCircuitQuery,
+		variables: { driverId }
+	});
+	return data?.driver ?? null;
+}
+
+export async function getDriverSeason(driverId: string, season: number): Promise<Race[]> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('drivers', `driver:${driverId}`, `season:${season}`);
+	const { data } = await getClient().query<{ races: Race[] }>({
+		query: DriverSeasonQuery,
+		variables: { driverId, season }
+	});
+	return data?.races ?? [];
+}
+
+export async function getDriverStats(driverId: string): Promise<DriverStatsData['driver'] | null> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('drivers', `driver:${driverId}`);
+	const { data } = await getClient().query<DriverStatsData>({
+		query: driverStats,
+		variables: { driverId }
+	});
+	return data?.driver ?? null;
+}
+
 // ---------------------------------------------------------------------------
 // Teams
 // ---------------------------------------------------------------------------
@@ -382,6 +513,36 @@ export async function getCurrentSeasonCircuitIds(): Promise<string[]> {
 	const [current] = data?.seasons ?? [];
 	if (!current) return [];
 	return [...new Set(current.racesByYear.map(r => r.circuitId).filter(Boolean))];
+}
+
+export type CircuitPageDataPair = {
+	current: CircuitPageData['circuit'] | null;
+	prior: CircuitPageData['circuit'] | null;
+};
+
+export async function getCircuitPageData(
+	circuitRef: string,
+	currentSeason: number,
+	priorSeason: number
+): Promise<CircuitPageDataPair> {
+	'use cache';
+	cacheLife('max');
+	cacheTag('circuits', `circuit:${circuitRef}`);
+	const client = getClient();
+	const [{ data: currentData }, { data: priorData }] = await Promise.all([
+		client.query<CircuitPageData>({
+			query: CircuitQuery,
+			variables: { circuitRef, showCurrentSeason: true, season: currentSeason }
+		}),
+		client.query<CircuitPageData>({
+			query: CircuitQuery,
+			variables: { circuitRef, showCurrentSeason: true, season: priorSeason }
+		})
+	]);
+	return {
+		current: currentData?.circuit ?? null,
+		prior: priorData?.circuit ?? null
+	};
 }
 
 export async function getCircuit(rowId: string): Promise<{ id: string; fullName: string } | null> {

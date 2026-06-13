@@ -23,7 +23,7 @@ export type CircuitWithResults = Pick<Circuit, 'id' | 'fullName' | 'longitude' |
 	wins: number;
 };
 
-const query = gql`
+export const DriverCircuitQuery = gql`
 	query DriverCircuitQuery($driverId: String!) {
 		driver(id: $driverId) {
 			id
@@ -57,7 +57,9 @@ export default function useCircuitData(
 	driverId?: string,
 	season?: number
 ): SimpleApolloResult<CircuitWithResults[]> {
-	const result = useQuery<DriverPageData>(query, { variables: { driverId, season } });
+	const result = useQuery<DriverPageData>(DriverCircuitQuery, {
+		variables: { driverId, season }
+	});
 	const { data, loading } = result;
 	const resultsByCircuit: CircuitWithResults[] = [];
 

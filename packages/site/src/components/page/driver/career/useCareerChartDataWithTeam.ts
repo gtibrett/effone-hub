@@ -1,17 +1,18 @@
 import '@/polyfills';
+import type { DriverCareerData } from '@/app/lib/cached-data';
 import type { DataWithTeamInfo } from '@/components/app';
 import { useGetTeamColor } from '@/hooks';
 
 import { getSeasonEndTeamByYear } from './seasonEndTeam';
-import useCareerData from './useCareerData';
 
-export default function useCareerChartDataWithTeam(driverId?: string): DataWithTeamInfo[] {
-	const { data } = useCareerData(driverId);
+export default function useCareerChartDataWithTeam(
+	careerData: DriverCareerData['driver'] | null | undefined
+): DataWithTeamInfo[] {
 	const getTeamColor = useGetTeamColor();
 
-	const teamByYear = getSeasonEndTeamByYear(data?.driver.raceResults);
+	const teamByYear = getSeasonEndTeamByYear(careerData?.raceResults ?? []);
 
-	const rawData: DataWithTeamInfo[] = (data?.driver.standings || [])
+	const rawData: DataWithTeamInfo[] = (careerData?.standings || [])
 		.filter(s => !!s)
 		.map(s => {
 			const team = s.year != null ? teamByYear.get(s.year) : undefined;

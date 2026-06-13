@@ -1,7 +1,15 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { getCurrentSeasonDriverIds, getDriver } from '../../lib/cached-data';
+import {
+	getAppSeasonState,
+	getCurrentSeasonDriverIds,
+	getDriver,
+	getDriverCareer,
+	getDriverCircuits,
+	getDriverSeason,
+	getDriverStats
+} from '../../lib/cached-data';
 import DriverContent from './DriverContent';
 
 type Params = Promise<{ driverRef: string }>;
@@ -21,7 +29,31 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 
 export default async function DriverPage({ params }: { params: Params }) {
 	const { driverRef } = await params;
-	const driver = await getDriver(driverRef);
+
+	const [driver, { currentSeason }] = await Promise.all([
+		getDriver(driverRef),
+		getAppSeasonState()
+	]);
+
 	if (!driver) notFound();
-	return <DriverContent driver={driver} />;
+
+	const latestSeasonNode = driver.seasonEntrantDrivers?.[0];
+	const isCurrentSeason = latestSeasonNode?.year === currentSeason;
+
+	const [careerData, circuitRawData, statsData, seasonRaces] = await Promise.all([
+		getDriverCareer(driverRef),
+		getDriverCircuits(driverRef),
+		getDriverStats(driverRef),
+		isCurrentSeason ? getDriverSeason(driverRef, currentSeason) : Promise.resolve(null)
+	]);
+
+	return (
+		<DriverContent
+			driver={driver}
+			careerData={careerData}
+			circuitRawData={circuitRawData}
+			statsData={statsData}
+			seasonRaces={seasonRaces}
+		/>
+	);
 }

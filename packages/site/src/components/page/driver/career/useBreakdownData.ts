@@ -1,6 +1,4 @@
-import type { RaceResult } from '@/gql/graphql';
-
-import useCareerData from './useCareerData';
+import type { DriverCareerData } from '@/app/lib/cached-data';
 
 export interface BreakdownMetrics {
 	wins: number;
@@ -19,23 +17,27 @@ export interface BreakdownDatum {
 	[key: string]: unknown;
 }
 
+type CareerRaceResult = DriverCareerData['driver']['raceResults'][number];
+
 export default function useBreakdownData(
-	driverId: string | undefined
+	driverId: string | undefined,
+	careerData: DriverCareerData['driver'] | null | undefined
 ): BreakdownDatum[] | undefined {
-	const { data } = useCareerData(driverId);
-	const careerResults = data?.driver.raceResults;
+	const careerResults = careerData?.raceResults;
 
 	if (!careerResults) {
 		return undefined;
 	}
 
 	return (
-		data?.driver.standings
+		careerData?.standings
 			// drop seasons with no race starts (e.g. practice-only entries); also avoids /0 -> NaN below
-			.filter(({ year }) => careerResults.some((r: RaceResult) => r.race?.year === year))
+			.filter(({ year }) =>
+				careerResults.some((r: CareerRaceResult) => r.race?.year === year)
+			)
 			.map(({ year }) => {
 				const seasonResults = careerResults.filter(
-					(r: RaceResult) => r.race?.year === year
+					(r: CareerRaceResult) => r.race?.year === year
 				);
 				const appearances = seasonResults.length;
 
@@ -48,15 +50,15 @@ export default function useBreakdownData(
 					appearances
 				};
 
-				seasonResults.forEach((r: RaceResult) => {
+				seasonResults.forEach((r: CareerRaceResult) => {
 					switch (true) {
 						case r.positionNumber === 1:
 							raw.wins++;
 							break;
-						case r.positionNumber && r.positionNumber <= 3:
+						case r.positionNumber != null && r.positionNumber <= 3:
 							raw.podiums++;
 							break;
-						case r.positionNumber && r.positionNumber <= 10:
+						case r.positionNumber != null && r.positionNumber <= 10:
 							raw.inPoints++;
 							break;
 						case r.positionText !== String(r.positionNumber):

@@ -43,7 +43,7 @@ describe('CareerBreakdownChart', () => {
 	it('renders an SVG when data is present', () => {
 		const { container } = render(
 			<Wrap>
-				<CareerBreakdownChart driverId="verstappen" />
+				<CareerBreakdownChart driverId="verstappen" careerData={null} />
 			</Wrap>
 		);
 		expect(container.querySelector('svg')).not.toBeNull();

@@ -1,20 +1,80 @@
+'use client';
+
 import { useState } from 'react';
 import { Alert, Card, Grid, Link } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
+import type { DriverCircuitRawData } from '@/app/lib/cached-data';
 import { RaceMap, useMapCircuitsToMapPoints } from '@/components/app';
 import { getTimeStringFromDate } from '@/helpers';
 import type { DriverId } from '@/types';
 
 import CircuitDialog from './dialog/CircuitDialog';
-import useCircuitData, { type CircuitWithResults } from './useCircuitData';
+import type { CircuitWithResults } from './useCircuitData';
 
-type CircuitsProps = { driverId: DriverId };
+type CircuitsProps = {
+	driverId: DriverId;
+	circuitRawData: DriverCircuitRawData['driver'] | null;
+};
 
-export default function Circuits({ driverId }: CircuitsProps) {
-	const { data, loading } = useCircuitData(driverId);
+function buildCircuitRows(rawData: DriverCircuitRawData['driver'] | null): CircuitWithResults[] {
+	if (!rawData) return [];
+
+	const resultsByCircuit: CircuitWithResults[] = [];
+
+	rawData.raceResults.forEach(({ race, ...result }) => {
+		if (!race?.circuit) return;
+
+		const { id } = race.circuit;
+		let index = resultsByCircuit.findIndex(c => c.id === id);
+
+		if (index === -1) {
+			resultsByCircuit.push({
+				...race.circuit,
+				results: [],
+				averagePosition: 0,
+				averageTime: 0,
+				wins: 0
+			});
+			index = resultsByCircuit.length - 1;
+		}
+
+		resultsByCircuit[index].results.push(result as CircuitWithResults['results'][number]);
+	});
+
+	return resultsByCircuit.map(circuit => {
+		const racePositions: number[] = [];
+		const raceTimes: number[] = [];
+
+		circuit.results.forEach(r => {
+			if (r.positionDisplayOrder) {
+				racePositions.push(r.positionDisplayOrder);
+			}
+			try {
+				if (r.timeMillis) raceTimes.push(r.timeMillis);
+			} catch {
+				// time could not be calculated
+			}
+		});
+
+		return {
+			...circuit,
+			averagePosition: !racePositions.length
+				? undefined
+				: Math.round(racePositions.reduce((a, v) => a + v, 0) / racePositions.length),
+			averageTime: !raceTimes.length
+				? undefined
+				: raceTimes.reduce((a, v) => a + v, 0) / raceTimes.length,
+			wins: circuit.results.filter(r => r.positionDisplayOrder === 1).length
+		};
+	});
+}
+
+export default function Circuits({ driverId, circuitRawData }: CircuitsProps) {
 	const mapCircuitsToMapPoints = useMapCircuitsToMapPoints();
 	const [active, setActive] = useState<CircuitWithResults['id'] | undefined>();
+
+	const data = buildCircuitRows(circuitRawData);
 
 	if (!data?.length) {
 		return (
@@ -42,7 +102,7 @@ export default function Circuits({ driverId }: CircuitsProps) {
 				<DataGrid
 					className="mt-4"
 					rows={data}
-					loading={loading}
+					loading={false}
 					autoHeight
 					density="compact"
 					getRowId={row => row.id || ''}

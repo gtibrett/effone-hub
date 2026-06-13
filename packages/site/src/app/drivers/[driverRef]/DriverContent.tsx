@@ -2,18 +2,16 @@
 
 import { Box, Card, Divider, Grid, Typography } from '@mui/material';
 
+import type { DriverCareerData, DriverCircuitRawData } from '@/app/lib/cached-data';
 import { DriverAvatar, useAppState } from '@/components/app';
 import { Career, Circuits, Season } from '@/components/page/driver';
+import type { DriverStatsData } from '@/components/page/driver/stats/useDriverStatsData';
 import { Flag, Page, Tabs } from '@/components/ui';
 import { Header } from '@/components/ui/page/Header';
-import type { Driver } from '@/gql/graphql';
+import type { Driver, Race } from '@/gql/graphql';
 
 /**
  * The subset of `Driver` fields DriverContent reads at the top level.
- * Nested components (Career, Circuits, Season, DriverAvatar) fetch their own
- * data client-side via Apollo from `driver.id`, so this prop only needs
- * the header fields plus the latest-team color and the bio thumbnail/extract.
- *
  * Structurally assignable from the GraphQL `Driver` type (via `getDriver`).
  */
 export type DriverPageProp = {
@@ -31,9 +29,18 @@ export type DriverPageProp = {
 	seasonEntrantDrivers?: Array<{
 		year: number;
 		team?: {
+			id?: string | null;
 			colors?: { primaryHex?: string | null } | null;
 		} | null;
 	}> | null;
+};
+
+export type DriverContentProps = {
+	driver: DriverPageProp | null;
+	careerData: DriverCareerData['driver'] | null;
+	circuitRawData: DriverCircuitRawData['driver'] | null;
+	statsData: DriverStatsData['driver'] | null;
+	seasonRaces: Race[] | null;
 };
 
 const DriverDetails = ({ driver }: { driver: DriverPageProp }) => (
@@ -60,7 +67,13 @@ const DriverDetails = ({ driver }: { driver: DriverPageProp }) => (
 	</Grid>
 );
 
-export default function DriverContent({ driver }: { driver: DriverPageProp | null }) {
+export default function DriverContent({
+	driver,
+	careerData,
+	circuitRawData,
+	statsData,
+	seasonRaces
+}: DriverContentProps) {
 	const [{ currentSeason }] = useAppState();
 
 	if (!driver) {
@@ -70,17 +83,34 @@ export default function DriverContent({ driver }: { driver: DriverPageProp | nul
 	const latestSeasonNode = driver.seasonEntrantDrivers?.[0];
 	const primaryColor = latestSeasonNode?.team?.colors?.primaryHex;
 	const isCurrentSeason = latestSeasonNode?.year === currentSeason;
+	const currentSeasonTeam = isCurrentSeason ? (latestSeasonNode?.team ?? null) : null;
 
 	const tabs = [
-		{ id: 'career', label: 'Career', content: <Career driverId={driver.id} /> },
-		{ id: 'circuits', label: 'Circuits', content: <Circuits driverId={driver.id} /> }
+		{
+			id: 'career',
+			label: 'Career',
+			content: <Career driverId={driver.id} careerData={careerData} statsData={statsData} />
+		},
+		{
+			id: 'circuits',
+			label: 'Circuits',
+			content: <Circuits driverId={driver.id} circuitRawData={circuitRawData} />
+		}
 	];
 
-	if (isCurrentSeason) {
+	if (isCurrentSeason && seasonRaces) {
 		tabs.push({
 			id: 'season',
 			label: `${currentSeason} Season`,
-			content: <Season driverId={driver.id} season={currentSeason} />
+			content: (
+				<Season
+					driverId={driver.id}
+					season={currentSeason}
+					races={seasonRaces}
+					careerData={careerData}
+					currentSeasonTeam={currentSeasonTeam}
+				/>
+			)
 		});
 	}
 

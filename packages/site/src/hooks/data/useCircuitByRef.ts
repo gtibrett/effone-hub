@@ -4,7 +4,7 @@ import { useSuspenseQuery } from '@apollo/client/react';
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
 import type { Circuit as CircuitT, Race } from '@/gql/graphql';
 
-const CircuitQuery = gql`
+export const CircuitQuery = gql`
 	query CircuitQuery($circuitRef: String!, $showCurrentSeason: Boolean!, $season: Int) {
 		circuit(id: $circuitRef) {
 			id
@@ -30,6 +30,17 @@ const CircuitQuery = gql`
 						id
 						firstName
 						lastName
+						abbreviation
+						bio {
+							thumbnailUrl
+						}
+					}
+					team {
+						id
+						colors {
+							teamId
+							primaryHex
+						}
 					}
 					time
 				}
@@ -81,14 +92,24 @@ export type CircuitHistoryData = Pick<Race, 'year' | 'round' | 'date'> & {
 	raceResults: {
 		teamId: string;
 		driverId: string;
-		driver: { firstName: string; lastName: string };
+		driver: {
+			id: string;
+			firstName: string;
+			lastName: string;
+			abbreviation: string | null;
+			bio: { thumbnailUrl: string | null } | null;
+		};
+		team: {
+			id: string;
+			colors: { teamId: string; primaryHex: string | null } | null;
+		} | null;
 		time: string | null;
 	}[];
 	lapTimes: { driverId: string }[];
 	fastestLaps: { driverId: string; milliseconds: number | null }[];
 };
 
-type CircuitPageData = {
+export type CircuitPageData = {
 	circuit: Pick<
 		CircuitT,
 		'id' | 'fullName' | 'placeName' | 'countryId' | 'latitude' | 'longitude' | 'description'
