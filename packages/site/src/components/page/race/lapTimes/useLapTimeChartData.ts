@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
-import { AppLapTime } from '@/gql/graphql';
+import type { AppLapTime } from '@/gql/graphql';
 
-import { LapByLapData } from '../lapByLap/useLapByLapChartData';
+import type { LapByLapData } from '../lapByLap/useLapByLapChartData';
 import { getColorWithAlt } from './helpers';
 
 export type LapChartDatum = {
@@ -35,7 +35,7 @@ export default function useLapTimeChartData(lapByLapData: LapByLapData) {
 				const lapsWithTimes = d.laps
 					.filter(l => l.milliseconds)
 					.map(l => ({ ...l, milliseconds: Number(l.milliseconds) }));
-				let personalBest: number | undefined = undefined;
+				let personalBest: number | undefined;
 
 				data.push({
 					id: d.driverId,

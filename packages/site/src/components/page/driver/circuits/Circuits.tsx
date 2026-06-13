@@ -4,10 +4,10 @@ import { DataGrid } from '@mui/x-data-grid';
 
 import { RaceMap, useMapCircuitsToMapPoints } from '@/components/app';
 import { getTimeStringFromDate } from '@/helpers';
-import { DriverId } from '@/types';
+import type { DriverId } from '@/types';
 
 import CircuitDialog from './dialog/CircuitDialog';
-import useCircuitData, { CircuitWithResults } from './useCircuitData';
+import useCircuitData, { type CircuitWithResults } from './useCircuitData';
 
 type CircuitsProps = { driverId: DriverId };
 
@@ -70,7 +70,7 @@ export default function Circuits({ driverId }: CircuitsProps) {
 							headerAlign: 'center',
 							align: 'center',
 							flex: 1,
-							valueGetter: (value, row) => row.results.length
+							valueGetter: (_value, row) => row.results.length
 						},
 						{
 							field: 'wins',

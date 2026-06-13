@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 
 import { filterByFreeformText, filterByNumber } from '@/components/ui';
-import { Team } from '@/gql/graphql';
+import type { Team } from '@/gql/graphql';
 
-import { ConstructorsListFilters } from './types';
+import type { ConstructorsListFilters } from './types';
 
 export type TeamWithSeasons = Omit<Team, 'seasonEntrantDrivers'> & {
 	seasons: { year: number }[];

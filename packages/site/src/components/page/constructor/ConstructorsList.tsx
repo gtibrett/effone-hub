@@ -6,14 +6,14 @@ import { DataGrid } from '@mui/x-data-grid';
 
 import { ConstructorByLine } from '@/components/app';
 import {
-	ConstructorsListFilters,
+	type ConstructorsListFilters,
 	ConstructorsQuery,
 	useConstructorsList
 } from '@/components/page/constructor/index';
-import { RaceResult } from '@/gql/graphql';
+import type { RaceResult } from '@/gql/graphql';
 import { useGetTeamColor } from '@/hooks';
 
-import { TeamWithSeasons } from './useConstructorsList';
+import type { TeamWithSeasons } from './useConstructorsList';
 
 type ConstructorsTableProps = {
 	filters: ConstructorsListFilters;
@@ -82,7 +82,7 @@ export default function ConstructorsList({ filters }: ConstructorsTableProps) {
 					headerName: 'Wins',
 					flex: 0.25,
 					type: 'number',
-					valueGetter: (value, row) =>
+					valueGetter: (_value, row) =>
 						row.raceResults
 							.filter((r): r is RaceResult => r != null)
 							.filter(
@@ -95,7 +95,7 @@ export default function ConstructorsList({ filters }: ConstructorsTableProps) {
 					headerName: 'Podiums',
 					flex: 0.25,
 					type: 'number',
-					valueGetter: (value, row) =>
+					valueGetter: (_value, row) =>
 						row.raceResults
 							.filter((r): r is RaceResult => r != null)
 							.filter(

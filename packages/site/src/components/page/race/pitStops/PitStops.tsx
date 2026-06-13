@@ -2,10 +2,10 @@ import { useCallback } from 'react';
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import { Alert, Skeleton } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 
 import { DriverByLine } from '@/components/app';
-import { Driver, PitStop, Race } from '@/gql/graphql';
+import type { Driver, PitStop, Race } from '@/gql/graphql';
 import { getTimeStringFromDate } from '@/helpers';
 import { useGetTeamColor } from '@/hooks';
 
@@ -126,9 +126,9 @@ export default function PitStops({ season, round }: PitStopsProps) {
 			headerAlign: 'center',
 			align: 'center',
 			type: 'number',
-			valueGetter: (value, row) => row.stops.length
+			valueGetter: (_value, row) => row.stops.length
 		},
-		...new Array(maxStops).fill(null).map((v, i) => {
+		...new Array(maxStops).fill(null).map((_v, i) => {
 			return {
 				field: `stop-${i}`,
 				headerName: `Stop ${i + 1}`,
@@ -136,7 +136,7 @@ export default function PitStops({ season, round }: PitStopsProps) {
 				headerAlign: 'center',
 				align: 'center',
 				type: 'number',
-				valueGetter: (value, row) => {
+				valueGetter: (_value, row) => {
 					const stopTime = row.stops.find(r => r.stop === i + 1)?.timeMillis;
 
 					if (stopTime) {

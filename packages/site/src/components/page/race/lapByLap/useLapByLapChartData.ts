@@ -3,10 +3,10 @@ import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 
 import { useFallbackColor } from '@/components/ui';
-import { AppLapTime, Driver, Maybe, RaceResult } from '@/gql/graphql';
-import { DriverId } from '@/types';
+import type { AppLapTime, Driver, Maybe, RaceResult } from '@/gql/graphql';
+import type { DriverId } from '@/types';
 
-import { LapChartSeries } from './LapByLap';
+import type { LapChartSeries } from './LapByLap';
 
 const lapsQuery = gql`
 	#graphql

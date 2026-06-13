@@ -1,15 +1,15 @@
 import {
 	Card,
 	CardActions,
-	CardActionsProps,
+	type CardActionsProps,
 	CardContent,
 	CardHeader,
-	CardHeaderProps
+	type CardHeaderProps
 } from '@mui/material';
 
 import ChartSwitcherCharts from './ChartSwitcherCharts';
 import ChartSwitcherToggle from './ChartSwitcherToggle';
-import { ActiveChart, ChartSwitcherChart } from './types';
+import type { ActiveChart, ChartSwitcherChart } from './types';
 import useChartSwitcher from './useChartSwitcher';
 
 type ChartSwitcherProps = {

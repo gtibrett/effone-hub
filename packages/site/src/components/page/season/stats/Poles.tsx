@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client/react';
 
 import { StatCard } from '@/components/app';
 
-import { SeasonStatProps } from './index';
+import type { SeasonStatProps } from './index';
 
 type Data = {
 	season: {

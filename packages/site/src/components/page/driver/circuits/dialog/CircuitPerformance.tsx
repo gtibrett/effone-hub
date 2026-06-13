@@ -8,7 +8,7 @@ import type { SimpleApolloResult } from '@/app/lib/apollo-types';
 import { usePerformanceData } from '@/components/page/driver';
 import { useChartsTheme } from '@/components/ui/charts';
 
-import { CircuitDialogData } from './types';
+import type { CircuitDialogData } from './types';
 
 type CircuitPerformanceProps = SimpleApolloResult<CircuitDialogData>;
 
@@ -23,7 +23,7 @@ export default function CircuitPerformance({ data, loading }: CircuitPerformance
 	const circuitResults = rawResults?.filter(Boolean).map(r => ({
 		positionDisplayOrder: r.positionDisplayOrder ?? undefined,
 		positionText: r.positionText ?? undefined
-	})) as any;
+	}));
 	const performanceData = usePerformanceData(circuitResults);
 
 	if (!performanceData || loading) {

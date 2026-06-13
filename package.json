@@ -18,6 +18,7 @@
 		"site:start": "pnpm --filter @gtibrett/effone-hub-site start",
 		"lint": "biome check",
 		"lint:fix": "biome check --write",
+		"lint:fix:unsafe": "biome check --write --unsafe",
 		"format": "biome format",
 		"format:fix": "biome format --write"
 	},

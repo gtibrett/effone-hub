@@ -20,7 +20,7 @@ import { gql } from '@apollo/client';
 import ConstructorsQuery from '@/components/page/constructor/ConstructorsQuery';
 import DriversQuery from '@/components/page/driver/DriversQuery';
 import { PastSeasonsQuery, SingleSeasonQuery } from '@/data/query/season.graphql';
-import { Circuit, Driver as DriverT, Race } from '@/gql/graphql';
+import type { Circuit, Driver as DriverT, Race } from '@/gql/graphql';
 import { DriverQuery } from '@/hooks/data/useDriver';
 
 import { getClient } from './apollo-rsc';

@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction, SyntheticEvent, useCallback } from 'react';
+import { type Dispatch, type SetStateAction, type SyntheticEvent, useCallback } from 'react';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 
-import { ChartSwitcherChart } from './types';
+import type { ChartSwitcherChart } from './types';
 
 type ChartSwitcherToggleProps = {
 	charts: ChartSwitcherChart[];

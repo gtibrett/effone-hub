@@ -10,7 +10,7 @@
  *
  * See docs/DEPLOY.md "Cron / Ingest" section for the new topology.
  */
-import { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 import revalidate from './revalidate';
 

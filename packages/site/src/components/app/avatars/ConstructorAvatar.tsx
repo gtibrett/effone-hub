@@ -3,8 +3,8 @@ import { faIndustry } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar } from '@mui/material';
 
-import { Team } from '@/gql/graphql';
-import { AvatarSizes, useAvatarSize, useGetTeamColor } from '@/hooks';
+import type { Team } from '@/gql/graphql';
+import { type AvatarSizes, useAvatarSize, useGetTeamColor } from '@/hooks';
 import { useTeam } from '@/hooks/data';
 
 export type TeamAvatarProps = {

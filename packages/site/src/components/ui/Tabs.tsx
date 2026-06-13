@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useCallback, useMemo, useState } from 'react';
+import { type ReactNode, useCallback, useMemo, useState } from 'react';
 import { Box, Grid, Tabs as MuiTabs, Tab } from '@mui/material';
 
 export type TabContent = {

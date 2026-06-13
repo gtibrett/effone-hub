@@ -1,6 +1,4 @@
 {
-  "enabledMcpjsonServers": [
-    "code-review-graph"
-  ],
+  "enabledMcpjsonServers": [],
   "enableAllProjectMcpServers": true
 }

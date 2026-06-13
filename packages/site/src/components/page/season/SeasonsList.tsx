@@ -1,18 +1,18 @@
 import { memo, Suspense } from 'react';
 import { useSuspenseQuery } from '@apollo/client/react';
 import { Box, Link, Skeleton } from '@mui/material';
-import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
+import { DataGrid, type GridColDef, type GridRenderCellParams } from '@mui/x-data-grid';
 
 import { StatCard } from '@/components/app';
 import SeasonsQuery from '@/components/page/season/SeasonsQuery';
 import { toPoints } from '@/helpers';
 
 import {
-	ChampionData,
-	DriverChampionData,
+	type ChampionData,
+	type DriverChampionData,
 	isDriverChampion,
-	SeasonData,
-	TeamChampionData
+	type SeasonData,
+	type TeamChampionData
 } from './types';
 
 type PlaceVariant = 'driver' | 'team';

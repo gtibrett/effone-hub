@@ -1,4 +1,4 @@
-import { Driver, Race, RaceResult, SeasonTeamStanding, Team } from '@/gql/graphql';
+import type { Driver, Race, RaceResult, SeasonTeamStanding, Team } from '@/gql/graphql';
 
 export type DriverByYear = {
 	year: number;

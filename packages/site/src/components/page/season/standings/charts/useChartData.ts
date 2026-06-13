@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useTheme } from '@mui/material';
 
-import { ChartMode, RaceStandingsWithEntities, StandingsChartSerie } from './types';
+import type { ChartMode, RaceStandingsWithEntities, StandingsChartSerie } from './types';
 
 const getLastPoints = (data: StandingsChartSerie['data']) => data.at(-1)?.y || 0;
 const sorter = (a: StandingsChartSerie, b: StandingsChartSerie) =>
@@ -30,7 +30,7 @@ export default function useChartData(data: RaceStandingsWithEntities[] = [], mod
 						id: String(id),
 						entity: standing.entity,
 						color: standing.entity.color || fallbackColor,
-						data: new Array(maxRound).fill(0).map((d, i) => ({ x: i + 1, y: null }))
+						data: new Array(maxRound).fill(0).map((_d, i) => ({ x: i + 1, y: null }))
 					});
 
 					index = chartSeries.length - 1;

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 
-import { Driver } from '@/gql/graphql';
+import type { Driver } from '@/gql/graphql';
 
 const DriverFields = gql`
 	fragment DriverFields on Driver {

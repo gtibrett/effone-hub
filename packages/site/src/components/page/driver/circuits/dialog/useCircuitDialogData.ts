@@ -1,9 +1,9 @@
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 
-import { DriverId } from '@/types';
+import type { DriverId } from '@/types';
 
-import { CircuitDialogData } from './types';
+import type { CircuitDialogData } from './types';
 
 const CircuitDataQuery = gql`
 	query CircuitDataQuery($circuitId: String!, $driverId: String!) {

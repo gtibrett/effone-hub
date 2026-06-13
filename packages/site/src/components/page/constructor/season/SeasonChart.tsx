@@ -10,7 +10,7 @@ import { useChartsTheme } from '@/components/ui/charts';
 import { alpha } from '@/components/ui/colors';
 import { useGetTeamColor } from '@/hooks';
 
-import { ConstructorPageData } from '../types';
+import type { ConstructorPageData } from '../types';
 
 type SeasonChartProps = SimpleApolloResult<ConstructorPageData> & { season: number };
 

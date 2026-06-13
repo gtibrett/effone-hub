@@ -6,7 +6,7 @@ import NavMenu from './NavMenu';
 
 export default function Header() {
 	return (
-		<header role="banner">
+		<header>
 			<AppBar
 				component="nav"
 				color="primary"

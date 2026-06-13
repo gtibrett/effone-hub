@@ -1,5 +1,5 @@
-import { ChartSwitcher, ChartSwitcherChart, LineChartByTeam } from '@/components/app';
-import { DriverId } from '@/types';
+import { ChartSwitcher, type ChartSwitcherChart, LineChartByTeam } from '@/components/app';
+import type { DriverId } from '@/types';
 
 import CareerBreakdownChart from './CareerBreakdownChart';
 import CareerTooltip from './CareerTooltip';

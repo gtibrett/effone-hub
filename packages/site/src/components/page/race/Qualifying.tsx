@@ -4,7 +4,7 @@ import { Alert, Skeleton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { ConstructorByLine, DriverByLine } from '@/components/app';
-import { QualifyingResult, Race } from '@/gql/graphql';
+import type { QualifyingResult, Race } from '@/gql/graphql';
 
 const QualifyingQuery = gql`
 	query qualifyingQuery($season: Int!, $round: Int!) {

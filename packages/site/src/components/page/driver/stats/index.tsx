@@ -1,4 +1,4 @@
-import { DriverId } from '@/types';
+import type { DriverId } from '@/types';
 
 import DriverAppearances from './DriverAppearances';
 import DriverDNFs from './DriverDNFs';

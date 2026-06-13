@@ -1,7 +1,5 @@
-const schema = require('./schema.graphql');
-
 const config = {
-	schema
+	schema: '../api/schema.graphql'
 };
 
 export default config;

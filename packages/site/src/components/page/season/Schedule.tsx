@@ -2,13 +2,9 @@ import { Box, Card, CardHeader, Link, Skeleton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { DriverByLine, RaceMap, useMapSeasonRacesToMapPoints } from '@/components/app';
-import { Circuit, Race, Season } from '@/gql/graphql';
+import type { Season } from '@/gql/graphql';
 
 import useScheduleData from './useScheduleData';
-
-type RaceWithCircuit = Omit<Race, 'circuit'> & {
-	circuit: Circuit;
-};
 
 type ScheduleProps = {
 	season: Season['year'];

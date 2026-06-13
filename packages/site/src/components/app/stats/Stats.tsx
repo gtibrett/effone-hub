@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 import { Grid } from '@mui/material';
 
 export default function Stats({ children }: PropsWithChildren) {

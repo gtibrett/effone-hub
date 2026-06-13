@@ -1,9 +1,9 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { Link, Skeleton } from '@mui/material';
 
-import { Team } from '@/gql/graphql';
+import type { Team } from '@/gql/graphql';
 import { useTeam } from '@/hooks/data';
-import { TeamId } from '@/types';
+import type { TeamId } from '@/types';
 
 type BaseByLineProps = {
 	variant?: 'name' | 'link';

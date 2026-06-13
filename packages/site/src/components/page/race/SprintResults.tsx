@@ -2,7 +2,7 @@ import { Alert, Grid, Skeleton, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { ConstructorByLine, DriverByLine } from '@/components/app';
-import { SprintRaceResult } from '@/gql/graphql';
+import type { SprintRaceResult } from '@/gql/graphql';
 import { getPositionTextOutcome, toPoints } from '@/helpers';
 
 import PositionChange from './PositionChange';
@@ -46,7 +46,7 @@ export default function SprintResults({ results }: { results: SprintRaceResult[]
 						<Typography className="sr-only">Position Changes</Typography>
 					),
 					renderCell: ({ row }) => <PositionChange {...row} />,
-					valueGetter: (value, row) => {
+					valueGetter: (_value, row) => {
 						const { gridPositionNumber, positionNumber } = row;
 						if (!gridPositionNumber || !positionNumber) {
 							return 0;

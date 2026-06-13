@@ -1,10 +1,15 @@
-import { SyntheticEvent, useState } from 'react';
+import { type SyntheticEvent, useState } from 'react';
 import { TextField } from '@mui/material';
 
 import { SeasonMenu } from '@/components/app';
-import { ListFiltersProps, setNumberFilter, setStringFilter, TableFilter } from '@/components/ui';
+import {
+	type ListFiltersProps,
+	setNumberFilter,
+	setStringFilter,
+	TableFilter
+} from '@/components/ui';
 
-import { CircuitsListFilters } from './types';
+import type { CircuitsListFilters } from './types';
 
 export default function CircuitsFilters({
 	filters,

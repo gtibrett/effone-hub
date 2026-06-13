@@ -6,13 +6,13 @@ import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 import { LineChart } from '@mui/x-charts/LineChart';
 
 import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
-import { TeamStandingData } from '@/hooks/data';
+import type { TeamStandingData } from '@/hooks/data';
 
-import { HistoryProps } from './History';
+import type { HistoryProps } from './History';
 import HistoryTooltip from './HistoryTooltip';
 import useHistoryChartData, {
 	getChartDataByAttribute,
-	HistoryChartData,
+	type HistoryChartData,
 	useHistoryChartColors
 } from './useHistoryChartData';
 

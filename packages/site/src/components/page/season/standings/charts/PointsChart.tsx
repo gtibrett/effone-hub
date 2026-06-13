@@ -22,11 +22,13 @@ const MARGIN_RIGHT = 12;
 const MARGIN_BOTTOM = 12;
 const MARGIN_LEFT = 12;
 
+// `onLabelClick` is part of the shared standings-chart contract (wired in
+// PositionsChart); PointsChart has no end-label surface, so it accepts but does
+// not consume it. Kept in the type for caller parity.
 export default function PointsChart({
 	data,
 	TooltipComponent,
-	height,
-	onLabelClick
+	height
 }: ChartProps & { height?: number; onLabelClick?: (seriesId: string) => void }) {
 	const chartData = useChartData(data, 'points');
 	const { sx } = useChartsTheme();

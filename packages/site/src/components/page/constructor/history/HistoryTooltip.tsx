@@ -11,8 +11,7 @@ export type HistoryTooltipProps = {
 			x: number | string;
 			xFormatted?: string;
 			y: number | null | undefined;
-			// any: keeps PropertiesTable's strict ReactElement children type
-			// happy with conditional rows (same trick as the legacy nivo version)
+			// biome-ignore lint/suspicious/noExplicitAny: synthesized nivo-parity datum; typing the fields precisely resurfaces PropertiesTable's strict ReactElement-children rejection of conditional rows
 			data: any;
 		};
 	};

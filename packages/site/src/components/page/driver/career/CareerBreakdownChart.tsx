@@ -8,7 +8,7 @@ import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
 import { capitalizeCamelCase } from '@/helpers';
 import { RESULTS_COLORS, type ResultsBucket } from '@/lib/resultsColors';
-import { DriverId } from '@/types';
+import type { DriverId } from '@/types';
 
 import BreakdownTooltip from './BreakdownTooltip';
 import useBreakdownData, { type BreakdownDatum } from './useBreakdownData';

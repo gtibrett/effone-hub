@@ -5,9 +5,9 @@ import { DataGrid } from '@mui/x-data-grid';
 import { DriverAvatar, DriverByLine } from '@/components/app';
 import DriversQuery from '@/components/page/driver/DriversQuery';
 import { useDriversList } from '@/components/page/driver/index';
-import { DriversListFilters } from '@/components/page/driver/types';
+import type { DriversListFilters } from '@/components/page/driver/types';
 import { Flag } from '@/components/ui';
-import { Driver } from '@/gql/graphql';
+import type { Driver } from '@/gql/graphql';
 
 type DriversTableProps = {
 	filters: DriversListFilters;
@@ -39,13 +39,13 @@ export default function DriversList({ filters }: DriversTableProps) {
 					headerName: 'Driver',
 					flex: 1,
 					renderCell: ({ row }) => <DriverByLine driver={row} variant="link" />,
-					valueGetter: (value, row) => `${row.firstName}, ${row.lastName}`
+					valueGetter: (_value, row) => `${row.firstName}, ${row.lastName}`
 				},
 				{
 					field: 'nationalityCountryId',
 					headerName: 'Nationality',
 					flex: 1,
-					renderCell: ({ value, row }) => (
+					renderCell: ({ row }) => (
 						<Grid container spacing={1}>
 							<Grid>
 								<Flag nationality={row.nationalityCountry} />
@@ -59,14 +59,14 @@ export default function DriversList({ filters }: DriversTableProps) {
 					headerName: 'Seasons',
 					flex: 0.25,
 					type: 'number',
-					valueGetter: (value, row) => row.seasonDrivers?.length ?? 0
+					valueGetter: (_value, row) => row.seasonDrivers?.length ?? 0
 				},
 				{
 					field: 'races',
 					headerName: 'Races',
 					flex: 0.25,
 					type: 'number',
-					valueGetter: (value, row) => row.totalRaceStarts ?? 0
+					valueGetter: (_value, row) => row.totalRaceStarts ?? 0
 				},
 				// {
 				// 	field:       'championships',
@@ -80,14 +80,14 @@ export default function DriversList({ filters }: DriversTableProps) {
 					headerName: 'Wins',
 					flex: 0.25,
 					type: 'number',
-					valueGetter: (value, row) => row.totalRaceWins ?? 0
+					valueGetter: (_value, row) => row.totalRaceWins ?? 0
 				},
 				{
 					field: 'podiums',
 					headerName: 'Podiums',
 					flex: 0.25,
 					type: 'number',
-					valueGetter: (value, row) => row.totalPodiums ?? 0
+					valueGetter: (_value, row) => row.totalPodiums ?? 0
 				}
 			]}
 			initialState={{

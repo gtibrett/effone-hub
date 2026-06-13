@@ -1,7 +1,7 @@
 import { StatCard } from '@/components/app';
-import { Maybe } from '@/gql/graphql';
+import type { Maybe } from '@/gql/graphql';
 import { getTimeStringFromDate } from '@/helpers';
-import { CircuitDataProps } from '@/hooks/data';
+import type { CircuitDataProps } from '@/hooks/data';
 
 export default function FastestLap({ data, loading }: CircuitDataProps) {
 	const fastestLaps: Map<string, Maybe<number>> = new Map<string, Maybe<number>>(

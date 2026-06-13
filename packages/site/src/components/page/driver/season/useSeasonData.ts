@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 
-import { DriverPageData } from '../types';
+import type { DriverPageData } from '../types';
 
 const query = gql`
 	query DriverSeasonQuery($driverId: String!, $season: Int!) {

@@ -2,7 +2,7 @@ import { faRankingStar } from '@fortawesome/free-solid-svg-icons';
 
 import { StatCard } from '@/components/app';
 
-import { DriverStatProps } from './index';
+import type { DriverStatProps } from './index';
 import useDriverStatsData from './useDriverStatsData';
 
 export default function DriverPodiums({ driverId }: DriverStatProps) {

@@ -5,11 +5,11 @@ import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps
 import { useComponentDimensionsWithRef } from '@gtibrett/mui-additions';
 import { Box } from '@mui/material';
 
-import { Circuit } from '@/gql/graphql';
+import type { Circuit } from '@/gql/graphql';
 import { cssVar } from '@/lib/tokens';
 
 import MapTooltip from './MapTooltip';
-import { Point } from './types';
+import type { Point } from './types';
 import useLand from './useLand';
 import type { MapPointEventHandler } from './useMapSeasonRacesToMapPoints';
 

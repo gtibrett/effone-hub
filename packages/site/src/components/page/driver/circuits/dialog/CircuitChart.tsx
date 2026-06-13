@@ -1,15 +1,15 @@
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
 import {
 	ChartSwitcher,
-	ChartSwitcherChart,
-	DataWithTeamInfo,
+	type ChartSwitcherChart,
+	type DataWithTeamInfo,
 	LineChartByTeam,
-	LineChartByTeamProps
+	type LineChartByTeamProps
 } from '@/components/app';
 import CareerTooltip from '@/components/page/driver/career/CareerTooltip';
 import { useGetTeamColor } from '@/hooks';
 
-import { CircuitDialogData } from './types';
+import type { CircuitDialogData } from './types';
 
 type CircuitChartProps = SimpleApolloResult<CircuitDialogData>;
 

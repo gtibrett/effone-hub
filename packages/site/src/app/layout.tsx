@@ -1,7 +1,7 @@
 import './globals.css';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 import type { Metadata, Viewport } from 'next';
 import { Anton, Racing_Sans_One, Titillium_Web } from 'next/font/google';
 import { GoogleAnalytics } from '@next/third-parties/google';

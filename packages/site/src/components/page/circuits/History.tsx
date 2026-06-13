@@ -2,7 +2,7 @@ import { Alert, Link, Skeleton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { DriverByLine } from '@/components/app';
-import { CircuitDataProps } from '@/hooks/data';
+import type { CircuitDataProps } from '@/hooks/data';
 
 export default function History({ data, loading }: CircuitDataProps) {
 	if (loading) {
@@ -62,7 +62,7 @@ export default function History({ data, loading }: CircuitDataProps) {
 					field: 'winner',
 					headerName: 'Winner',
 					flex: 1,
-					valueGetter: (value, row) => {
+					valueGetter: (_value, row) => {
 						if (!row.raceResults?.length) {
 							return '--';
 						}

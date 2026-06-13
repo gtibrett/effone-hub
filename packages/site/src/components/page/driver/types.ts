@@ -1,6 +1,6 @@
-import { Driver, Race, RaceResult, SeasonDriver } from '@/gql/graphql';
+import type { Driver, Race, RaceResult, SeasonDriver } from '@/gql/graphql';
 
-import { SeasonTeam } from './career/seasonEndTeam';
+import type { SeasonTeam } from './career/seasonEndTeam';
 
 export type DriverData = Pick<
 	Driver,

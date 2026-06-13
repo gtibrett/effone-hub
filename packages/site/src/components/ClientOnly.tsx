@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { type PropsWithChildren, useEffect, useState } from 'react';
 
 // biome-ignore lint/suspicious/noExplicitAny: generic
 export default function ClientOnly({ children, ...delegated }: PropsWithChildren<any>) {

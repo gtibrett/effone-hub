@@ -1,4 +1,4 @@
-import { Circuit } from '@/gql/graphql';
+import type { Circuit } from '@/gql/graphql';
 
 export type Point = {
 	id: string | number;
@@ -7,6 +7,7 @@ export type Point = {
 	name: string;
 	pointRadius?: number;
 	properties: {
+		// biome-ignore lint/suspicious/noExplicitAny: geojson-style feature properties bag, dynamically keyed
 		[key: string]: any;
 	};
 };

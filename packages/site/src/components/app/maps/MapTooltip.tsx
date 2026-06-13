@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 
-import { Point } from './types';
+import type { Point } from './types';
 
 type MapTooltipProps = { point: Point };
 

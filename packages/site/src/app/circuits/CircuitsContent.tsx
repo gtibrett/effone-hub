@@ -4,7 +4,11 @@ import { Suspense, useState } from 'react';
 import { Card, CardContent, Skeleton } from '@mui/material';
 
 import { useAppState } from '@/components/app';
-import { CircuitsFilters, CircuitsList, CircuitsListFilters } from '@/components/page/circuits';
+import {
+	CircuitsFilters,
+	CircuitsList,
+	type CircuitsListFilters
+} from '@/components/page/circuits';
 import { Page } from '@/components/ui';
 
 export default function CircuitsContent() {

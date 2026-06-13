@@ -1,6 +1,6 @@
 'use client';
 
-import { MouseEventHandler, PropsWithChildren } from 'react';
+import type { MouseEventHandler, PropsWithChildren } from 'react';
 import { Link } from '@mui/material';
 
 export type SkipNavProps = PropsWithChildren<{

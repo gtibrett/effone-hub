@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 
-import { ActiveChart, ChartSwitcherChart } from './types';
+import type { ActiveChart, ChartSwitcherChart } from './types';
 
 type ChartSwitcherProps = {
 	active: ActiveChart;

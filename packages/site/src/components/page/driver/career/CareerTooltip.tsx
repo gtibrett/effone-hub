@@ -11,6 +11,7 @@ import { useTeam } from '@/hooks/data';
 export type CareerTooltipProps = {
 	point: {
 		seriesId: string | number;
+		// biome-ignore lint/suspicious/noExplicitAny: synthesized nivo-parity datum; precise typing resurfaces PropertiesTable's strict ReactElement-children rejection of conditional rows
 		data: any;
 	};
 };

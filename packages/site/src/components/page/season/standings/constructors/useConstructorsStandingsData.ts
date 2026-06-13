@@ -4,7 +4,7 @@ import { useSuspenseQuery } from '@apollo/client/react';
 
 import { useFallbackColor } from '@/components/ui';
 
-import { Entity, RaceStandingsWithEntities } from '../charts';
+import type { Entity, RaceStandingsWithEntities } from '../charts';
 
 type ConstructorColors = {
 	primaryHex: string | null;
@@ -38,10 +38,10 @@ const useMapConstructorToEntity = () => {
 	const fallbackColor = useFallbackColor();
 
 	return useCallback(
-		(constructor: ConstructorNode): Entity => ({
-			id: constructor.id,
-			name: constructor.name || '',
-			color: constructor.colors?.primaryHex || fallbackColor
+		(constructorNode: ConstructorNode): Entity => ({
+			id: constructorNode.id,
+			name: constructorNode.name || '',
+			color: constructorNode.colors?.primaryHex || fallbackColor
 		}),
 		[fallbackColor]
 	);

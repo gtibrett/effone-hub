@@ -1,6 +1,6 @@
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
-import { Circuit } from '@/gql/graphql';
+import type { Circuit } from '@/gql/graphql';
 
 import {
 	AlbertPark,

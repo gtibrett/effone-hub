@@ -1,5 +1,5 @@
-import { StatCardData } from './StatCard';
-import { DataWithValue } from './types';
+import type { StatCardData } from './StatCard';
+import type { DataWithValue } from './types';
 
 export default function convertGenericMapToDataWithValueMap<
 	T extends StatCardData = DataWithValue,
@@ -9,15 +9,15 @@ export default function convertGenericMapToDataWithValueMap<
 	if (data.size) {
 		// if data contains DataWithValues
 		if ((Array.from(data.values())[0] as DataWithValue).value) {
-			Array.from(data.entries()).forEach(([key, value]) =>
-				dataWithValuesMap.set(key, value as unknown as F)
-			);
+			Array.from(data.entries()).forEach(([key, value]) => {
+				dataWithValuesMap.set(key, value as unknown as F);
+			});
 		}
 		// if data contains numbers
 		else {
-			Array.from(data.entries()).forEach(([key, value]) =>
-				dataWithValuesMap.set(key, { value: value as number } as F)
-			);
+			Array.from(data.entries()).forEach(([key, value]) => {
+				dataWithValuesMap.set(key, { value: value as number } as F);
+			});
 		}
 	}
 

@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 
 import { DriverByLine } from '@/components/app';
-import { AppLapTime } from '@/gql/graphql';
+import type { AppLapTime } from '@/gql/graphql';
 import { getTimeStringFromDate } from '@/helpers';
 
-import { LapByLapData, useLapByLapData } from '../lapByLap/useLapByLapChartData';
+import { type LapByLapData, useLapByLapData } from '../lapByLap/useLapByLapChartData';
 import { getColorWithAlt } from './helpers';
-import { LapChartSeries } from './useLapTimeChartData';
+import type { LapChartSeries } from './useLapTimeChartData';
 
 type LapData = {
 	lap: number;
@@ -40,7 +40,7 @@ function useLapTimesData(lapByLapData: LapByLapData) {
 				const lapsWithTimes = d.laps
 					.filter(l => l.milliseconds)
 					.map(l => ({ ...l, milliseconds: Number(l.milliseconds) }));
-				let personalBest: number | undefined = undefined;
+				let personalBest: number | undefined;
 
 				data.push({
 					driverId: d.driverId,
@@ -85,7 +85,7 @@ const useColumns = (laps: number) => {
 				align: 'center',
 				headerAlign: 'center',
 				width: 110,
-				valueGetter: (value, row, column) => {
+				valueGetter: (_value, row, column) => {
 					const lap = row.laps.find(l => l.lap === Number(column.field));
 					if (!lap) {
 						return undefined;

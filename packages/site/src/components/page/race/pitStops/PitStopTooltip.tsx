@@ -5,7 +5,7 @@ import { PropertiesTable, PropertiesTableRow } from '@/components/ui';
 import { getTimeStringFromDate } from '@/helpers';
 import { useDriverHeaderSx } from '@/hooks';
 
-import { PitStopSerie } from './PitStopsChart';
+import type { PitStopSerie } from './PitStopsChart';
 
 type PitStopTooltipProps = {
 	value: number;

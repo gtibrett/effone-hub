@@ -3,10 +3,11 @@ import { DataGrid } from '@mui/x-data-grid';
 
 import { ConstructorByLine, DriverByLine } from '@/components/app';
 import { getPositionTextOutcome, toPoints } from '@/helpers';
-import { CircuitDataProps } from '@/hooks/data';
+import type { CircuitDataProps } from '@/hooks/data';
 
 import PositionChange from '../race/PositionChange';
 import NextRaceCountdown from '../raceWeekend/NextRaceCountdown';
+import type { NextRace } from '../raceWeekend/useNextRaceData';
 
 export default function Season({ data, loading }: CircuitDataProps) {
 	if (loading) {
@@ -22,7 +23,10 @@ export default function Season({ data, loading }: CircuitDataProps) {
 			return (
 				<>
 					<Typography variant="h5">Countdown</Typography>
-					<NextRaceCountdown variant="main" race={data.circuit.season[0] as any} />
+					<NextRaceCountdown
+						variant="main"
+						race={data.circuit.season[0] as unknown as NextRace}
+					/>
 				</>
 			);
 		}
@@ -63,7 +67,7 @@ export default function Season({ data, loading }: CircuitDataProps) {
 							positionDisplayOrder={Number(row.positionDisplayOrder)}
 						/>
 					),
-					valueGetter: (value, row) => {
+					valueGetter: (_value, row) => {
 						const { gridPositionNumber, positionDisplayOrder } = row;
 						if (!gridPositionNumber || !positionDisplayOrder) {
 							return 0;
@@ -114,14 +118,12 @@ export default function Season({ data, loading }: CircuitDataProps) {
 								className="items-center justify-between flex-nowrap"
 							>
 								<Grid>
-									<>
-										{row.reasonRetired
-											? row.reasonRetired
-											: getPositionTextOutcome(
-													String(row.positionDisplayOrder),
-													undefined
-												)}
-									</>
+									{row.reasonRetired
+										? row.reasonRetired
+										: getPositionTextOutcome(
+												String(row.positionDisplayOrder),
+												undefined
+											)}
 								</Grid>
 							</Grid>
 						);

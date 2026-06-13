@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { type Dispatch, type SetStateAction, useState } from 'react';
 
-import { ActiveChart } from './types';
+import type { ActiveChart } from './types';
 
 type useChartSwitcherTuple = [
 	active: ActiveChart,

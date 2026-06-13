@@ -2,10 +2,10 @@
 
 import {
 	createContext,
-	Dispatch,
-	FC,
-	PropsWithChildren,
-	SetStateAction,
+	type Dispatch,
+	type FC,
+	type PropsWithChildren,
+	type SetStateAction,
 	useContext,
 	useEffect,
 	useState
@@ -49,7 +49,7 @@ const AppStateProvider: FC<PropsWithChildren> = ({ children }) => {
 		}
 	}, [seasons, state.ready, state]);
 
-	if (!state || !state.ready || !state.currentSeason) {
+	if (!state?.ready || !state?.currentSeason) {
 		return (
 			<Backdrop open>
 				{error ? <ErrorCard message="Could not connect to the data API" /> : null}

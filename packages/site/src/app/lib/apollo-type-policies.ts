@@ -1,4 +1,4 @@
-import { TypePolicies } from '@apollo/client';
+import type { TypePolicies } from '@apollo/client';
 
 /**
  * Cache-normalization keys for types whose identity is NOT a single `id`.

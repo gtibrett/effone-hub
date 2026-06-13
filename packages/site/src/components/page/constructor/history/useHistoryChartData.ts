@@ -1,9 +1,9 @@
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
-import { Serie as LineSerie } from '@/components/app/charts/types';
-import { Team } from '@/gql/graphql';
+import type { Serie as LineSerie } from '@/components/app/charts/types';
+import type { Team } from '@/gql/graphql';
 import { useGetTeamColor } from '@/hooks';
 
-import { ConstructorPageData, TeamStandingData } from '../types';
+import type { ConstructorPageData, TeamStandingData } from '../types';
 
 type StandingsAndTeamInfo = Pick<Team, 'id' | 'name' | 'colors'> & {
 	standings: TeamStandingData[];
@@ -34,12 +34,15 @@ export default function useHistoryChartData(
 		const filteredStandings = standings.filter(
 			s => s.year && s.year >= (startYear ?? 0) && (!endYear || s.year <= endYear)
 		);
-		standingsByTeam.set(id, { name, id, colors: colors as any, standings: filteredStandings });
+		standingsByTeam.set(id, {
+			name,
+			id,
+			colors: colors as Team['colors'],
+			standings: filteredStandings
+		});
 	});
 
-	const flatStandings = Array.from(standingsByTeam.values())
-		.map(t => t.standings)
-		.flat();
+	const flatStandings = Array.from(standingsByTeam.values()).flatMap(t => t.standings);
 	const minYear = Math.min(...flatStandings.map(s => s.year || Number.POSITIVE_INFINITY));
 	const maxYear = Math.max(...flatStandings.map(s => s.year || Number.NEGATIVE_INFINITY));
 	const maxPoints = Math.max(...flatStandings.map(s => s.points || 0));
@@ -48,7 +51,7 @@ export default function useHistoryChartData(
 	return { standingsByTeam, minYear, maxYear, maxPoints, maxPosition };
 }
 
-const generateBaseSerie = (id: string, data: any) => {
+const generateBaseSerie = (id: string, data: Partial<LineSerie>) => {
 	const serie: LineSerie = {
 		id,
 		...data,
@@ -90,7 +93,6 @@ export function getChartDataByAttribute(
 				y = standing[attribute] !== null ? standing[attribute] : null;
 			}
 
-			// @ts-ignore
 			chartData.data.push({ x, y, data: { id, name, ...standing } });
 		}
 

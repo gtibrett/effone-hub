@@ -8,7 +8,7 @@ import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 
 import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
 
-import { PitStopTableRow } from './PitStops';
+import type { PitStopTableRow } from './PitStops';
 import PitStopTooltip from './PitStopTooltip';
 
 type PitStopsChartProps = {

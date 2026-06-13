@@ -1,4 +1,4 @@
-import { CircuitDialogData } from './types';
+import type { CircuitDialogData } from './types';
 import useGetTeamColorsByYear from './useGetTeamColorsByYear';
 
 export type SwarmData = {
@@ -18,7 +18,7 @@ function getStandardDeviation(data: number[]) {
 	}
 
 	const mean = data.reduce((a, b) => a + b, 0) / n;
-	return Math.sqrt(data.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n);
+	return Math.sqrt(data.map(x => (x - mean) ** 2).reduce((a, b) => a + b) / n);
 }
 
 export function useMapLapTimeDataToSwarmChart() {

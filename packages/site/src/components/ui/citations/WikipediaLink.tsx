@@ -1,8 +1,8 @@
 import { faWikipediaW } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link, LinkProps, Typography } from '@mui/material';
+import { Link, type LinkProps, Typography } from '@mui/material';
 
-import { Maybe } from '@/gql/graphql';
+import type { Maybe } from '@/gql/graphql';
 
 type WikipediaLinkProps = {
 	href: Maybe<LinkProps['href']> | undefined;

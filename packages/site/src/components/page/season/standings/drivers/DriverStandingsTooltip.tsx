@@ -4,7 +4,7 @@ import { DriverAvatar, DriverByLine } from '@/components/app';
 import { PropertiesTable, PropertiesTableRow } from '@/components/ui';
 import { useDriverHeaderSx } from '@/hooks';
 
-import { PointTooltipProps, PositionsChartTooltipProps } from '../charts';
+import type { PointTooltipProps, PositionsChartTooltipProps } from '../charts';
 
 export function DriverStandingsPositionTooltip({ serie }: PositionsChartTooltipProps) {
 	const {

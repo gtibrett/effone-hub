@@ -2,9 +2,9 @@ import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 
 import { StatCard } from '@/components/app';
-import { Season } from '@/gql/graphql';
+import type { Season } from '@/gql/graphql';
 
-import { SeasonStatProps } from './index';
+import type { SeasonStatProps } from './index';
 
 type Data = {
 	season: Pick<Season, 'racesByYear'> | null;

@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { default as NextLink } from 'next/link';
-import { createTheme, ThemeOptions, useMediaQuery } from '@mui/material';
+import { createTheme, type ThemeOptions, useMediaQuery } from '@mui/material';
 import type {} from '@mui/x-data-grid/themeAugmentation';
 
 /**
@@ -90,7 +90,6 @@ export const effTheme = createTheme({
 			defaultProps: {
 				slotProps: {
 					loadingOverlay: {
-						//@ts-ignore
 						variant: 'linear-progress',
 						noRowsVariant: 'skeleton'
 					}

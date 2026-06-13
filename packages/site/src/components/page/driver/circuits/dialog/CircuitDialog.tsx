@@ -6,7 +6,7 @@ import { Card, Grid, Typography } from '@mui/material';
 import { DriverByLine, RaceMap, useMapCircuitsToMapPoints } from '@/components/app';
 import ErrorBoundary from '@/components/app/ErrorBoundary';
 import { Tabs } from '@/components/ui';
-import { DriverId } from '@/types';
+import type { DriverId } from '@/types';
 
 import CircuitChart from './CircuitChart';
 import CircuitPerformance from './CircuitPerformance';
