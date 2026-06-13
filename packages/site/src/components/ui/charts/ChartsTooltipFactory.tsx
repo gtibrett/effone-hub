@@ -16,33 +16,17 @@ export function ChartsTooltipBody({ heading, children }: ChartsTooltipBodyProps)
 
 	return (
 		<ThemeProvider theme={inverted}>
-			<Box
-				sx={{
-					backdropFilter: 'blur(4px)',
-					borderRadius: 0.5,
-					overflow: 'hidden',
-					minWidth: 160,
-					background: inverted.palette.background.paper,
-					color: `contrast-color(${inverted.palette.background.paper})`,
-					fontSize: inverted.typography.caption.fontSize,
-					boxShadow: inverted.shadows[6]
-				}}
-			>
+			<Box className="backdrop-blur-xs rounded overflow-hidden min-w-40 shadow">
 				{heading != null ? (
 					<Typography
 						variant="caption"
 						component="div"
-						sx={{
-							px: 1,
-							py: 0.5,
-							borderBottom: `1px solid ${inverted.palette.divider}`,
-							fontWeight: 'bold'
-						}}
+						className="px-1 py-0.5 border-b border-b-divider font-bold"
 					>
 						{heading}
 					</Typography>
 				) : null}
-				<Box sx={{ px: 1, py: 0.5 }}>{children}</Box>
+				<Box>{children}</Box>
 			</Box>
 		</ThemeProvider>
 	);
@@ -60,6 +44,7 @@ export function createItemTooltipSlot(Content: ComponentType) {
 			</ChartsTooltipContainer>
 		);
 	}
+
 	ItemTooltipSlot.displayName = `ItemTooltipSlot(${Content.displayName || Content.name || 'Anonymous'})`;
 	return ItemTooltipSlot;
 }
@@ -72,6 +57,7 @@ export function createAxisTooltipSlot(Content: ComponentType) {
 			</ChartsTooltipContainer>
 		);
 	}
+
 	AxisTooltipSlot.displayName = `AxisTooltipSlot(${Content.displayName || Content.name || 'Anonymous'})`;
 	return AxisTooltipSlot;
 }

@@ -1,11 +1,11 @@
 import type { Dispatch, SetStateAction } from 'react';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Dialog } from '@gtibrett/mui-additions';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { ConstructorByLine } from '@/components/app';
 import { toPoints } from '@/helpers';
+import { Dialog } from '@/lib/mui-additions';
 
 import useConstructorStandingsData from './useConstructorsStandingsData';
 
