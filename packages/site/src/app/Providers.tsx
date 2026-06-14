@@ -9,7 +9,6 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 import { Layout } from '@/components/app';
 import { effTheme } from '@/components/ui/Theme';
 
-import ApolloWrapper from './ApolloWrapper';
 import type { AppSeasonState } from './lib/cached-data';
 
 config.autoAddCss = false;
@@ -25,14 +24,12 @@ export default function Providers({
 	// does not force dynamic — static routes still render their content into the shell.
 	return (
 		<AppRouterCacheProvider options={{ enableCssLayer: true }}>
-			<ApolloWrapper>
-				<ThemeProvider theme={effTheme}>
-					<CssBaseline />
-					<Suspense>
-						<Layout appSeasonState={appSeasonState}>{children}</Layout>
-					</Suspense>
-				</ThemeProvider>
-			</ApolloWrapper>
+			<ThemeProvider theme={effTheme}>
+				<CssBaseline />
+				<Suspense>
+					<Layout appSeasonState={appSeasonState}>{children}</Layout>
+				</Suspense>
+			</ThemeProvider>
 		</AppRouterCacheProvider>
 	);
 }
