@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Typography } from '@mui/material';
 
 import { getDriver, getDriverSeason } from '@/app/lib/cached-data';
@@ -7,7 +8,7 @@ import RouteModal from '../../../RouteModal';
 
 type Params = { driverRef: string; year: string };
 
-export default async function InterceptedSeasonDialog({ params }: { params: Promise<Params> }) {
+async function InterceptedSeasonContent({ params }: { params: Promise<Params> }) {
 	const { driverRef, year } = await params;
 	const season = Number(year);
 	const [driver, races] = await Promise.all([
@@ -37,5 +38,13 @@ export default async function InterceptedSeasonDialog({ params }: { params: Prom
 				currentSeasonTeam={null}
 			/>
 		</RouteModal>
+	);
+}
+
+export default function InterceptedSeasonDialog({ params }: { params: Promise<Params> }) {
+	return (
+		<Suspense fallback={null}>
+			<InterceptedSeasonContent params={params} />
+		</Suspense>
 	);
 }

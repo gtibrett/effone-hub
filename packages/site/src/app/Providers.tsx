@@ -1,6 +1,6 @@
 'use client';
 
-import type { PropsWithChildren } from 'react';
+import { type PropsWithChildren, Suspense } from 'react';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
@@ -17,15 +17,19 @@ export default function Providers({
 	children,
 	appSeasonState
 }: PropsWithChildren<{ appSeasonState: AppSeasonState }>) {
-	// Wall-clock reads are isolated in their own narrow boundaries (race-weekend
-	// countdown) or run post-hydration in client components, so the Layout tree no
-	// longer needs a broad Suspense wrapper here — keeping the static shell large.
+	// Root Suspense around the Layout tree is load-bearing: dynamic / fallback-shell
+	// routes (e.g. /_not-found, the driver dialog routes that have no
+	// generateStaticParams) defer layout-level data here. Without it their prerender
+	// fails with "uncached data accessed outside of <Suspense>". A Suspense boundary
+	// does not force dynamic — static routes still render their content into the shell.
 	return (
 		<AppRouterCacheProvider options={{ enableCssLayer: true }}>
 			<ApolloWrapper>
 				<ThemeProvider theme={effTheme}>
 					<CssBaseline />
-					<Layout appSeasonState={appSeasonState}>{children}</Layout>
+					<Suspense>
+						<Layout appSeasonState={appSeasonState}>{children}</Layout>
+					</Suspense>
 				</ThemeProvider>
 			</ApolloWrapper>
 		</AppRouterCacheProvider>

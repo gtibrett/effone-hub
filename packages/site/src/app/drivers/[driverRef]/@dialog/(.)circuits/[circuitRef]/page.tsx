@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Typography } from '@mui/material';
 
 import { getDriver, getDriverCircuitDialog } from '@/app/lib/cached-data';
@@ -7,7 +8,7 @@ import RouteModal from '../../../RouteModal';
 
 type Params = { driverRef: string; circuitRef: string };
 
-export default async function InterceptedCircuitDialog({ params }: { params: Promise<Params> }) {
+async function InterceptedCircuitContent({ params }: { params: Promise<Params> }) {
 	const { driverRef, circuitRef } = await params;
 	const [driver, data] = await Promise.all([
 		getDriver(driverRef),
@@ -34,5 +35,13 @@ export default async function InterceptedCircuitDialog({ params }: { params: Pro
 		>
 			<CircuitDialogBody data={data} driverId={driverRef} />
 		</RouteModal>
+	);
+}
+
+export default function InterceptedCircuitDialog({ params }: { params: Promise<Params> }) {
+	return (
+		<Suspense fallback={null}>
+			<InterceptedCircuitContent params={params} />
+		</Suspense>
 	);
 }
