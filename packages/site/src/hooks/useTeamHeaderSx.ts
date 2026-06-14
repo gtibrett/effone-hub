@@ -5,6 +5,7 @@
 
 import type { CSSProperties } from 'react';
 
+import { useTeamDisplay } from '@/components/app/EntityDisplayProvider';
 import { useTeam } from '@/hooks/data';
 
 import type { HeaderStyle } from './useDriverHeaderSx';
@@ -14,8 +15,10 @@ const HEADER_CLASS =
 	'bg-(--header-bg) text-(--header-fg) [&_.MuiTypography-root]:bg-(--header-bg) [&_.MuiTypography-root]:text-(--header-fg) [&_.MuiTableCell-root]:bg-(--header-bg) [&_.MuiTableCell-root]:text-(--header-fg)';
 
 export default function useTeamHeaderSx(teamId?: string): HeaderStyle {
-	const { team } = useTeam(teamId);
-	const background = useGetTeamColor()(team?.colors);
+	const ctx = useTeamDisplay(teamId);
+	const { team: hookTeam } = useTeam(ctx ? undefined : teamId);
+	const colors = ctx?.colors ?? hookTeam?.colors;
+	const background = useGetTeamColor()(colors);
 
 	return {
 		className: HEADER_CLASS,

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Card, CardHeader, Divider, Link, Typography } from '@mui/material';
 
 import { DriverAvatar } from '@/components/app';
+import { driverToDisplay, useDriverDisplay } from '@/components/app/EntityDisplayProvider';
 import { useDriver } from '@/hooks/data';
 import type { DriverId } from '@/types';
 
@@ -23,19 +24,21 @@ export default function Place({
 	asterisk = false,
 	className
 }: PlaceProps) {
-	const driver = useDriver(driverId);
+	const ctx = useDriverDisplay(driverId);
+	const hookDriver = useDriver(ctx ? undefined : driverId);
+	const display = ctx ?? (hookDriver ? driverToDisplay(hookDriver) : undefined);
 
-	if (!driver) {
+	if (!display) {
 		return null;
 	}
 
-	const { firstName, lastName, id } = driver;
+	const { firstName, lastName, id } = display;
 	const name = `${firstName} ${lastName}`;
 
 	return (
 		<Card className={className}>
 			<CardHeader
-				avatar={<DriverAvatar driverId={driverId} size={64} />}
+				avatar={<DriverAvatar driver={display} size={64} />}
 				title={
 					<Typography noWrap>
 						<Link href={`/drivers/${id}`}>{name}</Link>{' '}

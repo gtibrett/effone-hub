@@ -5,6 +5,7 @@
 
 import type { CSSProperties } from 'react';
 
+import { useDriverDisplay } from '@/components/app/EntityDisplayProvider';
 import { useDriver } from '@/hooks/data';
 import type { DriverId } from '@/types';
 
@@ -24,13 +25,14 @@ function useDriverHeaderSx(
 	driverId: DriverId,
 	yearOrColor: 'current' | number | string | undefined = 'current'
 ): HeaderStyle {
-	const driver = useDriver(driverId ?? undefined);
+	const ctx = useDriverDisplay(driverId);
+	const hookDriver = useDriver(ctx ? undefined : driverId);
 	const getTeamColor = useGetTeamColor();
 
 	let background = getTeamColor(
 		yearOrColor === 'current'
-			? driver?.seasonEntrantDrivers?.[0]?.team?.colors
-			: driver?.seasonEntrantDrivers?.find(t => t.year === yearOrColor)?.team?.colors,
+			? (ctx?.teamColors ?? hookDriver?.seasonEntrantDrivers?.[0]?.team?.colors)
+			: hookDriver?.seasonEntrantDrivers?.find(t => t.year === yearOrColor)?.team?.colors,
 		'primaryHex'
 	);
 

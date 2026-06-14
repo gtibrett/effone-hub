@@ -1,5 +1,6 @@
 import { Card, CardHeader } from '@mui/material';
 
+import { teamToDisplay, useTeamDisplay } from '@/components/app/EntityDisplayProvider';
 import { PropertiesTable, PropertiesTableRow } from '@/components/ui';
 import { useTeamHeaderSx } from '@/hooks';
 import { useTeam } from '@/hooks/data';
@@ -19,7 +20,9 @@ export type CareerTooltipProps = {
 export default function CareerTooltip({ point }: CareerTooltipProps) {
 	const { seriesId: teamId, data } = point;
 	const { points, wins, position, grid } = data;
-	const { team } = useTeam(String(teamId));
+	const ctx = useTeamDisplay(String(teamId));
+	const { team: hookTeam } = useTeam(ctx ? undefined : String(teamId));
+	const teamDisplay = ctx ?? teamToDisplay(hookTeam);
 	const headerSx = useTeamHeaderSx(String(teamId));
 
 	return (
@@ -28,7 +31,7 @@ export default function CareerTooltip({ point }: CareerTooltipProps) {
 				className={headerSx.className}
 				style={headerSx.style}
 				title={point.data.xFormatted}
-				subheader={team?.name}
+				subheader={teamDisplay?.name}
 			/>
 			<PropertiesTable>
 				{grid && (
