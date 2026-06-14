@@ -1,5 +1,6 @@
 'use client';
 
+import '@/polyfills';
 import { type PropsWithChildren, Suspense } from 'react';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import { CssBaseline, ThemeProvider } from '@mui/material';

@@ -1,5 +1,8 @@
 import './globals.css';
 import '@fortawesome/fontawesome-svg-core/styles.css';
+// Load the Array.prototype extensions (removeDuplicates/sortByAttribute) once,
+// globally for SSR — components use them without importing the polyfill.
+import '@/polyfills';
 
 import type { PropsWithChildren } from 'react';
 import type { Metadata, Viewport } from 'next';
