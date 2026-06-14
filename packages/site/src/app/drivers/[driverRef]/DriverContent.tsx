@@ -159,7 +159,7 @@ export default function DriverContent({
 			}
 		>
 			<Card>
-				<Tabs active="career" tabs={tabs} />
+				<Tabs active="career" tabs={tabs} urlParam="tab" />
 			</Card>
 		</Page>
 	);

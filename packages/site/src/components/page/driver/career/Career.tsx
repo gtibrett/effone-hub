@@ -79,7 +79,7 @@ export default function Career({ driverId, careerData, statsData }: CareerProps)
 							renderCell: ({ row }) => (
 								<Link
 									component={NextLink}
-									href={`/drivers/${driverId}/seasons/${row.year}`}
+									href={`/drivers/${driverId}/seasons/${row.year}?tab=career`}
 									color="secondary"
 								>
 									{row.year}

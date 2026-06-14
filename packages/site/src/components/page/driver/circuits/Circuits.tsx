@@ -113,7 +113,7 @@ export default function Circuits({ driverId, circuitRawData }: CircuitsProps) {
 							renderCell: ({ row }) => (
 								<Link
 									component={NextLink}
-									href={`/drivers/${driverId}/circuits/${row.id}`}
+									href={`/drivers/${driverId}/circuits/${row.id}?tab=circuits`}
 									color="secondary"
 								>
 									{row.fullName}
