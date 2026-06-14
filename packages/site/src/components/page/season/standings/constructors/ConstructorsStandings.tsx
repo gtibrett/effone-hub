@@ -105,7 +105,12 @@ export default function ConstructorsStandings({
 						<Button variant="outlined" size="small" onClick={() => setOpen(true)}>
 							show full standings
 						</Button>
-						<ConstructorStandingsDialog season={season} open={open} setOpen={setOpen} />
+						<ConstructorStandingsDialog
+							season={season}
+							open={open}
+							setOpen={setOpen}
+							data={data}
+						/>
 					</>
 				}
 			/>

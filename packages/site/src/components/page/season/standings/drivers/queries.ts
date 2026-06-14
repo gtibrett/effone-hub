@@ -7,6 +7,9 @@ export type SeasonDriverStandingDriverColors = {
 };
 
 export type SeasonDriverStandingEntrant = {
+	year: number;
+	driverId: string;
+	teamId: string;
 	team: { id: string; colors: SeasonDriverStandingDriverColors | null } | null;
 };
 
@@ -42,6 +45,9 @@ export const driverStandingsQuery = gql`
 					abbreviation
 					bio { thumbnailUrl }
 					seasonEntrantDrivers(condition: {year: $season}, first: 1) {
+						year
+						driverId
+						teamId
 						team {
 							id
 							colors {

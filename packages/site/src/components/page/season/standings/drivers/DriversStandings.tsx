@@ -24,7 +24,13 @@ type DriversStandingsProps = {
 	driverChampionData: SeasonDriverChampionData;
 };
 
-const DriversStandingsActions = ({ season }: { season: number }) => {
+const DriversStandingsActions = ({
+	season,
+	data
+}: {
+	season: number;
+	data: DriverStandingsSeasonData;
+}) => {
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -32,7 +38,7 @@ const DriversStandingsActions = ({ season }: { season: number }) => {
 			<Button variant="outlined" size="small" onClick={() => setOpen(true)}>
 				show full standings
 			</Button>
-			<DriverStandingsDialog season={season} open={open} setOpen={setOpen} />
+			<DriverStandingsDialog season={season} open={open} setOpen={setOpen} data={data} />
 		</>
 	);
 };
@@ -101,7 +107,7 @@ function DriversStandings({ season, data, driverChampionData }: DriversStandings
 			charts={charts}
 			size={height}
 			subheader={<DriverChampion season={season} data={driverChampionData} />}
-			actions={<DriversStandingsActions season={season} />}
+			actions={<DriversStandingsActions season={season} data={data} />}
 		/>
 	);
 }

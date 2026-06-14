@@ -5,11 +5,10 @@ import { Dialog, useComponentDimensionsWithRef } from '@gtibrett/mui-additions';
 import { Card, Grid } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
+import type { SeasonDriverStandingsData } from '@/app/lib/cached-data';
 import { DriverByLine } from '@/components/app';
 import { Place } from '@/components/page/race';
 import { toPoints } from '@/helpers';
-
-import useDriverStandingsData from './useDriversStandingsData';
 
 const sx = {
 	'& > .MuiDataGrid-main': {
@@ -24,16 +23,17 @@ type DriverStandingsDialogProps = {
 	season: number;
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
+	data: SeasonDriverStandingsData['season'];
 };
 
 export default function DriverStandingsDialog({
 	season,
 	open,
-	setOpen
+	setOpen,
+	data
 }: DriverStandingsDialogProps) {
 	const { ref, dimensions } = useComponentDimensionsWithRef();
-	const { data } = useDriverStandingsData(season);
-	const races = data?.season?.racesByYear?.filter(r => r.raceDriverStandings.length);
+	const races = data?.racesByYear?.filter(r => r.raceDriverStandings.length);
 	const standings = races?.at(-1)?.raceDriverStandings;
 	const onClose = () => setOpen(false);
 
