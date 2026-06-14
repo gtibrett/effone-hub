@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, Grid, ToggleButton, ToggleButtonGroup } from '@mui/material';
 
 import type { Circuit } from '@/gql/graphql';
-import { useCircuitByRef } from '@/hooks/data';
 
 import getMapSVG from './circuits/getMapSVG';
 
@@ -13,23 +12,23 @@ import styles from './CircuitMap.module.css';
 type CircuitMapProps = SVGProps<SVGSVGElement> & {
 	variant?: 'interactive' | 'simple';
 	circuitRef: Circuit['id'];
+	// Server-supplied circuit name for the SVG aria-label (the track SVG itself
+	// is resolved from circuitRef, so no data fetch is needed here).
+	circuitName?: string | null;
 };
 
 export default function CircuitMap({
 	variant = 'interactive',
 	circuitRef,
+	circuitName,
 	height,
 	width,
 	...svgProps
 }: CircuitMapProps) {
-	const {
-		data: { circuit }
-	} = useCircuitByRef(circuitRef);
-
 	const mapSVG = getMapSVG(circuitRef, {
 		height,
 		width,
-		'aria-label': `${circuit.fullName} Map`,
+		'aria-label': `${circuitName ?? circuitRef} Map`,
 		...svgProps
 	});
 

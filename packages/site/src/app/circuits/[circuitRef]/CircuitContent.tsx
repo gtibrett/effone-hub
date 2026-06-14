@@ -136,7 +136,11 @@ export default function CircuitContent({
 											id: 'map',
 											label: 'Circuit Map',
 											content: (
-												<CircuitMap circuitRef={circuitRef} height="50vh" />
+												<CircuitMap
+													circuitRef={circuitRef}
+													circuitName={current.fullName}
+													height="50vh"
+												/>
 											)
 										},
 										{
