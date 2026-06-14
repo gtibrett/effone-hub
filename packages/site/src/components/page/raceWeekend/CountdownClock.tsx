@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Typography } from '@mui/material';
 
 const DAY = 24 * 60 * 60;
@@ -16,9 +18,21 @@ export default function CountdownClock({ timeTo, size }: CountdownClockProps) {
 	const [countDown, setCountdown] = useState(timeTo);
 
 	useEffect(() => {
-		const interval = setInterval(() => setCountdown(countDown - 1), 1000);
-		return () => clearInterval(interval);
+		if (countDown > 0) {
+			const interval = setInterval(() => setCountdown(countDown - 1), 1000);
+			return () => clearInterval(interval);
+		}
 	});
+
+	if (countDown < 0) {
+		return (
+			<FontAwesomeIcon
+				icon={faCircle}
+				color="var(--mui-palette-Alert-successIconColor)"
+				size="xl"
+			/>
+		);
+	}
 
 	const daysTo = Math.floor(countDown / DAY);
 	const hoursTo = Math.floor((countDown - DAY * daysTo) / HOUR);

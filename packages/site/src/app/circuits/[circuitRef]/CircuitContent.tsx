@@ -17,7 +17,6 @@ import type { NextRaceQueryNode } from '@/components/page/raceWeekend/queries';
 import { selectNextRace } from '@/components/page/raceWeekend/useNextRaceData';
 import { OpenAILink, Page, Tabs } from '@/components/ui';
 import type { CircuitHistoryData, CircuitPageData } from '@/hooks/data/useCircuitByRef';
-import { useComponentDimensionsWithRef } from '@/lib/mui-additions';
 
 type Props = CircuitPageDataPair & {
 	circuitRef: string;
@@ -63,10 +62,6 @@ export default function CircuitContent({
 	races
 }: Props) {
 	const mapCircuitsToMapPoints = useMapCircuitsToMapPoints();
-	const {
-		ref,
-		dimensions: { height }
-	} = useComponentDimensionsWithRef();
 
 	if (!circuitRef) {
 		throw new Error('Page Not found');
@@ -115,11 +110,11 @@ export default function CircuitContent({
 						</>
 					}
 					action={
-						<Card className="hidden md:block h-full" ref={ref}>
+						<Card className="hidden md:block h-full">
 							<RaceMap
 								points={points}
 								onClick={onClick}
-								height={height}
+								height="100%"
 								centerOn={current}
 								zoom
 							/>
