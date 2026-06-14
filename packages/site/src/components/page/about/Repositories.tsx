@@ -46,11 +46,6 @@ const Repositories = () => (
 						secondary="A GraphQL implementation of the Ergast API. Now deprecated."
 					/>
 				</ListItem>
-				<ListItem>
-					<ListItemIcon>
-						<FontAwesomeIcon icon={faGithub} />
-					</ListItemIcon>
-				</ListItem>
 			</List>
 		</CardContent>
 	</Card>
