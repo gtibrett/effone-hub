@@ -4,7 +4,8 @@ import type { ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Dialog } from '@gtibrett/mui-additions';
+
+import { Dialog } from '@/lib/mui-additions';
 
 type RouteModalProps = {
 	title: ReactNode;

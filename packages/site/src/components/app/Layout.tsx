@@ -1,11 +1,11 @@
 'use client';
 
 import { type PropsWithChildren, Suspense } from 'react';
-import { UkraineButton } from '@gtibrett/mui-additions';
 import { Box, Container } from '@mui/material';
 
 import type { AppSeasonState } from '@/app/lib/cached-data';
 import { SkipNav } from '@/components/ui';
+import { UkraineButton } from '@/lib/mui-additions';
 
 import AppStateProvider from './AppStateProvider';
 import ErrorBoundary from './ErrorBoundary';

@@ -1,7 +1,6 @@
 'use client';
 
 import { Suspense } from 'react';
-import { useComponentDimensionsWithRef } from '@gtibrett/mui-additions';
 import { Card, CardContent, CardHeader, Divider, Grid, Stack, Typography } from '@mui/material';
 
 import type { CircuitPageDataPair } from '@/app/lib/cached-data';
@@ -18,6 +17,7 @@ import type { NextRaceQueryNode } from '@/components/page/raceWeekend/queries';
 import { selectNextRace } from '@/components/page/raceWeekend/useNextRaceData';
 import { OpenAILink, Page, Tabs } from '@/components/ui';
 import type { CircuitHistoryData, CircuitPageData } from '@/hooks/data/useCircuitByRef';
+import { useComponentDimensionsWithRef } from '@/lib/mui-additions';
 
 type Props = CircuitPageDataPair & {
 	circuitRef: string;

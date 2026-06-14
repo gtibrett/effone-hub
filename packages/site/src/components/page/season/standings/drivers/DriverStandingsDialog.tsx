@@ -1,7 +1,6 @@
 import type { Dispatch, SetStateAction } from 'react';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Dialog, useComponentDimensionsWithRef } from '@gtibrett/mui-additions';
 import { Card, Grid } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
@@ -9,6 +8,7 @@ import type { SeasonDriverStandingsData } from '@/app/lib/cached-data';
 import { DriverByLine } from '@/components/app';
 import { Place } from '@/components/page/race';
 import { toPoints } from '@/helpers';
+import Dialog from '@/lib/mui-additions/Dialog';
 
 const sx = {
 	'& > .MuiDataGrid-main': {
@@ -32,7 +32,6 @@ export default function DriverStandingsDialog({
 	setOpen,
 	data
 }: DriverStandingsDialogProps) {
-	const { ref, dimensions } = useComponentDimensionsWithRef();
 	const races = data?.racesByYear?.filter(r => r.raceDriverStandings.length);
 	const standings = races?.at(-1)?.raceDriverStandings;
 	const onClose = () => setOpen(false);
@@ -59,7 +58,7 @@ export default function DriverStandingsDialog({
 						lg: 5
 					}}
 				>
-					<Grid container spacing={2} ref={ref}>
+					<Grid container spacing={2}>
 						<Grid size={12}>
 							<Place
 								driverId={p1.driver?.id}
@@ -89,8 +88,9 @@ export default function DriverStandingsDialog({
 						xs: 12,
 						lg: 7
 					}}
+					className="aspect-video"
 				>
-					<Card style={{ height: dimensions.height - 14 }}>
+					<Card className="h-full">
 						<DataGrid
 							sx={sx}
 							rows={rest}
