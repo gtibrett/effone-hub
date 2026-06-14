@@ -1,7 +1,6 @@
 'use client';
 
 import { Suspense } from 'react';
-import { useComponentDimensionsWithRef } from '@gtibrett/mui-additions';
 import { Card, CardContent, CardHeader, Divider, Grid, Stack, Typography } from '@mui/material';
 
 import { CircuitMap, RaceMap, useAppState, useMapCircuitsToMapPoints } from '@/components/app';
@@ -15,10 +14,6 @@ export default function CircuitContent({ circuitRef }: { circuitRef: string }) {
 	const [{ currentSeason }] = useAppState();
 	const { data } = useCircuitByRef(circuitRef, currentSeason);
 	const { data: lastSeasonData } = useCircuitByRef(circuitRef, currentSeason - 1);
-	const {
-		ref,
-		dimensions: { height }
-	} = useComponentDimensionsWithRef();
 	const seasonToShow = data?.circuit.season?.[0]?.raceResults?.length
 		? currentSeason
 		: currentSeason - 1;
@@ -55,11 +50,11 @@ export default function CircuitContent({ circuitRef }: { circuitRef: string }) {
 					</>
 				}
 				action={
-					<Card className="hidden md:block h-full" ref={ref}>
+					<Card className="hidden md:block h-full">
 						<RaceMap
 							points={points}
 							onClick={onClick}
-							height={height}
+							height="100%"
 							centerOn={circuit}
 							zoom
 						/>

@@ -50,14 +50,6 @@ const Repositories = () => (
 					<ListItemIcon>
 						<FontAwesomeIcon icon={faGithub} />
 					</ListItemIcon>
-					<ListItemText
-						primary={
-							<Link href="https://github.com/gtibrett/mui-additions">
-								mui-additions <OpensInNewWindow />
-							</Link>
-						}
-						secondary="Some reusable additions to MUI, including some useful Jest-based testing functionality."
-					/>
 				</ListItem>
 			</List>
 		</CardContent>

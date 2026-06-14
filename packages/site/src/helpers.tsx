@@ -1,5 +1,11 @@
+import { type ClassValue, clsx } from 'clsx';
 import { useRouter } from 'next/router';
+import { twMerge } from 'tailwind-merge';
 import { capitalize } from '@mui/material';
+
+export function cn(...inputs: ClassValue[]) {
+	return twMerge(clsx(inputs));
+}
 
 import type { Maybe, RaceResult } from '@/gql/graphql';
 
