@@ -414,6 +414,7 @@ export type DriverCareerRaceResult = {
 	} | null;
 	team: {
 		id: string;
+		name: string | null;
 		colors: { teamId: string; primaryHex: string | null; secondaryHex: string | null } | null;
 	} | null;
 };

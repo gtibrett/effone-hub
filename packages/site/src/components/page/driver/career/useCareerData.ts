@@ -35,6 +35,7 @@ export const DriverCareerQuery = gql`
 				teamId
 				team {
 					id
+					name
 					colors {
 						teamId
 						primaryHex
