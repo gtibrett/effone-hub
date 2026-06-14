@@ -114,11 +114,21 @@ export default function CareerBreakdownChart({
 					? [{ data: xAxisData, scaleType: 'band', position: 'none' }]
 					: [{ scaleType: 'linear', position: 'none' }]
 			}
-			margin={{ top: 20, left: 10, right: 10, bottom: isSingleSeason ? 8 : 40 }}
+			margin={{ top: 0, left: 10, right: 10, bottom: 0 }}
 			grid={{ horizontal: false, vertical: false }}
 			borderRadius={1}
 			sx={sx}
 			slots={{ tooltip: TooltipSlot }}
+			slotProps={{
+				legend: {
+					direction: 'vertical',
+					sx: { gap: 1 },
+					position: {
+						vertical: 'bottom',
+						horizontal: 'center'
+					}
+				}
+			}}
 			skipAnimation={false}
 		/>
 	);
