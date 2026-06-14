@@ -1,10 +1,8 @@
-import { useMemo } from 'react';
 import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
 
 import type { Driver } from '@/gql/graphql';
 
-const DriverFields = gql`
+export const DriverFields = gql`
 	fragment DriverFields on Driver {
 		id
 		dateOfBirth
@@ -63,31 +61,4 @@ export const DriverQuery = gql`
 	}
 `;
 
-export default function useDriver(driverId?: string) {
-	const variables = { id: driverId ?? '' };
-
-	const { loading, data } = useQuery<{ driver: Driver }>(DriverQuery, {
-		variables,
-		skip: !driverId
-	});
-
-	return useMemo((): Driver | undefined => {
-		if (loading || !data?.driver) {
-			return undefined;
-		}
-
-		const driverData = data.driver;
-
-		if (!driverData.abbreviation) {
-			return {
-				...driverData,
-				abbreviation: (driverData?.lastName || '')
-					.replace(/[^a-z]/i, '')
-					.substring(0, 3)
-					.toUpperCase()
-			};
-		}
-
-		return driverData;
-	}, [data, loading]);
-}
+export type { Driver };

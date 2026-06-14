@@ -6,8 +6,7 @@ export type {
 	TeamStandingData
 } from '@/components/page/constructor/types';
 
-export type { CircuitDataProps, CircuitHistoryData } from './useCircuitByRef';
-export { default as useCircuitByRef } from './useCircuitByRef';
-export { default as useConstructorData } from './useConstructorData';
-export { default as useDriver } from './useDriver';
-export { default as useTeam } from './useTeam';
+export type { CircuitDataProps, CircuitHistoryData, CircuitPageData } from './useCircuitByRef';
+export { CircuitQuery } from './useCircuitByRef';
+export { ConstructorDataQuery } from './useConstructorData';
+export { DriverFields, DriverQuery } from './useDriver';

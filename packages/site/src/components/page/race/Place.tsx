@@ -3,8 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Card, CardHeader, Divider, Link, Typography } from '@mui/material';
 
 import { DriverAvatar } from '@/components/app';
-import { driverToDisplay, useDriverDisplay } from '@/components/app/EntityDisplayProvider';
-import { useDriver } from '@/hooks/data';
+import { useDriverDisplay } from '@/components/app/EntityDisplayProvider';
 import type { DriverId } from '@/types';
 
 type PlaceProps = {
@@ -24,9 +23,7 @@ export default function Place({
 	asterisk = false,
 	className
 }: PlaceProps) {
-	const ctx = useDriverDisplay(driverId);
-	const hookDriver = useDriver(ctx ? undefined : driverId);
-	const display = ctx ?? (hookDriver ? driverToDisplay(hookDriver) : undefined);
+	const display = useDriverDisplay(driverId);
 
 	if (!display) {
 		return null;

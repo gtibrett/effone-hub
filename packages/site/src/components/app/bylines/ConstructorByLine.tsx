@@ -1,13 +1,8 @@
 import type { ReactNode } from 'react';
 import { Link, Skeleton } from '@mui/material';
 
-import {
-	type TeamDisplay,
-	teamToDisplay,
-	useTeamDisplay
-} from '@/components/app/EntityDisplayProvider';
+import { type TeamDisplay, useTeamDisplay } from '@/components/app/EntityDisplayProvider';
 import type { Team } from '@/gql/graphql';
-import { useTeam } from '@/hooks/data';
 import type { TeamId } from '@/types';
 
 type BaseByLineProps = {
@@ -29,11 +24,9 @@ export function isByTeam(props: ByLinePropsById | ByLinePropsByTeam): props is B
 }
 
 const ById = ({ id, ...props }: ByLinePropsById) => {
-	const ctx = useTeamDisplay(id);
-	const { team: hookTeam } = useTeam(ctx ? undefined : id);
-	const team: ByLinePropsByTeam['team'] = ctx ?? teamToDisplay(hookTeam);
+	const team = useTeamDisplay(id);
 
-	return <ByTeam {...props} team={team} />;
+	return <ByTeam {...props} team={team ?? undefined} />;
 };
 
 const ByTeam = ({ variant = 'link', placeholder = false, team }: ByLinePropsByTeam) => {

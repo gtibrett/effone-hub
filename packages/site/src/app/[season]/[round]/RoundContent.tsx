@@ -65,6 +65,7 @@ function buildEntityDisplays(raceData: Race | null): {
 		if (t?.id && !teamMap.has(t.id)) {
 			teamMap.set(t.id, {
 				id: t.id,
+				name: t.name,
 				colors: t.colors ?? undefined
 			});
 		}

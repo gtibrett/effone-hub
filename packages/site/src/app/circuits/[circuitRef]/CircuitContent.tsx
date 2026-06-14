@@ -11,7 +11,7 @@ import {
 	RaceMap,
 	useMapCircuitsToMapPoints
 } from '@/components/app';
-import type { DriverDisplay } from '@/components/app/EntityDisplayProvider';
+import type { DriverDisplay, TeamDisplay } from '@/components/app/EntityDisplayProvider';
 import { History, Season } from '@/components/page/circuits';
 import { FastestLap, LapLeader, MostWins } from '@/components/page/circuits/stats';
 import type { NextRaceQueryNode } from '@/components/page/raceWeekend/queries';
@@ -38,6 +38,18 @@ function buildDriverDisplays(history: CircuitHistoryData[]): DriverDisplay[] {
 				thumbnailUrl: result.driver.bio?.thumbnailUrl ?? null,
 				teamColors: result.team?.colors ?? null
 			});
+		}
+	}
+	return [...seen.values()];
+}
+
+function buildTeamDisplays(history: CircuitHistoryData[]): TeamDisplay[] {
+	const seen = new Map<string, TeamDisplay>();
+	for (const race of history) {
+		for (const result of race.raceResults) {
+			const t = result.team;
+			if (!t?.id || seen.has(t.id)) continue;
+			seen.set(t.id, { id: t.id, name: t.name, colors: t.colors });
 		}
 	}
 	return [...seen.values()];
@@ -79,9 +91,10 @@ export default function CircuitContent({
 	const { points, onClick } = mapCircuitsToMapPoints([current]);
 
 	const driverDisplays = buildDriverDisplays(current.history);
+	const teamDisplays = buildTeamDisplays(current.history);
 
 	return (
-		<EntityDisplayProvider drivers={driverDisplays}>
+		<EntityDisplayProvider drivers={driverDisplays} teams={teamDisplays}>
 			<Suspense>
 				<Page
 					title={current.fullName}

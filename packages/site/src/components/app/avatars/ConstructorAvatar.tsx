@@ -3,14 +3,9 @@ import { faIndustry } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar } from '@mui/material';
 
-import {
-	type TeamDisplay,
-	teamToDisplay,
-	useTeamDisplay
-} from '@/components/app/EntityDisplayProvider';
+import { type TeamDisplay, useTeamDisplay } from '@/components/app/EntityDisplayProvider';
 import type { Team } from '@/gql/graphql';
 import { type AvatarSizes, useAvatarSize, useGetTeamColor } from '@/hooks';
-import { useTeam } from '@/hooks/data';
 
 export type TeamAvatarProps = {
 	teamId?: Team['id'];
@@ -22,11 +17,8 @@ export default function TeamAvatar({ teamId, team: teamProp, size = 'small' }: T
 	const { className, style } = useAvatarSize(size);
 	const getTeamColor = useGetTeamColor();
 
-	// resolve-then-skip: suppress fetches via undefined id
-	const id = teamProp?.id ?? teamId;
-	const ctx = useTeamDisplay(teamProp ? undefined : id);
-	const { team: hookTeam } = useTeam(teamProp || ctx ? undefined : id);
-	const display: TeamDisplay | undefined = teamProp ?? ctx ?? teamToDisplay(hookTeam);
+	const ctx = useTeamDisplay(teamProp ? undefined : teamId);
+	const display: TeamDisplay | undefined = teamProp ?? ctx;
 
 	const primary = display ? getTeamColor(display.colors, 'primaryHex') : '';
 

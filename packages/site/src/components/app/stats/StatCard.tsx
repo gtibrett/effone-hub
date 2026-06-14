@@ -5,15 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, Card, type CardProps, Grid, Link, Typography } from '@mui/material';
 
 import { ConstructorAvatar, DriverAvatar, DriverByLine } from '@/components/app';
-import {
-	driverToDisplay,
-	teamToDisplay,
-	useDriverDisplay,
-	useTeamDisplay
-} from '@/components/app/EntityDisplayProvider';
+import { useDriverDisplay, useTeamDisplay } from '@/components/app/EntityDisplayProvider';
 import type { Maybe } from '@/gql/graphql';
 import { useGetTeamColor, useLeaderData } from '@/hooks';
-import { useDriver, useTeam } from '@/hooks/data';
 
 import convertGenericMapToDataWithValueMap from './convertGenericMapToDataWithValueMap';
 import StatCardContent from './StatCardContent';
@@ -69,10 +63,7 @@ const DriverVariant = <T extends DataWithValue>({
 	const getTeamColor = useGetTeamColor();
 	const [leaderId, value] = useLeaderData<T>(data);
 
-	// resolve-then-skip: suppress fetches via undefined id
-	const ctx = useDriverDisplay(leaderId);
-	const hookDriver = useDriver(ctx ? undefined : leaderId);
-	const display = ctx ?? driverToDisplay(hookDriver);
+	const display = useDriverDisplay(leaderId);
 
 	if (!display) {
 		return null;
@@ -103,10 +94,7 @@ const TeamVariant = <T extends DataWithValue>({
 }: TeamStatCardProps<T, T>) => {
 	const [teamId, value] = useLeaderData<T>(data);
 
-	// resolve-then-skip: suppress fetches via undefined id
-	const ctx = useTeamDisplay(teamId);
-	const { team: hookTeam } = useTeam(ctx ? undefined : teamId);
-	const display = ctx ?? teamToDisplay(hookTeam);
+	const display = useTeamDisplay(teamId);
 
 	if (!display) {
 		return null;

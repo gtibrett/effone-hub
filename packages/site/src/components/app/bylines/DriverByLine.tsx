@@ -1,14 +1,9 @@
 import { memo } from 'react';
 import { Grid, Link, Skeleton, Typography } from '@mui/material';
 
-import {
-	type DriverDisplay,
-	driverToDisplay,
-	useDriverDisplay
-} from '@/components/app/EntityDisplayProvider';
+import { type DriverDisplay, useDriverDisplay } from '@/components/app/EntityDisplayProvider';
 import { Flag, type FlagProps } from '@/components/ui';
 import type { Driver } from '@/gql/graphql';
-import { useDriver } from '@/hooks/data';
 import type { DriverId } from '@/types';
 
 import { DriverAvatar, type DriverAvatarProps } from '../avatars';
@@ -58,11 +53,9 @@ const DriverSkeleton = ({ variant = 'full', avatarProps = {} }: BaseByLineProps)
 };
 
 const ById = ({ id, ...props }: ByLinePropsById) => {
-	const ctx = useDriverDisplay(id);
-	const hookDriver = useDriver(ctx ? undefined : id);
-	const driver: ByLinePropsByDriver['driver'] = ctx ?? driverToDisplay(hookDriver);
+	const driver = useDriverDisplay(id);
 
-	return <ByDriver driver={driver} {...props} />;
+	return <ByDriver driver={driver ?? undefined} {...props} />;
 };
 
 const ByDriver = (props: ByLinePropsByDriver) => {

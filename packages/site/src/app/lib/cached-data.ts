@@ -681,6 +681,7 @@ const RaceFullDataQuery = gql`
 				}
 				team {
 					id
+					name
 					colors {
 						teamId
 						primaryHex
@@ -710,6 +711,7 @@ const RaceFullDataQuery = gql`
 				}
 				team {
 					id
+					name
 					colors {
 						teamId
 						primaryHex

@@ -3,13 +3,8 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar } from '@mui/material';
 
-import {
-	type DriverDisplay,
-	driverToDisplay,
-	useDriverDisplay
-} from '@/components/app/EntityDisplayProvider';
+import { type DriverDisplay, useDriverDisplay } from '@/components/app/EntityDisplayProvider';
 import { type AvatarSizes, useAvatarSize } from '@/hooks';
-import { useDriver } from '@/hooks/data';
 import type { DriverId } from '@/types';
 
 export type DriverAvatarProps = {
@@ -21,11 +16,8 @@ export type DriverAvatarProps = {
 function DriverAvatar({ driverId, driver: driverProp, size = 'small' }: DriverAvatarProps) {
 	const { className, style } = useAvatarSize(size);
 
-	// resolve-then-skip: always call hooks unconditionally; suppress fetches via undefined id
-	const id = driverProp?.id ?? driverId;
-	const ctx = useDriverDisplay(driverProp ? undefined : id);
-	const hookDriver = useDriver(driverProp || ctx ? undefined : id);
-	const display: DriverDisplay | undefined = driverProp ?? ctx ?? driverToDisplay(hookDriver);
+	const ctx = useDriverDisplay(driverProp ? undefined : driverId);
+	const display: DriverDisplay | undefined = driverProp ?? ctx;
 
 	return useMemo(() => {
 		if (!display) {

@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { useSuspenseQuery } from '@apollo/client/react';
 
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
 import type { Circuit as CircuitT, Race } from '@/gql/graphql';
@@ -37,6 +36,7 @@ export const CircuitQuery = gql`
 					}
 					team {
 						id
+						name
 						colors {
 							teamId
 							primaryHex
@@ -101,6 +101,7 @@ export type CircuitHistoryData = Pick<Race, 'year' | 'round' | 'date'> & {
 		};
 		team: {
 			id: string;
+			name: string | null;
 			colors: { teamId: string; primaryHex: string | null } | null;
 		} | null;
 		time: string | null;
@@ -120,9 +121,3 @@ export type CircuitPageData = {
 };
 
 export type CircuitDataProps = SimpleApolloResult<CircuitPageData>;
-
-export default function useCircuitByRef(circuitRef: string, season?: number) {
-	return useSuspenseQuery<CircuitPageData>(CircuitQuery, {
-		variables: { circuitRef, showCurrentSeason: Boolean(season), season }
-	});
-}
