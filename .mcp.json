@@ -1,11 +1,18 @@
 {
-  "mcpServers": {
-    "code-review-graph": {
-      "command": "code-review-graph",
-      "args": [
-        "serve"
-      ],
-      "type": "stdio"
-    }
-  }
+	"mcpServers": {
+		"code-review-graph": {
+			"command": "code-review-graph",
+			"args":    [
+				"serve"
+			],
+			"type":    "stdio"
+		},
+		"playwright-test":   {
+			"command": "npx",
+			"args":    [
+				"playwright",
+				"run-test-mcp-server"
+			]
+		}
+	}
 }
