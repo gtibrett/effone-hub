@@ -1,3 +1,20 @@
+# effone-hub
+
+Formula One stats hub. pnpm monorepo (`pnpm@11`, Node 24).
+
+## Packages
+- `packages/site` — Next.js 16 (App Router, React 19). Apollo Client 4, MUI v9 + charts. See [`packages/site/CLAUDE.md`](packages/site/CLAUDE.md) for site commands + gotchas.
+- `packages/api` — PostGraphile 5 + Fastify GraphQL server over F1DB Postgres. Emits `schema.graphql` consumed by the site's codegen.
+- `packages/database` — Dockerized Postgres seeded from F1DB (`docker-compose.yaml`).
+
+## Commands
+```bash
+pnpm db:start    # Postgres via Docker — REQUIRED before api/site
+pnpm dev         # api + site in parallel
+pnpm lint        # biome check  (lint:fix to autofix)
+pnpm site:build  # next build (webpack)
+```
+
 <!-- rtk-instructions v2 -->
 # RTK (Rust Token Killer) - Token-Optimized Commands
 
