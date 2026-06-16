@@ -1,24 +1,46 @@
+'use client';
+
 import { Alert, Grid, Link, Skeleton, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
+import type { DriverCareerData } from '@/app/lib/cached-data';
 import { useAppState } from '@/components/app';
 import { PositionChange } from '@/components/page/race';
+import type { Race } from '@/gql/graphql';
 import { getPositionTextOutcome, getTimeStringFromDate, toPoints } from '@/helpers';
 
 import SeasonChart from './SeasonChart';
-import useSeasonData from './useSeasonData';
 
-type SeasonProps = { season: number; driverId: string };
+type SeasonTeamInfo =
+	| {
+			id?: string | null;
+			colors?: { primaryHex?: string | null } | null;
+	  }
+	| null
+	| undefined;
 
-export default function Season({ season, driverId }: SeasonProps) {
+type SeasonProps = {
+	season: number;
+	driverId: string;
+	races: Race[];
+	careerData: DriverCareerData['driver'] | null | undefined;
+	currentSeasonTeam: SeasonTeamInfo;
+};
+
+export default function Season({
+	season,
+	driverId,
+	races,
+	careerData,
+	currentSeasonTeam
+}: SeasonProps) {
 	const [{ currentSeason }] = useAppState();
-	const { data, loading } = useSeasonData(driverId, season);
 
-	if (loading || !data?.races) {
+	if (!races) {
 		return <Skeleton variant="rectangular" height={400} />;
 	}
 
-	if (!data.races.length) {
+	if (!races.length) {
 		return (
 			<Alert variant="outlined" severity="info">
 				Season Data Not Available
@@ -29,11 +51,18 @@ export default function Season({ season, driverId }: SeasonProps) {
 	return (
 		<Grid container spacing={2}>
 			<Grid size={12}>
-				<SeasonChart season={season} driverId={driverId} data={data} loading={loading} />
+				<SeasonChart
+					season={season}
+					driverId={driverId}
+					races={races}
+					loading={false}
+					careerData={careerData}
+					currentSeasonTeam={currentSeasonTeam}
+				/>
 			</Grid>
 			<Grid size={12}>
 				<DataGrid
-					rows={data.races}
+					rows={races}
 					autoHeight
 					density="compact"
 					getRowId={row => row.rowId || ''}

@@ -107,6 +107,7 @@ export default function PitStopsChart({ maxStops, pitStops }: PitStopsChartProps
 	return (
 		<Box className="mb-4" style={{ height: isSmall ? 400 : 150 }} aria-hidden>
 			<BarChart
+				hideLegend
 				layout={isSmall ? 'horizontal' : 'vertical'}
 				series={built.series}
 				xAxis={isSmall ? [{ scaleType: 'linear', position: 'none' }] : [axisConfig]}

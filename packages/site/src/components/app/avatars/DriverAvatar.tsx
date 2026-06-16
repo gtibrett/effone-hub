@@ -3,21 +3,24 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar } from '@mui/material';
 
+import { type DriverDisplay, useDriverDisplay } from '@/components/app/EntityDisplayProvider';
 import { type AvatarSizes, useAvatarSize } from '@/hooks';
-import { useDriver } from '@/hooks/data';
 import type { DriverId } from '@/types';
 
 export type DriverAvatarProps = {
 	driverId?: DriverId;
+	driver?: DriverDisplay;
 	size?: AvatarSizes;
 };
 
-function DriverAvatar({ driverId, size = 'small' }: DriverAvatarProps) {
+function DriverAvatar({ driverId, driver: driverProp, size = 'small' }: DriverAvatarProps) {
 	const { className, style } = useAvatarSize(size);
-	const driver = useDriver(driverId);
+
+	const ctx = useDriverDisplay(driverProp ? undefined : driverId);
+	const display: DriverDisplay | undefined = driverProp ?? ctx;
 
 	return useMemo(() => {
-		if (!driver) {
+		if (!display) {
 			return (
 				<Avatar variant="rounded" className={className} style={style}>
 					<FontAwesomeIcon icon={faUser} />
@@ -25,7 +28,7 @@ function DriverAvatar({ driverId, size = 'small' }: DriverAvatarProps) {
 			);
 		}
 
-		const { firstName, lastName, bio } = driver;
+		const { firstName, lastName, thumbnailUrl } = display;
 		const alt = `${firstName ?? ''} ${lastName ?? ''}`.trim();
 
 		return (
@@ -33,14 +36,14 @@ function DriverAvatar({ driverId, size = 'small' }: DriverAvatarProps) {
 				variant="rounded"
 				className={className}
 				style={style}
-				src={bio?.thumbnailUrl ?? undefined}
+				src={thumbnailUrl ?? undefined}
 				alt={alt}
 			>
 				{firstName?.[0]}
 				{lastName?.[0]}
 			</Avatar>
 		);
-	}, [className, style, driver]);
+	}, [className, style, display]);
 }
 
 export default DriverAvatar;

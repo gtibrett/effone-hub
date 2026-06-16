@@ -3,23 +3,27 @@ import { faIndustry } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar } from '@mui/material';
 
+import { type TeamDisplay, useTeamDisplay } from '@/components/app/EntityDisplayProvider';
 import type { Team } from '@/gql/graphql';
 import { type AvatarSizes, useAvatarSize, useGetTeamColor } from '@/hooks';
-import { useTeam } from '@/hooks/data';
 
 export type TeamAvatarProps = {
 	teamId?: Team['id'];
+	team?: TeamDisplay;
 	size?: AvatarSizes;
 };
 
-export default function TeamAvatar({ teamId, size = 'small' }: TeamAvatarProps) {
+export default function TeamAvatar({ teamId, team: teamProp, size = 'small' }: TeamAvatarProps) {
 	const { className, style } = useAvatarSize(size);
-	const { team } = useTeam(teamId);
 	const getTeamColor = useGetTeamColor();
-	const primary = team ? getTeamColor(team.colors, 'primaryHex') : '';
+
+	const ctx = useTeamDisplay(teamProp ? undefined : teamId);
+	const display: TeamDisplay | undefined = teamProp ?? ctx;
+
+	const primary = display ? getTeamColor(display.colors, 'primaryHex') : '';
 
 	return useMemo(() => {
-		if (!team) {
+		if (!display) {
 			return (
 				<Avatar variant="rounded" className={className} style={style}>
 					<FontAwesomeIcon icon={faIndustry} />
@@ -27,7 +31,7 @@ export default function TeamAvatar({ teamId, size = 'small' }: TeamAvatarProps) 
 			);
 		}
 
-		const { name, bio } = team;
+		const { name, thumbnailUrl } = display;
 
 		const initials = name
 			?.replace('F1 Team', '')
@@ -44,11 +48,11 @@ export default function TeamAvatar({ teamId, size = 'small' }: TeamAvatarProps) 
 					background: primary,
 					color: `contrast-color(${primary})`
 				}}
-				src={bio?.thumbnailUrl ?? undefined}
+				src={thumbnailUrl ?? undefined}
 				alt={name ?? ''}
 			>
 				{initials?.join('')}
 			</Avatar>
 		);
-	}, [team, className, style, primary]);
+	}, [display, className, style, primary]);
 }

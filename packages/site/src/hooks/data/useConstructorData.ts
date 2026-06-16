@@ -1,9 +1,8 @@
 import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
 
 import type { ConstructorPageData } from '@/components/page/constructor/types';
 
-const ConstructorDataQuery = gql`
+export const ConstructorDataQuery = gql`
 	query ConstructorDataQuery($constructorRef: String!, $season: Int!) {
 		team(id: $constructorRef) {
 			id
@@ -22,6 +21,10 @@ const ConstructorDataQuery = gql`
 					id
 					firstName
 					lastName
+					abbreviation
+					bio {
+						thumbnailUrl
+					}
 					seasonDriverStandings(orderBy: YEAR_ASC) {
 						year
 						driverId
@@ -90,8 +93,4 @@ const ConstructorDataQuery = gql`
 	}
 `;
 
-export default function useConstructorData(constructorRef?: string, season?: number) {
-	return useQuery<ConstructorPageData>(ConstructorDataQuery, {
-		variables: { constructorRef, season }
-	});
-}
+export type { ConstructorPageData };

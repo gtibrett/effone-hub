@@ -1,52 +1,14 @@
-import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
-
+import type { ConstructorDriverPodiumsData } from '@/app/lib/cached-data';
 import { StatCard } from '@/components/app';
 
-type RaceResultNode = {
-	driverId: string | null;
-	positionNumber: number | null;
-};
-
-type RaceNode = {
-	rowId: number;
-	raceResults: RaceResultNode[];
-};
-
-type QueryResponse = {
-	season: {
-		racesByYear: RaceNode[];
-	} | null;
-};
-
-const query = gql`
-	query constructorDriverPodiumsQuery($season: Int!, $constructorId: String!) {
-		season(year: $season) {
-			year
-			racesByYear(orderBy: ROUND_ASC) {
-				rowId
-				year
-				round
-				raceResults(condition: {teamId: $constructorId}) {
-					raceId
-					driverId
-					positionNumber
-				}
-			}
-		}
-	}
-`;
+export { ConstructorDriverPodiumsQuery } from './queries';
 
 type DriverPodiumsProps = {
-	constructorId: string;
-	season: number;
+	data: ConstructorDriverPodiumsData;
 	place: 1 | 2;
 };
 
-export default function DriverPodiums({ constructorId, season, place }: DriverPodiumsProps) {
-	const { data, loading } = useQuery<QueryResponse>(query, {
-		variables: { constructorId, season }
-	});
+export default function DriverPodiums({ data, place }: DriverPodiumsProps) {
 	const leaders = new Map<string, number>();
 
 	(data?.season?.racesByYear ?? []).forEach(race => {
@@ -59,7 +21,7 @@ export default function DriverPodiums({ constructorId, season, place }: DriverPo
 
 	return (
 		<StatCard
-			loading={loading}
+			loading={false}
 			data={
 				new Map([...leaders.entries()].sort((a, b) => b[1] - a[1]).slice(place - 1, place))
 			}

@@ -1,8 +1,8 @@
 import { Card, CardHeader } from '@mui/material';
 
+import { useTeamDisplay } from '@/components/app/EntityDisplayProvider';
 import { PropertiesTable, PropertiesTableRow } from '@/components/ui';
 import { useTeamHeaderSx } from '@/hooks';
-import { useTeam } from '@/hooks/data';
 
 // Synthesized by LineChartByTeam's tooltip slot — same shape its nivo
 // predecessor produced (seriesId + data with x/y/raw fields). Inner data
@@ -19,7 +19,7 @@ export type CareerTooltipProps = {
 export default function CareerTooltip({ point }: CareerTooltipProps) {
 	const { seriesId: teamId, data } = point;
 	const { points, wins, position, grid } = data;
-	const { team } = useTeam(String(teamId));
+	const teamDisplay = useTeamDisplay(String(teamId));
 	const headerSx = useTeamHeaderSx(String(teamId));
 
 	return (
@@ -28,7 +28,7 @@ export default function CareerTooltip({ point }: CareerTooltipProps) {
 				className={headerSx.className}
 				style={headerSx.style}
 				title={point.data.xFormatted}
-				subheader={team?.name}
+				subheader={teamDisplay?.name}
 			/>
 			<PropertiesTable>
 				{grid && (

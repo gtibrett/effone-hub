@@ -3,27 +3,26 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DataGrid } from '@mui/x-data-grid';
 
+import type { SeasonConstructorStandingsData } from '@/app/lib/cached-data';
 import { ConstructorByLine } from '@/components/app';
 import { toPoints } from '@/helpers';
 import { Dialog } from '@/lib/mui-additions';
-
-import useConstructorStandingsData from './useConstructorsStandingsData';
 
 type ConstructorStandingsDialogProps = {
 	season: number;
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
+	data: SeasonConstructorStandingsData['season'];
 };
 
 export default function ConstructorStandingsDialog({
 	season,
 	open,
-	setOpen
+	setOpen,
+	data
 }: ConstructorStandingsDialogProps) {
-	const { data } = useConstructorStandingsData(season);
 	const lastRaceStandings =
-		data?.season?.racesByYear?.filter(r => r.raceTeamStandings.length)?.at(-1)
-			?.raceTeamStandings || [];
+		data?.racesByYear?.filter(r => r.raceTeamStandings.length)?.at(-1)?.raceTeamStandings || [];
 	const onClose = () => setOpen(false);
 
 	if (!lastRaceStandings?.length) {

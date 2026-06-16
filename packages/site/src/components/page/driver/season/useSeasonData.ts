@@ -1,9 +1,6 @@
 import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
 
-import type { DriverPageData } from '../types';
-
-const query = gql`
+export const DriverSeasonQuery = gql`
 	query DriverSeasonQuery($driverId: String!, $season: Int!) {
 		races(condition: {year: $season}, orderBy: ROUND_ASC) {
 			rowId
@@ -26,7 +23,3 @@ const query = gql`
 		}
 	}
 `;
-
-export default function useSeasonData(driverId?: string, season?: number) {
-	return useQuery<DriverPageData>(query, { variables: { driverId, season } });
-}

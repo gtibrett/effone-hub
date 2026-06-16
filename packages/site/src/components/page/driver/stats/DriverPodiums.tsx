@@ -3,13 +3,11 @@ import { faRankingStar } from '@fortawesome/free-solid-svg-icons';
 import { StatCard } from '@/components/app';
 
 import type { DriverStatProps } from './index';
-import useDriverStatsData from './useDriverStatsData';
 
-export default function DriverPodiums({ driverId }: DriverStatProps) {
-	const { data, loading } = useDriverStatsData(driverId);
+export default function DriverPodiums({ driverId, statsData }: DriverStatProps) {
 	const leaders = new Map<string, number>();
 
-	data?.driver?.raceResults.forEach(rs => {
+	statsData?.raceResults.forEach(rs => {
 		if (driverId && rs.positionDisplayOrder) {
 			leaders.set(
 				driverId,
@@ -22,7 +20,7 @@ export default function DriverPodiums({ driverId }: DriverStatProps) {
 		<StatCard
 			variant="icon"
 			icon={faRankingStar}
-			loading={loading}
+			loading={!statsData}
 			data={leaders}
 			label="Podiums"
 			cardProps={{ variant: 'outlined' }}

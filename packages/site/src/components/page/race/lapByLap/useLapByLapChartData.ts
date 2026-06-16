@@ -1,61 +1,32 @@
 import { useMemo } from 'react';
-import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
 
 import { useFallbackColor } from '@/components/ui';
-import type { AppLapTime, Driver, Maybe, RaceResult } from '@/gql/graphql';
+import type { AppLapTime, Maybe } from '@/gql/graphql';
 import type { DriverId } from '@/types';
 
 import type { LapChartSeries } from './LapByLap';
 
-const lapsQuery = gql`
-	#graphql
-	query lapsSeasonRound($season: Int!, $round: Int!) {
-		race: raceByYearAndRound(year: $season, round: $round) {
-			year
-			round
-			lapTimes(orderBy: LAP_ASC) {
-				raceId
-				lap
-				position
-				timeText
-				milliseconds
-				driverId
-			}
-			raceResults(orderBy: POSITION_DISPLAY_ORDER_ASC) {
-				raceId
-				positionDisplayOrder
-				positionNumber
-				driverId
-				driver {
-					id
-					lastName
-				}
-				team {
-					id
-					colors {
-						teamId
-						primaryHex
-					}
-				}
-			}
-		}
-	}
-`;
+export { lapsQuery } from './queries';
 
-type LapTimeRow = Pick<AppLapTime, 'lap' | 'position' | 'driverId' | 'timeText' | 'milliseconds'>;
+// Pick keeps this assignable to Partial<AppLapTime>, which the lapTimes/ consumers require.
+export type LapTimeRow = Pick<
+	AppLapTime,
+	'lap' | 'position' | 'driverId' | 'timeText' | 'milliseconds'
+>;
 
-type RaceResultRow = Pick<RaceResult, 'positionDisplayOrder' | 'positionNumber' | 'driverId'> & {
-	driver: Pick<Driver, 'id' | 'lastName'> | null;
+export type LapResultRow = {
+	positionDisplayOrder?: number | null;
+	positionNumber?: number | null;
+	driverId?: string | null;
+	driver: { id: string; lastName: string | null } | null;
 	team: { colors: { primaryHex: Maybe<string> } | null } | null;
 };
 
-export type LapTimeData = {
-	race: {
-		lapTimes: LapTimeRow[];
-		raceResults: RaceResultRow[];
-	};
-};
+/** Shape of data accepted by useLapByLapData — matches RaceLapByLapData['race']. */
+export type LapRacePayload = {
+	lapTimes: LapTimeRow[];
+	raceResults: LapResultRow[];
+} | null;
 
 export type LapByLapData = {
 	loading: boolean;
@@ -68,29 +39,21 @@ export type LapByLapData = {
 		laps: LapTimeRow[];
 	}[];
 };
-export const useLapByLapData = (season: number, round: number): LapByLapData => {
+
+/** Derive LapByLapData from a pre-fetched server payload (no Apollo query). */
+export const useLapByLapData = (payload: LapRacePayload): LapByLapData => {
 	const fallbackColor = useFallbackColor();
-	const { data, loading } = useQuery<LapTimeData>(lapsQuery, { variables: { season, round } });
 
 	return useMemo<LapByLapData>(() => {
-		const lapTimes = data?.race?.lapTimes ?? [];
-		const results = data?.race?.raceResults ?? [];
+		const lapTimes = payload?.lapTimes ?? [];
+		const results = payload?.raceResults ?? [];
 
 		if (!lapTimes.length || !results.length) {
-			return {
-				loading,
-				data: undefined,
-				totalLaps: undefined
-			};
+			return { loading: false, data: undefined, totalLaps: undefined };
 		}
 
 		return {
-			loading,
-			// lap_times.driver_id holds the F1DB slug (e.g. "kimi-antonelli"),
-			// which matches race_results.driver_id but NOT the GraphQL Node id
-			// (`driver { id }` is Base64-encoded). Pre-F1DB the two happened to
-			// be equal; post-migration they diverged and the filter silently
-			// produced empty laps for every driver.
+			loading: false,
 			data: results.map(r => ({
 				driverId: r.driverId ?? undefined,
 				name: r.driver?.lastName,
@@ -100,7 +63,7 @@ export const useLapByLapData = (season: number, round: number): LapByLapData => 
 			})),
 			totalLaps: Math.max(...lapTimes.map(lt => lt.lap ?? 0))
 		};
-	}, [data?.race, fallbackColor, loading]);
+	}, [payload, fallbackColor]);
 };
 
 const useLapByLapChartData = (lapByLapData: LapByLapData) => {
@@ -124,7 +87,7 @@ const useLapByLapChartData = (lapByLapData: LapByLapData) => {
 		});
 
 		drivers.forEach(driver => {
-			// Fill in missing laps with previous classification (final classification breaks if there are disqualifications)
+			// Fill missing laps with last classified position (handles post-DSQ gaps).
 			const lastPosition = driver.data.at(-1)?.y || null;
 			for (let x = driver.data.length; x < totalLaps; x++) {
 				driver.data.push({ x, y: lastPosition });

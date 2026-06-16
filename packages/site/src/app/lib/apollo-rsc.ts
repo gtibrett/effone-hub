@@ -41,11 +41,26 @@ const serverFetch: typeof fetch = (input, init) => {
 export const { getClient } = registerApolloClient(
 	() =>
 		new ApolloClient({
-			// No typePolicies: server does one-shot SSR/build reads, not
+			// Minimal typePolicies (only the merge fields below): server does
+			// one-shot SSR/build reads, not
 			// cross-component normalization. Compound types (no single `id`) store
 			// inline under their parent — avoids keyFields-completeness throws on
 			// queries that don't select every key field (e.g. param-gen queries).
-			cache: new InMemoryCache(),
+			cache: new InMemoryCache({
+				typePolicies: {
+					Query: {
+						fields: {
+							// Within one SSR render, multiple components read the same root
+							// field (same args) with DIFFERENT sub-selections. These compound
+							// types store inline (no keyFields), so the second write would
+							// replace the first and drop fields ("Cache data may be lost").
+							// merge:true unions the selections per storage key instead.
+							season: { merge: true },
+							raceByYearAndRound: { merge: true }
+						}
+					}
+				}
+			}),
 			link: new HttpLink({ uri: resolveApiUrl(), fetch: serverFetch })
 		})
 );

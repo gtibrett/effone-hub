@@ -1,10 +1,9 @@
 import { gql } from '@apollo/client';
-import { useSuspenseQuery } from '@apollo/client/react';
 
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
 import type { Circuit as CircuitT, Race } from '@/gql/graphql';
 
-const CircuitQuery = gql`
+export const CircuitQuery = gql`
 	query CircuitQuery($circuitRef: String!, $showCurrentSeason: Boolean!, $season: Int) {
 		circuit(id: $circuitRef) {
 			id
@@ -30,6 +29,18 @@ const CircuitQuery = gql`
 						id
 						firstName
 						lastName
+						abbreviation
+						bio {
+							thumbnailUrl
+						}
+					}
+					team {
+						id
+						name
+						colors {
+							teamId
+							primaryHex
+						}
 					}
 					time
 				}
@@ -63,8 +74,22 @@ const CircuitQuery = gql`
 				raceResults {
 					raceId
 					driverId
+					driver {
+						id
+						firstName
+						lastName
+						abbreviation
+						bio {
+							thumbnailUrl
+						}
+					}
 					team {
 						id
+						name
+						colors {
+							teamId
+							primaryHex
+						}
 					}
 					gridPositionNumber
 					positionDisplayOrder
@@ -81,14 +106,25 @@ export type CircuitHistoryData = Pick<Race, 'year' | 'round' | 'date'> & {
 	raceResults: {
 		teamId: string;
 		driverId: string;
-		driver: { firstName: string; lastName: string };
+		driver: {
+			id: string;
+			firstName: string;
+			lastName: string;
+			abbreviation: string | null;
+			bio: { thumbnailUrl: string | null } | null;
+		};
+		team: {
+			id: string;
+			name: string | null;
+			colors: { teamId: string; primaryHex: string | null } | null;
+		} | null;
 		time: string | null;
 	}[];
 	lapTimes: { driverId: string }[];
 	fastestLaps: { driverId: string; milliseconds: number | null }[];
 };
 
-type CircuitPageData = {
+export type CircuitPageData = {
 	circuit: Pick<
 		CircuitT,
 		'id' | 'fullName' | 'placeName' | 'countryId' | 'latitude' | 'longitude' | 'description'
@@ -99,9 +135,3 @@ type CircuitPageData = {
 };
 
 export type CircuitDataProps = SimpleApolloResult<CircuitPageData>;
-
-export default function useCircuitByRef(circuitRef: string, season?: number) {
-	return useSuspenseQuery<CircuitPageData>(CircuitQuery, {
-		variables: { circuitRef, showCurrentSeason: Boolean(season), season }
-	});
-}

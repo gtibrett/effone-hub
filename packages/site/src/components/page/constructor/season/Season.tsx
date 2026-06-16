@@ -1,13 +1,13 @@
 import type { PropsWithChildren } from 'react';
-import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
 import { Alert, Grid, Link, Skeleton, Typography, type TypographyProps } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
+import type { ConstructorSeasonRace } from '@/app/lib/cached-data';
 import { DriverByLine } from '@/components/app';
-import type { DriverPageData } from '@/components/page/driver';
 import type { Team } from '@/gql/graphql';
 import { toPoints } from '@/helpers';
+
+export { ConstructorSeasonQuery } from './queries';
 
 const CellValueWrapper = ({
 	align = 'center',
@@ -18,42 +18,14 @@ const CellValueWrapper = ({
 	</Typography>
 );
 
-const query = gql`
-	query ConstructorSeasonQuery($teamId: String!, $season: Int!) {
-		races(condition: { year: $season }, orderBy: ROUND_ASC) {
-			rowId
-			year
-			round
-			officialName
-			date
-			time
+type SeasonProps = { teamId: Team['id']; season: number; races: ConstructorSeasonRace[] };
 
-			raceResults(condition: { teamId: $teamId }) {
-				raceId
-				gridPositionNumber
-				positionDisplayOrder
-				points
-				timeMillis
-				driverId
-				teamId
-				reasonRetired
-			}
-		}
-	}
-`;
-
-type SeasonProps = { teamId: Team['id']; season: number };
-
-export default function Season({ teamId, season }: SeasonProps) {
-	const { data, loading } = useQuery<DriverPageData>(query, { variables: { teamId, season } });
-
-	if (loading || !data) {
+export default function Season({ season, races }: SeasonProps) {
+	if (!races) {
 		return <Skeleton variant="rectangular" height={400} />;
 	}
 
-	const races = data.races;
-
-	if (!races?.length) {
+	if (!races.length) {
 		return (
 			<Alert variant="outlined" severity="info">
 				Season Data Not Available

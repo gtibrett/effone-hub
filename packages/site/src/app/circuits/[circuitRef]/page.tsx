@@ -1,7 +1,13 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { getCircuit, getCurrentSeasonCircuitIds } from '../../lib/cached-data';
+import {
+	getCircuit,
+	getCircuitPageData,
+	getCurrentSeason,
+	getCurrentSeasonCircuitIds,
+	getSeasonRaceSchedule
+} from '../../lib/cached-data';
 import CircuitContent from './CircuitContent';
 
 type Params = Promise<{ circuitRef: string }>;
@@ -23,5 +29,19 @@ export default async function CircuitPage({ params }: { params: Params }) {
 	const { circuitRef } = await params;
 	const circuit = await getCircuit(circuitRef);
 	if (!circuit) notFound();
-	return <CircuitContent circuitRef={circuitRef} />;
+
+	const { year: currentSeason } = await getCurrentSeason();
+	const [{ current }, races] = await Promise.all([
+		getCircuitPageData(circuitRef, currentSeason),
+		getSeasonRaceSchedule(currentSeason)
+	]);
+
+	return (
+		<CircuitContent
+			circuitRef={circuitRef}
+			current={current}
+			currentSeason={currentSeason}
+			races={races}
+		/>
+	);
 }

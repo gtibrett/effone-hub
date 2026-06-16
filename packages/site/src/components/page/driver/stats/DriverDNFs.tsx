@@ -3,13 +3,11 @@ import { faCarBurst } from '@fortawesome/free-solid-svg-icons';
 import { StatCard } from '@/components/app';
 
 import type { DriverStatProps } from './index';
-import useDriverStatsData from './useDriverStatsData';
 
-export default function DriverDNFs({ driverId }: DriverStatProps) {
-	const { data, loading } = useDriverStatsData(driverId);
+export default function DriverDNFs({ driverId, statsData }: DriverStatProps) {
 	const leaders = new Map<string, number>();
 
-	data?.driver?.raceResults.forEach(rs => {
+	statsData?.raceResults.forEach(rs => {
 		if (driverId) {
 			leaders.set(
 				driverId,
@@ -22,7 +20,7 @@ export default function DriverDNFs({ driverId }: DriverStatProps) {
 		<StatCard
 			variant="icon"
 			icon={faCarBurst}
-			loading={loading}
+			loading={!statsData}
 			data={leaders}
 			label="DNFs"
 			cardProps={{ variant: 'outlined' }}

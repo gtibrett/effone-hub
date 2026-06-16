@@ -1,32 +1,14 @@
-import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
-
+import type { RaceLapLeaderData } from '@/app/lib/cached-data';
 import { StatCard } from '@/components/app';
-import type { AppLapTime, Race } from '@/gql/graphql';
+import type { AppLapTime } from '@/gql/graphql';
 
 import type { RaceStatProps } from './types';
 
-type Data = {
-	race: Pick<Race, 'lapTimes'> | null;
-};
+export { raceLapLeaderQuery } from './queries';
 
-const query = gql`
-	query raceLapLeaderQuery($season: Int!, $round: Int!) {
-		race: raceByYearAndRound(year: $season, round: $round) {
-			year
-			round
-			lapTimes {
-				raceId
-				driverId
-				lap
-				position
-			}
-		}
-	}
-`;
+type Props = RaceStatProps & { data: RaceLapLeaderData };
 
-export default function LapLeader({ season, round, size }: RaceStatProps) {
-	const { data, loading } = useQuery<Data>(query, { variables: { season, round } });
+export default function LapLeader({ data, size }: Props) {
 	const leaders = new Map<string, number>();
 
 	((data?.race?.lapTimes || []) as Array<AppLapTime | null>)
@@ -37,5 +19,5 @@ export default function LapLeader({ season, round, size }: RaceStatProps) {
 			}
 		});
 
-	return <StatCard size={size} loading={loading} data={leaders} label="Most Laps Led" />;
+	return <StatCard size={size} loading={false} data={leaders} label="Most Laps Led" />;
 }

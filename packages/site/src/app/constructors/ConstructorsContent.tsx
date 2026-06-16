@@ -1,7 +1,7 @@
 'use client';
 
-import { Suspense, useState } from 'react';
-import { Card, CardContent, Skeleton } from '@mui/material';
+import { useState } from 'react';
+import { Card, CardContent } from '@mui/material';
 
 import { useAppState } from '@/components/app';
 import {
@@ -9,9 +9,14 @@ import {
 	ConstructorsList,
 	type ConstructorsListFilters
 } from '@/components/page/constructor';
+import type { TeamWithSeasons } from '@/components/page/constructor/useConstructorsList';
 import { Page } from '@/components/ui';
 
-export default function ConstructorsContent() {
+type Props = {
+	teams: TeamWithSeasons[];
+};
+
+export default function ConstructorsContent({ teams }: Props) {
 	const [{ currentSeason }] = useAppState();
 	const [filters, setFilters] = useState<ConstructorsListFilters>({
 		season: currentSeason,
@@ -22,11 +27,9 @@ export default function ConstructorsContent() {
 		<Page title="Constructors">
 			<Card>
 				<ConstructorsFilters filters={filters} setFilters={setFilters} />
-				<Suspense fallback={<Skeleton variant="rectangular" height="45vh" />}>
-					<CardContent>
-						<ConstructorsList filters={filters} />
-					</CardContent>
-				</Suspense>
+				<CardContent>
+					<ConstructorsList teams={teams} filters={filters} />
+				</CardContent>
 			</Card>
 		</Page>
 	);

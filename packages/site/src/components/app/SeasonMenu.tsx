@@ -1,16 +1,8 @@
-import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
+'use client';
+
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
-import type { Season } from '@/gql/graphql';
-
-export const SeasonsQuery = gql`
-	query SeasonMenuQuery {
-		seasons(orderBy: YEAR_DESC) {
-			year
-		}
-	}
-`;
+import { useAppState } from './AppStateProvider';
 
 const SELECT_CLASS =
 	'min-w-30 rounded border border-text-primary hover:bg-divider/5 [&>.MuiInputBase-root>.MuiOutlinedInput-notchedOutline]:border-0';
@@ -30,11 +22,9 @@ export default function SeasonMenu({
 	setSeason,
 	required = true
 }: SeasonMenuProps) {
-	const { data, loading } = useQuery<{ seasons: Pick<Season, 'year'>[] }>(SeasonsQuery);
+	const [{ seasons }] = useAppState();
 
-	const seasons = (data?.seasons ?? [{ year: new Date().getFullYear() }]).map(s => s.year);
-
-	if (!seasons.length || loading) {
+	if (!seasons.length) {
 		return null;
 	}
 

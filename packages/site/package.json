@@ -13,7 +13,8 @@
 		"prebuild": "pnpm clean && pnpm codegen",
 		"build": "next build --webpack",
 		"start": "next start",
-		"test": "jest --coverage --verbose",
+		"test:jest": "jest --coverage --verbose",
+		"test:playwright": "npx playwright test",
 		"lint": "biome check src",
 		"lint:fix": "biome check --write src",
 		"format": "biome format src",
@@ -23,6 +24,7 @@
 	"devDependencies": {
 		"@graphql-codegen/cli": "^5.0.7",
 		"@graphql-codegen/client-preset": "^4.8.3",
+		"@playwright/test": "^1.60.0",
 		"@svgr/webpack": "^8.1.0",
 		"@tailwindcss/postcss": "^4.3.0",
 		"@testing-library/dom": "^10.4.1",

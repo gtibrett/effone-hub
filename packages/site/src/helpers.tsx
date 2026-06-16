@@ -1,19 +1,8 @@
-import { type ClassValue, clsx } from 'clsx';
-import { useRouter } from 'next/router';
-import { twMerge } from 'tailwind-merge';
 import { capitalize } from '@mui/material';
-
-export function cn(...inputs: ClassValue[]) {
-	return twMerge(clsx(inputs));
-}
 
 import type { Maybe, RaceResult } from '@/gql/graphql';
 
 export const noop = () => null;
-
-export function useSlugs<T extends {}>() {
-	return (useRouter().query || {}) as T;
-}
 
 export function getPositionTextOutcome(
 	positionText: RaceResult['positionText'] | null | undefined,

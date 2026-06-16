@@ -7,7 +7,7 @@ import { DriverByLine } from '@/components/app';
 import type { AppLapTime } from '@/gql/graphql';
 import { getTimeStringFromDate } from '@/helpers';
 
-import { type LapByLapData, useLapByLapData } from '../lapByLap/useLapByLapChartData';
+import type { LapByLapData } from '../lapByLap/useLapByLapChartData';
 import { getColorWithAlt } from './helpers';
 import type { LapChartSeries } from './useLapTimeChartData';
 
@@ -50,7 +50,7 @@ function useLapTimesData(lapByLapData: LapByLapData) {
 							: Math.min(lt.milliseconds, personalBest);
 
 						return {
-							lap: lt.lap,
+							lap: lt.lap ?? 0,
 							personalBest,
 							fastestLapTime,
 							timing: lt,
@@ -128,12 +128,10 @@ const useColumns = (laps: number) => {
 };
 
 export type LapTimesTableProps = {
-	season: number;
-	round: number;
+	lapByLapData: LapByLapData;
 };
 
-export default function LapTimesTable({ season, round }: LapTimesTableProps) {
-	const lapByLapData = useLapByLapData(season, round);
+export default function LapTimesTable({ lapByLapData }: LapTimesTableProps) {
 	const data = useLapTimesData(lapByLapData);
 	const { totalLaps = 0 } = lapByLapData;
 	const columns = useColumns(totalLaps);

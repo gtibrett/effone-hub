@@ -1,35 +1,11 @@
-import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
-
+import type { SeasonDNFsData } from '@/app/lib/cached-data';
 import { StatCard } from '@/components/app';
-import type { Season } from '@/gql/graphql';
 
 import type { SeasonStatProps } from './index';
 
-type Data = {
-	season: Pick<Season, 'racesByYear'> | null;
-};
+type DNFsProps = SeasonStatProps & { data: SeasonDNFsData };
 
-const query = gql`
-	query SeasonDNFsQuery($season: Int!) {
-		season(year: $season) {
-			year
-			racesByYear {
-				rowId
-				year
-				round
-				raceResults {
-					raceId
-					driverId
-					reasonRetired
-				}
-			}
-		}
-	}
-`;
-
-export default function DNFs({ season, size }: SeasonStatProps) {
-	const { data, loading } = useQuery<Data>(query, { variables: { season } });
+export default function DNFs({ size, data }: DNFsProps) {
 	const leaders = new Map<string, number>();
 
 	(data?.season?.racesByYear || []).forEach(r => {
@@ -40,5 +16,5 @@ export default function DNFs({ season, size }: SeasonStatProps) {
 		});
 	});
 
-	return <StatCard size={size} loading={loading} data={leaders} label="Most DNFs" />;
+	return <StatCard size={size} loading={false} data={leaders} label="Most DNFs" />;
 }

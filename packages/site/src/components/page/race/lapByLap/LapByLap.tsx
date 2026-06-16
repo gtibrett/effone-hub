@@ -11,11 +11,10 @@ import type { Maybe } from '@/gql/graphql';
 import type { DriverId } from '@/types';
 
 import LapByLapTooltip from './LapByLapTooltip';
-import useLapByLapChartData, { useLapByLapData } from './useLapByLapChartData';
+import useLapByLapChartData, { type LapByLapData } from './useLapByLapChartData';
 
 export type LapByLapProps = {
-	season: number;
-	round: number;
+	lapByLapData: LapByLapData;
 };
 
 type LapChartDatum = {
@@ -41,8 +40,7 @@ const getTicks = (laps: number) => {
 	return [...ticks, laps];
 };
 
-function LapByLap({ season, round }: LapByLapProps) {
-	const lapByLapData = useLapByLapData(season, round);
+function LapByLap({ lapByLapData }: LapByLapProps) {
 	const data = useLapByLapChartData(lapByLapData);
 	const { loading, totalLaps } = lapByLapData;
 	const { sx } = useChartsTheme();

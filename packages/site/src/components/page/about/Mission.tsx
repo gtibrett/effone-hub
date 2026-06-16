@@ -11,8 +11,8 @@ const Mission = () => (
 			<Typography variant="body1" className="mb-4">
 				This site was built as a fun side project, using React & Material-UI. It is an
 				experiment in visualizing current and historical Formula One data. It is Open Source
-				and utilizes many other open projects and data sources. app consuming the Ergast API
-				Formula One dataset.
+				and utilizes many other open projects and data sources, with results sourced
+				primarily from F1DB and Jolpica-F1.
 			</Typography>
 			<Typography variant="body1" className="mb-4">
 				You can view historical Formula One data back to 1950. Race results, qualifying,

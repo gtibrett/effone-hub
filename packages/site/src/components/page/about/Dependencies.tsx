@@ -24,11 +24,20 @@ type DependencyCategory = {
 
 const dependencies: DependencyCategory[] = [
 	{
+		title: 'Framework',
+		links: [
+			{ title: 'Next.js', url: 'https://nextjs.org' },
+			{ title: 'React', url: 'https://react.dev' }
+		]
+	},
+	{
 		title: 'UI',
 		links: [
 			{ title: 'Material UI', url: 'https://mui.com' },
-			{ title: 'FontAwesome', url: 'https://fontawesome.com/' },
-			{ title: 'Nivo Charts', url: 'https://nivo.rocks' }
+			{ title: 'MUI X Charts', url: 'https://mui.com/x/react-charts/' },
+			{ title: 'MUI X Data Grid', url: 'https://mui.com/x/react-data-grid/' },
+			{ title: 'Tailwind CSS', url: 'https://tailwindcss.com' },
+			{ title: 'FontAwesome', url: 'https://fontawesome.com/' }
 		]
 	},
 	{
@@ -41,6 +50,7 @@ const dependencies: DependencyCategory[] = [
 	{
 		title: 'Race Maps',
 		links: [
+			{ title: 'react-simple-maps', url: 'https://www.npmjs.com/package/react-simple-maps' },
 			{ title: 'world-atlas', url: 'https://www.npmjs.com/package/world-atlas' },
 			{ title: 'topojson-client', url: 'https://www.npmjs.com/package/topojson-client' },
 			{ title: 'f1laps-track-vectors', url: 'https://github.com/f1laps/f1-track-vectors' }
@@ -49,7 +59,7 @@ const dependencies: DependencyCategory[] = [
 	{
 		title: 'Data',
 		links: [
-			{ title: 'effone-hub-graph', url: 'https://github.com/gtibrett/effone-hub-graph' },
+			{ title: 'PostGraphile', url: 'https://postgraphile.org' },
 			{ title: '@apollo/client', url: 'https://www.npmjs.com/package/@apollo/client' },
 			{ title: 'graphql', url: 'https://www.npmjs.com/package/graphql' }
 		]

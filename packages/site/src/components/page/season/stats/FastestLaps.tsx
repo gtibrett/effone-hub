@@ -1,28 +1,20 @@
-import { useQuery } from '@apollo/client/react';
-
 import { StatCard } from '@/components/app';
-import type { FastestLap, Race } from '@/gql/graphql';
 
-import { type FastestLapQueryData, seasonFastestLapQuery } from './FastestLap';
+import type { FastestLapQueryData } from './queries';
 import type { SeasonStatProps } from './types';
 
-type RaceNode = Pick<Race, 'rowId' | 'round' | 'officialName'> & {
-	fastestLaps: Pick<FastestLap, 'driverId' | 'lap' | 'time' | 'timeMillis'>[];
-};
+type FastestLapsProps = SeasonStatProps & { data: FastestLapQueryData };
 
-export default function FastestLaps({ season, size = 'small' }: SeasonStatProps) {
-	const { loading, data } = useQuery<FastestLapQueryData>(seasonFastestLapQuery, {
-		variables: { season }
-	});
+export default function FastestLaps({ size = 'small', data }: FastestLapsProps) {
 	const leaders = new Map<string, number>();
 
-	(data?.season?.racesByYear || []).forEach((r: RaceNode) => {
-		r.fastestLaps?.forEach((lt: Pick<FastestLap, 'driverId'>) => {
+	(data?.season?.racesByYear || []).forEach(r => {
+		r.fastestLaps?.forEach(lt => {
 			if (lt.driverId) {
 				leaders.set(lt.driverId, (leaders.get(lt.driverId) || 0) + 1);
 			}
 		});
 	});
 
-	return <StatCard label="Fastest Laps" size={size} loading={loading} data={leaders} />;
+	return <StatCard label="Fastest Laps" size={size} loading={false} data={leaders} />;
 }

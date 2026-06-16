@@ -1,6 +1,7 @@
 'use client';
 
 import { type ReactNode, useCallback, useMemo, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Box, Grid, Tabs as MuiTabs, Tab } from '@mui/material';
 
 export type TabContent = {
@@ -15,11 +16,32 @@ type TabsProps = {
 	tabs: TabContent[];
 	active?: string;
 	color?: 'primary' | 'secondary';
+	// When set, the active tab is synced to this URL search param so it survives
+	// re-renders/remounts (e.g. opening an intercepting-route modal over the page).
+	urlParam?: string;
 };
 
-export default function Tabs({ tabs, active: initial, color = 'secondary' }: TabsProps) {
-	const [active, setActive] = useState<string>(initial || tabs[0]?.id);
-	const handleChange = useCallback((_e: React.SyntheticEvent, v: string) => setActive(v), []);
+export default function Tabs({ tabs, active: initial, color = 'secondary', urlParam }: TabsProps) {
+	const router = useRouter();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
+
+	const fromUrl = urlParam ? (searchParams?.get(urlParam) ?? null) : null;
+	const [localActive, setActive] = useState<string>(fromUrl || initial || tabs[0]?.id);
+	// URL param (when present) is the source of truth so the tab survives remounts.
+	const active = (urlParam && fromUrl) || localActive;
+
+	const handleChange = useCallback(
+		(_e: React.SyntheticEvent, v: string) => {
+			setActive(v);
+			if (urlParam) {
+				const next = new URLSearchParams(searchParams?.toString());
+				next.set(urlParam, v);
+				router.replace(`${pathname}?${next.toString()}`, { scroll: false });
+			}
+		},
+		[urlParam, searchParams, pathname, router]
+	);
 	const activeTab = useMemo(() => tabs.find(t => t.id === active), [tabs, active]);
 
 	return (

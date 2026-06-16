@@ -1,20 +1,16 @@
-import { useSuspenseQuery } from '@apollo/client/react';
 import { Link } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
-import CircuitQuery from '@/components/page/circuits/CircuitsQuery';
 import { useCircuitsList } from '@/components/page/circuits/index';
 import type { CircuitsListFilters } from '@/components/page/circuits/types';
 import type { Circuit } from '@/gql/graphql';
 
 type CircuitsListProps = {
+	circuits: Circuit[];
 	filters: CircuitsListFilters;
 };
 
-export default function CircuitsList({ filters }: CircuitsListProps) {
-	const {
-		data: { circuits }
-	} = useSuspenseQuery<{ circuits: Circuit[] }>(CircuitQuery);
+export default function CircuitsList({ circuits, filters }: CircuitsListProps) {
 	const filteredCircuits = useCircuitsList(circuits, filters);
 
 	return (

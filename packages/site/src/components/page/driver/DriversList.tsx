@@ -1,22 +1,18 @@
-import { useSuspenseQuery } from '@apollo/client/react';
 import { Grid, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { DriverAvatar, DriverByLine } from '@/components/app';
-import DriversQuery from '@/components/page/driver/DriversQuery';
 import { useDriversList } from '@/components/page/driver/index';
 import type { DriversListFilters } from '@/components/page/driver/types';
 import { Flag } from '@/components/ui';
 import type { Driver } from '@/gql/graphql';
 
 type DriversTableProps = {
+	drivers: Driver[];
 	filters: DriversListFilters;
 };
 
-export default function DriversList({ filters }: DriversTableProps) {
-	const {
-		data: { drivers }
-	} = useSuspenseQuery<{ drivers: Driver[] }>(DriversQuery);
+export default function DriversList({ drivers, filters }: DriversTableProps) {
 	const filteredDrivers = useDriversList(drivers, filters);
 
 	return (

@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react';
 
 export type AvatarSizes = 'small' | 'medium' | 'large' | 'auto' | number;
 
-export type AvatarSizeStyle = {
+type AvatarSizeStyle = {
 	className: string;
 	style?: CSSProperties;
 };

@@ -7,19 +7,16 @@ import {
 	type PropsWithChildren,
 	type SetStateAction,
 	useContext,
-	useEffect,
 	useState
 } from 'react';
-import { Backdrop } from '@mui/material';
 
-import { useSeasons } from '@/hooks';
-
-import { ErrorCard } from './ErrorBoundary';
+import type { AppSeasonState } from '@/app/lib/cached-data';
 
 type AppStateType = {
 	currentSeason: number;
 	seasonToShow: number;
 	lastSeason: number;
+	seasons: number[];
 	ready: boolean;
 };
 
@@ -29,34 +26,17 @@ const BLANK_STATE: AppStateType = {
 	currentSeason: 0,
 	seasonToShow: 0,
 	lastSeason: 0,
+	seasons: [],
 	ready: false
 };
 
 const Context = createContext<[AppStateType, SetAppStateType]>([BLANK_STATE, () => null]);
 
-const AppStateProvider: FC<PropsWithChildren> = ({ children }) => {
-	const [state, setState] = useState<AppStateType>(BLANK_STATE);
-	const { seasons, error } = useSeasons();
-
-	useEffect(() => {
-		if (!state.ready && seasons) {
-			setState({
-				currentSeason: Math.max(...seasons.filter(s => !s.ended).map(s => s.year)),
-				seasonToShow: Math.max(...seasons.filter(s => s.hasResults).map(s => s.year)),
-				lastSeason: Math.max(...seasons.filter(s => s.ended).map(s => s.year)),
-				ready: true
-			});
-		}
-	}, [seasons, state.ready, state]);
-
-	if (!state?.ready || !state?.currentSeason) {
-		return (
-			<Backdrop open>
-				{error ? <ErrorCard message="Could not connect to the data API" /> : null}
-			</Backdrop>
-		);
-	}
-
+const AppStateProvider: FC<PropsWithChildren<{ initialState: AppSeasonState }>> = ({
+	children,
+	initialState
+}) => {
+	const [state, setState] = useState<AppStateType>({ ...initialState, ready: true });
 	return <Context.Provider value={[state, setState]}>{children}</Context.Provider>;
 };
 

@@ -5,6 +5,7 @@ import type { BarSeriesType } from '@mui/x-charts';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 
+import type { DriverCareerData } from '@/app/lib/cached-data';
 import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
 import { capitalizeCamelCase } from '@/helpers';
 import { RESULTS_COLORS, type ResultsBucket } from '@/lib/resultsColors';
@@ -15,6 +16,7 @@ import useBreakdownData, { type BreakdownDatum } from './useBreakdownData';
 
 type CareerBreakdownChartProps = {
 	driverId: DriverId;
+	careerData: DriverCareerData['driver'] | null | undefined;
 	season?: number;
 };
 
@@ -27,9 +29,15 @@ export const breakdownMetrics = [
 	'DNFs'
 ] as const satisfies readonly BreakdownMetric[];
 
-export default function CareerBreakdownChart({ driverId, season }: CareerBreakdownChartProps) {
+export default function CareerBreakdownChart({
+	driverId,
+	careerData,
+	season
+}: CareerBreakdownChartProps) {
 	const { sx } = useChartsTheme();
-	const chartData = (useBreakdownData(driverId) || []).filter(s => !season || s.year === season);
+	const chartData = (useBreakdownData(driverId, careerData) || []).filter(
+		s => !season || s.year === season
+	);
 	const isSingleSeason = chartData.length === 1;
 
 	const { series, xAxisData, lookup } = useMemo(() => {
@@ -106,11 +114,21 @@ export default function CareerBreakdownChart({ driverId, season }: CareerBreakdo
 					? [{ data: xAxisData, scaleType: 'band', position: 'none' }]
 					: [{ scaleType: 'linear', position: 'none' }]
 			}
-			margin={{ top: 20, left: 10, right: 10, bottom: isSingleSeason ? 8 : 40 }}
+			margin={{ top: 0, left: 10, right: 10, bottom: 0 }}
 			grid={{ horizontal: false, vertical: false }}
 			borderRadius={1}
 			sx={sx}
 			slots={{ tooltip: TooltipSlot }}
+			slotProps={{
+				legend: {
+					direction: 'vertical',
+					sx: { gap: 1 },
+					position: {
+						vertical: 'bottom',
+						horizontal: 'center'
+					}
+				}
+			}}
 			skipAnimation={false}
 		/>
 	);

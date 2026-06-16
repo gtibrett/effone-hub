@@ -1,47 +1,16 @@
-import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
-import { Alert, Skeleton } from '@mui/material';
+import { Alert } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
+import type { RaceQualifyingResult } from '@/app/lib/cached-data';
 import { ConstructorByLine, DriverByLine } from '@/components/app';
-import type { QualifyingResult, Race } from '@/gql/graphql';
 
-const QualifyingQuery = gql`
-	query qualifyingQuery($season: Int!, $round: Int!) {
-		race: raceByYearAndRound(year: $season, round: $round) {
-			year
-			round
-			qualifyingResults {
-				raceId
-				driverId
-				teamId
-				positionNumber
-				q1
-				q2
-				q3
-			}
-		}
-	}
-`;
+export { qualifyingQuery } from './queries';
 
 type QualifyingProps = {
-	season: number;
-	round: number;
+	rows: RaceQualifyingResult[];
 };
 
-export default function Qualifying({ season, round }: QualifyingProps) {
-	const { data, loading } = useQuery<{ race: Pick<Race, 'qualifyingResults'> }>(QualifyingQuery, {
-		variables: { season, round }
-	});
-
-	if (loading) {
-		return <Skeleton variant="rectangular" height={400} />;
-	}
-
-	const rows = (data?.race?.qualifyingResults ?? []).filter(
-		(r): r is QualifyingResult => r != null
-	);
-
+export default function Qualifying({ rows }: QualifyingProps) {
 	if (!rows.length) {
 		return (
 			<Alert variant="outlined" severity="info">

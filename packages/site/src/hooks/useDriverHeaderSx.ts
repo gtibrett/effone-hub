@@ -5,7 +5,7 @@
 
 import type { CSSProperties } from 'react';
 
-import { useDriver } from '@/hooks/data';
+import { useDriverDisplay } from '@/components/app/EntityDisplayProvider';
 import type { DriverId } from '@/types';
 
 import useGetTeamColor from './useGetTeamColor';
@@ -18,19 +18,17 @@ export type HeaderStyle = {
 const HEADER_CLASS =
 	'bg-(--header-bg) text-(--header-fg) [&_.MuiTypography-root]:bg-(--header-bg) [&_.MuiTypography-root]:text-(--header-fg) [&_.MuiTableCell-root]:bg-(--header-bg) [&_.MuiTableCell-root]:text-(--header-fg)';
 
-// `yearOrColor`: 'current' (driver's current team) | a season year (number) |
-// an explicit color string. Optional — callers may pass an undefined color.
+// `yearOrColor`: 'current' (driver's current team) | an explicit color string.
+// Year-based lookup removed — data must come from context/objectProp.
 function useDriverHeaderSx(
 	driverId: DriverId,
 	yearOrColor: 'current' | number | string | undefined = 'current'
 ): HeaderStyle {
-	const driver = useDriver(driverId ?? undefined);
+	const display = useDriverDisplay(driverId);
 	const getTeamColor = useGetTeamColor();
 
 	let background = getTeamColor(
-		yearOrColor === 'current'
-			? driver?.seasonEntrantDrivers?.[0]?.team?.colors
-			: driver?.seasonEntrantDrivers?.find(t => t.year === yearOrColor)?.team?.colors,
+		yearOrColor === 'current' ? display?.teamColors : undefined,
 		'primaryHex'
 	);
 

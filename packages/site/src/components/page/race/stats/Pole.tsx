@@ -1,34 +1,13 @@
-import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
-
+import type { RacePoleData } from '@/app/lib/cached-data';
 import { StatCard } from '@/components/app';
-import type { DriverId } from '@/types';
 
-import type { RaceStatProps } from './index';
+import type { RaceStatProps } from './types';
 
-type Data = {
-	races: {
-		qualifyingResults: {
-			driverId: DriverId;
-		}[];
-	}[];
-};
+export { racePolesLeaderQuery } from './queries';
 
-const query = gql`
-	query racePolesLeaderQuery($season: Int!, $round: Int!) {
-		races (condition: {year: $season, round: $round}) {
-			year
-			round
-			qualifyingResults (condition: {positionNumber: 1}, first: 1) {
-				raceId
-				driverId
-			}
-		}
-	}
-`;
+type Props = RaceStatProps & { data: RacePoleData };
 
-export default function Pole({ season, round, size }: RaceStatProps) {
-	const { data, loading } = useQuery<Data>(query, { variables: { season, round } });
+export default function Pole({ data, size }: Props) {
 	const leaders = new Map<string, number>();
 
 	(data?.races || []).forEach(r => {
@@ -42,7 +21,7 @@ export default function Pole({ season, round, size }: RaceStatProps) {
 	return (
 		<StatCard
 			size={size}
-			loading={loading}
+			loading={false}
 			data={leaders}
 			label="Pole Position"
 			format={() => null}

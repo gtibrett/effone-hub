@@ -6,10 +6,14 @@ query DriversQuery {
     id
     firstName
     lastName
+    abbreviation
     nationalityCountryId
     totalRaceStarts
     totalRaceWins
     totalPodiums
+    bio {
+      thumbnailUrl
+    }
     nationalityCountry {
       id
       name

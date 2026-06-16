@@ -1,5 +1,6 @@
 'use client';
 
+import '@/polyfills';
 import { type PropsWithChildren, Suspense } from 'react';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import { CssBaseline, ThemeProvider } from '@mui/material';
@@ -8,25 +9,27 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 import { Layout } from '@/components/app';
 import { effTheme } from '@/components/ui/Theme';
 
-import ApolloWrapper from './ApolloWrapper';
+import type { AppSeasonState } from './lib/cached-data';
 
 config.autoAddCss = false;
 
-export default function Providers({ children }: PropsWithChildren) {
-	// Wrap the whole Layout tree in Suspense so Cache Components accepts the
-	// `new Date()` reads scattered across the client components (race-weekend
-	// "is this in the future?" checks, AppStateProvider's currentYear fallback,
-	// etc.). Without this, /_not-found prerender fails.
+export default function Providers({
+	children,
+	appSeasonState
+}: PropsWithChildren<{ appSeasonState: AppSeasonState }>) {
+	// Root Suspense around the Layout tree is load-bearing: dynamic / fallback-shell
+	// routes (e.g. /_not-found, the driver dialog routes that have no
+	// generateStaticParams) defer layout-level data here. Without it their prerender
+	// fails with "uncached data accessed outside of <Suspense>". A Suspense boundary
+	// does not force dynamic — static routes still render their content into the shell.
 	return (
 		<AppRouterCacheProvider options={{ enableCssLayer: true }}>
-			<ApolloWrapper>
-				<ThemeProvider theme={effTheme}>
-					<CssBaseline />
-					<Suspense>
-						<Layout>{children}</Layout>
-					</Suspense>
-				</ThemeProvider>
-			</ApolloWrapper>
+			<ThemeProvider theme={effTheme}>
+				<CssBaseline />
+				<Suspense>
+					<Layout appSeasonState={appSeasonState}>{children}</Layout>
+				</Suspense>
+			</ThemeProvider>
 		</AppRouterCacheProvider>
 	);
 }

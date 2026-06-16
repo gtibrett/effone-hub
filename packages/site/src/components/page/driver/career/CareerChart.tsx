@@ -1,3 +1,4 @@
+import type { DriverCareerData } from '@/app/lib/cached-data';
 import { ChartSwitcher, type ChartSwitcherChart, LineChartByTeam } from '@/components/app';
 import type { DriverId } from '@/types';
 
@@ -7,17 +8,18 @@ import useCareerChartDataWithTeam from './useCareerChartDataWithTeam';
 
 type CareerChartProps = {
 	driverId: DriverId;
+	careerData: DriverCareerData['driver'] | null | undefined;
 	size: number;
 };
 
-export default function CareerChart({ driverId, size }: CareerChartProps) {
-	const data = useCareerChartDataWithTeam(driverId);
+export default function CareerChart({ driverId, careerData, size }: CareerChartProps) {
+	const data = useCareerChartDataWithTeam(careerData);
 
 	const charts: ChartSwitcherChart[] = [
 		{
 			id: 'breakdown',
 			label: 'Breakdown',
-			chart: <CareerBreakdownChart driverId={driverId} />
+			chart: <CareerBreakdownChart driverId={driverId} careerData={careerData} />
 		},
 		{
 			id: 'position',

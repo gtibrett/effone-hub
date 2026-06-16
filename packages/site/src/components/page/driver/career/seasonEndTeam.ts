@@ -1,8 +1,11 @@
-import type { RaceResult } from '@/gql/graphql';
-
 export type SeasonTeam = {
 	id: string;
 	colors?: { primaryHex?: string | null; secondaryHex?: string | null } | null;
+};
+
+type RaceResultWithRaceAndTeam = {
+	race?: { year?: number | null; round?: number | null } | null;
+	team?: SeasonTeam | null;
 };
 
 /**
@@ -10,7 +13,9 @@ export type SeasonTeam = {
  * (their highest-round race that year). Team lives on raceResults, not on
  * the season standing.
  */
-export function getSeasonEndTeamByYear(raceResults: RaceResult[] = []): Map<number, SeasonTeam> {
+export function getSeasonEndTeamByYear(
+	raceResults: RaceResultWithRaceAndTeam[] = []
+): Map<number, SeasonTeam> {
 	const latest = new Map<number, { round: number; team: SeasonTeam }>();
 
 	raceResults.forEach(r => {

@@ -1,5 +1,4 @@
 import '@/polyfills';
-import { useSuspenseQuery } from '@apollo/client/react';
 import { faSquareFull } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DataGrid } from '@mui/x-data-grid';
@@ -7,7 +6,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import { ConstructorByLine } from '@/components/app';
 import {
 	type ConstructorsListFilters,
-	ConstructorsQuery,
 	useConstructorsList
 } from '@/components/page/constructor/index';
 import type { RaceResult } from '@/gql/graphql';
@@ -16,13 +14,11 @@ import { useGetTeamColor } from '@/hooks';
 import type { TeamWithSeasons } from './useConstructorsList';
 
 type ConstructorsTableProps = {
+	teams: TeamWithSeasons[];
 	filters: ConstructorsListFilters;
 };
 
-export default function ConstructorsList({ filters }: ConstructorsTableProps) {
-	const {
-		data: { teams }
-	} = useSuspenseQuery<{ teams: TeamWithSeasons[] }>(ConstructorsQuery);
+export default function ConstructorsList({ teams, filters }: ConstructorsTableProps) {
 	const filteredTeams = useConstructorsList(teams, filters);
 	const getTeamColor = useGetTeamColor();
 

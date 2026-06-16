@@ -1,3 +1,5 @@
+'use client';
+
 import { type Dispatch, type SetStateAction, useState } from 'react';
 
 import type { ActiveChart } from './types';

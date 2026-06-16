@@ -3,8 +3,8 @@ import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 
 import { DriverByLine } from '@/components/app';
 
-import type { LapByLapProps, LapChartSeries } from './LapByLap';
-import useLapByLapChartData, { useLapByLapData } from './useLapByLapChartData';
+import type { LapChartSeries } from './LapByLap';
+import useLapByLapChartData, { type LapByLapData } from './useLapByLapChartData';
 
 type LapByLapTableRow = {
 	driverId: LapChartSeries['id'];
@@ -13,9 +13,10 @@ type LapByLapTableRow = {
 	};
 };
 
-export default function LapByLapTable({ season, round }: LapByLapProps) {
+type Props = { lapByLapData: LapByLapData };
+
+export default function LapByLapTable({ lapByLapData }: Props) {
 	const flatData: LapByLapTableRow[] = [];
-	const lapByLapData = useLapByLapData(season, round);
 	const { totalLaps } = lapByLapData;
 	const data = useLapByLapChartData(lapByLapData);
 

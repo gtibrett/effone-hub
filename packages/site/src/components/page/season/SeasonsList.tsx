@@ -1,10 +1,8 @@
-import { memo, Suspense } from 'react';
-import { useSuspenseQuery } from '@apollo/client/react';
-import { Box, Link, Skeleton } from '@mui/material';
+import { memo } from 'react';
+import { Box, Link } from '@mui/material';
 import { DataGrid, type GridColDef, type GridRenderCellParams } from '@mui/x-data-grid';
 
 import { StatCard } from '@/components/app';
-import SeasonsQuery from '@/components/page/season/SeasonsQuery';
 import { toPoints } from '@/helpers';
 
 import {
@@ -68,58 +66,56 @@ const renderPlaceFactory = (
 		return <PlaceColumnRenderer data={data} />;
 	};
 
-export default function SeasonsList() {
-	const {
-		data: { seasons }
-	} = useSuspenseQuery<{ seasons: SeasonData[] }>(SeasonsQuery);
+type Props = {
+	seasons: SeasonData[];
+};
 
+export default function SeasonsList({ seasons }: Props) {
 	return (
-		<Suspense fallback={<Skeleton variant="rectangular" height="60vh" />}>
-			<DataGrid
-				rows={seasons}
-				autoHeight
-				getRowId={r => r.year}
-				rowHeight={90}
-				columns={[
-					{
-						field: 'year',
-						headerName: 'Season',
-						width: 100,
-						flex: 1,
-						renderCell: ({ row }) => <Link href={`/${row.year}`}>{row.year}</Link>
-					},
-					{
-						field: 'winner',
-						headerName: 'Driver Champion',
-						flex: 1,
+		<DataGrid
+			rows={seasons}
+			autoHeight
+			getRowId={r => r.year}
+			rowHeight={90}
+			columns={[
+				{
+					field: 'year',
+					headerName: 'Season',
+					width: 100,
+					flex: 1,
+					renderCell: ({ row }) => <Link href={`/${row.year}`}>{row.year}</Link>
+				},
+				{
+					field: 'winner',
+					headerName: 'Driver Champion',
+					flex: 1,
 
-						renderCell: renderPlaceFactory(1)
-					},
-					{
-						field: 'runnerup',
-						headerName: 'Runner-Up',
-						flex: 1,
-						renderCell: renderPlaceFactory(2)
-					},
-					{
-						field: 'third',
-						headerName: 'Third Place',
-						flex: 1,
-						renderCell: renderPlaceFactory(3)
-					},
-					{
-						field: 'team',
-						headerName: 'Constructor Champion',
-						flex: 1,
-						renderCell: renderPlaceFactory(1, 'team')
-					}
-				]}
-				initialState={{
-					sorting: {
-						sortModel: [{ field: 'year', sort: 'desc' }]
-					}
-				}}
-			/>
-		</Suspense>
+					renderCell: renderPlaceFactory(1)
+				},
+				{
+					field: 'runnerup',
+					headerName: 'Runner-Up',
+					flex: 1,
+					renderCell: renderPlaceFactory(2)
+				},
+				{
+					field: 'third',
+					headerName: 'Third Place',
+					flex: 1,
+					renderCell: renderPlaceFactory(3)
+				},
+				{
+					field: 'team',
+					headerName: 'Constructor Champion',
+					flex: 1,
+					renderCell: renderPlaceFactory(1, 'team')
+				}
+			]}
+			initialState={{
+				sorting: {
+					sortModel: [{ field: 'year', sort: 'desc' }]
+				}
+			}}
+		/>
 	);
 }
