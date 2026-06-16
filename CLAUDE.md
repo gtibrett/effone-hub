@@ -22,6 +22,8 @@ pnpm site:build  # next build (webpack)
 
 **Always prefix commands with `rtk`**. If RTK has a dedicated filter, it uses it. If not, it passes through unchanged. This means RTK is always safe to use.
 
+**Caveat:** RTK's rewrite of `grep`/`find`/`tail` can mangle output or mask a pipe's exit code. Use `rtk proxy <cmd>` to run raw when output looks wrong or empty.
+
 **Important**: Even in command chains with `&&`, use `rtk`:
 ```bash
 # ❌ Wrong

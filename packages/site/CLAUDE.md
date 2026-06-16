@@ -19,3 +19,12 @@ pnpm lint       # biome check src  (lint:fix to autofix)
 - **F1DB points are BigFloat strings** (`"25.00"`). Coerce with `toPoints()` before math or grid sorting.
 - **MUI X charts need an explicit band axis carrying `data`** (value axis needs `scaleType: 'linear'`), else `_ is not iterable` / scaleBand crash. Horizontal bars put the band axis on Y.
 - **ChartSwitcher mounts only the active chart.** Rendering all + hiding with `display:none` mounts MUI X at width 0 (`ChartsContainer has no width`). Mount only the active one, keyed.
+- **`DriverByLine`/`ConstructorByLine` resolve names from `EntityDisplayProvider`, not row data.** A page query that omits driver/team detail fields renders blank names — seed the provider from *every* result set feeding a grid (e.g. the circuit page seeds from `history` + `season`).
+- **MUI DataGrid `aria-rowcount` is on the inner `[role="grid"]` (`.MuiDataGrid-main`) and counts the header row** (subtract 1). `.MuiDataGrid-root` has none.
+- **Season filters (`SeasonMenu`) are a MUI popup `<Select>`, not native** — Playwright `selectOption()` fails; use the `e2e/fixtures/season-select.ts` `selectSeason` helper. The filtered count is *entrants*, not the standings roster.
+- **Only driver-detail `Tabs` pass `urlParam` (`?tab=` survives reload); constructor/circuit/race tabs don't sync the URL.**
+
+## E2E (Playwright)
+- `pnpm test:playwright` (specs in `e2e/`, fixtures in `e2e/fixtures/`). Dev server auto-starts/reused on :3000.
+- The `playwright-test` MCP uses the **root** `playwright.config.ts` (auto-discovered at the worktree root; needs a `webServer` block). After installing/upgrading `@playwright/test`, **restart Claude Code** or the stale MCP process throws a seed "two different versions of @playwright/test" error.
+- Run dev e2e with `--workers=2` (SSR is CPU-bound; more workers → 30s `page.goto` timeouts).
