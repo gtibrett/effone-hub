@@ -74,8 +74,22 @@ export const CircuitQuery = gql`
 				raceResults {
 					raceId
 					driverId
+					driver {
+						id
+						firstName
+						lastName
+						abbreviation
+						bio {
+							thumbnailUrl
+						}
+					}
 					team {
 						id
+						name
+						colors {
+							teamId
+							primaryHex
+						}
 					}
 					gridPositionNumber
 					positionDisplayOrder

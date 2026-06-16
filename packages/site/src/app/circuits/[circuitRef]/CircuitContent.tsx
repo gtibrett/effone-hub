@@ -16,7 +16,7 @@ import { FastestLap, LapLeader, MostWins } from '@/components/page/circuits/stat
 import type { NextRaceQueryNode } from '@/components/page/raceWeekend/queries';
 import { selectNextRace } from '@/components/page/raceWeekend/useNextRaceData';
 import { OpenAILink, Page, Tabs } from '@/components/ui';
-import type { CircuitHistoryData, CircuitPageData } from '@/hooks/data/useCircuitByRef';
+import type { CircuitPageData } from '@/hooks/data/useCircuitByRef';
 
 type Props = CircuitPageDataPair & {
 	circuitRef: string;
@@ -24,17 +24,38 @@ type Props = CircuitPageDataPair & {
 	races: NextRaceQueryNode[];
 };
 
-function buildDriverDisplays(history: CircuitHistoryData[]): DriverDisplay[] {
+// Seed display data from any races carrying driver/team details. Both the
+// all-time `history` (winners) and the current `season` results are passed in
+// so the season grid resolves every driver, not just past circuit winners.
+type SeedRace = {
+	raceResults?: ReadonlyArray<{
+		driverId?: string | null;
+		driver?: {
+			firstName?: string | null;
+			lastName?: string | null;
+			abbreviation?: string | null;
+			bio?: { thumbnailUrl?: string | null } | null;
+		} | null;
+		team?: {
+			id?: string | null;
+			name?: TeamDisplay['name'];
+			colors?: TeamDisplay['colors'];
+		} | null;
+	} | null> | null;
+};
+
+function buildDriverDisplays(races: ReadonlyArray<SeedRace>): DriverDisplay[] {
 	const seen = new Map<string, DriverDisplay>();
-	for (const race of history) {
-		for (const result of race.raceResults) {
-			if (!result.driverId || seen.has(result.driverId)) continue;
-			seen.set(result.driverId, {
-				id: result.driverId,
-				firstName: result.driver.firstName,
-				lastName: result.driver.lastName,
-				abbreviation: result.driver.abbreviation,
-				thumbnailUrl: result.driver.bio?.thumbnailUrl ?? null,
+	for (const race of races) {
+		for (const result of race.raceResults ?? []) {
+			const id = result?.driverId;
+			if (!id || seen.has(id)) continue;
+			seen.set(id, {
+				id,
+				firstName: result.driver?.firstName,
+				lastName: result.driver?.lastName,
+				abbreviation: result.driver?.abbreviation,
+				thumbnailUrl: result.driver?.bio?.thumbnailUrl ?? null,
 				teamColors: result.team?.colors ?? null
 			});
 		}
@@ -42,25 +63,19 @@ function buildDriverDisplays(history: CircuitHistoryData[]): DriverDisplay[] {
 	return [...seen.values()];
 }
 
-function buildTeamDisplays(history: CircuitHistoryData[]): TeamDisplay[] {
+function buildTeamDisplays(races: ReadonlyArray<SeedRace>): TeamDisplay[] {
 	const seen = new Map<string, TeamDisplay>();
-	for (const race of history) {
-		for (const result of race.raceResults) {
-			const t = result.team;
+	for (const race of races) {
+		for (const result of race.raceResults ?? []) {
+			const t = result?.team;
 			if (!t?.id || seen.has(t.id)) continue;
-			seen.set(t.id, { id: t.id, name: t.name, colors: t.colors });
+			seen.set(t.id, { id: t.id, name: t.name ?? null, colors: t.colors ?? null });
 		}
 	}
 	return [...seen.values()];
 }
 
-export default function CircuitContent({
-	circuitRef,
-	current,
-	prior,
-	currentSeason,
-	races
-}: Props) {
+export default function CircuitContent({ circuitRef, current, currentSeason, races }: Props) {
 	const mapCircuitsToMapPoints = useMapCircuitsToMapPoints();
 
 	if (!circuitRef) {
@@ -73,20 +88,16 @@ export default function CircuitContent({
 
 	// Wrap server data in the shape sub-components expect
 	const data: CircuitPageData = { circuit: current };
-	const lastSeasonData: CircuitPageData | undefined = prior ? { circuit: prior } : undefined;
 
 	// wall-clock stays client-side; circuit page already has the server races
 	const today = new Date().toISOString().slice(0, 10);
 	const nextRace = selectNextRace(races, today);
 
-	const seasonToShow = data.circuit.season?.[0]?.raceResults?.length
-		? currentSeason
-		: currentSeason - 1;
-
 	const { points, onClick } = mapCircuitsToMapPoints([current]);
 
-	const driverDisplays = buildDriverDisplays(current.history);
-	const teamDisplays = buildTeamDisplays(current.history);
+	const seedRaces = [...current.history, ...current.season];
+	const driverDisplays = buildDriverDisplays(seedRaces);
+	const teamDisplays = buildTeamDisplays(seedRaces);
 
 	return (
 		<EntityDisplayProvider drivers={driverDisplays} teams={teamDisplays}>
@@ -176,33 +187,12 @@ export default function CircuitContent({
 							}}
 						>
 							<Card className="h-full">
-								<CardHeader title={`${seasonToShow} Season`} />
+								<CardHeader title="Circuit Records" />
 								<CardContent>
 									<Stack spacing={2}>
-										<LapLeader
-											data={
-												seasonToShow === currentSeason
-													? data
-													: lastSeasonData
-											}
-											loading={false}
-										/>
-										<MostWins
-											data={
-												seasonToShow === currentSeason
-													? data
-													: lastSeasonData
-											}
-											loading={false}
-										/>
-										<FastestLap
-											data={
-												seasonToShow === currentSeason
-													? data
-													: lastSeasonData
-											}
-											loading={false}
-										/>
+										<LapLeader data={data} loading={false} />
+										<MostWins data={data} loading={false} />
+										<FastestLap data={data} loading={false} />
 									</Stack>
 								</CardContent>
 							</Card>
