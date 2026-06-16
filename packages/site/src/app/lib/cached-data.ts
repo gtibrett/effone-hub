@@ -597,32 +597,20 @@ export async function getCurrentSeasonCircuitIds(): Promise<string[]> {
 
 export type CircuitPageDataPair = {
 	current: CircuitPageData['circuit'] | null;
-	prior: CircuitPageData['circuit'] | null;
 };
 
 export async function getCircuitPageData(
 	circuitRef: string,
-	currentSeason: number,
-	priorSeason: number
+	currentSeason: number
 ): Promise<CircuitPageDataPair> {
 	'use cache';
 	cacheLife('max');
 	cacheTag('circuits', `circuit:${circuitRef}`);
-	const client = getClient();
-	const [{ data: currentData }, { data: priorData }] = await Promise.all([
-		client.query<CircuitPageData>({
-			query: CircuitQuery,
-			variables: { circuitRef, showCurrentSeason: true, season: currentSeason }
-		}),
-		client.query<CircuitPageData>({
-			query: CircuitQuery,
-			variables: { circuitRef, showCurrentSeason: true, season: priorSeason }
-		})
-	]);
-	return {
-		current: currentData?.circuit ?? null,
-		prior: priorData?.circuit ?? null
-	};
+	const { data } = await getClient().query<CircuitPageData>({
+		query: CircuitQuery,
+		variables: { circuitRef, showCurrentSeason: true, season: currentSeason }
+	});
+	return { current: data?.circuit ?? null };
 }
 
 export async function getCircuit(rowId: string): Promise<{ id: string; fullName: string } | null> {

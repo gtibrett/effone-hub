@@ -31,8 +31,8 @@ export default async function CircuitPage({ params }: { params: Params }) {
 	if (!circuit) notFound();
 
 	const { year: currentSeason } = await getCurrentSeason();
-	const [{ current, prior }, races] = await Promise.all([
-		getCircuitPageData(circuitRef, currentSeason, currentSeason - 1),
+	const [{ current }, races] = await Promise.all([
+		getCircuitPageData(circuitRef, currentSeason),
 		getSeasonRaceSchedule(currentSeason)
 	]);
 
@@ -40,7 +40,6 @@ export default async function CircuitPage({ params }: { params: Params }) {
 		<CircuitContent
 			circuitRef={circuitRef}
 			current={current}
-			prior={prior}
 			currentSeason={currentSeason}
 			races={races}
 		/>
