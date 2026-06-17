@@ -6,6 +6,7 @@ import {
 	InMemoryCache,
 	registerApolloClient
 } from '@apollo/client-integration-nextjs';
+import { getVercelOidcToken } from '@vercel/oidc';
 
 const LOCAL_API_URL = 'http://localhost:4000/graphql';
 
@@ -23,13 +24,16 @@ function resolveApiUrl(): string {
 	return LOCAL_API_URL;
 }
 
-// api preview deployments are SSO-gated, so server-side (RSC / build-time)
-// fetches need the x-vercel-protection-bypass header. Wrap fetch to add it
-// per-request (reads env at call time, not at link construction).
-const serverFetch: typeof fetch = (input, init) => {
+// api preview deployments are SSO-gated. This site is a Trusted Source of the
+// api, so server-side (RSC / build-time) fetches authenticate with this
+// deployment's short-lived OIDC token via x-vercel-trusted-oidc-idp-token.
+// (Prior x-vercel-protection-bypass path failed: the secret lived under
+// VERCEL_AUTOMATION_BYPASS_SECRET — a reserved system var Vercel overwrites at
+// build — so it never matched the api's bypass token.)
+const serverFetch: typeof fetch = async (input, init) => {
 	const headers = new Headers(init?.headers);
-	const bypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
-	if (bypass) headers.set('x-vercel-protection-bypass', bypass);
+	const oidcToken = await getVercelOidcToken().catch(() => undefined);
+	if (oidcToken) headers.set('x-vercel-trusted-oidc-idp-token', oidcToken);
 	return fetch(input, { ...init, headers });
 };
 
