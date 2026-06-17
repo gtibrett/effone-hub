@@ -23,6 +23,8 @@ pnpm lint       # biome check src  (lint:fix to autofix)
 - **MUI DataGrid `aria-rowcount` is on the inner `[role="grid"]` (`.MuiDataGrid-main`) and counts the header row** (subtract 1). `.MuiDataGrid-root` has none.
 - **Season filters (`SeasonMenu`) are a MUI popup `<Select>`, not native** — Playwright `selectOption()` fails; use the `e2e/fixtures/season-select.ts` `selectSeason` helper. The filtered count is *entrants*, not the standings roster.
 - **Only driver-detail `Tabs` pass `urlParam` (`?tab=` survives reload); constructor/circuit/race tabs don't sync the URL.**
+- **Prerender scope is capped to limit Neon egress.** `generateStaticParams` prerenders only the 2 most recent seasons (each season page fans out to ~14 GraphQL queries); older seasons render on-demand (`dynamicParams`). Don't widen the cap without weighing build-time Neon data transfer.
+- **Time-sensitive / non-deterministic UI must render client-only.** The race countdown (`CountdownClock`) gates rendering on a mounted flag — server HTML and first client render must match or React throws a hydration mismatch.
 
 ## E2E (Playwright)
 - `pnpm test:playwright` (specs in `e2e/`, fixtures in `e2e/fixtures/`). Dev server auto-starts/reused on :3000.
