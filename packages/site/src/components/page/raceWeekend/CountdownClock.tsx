@@ -16,13 +16,29 @@ type CountdownClockProps = {
 
 export default function CountdownClock({ timeTo, size }: CountdownClockProps) {
 	const [countDown, setCountdown] = useState(timeTo);
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => setMounted(true), []);
 
 	useEffect(() => {
-		if (countDown > 0) {
-			const interval = setInterval(() => setCountdown(countDown - 1), 1000);
+		if (mounted && countDown > 0) {
+			const interval = setInterval(() => setCountdown(c => c - 1), 1000);
 			return () => clearInterval(interval);
 		}
-	});
+	}, [mounted, countDown]);
+
+	const variant = size === 'large' ? 'h5' : 'body2';
+
+	// `timeTo` derives from Date.now() upstream, so SSR and first client render
+	// disagree. Hold a stable placeholder until mounted; the live value is
+	// client-only thereafter, keeping hydration markup identical.
+	if (!mounted) {
+		return (
+			<Typography variant={variant} component="p">
+				<span>&mdash;</span>
+			</Typography>
+		);
+	}
 
 	if (countDown < 0) {
 		return (
@@ -40,7 +56,7 @@ export default function CountdownClock({ timeTo, size }: CountdownClockProps) {
 	const secondsTo = countDown - DAY * daysTo - HOUR * hoursTo - MIN * minsTo;
 
 	return (
-		<Typography variant={size === 'large' ? 'h5' : 'body2'} component="p">
+		<Typography variant={variant} component="p">
 			{daysTo ? <span>{daysTo} days, </span> : ''}
 			<span>
 				{hoursTo}:{leadingZero(minsTo)}:{leadingZero(secondsTo)}
