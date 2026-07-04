@@ -1,6 +1,8 @@
 # effone-hub-api
 
-PostGraphile 5 (Amber preset) + Fastify 5 GraphQL server over the F1DB Postgres. ESM, Node 24, run via `tsx`. Read-only public data API; emits `schema.graphql` consumed by the site's codegen.
+PostGraphile 5 (Amber preset) + Fastify 5 GraphQL server over the F1DB Postgres. ESM, Node 24, run via `tsx`. Read-only; emits `schema.graphql` consumed by the site's codegen.
+
+**Local devex tool, not a production service.** The deployed site builds the same schema from the shared preset factory (`src/preset.ts`, exported as `@gtibrett/effone-hub-api/preset`) and executes it in-process via grafast — no HTTP api deployment. Keep schema/plugin logic in `preset.ts` (pure, no env reads); `graphile.config.ts` is the env-driven wrapper for this server only. `vercel.json`'s `ignoreCommand` stops site-only commits redeploying the legacy Vercel api project until it's deleted.
 
 See repo-root `CLAUDE.md` for the monorepo overview.
 
@@ -13,7 +15,7 @@ pnpm ingest      # tsx scripts/run-ingest.ts — pull new F1DB data (raw pg writ
 ```
 
 ## Endpoints & env
-GraphQL `/graphql` (SSE `/graphql/stream`), health `/health`, GraphiQL `/graphiql` when `ENABLE_GRAPHIQL=true`. Listens on `PORT` (default 4000); site dev points `NEXT_PUBLIC_GRAPHQL_API_URL` here.
+GraphQL `/graphql` (SSE `/graphql/stream`), health `/health`, GraphiQL `/graphiql` when `ENABLE_GRAPHIQL=true`. Listens on `PORT` (default 4000). The site does NOT call this server — it executes the preset in-process (`site/src/app/lib/graphql-executor.ts`).
 
 Env (`.env`, see `.env.example`): `POSTGRES_URL` (required — local = docker DB `postgres://postgres:effonehub@localhost:5432/postgres`, prod = Neon pooled URL), `POSTGRES_SCHEMA` (default `f1db,app`), `PORT`, `ENABLE_GRAPHIQL`.
 
