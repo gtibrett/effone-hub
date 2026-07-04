@@ -17,6 +17,7 @@ pnpm site:build  # next build (webpack)
 
 ## Git
 - Default branch is `develop` — branch from it and open PRs into it, **not** `main`.
+- **Use the `gh` CLI for ALL GitHub operations** (PRs, issues, CI, API) — never the `mcp__github__*` MCP tools. If `gh` is missing (cloud sessions), install it (`apt-get install -y gh`); it authenticates from the session's `GH_TOKEN` automatically.
 
 <!-- code-review-graph MCP tools -->
 ## MCP Tools: code-review-graph
