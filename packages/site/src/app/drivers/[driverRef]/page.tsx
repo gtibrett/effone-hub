@@ -10,14 +10,15 @@ import {
 	getDriverSeason,
 	getDriverStats
 } from '../../lib/cached-data';
+import { previewSafeStaticParams } from '../../lib/static-params';
 import DriverContent from './DriverContent';
 
 type Params = Promise<{ driverRef: string }>;
 
-export async function generateStaticParams(): Promise<{ driverRef: string }[]> {
+export const generateStaticParams = previewSafeStaticParams(async () => {
 	const ids = await getCurrentSeasonDriverIds();
 	return ids.map(driverRef => ({ driverRef }));
-}
+});
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
 	const { driverRef } = await params;

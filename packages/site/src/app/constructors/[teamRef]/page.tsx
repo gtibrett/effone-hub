@@ -9,14 +9,15 @@ import {
 	getCurrentSeasonTeamIds,
 	getTeam
 } from '../../lib/cached-data';
+import { previewSafeStaticParams } from '../../lib/static-params';
 import ConstructorContent from './ConstructorContent';
 
 type Params = Promise<{ teamRef: string }>;
 
-export async function generateStaticParams(): Promise<{ teamRef: string }[]> {
+export const generateStaticParams = previewSafeStaticParams(async () => {
 	const ids = await getCurrentSeasonTeamIds();
 	return ids.map(teamRef => ({ teamRef }));
-}
+});
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
 	const { teamRef } = await params;
