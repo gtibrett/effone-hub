@@ -12,7 +12,7 @@ devex tool (GraphiQL + `schema.graphql` emission for codegen).
 
 - **Framework**: Next.js (auto-detected; do not override)
 - **Root Directory**: `packages/site`
-- **Node version**: 22.x or 24.x (PostGraphile v5 requires `Promise.withResolvers`, which ships in Node 22+).
+- **Node version**: 24.x — both packages pin `engines.node: ^24.0.0`.
 - **Build command**: leave default (`next build`)
 - **Install command**: `npx -y pnpm@11.1.2 install --frozen-lockfile` (declared in `packages/site/vercel.json`).
 
