@@ -55,64 +55,6 @@ export enum AppCircuitDescriptionOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
-export type AppConstructorBio = {
-  __typename?: 'AppConstructorBio';
-  description?: Maybe<Scalars['String']['output']>;
-  extract?: Maybe<Scalars['String']['output']>;
-  source?: Maybe<Scalars['String']['output']>;
-  teamId: Scalars['String']['output'];
-  thumbnailUrl?: Maybe<Scalars['String']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt: Scalars['Datetime']['output'];
-};
-
-/**
- * A condition to be used against `AppConstructorBio` object types. All fields are
- * tested for equality and combined with a logical ‘and.’
- */
-export type AppConstructorBioCondition = {
-  /** Checks for equality with the object’s `teamId` field. */
-  teamId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** Methods to use when ordering `AppConstructorBio`. */
-export enum AppConstructorBioOrderBy {
-  Natural = 'NATURAL',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  TeamIdAsc = 'TEAM_ID_ASC',
-  TeamIdDesc = 'TEAM_ID_DESC'
-}
-
-export type AppDriverBio = {
-  __typename?: 'AppDriverBio';
-  description?: Maybe<Scalars['String']['output']>;
-  driverId: Scalars['String']['output'];
-  extract?: Maybe<Scalars['String']['output']>;
-  source?: Maybe<Scalars['String']['output']>;
-  thumbnailUrl?: Maybe<Scalars['String']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt: Scalars['Datetime']['output'];
-};
-
-/**
- * A condition to be used against `AppDriverBio` object types. All fields are
- * tested for equality and combined with a logical ‘and.’
- */
-export type AppDriverBioCondition = {
-  /** Checks for equality with the object’s `driverId` field. */
-  driverId?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** Methods to use when ordering `AppDriverBio`. */
-export enum AppDriverBioOrderBy {
-  DriverIdAsc = 'DRIVER_ID_ASC',
-  DriverIdDesc = 'DRIVER_ID_DESC',
-  Natural = 'NATURAL',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
-
 export type AppIngestState = {
   __typename?: 'AppIngestState';
   key: Scalars['String']['output'];
@@ -2351,14 +2293,6 @@ export type Query = {
   appCircuitDescription?: Maybe<AppCircuitDescription>;
   /** Reads a set of `AppCircuitDescription`. */
   appCircuitDescriptions?: Maybe<Array<AppCircuitDescription>>;
-  /** Get a single `AppConstructorBio`. */
-  appConstructorBio?: Maybe<AppConstructorBio>;
-  /** Reads a set of `AppConstructorBio`. */
-  appConstructorBios?: Maybe<Array<AppConstructorBio>>;
-  /** Get a single `AppDriverBio`. */
-  appDriverBio?: Maybe<AppDriverBio>;
-  /** Reads a set of `AppDriverBio`. */
-  appDriverBios?: Maybe<Array<AppDriverBio>>;
   /** Get a single `AppIngestState`. */
   appIngestState?: Maybe<AppIngestState>;
   /** Reads a set of `AppIngestState`. */
@@ -2587,36 +2521,6 @@ export type QueryAppCircuitDescriptionsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<AppCircuitDescriptionOrderBy>>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAppConstructorBioArgs = {
-  teamId: Scalars['String']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAppConstructorBiosArgs = {
-  condition?: InputMaybe<AppConstructorBioCondition>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<AppConstructorBioOrderBy>>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAppDriverBioArgs = {
-  driverId: Scalars['String']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAppDriverBiosArgs = {
-  condition?: InputMaybe<AppDriverBioCondition>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<AppDriverBioOrderBy>>;
 };
 
 

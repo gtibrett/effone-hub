@@ -4,7 +4,7 @@ Formula One stats hub. pnpm monorepo (`pnpm@11`, Node 24).
 
 ## Packages
 - `packages/site` — Next.js 16 (App Router, React 19). Apollo Client 4, MUI v9 + charts. See [`packages/site/CLAUDE.md`](packages/site/CLAUDE.md) for site commands + gotchas.
-- `packages/api` — PostGraphile 5 + Fastify GraphQL server over F1DB Postgres. Emits `schema.graphql` consumed by the site's codegen. See [`packages/api/CLAUDE.md`](packages/api/CLAUDE.md).
+- `packages/api` — PostGraphile 5 preset + Fastify dev server over F1DB Postgres. **Dev/devex only in production terms**: the deployed site executes the shared preset (`src/preset.ts`) in-process; the server exists for GraphiQL + emitting `schema.graphql` for the site's codegen. See [`packages/api/CLAUDE.md`](packages/api/CLAUDE.md).
 - `packages/database` — Dockerized Postgres seeded from F1DB (`docker-compose.yaml`). **Local only.** Production data is **Neon Postgres**; build-time prerender hits Neon, so prerender scope is capped to limit egress (see site `generateStaticParams`). See [`packages/database/CLAUDE.md`](packages/database/CLAUDE.md).
 
 ## Commands
@@ -17,6 +17,7 @@ pnpm site:build  # next build (webpack)
 
 ## Git
 - Default branch is `develop` — branch from it and open PRs into it, **not** `main`.
+- **Use the `gh` CLI for ALL GitHub operations** (PRs, issues, CI, API) — never the `mcp__github__*` MCP tools. If `gh` is missing (cloud sessions), install it (`apt-get install -y gh`); it authenticates from the session's `GH_TOKEN` automatically.
 
 <!-- code-review-graph MCP tools -->
 ## MCP Tools: code-review-graph

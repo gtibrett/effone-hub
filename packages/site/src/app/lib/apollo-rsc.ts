@@ -1,46 +1,36 @@
 import 'server-only';
 
-import { HttpLink } from '@apollo/client';
+import { from } from 'rxjs';
+import { ApolloLink } from '@apollo/client';
 import {
 	ApolloClient,
 	InMemoryCache,
 	registerApolloClient
 } from '@apollo/client-integration-nextjs';
-import { getVercelOidcToken } from '@vercel/oidc';
 
-const LOCAL_API_URL = 'http://localhost:4000/graphql';
+import { executeDocument } from './graphql-executor';
 
-// The api is a SEPARATE origin (own Vercel project) so the URL must be
-// absolute. Fall back to the local dev api; on Vercel the env var is required —
-// a localhost fallback in prod would be a baffling silent failure.
-function resolveApiUrl(): string {
-	const url = process.env.NEXT_PUBLIC_GRAPHQL_API_URL;
-	if (url) return url;
-	if (process.env.VERCEL) {
-		throw new Error(
-			'NEXT_PUBLIC_GRAPHQL_API_URL is required on Vercel (the standalone GraphQL api URL).'
-		);
-	}
-	return LOCAL_API_URL;
-}
-
-// api preview deployments are SSO-gated. This site is a Trusted Source of the
-// api, so server-side (RSC / build-time) fetches authenticate with this
-// deployment's short-lived OIDC token via x-vercel-trusted-oidc-idp-token.
-// (Prior x-vercel-protection-bypass path failed: the secret lived under
-// VERCEL_AUTOMATION_BYPASS_SECRET — a reserved system var Vercel overwrites at
-// build — so it never matched the api's bypass token.)
-const serverFetch: typeof fetch = async (input, init) => {
-	const headers = new Headers(init?.headers);
-	const oidcToken = await getVercelOidcToken().catch(() => undefined);
-	if (oidcToken) headers.set('x-vercel-trusted-oidc-idp-token', oidcToken);
-	return fetch(input, { ...init, headers });
-};
+// GraphQL executes IN-PROCESS via grafast against the shared PostGraphile
+// schema (graphql-executor.ts) — no HTTP hop, no standalone api deployment.
+// Each operation resolves to a single Observable emission, mirroring what an
+// HttpLink would deliver for a one-shot query.
+const inProcessLink = new ApolloLink(operation =>
+	from(
+		executeDocument(operation.query, operation.variables).then(
+			({ data, errors, extensions }) => ({
+				// ExecutionResult.data is optional; Apollo's Result wants the key present.
+				data: data ?? null,
+				...(errors?.length ? { errors } : {}),
+				...(extensions ? { extensions } : {})
+			})
+		)
+	)
+);
 
 /**
- * Server Apollo client — talks to the standalone GraphQL api over HTTP (RSC,
- * SSR, generateStaticParams, generateMetadata). The browser uses the HttpLink
- * client in apollo-make-client.ts.
+ * Server Apollo client — executes against the PostGraphile schema in-process
+ * (RSC, SSR, generateStaticParams, generateMetadata). There is no browser
+ * GraphQL client; all data flows through cached-data.ts fetchers.
  */
 export const { getClient } = registerApolloClient(
 	() =>
@@ -65,6 +55,6 @@ export const { getClient } = registerApolloClient(
 					}
 				}
 			}),
-			link: new HttpLink({ uri: resolveApiUrl(), fetch: serverFetch })
+			link: inProcessLink
 		})
 );

@@ -1,9 +1,4 @@
-import type {} from 'postgraphile';
-import { PostGraphileAmberPreset } from 'postgraphile/presets/amber';
-import { makePgService } from 'postgraphile/adaptors/pg';
-import { PgSimplifyInflectionPreset } from '@graphile/simplify-inflection';
-import F1dbSmartTags from './postgraphile/F1dbSmartTags.js';
-import WikipediaBioPlugin from './postgraphile/wikipedia/WikipediaBioPlugin.js';
+import { makePreset } from './preset.js';
 
 const POSTGRES_URL = process.env.POSTGRES_URL;
 const POSTGRES_SCHEMA = process.env.POSTGRES_SCHEMA ?? 'f1db,app';
@@ -12,83 +7,16 @@ if (!POSTGRES_URL) {
 	throw new Error('POSTGRES_URL is required');
 }
 
-const schemas = POSTGRES_SCHEMA.split(',')
-	.map(s => s.trim())
-	.filter(Boolean);
-
-// Surface single-column `id` PKs as GraphQL `id` (undo core's id→rowId rename,
-// which only existed to avoid the now-removed Node `id` collision). Must live
-// in a plugin — preset-level `inflection` is not merged.
-//
-// `race` is EXCLUDED: its PK is a synthetic int; Race is identified by the
-// (year, round) compound — it keeps `rowId: Int!` and is cache-keyed on
-// year+round (Apollo typePolicies). Every other single-id-PK table remaps.
-const ID_REMAP_EXCLUDE = new Set(['race']);
-
-const IdRemapPlugin: GraphileConfig.Plugin = {
-	name: 'IdRemapPlugin',
-	version: '1.0.0',
-	inflection: {
-		replace: {
-			_attributeName(previous, _options, details) {
-				const name = previous!(details as any);
-				const { codec, attributeName } = details as any;
-				if (!details.skipRowId && name === 'row_id' && !ID_REMAP_EXCLUDE.has(codec?.name)) {
-					const attribute = codec.attributes[attributeName];
-					const baseName = attribute?.extensions?.tags?.name || attributeName;
-					if (String(baseName).toLowerCase() === 'id' && !codec.isAnonymous) {
-						return 'id';
-					}
-				}
-				return name;
-			}
-		}
-	}
-};
-
-const preset: GraphileConfig.Preset = {
-	extends: [PostGraphileAmberPreset, PgSimplifyInflectionPreset],
-	plugins: [F1dbSmartTags, WikipediaBioPlugin, IdRemapPlugin],
-	disablePlugins: [
-		// Relay Node interface — app never uses nodeId/node(id:).
-		'NodePlugin',
-		'NodeAccessorPlugin',
-		'AddNodeInterfaceToSuitableTypesPlugin',
-		// Read-only public data API. Without these the Amber preset auto-exposes
-		// 165 create + update/delete mutations on an UNAUTHENTICATED endpoint
-		// against the full-privilege pg role. The app only reads; ingest writes
-		// go through raw pg in CI, never GraphQL. (Plugin names verified against
-		// graphile-build-pg@5.0.2.)
-		'PgMutationCreatePlugin',
-		'PgMutationUpdateDeletePlugin',
-		'PgMutationPayloadEdgePlugin'
-	],
-	pgServices: [
-		makePgService({
-			connectionString: POSTGRES_URL,
-			schemas
-		})
-	],
-	grafast: {
-		explain: false
-	},
-	grafserv: {
-		graphqlPath: '/graphql',
-		eventStreamPath: '/graphql/stream',
-		graphiql: process.env.ENABLE_GRAPHIQL === 'true',
-		graphiqlPath: '/graphiql',
-		graphiqlStaticPath: '/ruru-static/',
-		// DB schema is static during a dev session; the watcher holds a LISTEN
-		// connection + rebuild machinery we don't need. Run codegen manually.
-		watch: false
-	},
-	schema: {
-		// Emit SDL for codegen consumption (committed in this package; site
-		// codegen reads it). Skipped in production — disk is ephemeral there.
-		exportSchemaSDLPath: process.env.NODE_ENV === 'production' ? undefined : './schema.graphql',
-		defaultBehavior: '-connection +list',
-		pgOmitListSuffix: true
-	}
-};
+// Env-driven preset for the standalone server (dev/devex + schema emission).
+// The preset itself lives in preset.ts so the site's in-process executor can
+// build the identical schema without reading this package's env.
+const preset = makePreset({
+	connectionString: POSTGRES_URL,
+	schemas: POSTGRES_SCHEMA,
+	graphiql: process.env.ENABLE_GRAPHIQL === 'true',
+	// Emit SDL for codegen consumption (committed in this package; site
+	// codegen reads it). Skipped in production — disk is ephemeral there.
+	exportSchemaSDLPath: process.env.NODE_ENV === 'production' ? undefined : './schema.graphql'
+});
 
 export default preset;
