@@ -10,13 +10,12 @@ import {
 	getRaceQualifying,
 	getRaceStats
 } from '../../lib/cached-data';
+import { previewSafeStaticParams } from '../../lib/static-params';
 import RoundContent from './RoundContent';
 
 type Params = Promise<{ season: string; round: string }>;
 
-export async function generateStaticParams(): Promise<{ season: string; round: string }[]> {
-	return getCurrentSeasonRaceParams();
-}
+export const generateStaticParams = previewSafeStaticParams(() => getCurrentSeasonRaceParams());
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
 	const { season, round } = await params;

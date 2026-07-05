@@ -9,6 +9,7 @@ import {
 	getSeasonSchedule,
 	getSeasonStats
 } from '../lib/cached-data';
+import { previewSafeStaticParams } from '../lib/static-params';
 import SeasonContent from './SeasonContent';
 
 type Params = Promise<{ season: string }>;
@@ -18,13 +19,13 @@ type Params = Promise<{ season: string }>;
 // ~76-season F1 history cost ~1,000+ Neon queries on EVERY deploy — the
 // dominant data-transfer driver. Older seasons render on-demand (dynamicParams
 // defaults true) and cache via cacheLife('max').
-export async function generateStaticParams(): Promise<{ season: string }[]> {
+export const generateStaticParams = previewSafeStaticParams(async () => {
 	const { seasons } = await getAppSeasonState();
 	return [...seasons]
 		.sort((a, b) => b - a)
 		.slice(0, 2)
 		.map(year => ({ season: String(year) }));
-}
+});
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
 	const { season } = await params;

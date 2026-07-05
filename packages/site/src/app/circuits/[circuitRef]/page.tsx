@@ -8,14 +8,15 @@ import {
 	getCurrentSeasonCircuitIds,
 	getSeasonRaceSchedule
 } from '../../lib/cached-data';
+import { previewSafeStaticParams } from '../../lib/static-params';
 import CircuitContent from './CircuitContent';
 
 type Params = Promise<{ circuitRef: string }>;
 
-export async function generateStaticParams(): Promise<{ circuitRef: string }[]> {
+export const generateStaticParams = previewSafeStaticParams(async () => {
 	const ids = await getCurrentSeasonCircuitIds();
 	return ids.map(circuitRef => ({ circuitRef }));
-}
+});
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
 	const { circuitRef } = await params;

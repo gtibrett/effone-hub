@@ -1,4 +1,7 @@
 {
+  "permissions": {
+    "deny": ["mcp__github"]
+  },
   "hooks": {
     "PostToolUse": [
       {

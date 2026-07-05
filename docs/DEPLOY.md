@@ -2,16 +2,26 @@
 
 ## Vercel project setup
 
+**One Vercel project: `effone-hub` (the site).** GraphQL executes in-process
+inside the Next server via the shared PostGraphile preset
+(`packages/api/src/preset.ts` → `packages/site/src/app/lib/graphql-executor.ts`),
+so there is no standalone api deployment. The `effone-hub-api` Vercel project
+is decommissioned — delete it (Project Settings → Delete Project) once the
+in-process deploy is verified. The `packages/api` server remains a local
+devex tool (GraphiQL + `schema.graphql` emission for codegen).
+
 - **Framework**: Next.js (auto-detected; do not override)
 - **Root Directory**: `packages/site`
-- **Node version**: 22.x or 24.x (PostGraphile v5 requires `Promise.withResolvers`, which ships in Node 22+).
+- **Node version**: 24.x — both packages pin `engines.node: ^24.0.0`.
 - **Build command**: leave default (`next build`)
-- **Install command**: leave default; Vercel runs `yarn install` against the root workspace.
+- **Install command**: `npx -y pnpm@11.1.2 install --frozen-lockfile` (declared in `packages/site/vercel.json`).
 
-The root `vercel.json` declares the cron + function settings. There is no
-per-package `vercel.json` (an old duplicate at `packages/site/vercel.json`
-was removed in phase 3e because Vercel only reads the file at the project
-root).
+Preview deployments skip prerendering entirely
+(`src/app/lib/static-params.ts` gates every `generateStaticParams` on
+`VERCEL_ENV`): preview pages render on-demand on first view instead of
+fanning ~500 GraphQL queries per build against Neon. While the api project
+still exists, `packages/api/vercel.json` carries an `ignoreCommand` so
+site-only commits don't redeploy it.
 
 ## Required environment variables
 
@@ -19,13 +29,14 @@ All of these must be set in the Vercel project (Settings → Environment Variabl
 
 | Key                              | Scope                          | Notes |
 |----------------------------------|--------------------------------|-------|
-| `POSTGRES_URL`                   | All environments               | Pooled connection string for the F1DB Postgres instance. Use the Vercel Marketplace (Neon, Supabase, etc.) — Vercel's first-party Postgres is no longer offered. |
+| `POSTGRES_URL`                   | All environments               | Pooled connection string for the F1DB Postgres instance (Neon). Read by the in-process GraphQL executor. |
 | `POSTGRES_SCHEMA`                | All environments               | `f1db,app` — comma-separated list of schemas PostGraphile introspects. |
-| `NEXT_PUBLIC_GRAPHQL_API_URL`    | All environments               | `/api/graphql` for relative same-origin requests. |
-| `CRON_SECRET`                    | Production (+ Preview optional) | Bearer token Vercel Cron sends. `pages/api/cron/ingest.ts` rejects mismatched headers with 401. Generate via `openssl rand -hex 32`. |
+| `CRON_SECRET`                    | Production (+ Preview optional) | Bearer token the GitHub Actions ingest runner sends to `/api/cron/revalidate`. Generate via `openssl rand -hex 32`. |
 | `FONTAWESOME_PACKAGE_TOKEN`      | All environments (build only)  | If using Pro FontAwesome icons. Stored in `.npmrc` via env interpolation; never commit the token. |
 | `NEXT_PUBLIC_GA_TRACKING_ID`     | Production                     | Optional Google Analytics ID. |
-| `ENABLE_GRAPHIQL`                | Preview                        | Set to `true` to expose `/api/graphiql` for live schema browsing. Leave unset in production. |
+
+`NEXT_PUBLIC_GRAPHQL_API_URL` is no longer read — remove it. GraphiQL is
+local-only: run `pnpm api:dev` with `ENABLE_GRAPHIQL=true`.
 
 ## Cron / ingest
 
@@ -94,12 +105,14 @@ handles every subsequent ingest.
 After a preview deploy, hit:
 
 ```
-GET  /api/graphql -d '{"query":"{ __schema { types { name } } }"}'   → 200
 GET  /                                                                 → 200
 GET  /2026                                                             → 200
 GET  /drivers/max-verstappen                                           → 200, body contains thumbnail URL
 GET  /constructors/red-bull                                            → 200
 ```
+
+(Preview pages are rendered on-demand — the first hit per URL is the render
+that would otherwise have happened at build.)
 
 Manually trigger the GitHub Action once (Actions tab → "F1DB ingest" → Run
 workflow) and confirm the job summary shows the expected `no-op` or
