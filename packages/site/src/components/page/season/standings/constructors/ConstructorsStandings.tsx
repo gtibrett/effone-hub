@@ -33,15 +33,17 @@ function buildConstructorChartData(
 	return racesByYear.map(r => ({
 		round: r.round,
 		standings: r.raceTeamStandings
-			.filter(s => s.team)
+			.filter((s): s is typeof s & { team: NonNullable<(typeof s)['team']> } =>
+				Boolean(s.team)
+			)
 			.map(({ teamId, positionNumber, points, team }) => ({
 				id: teamId,
 				position: Number(positionNumber),
 				points: Number(points),
 				entity: {
-					id: team!.id,
-					name: team?.name ?? '',
-					color: team?.colors?.primaryHex ?? FALLBACK_COLOR
+					id: team.id,
+					name: team.name ?? '',
+					color: team.colors?.primaryHex ?? FALLBACK_COLOR
 				}
 			}))
 	}));

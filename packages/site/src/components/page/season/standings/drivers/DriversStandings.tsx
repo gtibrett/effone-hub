@@ -48,16 +48,18 @@ function buildDriverChartData(
 ): RaceStandingsWithEntities[] {
 	return racesByYear.map(r => {
 		const standings: StandingWithEntity[] = r.raceDriverStandings
-			.filter(s => s.driver)
+			.filter((s): s is typeof s & { driver: NonNullable<(typeof s)['driver']> } =>
+				Boolean(s.driver)
+			)
 			.map(({ driverId, positionNumber, points, driver }) => ({
 				id: driverId,
 				position: Number(positionNumber),
 				points: Number(points),
 				entity: {
-					id: driver!.id,
-					name: driver!.lastName,
+					id: driver.id,
+					name: driver.lastName,
 					color:
-						driver?.seasonEntrantDrivers[0]?.team?.colors?.primaryHex ?? FALLBACK_COLOR
+						driver.seasonEntrantDrivers[0]?.team?.colors?.primaryHex ?? FALLBACK_COLOR
 				}
 			}));
 		return { round: r.round, standings };
