@@ -6,7 +6,12 @@ import type { BarSeriesType } from '@mui/x-charts';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 
-import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
+import {
+	BOTTOM_AXIS_HEIGHT,
+	ChartsTooltipBody,
+	createItemTooltipSlot,
+	useChartsTheme
+} from '@/components/ui/charts';
 
 import type { PitStopTableRow } from './PitStops';
 import PitStopTooltip from './PitStopTooltip';
@@ -53,6 +58,7 @@ export default function PitStopsChart({ maxStops, pitStops }: PitStopsChartProps
 			id: stopNum,
 			label: `Stop ${stopNum}`,
 			type: 'bar',
+			stack: 'total',
 			data: drivers.map(d => (typeof d[stopNum] === 'number' ? (d[stopNum] as number) : null))
 		}));
 
@@ -110,7 +116,11 @@ export default function PitStopsChart({ maxStops, pitStops }: PitStopsChartProps
 				hideLegend
 				layout={isSmall ? 'horizontal' : 'vertical'}
 				series={built.series}
-				xAxis={isSmall ? [{ scaleType: 'linear', position: 'none' }] : [axisConfig]}
+				xAxis={
+					isSmall
+						? [{ scaleType: 'linear', position: 'none' }]
+						: [{ ...axisConfig, height: BOTTOM_AXIS_HEIGHT }]
+				}
 				yAxis={isSmall ? [axisConfig] : [{ scaleType: 'linear', position: 'none' }]}
 				margin={{
 					top: 16,

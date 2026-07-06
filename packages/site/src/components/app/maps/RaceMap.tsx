@@ -50,7 +50,8 @@ export default function RaceMap(props: RaceMapProps) {
 				<ComposableMap
 					projection="geoEquirectangular"
 					projectionConfig={{
-						scale: zoom ? 500 : 200,
+						// World view needs a real base scale — 0 collapses the projection.
+						scale: zoom ? 2000 : 200,
 						rotate
 					}}
 					style={{ width: '100%', height: '100%' }}

@@ -1,4 +1,4 @@
-import { Card, CardHeader } from '@mui/material';
+import { Card, CardHeader, Grid } from '@mui/material';
 
 import { DriverAvatar, DriverByLine } from '@/components/app';
 import { useDriverHeaderSx } from '@/hooks';
@@ -11,12 +11,14 @@ export default function LapByLapTooltip({ serie }: LapByLapTooltipProps) {
 
 	return (
 		<Card className="p-0">
-			<CardHeader
-				className={headerSx.className}
-				style={headerSx.style}
-				title={<DriverByLine id={driverId} variant="name" />}
-				avatar={<DriverAvatar driverId={driverId} size={42} />}
-			/>
+			<Grid container className="items-center justify-stretch flex-nowrap">
+				<DriverAvatar driverId={driverId} size={64} />
+				<CardHeader
+					className={headerSx.className}
+					style={headerSx.style}
+					title={<DriverByLine id={driverId} variant="name" />}
+				/>
+			</Grid>
 		</Card>
 	);
 }

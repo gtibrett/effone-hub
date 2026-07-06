@@ -76,7 +76,6 @@ function buildEntityDisplays(raceData: Race | null): {
 
 export default function RoundContent({
 	season: seasonStr,
-	round: roundStr,
 	race,
 	raceData,
 	qualifying,
@@ -85,7 +84,6 @@ export default function RoundContent({
 	stats
 }: Props) {
 	const season = Number(seasonStr);
-	const round = Number(roundStr);
 	const mapSeasonRacesToFeatures = useMapSeasonRacesToMapPoints();
 
 	const results = raceData?.raceResults;

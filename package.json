@@ -6,13 +6,14 @@
 	"engines": {
 		"node": "^24.0.0"
 	},
-	"packageManager": "pnpm@11.1.2",
+	"packageManager": "pnpm@11.10.0+sha512.0b7f8b98060031904c017e3a41eb187a16d40eeb829b95c4f8cb03681761fc4ab53dd219115b9b447f4dce1a05a214764461e7d3703392a9f32f9511ce8c86c8",
 	"scripts": {
 		"prepare": "node -e \"process.exit(process.env.VERCEL?0:1)\" || husky",
 		"db:start": "pnpm --filter @gtibrett/effone-hub-graph-db start",
 		"db:stop": "pnpm --filter @gtibrett/effone-hub-graph-db stop",
 		"dev": "pnpm --parallel --filter @gtibrett/effone-hub-api --filter @gtibrett/effone-hub-site dev",
 		"api:dev": "pnpm --filter @gtibrett/effone-hub-api dev",
+		"site:typecheck": "pnpm --filter @gtibrett/effone-hub-site typecheck",
 		"site:dev": "pnpm --filter @gtibrett/effone-hub-site dev",
 		"site:build": "pnpm --filter @gtibrett/effone-hub-site build",
 		"site:start": "pnpm --filter @gtibrett/effone-hub-site start",

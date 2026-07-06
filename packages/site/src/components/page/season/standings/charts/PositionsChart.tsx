@@ -6,6 +6,8 @@ import type { LineSeriesType } from '@mui/x-charts';
 import { LineChart } from '@mui/x-charts/LineChart';
 
 import {
+	BOTTOM_AXIS_HEIGHT,
+	ChartsHoverTooltip,
 	ChartsTooltipBody,
 	EndLineLabelsOverlay,
 	LineHoverHitLayer,
@@ -95,11 +97,12 @@ export default function PositionsChart({
 				series={built.series}
 				highlightedItem={activeSeriesId ? { seriesId: activeSeriesId, type: 'line' } : null}
 				disableLineItemHighlight
-				axisHighlight={{ x: 'none' }}
+				axisHighlight={{ x: 'band' }}
 				xAxis={[
 					{
 						data: built.xData,
 						scaleType: 'point',
+						height: BOTTOM_AXIS_HEIGHT,
 						tickInterval: built.xData
 					}
 				]}
@@ -144,19 +147,11 @@ export default function PositionsChart({
 				/>
 			) : null}
 			{hover && hoveredStanding ? (
-				<Box
-					sx={{
-						position: 'absolute',
-						left: `${hover.left + 12}px`,
-						top: `${hover.top + 12}px`,
-						pointerEvents: 'none',
-						zIndex: 5
-					}}
-				>
+				<ChartsHoverTooltip clientX={hover.clientX} clientY={hover.clientY}>
 					<ChartsTooltipBody>
 						<TooltipComponent serie={{ data: hoveredStanding }} />
 					</ChartsTooltipBody>
-				</Box>
+				</ChartsHoverTooltip>
 			) : null}
 		</Box>
 	);

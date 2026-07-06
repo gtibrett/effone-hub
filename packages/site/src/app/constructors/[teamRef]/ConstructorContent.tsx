@@ -76,7 +76,6 @@ function buildDriverDisplays(constructorData: ConstructorPageData | null): Drive
 }
 
 export default function ConstructorContent({
-	teamRef,
 	team,
 	currentSeason,
 	constructorData,

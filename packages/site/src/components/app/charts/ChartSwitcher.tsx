@@ -32,7 +32,7 @@ export default function ChartSwitcher({
 	const [active, setActive] = useChartSwitcher(initial);
 
 	return (
-		<Card variant="outlined" aria-hidden>
+		<Card variant="outlined" aria-hidden className="overflow-visible">
 			<CardHeader
 				title={title}
 				subheader={subheader}
@@ -40,7 +40,7 @@ export default function ChartSwitcher({
 					<ChartSwitcherToggle charts={charts} active={active} setActive={setActive} />
 				}
 			/>
-			<CardContent style={{ height: size }}>
+			<CardContent style={{ height: size }} className="overflow-visible">
 				<ChartSwitcherCharts charts={charts} active={active} />
 			</CardContent>
 			{actions && <CardActions className="justify-end">{actions}</CardActions>}

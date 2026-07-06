@@ -16,7 +16,7 @@ import { useXScale, useYScale } from '@mui/x-charts/hooks';
 import { ScatterPlot } from '@mui/x-charts/ScatterChart';
 
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
-import { ChartsTooltipBody, useChartsTheme } from '@/components/ui/charts';
+import { BOTTOM_AXIS_HEIGHT, ChartsTooltipBody, useChartsTheme } from '@/components/ui/charts';
 import { alpha } from '@/components/ui/colors';
 import { getTimeStringFromDate } from '@/helpers';
 
@@ -221,7 +221,8 @@ export default function LapTimesByYearBox({ data }: LapTimesChartProps) {
 					{
 						id: 'year-band',
 						data: built.years,
-						scaleType: 'band'
+						scaleType: 'band',
+						height: BOTTOM_AXIS_HEIGHT
 					}
 				]}
 				yAxis={[

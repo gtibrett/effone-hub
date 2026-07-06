@@ -18,7 +18,7 @@ import { ChartsOverlay } from '@mui/x-charts/ChartsOverlay';
 import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 import { LinePlot, MarkPlot } from '@mui/x-charts/LineChart';
 
-import { ChartsTooltipBody, useChartsTheme } from '@/components/ui/charts';
+import { BOTTOM_AXIS_HEIGHT, ChartsTooltipBody, useChartsTheme } from '@/components/ui/charts';
 
 import BaseLineChartLayer from './BaseLineChartLayer';
 import { mapLineSerieValues, maxValue } from './index';
@@ -161,6 +161,7 @@ export default function LineChartByTeam({
 						scaleType: 'linear',
 						min: built.xData[0] - xOffset,
 						max: built.xData[built.xData.length - 1] + xOffset,
+						height: BOTTOM_AXIS_HEIGHT,
 						tickInterval: built.xData,
 						valueFormatter: (v, ctx) =>
 							ctx?.location === 'tick' && axisBottomFormat
