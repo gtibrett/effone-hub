@@ -114,6 +114,7 @@ export default function HistoryChart({
 
 	const hoveredEntry = hover ? built.lookup.get(hover.seriesId)?.[hover.dataIndex] : undefined;
 	const hoveredYear = hover ? built.xData[hover.dataIndex] : undefined;
+	const decadeTicks = built.xData.filter(y => y % 10 === 0);
 
 	return (
 		<Box className="relative w-full h-full">
@@ -131,7 +132,9 @@ export default function HistoryChart({
 						valueFormatter: v => String(v),
 						position: 'bottom',
 						height: BOTTOM_AXIS_HEIGHT,
-						tickInterval: built.xData.filter(y => y % 10 === 0)
+						// Sub-decade histories (e.g. 2021–2026 entrants) have no decade years;
+						// fall back to every year so the axis never goes unlabeled.
+						tickInterval: decadeTicks.length ? decadeTicks : built.xData
 					}
 				]}
 				yAxis={[
@@ -144,7 +147,9 @@ export default function HistoryChart({
 						tickInterval: invert ? [built.axisMax, min] : [min, built.axisMax]
 					}
 				]}
-				margin={{ top: 8, left: 8, right: 0, bottom: 28 }}
+				// left ≥ half a 4-digit tick label (~14px): the first tick sits on the
+				// drawing-area edge and MUI clamps its label to twice the edge distance.
+				margin={{ top: 8, left: 16, right: 0, bottom: 28 }}
 				grid={{ horizontal: false, vertical: false }}
 				sx={sx}
 				slots={{ tooltip: () => null }}
