@@ -111,19 +111,3 @@
 	--map-sector-2: #2196f3; /* blue 500 */
 	--map-sector-3: #ffeb3b; /* yellow 500 */
 }
-
-@media (prefers-color-scheme: dark) {
-	:root {
-		--results-appearances: #607d8b; /* blueGrey 500 */
-		--results-wins: #b39ddb; /* deepPurple 200 */
-		--results-podiums: #a5d6a7; /* green 200 */
-		--results-in-points: #ffe082; /* amber 200 */
-		--results-out-points: #90a4ae; /* blueGrey 300 */
-		--results-out-of-points: #cfd8dc; /* blueGrey 100 */
-		--results-dnfs: #ef9a9a; /* red 200 */
-
-		--map-sector-1: #c62828; /* red 800 */
-		--map-sector-2: #1565c0; /* blue 800 */
-		--map-sector-3: #f9a825; /* yellow 800 */
-	}
-}

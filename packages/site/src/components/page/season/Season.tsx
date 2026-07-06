@@ -14,7 +14,6 @@ import type { DriverDisplay, TeamDisplay } from '@/components/app/EntityDisplayP
 import type { NextRaceQueryNode } from '@/components/page/raceWeekend/queries';
 import RaceWeekend from '@/components/page/raceWeekend/RaceWeekend';
 import { Schedule } from '@/components/page/season/index';
-import { ScheduleSkeleton } from '@/components/page/season/Schedule';
 import { DriverStandings, TeamStandings } from '@/components/page/season/standings';
 import {
 	DNFs,

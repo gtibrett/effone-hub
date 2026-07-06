@@ -24,10 +24,7 @@ export default function Header() {
 							>
 								<Typography component="h1">
 									EFF
-									<Typography
-										component="span"
-										className="opacity-100 px-1 text-secondary"
-									>
+									<Typography component="span" className="px-1 text-secondary">
 										ONE
 									</Typography>
 									HUB

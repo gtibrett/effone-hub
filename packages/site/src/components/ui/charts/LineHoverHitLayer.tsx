@@ -8,9 +8,9 @@ import { pickNearestIndex, pickNearestSeries, type SeriesCandidate } from './pic
 export type LineHoverInfo = {
 	seriesId: string;
 	dataIndex: number;
-	// Container-relative pixels (SVG fills the container), for placing the tooltip.
-	left: number;
-	top: number;
+	// Viewport (client) pixels — ChartsHoverTooltip positions fixed against these.
+	clientX: number;
+	clientY: number;
 } | null;
 
 type LineHoverSeries = {
@@ -74,7 +74,7 @@ export default function LineHoverHitLayer({
 			onHover(null);
 			return;
 		}
-		onHover({ seriesId, dataIndex, left: cursorX, top: cursorY });
+		onHover({ seriesId, dataIndex, clientX: e.clientX, clientY: e.clientY });
 	};
 
 	return (

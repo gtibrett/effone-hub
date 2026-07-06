@@ -1,4 +1,4 @@
-import { Card, CardHeader } from '@mui/material';
+import { Card, CardHeader, Grid } from '@mui/material';
 
 import { DriverAvatar, DriverByLine } from '@/components/app';
 import { PropertiesTable, PropertiesTableRow } from '@/components/ui';
@@ -16,12 +16,14 @@ export function DriverStandingsPositionTooltip({ serie }: PositionsChartTooltipP
 
 	return (
 		<Card className="p-0">
-			<CardHeader
-				className={headerSx.className}
-				style={headerSx.style}
-				title={<DriverByLine id={id} variant="name" />}
-				avatar={<DriverAvatar driverId={id} size={42} />}
-			/>
+			<Grid container className="items-center justify-stretch flex-nowrap">
+				<DriverAvatar driverId={id} size={64} />
+				<CardHeader
+					className={headerSx.className}
+					style={headerSx.style}
+					title={<DriverByLine id={id} variant="name" />}
+				/>
+			</Grid>
 		</Card>
 	);
 }
@@ -38,12 +40,14 @@ export function DriverStandingsPointsTooltip({ point }: PointTooltipProps) {
 
 	return (
 		<Card className="p-0">
-			<CardHeader
-				className={headerSx.className}
-				style={headerSx.style}
-				title={<DriverByLine id={id} variant="name" />}
-				avatar={<DriverAvatar driverId={id} size={42} />}
-			/>
+			<Grid container className="items-center justify-stretch flex-nowrap">
+				<DriverAvatar driverId={id} size={64} />
+				<CardHeader
+					className={headerSx.className}
+					style={headerSx.style}
+					title={<DriverByLine id={id} variant="name" />}
+				/>
+			</Grid>
 			<PropertiesTable>
 				<PropertiesTableRow header="Round" align="right">{`${x}`}</PropertiesTableRow>
 				<PropertiesTableRow header="Position" align="right">

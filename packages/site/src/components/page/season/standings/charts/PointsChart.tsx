@@ -6,6 +6,8 @@ import type { LineSeriesType } from '@mui/x-charts';
 import { LineChart } from '@mui/x-charts/LineChart';
 
 import {
+	BOTTOM_AXIS_HEIGHT_WITH_LABEL,
+	ChartsHoverTooltip,
 	ChartsTooltipBody,
 	LineHoverHitLayer,
 	type LineHoverInfo,
@@ -88,14 +90,14 @@ export default function PointsChart({
 				height={height}
 				series={series}
 				highlightedItem={hover ? { seriesId: hover.seriesId, type: 'line' } : null}
-				disableLineItemHighlight
-				axisHighlight={{ x: 'none' }}
+				axisHighlight={{ x: 'band' }}
 				xAxis={[
 					{
 						data: ticks,
 						scaleType: 'point',
 						tickInterval: ticks,
-						label: 'Round'
+						label: 'Round',
+						height: BOTTOM_AXIS_HEIGHT_WITH_LABEL
 					}
 				]}
 				yAxis={[
@@ -122,15 +124,7 @@ export default function PointsChart({
 				<LineHoverHitLayer series={hoverSeries} xValues={ticks} onHover={setHover} />
 			</LineChart>
 			{hover && hoveredStanding ? (
-				<Box
-					sx={{
-						position: 'absolute',
-						left: `${hover.left + 12}px`,
-						top: `${hover.top + 12}px`,
-						pointerEvents: 'none',
-						zIndex: 5
-					}}
-				>
+				<ChartsHoverTooltip clientX={hover.clientX} clientY={hover.clientY}>
 					<ChartsTooltipBody>
 						<TooltipComponent
 							point={{
@@ -142,7 +136,7 @@ export default function PointsChart({
 							}}
 						/>
 					</ChartsTooltipBody>
-				</Box>
+				</ChartsHoverTooltip>
 			) : null}
 		</Box>
 	);

@@ -14,8 +14,7 @@ import LapTimesByYearBox from './LapTimesByYearBox';
 import type { CircuitDialogData } from './types';
 
 export default function CircuitDialogBody({
-	data,
-	driverId
+	data
 }: {
 	data: CircuitDialogData;
 	driverId: DriverId;

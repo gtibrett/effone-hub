@@ -6,7 +6,12 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 
 import type { DriverCareerData } from '@/app/lib/cached-data';
-import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
+import {
+	BOTTOM_AXIS_HEIGHT,
+	ChartsTooltipBody,
+	createItemTooltipSlot,
+	useChartsTheme
+} from '@/components/ui/charts';
 import { capitalizeCamelCase } from '@/helpers';
 import { RESULTS_COLORS, type ResultsBucket } from '@/lib/resultsColors';
 import type { DriverId } from '@/types';
@@ -105,6 +110,7 @@ export default function CareerBreakdownChart({
 							{
 								data: xAxisData,
 								scaleType: 'band',
+								height: BOTTOM_AXIS_HEIGHT,
 								tickLabelStyle: { fontSize: 11 }
 							}
 						]

@@ -1,6 +1,7 @@
 import { Card, CardHeader } from '@mui/material';
 
 import { PropertiesTable, PropertiesTableRow } from '@/components/ui';
+import { toPoints } from '@/helpers';
 import { useTeamHeaderSx } from '@/hooks';
 
 // Synthesized by HistoryChart's tooltip slot — mirrors nivo's PointTooltipProps
@@ -24,13 +25,11 @@ export default function HistoryTooltip({ point }: HistoryTooltipProps) {
 
 	return (
 		<Card className="p-0">
-			<CardHeader
-				className={headerSx.className}
-				style={headerSx.style}
-				title={name}
-				subheader={data.xFormatted ?? String(data.x)}
-			/>
+			<CardHeader className={headerSx.className} style={headerSx.style} title={name} />
 			<PropertiesTable>
+				<PropertiesTableRow header="Year" align="right">
+					{data.xFormatted ?? String(data.x)}
+				</PropertiesTableRow>
 				{positionNumber && (
 					<PropertiesTableRow header="Position" align="right">
 						{positionNumber}
@@ -38,7 +37,7 @@ export default function HistoryTooltip({ point }: HistoryTooltipProps) {
 				)}
 				{typeof points !== 'undefined' && (
 					<PropertiesTableRow header="Points" align="right">
-						{points}
+						{toPoints(points)}
 					</PropertiesTableRow>
 				)}
 			</PropertiesTable>

@@ -1,11 +1,18 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { Box } from '@mui/material';
 import type { LineSeriesType } from '@mui/x-charts';
-import { useItemTooltip } from '@mui/x-charts/ChartsTooltip';
 import { LineChart } from '@mui/x-charts/LineChart';
 
-import { ChartsTooltipBody, createItemTooltipSlot, useChartsTheme } from '@/components/ui/charts';
+import {
+	BOTTOM_AXIS_HEIGHT,
+	ChartsHoverTooltip,
+	ChartsTooltipBody,
+	LineHoverHitLayer,
+	type LineHoverInfo,
+	useChartsTheme
+} from '@/components/ui/charts';
 import type { TeamStandingData } from '@/hooks/data';
 
 import type { HistoryProps } from './History';
@@ -38,6 +45,7 @@ export default function HistoryChart({
 	const historyChartData = useHistoryChartData(data);
 	const chartColors = useHistoryChartColors(historyChartData);
 	const { sx } = useChartsTheme();
+	const [hover, setHover] = useState<LineHoverInfo>(null);
 
 	const built = useMemo(() => {
 		if (!historyChartData) {
@@ -74,9 +82,10 @@ export default function HistoryChart({
 				data: values,
 				color: chartColors[idx] || undefined,
 				curve: 'linear',
-				showMark: true,
+				showMark: false,
 				shape: 'circle',
-				connectNulls: false
+				connectNulls: false,
+				highlightScope: { fade: 'global', highlight: 'series' }
 			};
 		});
 		return {
@@ -85,77 +94,81 @@ export default function HistoryChart({
 			lookup,
 			axisMax,
 			axisMin: invert ? axisMax : min,
-			axisHi: invert ? min : axisMax
+			axisHi: invert ? min : axisMax,
+			maxYear
 		};
 	}, [historyChartData, dataKey, dataMaxKey, chartColors, invert, min, max]);
 
-	const TooltipSlot = useMemo(() => {
-		function ItemTooltipContent() {
-			const tt = useItemTooltip<'line'>();
-			if (!tt || !built) {
-				return null;
-			}
-			const seriesId = String(tt.identifier.seriesId);
-			const dataIndex = (tt.identifier as { dataIndex?: number }).dataIndex;
-			if (dataIndex == null) {
-				return null;
-			}
-			const entry = built.lookup.get(seriesId)?.[dataIndex];
-			if (!entry) {
-				return null;
-			}
-			const x = built.xData[dataIndex];
-			const synthesized = {
-				point: {
-					data: {
-						x,
-						xFormatted: String(x),
-						y: entry[dataKey],
-						data: entry
-					}
-				}
-			} as unknown as Parameters<typeof HistoryTooltip>[0];
-			return (
-				<ChartsTooltipBody>
-					<HistoryTooltip {...synthesized} />
-				</ChartsTooltipBody>
-			);
-		}
-		return createItemTooltipSlot(ItemTooltipContent);
-	}, [built, dataKey]);
+	const hoverSeries = useMemo(
+		() =>
+			(built?.series ?? []).map(s => ({
+				id: String(s.id),
+				data: (s.data ?? []) as (number | null)[]
+			})),
+		[built]
+	);
 
 	if (!historyChartData || !data || loading || !built) {
 		return null;
 	}
 
+	const hoveredEntry = hover ? built.lookup.get(hover.seriesId)?.[hover.dataIndex] : undefined;
+	const hoveredYear = hover ? built.xData[hover.dataIndex] : undefined;
+
 	return (
-		<LineChart
-			series={built.series}
-			xAxis={[
-				{
-					data: built.xData,
-					scaleType: 'linear',
-					min: built.xData[0],
-					max: built.xData[built.xData.length - 1],
-					tickInterval: built.xData,
-					valueFormatter: v => String(v)
-				}
-			]}
-			yAxis={[
-				{
-					scaleType: 'linear',
-					min: invert ? min : 0,
-					max: built.axisMax,
-					reverse: invert,
-					position: 'right',
-					tickInterval: invert ? [built.axisMax, min] : [min, built.axisMax]
-				}
-			]}
-			margin={{ top: 25, left: 20, right: 28, bottom: 36 }}
-			grid={{ horizontal: false, vertical: false }}
-			sx={sx}
-			slots={{ tooltip: TooltipSlot }}
-			skipAnimation={false}
-		/>
+		<Box className="relative w-full h-full">
+			<LineChart
+				series={built.series}
+				highlightedItem={hover ? { seriesId: hover.seriesId, type: 'line' } : null}
+				disableLineItemHighlight
+				axisHighlight={{ x: 'band' }}
+				xAxis={[
+					{
+						data: built.xData,
+						scaleType: 'linear',
+						min: built.xData[0],
+						max: built.xData[built.xData.length - 1],
+						valueFormatter: v => String(v),
+						position: 'bottom',
+						height: BOTTOM_AXIS_HEIGHT,
+						tickInterval: built.xData.filter(y => y % 10 === 0)
+					}
+				]}
+				yAxis={[
+					{
+						scaleType: 'linear',
+						min: invert ? min - 1 : -1,
+						max: built.axisMax + 1,
+						reverse: invert,
+						position: 'right',
+						tickInterval: invert ? [built.axisMax, min] : [min, built.axisMax]
+					}
+				]}
+				margin={{ top: 8, left: 8, right: 0, bottom: 28 }}
+				grid={{ horizontal: false, vertical: false }}
+				sx={sx}
+				slots={{ tooltip: () => null }}
+				skipAnimation
+				hideLegend
+			>
+				<LineHoverHitLayer series={hoverSeries} xValues={built.xData} onHover={setHover} />
+			</LineChart>
+			{hover && hoveredEntry ? (
+				<ChartsHoverTooltip clientX={hover.clientX} clientY={hover.clientY}>
+					<ChartsTooltipBody>
+						<HistoryTooltip
+							point={{
+								data: {
+									x: hoveredYear as number,
+									xFormatted: String(hoveredYear),
+									y: hoveredEntry[dataKey] as number | null | undefined,
+									data: hoveredEntry
+								}
+							}}
+						/>
+					</ChartsTooltipBody>
+				</ChartsHoverTooltip>
+			) : null}
+		</Box>
 	);
 }

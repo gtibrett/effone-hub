@@ -1,5 +1,5 @@
 import type { ComponentType, PropsWithChildren, ReactNode } from 'react';
-import { Box, ThemeProvider, Typography } from '@mui/material';
+import { Box, type PopperProps, ThemeProvider, Typography } from '@mui/material';
 import { ChartsTooltipContainer } from '@mui/x-charts';
 
 import { useInvertedTheme } from '../Theme';
@@ -16,7 +16,7 @@ export function ChartsTooltipBody({ heading, children }: ChartsTooltipBodyProps)
 
 	return (
 		<ThemeProvider theme={inverted}>
-			<Box className="backdrop-blur-xs rounded overflow-hidden min-w-40 shadow">
+			<Box className="backdrop-blur-xs rounded overflow-hidden min-w-40 w-max shadow">
 				{heading != null ? (
 					<Typography
 						variant="caption"
@@ -32,6 +32,30 @@ export function ChartsTooltipBody({ heading, children }: ChartsTooltipBodyProps)
 	);
 }
 
+// ChartsTooltipContainer's Popper defaults its portal `container` to the chart
+// layer div — inside any overflow-hidden ancestor, so tooltips get clipped and
+// transform/filter ancestors shrink-to-fit the popper near viewport edges
+// (content wraps, tooltip resizes). Portal to body instead; lazy fn keeps it
+// SSR-safe.
+const getTooltipContainer = () => document.body;
+
+// ChartsTooltipContainer hard-codes its Popper `modifiers` and only enables
+// flip for coarse pointers — with a mouse the tooltip just slides along the
+// edge instead of flipping to the other side of the pointer. It does merge
+// `popperOptions`, and MUI Popper concatenates popperOptions.modifiers after
+// the built-ins (popper.js merges by name, last wins), so flip is injected here.
+const tooltipPopperOptions: PopperProps['popperOptions'] = {
+	modifiers: [
+		{
+			name: 'flip',
+			enabled: true,
+			options: {
+				fallbackPlacements: ['left-start', 'top-start', 'bottom-start']
+			}
+		}
+	]
+};
+
 // MUI X Charts self-contained components expose `slots.tooltip` as an
 // ElementType<ChartsTooltipProps>, not a per-trigger content slot. Wrap a
 // content component in ChartsTooltipContainer so it can be plugged in via
@@ -39,7 +63,12 @@ export function ChartsTooltipBody({ heading, children }: ChartsTooltipBodyProps)
 export function createItemTooltipSlot(Content: ComponentType) {
 	function ItemTooltipSlot(props: { trigger?: unknown }) {
 		return (
-			<ChartsTooltipContainer {...(props as object)} trigger="item">
+			<ChartsTooltipContainer
+				{...(props as object)}
+				trigger="item"
+				container={getTooltipContainer}
+				popperOptions={tooltipPopperOptions}
+			>
 				<Content />
 			</ChartsTooltipContainer>
 		);
@@ -52,7 +81,12 @@ export function createItemTooltipSlot(Content: ComponentType) {
 export function createAxisTooltipSlot(Content: ComponentType) {
 	function AxisTooltipSlot(props: { trigger?: unknown }) {
 		return (
-			<ChartsTooltipContainer {...(props as object)} trigger="axis">
+			<ChartsTooltipContainer
+				{...(props as object)}
+				trigger="axis"
+				container={getTooltipContainer}
+				popperOptions={tooltipPopperOptions}
+			>
 				<Content />
 			</ChartsTooltipContainer>
 		);

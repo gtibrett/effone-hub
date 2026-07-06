@@ -57,7 +57,7 @@ function buildDriverChartData(
 					id: driver!.id,
 					name: driver!.lastName,
 					color:
-						driver!.seasonEntrantDrivers[0]?.team?.colors?.primaryHex ?? FALLBACK_COLOR
+						driver?.seasonEntrantDrivers[0]?.team?.colors?.primaryHex ?? FALLBACK_COLOR
 				}
 			}));
 		return { round: r.round, standings };

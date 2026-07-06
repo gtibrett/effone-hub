@@ -48,9 +48,9 @@ export default function RaceMap(props: RaceMapProps) {
 		<Box className="relative" aria-hidden>
 			<Box style={{ height, width, position: 'relative' }}>
 				<ComposableMap
-					projection="geoEquirectangular"
+					projection="geoMercator"
 					projectionConfig={{
-						scale: zoom ? 500 : 200,
+						scale: zoom ? 2000 : 0,
 						rotate
 					}}
 					style={{ width: '100%', height: '100%' }}

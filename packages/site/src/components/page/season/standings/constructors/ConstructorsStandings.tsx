@@ -40,8 +40,8 @@ function buildConstructorChartData(
 				points: Number(points),
 				entity: {
 					id: team!.id,
-					name: team!.name ?? '',
-					color: team!.colors?.primaryHex ?? FALLBACK_COLOR
+					name: team?.name ?? '',
+					color: team?.colors?.primaryHex ?? FALLBACK_COLOR
 				}
 			}))
 	}));
