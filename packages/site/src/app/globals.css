@@ -96,7 +96,7 @@
 	--color-info: var(--mui-palette-info-main);
 }
 
-/* Chart bucket + map sector colors. Light = darker shades on white; dark = lighter shades. */
+/* Chart bucket + map sector colors. */
 :root {
 	--results-appearances: #455a64; /* blueGrey 700 */
 	--results-wins: #512da8; /* deepPurple 700 */
