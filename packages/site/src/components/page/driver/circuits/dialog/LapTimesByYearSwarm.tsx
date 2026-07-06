@@ -6,7 +6,7 @@ import type { ScatterSeriesType } from '@mui/x-charts';
 import { ScatterChart } from '@mui/x-charts/ScatterChart';
 
 import type { SimpleApolloResult } from '@/app/lib/apollo-types';
-import { useChartsTheme } from '@/components/ui/charts';
+import { BOTTOM_AXIS_HEIGHT, useChartsTheme } from '@/components/ui/charts';
 
 import { type SwarmData, useMapLapTimeDataToSwarmChart } from './mapLapTimeDataToSwarmChart';
 import type { CircuitDialogData } from './types';
@@ -86,6 +86,7 @@ export default function LapTimesByYearSwarm({ data, loading }: LapTimesChartProp
 					{
 						min: Math.min(...numericYears) - 0.5,
 						max: Math.max(...numericYears) + 0.5,
+						height: BOTTOM_AXIS_HEIGHT,
 						tickInterval: numericYears,
 						valueFormatter: (v: unknown) =>
 							numericYears.includes(Number(v)) ? String(Math.round(Number(v))) : ''

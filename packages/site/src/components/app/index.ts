@@ -13,7 +13,6 @@ export {
 } from './EntityDisplayProvider';
 export { ErrorCard } from './ErrorBoundary';
 export { default as Layout } from './Layout';
-export { default as Logo } from './Logo';
 export * from './maps';
 export { default as SeasonMenu } from './SeasonMenu';
 export * from './stats';

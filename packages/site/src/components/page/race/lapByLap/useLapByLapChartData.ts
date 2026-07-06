@@ -87,13 +87,17 @@ const useLapByLapChartData = (lapByLapData: LapByLapData) => {
 		});
 
 		drivers.forEach(driver => {
-			// Fill missing laps with last classified position (handles post-DSQ gaps).
-			const lastPosition = driver.data.at(-1)?.y || null;
-			for (let x = driver.data.length; x < totalLaps; x++) {
-				driver.data.push({ x, y: lastPosition });
+			if (!driver.data.length) {
+				return;
 			}
-
-			driver.data.push({ x: totalLaps + 1, y: lastPosition || null });
+			// Pad trailing laps with final classification, not last recorded lap position —
+			// lapped/retired drivers stop recording laps early and their last on-track
+			// position diverges from the official result (ties/gaps in the final column).
+			const finalPosition = driver.position ?? driver.data.at(-1)?.y ?? null;
+			const lastLap = Number(driver.data.at(-1)?.x ?? 0);
+			for (let lap = lastLap + 1; lap <= totalLaps; lap++) {
+				driver.data.push({ x: lap, y: finalPosition });
+			}
 		});
 
 		return drivers;

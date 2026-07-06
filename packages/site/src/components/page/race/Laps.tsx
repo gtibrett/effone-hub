@@ -1,6 +1,6 @@
-import { Alert } from '@mui/material';
+import { Alert, Divider } from '@mui/material';
 
-import LapByLap from './lapByLap/LapByLap';
+import { LapByLap } from './lapByLap/LapByLap';
 import type { LapByLapData } from './lapByLap/useLapByLapChartData';
 import LapTimesTable from './lapTimes/LapTimesTable';
 
@@ -20,6 +20,7 @@ export default function Laps({ lapByLapData }: LapsProps) {
 	return (
 		<>
 			<LapByLap lapByLapData={lapByLapData} />
+			<Divider />
 			<LapTimesTable lapByLapData={lapByLapData} />
 		</>
 	);
