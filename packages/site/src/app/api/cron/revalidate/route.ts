@@ -11,9 +11,9 @@
  */
 import { revalidateTag } from 'next/cache';
 
-export const maxDuration = 10;
+import { INGEST_CACHE_TAGS } from '@/app/lib/cache-tags';
 
-const CACHE_TAGS = ['seasons', 'current-season', 'drivers', 'teams', 'circuits', 'races'] as const;
+export const maxDuration = 10;
 
 type RevalidateResult = {
 	status: 'ok' | 'unauthorized' | 'partial';
@@ -40,7 +40,7 @@ export async function POST(req: Request): Promise<Response> {
 
 	const revalidated: string[] = [];
 	const failed: Array<{ tag: string; error: string }> = [];
-	for (const tag of CACHE_TAGS) {
+	for (const tag of INGEST_CACHE_TAGS) {
 		try {
 			// 'max' matches the cacheLife profile the data fetchers use; tags only
 			// flip on the ~24×/year ingest, so longest-lived revalidation is correct.

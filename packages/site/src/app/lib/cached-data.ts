@@ -2,9 +2,14 @@
  * Cached RSC data accessors.
  *
  * Each function is wrapped with `use cache` (Next.js 16 Cache Components)
- * + `cacheTag` so the daily ingest job can call `updateTag` to invalidate
- * the relevant slice when new data lands. See `pages/api/cron/ingest.ts`
- * for the invalidation side.
+ * + `cacheTag`. Invalidation: the ingest GitHub Action
+ * (`packages/api/scripts/run-ingest.ts`) POSTs `/api/cron/revalidate`
+ * (`app/api/cron/revalidate/route.ts`), which fires `revalidateTag` for the
+ * broad tags in `INGEST_CACHE_TAGS` (`./cache-tags.ts`) — nothing else ever
+ * revalidates. Every cacheTag() call here MUST therefore include at least one
+ * broad tag (enforced by `cache-tags.test.ts`). Entity-scoped tags
+ * (`driver:X`, `race:Y:R`, …) are additive future hooks for selective
+ * invalidation; today they are never fired on their own.
  *
  * NO try/catch around the queries: a thrown error must propagate so Next does
  * NOT cache it. Catching and returning a degraded fallback ([]/null/{}) under
@@ -254,6 +259,9 @@ const AppSeasonStateQuery = gql`
 
 export async function getAppSeasonState(): Promise<AppSeasonState> {
 	'use cache';
+	// 'hours' not 'max': lastSeason derives from the wall-clock year read
+	// below, which gets baked into the cached entry — hourly revalidation
+	// bounds the staleness window around New Year.
 	cacheLife('hours');
 	cacheTag('seasons', 'current-season');
 	const { data } = await getClient().query<{
@@ -724,7 +732,8 @@ const RaceFullDataQuery = gql`
 
 export async function getRaceFullData(season: number, round: number): Promise<Race | null> {
 	'use cache';
-	// ingest cron invalidates race-data tags when corrections land.
+	// invalidated via broad 'races' tag on ingest; race-data:* is a dormant
+	// hook for future per-race revalidation, nothing fires it today.
 	cacheLife('max');
 	cacheTag('races', `race:${season}:${round}`, `race-data:${season}:${round}`);
 	const { data } = await getClient().query<{ races: Race[] }>({
